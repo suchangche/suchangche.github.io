@@ -214,7 +214,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2022-03-27 20:25:22 / 修改时间：21:10:45" itemprop="dateCreated datePublished" datetime="2022-03-27T20:25:22+08:00">2022-03-27</time>
+      <time title="创建时间：2022-03-27 20:25:22 / 修改时间：21:22:02" itemprop="dateCreated datePublished" datetime="2022-03-27T20:25:22+08:00">2022-03-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -236,41 +236,16 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>#双指针的应用</p>
-<p>##一，双指针的分类</p>
-<p>快慢指针与对撞指针</p>
-<p>##二，双指针解决的主要问题</p>
-<p>数组，链表以及字符串问题</p>
-<p>##三，双指针的应用场景</p>
-<p><em>快慢指针</em>：主要应用与处理<em>链表内部环路</em>问题与<em>数组内是否有重复项</em>问题</p>
+          <h1 id="双指针的应用"><a href="#双指针的应用" class="headerlink" title="双指针的应用"></a>双指针的应用</h1><h2 id="一，双指针的分类"><a href="#一，双指针的分类" class="headerlink" title="一，双指针的分类"></a>一，双指针的分类</h2><p>快慢指针与对撞指针</p>
+<h2 id="二，双指针解决的主要问题"><a href="#二，双指针解决的主要问题" class="headerlink" title="二，双指针解决的主要问题"></a>二，双指针解决的主要问题</h2><p>数组，链表以及字符串问题</p>
+<h2 id="三，双指针的应用场景"><a href="#三，双指针的应用场景" class="headerlink" title="三，双指针的应用场景"></a>三，双指针的应用场景</h2><p><em>快慢指针</em>：主要应用与处理<em>链表内部环路</em>问题与<em>数组内是否有重复项</em>问题</p>
 <p>eg1：删除有序数组中的重复项</p>
 <p>给你一个 <strong>升序排列</strong> 的数组 <code>nums</code> ，请你 <strong>原地</strong> 删除重复出现的元素，使每个元素 <strong>只出现一次</strong> ，返回删除后数组的新长度。元素的 <strong>相对顺序</strong> 应该保持 <strong>一致</strong> 。</p>
 <p>思路：定义一堆快慢指针<em>fast</em>与<em>slow</em>同时指向nums[1]</p>
 <p>slow表示将要插入的位置，fast与fast-1比较是否相等，如果相等，则将其插入到slow位置</p>
 <p>返回的新长度就是slow的值</p>
-<p>&#96;</p>
-<p>class Solution {</p>
-<p>public:</p>
-<p>    int removeDuplicates(vector<int>&amp; nums) {</p>
-<p>        &#x2F;&#x2F;如果nums的长度为0或1，则直接返回nums</p>
-<p>        int len&#x3D;nums.size();</p>
-<p>        if(len&#x3D;&#x3D;0){</p>
-<p>            return 0;</p>
-<p>        }</p>
-<p>        &#x2F;&#x2F;创建快慢指针,并让他们都指向nums[1]</p>
-<p>        int fast&#x3D;1;</p>
-<p>        int slow&#x3D;1;</p>
-<p>        while(fast&lt;len){</p>
-<p>        if(nums[fast]!&#x3D;nums[fast-1]){</p>
-<p>            nums[slow]&#x3D;nums[fast];</p>
-<p>            ++slow;</p>
-<p>        }</p>
-<p>        ++fast;</p>
-<p>        }</p>
-<p>        return slow;</p>
-<p>    }</p>
-<p>};</p>
-<p>&#96;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line"></span><br><span class="line">public:</span><br><span class="line"></span><br><span class="line">    int removeDuplicates(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line"></span><br><span class="line">        //如果nums的长度为0或1，则直接返回nums</span><br><span class="line"></span><br><span class="line">        int len=nums.size();</span><br><span class="line"></span><br><span class="line">        if(len==0)&#123;</span><br><span class="line"></span><br><span class="line">            return 0;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //创建快慢指针,并让他们都指向nums[1]</span><br><span class="line"></span><br><span class="line">        int fast=1;</span><br><span class="line"></span><br><span class="line">        int slow=1;</span><br><span class="line"></span><br><span class="line">        while(fast&lt;len)&#123;</span><br><span class="line"></span><br><span class="line">        if(nums[fast]!=nums[fast-1])&#123;</span><br><span class="line"></span><br><span class="line">            nums[slow]=nums[fast];</span><br><span class="line"></span><br><span class="line">            ++slow;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ++fast;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return slow;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
 <p>eg2：移除重复元素</p>
 <p>给你一个数组 <code>nums</code> 和一个值 <code>val</code>，你需要 <strong>原地</strong> 移除所有数值等于 <code>val</code> 的元素，并返回移除后数组的新长度。</p>
 <p>思路：快慢双指针right与left</p>
@@ -282,13 +257,16 @@
 <li><p>如果right指向的元素等于val，它不能在输出数组中，此时左指针不动，右指针右移一位</p>
 </li>
 </ul>
-<p><code>class Solution &#123; public:     int removeElement(vector&lt;int&gt;&amp; nums, int val) &#123;         int n = nums.size();         int left = 0;         for (int right = 0; right &lt; n; right++) &#123;             if (nums[right] != val) &#123;                 nums[left] = nums[right];                 left++;             &#125;         &#125;         return left;     &#125; &#125;;</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line"> int removeElement(vector&lt;int&gt;&amp; nums, int val) &#123;</span><br><span class="line"> int n = nums.size();</span><br><span class="line"> int left = 0;</span><br><span class="line"> for (int right = 0; right &lt; n; right++) &#123;</span><br><span class="line"> if (nums[right] != val) &#123;</span><br><span class="line"> nums[left] = nums[right];</span><br><span class="line"> left++;</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> return left;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
 <p>eg3:判断链表中是否有环<br>给你一个链表的头节点 head ，判断链表中是否有环。</p>
 <p>思路：快指针走得快，慢指针走得慢，若链表中存在环路，则两指针一定会相遇，并且快指针会快慢指针一周。若链表中不存在环路，则快指针一定会指向null。</p>
 <p>假想「乌龟」和「兔子」在链表上移动，「兔子」跑得快，「乌龟」跑得慢。当「乌龟」和「兔子」从链表上的同一个节点开始移动时，如果该链表中没有环，那么「兔子」将一直处于「乌龟」的前方；如果该链表中有环，那么「兔子」会先于「乌龟」进入环，并且一直在环内移动。等到「乌龟」进入环时，由于「兔子」的速度快，它一定会在某个时刻与乌龟相遇，即套了「乌龟」若干圈。</p>
-<p><code>class Solution &#123; public:     bool hasCycle(ListNode* head) &#123;         if (head == nullptr || head-&gt;next == nullptr) &#123;             return false;         &#125;         ListNode* slow = head;         ListNode* fast = head-&gt;next;         while (slow != fast) &#123;             if (fast == nullptr || fast-&gt;next == nullptr) &#123;                 return false;             &#125;             slow = slow-&gt;next;             fast = fast-&gt;next-&gt;next;         &#125;         return true;     &#125; &#125;; </code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line"> bool hasCycle(ListNode* head) &#123;</span><br><span class="line"> if (head == nullptr || head-&gt;next == nullptr) &#123;</span><br><span class="line"> return false;</span><br><span class="line"> &#125;</span><br><span class="line"> ListNode* slow = head;</span><br><span class="line"> ListNode* fast = head-&gt;next;</span><br><span class="line"> while (slow != fast) &#123;</span><br><span class="line"> if (fast == nullptr || fast-&gt;next == nullptr) &#123;</span><br><span class="line"> return false;</span><br><span class="line"> &#125;</span><br><span class="line"> slow = slow-&gt;next;</span><br><span class="line"> fast = fast-&gt;next-&gt;next;</span><br><span class="line"> &#125;</span><br><span class="line"> return true;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
 <p><em>对撞指针</em>:主要用于处理数组和字符喜欢的索引问题<br>eg4:验证回文串<br>给定一个字符串，验证它是否是回文串，只考虑字母和数字字符，可以忽略字母的大小写。</p>
-<p>思路：分别定义两个指针，分别指向字符串的第一个元素和最后一个元素<br>两个指针不断地相向移动，每移动一次就判断这两个指针指向的字符是否相同。当两个指针相遇时，说明此字符串是回文串<br><code>class Solution &#123; public:     bool isPalindrome(string s) &#123;         string sgood;         for (char ch: s) &#123;             if (isalnum(ch)) &#123;      //isalnum()判断ch是否为字母或者十进制数字                 sgood += tolower(ch);//转换为小写字母             &#125;         &#125;         int n = sgood.size();         int left = 0, right = n - 1;         while (left &lt; right) &#123;            if (sgood[left] != sgood[right]) &#123;                 return false;             &#125;             ++left;             --right;         &#125;         return true;     &#125; &#125;;</code></p>
+<p>思路：分别定义两个指针，分别指向字符串的第一个元素和最后一个元素<br>两个指针不断地相向移动，每移动一次就判断这两个指针指向的字符是否相同。当两个指针相遇时，说明此字符串是回文串</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line"> bool isPalindrome(string s) &#123;</span><br><span class="line"> string sgood;</span><br><span class="line"> for (char ch: s) &#123;</span><br><span class="line"> if (isalnum(ch)) &#123; //isalnum()判断ch是否为字母或者十进制数字</span><br><span class="line"> sgood += tolower(ch);//转换为小写字母</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> int n = sgood.size();</span><br><span class="line"> int left = 0, right = n - 1;</span><br><span class="line"> while (left &lt; right) &#123;</span><br><span class="line"> if (sgood[left] != sgood[right]) &#123;</span><br><span class="line"> return false;</span><br><span class="line"> &#125;</span><br><span class="line"> ++left;</span><br><span class="line"> --right;</span><br><span class="line"> &#125;</span><br><span class="line"> return true;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
       
     </div>
