@@ -21,25 +21,27 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="孤独是人生的常态">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Williny&#39;home">
-<meta property="og:url" content="http://example.com/index.html">
+    <meta name="description" content="一，位运算符   &amp; 按位与    ^ 按位异或   ~ 取反   &lt;&lt; 左移   &gt;&gt; 右移   &lt;&lt;(按位左移运算符)左移是基于一个数的二进制来说的，&lt;&lt;用来将一个数的二进制整体向位左移动若干位，移动的位数取决于其右操作数（右操作数必须是非负数），右边空出的位用0来补足。  如果高位左移后出现溢出情况，则舍弃高位  若高位不为1，左移一位">
+<meta property="og:type" content="article">
+<meta property="og:title" content="有关算法中的位运算">
+<meta property="og:url" content="http://example.com/2022/03/28/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E4%BD%8D%E8%BF%90%E7%AE%97/index.html">
 <meta property="og:site_name" content="Williny&#39;home">
-<meta property="og:description" content="孤独是人生的常态">
+<meta property="og:description" content="一，位运算符   &amp; 按位与    ^ 按位异或   ~ 取反   &lt;&lt; 左移   &gt;&gt; 右移   &lt;&lt;(按位左移运算符)左移是基于一个数的二进制来说的，&lt;&lt;用来将一个数的二进制整体向位左移动若干位，移动的位数取决于其右操作数（右操作数必须是非负数），右边空出的位用0来补足。  如果高位左移后出现溢出情况，则舍弃高位  若高位不为1，左移一位">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-03-28T11:06:21.000Z">
+<meta property="article:modified_time" content="2022-03-28T14:05:52.360Z">
 <meta property="article:author" content="williny">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://example.com/">
+<link rel="canonical" href="http://example.com/2022/03/28/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E4%BD%8D%E8%BF%90%E7%AE%97/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/03/28/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E4%BD%8D%E8%BF%90%E7%AE%97/","path":"2022/03/28/有关算法中的位运算/","title":"有关算法中的位运算"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Williny'home</title>
+<title>有关算法中的位运算 | Williny'home</title>
   
 
 
@@ -69,7 +71,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">Williny'home</h1>
+      <p class="site-title">Williny'home</p>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -104,7 +106,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -117,6 +119,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%EF%BC%8C%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.</span> <span class="nav-text">一，位运算符</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#lt-lt-%E6%8C%89%E4%BD%8D%E5%B7%A6%E7%A7%BB%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.1.</span> <span class="nav-text">&lt;&lt;(按位左移运算符)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gt-gt-%E6%8C%89%E4%BD%8D%E5%8F%B3%E7%A7%BB%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.2.</span> <span class="nav-text">&gt;&gt;(按位右移运算符)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#amp-%E6%8C%89%E4%BD%8D%E4%B8%8E%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.3.</span> <span class="nav-text">&amp;(按位与运算符)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%89%E4%BD%8D%E6%88%96%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.4.</span> <span class="nav-text">|(按位或运算符)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%89%E4%BD%8D%E5%BC%82%E6%88%96%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.5.</span> <span class="nav-text">^(按位异或运算符)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%89%E4%BD%8D%E5%8F%96%E5%8F%8D%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.6.</span> <span class="nav-text">~(按位取反运算符)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%EF%BC%8C%E4%B8%8D%E5%90%8C%E9%95%BF%E5%BA%A6%E8%BF%9B%E8%A1%8C%E4%BD%8D%E8%BF%90%E7%AE%97"><span class="nav-number">2.</span> <span class="nav-text">二，不同长度进行位运算</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E7%9A%84%E4%BA%8C%E8%BF%9B%E5%88%B6%E4%BD%8D%E5%8F%98%E6%8D%A2%E6%93%8D%E4%BD%9C"><span class="nav-number">3.</span> <span class="nav-text">三，常见的二进制位变换操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%EF%BC%8C%E5%BA%94%E7%94%A8%E4%B8%BE%E4%BE%8B"><span class="nav-number">4.</span> <span class="nav-text">四，应用举例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%EF%BC%8C%E6%8C%89%E4%BD%8D%E4%B8%8E%EF%BC%88-amp-%EF%BC%89"><span class="nav-number">4.1.</span> <span class="nav-text">一，按位与（&amp;）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%89%E4%BD%8D%E6%88%96%EF%BC%88-%EF%BC%89"><span class="nav-number">4.2.</span> <span class="nav-text">按位或（|）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E6%88%96%EF%BC%88-%EF%BC%89"><span class="nav-number">4.3.</span> <span class="nav-text">异或（^）</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -174,16 +177,17 @@
 </noscript>
 
 
-    <div class="main-inner index posts-expand">
+    <div class="main-inner post posts-expand">
 
-    
+
+  
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/28/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E4%BD%8D%E8%BF%90%E7%AE%97/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -197,13 +201,13 @@
     </span>
     
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="name" content="有关算法中的位运算 | Williny'home">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/28/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E4%BD%8D%E8%BF%90%E7%AE%97/" class="post-title-link" itemprop="url">有关算法中的位运算</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          有关算法中的位运算
+        </h1>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -236,7 +240,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="一，位运算符"><a href="#一，位运算符" class="headerlink" title="一，位运算符"></a>一，位运算符</h1><table>
+        <h1 id="一，位运算符"><a href="#一，位运算符" class="headerlink" title="一，位运算符"></a>一，位运算符</h1><table>
 <thead>
 <tr>
 <th>&amp;</th>
@@ -472,7 +476,6 @@
 
 <p>未完待续……</p>
 
-      
     </div>
 
     
@@ -480,202 +483,32 @@
     
 
     <footer class="post-footer">
-        <div class="post-eof"></div>
-      
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+
+  </div>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/03/27/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E5%8F%8C%E6%8C%87%E9%92%88/" rel="prev" title="有关算法中的双指针">
+                  <i class="fa fa-chevron-left"></i> 有关算法中的双指针
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
     </footer>
   </article>
 </div>
 
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/27/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E5%8F%8C%E6%8C%87%E9%92%88/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/27/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E5%8F%8C%E6%8C%87%E9%92%88/" class="post-title-link" itemprop="url">有关算法中的双指针</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-03-27 20:25:22 / 修改时间：21:22:02" itemprop="dateCreated datePublished" datetime="2022-03-27T20:25:22+08:00">2022-03-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="双指针的应用"><a href="#双指针的应用" class="headerlink" title="双指针的应用"></a>双指针的应用</h1><h2 id="一，双指针的分类"><a href="#一，双指针的分类" class="headerlink" title="一，双指针的分类"></a>一，双指针的分类</h2><p>快慢指针与对撞指针</p>
-<h2 id="二，双指针解决的主要问题"><a href="#二，双指针解决的主要问题" class="headerlink" title="二，双指针解决的主要问题"></a>二，双指针解决的主要问题</h2><p>数组，链表以及字符串问题</p>
-<h2 id="三，双指针的应用场景"><a href="#三，双指针的应用场景" class="headerlink" title="三，双指针的应用场景"></a>三，双指针的应用场景</h2><p><em>快慢指针</em>：主要应用与处理<em>链表内部环路</em>问题与<em>数组内是否有重复项</em>问题</p>
-<p>eg1：删除有序数组中的重复项</p>
-<p>给你一个 <strong>升序排列</strong> 的数组 <code>nums</code> ，请你 <strong>原地</strong> 删除重复出现的元素，使每个元素 <strong>只出现一次</strong> ，返回删除后数组的新长度。元素的 <strong>相对顺序</strong> 应该保持 <strong>一致</strong> 。</p>
-<p>思路：定义一堆快慢指针<em>fast</em>与<em>slow</em>同时指向nums[1]</p>
-<p>slow表示将要插入的位置，fast与fast-1比较是否相等，如果相等，则将其插入到slow位置</p>
-<p>返回的新长度就是slow的值</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line"></span><br><span class="line">public:</span><br><span class="line"></span><br><span class="line">    int removeDuplicates(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line"></span><br><span class="line">        //如果nums的长度为0或1，则直接返回nums</span><br><span class="line"></span><br><span class="line">        int len=nums.size();</span><br><span class="line"></span><br><span class="line">        if(len==0)&#123;</span><br><span class="line"></span><br><span class="line">            return 0;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //创建快慢指针,并让他们都指向nums[1]</span><br><span class="line"></span><br><span class="line">        int fast=1;</span><br><span class="line"></span><br><span class="line">        int slow=1;</span><br><span class="line"></span><br><span class="line">        while(fast&lt;len)&#123;</span><br><span class="line"></span><br><span class="line">        if(nums[fast]!=nums[fast-1])&#123;</span><br><span class="line"></span><br><span class="line">            nums[slow]=nums[fast];</span><br><span class="line"></span><br><span class="line">            ++slow;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ++fast;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return slow;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>eg2：移除重复元素</p>
-<p>给你一个数组 <code>nums</code> 和一个值 <code>val</code>，你需要 <strong>原地</strong> 移除所有数值等于 <code>val</code> 的元素，并返回移除后数组的新长度。</p>
-<p>思路：快慢双指针right与left</p>
-<ul>
-<li><p>right指向当前将要处理的元素，left指向下一个将要赋值的位置</p>
-</li>
-<li><p>如果right指向的元素不等于val，它一定是输出数组的元素。所以我们将right指针指向的元素赋值到left的位置，然后左右同时向右移动</p>
-</li>
-<li><p>如果right指向的元素等于val，它不能在输出数组中，此时左指针不动，右指针右移一位</p>
-</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line"> int removeElement(vector&lt;int&gt;&amp; nums, int val) &#123;</span><br><span class="line"> int n = nums.size();</span><br><span class="line"> int left = 0;</span><br><span class="line"> for (int right = 0; right &lt; n; right++) &#123;</span><br><span class="line"> if (nums[right] != val) &#123;</span><br><span class="line"> nums[left] = nums[right];</span><br><span class="line"> left++;</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> return left;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>eg3:判断链表中是否有环<br>给你一个链表的头节点 head ，判断链表中是否有环。</p>
-<p>思路：快指针走得快，慢指针走得慢，若链表中存在环路，则两指针一定会相遇，并且快指针会快慢指针一周。若链表中不存在环路，则快指针一定会指向null。</p>
-<p>假想「乌龟」和「兔子」在链表上移动，「兔子」跑得快，「乌龟」跑得慢。当「乌龟」和「兔子」从链表上的同一个节点开始移动时，如果该链表中没有环，那么「兔子」将一直处于「乌龟」的前方；如果该链表中有环，那么「兔子」会先于「乌龟」进入环，并且一直在环内移动。等到「乌龟」进入环时，由于「兔子」的速度快，它一定会在某个时刻与乌龟相遇，即套了「乌龟」若干圈。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line"> bool hasCycle(ListNode* head) &#123;</span><br><span class="line"> if (head == nullptr || head-&gt;next == nullptr) &#123;</span><br><span class="line"> return false;</span><br><span class="line"> &#125;</span><br><span class="line"> ListNode* slow = head;</span><br><span class="line"> ListNode* fast = head-&gt;next;</span><br><span class="line"> while (slow != fast) &#123;</span><br><span class="line"> if (fast == nullptr || fast-&gt;next == nullptr) &#123;</span><br><span class="line"> return false;</span><br><span class="line"> &#125;</span><br><span class="line"> slow = slow-&gt;next;</span><br><span class="line"> fast = fast-&gt;next-&gt;next;</span><br><span class="line"> &#125;</span><br><span class="line"> return true;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p><em>对撞指针</em>:主要用于处理数组和字符喜欢的索引问题<br>eg4:验证回文串<br>给定一个字符串，验证它是否是回文串，只考虑字母和数字字符，可以忽略字母的大小写。</p>
-<p>思路：分别定义两个指针，分别指向字符串的第一个元素和最后一个元素<br>两个指针不断地相向移动，每移动一次就判断这两个指针指向的字符是否相同。当两个指针相遇时，说明此字符串是回文串</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line"> bool isPalindrome(string s) &#123;</span><br><span class="line"> string sgood;</span><br><span class="line"> for (char ch: s) &#123;</span><br><span class="line"> if (isalnum(ch)) &#123; //isalnum()判断ch是否为字母或者十进制数字</span><br><span class="line"> sgood += tolower(ch);//转换为小写字母</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> int n = sgood.size();</span><br><span class="line"> int left = 0, right = n - 1;</span><br><span class="line"> while (left &lt; right) &#123;</span><br><span class="line"> if (sgood[left] != sgood[right]) &#123;</span><br><span class="line"> return false;</span><br><span class="line"> &#125;</span><br><span class="line"> ++left;</span><br><span class="line"> --right;</span><br><span class="line"> &#125;</span><br><span class="line"> return true;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/13/about%20const%20int/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/13/about%20const%20int/" class="post-title-link" itemprop="url">const int* i与const int& i以及int* const i的区别</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-03-13 12:08:40" itemprop="dateCreated datePublished" datetime="2022-03-13T12:08:40+08:00">2022-03-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-22 19:05:08" itemprop="dateModified" datetime="2022-03-22T19:05:08+08:00">2022-03-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>const int* i(int const* i):指向一个常量的指针，使用时不需要初始化，被指向的常量不可改变，但是可以改变指针指向的地址。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const int x=10;</span><br><span class="line">const int* p1=&amp;x;</span><br><span class="line">p1++;        //ok</span><br><span class="line">(*p1)++;     //error</span><br></pre></td></tr></table></figure>
-
-<p>const int&amp; i:指向常量的引用，使用时必须初始化。初始化后引用值不可改变，引用的常量也不可改变。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const int&amp; p2;        //error</span><br><span class="line">const int&amp; p2=x;        //ok</span><br><span class="line">const int y=20;</span><br><span class="line">p2=y;                //error</span><br><span class="line">p2++;                //error</span><br></pre></td></tr></table></figure>
-
-<p>int* const i:指向的内容可以改变，但是指向的地址不能改变</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
 
 
 
