@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>有关unreal engine中的术语</title>
+      <link href="/2022/04/13/%E6%9C%89%E5%85%B3unreal-engine%E4%B8%AD%E7%9A%84%E6%9C%AF%E8%AF%AD/"/>
+      <url>/2022/04/13/%E6%9C%89%E5%85%B3unreal-engine%E4%B8%AD%E7%9A%84%E6%9C%AF%E8%AF%AD/</url>
+      
+        <content type="html"><![CDATA[<h1 id="项目"><a href="#项目" class="headerlink" title="项目"></a>项目</h1><p><strong>虚幻引擎4项目（Project）</strong> 保存着构成游戏所需的所有内容和代码。项目在你的电脑硬盘上由许多目录构成，例如 <code>蓝图</code> 和 <code>材质</code>。你可以随时修改项目目录的名称和层级关系。</p><p><strong>虚幻编辑器</strong> 中的 <strong>内容浏览器</strong> 所展示的目录结构和你在硬盘上看到的 <code>项目</code> 目录结构相同。</p><h1 id="蓝图"><a href="#蓝图" class="headerlink" title="蓝图"></a>蓝图</h1><p>一种可视化脚本系统，允许在虚幻蓝图编辑器中通过基于节点的界面来创建游戏元素。和许多常见的脚本语言一样，你可以用它在引擎中定义面向对象的类或object。</p><p>在使用unreal engine时，使用蓝图定义的类一般也称为蓝图。</p><h1 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h1><p>在虚幻引擎中，最基本的类叫做 <strong>Object</strong>。换句话说，它就像最基本的构建单位，包含了资产的基本功能。虚幻引擎中的大多数类都继承自Object（或从中获取部分功能）。</p><p>在C++中，<code>UObject</code> 是所有Object的基类，包含各类功能，诸如垃圾回收、通过元数据（UProperty）将变量公开给编辑器，以及保存和加载时的序列化功能。</p><h1 id="类"><a href="#类" class="headerlink" title="类"></a>类</h1><p><strong>类（Class）</strong> 用于定义虚幻引擎中Actor或对象的行为和属性。类可以被继承，这意味着某个类可以从其父类（衍生或派生出该类的类）获得信息，然后再将信息传递给子类。类可用C++代码或蓝图创建。</p><h1 id="Actor"><a href="#Actor" class="headerlink" title="Actor"></a>Actor</h1><p>所有可以放入关卡的对象都是 <strong>Actor</strong>，比如摄像机、静态网格体、玩家起始位置。Actor支持三维变换，例如平移、旋转和缩放。你可以通过游戏逻辑代码（C++或蓝图）创建（生成）或销毁Actor。</p><p>在C++中，<strong>AActor</strong>是所有Actor的基类。</p><h1 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h1><p><strong>类型转换（Casting）</strong> 本质上是获取某个特定Actor（或类），然后将它视为另一种类进行处理。类型转换可以成功，也可以失败。如果转换成功，你就能访问目标Actor的特有函数和功能。</p><p>举个例子，你希望在游戏中创建多种Actor，让它们以不同方式影响玩家。其中一个Actor是 <strong>火焰</strong>，它会不断伤害玩家生命值。当玩家遇到关卡中的Actor时，你可以将该Actor <strong>转换</strong> 成 <strong>火焰</strong>，以此访问它的”伤害玩家”函数。</p><ul><li><p>如果转换成功，表示玩家站在火中，那么玩家生命值就会开始减少。</p></li><li><p>如果转换失败，表示玩家站在其他Actor中，那么生命值不会减少。</p></li></ul><p>类型转换不同于单纯地检查某个Actor是否属于某个类，然后返回一个二元值（是或否）；这种情况下，你无法访问该类的函数。</p><h1 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h1><p><strong>组件（Component）</strong> 是可以添加到Actor上的一项功能。</p><p>当你为Actor添加组件后，该Actor便获得了该组件所提供的功能。例如：</p><ul><li><p>聚光灯组件（Spot Light Component）允许你的Actor像聚光灯一样发光，</p></li><li><p>旋转移动组件（Rotating Movement Component）能使你的Actor四处旋转，</p></li><li><p>音频组件（Audio Component）将使你的Actor能够播放声音。</p></li></ul><p>组件必须绑定在Actor身上，它们无法单独存在。</p><h1 id="Pawn"><a href="#Pawn" class="headerlink" title="Pawn"></a>Pawn</h1><p><strong>Pawn</strong> 是Actor的子类，它可以充当游戏中的化身或人物（例如游戏中的角色）。Pawn可以由玩家控制，也可以由游戏AI控制并以非玩家角色（NPC）的形式存在于游戏中。</p><p>当Pawn被人类玩家或AI玩家控制时，它被视为 <strong>已被控制（Possessed）</strong>。相反，当Pawn未被人类玩家或AI玩家控制时，它被视为 <strong>未被控制（Unpossessed）</strong>。</p><h1 id="角色（character）"><a href="#角色（character）" class="headerlink" title="角色（character）"></a>角色（character）</h1><p><strong>角色（Character）</strong> 是Pawn Actor的子类，旨在用作玩家角色。角色子类包括碰撞设置、双足运动的输入绑定，以及用于控制运动的附加代码。</p><h1 id="玩家控制器"><a href="#玩家控制器" class="headerlink" title="玩家控制器"></a>玩家控制器</h1><p><strong>玩家控制器（Player Controller）</strong> 会获取游戏中玩家的输入信息，然后转换为交互效果，每个游戏中至少有一个玩家控制器。玩家控制器通常会控制一个Pawn或角色，将其作为玩家在游戏中的化身。</p><p>玩家控制器还是多人游戏中的主要网络交互节点。在多人游戏中，服务器会为游戏中的每个玩家生成一个玩家控制器实例，因为它必须对每个玩家进行网络函数调用。每个客户端只拥有与其玩家相对应的玩家控制器，并且只能使用其玩家控制器与服务器通信。</p><p>相关的C++类是 <code>PlayerController</code>。</p><h1 id="AI控制器"><a href="#AI控制器" class="headerlink" title="AI控制器"></a>AI控制器</h1><p>玩家控制器通过控制Pawn来表示游戏中的玩家，与此类似，<strong>AI控制器</strong> 通过控制Pawn来表示游戏中的非玩家角色（NPC）。</p><p>默认情况下，Pawn和角色最终都会由基本的AI控制器控制，除非它们被指定通过玩家控制器控制，或被告知不需要为它们自己创建AI控制器。</p><p>关联的C++类是 <code>AIController</code>。</p><h1 id="玩家状态"><a href="#玩家状态" class="headerlink" title="玩家状态"></a>玩家状态</h1><p><strong>玩家状态（Player State）</strong> 表示某个游戏参与者的状态，可以是人类玩家，也可以是模拟玩家的机器人。作为游戏场景的一部分而存在的非玩家类AI不会有玩家状态。</p><p>玩家状态（Player State）能包括的玩家信息包括：</p><ul><li><p>名称</p></li><li><p>当前关卡</p></li><li><p>生命值</p></li><li><p>分数</p></li><li><p>在某些抢旗游戏中，玩家当前是否携带旗子。</p></li></ul><p>在多人游戏中，所有电脑都保存着所有玩家的玩家状态，并且玩家状态可以将数据从服务器复制到客户端以保持同步。这点与玩家控制器不同，它只会保存在玩家所在的客户端上。</p><p>关联的C++类是 <code>PlayerState</code>。</p><h1 id="游戏模式"><a href="#游戏模式" class="headerlink" title="游戏模式"></a>游戏模式</h1><p><strong>游戏模式（GameMode）</strong> 类负责设置当前游戏的规则。规则包括：</p><ul><li><p>玩家如何加入游戏。</p></li><li><p>是否可以暂停游戏。</p></li><li><p>任何与游戏相关的行为，例如获胜条件。</p></li></ul><p>你可以在 <a href="https://docs.unrealengine.com/4.27/zh-CN/Basics/Projects/ProjectSettings">项目设置</a> 中设置默认的游戏模式，也可以关卡中覆盖这些设置。无论你如何实现游戏模式，每个关卡始终只能有一个游戏模式。</p><p>在多人游戏中，游戏模式只存在于服务器上，规则会被复制（发送）给所有联网的客户端。</p><p>相关的C++类是 <code>GameMode</code>。</p><h1 id="游戏状态"><a href="#游戏状态" class="headerlink" title="游戏状态"></a>游戏状态</h1><p><strong>游戏状态（GameState）</strong> 是一种容器，保存着你希望在游戏中复制给每个客户端的信息。简而言之，它表示每个联网玩家的”游戏状态”。</p><p>游戏状态包含的部分信息包括：</p><ul><li><p>游戏分数</p></li><li><p>比赛是否已开始</p></li><li><p>根据场景中玩家的人数，需要生成多少AI</p></li></ul><p>如果是多人游戏，则每个玩家的电脑上都只有一个游戏状态实例，而服务器的实例为权威实例（即客户端的信息更新来源）。</p><p>相关的C++类是 <code>GameState</code>。</p><h1 id="笔刷"><a href="#笔刷" class="headerlink" title="笔刷"></a>笔刷</h1><p><strong>笔刷（Brush）</strong> 是一种Actor，用于描述一个3D几何体，例如方形或圆形。你可以在关卡中应用笔刷，以便定义关卡几何体（称为二元空间划分笔刷，简称BSP笔刷）。假如你想快速搭建关卡，则可以使用这种方法。</p><h1 id="体积"><a href="#体积" class="headerlink" title="体积"></a>体积</h1><p><strong>体积（Volumes）</strong> 是一种存在边框的3D空间，会根据施加给它们的效果产生不同的用途。例如：</p><ul><li><p><strong>阻挡体积（Blocking Volumes）</strong>，一种不可见的体积，用来防止Actor穿过它们。</p></li><li><p><strong>伤害生成体积（Pain Causing Volumes）</strong>，会对进入它们的Actor产生持续性的伤害。</p></li><li><p><strong>触发体积（Trigger Volumes）</strong>，可以通过编程，让Actor在进入或离开它们是触发事件。</p></li></ul><h1 id="关卡"><a href="#关卡" class="headerlink" title="关卡"></a>关卡</h1><p><strong>关卡（Level）</strong> 是用户定义的游戏区域。关卡包含了玩家能看到的所有内容，例如几何体、Pawn和Actor。</p><p>在虚幻编辑器中，每个关卡都被保存为单独的 <code>.umap</code> 文件，它们有时也被称为 <strong>地图</strong>。</p><h1 id="世界"><a href="#世界" class="headerlink" title="世界"></a>世界</h1><p><strong>世界场景（World）</strong> 是一个容器，包含了游戏中的所有关卡。它可以处理关卡流送，还能生成（创建）动态Actor。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> unreal engine </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> unreal engine </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>贪心算法</title>
       <link href="/2022/04/13/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/"/>
       <url>/2022/04/13/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/</url>
