@@ -30,8 +30,17 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20210105202546299.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/2021010621363669.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210110174033215.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20201209113602700.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20201209113631392.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210111204939971.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210111205857918.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210104114513928.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210104114548983.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210104114610256.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210104173021581.png">
 <meta property="article:published_time" content="2022-04-20T00:20:39.000Z">
-<meta property="article:modified_time" content="2022-04-20T00:55:20.729Z">
+<meta property="article:modified_time" content="2022-04-21T01:15:33.857Z">
 <meta property="article:author" content="williny">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
@@ -151,7 +160,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92"><span class="nav-number">1.</span> <span class="nav-text">什么是动态规划</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%9A%84%E8%A7%A3%E9%A2%98%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.</span> <span class="nav-text">动态规划的解题步骤</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%BA%94%E8%AF%A5%E5%A6%82%E4%BD%95debug"><span class="nav-number">3.</span> <span class="nav-text">动态规划应该如何debug</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%AE%9E%E4%BE%8B"><span class="nav-number">4.</span> <span class="nav-text">应用实例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0"><span class="nav-number">4.1.</span> <span class="nav-text">斐波那契数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">4.1.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%88%AC%E6%A5%BC%E6%A2%AF"><span class="nav-number">4.2.</span> <span class="nav-text">爬楼梯</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-1"><span class="nav-number">4.2.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%9C%80%E5%B0%8F%E8%8A%B1%E8%B4%B9%E7%88%AC%E6%A5%BC%E6%A2%AF"><span class="nav-number">4.3.</span> <span class="nav-text">使用最小花费爬楼梯</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-2"><span class="nav-number">4.3.1.</span> <span class="nav-text">思路</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92"><span class="nav-number">1.</span> <span class="nav-text">什么是动态规划</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%9A%84%E8%A7%A3%E9%A2%98%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.</span> <span class="nav-text">动态规划的解题步骤</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%BA%94%E8%AF%A5%E5%A6%82%E4%BD%95debug"><span class="nav-number">3.</span> <span class="nav-text">动态规划应该如何debug</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%AE%9E%E4%BE%8B"><span class="nav-number">4.</span> <span class="nav-text">应用实例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0"><span class="nav-number">4.1.</span> <span class="nav-text">斐波那契数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">4.1.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%88%AC%E6%A5%BC%E6%A2%AF"><span class="nav-number">4.2.</span> <span class="nav-text">爬楼梯</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-1"><span class="nav-number">4.2.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%9C%80%E5%B0%8F%E8%8A%B1%E8%B4%B9%E7%88%AC%E6%A5%BC%E6%A2%AF"><span class="nav-number">4.3.</span> <span class="nav-text">使用最小花费爬楼梯</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-2"><span class="nav-number">4.3.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E8%B7%AF%E5%BE%84"><span class="nav-number">4.4.</span> <span class="nav-text">不同路径</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-3"><span class="nav-number">4.4.1.</span> <span class="nav-text">思路</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="nav-number">4.4.1.1.</span> <span class="nav-text">深度优先搜索</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92"><span class="nav-number">4.4.1.2.</span> <span class="nav-text">动态规划</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E8%B7%AF%E5%BE%84-II"><span class="nav-number">4.5.</span> <span class="nav-text">不同路径 II</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-4"><span class="nav-number">4.5.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E6%95%B0%E6%8B%86%E5%88%86"><span class="nav-number">4.6.</span> <span class="nav-text">整数拆分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-5"><span class="nav-number">4.6.1.</span> <span class="nav-text">思路</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -253,9 +262,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2022-04-20 08:20:39 / 修改时间：08:55:20" itemprop="dateCreated datePublished" datetime="2022-04-20T08:20:39+08:00">2022-04-20</time>
+      <time title="创建时间：2022-04-20 08:20:39" itemprop="dateCreated datePublished" datetime="2022-04-20T08:20:39+08:00">2022-04-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-04-21 09:15:33" itemprop="dateModified" datetime="2022-04-21T09:15:33+08:00">2022-04-21</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -390,8 +405,6 @@
 <p>代码如下：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">fib</span><span class="params">(<span class="type">int</span> N)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (N &lt;= <span class="number">1</span>) <span class="keyword">return</span> N;</span><br><span class="line">        <span class="type">int</span> dp[<span class="number">2</span>];</span><br><span class="line">        dp[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        dp[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">2</span>; i &lt;= N; i++) &#123;</span><br><span class="line">            <span class="type">int</span> sum = dp[<span class="number">0</span>] + dp[<span class="number">1</span>];</span><br><span class="line">            dp[<span class="number">0</span>] = dp[<span class="number">1</span>];</span><br><span class="line">            dp[<span class="number">1</span>] = sum;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-
-
 <h2 id="爬楼梯"><a href="#爬楼梯" class="headerlink" title="爬楼梯"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/climbing-stairs/">爬楼梯</a></h2><p>假设你正在爬楼梯。需要 n 阶你才能到达楼顶。</p>
 <p>每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？</p>
 <p>注意：给定 n 是一个正整数。</p>
@@ -523,7 +536,227 @@
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">minCostClimbingStairs</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; cost)</span> </span>&#123;</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">dp</span><span class="params">(cost.size())</span></span>;</span><br><span class="line">        dp[<span class="number">0</span>] = cost[<span class="number">0</span>];</span><br><span class="line">        dp[<span class="number">1</span>] = cost[<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">2</span>; i &lt; cost.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            dp[i] = <span class="built_in">min</span>(dp[i - <span class="number">1</span>], dp[i - <span class="number">2</span>]) + cost[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 注意最后一步可以理解为不用花费，所以取倒数第一步，第二步的最少值</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">min</span>(dp[cost.<span class="built_in">size</span>() - <span class="number">1</span>], dp[cost.<span class="built_in">size</span>() - <span class="number">2</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>还可以优化空间复杂度，因为dp[i]就是由前两位推出来的，那么也不用dp数组了</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">minCostClimbingStairs</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; cost)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> dp0 = cost[<span class="number">0</span>];</span><br><span class="line">        <span class="type">int</span> dp1 = cost[<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">2</span>; i &lt; cost.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="type">int</span> dpi = <span class="built_in">min</span>(dp0, dp1) + cost[i];</span><br><span class="line">            dp0 = dp1; <span class="comment">// 记录一下前两位</span></span><br><span class="line">            dp1 = dpi;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">min</span>(dp0, dp1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">minCostClimbingStairs</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; cost)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> dp0 = cost[<span class="number">0</span>];</span><br><span class="line">        <span class="type">int</span> dp1 = cost[<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">2</span>; i &lt; cost.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="type">int</span> dpi = <span class="built_in">min</span>(dp0, dp1) + cost[i];</span><br><span class="line">            dp0 = dp1; <span class="comment">// 记录一下前两位</span></span><br><span class="line">            dp1 = dpi;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">min</span>(dp0, dp1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="不同路径"><a href="#不同路径" class="headerlink" title="不同路径"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/unique-paths/">不同路径</a></h2><p>一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为 “Start” ）。</p>
+<p>机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish” ）。</p>
+<p>问总共有多少条不同的路径？</p>
+<p>示例 1：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210110174033215.png"></p>
+<ul>
+<li>输入：m &#x3D; 3, n &#x3D; 7</li>
+<li>输出：28</li>
+</ul>
+<p>示例 2：</p>
+<ul>
+<li>输入：m &#x3D; 2, n &#x3D; 3</li>
+<li>输出：3</li>
+</ul>
+<p>解释： 从左上角开始，总共有 3 条路径可以到达右下角。</p>
+<ol>
+<li>向右 -&gt; 向右 -&gt; 向下</li>
+<li>向右 -&gt; 向下 -&gt; 向右</li>
+<li>向下 -&gt; 向右 -&gt; 向右</li>
+</ol>
+<p>示例 3：</p>
+<ul>
+<li>输入：m &#x3D; 7, n &#x3D; 3</li>
+<li>输出：28</li>
+</ul>
+<p>示例 4：</p>
+<ul>
+<li>输入：m &#x3D; 3, n &#x3D; 3</li>
+<li>输出：6</li>
+</ul>
+<p>提示：</p>
+<ul>
+<li>1 &lt;&#x3D; m, n &lt;&#x3D; 100</li>
+<li>题目数据保证答案小于等于 2 * 10^9</li>
+</ul>
+<h3 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h3><h4 id="深度优先搜索"><a href="#深度优先搜索" class="headerlink" title="深度优先搜索"></a>深度优先搜索</h4><p>这道题目，刚一看最直观的想法就是用图论里的深搜，来枚举出来有多少种路径。</p>
+<p>注意题目中说机器人每次只能向下或者向右移动一步，那么其实<strong>机器人走过的路径可以抽象为一棵二叉树，而叶子节点就是终点！</strong></p>
+<p>如图举例：</p>
+<p><img src="https://img-blog.csdnimg.cn/20201209113602700.png" alt="62.不同路径"></p>
+<p>此时问题就可以转化为求二叉树叶子节点的个数，代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> i, <span class="type">int</span> j, <span class="type">int</span> m, <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (i &gt; m || j &gt; n) <span class="keyword">return</span> <span class="number">0</span>; <span class="comment">// 越界了</span></span><br><span class="line">        <span class="keyword">if</span> (i == m &amp;&amp; j == n) <span class="keyword">return</span> <span class="number">1</span>; <span class="comment">// 找到一种方法，相当于找到了叶子节点</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">dfs</span>(i + <span class="number">1</span>, j, m, n) + <span class="built_in">dfs</span>(i, j + <span class="number">1</span>, m, n);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">uniquePaths</span><span class="params">(<span class="type">int</span> m, <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">dfs</span>(<span class="number">1</span>, <span class="number">1</span>, m, n);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>大家如果提交了代码就会发现超时了！</strong></p>
+<p>来分析一下时间复杂度，这个深搜的算法，其实就是要遍历整个二叉树。</p>
+<p>这棵树的深度其实就是m+n-1（深度按从1开始计算）。</p>
+<p>那二叉树的节点个数就是 2^(m + n - 1) - 1。可以理解深搜的算法就是遍历了整个满二叉树（其实没有遍历整个满二叉树，只是近似而已）</p>
+<p>所以上面深搜代码的时间复杂度为O(2^(m + n - 1) - 1)，可以看出，这是指数级别的时间复杂度，是非常大的。</p>
+<h4 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h4><p>机器人从(0 , 0) 位置出发，到(m - 1, n - 1)终点。</p>
+<p>按照动规五部曲来分析：</p>
+<ol>
+<li>确定dp数组（dp table）以及下标的含义</li>
+</ol>
+<p>dp[i][j] ：表示从（0 ，0）出发，到(i, j) 有dp[i][j]条不同的路径。</p>
+<ol start="2">
+<li>确定递推公式</li>
+</ol>
+<p>想要求dp[i][j]，只能有两个方向来推导出来，即dp[i - 1][j] 和 dp[i][j - 1]。</p>
+<p>此时在回顾一下 dp[i - 1][j] 表示啥，是从(0, 0)的位置到(i - 1, j)有几条路径，dp[i][j - 1]同理。</p>
+<p>那么很自然，dp[i][j] &#x3D; dp[i - 1][j] + dp[i][j - 1]，因为dp[i][j]只有这两个方向过来。</p>
+<ol start="3">
+<li>dp数组的初始化</li>
+</ol>
+<p>如何初始化呢，首先dp[i][0]一定都是1，因为从(0, 0)的位置到(i, 0)的路径只有一条，那么dp[0][j]也同理。</p>
+<p>所以初始化代码为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; m; i++) dp[i][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; n; j++) dp[<span class="number">0</span>][j] = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>确定遍历顺序</li>
+</ol>
+<p>这里要看一下递归公式dp[i][j] &#x3D; dp[i - 1][j] + dp[i][j - 1]，dp[i][j]都是从其上方和左方推导而来，那么从左到右一层一层遍历就可以了。</p>
+<p>这样就可以保证推导dp[i][j]的时候，dp[i - 1][j] 和 dp[i][j - 1]一定是有数值的。</p>
+<ol start="5">
+<li>举例推导dp数组</li>
+</ol>
+<p>如图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20201209113631392.png" alt="62.不同路径1"></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">uniquePaths</span><span class="params">(<span class="type">int</span> m, <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">dp</span>(m, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(n, <span class="number">0</span>));<span class="comment">//将m，n数组初始化数值全为0</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; m; i++) dp[i][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; n; j++) dp[<span class="number">0</span>][j] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; m; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt; n; j++) &#123;</span><br><span class="line">                dp[i][j] = dp[i - <span class="number">1</span>][j] + dp[i][j - <span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[m - <span class="number">1</span>][n - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="不同路径-II"><a href="#不同路径-II" class="headerlink" title="不同路径 II"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/unique-paths-ii/">不同路径 II</a></h2><p>一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。</p>
+<p>机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。</p>
+<p>现在考虑网格中有障碍物。那么从左上角到右下角将会有多少条不同的路径？</p>
+<p>网格中的障碍物和空位置分别用 1 和 0 来表示。</p>
+<p>示例 1：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210111204939971.png"></p>
+<ul>
+<li>输入：obstacleGrid &#x3D; [[0,0,0],[0,1,0],[0,0,0]]</li>
+<li>输出：2 解释：</li>
+<li>3x3 网格的正中间有一个障碍物。</li>
+<li>从左上角到右下角一共有 2 条不同的路径：<ol>
+<li>向右 -&gt; 向右 -&gt; 向下 -&gt; 向下</li>
+<li>向下 -&gt; 向下 -&gt; 向右 -&gt; 向右</li>
+</ol>
+</li>
+</ul>
+<p>示例 2：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210111205857918.png"></p>
+<ul>
+<li>输入：obstacleGrid &#x3D; [[0,1],[0,0]]</li>
+<li>输出：1</li>
+</ul>
+<p>提示：</p>
+<ul>
+<li>m &#x3D;&#x3D; obstacleGrid.length</li>
+<li>n &#x3D;&#x3D; obstacleGrid[i].length</li>
+<li>1 &lt;&#x3D; m, n &lt;&#x3D; 100</li>
+<li>obstacleGrid[i][j] 为 0 或 1</li>
+</ul>
+<h3 id="思路-4"><a href="#思路-4" class="headerlink" title="思路"></a>思路</h3><p>这道题相对于<a target="_blank" rel="noopener" href="https://programmercarl.com/0062.%E4%B8%8D%E5%90%8C%E8%B7%AF%E5%BE%84.html">62.不同路径</a>就是有了障碍。</p>
+<p>第一次接触这种题目的同学可能会有点懵，这有障碍了，应该怎么算呢？</p>
+<p>62.不同路径 中我们已经详细分析了没有障碍的情况，有障碍的话，其实就是标记对应的dp table（dp数组）保持初始值(0)就可以了。</p>
+<p>动规五部曲：</p>
+<ol>
+<li>确定dp数组（dp table）以及下标的含义</li>
+</ol>
+<p>dp[i][j] ：表示从（0 ，0）出发，到(i, j) 有dp[i][j]条不同的路径。</p>
+<ol start="2">
+<li>确定递推公式</li>
+</ol>
+<p>递推公式和62.不同路径一样，dp[i][j] &#x3D; dp[i - 1][j] + dp[i][j - 1]。</p>
+<p>但这里需要注意一点，因为有了障碍，(i, j)如果就是障碍的话应该就保持初始状态（初始状态为0）。</p>
+<p>所以代码为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (obstacleGrid[i][j] == <span class="number">0</span>) &#123; <span class="comment">// 当(i, j)没有障碍的时候，再推导dp[i][j]</span></span><br><span class="line">    dp[i][j] = dp[i - <span class="number">1</span>][j] + dp[i][j - <span class="number">1</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>dp数组如何初始化</li>
+</ol>
+<p>在62.不同路径 不同路径中我们给出如下的初始化：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">dp</span>(m, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(n, <span class="number">0</span>)); <span class="comment">// 初始值为0</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; m; i++) dp[i][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; n; j++) dp[<span class="number">0</span>][j] = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p>因为从(0, 0)的位置到(i, 0)的路径只有一条，所以dp[i][0]一定为1，dp[0][j]也同理。</p>
+<p>但如果(i, 0) 这条边有了障碍之后，障碍之后（包括障碍）都是走不到的位置了，所以<strong>障碍之后的dp[i][0]应该还是初始值0</strong>。</p>
+<p>如图：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210104114513928.png" alt="63.不同路径II"></p>
+<p>下标(0, j)的初始化情况同理。</p>
+<p>所以本题初始化代码为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">dp</span>(m, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(n, <span class="number">0</span>));</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; m &amp;&amp; obstacleGrid[i][<span class="number">0</span>] == <span class="number">0</span>; i++) dp[i][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; n &amp;&amp; obstacleGrid[<span class="number">0</span>][j] == <span class="number">0</span>; j++) dp[<span class="number">0</span>][j] = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意代码里for循环的终止条件，一旦遇到obstacleGrid[i][0] &#x3D;&#x3D; 1的情况就停止dp[i][0]的赋值1的操作，dp[0][j]同理</strong></p>
+<ol start="4">
+<li>确定遍历顺序</li>
+</ol>
+<p>从递归公式dp[i][j] &#x3D; dp[i - 1][j] + dp[i][j - 1] 中可以看出，一定是从左到右一层一层遍历，这样保证推导dp[i][j]的时候，dp[i - 1][j] 和 dp[i][j - 1]一定是有数值。</p>
+<p>代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; m; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt; n; j++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (obstacleGrid[i][j] == <span class="number">1</span>) <span class="keyword">continue</span>;</span><br><span class="line">        dp[i][j] = dp[i - <span class="number">1</span>][j] + dp[i][j - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>举例推导dp数组</li>
+</ol>
+<p>拿示例1来举例如题：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210104114548983.png" alt="63.不同路径II1"></p>
+<p>对应的dp table 如图：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210104114610256.png" alt="63.不同路径II2"></p>
+<p>如果这个图看不同，建议在理解一下递归公式，然后照着文章中说的遍历顺序，自己推导一下​！​</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">uniquePathsWithObstacles</span><span class="params">(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; obstacleGrid)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> m = obstacleGrid.<span class="built_in">size</span>();</span><br><span class="line">        <span class="type">int</span> n = obstacleGrid[<span class="number">0</span>].<span class="built_in">size</span>();</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">dp</span>(m, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(n, <span class="number">0</span>));</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; m &amp;&amp; obstacleGrid[i][<span class="number">0</span>] == <span class="number">0</span>; i++) dp[i][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; n &amp;&amp; obstacleGrid[<span class="number">0</span>][j] == <span class="number">0</span>; j++) dp[<span class="number">0</span>][j] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; m; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt; n; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (obstacleGrid[i][j] == <span class="number">1</span>) <span class="keyword">continue</span>;</span><br><span class="line">                dp[i][j] = dp[i - <span class="number">1</span>][j] + dp[i][j - <span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[m - <span class="number">1</span>][n - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="整数拆分"><a href="#整数拆分" class="headerlink" title="整数拆分"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/integer-break/">整数拆分</a></h2><p>给定一个正整数 n，将其拆分为至少两个正整数的和，并使这些整数的乘积最大化。 返回你可以获得的最大乘积。</p>
+<p>示例 1:</p>
+<ul>
+<li>输入: 2</li>
+<li>输出: 1</li>
+<li>解释: 2 &#x3D; 1 + 1, 1 × 1 &#x3D; 1。</li>
+</ul>
+<p>示例 2:</p>
+<ul>
+<li><p>输入: 10</p>
+</li>
+<li><p>输出: 36</p>
+</li>
+<li><p>解释: 10 &#x3D; 3 + 3 + 4, 3 × 3 × 4 &#x3D; 36。</p>
+</li>
+<li><p>说明: 你可以假设 n 不小于 2 且不大于 58。</p>
+</li>
+</ul>
+<h3 id="思路-5"><a href="#思路-5" class="headerlink" title="思路"></a>思路</h3><p>动规五部曲，分析如下：</p>
+<ol>
+<li>确定dp数组（dp table）以及下标的含义</li>
+</ol>
+<p>dp[i]：分拆数字i，可以得到的最大乘积为dp[i]。</p>
+<p>dp[i]的定义讲贯彻整个解题过程，下面哪一步想不懂了，就想想dp[i]究竟表示的是啥！</p>
+<ol start="2">
+<li>确定递推公式</li>
+</ol>
+<p>可以想 dp[i]最大乘积是怎么得到的呢？</p>
+<p>其实可以从1遍历j，然后有两种渠道得到dp[i].</p>
+<p>一个是j * (i - j) 直接相乘。</p>
+<p>一个是j * dp[i - j]，相当于是拆分(i - j)，对这个拆分不理解的话，可以回想dp数组的定义。</p>
+<p><strong>那有同学问了，j怎么就不拆分呢？</strong></p>
+<p>j是从1开始遍历，拆分j的情况，在遍历j的过程中其实都计算过了。那么从1遍历j，比较(i - j) * j和dp[i - j] * j 取最大的。递推公式：dp[i] &#x3D; max(dp[i], max((i - j) * j, dp[i - j] * j));</p>
+<p>也可以这么理解，j * (i - j) 是单纯的把整数拆分为两个数相乘，而j * dp[i - j]是拆分成两个以及两个以上的个数相乘。</p>
+<p>如果定义dp[i - j] * dp[j] 也是默认将一个数强制拆成4份以及4份以上了。</p>
+<p>所以递推公式：dp[i] &#x3D; max({dp[i], (i - j) * j, dp[i - j] * j});</p>
+<p>那么在取最大值的时候，为什么还要比较dp[i]呢？</p>
+<p>因为在递推公式推导的过程中，每次计算dp[i]，取最大的而已。</p>
+<ol start="3">
+<li>dp的初始化</li>
+</ol>
+<p>不少同学应该疑惑，dp[0] dp[1]应该初始化多少呢？</p>
+<p>有的题解里会给出dp[0] &#x3D; 1，dp[1] &#x3D; 1的初始化，但解释比较牵强，主要还是因为这么初始化可以把题目过了。</p>
+<p>严格从dp[i]的定义来说，dp[0] dp[1] 就不应该初始化，也就是没有意义的数值。</p>
+<p>拆分0和拆分1的最大乘积是多少？</p>
+<p>这是无解的。</p>
+<p>这里我只初始化dp[2] &#x3D; 1，从dp[i]的定义来说，拆分数字2，得到的最大乘积是1，这个没有任何异议！</p>
+<ol start="4">
+<li>确定遍历顺序</li>
+</ol>
+<p>确定遍历顺序，先来看看递归公式：dp[i] &#x3D; max(dp[i], max((i - j) * j, dp[i - j] * j));</p>
+<p>dp[i] 是依靠 dp[i - j]的状态，所以遍历i一定是从前向后遍历，先有dp[i - j]再有dp[i]。</p>
+<p>枚举j的时候，是从1开始的。i是从3开始，这样dp[i - j]就是dp[2]正好可以通过我们初始化的数值求出来。</p>
+<p>所以遍历顺序为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">3</span>; i &lt;= n ; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt; i - <span class="number">1</span>; j++) &#123;</span><br><span class="line">        dp[i] = <span class="built_in">max</span>(dp[i], <span class="built_in">max</span>((i - j) * j, dp[i - j] * j));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>举例推导dp数组</li>
+</ol>
+<p>举例当n为10 的时候，dp数组里的数值，如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210104173021581.png" alt="343.整数拆分"></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">integerBreak</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">dp</span><span class="params">(n + <span class="number">1</span>)</span></span>;</span><br><span class="line">        dp[<span class="number">2</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">3</span>; i &lt;= n ; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt; i - <span class="number">1</span>; j++) &#123;</span><br><span class="line">                dp[i] = <span class="built_in">max</span>(dp[i], <span class="built_in">max</span>((i - j) * j, dp[i - j] * j));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[n];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
     </div>
 
