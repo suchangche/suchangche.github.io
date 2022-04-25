@@ -546,7 +546,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-04-22 11:33:46" itemprop="dateModified" datetime="2022-04-22T11:33:46+08:00">2022-04-22</time>
+      <time title="修改时间：2022-04-25 09:28:59" itemprop="dateModified" datetime="2022-04-25T09:28:59+08:00">2022-04-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1096,6 +1096,309 @@
 <p><strong>我这里列到了n为5的情况，是为了方便大家 debug代码的时候，把dp数组打出来，看看哪里有问题</strong>。</p>
 <p>综上分析完毕，C++代码如下：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">numTrees</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">dp</span><span class="params">(n + <span class="number">1</span>)</span></span>;</span><br><span class="line">        dp[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= i; j++) &#123;</span><br><span class="line">                dp[i] += dp[j - <span class="number">1</span>] * dp[i - j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[n];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="0-1背包-一"><a href="#0-1背包-一" class="headerlink" title="0-1背包(一)"></a><a target="_blank" rel="noopener" href="https://www.programmercarl.com/%E8%83%8C%E5%8C%85%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%8001%E8%83%8C%E5%8C%85-1.html#_01-%E8%83%8C%E5%8C%85">0-1背包(一)</a></h2><p>对于面试的话，其实掌握01背包，和完全背包，就够用了，最多可以再来一个多重背包。</p>
+<p>如果这几种背包，分不清，我这里画了一个图，如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210117171307407.png" alt="416.分割等和子集1"></p>
+<p>至于背包九讲其其他背包，面试几乎不会问，都是竞赛级别的了，leetcode上连多重背包的题目都没有，所以题库也告诉我们，01背包和完全背包就够用了。</p>
+<p>而完全背包又是也是01背包稍作变化而来，即：完全背包的物品数量是无限的。</p>
+<p><strong>所以背包问题的理论基础重中之重是01背包，一定要理解透！</strong></p>
+<p><strong>所以我先通过纯01背包问题，把01背包原理讲清楚，后续再讲解leetcode题目的时候，重点就是讲解如何转化为01背包问题了</strong>。</p>
+<p>有n件物品和一个最多能背重量为w 的背包。第i件物品的重量是weight[i]，得到的价值是value[i] 。<strong>每件物品只能用一次</strong>，求解将哪些物品装入背包里物品价值总和最大。</p>
+<p><img src="https://img-blog.csdnimg.cn/20210117175428387.jpg" alt="动态规划-背包问题"></p>
+<p>这是标准的背包问题，以至于很多同学看了这个自然就会想到背包，甚至都不知道暴力的解法应该怎么解了。</p>
+<p>这样其实是没有从底向上去思考，而是习惯性想到了背包，那么暴力的解法应该是怎么样的呢？</p>
+<p>每一件物品其实只有两个状态，取或者不取，所以可以使用回溯法搜索出所有的情况，那么时间复杂度就是$o(2^n)$，这里的n表示物品数量。</p>
+<p><strong>所以暴力的解法是指数级别的时间复杂度。进而才需要动态规划的解法来进行优化！</strong></p>
+<p>在下面的讲解中，我举一个例子：</p>
+<p>背包最大重量为4。</p>
+<p>物品为：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>重量</th>
+<th>价值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>物品0</td>
+<td>1</td>
+<td>15</td>
+</tr>
+<tr>
+<td>物品1</td>
+<td>3</td>
+<td>20</td>
+</tr>
+<tr>
+<td>物品2</td>
+<td>4</td>
+<td>30</td>
+</tr>
+</tbody></table>
+<p>问背包能背的物品最大价值是多少？</p>
+<p>以下讲解和图示中出现的数字都是以这个例子为例。</p>
+<h3 id="二维dp数组01背包"><a href="#二维dp数组01背包" class="headerlink" title="二维dp数组01背包"></a>二维dp数组01背包</h3><p>依然动规五部曲分析一波。</p>
+<ol>
+<li>确定dp数组以及下标的含义</li>
+</ol>
+<p>对于背包问题，有一种写法， 是使用二维数组，即<strong>dp[i][j] 表示从下标为[0-i]的物品里任意取，放进容量为j的背包，价值总和最大是多少</strong>。</p>
+<p>只看这个二维数组的定义，大家一定会有点懵，看下面这个图：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210110103003361.png" alt="动态规划-背包问题1"></p>
+<p><strong>要时刻记着这个dp数组的含义，下面的一些步骤都围绕这dp数组的含义进行的</strong>，如果哪里看懵了，就来回顾一下i代表什么，j又代表什么。</p>
+<ol start="2">
+<li>确定递推公式</li>
+</ol>
+<p>再回顾一下dp[i][j]的含义：从下标为[0-i]的物品里任意取，放进容量为j的背包，价值总和最大是多少。</p>
+<p>那么可以有两个方向推出来dp[i][j]，</p>
+<ul>
+<li><strong>不放物品i</strong>：由dp[i - 1][j]推出，即背包容量为j，里面不放物品i的最大价值，此时dp[i][j]就是dp[i - 1][j]。(其实就是当物品i的重量大于背包j的重量时，物品i无法放进背包中，所以被背包内的价值依然和前面相同。)</li>
+<li><strong>放物品i</strong>：由dp[i - 1][j - weight[i]]推出，dp[i - 1][j - weight[i]] 为背包容量为j - weight[i]的时候不放物品i的最大价值，那么dp[i - 1][j - weight[i]] + value[i] （物品i的价值），就是背包放物品i得到的最大价值</li>
+</ul>
+<p>所以递归公式： dp[i][j] &#x3D; max(dp[i - 1][j], dp[i - 1][j - weight[i]] + value[i]);</p>
+<ol start="3">
+<li>dp数组如何初始化</li>
+</ol>
+<p><strong>关于初始化，一定要和dp数组的定义吻合，否则到递推公式的时候就会越来越乱</strong>。</p>
+<p>首先从dp[i][j]的定义出发，如果背包容量j为0的话，即dp[i][0]，无论是选取哪些物品，背包价值总和一定为0。如图：</p>
+<p><img src="https://img-blog.csdnimg.cn/2021011010304192.png" alt="动态规划-背包问题2"></p>
+<p>在看其他情况。</p>
+<p>状态转移方程 dp[i][j] &#x3D; max(dp[i - 1][j], dp[i - 1][j - weight[i]] + value[i]); 可以看出i 是由 i-1 推导出来，那么i为0的时候就一定要初始化。</p>
+<p>dp[0][j]，即：i为0，存放编号0的物品的时候，各个容量的背包所能存放的最大价值。</p>
+<p>那么很明显当 j &lt; weight[0]的时候，dp[0][j] 应该是 0，因为背包容量比编号0的物品重量还小。</p>
+<p>当j &gt;&#x3D; weight[0]时，dp[0][j] 应该是value[0]，因为背包容量放足够放编号0物品。</p>
+<p>代码初始化如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span> ; j &lt; weight[<span class="number">0</span>]; j++) &#123;  <span class="comment">// 当然这一步，如果把dp数组预先初始化为0了，这一步就可以省略，但很多同学应该没有想清楚这一点。</span></span><br><span class="line">    dp[<span class="number">0</span>][j] = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 正序遍历</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> j = weight[<span class="number">0</span>]; j &lt;= bagweight; j++) &#123;</span><br><span class="line">    dp[<span class="number">0</span>][j] = value[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时dp数组初始化情况如图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210110103109140.png" alt="动态规划-背包问题7"></p>
+<p>dp[0][j] 和 dp[i][0] 都已经初始化了，那么其他下标应该初始化多少呢？</p>
+<p>其实从递归公式： dp[i][j] &#x3D; max(dp[i - 1][j], dp[i - 1][j - weight[i]] + value[i]); 可以看出dp[i][j] 是由左上方数值推导出来了，那么 其他下标初始为什么数值都可以，因为都会被覆盖。</p>
+<p><strong>初始-1，初始-2，初始100，都可以！</strong></p>
+<p>但只不过一开始就统一把dp数组统一初始为0，更方便一些。</p>
+<p>如图：</p>
+<p><img src="https://code-thinking.cdn.bcebos.com/pics/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%9810.jpg" alt="动态规划-背包问题10"></p>
+<p>最后初始化代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化 dp</span></span><br><span class="line">vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">dp</span>(weight.<span class="built_in">size</span>(), <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(bagweight + <span class="number">1</span>, <span class="number">0</span>));</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> j = weight[<span class="number">0</span>]; j &lt;= bagweight; j++) &#123;</span><br><span class="line">    dp[<span class="number">0</span>][j] = value[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>费了这么大的功夫，才把如何初始化讲清楚，相信不少同学平时初始化dp数组是凭感觉来的，但有时候感觉是不靠谱的</strong>。</p>
+<ol start="4">
+<li>确定遍历顺序</li>
+</ol>
+<p>在如下图中，可以看出，有两个遍历的维度：物品与背包重量</p>
+<p><img src="https://img-blog.csdnimg.cn/2021011010314055.png" alt="动态规划-背包问题3"></p>
+<p>那么问题来了，<strong>先遍历 物品还是先遍历背包重量呢？</strong></p>
+<p><strong>其实都可以！！ 但是先遍历物品更好理解</strong>。</p>
+<p>那么我先给出先遍历物品，然后遍历背包重量的代码。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// weight数组的大小 就是物品个数</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt; weight.<span class="built_in">size</span>(); i++) &#123; <span class="comment">// 遍历物品</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span>; j &lt;= bagweight; j++) &#123; <span class="comment">// 遍历背包容量</span></span><br><span class="line">        <span class="keyword">if</span> (j &lt; weight[i]) dp[i][j] = dp[i - <span class="number">1</span>][j]; </span><br><span class="line">        <span class="keyword">else</span> dp[i][j] = <span class="built_in">max</span>(dp[i - <span class="number">1</span>][j], dp[i - <span class="number">1</span>][j - weight[i]] + value[i]);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>先遍历背包，再遍历物品，也是可以的！（注意我这里使用的二维dp数组）</strong></p>
+<p>例如这样：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// weight数组的大小 就是物品个数</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span>; j &lt;= bagweight; j++) &#123; <span class="comment">// 遍历背包容量</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt; weight.<span class="built_in">size</span>(); i++) &#123; <span class="comment">// 遍历物品</span></span><br><span class="line">        <span class="keyword">if</span> (j &lt; weight[i]) dp[i][j] = dp[i - <span class="number">1</span>][j];</span><br><span class="line">        <span class="keyword">else</span> dp[i][j] = <span class="built_in">max</span>(dp[i - <span class="number">1</span>][j], dp[i - <span class="number">1</span>][j - weight[i]] + value[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为什么也是可以的呢？</p>
+<p><strong>要理解递归的本质和递推的方向</strong>。</p>
+<p>dp[i][j] &#x3D; max(dp[i - 1][j], dp[i - 1][j - weight[i]] + value[i]); 递归公式中可以看出dp[i][j]是靠dp[i-1][j]和dp[i - 1][j - weight[i]]推导出来的。</p>
+<p>dp[i-1][j]和dp[i - 1][j - weight[i]] 都在dp[i][j]的左上角方向（包括正上方向），那么先遍历物品，再遍历背包的过程如图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/202101101032124.png" alt="动态规划-背包问题5"></p>
+<p>再来看看先遍历背包，再遍历物品呢，如图：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210110103244701.png" alt="动态规划-背包问题6"></p>
+<p><strong>大家可以看出，虽然两个for循环遍历的次序不同，但是dp[i][j]所需要的数据就是左上角，根本不影响dp[i][j]公式的推导！</strong></p>
+<p>但先遍历物品再遍历背包这个顺序更好理解。</p>
+<p><strong>其实背包问题里，两个for循环的先后循序是非常有讲究的，理解遍历顺序其实比理解推导公式难多了</strong>。</p>
+<ol start="5">
+<li>举例推导dp数组</li>
+</ol>
+<p>来看一下对应的dp数组的数值，如图：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210118163425129.jpg" alt="动态规划-背包问题4"></p>
+<p>最终结果就是dp[2][4]。</p>
+<p>建议大家此时自己在纸上推导一遍，看看dp数组里每一个数值是不是这样的。</p>
+<p><strong>做动态规划的题目，最好的过程就是自己在纸上举一个例子把对应的dp数组的数值推导一下，然后在动手写代码！</strong></p>
+<p>很多同学做dp题目，遇到各种问题，然后凭感觉东改改西改改，怎么改都不对，或者稀里糊涂就改过了。</p>
+<p>主要就是自己没有动手推导一下dp数组的演变过程，如果推导明白了，代码写出来就算有问题，只要把dp数组打印出来，对比一下和自己推导的有什么差异，很快就可以发现问题了。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">test_2_wei_bag_problem1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; weight = &#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>&#125;;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; value = &#123;<span class="number">15</span>, <span class="number">20</span>, <span class="number">30</span>&#125;;</span><br><span class="line">    <span class="type">int</span> bagweight = <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 二维数组</span></span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">dp</span>(weight.<span class="built_in">size</span>(), <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(bagweight + <span class="number">1</span>, <span class="number">0</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = weight[<span class="number">0</span>]; j &lt;= bagweight; j++) &#123;</span><br><span class="line">        dp[<span class="number">0</span>][j] = value[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// weight数组的大小 就是物品个数</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt; weight.<span class="built_in">size</span>(); i++) &#123; <span class="comment">// 遍历物品</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span>; j &lt;= bagweight; j++) &#123; <span class="comment">// 遍历背包容量</span></span><br><span class="line">            <span class="keyword">if</span> (j &lt; weight[i]) dp[i][j] = dp[i - <span class="number">1</span>][j];</span><br><span class="line">            <span class="keyword">else</span> dp[i][j] = <span class="built_in">max</span>(dp[i - <span class="number">1</span>][j], dp[i - <span class="number">1</span>][j - weight[i]] + value[i]);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; dp[weight.<span class="built_in">size</span>() - <span class="number">1</span>][bagweight] &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">test_2_wei_bag_problem1</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="0-1背包问题（二）"><a href="#0-1背包问题（二）" class="headerlink" title="0-1背包问题（二）"></a><a target="_blank" rel="noopener" href="https://www.programmercarl.com/%E8%83%8C%E5%8C%85%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%8001%E8%83%8C%E5%8C%85-2.html#%E4%B8%80%E7%BB%B4dp01%E8%83%8C%E5%8C%85%E5%AE%8C%E6%95%B4c-%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%A0%81">0-1背包问题（二）</a></h2><p>今天我们就来说一说滚动数组，其实在前面的题目中我们已经用到过滚动数组了，就是把二维dp降为一维dp，一些录友当时还表示比较困惑。</p>
+<p>那么我们通过01背包，来彻底讲一讲滚动数组！</p>
+<p>接下来还是用如下这个例子来进行讲解</p>
+<p>背包最大重量为4。</p>
+<p>物品为：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>重量</th>
+<th>价值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>物品0</td>
+<td>1</td>
+<td>15</td>
+</tr>
+<tr>
+<td>物品1</td>
+<td>3</td>
+<td>20</td>
+</tr>
+<tr>
+<td>物品2</td>
+<td>4</td>
+<td>30</td>
+</tr>
+</tbody></table>
+<p>问背包能背的物品最大价值是多少？</p>
+<p>对于背包问题其实状态都是可以压缩的。</p>
+<p>在使用二维数组的时候，递推公式：dp[i][j] &#x3D; max(dp[i - 1][j], dp[i - 1][j - weight[i]] + value[i]);</p>
+<p><strong>其实可以发现如果把dp[i - 1]那一层拷贝到dp[i]上，表达式完全可以是：dp[i][j] &#x3D; max(dp[i][j], dp[i][j - weight[i]] + value[i]);</strong></p>
+<p><strong>与其把dp[i - 1]这一层拷贝到dp[i]上，不如只用一个一维数组了</strong>，只用dp[j]（一维数组，也可以理解是一个滚动数组）。</p>
+<p>这就是滚动数组的由来，<strong>需要满足的条件是上一层可以重复利用，直接拷贝到当前层</strong>。</p>
+<p>读到这里估计大家都忘了 dp[i][j]里的i和j表达的是什么了，i是物品，j是背包容量。</p>
+<p><strong>dp[i][j] 表示从下标为[0-i]的物品里任意取，放进容量为j的背包，价值总和最大是多少</strong>。</p>
+<p>一定要时刻记住这里i和j的含义，要不然很容易看懵了。</p>
+<p>动规五部曲分析如下：</p>
+<ol>
+<li>确定dp数组的定义</li>
+</ol>
+<p>在一维dp数组中，dp[j]表示：容量为j的背包，所背的物品价值可以最大为dp[j]。</p>
+<ol start="2">
+<li>一维dp数组的递推公式</li>
+</ol>
+<p>dp[j]为 容量为j的背包所背的最大价值，那么如何推导dp[j]呢？</p>
+<p>dp[j]可以通过dp[j - weight[i]]推导出来，dp[j - weight[i]]表示容量为j - weight[i]的背包所背的最大价值。</p>
+<p>dp[j - weight[i]] + value[i] 表示 容量为 j - 物品i重量 的背包 加上 物品i的价值。（也就是容量为j的背包，放入物品i了之后的价值即：dp[j]）</p>
+<p>此时dp[j]有两个选择，一个是取自己dp[j] 相当于 二维dp数组中的dp[i-1][j]，即不放物品i，一个是取dp[j - weight[i]] + value[i]，即放物品i，指定是取最大的，毕竟是求最大价值，</p>
+<p>所以递归公式为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dp[j] = <span class="built_in">max</span>(dp[j], dp[j - weight[i]] + value[i]);</span><br></pre></td></tr></table></figure>
+
+<p>可以看出相对于二维dp数组的写法，就是把dp[i][j]中i的维度去掉了。</p>
+<ol start="3">
+<li>一维dp数组如何初始化</li>
+</ol>
+<p><strong>关于初始化，一定要和dp数组的定义吻合，否则到递推公式的时候就会越来越乱</strong>。</p>
+<p>dp[j]表示：容量为j的背包，所背的物品价值可以最大为dp[j]，那么dp[0]就应该是0，因为背包容量为0所背的物品的最大价值就是0。</p>
+<p>那么dp数组除了下标0的位置，初始为0，其他下标应该初始化多少呢？</p>
+<p>看一下递归公式：dp[j] &#x3D; max(dp[j], dp[j - weight[i]] + value[i]);</p>
+<p>dp数组在推导的时候一定是取价值最大的数，如果题目给的价值都是正整数那么非0下标都初始化为0就可以了。</p>
+<p><strong>这样才能让dp数组在递归公式的过程中取的最大的价值，而不是被初始值覆盖了</strong>。</p>
+<p>那么我假设物品价值都是大于0的，所以dp数组初始化的时候，都初始为0就可以了。</p>
+<ol start="4">
+<li>一维dp数组遍历顺序</li>
+</ol>
+<p>代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; weight.<span class="built_in">size</span>(); i++) &#123; <span class="comment">// 遍历物品</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = bagWeight; j &gt;= weight[i]; j--) &#123; <span class="comment">// 遍历背包容量</span></span><br><span class="line">        dp[j] = <span class="built_in">max</span>(dp[j], dp[j - weight[i]] + value[i]);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>这里大家发现和二维dp的写法中，遍历背包的顺序是不一样的！</strong></p>
+<p>二维dp遍历的时候，背包容量是从小到大，而一维dp遍历的时候，背包是从大到小。</p>
+<p>为什么呢？</p>
+<p><strong>倒序遍历是为了保证物品i只被放入一次！</strong>。但如果一旦正序遍历了，那么物品0就会被重复加入多次！</p>
+<p>举一个例子：物品0的重量weight[0] &#x3D; 1，价值value[0] &#x3D; 15</p>
+<p>如果正序遍历</p>
+<p>dp[1] &#x3D; dp[1 - weight[0]] + value[0] &#x3D; 15</p>
+<p>dp[2] &#x3D; dp[2 - weight[0]] + value[0] &#x3D; 30</p>
+<p>此时dp[2]就已经是30了，意味着物品0，被放入了两次，所以不能正序遍历。</p>
+<p>为什么倒序遍历，就可以保证物品只放入一次呢？</p>
+<p>倒序就是先算dp[2]</p>
+<p>dp[2] &#x3D; dp[2 - weight[0]] + value[0] &#x3D; 15 （dp数组已经都初始化为0）</p>
+<p>dp[1] &#x3D; dp[1 - weight[0]] + value[0] &#x3D; 15</p>
+<p>所以从后往前循环，每次取得状态不会和之前取得状态重合，这样每种物品就只取一次了。</p>
+<p><strong>那么问题又来了，为什么二维dp数组历的时候不用倒序呢？</strong></p>
+<p>因为对于二维dp，dp[i][j]都是通过上一层即dp[i - 1][j]计算而来，本层的dp[i][j]并不会被覆盖！</p>
+<p>（如何这里读不懂，大家就要动手试一试了，空想还是不靠谱的，实践出真知！）</p>
+<p><strong>再来看看两个嵌套for循环的顺序，代码中是先遍历物品嵌套遍历背包容量，那可不可以先遍历背包容量嵌套遍历物品呢？</strong></p>
+<p>不可以！</p>
+<p>因为一维dp的写法，背包容量一定是要倒序遍历（原因上面已经讲了），如果遍历背包容量放在上一层，那么每个dp[j]就只会放入一个物品，即：背包里只放入了一个物品。</p>
+<p>（这里如果读不懂，就在回想一下dp[j]的定义，或者就把两个for循环顺序颠倒一下试试！）</p>
+<p><strong>所以一维dp数组的背包在遍历顺序上和二维其实是有很大差异的！</strong>，这一点大家一定要注意。</p>
+<ol start="5">
+<li>举例推导dp数组</li>
+</ol>
+<p>一维dp，分别用物品0，物品1，物品2 来遍历背包，最终得到结果如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210110103614769.png" alt="动态规划-背包问题9"></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">test_1_wei_bag_problem</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; weight = &#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>&#125;;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; value = &#123;<span class="number">15</span>, <span class="number">20</span>, <span class="number">30</span>&#125;;</span><br><span class="line">    <span class="type">int</span> bagWeight = <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化</span></span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">dp</span><span class="params">(bagWeight + <span class="number">1</span>, <span class="number">0</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; weight.<span class="built_in">size</span>(); i++) &#123; <span class="comment">// 遍历物品</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = bagWeight; j &gt;= weight[i]; j--) &#123; <span class="comment">// 遍历背包容量</span></span><br><span class="line">            dp[j] = <span class="built_in">max</span>(dp[j], dp[j - weight[i]] + value[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; dp[bagWeight] &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">test_1_wei_bag_problem</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以看出，一维dp 的01背包，要比二维简洁的多！ 初始化 和 遍历顺序相对简单了。</p>
+<p><strong>所以我倾向于使用一维dp数组的写法，比较直观简洁，而且空间复杂度还降了一个数量级！</strong></p>
+<h2 id="分割等和子集"><a href="#分割等和子集" class="headerlink" title="分割等和子集"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/partition-equal-subset-sum/">分割等和子集</a></h2><p>给定一个只包含正整数的非空数组。是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。</p>
+<p>注意: 每个数组中的元素不会超过 100 数组的大小不会超过 200</p>
+<p>示例 1: 输入: [1, 5, 11, 5] 输出: true 解释: 数组可以分割成 [1, 5, 5] 和 [11].</p>
+<p>示例 2: 输入: [1, 2, 3, 5] 输出: false 解释: 数组不能分割成两个元素和相等的子集.</p>
+<p>提示：</p>
+<ul>
+<li>1 &lt;&#x3D; nums.length &lt;&#x3D; 200</li>
+<li>1 &lt;&#x3D; nums[i] &lt;&#x3D; 100</li>
+</ul>
+<h3 id="思路-7"><a href="#思路-7" class="headerlink" title="思路"></a>思路</h3><p>这道题目初步看，是如下两题几乎是一样的，大家可以用回溯法，解决如下两题</p>
+<ul>
+<li>698.划分为k个相等的子集</li>
+<li>473.火柴拼正方形</li>
+</ul>
+<p>这道题目是要找是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。</p>
+<p>那么只要找到集合里能够出现 sum &#x2F; 2 的子集总和，就算是可以分割成两个相同元素和子集了。</p>
+<p>本题是可以用回溯暴力搜索出所有答案的，但最后超时了，也不想再优化了，放弃回溯，直接上01背包吧。</p>
+<p>背包问题，大家都知道，有N件物品和一个最多能被重量为W 的背包。第i件物品的重量是weight[i]，得到的价值是value[i] 。每件物品只能用一次，求解将哪些物品装入背包里物品价值总和最大。</p>
+<p><strong>背包问题有多种背包方式，常见的有：01背包、完全背包、多重背包、分组背包和混合背包等等。</strong></p>
+<p>要注意题目描述中商品是不是可以重复放入。</p>
+<p><strong>即一个商品如果可以重复多次放入是完全背包，而只能放入一次是01背包，写法还是不一样的。</strong></p>
+<p><strong>要明确本题中我们要使用的是01背包，因为元素我们只能用一次。</strong></p>
+<p>回归主题：首先，本题要求集合里能否出现总和为 sum &#x2F; 2 的子集。</p>
+<p>那么来一一对应一下本题，看看背包问题如果来解决。</p>
+<p><strong>只有确定了如下四点，才能把01背包问题套到本题上来。</strong></p>
+<ul>
+<li>背包的体积为sum &#x2F; 2</li>
+<li>背包要放入的商品（集合里的元素）重量为 元素的数值，价值也为元素的数值</li>
+<li>背包如果正好装满，说明找到了总和为 sum &#x2F; 2 的子集。</li>
+<li>背包中每一个元素是不可重复放入。</li>
+</ul>
+<p>以上分析完，我们就可以套用01背包，来解决这个问题了。</p>
+<p>动规五部曲分析如下：</p>
+<ol>
+<li>确定dp数组以及下标的含义</li>
+</ol>
+<p>01背包中，dp[j] 表示： 容量为j的背包，所背的物品价值可以最大为dp[j]。</p>
+<p>**套到本题，dp[j]表示 背包总容量是j，最大可以凑成j的子集总和为dp[j]**。</p>
+<ol start="2">
+<li>确定递推公式</li>
+</ol>
+<p>01背包的递推公式为：dp[j] &#x3D; max(dp[j], dp[j - weight[i]] + value[i]);</p>
+<p>本题，相当于背包里放入数值，那么物品i的重量是nums[i]，其价值也是nums[i]。</p>
+<p>所以递推公式：dp[j] &#x3D; max(dp[j], dp[j - nums[i]] + nums[i]);</p>
+<ol start="3">
+<li>dp数组如何初始化</li>
+</ol>
+<p>在01背包，一维dp如何初始化，已经讲过，</p>
+<p>从dp[j]的定义来看，首先dp[0]一定是0。</p>
+<p>如果如果题目给的价值都是正整数那么非0下标都初始化为0就可以了，如果题目给的价值有负数，那么非0下标就要初始化为负无穷。</p>
+<p><strong>这样才能让dp数组在递归公式的过程中取的最大的价值，而不是被初始值覆盖了</strong>。</p>
+<p>本题题目中 只包含正整数的非空数组，所以非0下标的元素初始化为0就可以了。</p>
+<p>代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 题目中说：每个数组中的元素不会超过 100，数组的大小不会超过 200</span></span><br><span class="line"><span class="comment">// 总和不会大于20000，背包最大只需要其中一半，所以10001大小就可以了</span></span><br><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">dp</span><span class="params">(<span class="number">10001</span>, <span class="number">0</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<ol start="4">
+<li>确定遍历顺序</li>
+</ol>
+<p>在<a target="_blank" rel="noopener" href="https://programmercarl.com/%E8%83%8C%E5%8C%85%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%8001%E8%83%8C%E5%8C%85-2.html">动态规划：关于01背包问题，你该了解这些！（滚动数组）</a>中就已经说明：如果使用一维dp数组，物品遍历的for循环放在外层，遍历背包的for循环放在内层，且内层for循环倒序遍历！</p>
+<p>代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 开始 01背包</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = target; j &gt;= nums[i]; j--) &#123; <span class="comment">// 每一个元素一定是不可重复放入，所以从大到小遍历</span></span><br><span class="line">        dp[j] = <span class="built_in">max</span>(dp[j], dp[j - nums[i]] + nums[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ol start="5">
+<li>举例推导dp数组</li>
+</ol>
+<p>dp[j]的数值一定是小于等于j的。</p>
+<p><strong>如果dp[j] &#x3D;&#x3D; j 说明，集合中的子集总和正好可以凑成总和j，理解这一点很重要。</strong></p>
+<p>用例1，输入[1,5,11,5] 为例，如图：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210110104240545.png" alt="416.分割等和子集2"></p>
+<p>最后dp[11] &#x3D;&#x3D; 11，说明可以将这个数组分割成两个子集，使得两个子集的元素和相等。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">canPartition</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> sum = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// dp[i]中的i表示背包内总和</span></span><br><span class="line">        <span class="comment">// 题目中说：每个数组中的元素不会超过 100，数组的大小不会超过 200</span></span><br><span class="line">        <span class="comment">// 总和不会大于20000，背包最大只需要其中一半，所以10001大小就可以了</span></span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">dp</span><span class="params">(<span class="number">10001</span>, <span class="number">0</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            sum += nums[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (sum % <span class="number">2</span> == <span class="number">1</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="type">int</span> target = sum / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 开始 01背包</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j = target; j &gt;= nums[i]; j--) &#123; <span class="comment">// 每一个元素一定是不可重复放入，所以从大到小遍历</span></span><br><span class="line">                dp[j] = <span class="built_in">max</span>(dp[j], dp[j - nums[i]] + nums[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 集合中的元素正好可以凑成总和target</span></span><br><span class="line">        <span class="keyword">if</span> (dp[target] == target) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
       
     </div>
