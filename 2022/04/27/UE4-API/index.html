@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="引言在这里记录一些目前遇到的unreal engine中的API 组件与碰撞在官方案例——组件与碰撞中的API CreateDefaultSubject&lt;&gt;()创建默认子网格体&lt;&gt;中是子网格体的类型 USphereComponent* SphereComponent &#x3D; CreateDefaultSubobject&lt;USphereComponent&gt;(TEXT(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE4-API">
+<meta property="og:url" content="http://example.com/2022/04/27/UE4-API/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="引言在这里记录一些目前遇到的unreal engine中的API 组件与碰撞在官方案例——组件与碰撞中的API CreateDefaultSubject&lt;&gt;()创建默认子网格体&lt;&gt;中是子网格体的类型 USphereComponent* SphereComponent &#x3D; CreateDefaultSubobject&lt;USphereComponent&gt;(TEXT(">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-04-27T01:06:23.000Z">
+<meta property="article:modified_time" content="2022-04-27T06:34:34.043Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="API">
+<meta property="article:tag" content="unreal engine">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/04/27/UE4-API/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/04/27/UE4-API/","path":"2022/04/27/UE4-API/","title":"UE4-API"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>UE4-API | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%84%E4%BB%B6%E4%B8%8E%E7%A2%B0%E6%92%9E"><span class="nav-number">2.</span> <span class="nav-text">组件与碰撞</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CreateDefaultSubject-lt-gt"><span class="nav-number">2.1.</span> <span class="nav-text">CreateDefaultSubject&lt;&gt;()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#InitSphereRadius"><span class="nav-number">2.2.</span> <span class="nav-text">InitSphereRadius()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SetCollisionProfileName"><span class="nav-number">2.3.</span> <span class="nav-text">SetCollisionProfileName()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SetupAttachment"><span class="nav-number">2.4.</span> <span class="nav-text">SetupAttachment()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#static-ConstructorHelpers-FObjectFinder-lt-gt"><span class="nav-number">2.5.</span> <span class="nav-text">static ConstructorHelpers::FObjectFinder&lt;&gt;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SetStaticMesh"><span class="nav-number">2.6.</span> <span class="nav-text">SetStaticMesh()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SetRelativeLocation"><span class="nav-number">2.7.</span> <span class="nav-text">SetRelativeLocation()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SetWorldScale3D"><span class="nav-number">2.8.</span> <span class="nav-text">SetWorldScale3D()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bAutoActivate"><span class="nav-number">2.9.</span> <span class="nav-text">bAutoActivate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SetTemplate"><span class="nav-number">2.10.</span> <span class="nav-text">SetTemplate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TargetArmLength"><span class="nav-number">2.11.</span> <span class="nav-text">TargetArmLength</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bEnableCameraLag"><span class="nav-number">2.12.</span> <span class="nav-text">bEnableCameraLag</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CameraLagSpeed"><span class="nav-number">2.13.</span> <span class="nav-text">CameraLagSpeed</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SocketName"><span class="nav-number">2.14.</span> <span class="nav-text">SocketName</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AutoPossessPlayer"><span class="nav-number">2.15.</span> <span class="nav-text">AutoPossessPlayer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UpdatedComonent"><span class="nav-number">2.16.</span> <span class="nav-text">UpdatedComonent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BindAxtion"><span class="nav-number">2.17.</span> <span class="nav-text">BindAxtion()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BindAxis"><span class="nav-number">2.18.</span> <span class="nav-text">BindAxis()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AddInputVector"><span class="nav-number">2.19.</span> <span class="nav-text">AddInputVector()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GetActorForwardVector"><span class="nav-number">2.20.</span> <span class="nav-text">GetActorForwardVector()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GetActorRightVector"><span class="nav-number">2.21.</span> <span class="nav-text">GetActorRightVector()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GetActorRotation"><span class="nav-number">2.22.</span> <span class="nav-text">GetActorRotation()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SetActorRotation"><span class="nav-number">2.23.</span> <span class="nav-text">SetActorRotation();</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ToggleActive"><span class="nav-number">2.24.</span> <span class="nav-text">ToggleActive()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ConsumeInputVector-1-0f"><span class="nav-number">2.25.</span> <span class="nav-text">ConsumeInputVector(1.0f)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SafeMoveUpdatedComponent"><span class="nav-number">2.26.</span> <span class="nav-text">SafeMoveUpdatedComponent()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SlideAlongSurface"><span class="nav-number">2.27.</span> <span class="nav-text">SlideAlongSurface()</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/27/UE4-API/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="UE4-API | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UE4-API
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-04-27 09:06:23 / 修改时间：14:34:34" itemprop="dateCreated datePublished" datetime="2022-04-27T09:06:23+08:00">2022-04-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>在这里记录一些目前遇到的unreal engine中的API</p>
+<h1 id="组件与碰撞"><a href="#组件与碰撞" class="headerlink" title="组件与碰撞"></a>组件与碰撞</h1><p>在官方案例——<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.27/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/Components/">组件与碰撞</a>中的API</p>
+<h2 id="CreateDefaultSubject-lt-gt"><a href="#CreateDefaultSubject-lt-gt" class="headerlink" title="CreateDefaultSubject&lt;&gt;()"></a>CreateDefaultSubject&lt;&gt;()</h2><p>创建默认子网格体&lt;&gt;中是子网格体的类型</p>
+<p><code>USphereComponent* SphereComponent = CreateDefaultSubobject&lt;USphereComponent&gt;(TEXT(&quot;RootComponent&quot;))</code></p>
+<h2 id="InitSphereRadius"><a href="#InitSphereRadius" class="headerlink" title="InitSphereRadius()"></a>InitSphereRadius()</h2><p>初始化球体半径</p>
+<p><code>SphereComponent-&gt;InitSphereRadius(40.0f);</code></p>
+<h2 id="SetCollisionProfileName"><a href="#SetCollisionProfileName" class="headerlink" title="SetCollisionProfileName()"></a>SetCollisionProfileName()</h2><p>设置碰撞预设名称</p>
+<p><code>SphereComponent-&gt;SetCollisionProfileName(TEXT(&quot;Pawn&quot;));</code></p>
+<h2 id="SetupAttachment"><a href="#SetupAttachment" class="headerlink" title="SetupAttachment()"></a>SetupAttachment()</h2><p>将某组件添加到括号内的组件上</p>
+<p><code>SphereVisual-&gt;SetupAttachment(RootComponent);</code></p>
+<h2 id="static-ConstructorHelpers-FObjectFinder-lt-gt"><a href="#static-ConstructorHelpers-FObjectFinder-lt-gt" class="headerlink" title="static ConstructorHelpers::FObjectFinder&lt;&gt;"></a>static ConstructorHelpers::FObjectFinder&lt;&gt;</h2><p>直接在代码中设置静态网格体资源</p>
+<p><code>static ConstructorHelpers::FObjectFinder&lt;UStaticMesh&gt; SphereVisualAsset(TEXT(&quot;/Game/StarterContent/Shapes/Shape_Sphere.Shape_Sphere&quot;));</code></p>
+<h2 id="SetStaticMesh"><a href="#SetStaticMesh" class="headerlink" title="SetStaticMesh()"></a>SetStaticMesh()</h2><p>将找到的网格体附加到括号内的组件上</p>
+<p>SphereVisual-&gt;SetStaticMesh(SphereVisualAsset.Object);</p>
+<h2 id="SetRelativeLocation"><a href="#SetRelativeLocation" class="headerlink" title="SetRelativeLocation()"></a>SetRelativeLocation()</h2><p>设置相对位置</p>
+<p><code>SphereVisual-&gt;SetRelativeLocation(FVector(0.0f, 0.0f, -40.0f));</code></p>
+<h2 id="SetWorldScale3D"><a href="#SetWorldScale3D" class="headerlink" title="SetWorldScale3D()"></a>SetWorldScale3D()</h2><p>设置缩放大小</p>
+<p><code>SphereVisual-&gt;SetWorldScale3D(FVector(0.8f));</code></p>
+<h2 id="bAutoActivate"><a href="#bAutoActivate" class="headerlink" title="bAutoActivate"></a>bAutoActivate</h2><p>粒子效果开关</p>
+<p><code>OurParticleSystem-&gt;bAutoActivate = false;</code></p>
+<h2 id="SetTemplate"><a href="#SetTemplate" class="headerlink" title="SetTemplate"></a>SetTemplate</h2><p>给粒子系统设定模板</p>
+<p><code>OurParticleSystem-&gt;SetTemplate(ParticleAsset.Object);</code></p>
+<h2 id="TargetArmLength"><a href="#TargetArmLength" class="headerlink" title="TargetArmLength"></a>TargetArmLength</h2><p>弹簧臂长度</p>
+<p><code>SpringArm-&gt;TargetArmLength = 400.0f;</code></p>
+<h2 id="bEnableCameraLag"><a href="#bEnableCameraLag" class="headerlink" title="bEnableCameraLag"></a>bEnableCameraLag</h2><p>弹簧臂平滑效果开关</p>
+<p><code>SpringArm-&gt;bEnableCameraLag = true;</code></p>
+<h2 id="CameraLagSpeed"><a href="#CameraLagSpeed" class="headerlink" title="CameraLagSpeed"></a>CameraLagSpeed</h2><p>平滑效果切换速度</p>
+<p><code>SpringArm-&gt;CameraLagSpeed = 3.0f;</code></p>
+<h2 id="SocketName"><a href="#SocketName" class="headerlink" title="SocketName"></a>SocketName</h2><p>弹簧臂插槽</p>
+<p><code>Camera-&gt;SetupAttachment(SpringArm, USpringArmComponent::SocketName);</code></p>
+<h2 id="AutoPossessPlayer"><a href="#AutoPossessPlayer" class="headerlink" title="AutoPossessPlayer"></a>AutoPossessPlayer</h2><p>默认控制玩家</p>
+<p><code>AutoPossessPlayer = EAutoReceiveInput::Player0;</code></p>
+<h2 id="UpdatedComonent"><a href="#UpdatedComonent" class="headerlink" title="UpdatedComonent"></a>UpdatedComonent</h2><p>更新某组件</p>
+<p><code>OurMovementComponent-&gt;UpdatedComponent = RootComponent;</code></p>
+<h2 id="BindAxtion"><a href="#BindAxtion" class="headerlink" title="BindAxtion()"></a>BindAxtion()</h2><p>绑定输入映射</p>
+<p><code>InInputComponent-&gt;BindAction(&quot;ParticleToggle&quot;, IE_Pressed, this, &amp;ACollidingPawn::ParticleToggle);</code></p>
+<ul>
+<li><p>参数一：为 虚幻4-&gt;设置 -&gt;输入-&gt;按键绑定的名称</p>
+</li>
+<li><p>参数二：事件名称 IE_Pressed 按下 IE_Released松开 IE_DoubleClick双击</p>
+</li>
+<li><p>参数三：当前对象——this</p>
+</li>
+<li><p>参数四：事件方法的函数指针 例 &amp;类名::方法名的写法</p>
+</li>
+</ul>
+<h2 id="BindAxis"><a href="#BindAxis" class="headerlink" title="BindAxis()"></a>BindAxis()</h2><p>绑定轴映射</p>
+<p><code>InInputComponent-&gt;BindAxis(&quot;MoveForward&quot;, this, &amp;ACollidingPawn::MoveForward);</code></p>
+<ul>
+<li><p>参数一：为 虚幻4-&gt;设置 -&gt;输入-&gt;按键绑定的名称 一定要一样 重要！！！ </p>
+</li>
+<li><p>参数二 ：当前对象——this</p>
+</li>
+<li><p>参数三 事件方法的函数指针 例 &amp;类名::方法名 的写法</p>
+</li>
+</ul>
+<h2 id="AddInputVector"><a href="#AddInputVector" class="headerlink" title="AddInputVector()"></a>AddInputVector()</h2><p>根据输入更改Vector位置</p>
+<p><code>OurMovementComponent-&gt;AddInputVector(GetActorForwardVector() * AxisValue);</code></p>
+<h2 id="GetActorForwardVector"><a href="#GetActorForwardVector" class="headerlink" title="GetActorForwardVector()"></a>GetActorForwardVector()</h2><p>更新Actor向前运动的vector</p>
+<p><code>OurMovementComponent-&gt;AddInputVector(GetActorForwardVector() * AxisValue);</code></p>
+<h2 id="GetActorRightVector"><a href="#GetActorRightVector" class="headerlink" title="GetActorRightVector()"></a>GetActorRightVector()</h2><p>更新Actor向右运动的vector</p>
+<p><code>OurMovementComponent-&gt;AddInputVector(GetActorRightVector() * AxisValue);</code></p>
+<h2 id="GetActorRotation"><a href="#GetActorRotation" class="headerlink" title="GetActorRotation()"></a>GetActorRotation()</h2><p>获取Actor的旋转角度</p>
+<p><code>FRotator NewRotation = GetActorRotation();</code></p>
+<h2 id="SetActorRotation"><a href="#SetActorRotation" class="headerlink" title="SetActorRotation();"></a>SetActorRotation();</h2><p>设置Actor的新角度</p>
+<p><code>SetActorRotation(NewRotation);</code></p>
+<h2 id="ToggleActive"><a href="#ToggleActive" class="headerlink" title="ToggleActive()"></a>ToggleActive()</h2><p>转换粒子效果状态（开关）</p>
+<p><code>OurParticleSystem-&gt;ToggleActive();</code></p>
+<p>GetClampedToMaxSize()</p>
+<p>用于更新vector的位置</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FVector <span class="title">FVector::GetClampedToMaxSize</span><span class="params">(<span class="type">float</span> MaxSize)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>用于创建一个新的vector，方向与原本的方向一直，距离为MaxSize</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FVector <span class="title">FVector::GetClampedToSize</span><span class="params">(<span class="type">float</span> Min,<span class="type">float</span> Max)</span> </span></span><br></pre></td></tr></table></figure>
+
+<p>创建一个新的Vector，方向与原方向一致</p>
+<p>距离为</p>
+<ol>
+<li><p>若距离&lt;Min，则新的vector距离为Min</p>
+</li>
+<li><p>若距离&gt;Max，则新的vector距离为Max</p>
+</li>
+<li><p>若距离在Min和Max之间，则新的vector等于原本的vector</p>
+</li>
+</ol>
+<h2 id="ConsumeInputVector-1-0f"><a href="#ConsumeInputVector-1-0f" class="headerlink" title="ConsumeInputVector(1.0f)"></a>ConsumeInputVector(1.0f)</h2><p>报告并清空用于存储移动输入的内置变量值。</p>
+<h2 id="SafeMoveUpdatedComponent"><a href="#SafeMoveUpdatedComponent" class="headerlink" title="SafeMoveUpdatedComponent()"></a>SafeMoveUpdatedComponent()</h2><p><code>SafeMoveUpdatedComponent(const FVector&amp; Delta, const FRotator&amp; NewRotation, bool bSweep, FHitResult&amp; OutHit, ETeleportType Teleport)</code></p>
+<p><code>SafeMoveUpdatedComponent(DesiredMovementThisFrame, UpdatedComponent-&gt;GetComponentRotation(), true, Hit);</code></p>
+<p>利用虚幻引擎物理移动Pawn移动组件，同时考虑固体障碍。</p>
+<ul>
+<li><p>第一个参数：要移动的Vector</p>
+</li>
+<li><p>第二个参数：旋转参数</p>
+</li>
+<li><p>第三个参数：是否考虑物理障碍（如果为true，将在移动过程中扫描以阻止碰撞。如果为false，它将简单地传送到下一个位置并忽略碰撞。）</p>
+</li>
+<li><p>第四个参数：碰撞结果</p>
+</li>
+<li><p>第五个参数：可省略，远距离传送类型</p>
+</li>
+</ul>
+<h2 id="SlideAlongSurface"><a href="#SlideAlongSurface" class="headerlink" title="SlideAlongSurface()"></a>SlideAlongSurface()</h2><p><code>SlideAlongSurface(const FVector&amp; Delta, float Time, const FQuat Rotation, const FVector&amp; Normal, FHitResult&amp; Hit, bool bHandleImpact)</code></p>
+<ul>
+<li><p>第一个参数：要移动的vector</p>
+</li>
+<li><p>第二个参数：运动时间</p>
+</li>
+<li><p>第三个参数：旋转情况（可省略）</p>
+</li>
+<li><p>第四个参数：vector类型？（这个不太确定）</p>
+</li>
+<li><p>第五个参数：碰撞结果（必须为bBlockingHit）</p>
+</li>
+<li><p>第六个参数：手柄反馈？（这个扎找不到源文件）</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C++</a>
+              <a href="/tags/API/" rel="tag"># API</a>
+              <a href="/tags/unreal-engine/" rel="tag"># unreal engine</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/04/25/UE4-HowTo-Components/" rel="prev" title="UE4-HowTo_Components">
+                  <i class="fa fa-chevron-left"></i> UE4-HowTo_Components
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
