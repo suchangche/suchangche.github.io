@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="案例是来自官方文档的第一人称射击游戏教程，详细实施步骤可以看我之前的博客，或者直接取官网查看，此处仅仅讲解实现项目的代码 添加日志消息FPSProjectGameMode.h1234567891011121314151617#pragma once#include &quot;CoreMinimal.h&quot;#include &quot;GameFramework&#x2F;GameModeBase.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE4-第一人称FPS-代码讲解">
+<meta property="og:url" content="http://example.com/2022/04/29/UE4-%E7%AC%AC%E4%B8%80%E4%BA%BA%E7%A7%B0FPS-%E4%BB%A3%E7%A0%81%E8%AE%B2%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="案例是来自官方文档的第一人称射击游戏教程，详细实施步骤可以看我之前的博客，或者直接取官网查看，此处仅仅讲解实现项目的代码 添加日志消息FPSProjectGameMode.h1234567891011121314151617#pragma once#include &quot;CoreMinimal.h&quot;#include &quot;GameFramework&#x2F;GameModeBase.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-04-29T06:38:10.000Z">
+<meta property="article:modified_time" content="2022-04-29T07:55:52.531Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/04/29/UE4-%E7%AC%AC%E4%B8%80%E4%BA%BA%E7%A7%B0FPS-%E4%BB%A3%E7%A0%81%E8%AE%B2%E8%A7%A3/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/04/29/UE4-%E7%AC%AC%E4%B8%80%E4%BA%BA%E7%A7%B0FPS-%E4%BB%A3%E7%A0%81%E8%AE%B2%E8%A7%A3/","path":"2022/04/29/UE4-第一人称FPS-代码讲解/","title":"UE4-第一人称FPS-代码讲解"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>UE4-第一人称FPS-代码讲解 | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E6%97%A5%E5%BF%97%E6%B6%88%E6%81%AF"><span class="nav-number">1.</span> <span class="nav-text">添加日志消息</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#FPSProjectGameMode-h"><span class="nav-number">1.1.</span> <span class="nav-text">FPSProjectGameMode.h</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FPSProjectGameModeBase-cpp"><span class="nav-number">1.2.</span> <span class="nav-text">FPSProjectGameModeBase.cpp</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#check"><span class="nav-number">1.2.1.</span> <span class="nav-text">check()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GEngine"><span class="nav-number">1.2.2.</span> <span class="nav-text">GEngine</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AddOnScreenDebugMessage"><span class="nav-number">1.3.</span> <span class="nav-text">AddOnScreenDebugMessage()</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E8%A7%92%E8%89%B2%E7%A7%BB%E5%8A%A8"><span class="nav-number">2.</span> <span class="nav-text">实现角色移动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#FPSCharacter-h"><span class="nav-number">2.1.</span> <span class="nav-text">FPSCharacter.h</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FPSCharacter-cpp"><span class="nav-number">2.2.</span> <span class="nav-text">FPSCharacter.cpp</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/29/UE4-%E7%AC%AC%E4%B8%80%E4%BA%BA%E7%A7%B0FPS-%E4%BB%A3%E7%A0%81%E8%AE%B2%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="UE4-第一人称FPS-代码讲解 | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UE4-第一人称FPS-代码讲解
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-04-29 14:38:10 / 修改时间：15:55:52" itemprop="dateCreated datePublished" datetime="2022-04-29T14:38:10+08:00">2022-04-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>案例是来自官方文档的<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.27/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/FirstPersonShooter/1/">第一人称射击游戏教程</a>，详细实施步骤可以看我之前的博客，或者直接取官网查看，此处仅仅讲解实现项目的代码</p>
+<h1 id="添加日志消息"><a href="#添加日志消息" class="headerlink" title="添加日志消息"></a>添加日志消息</h1><h2 id="FPSProjectGameMode-h"><a href="#FPSProjectGameMode-h" class="headerlink" title="FPSProjectGameMode.h"></a>FPSProjectGameMode.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/GameModeBase.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;FPSProjectGameModeBase.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FPSPROJECT_API</span> AFPSProjectGameModeBase : <span class="keyword">public</span> AGameModeBase</span><br><span class="line">&#123;</span><br><span class="line"><span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">//用于重载StartPlay()函数</span></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">StartPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这一段没啥好说的，唯一修改的地方就是在此声明StartPlay()函数，使我们可以将其重载</p>
+<h2 id="FPSProjectGameModeBase-cpp"><a href="#FPSProjectGameModeBase-cpp" class="headerlink" title="FPSProjectGameModeBase.cpp"></a>FPSProjectGameModeBase.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Epic Games, Inc版权所有。保留所有权利。</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;FPSProjectGameMode.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSProjectGameModeBase::StartPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">Super::<span class="built_in">StartPlay</span>();</span><br><span class="line"></span><br><span class="line"><span class="built_in">check</span>(GEngine != <span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 显示调试消息五秒。 </span></span><br><span class="line"><span class="comment">// -1&quot;键&quot;值参数防止该消息被更新或刷新。</span></span><br><span class="line">GEngine-&gt;<span class="built_in">AddOnScreenDebugMessage</span>(<span class="number">-1</span>, <span class="number">5.0f</span>, FColor::Yellow, <span class="built_in">TEXT</span>(<span class="string">&quot;Hello World, this is FPSGameModeBase!&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="check"><a href="#check" class="headerlink" title="check()"></a><a target="_blank" rel="noopener" href="https://docs.unrealengine.com/5.0/zh-CN/asserts-in-unreal-engine/">check()</a></h3><p>check()为断言</p>
+<p>在C和C++编程中，<code>assert</code> 可在开发期间帮助检测和诊断不正常或无效的运行时条件。</p>
+<p>这些条件通常检查是否指针为非空、除数为非零、函数并非递归运行，或代码要求的其他重要假设。但每次检查会使得效率十分低下。某些情况下，<code>assert</code> 会在延迟崩溃发生之前发现导致该崩溃的bug，例如删除未来tick所需的对象，协助开发人员发现引起崩溃的根本原因。</p>
+<p><code>assert</code> 的关键特性之一是不存在于发布代码中，这意味着不但不会影响发布产品的性能，也没有任何副作用。对 <code>assert</code> 最简单的理解就是：**”断言”必须一律为true，否则程序会停止运行**。</p>
+<p>虚幻引擎4（UE4）提供 <code>assert</code> 等同项的三个不同族系：<code>check</code>、<code>verify</code> 和 <code>ensure</code>。各个功能的行为略有不同，但它们都是开发期间使用的诊断工具，目标大致相同。</p>
+<p>Check族系最接近基础 <code>assert</code>，因为当第一个参数得出的值为false时，此族系的成员会停止执行，且默认不会在发布版本中运行。以下Check宏可用：</p>
+<table>
+<thead>
+<tr>
+<th>宏</th>
+<th>参数</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>check</code> 或 <code>checkSlow</code></td>
+<td><code>Expression</code></td>
+<td>若 <code>Expression</code> 为false，停止执行</td>
+</tr>
+<tr>
+<td><code>checkf</code> 或 <code>checkfSlow</code></td>
+<td><code>Expression</code>、<code>FormattedText</code>、<code>...</code></td>
+<td>若 <code>Expression</code> 为false，则停止执行并将 <code>FormattedText</code> 输出到日志</td>
+</tr>
+<tr>
+<td><code>checkCode</code></td>
+<td><code>Code</code></td>
+<td>在运行一次的do-while循环结构中执行 <code>Code</code>；主要用于准备另一个Check所需的信息</td>
+</tr>
+<tr>
+<td><code>checkNoEntry</code></td>
+<td>（无）</td>
+<td>若此行被hit，则停止执行，类似于 <code>check(false)</code>，但主要用于应不可到达的代码路径</td>
+</tr>
+<tr>
+<td><code>checkNoReentry</code></td>
+<td>（无）</td>
+<td>若此行被hit超过一次，则停止执行</td>
+</tr>
+<tr>
+<td><code>checkNoRecursion</code></td>
+<td>（无）</td>
+<td>若此行被hit超过一次而未离开作用域，则停止执行</td>
+</tr>
+<tr>
+<td><code>unimplemented</code></td>
+<td>（无）</td>
+<td>若此行被hit，则停止执行，类似于 <code>check(false)</code>，但主要用于应被覆盖而不会被调用的虚拟函数</td>
+</tr>
+</tbody></table>
+<h3 id="GEngine"><a href="#GEngine" class="headerlink" title="GEngine"></a>GEngine</h3><p>看作一个全局指针，并且是只读的。</p>
+<p>其经常使用为拿到当前的World: </p>
+<ul>
+<li><p>使用的成员方法为:GetWorldFromContextObject</p>
+</li>
+<li><p>参数为World的一个Uobject</p>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!GEngine || !GEngine-&gt;<span class="built_in">UseSound</span>())</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">UWorld* ThisWorld = GEngine-&gt;<span class="built_in">GetWorldFromContextObject</span>(WorldContextObject, EGetWorldErrorMode::L</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="AddOnScreenDebugMessage"><a href="#AddOnScreenDebugMessage" class="headerlink" title="AddOnScreenDebugMessage()"></a>AddOnScreenDebugMessage()</h2><p>在屏幕上打印试错信息</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GEngine-&gt;<span class="built_in">AddOnScreenDebugMessage</span>(<span class="number">-1</span>, <span class="number">5.0f</span>, FColor::Yellow, <span class="built_in">TEXT</span>(<span class="string">&quot;Hello World, this is FPSGameMode!&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<p><code>AddOnScreenDebugMessage(uint64 Key, float TimeToDisplay, FColor DisplayColor, const FString&amp; DebugMessage, bool bNewerOnTop, const FVector2D&amp; TextScale)</code></p>
+<ul>
+<li><p>第一个参数默认为-1</p>
+</li>
+<li><p>第二个参数是debug显示时间</p>
+</li>
+<li><p>第三个参数是显示颜色</p>
+</li>
+<li><p>第四个参数是显示信息</p>
+</li>
+<li><p>第五个参数是是否在上面显示更新的消息（可不填）</p>
+</li>
+<li><p>第六个是显示字体大小（可不填）</p>
+</li>
+</ul>
+<h1 id="实现角色移动"><a href="#实现角色移动" class="headerlink" title="实现角色移动"></a>实现角色移动</h1><h2 id="FPSCharacter-h"><a href="#FPSCharacter-h" class="headerlink" title="FPSCharacter.h"></a>FPSCharacter.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/Character.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;FPSCharacter.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FPSPROJECT_API</span> AFPSCharacter : <span class="keyword">public</span> ACharacter</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 为此角色的属性设置默认值</span></span><br><span class="line">    <span class="built_in">AFPSCharacter</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="comment">// 当游戏开始或重生（Spawn）时被调用</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 每一帧都被调用</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">( <span class="type">float</span> DeltaTime )</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 被调用，将功能与输入绑定</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">SetupPlayerInputComponent</span><span class="params">(<span class="keyword">class</span> UInputComponent* PlayerInputComponent)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 处理用于前后移动的输入。</span></span><br><span class="line">    <span class="built_in">UFUNCTION</span>()</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">MoveForward</span><span class="params">(<span class="type">float</span> Value)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 处理用于左右移动的输入。</span></span><br><span class="line">    <span class="built_in">UFUNCTION</span>()</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">MoveRight</span><span class="params">(<span class="type">float</span> Value)</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>声明前进和左右移动的函数，参数为Value，来自于在编辑界面中绑定的那个值</p>
+<h2 id="FPSCharacter-cpp"><a href="#FPSCharacter-cpp" class="headerlink" title="FPSCharacter.cpp"></a>FPSCharacter.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;FPSCharacter.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置默认值</span></span><br><span class="line">AFPSCharacter::<span class="built_in">AFPSCharacter</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 将此角色设置为每帧调用Tick()。  如果不需要此特性，可以关闭以提升性能。</span></span><br><span class="line">    PrimaryActorTick.bCanEverTick = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当游戏开始或重生（Spawn）时被调用</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">    <span class="built_in">check</span>(GEngine != <span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 显示调试消息五秒。 </span></span><br><span class="line">    <span class="comment">// -1&quot;键&quot;值参数可以防止更新或刷新消息。</span></span><br><span class="line">      GEngine-&gt;<span class="built_in">AddOnScreenDebugMessage</span>(<span class="number">-1</span>, <span class="number">5.0f</span>, FColor::Red, <span class="built_in">TEXT</span>(<span class="string">&quot;We are using FPSCharacter.&quot;</span>));</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 每一帧都被调用</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::Tick</span><span class="params">( <span class="type">float</span> DeltaTime )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">Tick</span>( DeltaTime );</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 被调用，将功能与输入绑定</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::SetupPlayerInputComponent</span><span class="params">(UInputComponent* PlayerInputComponent)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">SetupPlayerInputComponent</span>(PlayerInputComponent);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置&quot;移动&quot;绑定。</span></span><br><span class="line">    PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveForward&quot;</span>, <span class="keyword">this</span>, &amp;AFPSCharacter::MoveForward);</span><br><span class="line">    PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveRight&quot;</span>, <span class="keyword">this</span>, &amp;AFPSCharacter::MoveRight);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::MoveForward</span><span class="params">(<span class="type">float</span> Value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 找出&quot;前进&quot;方向，并记录玩家想向该方向移动。</span></span><br><span class="line">    FVector Direction = <span class="built_in">FRotationMatrix</span>(Controller-&gt;<span class="built_in">GetControlRotation</span>()).<span class="built_in">GetScaledAxis</span>(EAxis::X);</span><br><span class="line">    <span class="built_in">AddMovementInput</span>(Direction, Value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::MoveRight</span><span class="params">(<span class="type">float</span> Value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 找出&quot;右侧&quot;方向，并记录玩家想向该方向移动。</span></span><br><span class="line">    FVector Direction = <span class="built_in">FRotationMatrix</span>(Controller-&gt;<span class="built_in">GetControlRotation</span>()).<span class="built_in">GetScaledAxis</span>(EAxis::Y);</span><br><span class="line">    <span class="built_in">AddMovementInput</span>(Direction, Value);</span><br><span class="line">&#125;<span class="built_in">mponent</span>(PlayerInputComponent);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>我们看移动函数，功能和输入绑定那块我们一会儿回过头来再看！</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::MoveForward</span><span class="params">(<span class="type">float</span> Value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 找出&quot;前进&quot;方向，并记录玩家想向该方向移动。</span></span><br><span class="line">    FVector Direction = <span class="built_in">FRotationMatrix</span>(Controller-&gt;<span class="built_in">GetControlRotation</span>()).<span class="built_in">GetScaledAxis</span>(EAxis::X);</span><br><span class="line">    <span class="built_in">AddMovementInput</span>(Direction, Value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>本函数首先通过<code>GetScaledAxis(EAxis::X)</code>获取方向，比如此处是沿X轴（在编辑器中X轴代表前方，Y轴代表右方）</p>
+<p>再通过<code>Controller-&gt;GetControlRotation()</code>获取管理员的旋转方位作为<code>FRotationMatrix()</code>的值并记录在变量Direction中</p>
+<p>最后<code>AddMovementInput(Direction, Value)</code>函数实现向前移动</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 被调用，将功能与输入绑定</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::SetupPlayerInputComponent</span><span class="params">(UInputComponent* PlayerInputComponent)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">SetupPlayerInputComponent</span>(PlayerInputComponent);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置&quot;移动&quot;绑定。</span></span><br><span class="line">    PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveForward&quot;</span>, <span class="keyword">this</span>, &amp;AFPSCharacter::MoveForward);</span><br><span class="line">    PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveRight&quot;</span>, <span class="keyword">this</span>, &amp;AFPSCharacter::MoveRight);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>再回过头来看绑定操作</p>
+<p>很眼熟是不是？和我之前那篇博客里面实现小球的移动的绑定方式一模一样</p>
+<p>在这里简述一下</p>
+<p><code>BindAxis</code>绑定轴映射，与编辑-&gt;项目设置-&gt;输入-&gt;轴映射里面的命名必须一致</p>
+<p>第一个参数为事件，此事件作用于第二个参数所指定的指针，由第三个参数（一个函数）来实现这个事件！</p>
+<p>未完待续…</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C++</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/04/29/UE4-%E7%AC%AC%E4%B8%80%E4%BA%BA%E7%A7%B0FPS-%E5%AE%9E%E7%8E%B0%E8%A7%92%E8%89%B2/" rel="prev" title="UE4-第一人称FPS-实现角色">
+                  <i class="fa fa-chevron-left"></i> UE4-第一人称FPS-实现角色
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
