@@ -21,28 +21,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="哪个正经人在网上写日记？         自上次念叨完之后，自己的状态确实好了一些，虽然有限，但是至少对我来说，偶尔自我满足的倾诉欲，对我的状态调整是有利的。所以我决定不再做正经人。         这几天食欲的问题得到了明显的改善。也和一些朋友交流了一阵，发现自己其实一直生活在焦虑中，学习和休息这两者之间并没有达到一个良好的平衡。         之前的状态是：每天都要学习，一旦">
+    <meta name="description" content="这一节是根据谌嘉诚的蓝图教程进行整理的！ 在前面我们制作了自动门，按键开门这两种门，其实还有升降电梯等案例，但是其实与开门的蓝图类差不太多，顶多就是修改一下更新的不是按轴旋转，而是直接更改相对位置了。 接下来的是拾取钥匙开门，这涉及到了蓝图Actor之间的通信 门蓝图主体蓝图部分和开门没有区别，唯一需要修改的地方是  创建一个bool类型变量，命名为IsKey，默认设置为false  沿着IsKe">
 <meta property="og:type" content="article">
-<meta property="og:title" content="取悦自己">
-<meta property="og:url" content="http://example.com/2022/04/08/%E5%8F%96%E6%82%A6%E8%87%AA%E5%B7%B1/index.html">
+<meta property="og:title" content="UE4-蓝图-钥匙开门">
+<meta property="og:url" content="http://example.com/2022/05/06/UE4-%E8%93%9D%E5%9B%BE-%E9%92%A5%E5%8C%99%E5%BC%80%E9%97%A8/index.html">
 <meta property="og:site_name" content="Williny&#39;home">
-<meta property="og:description" content="哪个正经人在网上写日记？         自上次念叨完之后，自己的状态确实好了一些，虽然有限，但是至少对我来说，偶尔自我满足的倾诉欲，对我的状态调整是有利的。所以我决定不再做正经人。         这几天食欲的问题得到了明显的改善。也和一些朋友交流了一阵，发现自己其实一直生活在焦虑中，学习和休息这两者之间并没有达到一个良好的平衡。         之前的状态是：每天都要学习，一旦">
+<meta property="og:description" content="这一节是根据谌嘉诚的蓝图教程进行整理的！ 在前面我们制作了自动门，按键开门这两种门，其实还有升降电梯等案例，但是其实与开门的蓝图类差不太多，顶多就是修改一下更新的不是按轴旋转，而是直接更改相对位置了。 接下来的是拾取钥匙开门，这涉及到了蓝图Actor之间的通信 门蓝图主体蓝图部分和开门没有区别，唯一需要修改的地方是  创建一个bool类型变量，命名为IsKey，默认设置为false  沿着IsKe">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-04-08T05:35:40.000Z">
-<meta property="article:modified_time" content="2022-04-08T06:10:13.940Z">
+<meta property="article:published_time" content="2022-05-06T06:20:27.000Z">
+<meta property="article:modified_time" content="2022-05-06T07:06:21.625Z">
 <meta property="article:author" content="williny">
-<meta property="article:tag" content="嬉荒杂录">
+<meta property="article:tag" content="蓝图">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://example.com/2022/04/08/%E5%8F%96%E6%82%A6%E8%87%AA%E5%B7%B1/">
+<link rel="canonical" href="http://example.com/2022/05/06/UE4-%E8%93%9D%E5%9B%BE-%E9%92%A5%E5%8C%99%E5%BC%80%E9%97%A8/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/04/08/%E5%8F%96%E6%82%A6%E8%87%AA%E5%B7%B1/","path":"2022/04/08/取悦自己/","title":"取悦自己"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/05/06/UE4-%E8%93%9D%E5%9B%BE-%E9%92%A5%E5%8C%99%E5%BC%80%E9%97%A8/","path":"2022/05/06/UE4-蓝图-钥匙开门/","title":"UE4-蓝图-钥匙开门"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>取悦自己 | Williny'home</title>
+<title>UE4-蓝图-钥匙开门 | Williny'home</title>
   
 
 
@@ -135,7 +135,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -148,6 +148,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%97%A8%E8%93%9D%E5%9B%BE"><span class="nav-number">1.</span> <span class="nav-text">门蓝图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%92%A5%E5%8C%99%E8%93%9D%E5%9B%BE"><span class="nav-number">2.</span> <span class="nav-text">钥匙蓝图</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -221,7 +222,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/08/%E5%8F%96%E6%82%A6%E8%87%AA%E5%B7%B1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/06/UE4-%E8%93%9D%E5%9B%BE-%E9%92%A5%E5%8C%99%E5%BC%80%E9%97%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -234,12 +235,12 @@
     </span>
     
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="取悦自己 | Williny'home">
+      <meta itemprop="name" content="UE4-蓝图-钥匙开门 | Williny'home">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          取悦自己
+          UE4-蓝图-钥匙开门
         </h1>
 
         <div class="post-meta-container">
@@ -251,7 +252,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2022-04-08 13:35:40 / 修改时间：14:10:13" itemprop="dateCreated datePublished" datetime="2022-04-08T13:35:40+08:00">2022-04-08</time>
+      <time title="创建时间：2022-05-06 14:20:27 / 修改时间：15:06:21" itemprop="dateCreated datePublished" datetime="2022-05-06T14:20:27+08:00">2022-05-06</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -259,7 +260,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%A2%A6%E6%B8%B8%E7%AC%94%E8%B0%88/" itemprop="url" rel="index"><span itemprop="name">梦游笔谈</span></a>
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
         </span>
     </span>
 
@@ -273,51 +274,37 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>        哪个正经人在网上写日记？</p>
-<p>        自上次念叨完之后，自己的状态确实好了一些，虽然有限，但是至少对我来说，偶尔自我满足的倾诉欲，对我的状态调整是有利的。所以我决定不再做正经人。</p>
-<p>        这几天食欲的问题得到了明显的改善。也和一些朋友交流了一阵，发现自己其实一直生活在焦虑中，学习和休息这两者之间并没有达到一个良好的平衡。</p>
-<p>        之前的状态是：每天都要学习，一旦停下来就会开始愧疚，所以就会不间断地进行学习，但是我明显忽略了一个问题——我一直以来都没有获得真正的休息。短期内可能并不会有什么问题，但是这样的状态我已经持续了一年有余了。一直生活在愧疚和疲惫当中。到了现在，问题已经不得不重视了。</p>
-<p>        加上现在的时间比较多——我拒绝了绝大部分的无效社交。基本上一直是独处的状态。</p>
-<p>        也许我可以用这些时间来做些什么。</p>
-<p>        梳理一下日程安排：</p>
-<table>
-<thead>
-<tr>
-<th>上午9：00-11：30</th>
-<th>算法</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>中午11：30-13：30</td>
-<td>午饭+休息</td>
-</tr>
-<tr>
-<td>下午13：30-17：00</td>
-<td>unreal engine</td>
-</tr>
-<tr>
-<td>下午17：00-18：30</td>
-<td>晚饭+休息</td>
-</tr>
-<tr>
-<td>晚上18：30-19：30</td>
-<td>算法</td>
-</tr>
-<tr>
-<td>晚上19：30-20：30</td>
-<td>keep</td>
-</tr>
-<tr>
-<td>晚上20：30-23：30</td>
-<td>洗漱+休息</td>
-</tr>
-</tbody></table>
-<p>        大概就是这样吧，每周六休息。偶尔周日也可以休息一次，但不能太多。</p>
-<p>        那么学习进度呢？</p>
-<p>        希望能在六月到来之前把代码随想录刷一遍，C语言中文网上剩下的图结构和剩下的几个章节看完。至于unreal engine的话，还不好说，等我再学一会儿才可以制定下进度目标了。理想的状态是六月底就可以新建独立游戏的文件夹。</p>
-<p>        </p>
-<p>        </p>
-<p>        好想快一些离开这里，我要逃离这座城市。我想要到烟雨的江南开始我的新生活。真希望保持这样的作息习惯可以让时间如同白驹过隙那般飞驰而去。</p>
+        <p>这一节是根据<a target="_blank" rel="noopener" href="https://space.bilibili.com/31898841">谌嘉诚</a>的蓝图教程进行整理的！</p>
+<p>在前面我们制作了自动门，按键开门这两种门，其实还有升降电梯等案例，但是其实与开门的蓝图类差不太多，顶多就是修改一下更新的不是按轴旋转，而是直接更改相对位置了。</p>
+<p>接下来的是拾取钥匙开门，这涉及到了蓝图Actor之间的通信</p>
+<h1 id="门蓝图"><a href="#门蓝图" class="headerlink" title="门蓝图"></a>门蓝图</h1><p>主体蓝图部分和开门没有区别，唯一需要修改的地方是</p>
+<ul>
+<li><p>创建一个bool类型变量，命名为IsKey，默认设置为false</p>
+</li>
+<li><p>沿着IsKey拖出一条引线，创建一个名为”分支”的结点</p>
+</li>
+<li><p>将键盘E拖出一个结点，连接上分支结点</p>
+</li>
+<li><p>True输出链接Gate的Open</p>
+</li>
+<li><p>False输出链接一个“打印字符串”节点</p>
+</li>
+</ul>
+<h1 id="钥匙蓝图"><a href="#钥匙蓝图" class="headerlink" title="钥匙蓝图"></a>钥匙蓝图</h1><p>前部分的蓝图与普通门蓝图一致，需要注意的是Gate之后的节点</p>
+<ul>
+<li><p>Gate输出创建一个“获取类的所有Actor”节点，顾名思义，可以选择一个类，获取其下所有的actor</p>
+</li>
+<li><p>在Actor Class选项中选择BP_KeyDoor（门的类名）</p>
+</li>
+<li><p>Out Actor输出创建一个Get（复制）节点【获取数组中下标为i的元素】</p>
+</li>
+<li><p>接着从Get节点输出一个Set IsKey节点，在这个节点内就可改变IsKey的值</p>
+</li>
+<li><p>将获取类的所有actor输出与set节点的输入连接上</p>
+</li>
+<li><p>最后我们需要销毁钥匙，于是在set输出链接一个“销毁Actor”节点</p>
+</li>
+</ul>
 
     </div>
 
@@ -327,21 +314,18 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E5%AC%89%E8%8D%92%E6%9D%82%E5%BD%95/" rel="tag"># 嬉荒杂录</a>
+              <a href="/tags/%E8%93%9D%E5%9B%BE/" rel="tag"># 蓝图</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2022/04/05/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E5%9B%9E%E6%BA%AF/" rel="prev" title="回溯算法">
-                  <i class="fa fa-chevron-left"></i> 回溯算法
+                <a href="/2022/05/06/UE4-Player-Controlled-Cameras/" rel="prev" title="UE4-Player-Controlled Cameras">
+                  <i class="fa fa-chevron-left"></i> UE4-Player-Controlled Cameras
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2022/04/13/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E8%B4%AA%E5%BF%83/" rel="next" title="贪心算法">
-                  贪心算法 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
