@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>UE4-蓝图-钥匙开门</title>
+      <link href="/2022/05/06/UE4-%E8%93%9D%E5%9B%BE-%E9%92%A5%E5%8C%99%E5%BC%80%E9%97%A8/"/>
+      <url>/2022/05/06/UE4-%E8%93%9D%E5%9B%BE-%E9%92%A5%E5%8C%99%E5%BC%80%E9%97%A8/</url>
+      
+        <content type="html"><![CDATA[<p>这一节是根据<a href="https://space.bilibili.com/31898841">谌嘉诚</a>的蓝图教程进行整理的！</p><p>在前面我们制作了自动门，按键开门这两种门，其实还有升降电梯等案例，但是其实与开门的蓝图类差不太多，顶多就是修改一下更新的不是按轴旋转，而是直接更改相对位置了。</p><p>接下来的是拾取钥匙开门，这涉及到了蓝图Actor之间的通信</p><h1 id="门蓝图"><a href="#门蓝图" class="headerlink" title="门蓝图"></a>门蓝图</h1><p>主体蓝图部分和开门没有区别，唯一需要修改的地方是</p><ul><li><p>创建一个bool类型变量，命名为IsKey，默认设置为false</p></li><li><p>沿着IsKey拖出一条引线，创建一个名为”分支”的结点</p></li><li><p>将键盘E拖出一个结点，连接上分支结点</p></li><li><p>True输出链接Gate的Open</p></li><li><p>False输出链接一个“打印字符串”节点</p></li></ul><h1 id="钥匙蓝图"><a href="#钥匙蓝图" class="headerlink" title="钥匙蓝图"></a>钥匙蓝图</h1><p>前部分的蓝图与普通门蓝图一致，需要注意的是Gate之后的节点</p><ul><li><p>Gate输出创建一个“获取类的所有Actor”节点，顾名思义，可以选择一个类，获取其下所有的actor</p></li><li><p>在Actor Class选项中选择BP_KeyDoor（门的类名）</p></li><li><p>Out Actor输出创建一个Get（复制）节点【获取数组中下标为i的元素】</p></li><li><p>接着从Get节点输出一个Set IsKey节点，在这个节点内就可改变IsKey的值</p></li><li><p>将获取类的所有actor输出与set节点的输入连接上</p></li><li><p>最后我们需要销毁钥匙，于是在set输出链接一个“销毁Actor”节点</p></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> unreal engine </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 蓝图 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>UE4-Player-Controlled Cameras</title>
       <link href="/2022/05/06/UE4-Player-Controlled-Cameras/"/>
       <url>/2022/05/06/UE4-Player-Controlled-Cameras/</url>
