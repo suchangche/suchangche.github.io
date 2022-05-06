@@ -31,8 +31,15 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20210201111833906.jpg">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20210202112617341.jpg">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20210202162652727.jpg">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210221170954115.jpg">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210129160748643.jpg">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210129160821374.jpg">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210129160842491.jpg">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210223173849619.png">
+<meta property="og:image" content="https://code-thinking.cdn.bcebos.com/pics/337.%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8DIII.jpg">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210224225642465.png">
 <meta property="article:published_time" content="2022-05-01T01:51:25.000Z">
-<meta property="article:modified_time" content="2022-05-02T00:41:00.170Z">
+<meta property="article:modified_time" content="2022-05-06T01:24:57.922Z">
 <meta property="article:author" content="williny">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
@@ -152,7 +159,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9B%B6%E9%92%B1%E5%85%91%E6%8D%A2"><span class="nav-number">1.</span> <span class="nav-text">零钱兑换</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">1.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%8C%E5%85%A8%E5%B9%B3%E6%96%B9%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">完全平方数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-1"><span class="nav-number">2.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%95%E8%AF%8D%E6%8B%86%E5%88%86"><span class="nav-number">3.</span> <span class="nav-text">单词拆分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-2"><span class="nav-number">3.1.</span> <span class="nav-text">思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9E%E6%BA%AF"><span class="nav-number">3.1.1.</span> <span class="nav-text">回溯</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92"><span class="nav-number">3.1.2.</span> <span class="nav-text">动态规划</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E9%87%8D%E8%83%8C%E5%8C%85%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80"><span class="nav-number">4.</span> <span class="nav-text">多重背包理论基础</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9B%B6%E9%92%B1%E5%85%91%E6%8D%A2"><span class="nav-number">1.</span> <span class="nav-text">零钱兑换</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">1.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%8C%E5%85%A8%E5%B9%B3%E6%96%B9%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">完全平方数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-1"><span class="nav-number">2.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%95%E8%AF%8D%E6%8B%86%E5%88%86"><span class="nav-number">3.</span> <span class="nav-text">单词拆分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-2"><span class="nav-number">3.1.</span> <span class="nav-text">思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9E%E6%BA%AF"><span class="nav-number">3.1.1.</span> <span class="nav-text">回溯</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92"><span class="nav-number">3.1.2.</span> <span class="nav-text">动态规划</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E9%87%8D%E8%83%8C%E5%8C%85%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80"><span class="nav-number">4.</span> <span class="nav-text">多重背包理论基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D"><span class="nav-number">5.</span> <span class="nav-text">打家劫舍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-3"><span class="nav-number">5.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8DII"><span class="nav-number">6.</span> <span class="nav-text">打家劫舍II</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-4"><span class="nav-number">6.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D-III"><span class="nav-number">7.</span> <span class="nav-text">打家劫舍 III</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-5"><span class="nav-number">7.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA"><span class="nav-number">8.</span> <span class="nav-text">买卖股票的最佳时机</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-6"><span class="nav-number">8.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BAII"><span class="nav-number">9.</span> <span class="nav-text">买卖股票的最佳时机II</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-7"><span class="nav-number">10.</span> <span class="nav-text">思路</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -167,7 +174,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -178,7 +185,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -262,7 +269,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-05-02 08:41:00" itemprop="dateModified" datetime="2022-05-02T08:41:00+08:00">2022-05-02</time>
+      <time title="修改时间：2022-05-06 09:24:57" itemprop="dateModified" datetime="2022-05-06T09:24:57+08:00">2022-05-06</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -415,8 +422,6 @@
 <p>那么这里我也给出回溯法C++代码：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">backtracking</span> <span class="params">(<span class="type">const</span> string&amp; s, <span class="type">const</span> unordered_set&lt;string&gt;&amp; wordSet, <span class="type">int</span> startIndex)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (startIndex &gt;= s.<span class="built_in">size</span>()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = startIndex; i &lt; s.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            string word = s.<span class="built_in">substr</span>(startIndex, i - startIndex + <span class="number">1</span>);</span><br><span class="line">            <span class="keyword">if</span> (wordSet.<span class="built_in">find</span>(word) != wordSet.<span class="built_in">end</span>() &amp;&amp; <span class="built_in">backtracking</span>(s, wordSet, i + <span class="number">1</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">wordBreak</span><span class="params">(string s, vector&lt;string&gt;&amp; wordDict)</span> </span>&#123;</span><br><span class="line">        <span class="function">unordered_set&lt;string&gt; <span class="title">wordSet</span><span class="params">(wordDict.begin(), wordDict.end())</span></span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">backtracking</span>(s, wordSet, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-
-
 <h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><p>单词就是物品，字符串s就是背包，单词能否组成字符串s，就是问物品能不能把背包装满。</p>
 <p>拆分时可以重复使用字典中的单词，说明就是一个完全背包！</p>
 <p>动规五部曲分析如下：</p>
@@ -560,15 +565,286 @@
 <p>代码如下：（详看注释）</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">test_multi_pack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; weight = &#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>&#125;;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; value = &#123;<span class="number">15</span>, <span class="number">20</span>, <span class="number">30</span>&#125;;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; nums = &#123;<span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>&#125;;</span><br><span class="line">    <span class="type">int</span> bagWeight = <span class="number">10</span>;</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">dp</span><span class="params">(bagWeight + <span class="number">1</span>, <span class="number">0</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; weight.<span class="built_in">size</span>(); i++) &#123; <span class="comment">// 遍历物品</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = bagWeight; j &gt;= weight[i]; j--) &#123; <span class="comment">// 遍历背包容量</span></span><br><span class="line">            <span class="comment">// 以上为01背包，然后加一个遍历个数</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">1</span>; k &lt;= nums[i] &amp;&amp; (j - k * weight[i]) &gt;= <span class="number">0</span>; k++) &#123; <span class="comment">// 遍历个数</span></span><br><span class="line">                dp[j] = <span class="built_in">max</span>(dp[j], dp[j - k * weight[i]] + k * value[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 打印一下dp数组</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt;= bagWeight; j++) &#123;</span><br><span class="line">            cout &lt;&lt; dp[j] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        cout &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; dp[bagWeight] &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">test_multi_pack</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-
-
-
 <ul>
 <li>时间复杂度：O(m × n × k)，m：物品种类个数，n背包容量，k单类物品数量</li>
 </ul>
 <p>从代码里可以看出是01背包里面在加一个for循环遍历一个每种商品的数量。 和01背包还是如出一辙的。</p>
 <p>当然还有那种二进制优化的方法，其实就是把每种物品的数量，打包成一个个独立的包。</p>
 <p>和以上在循环遍历上有所不同，因为是分拆为各个包最后可以组成一个完整背包，具体原理我就不做过多解释了，大家了解一下就行，面试的话基本不会考完这个深度了，感兴趣可以自己深入研究一波。</p>
+<h1 id="打家劫舍"><a href="#打家劫舍" class="headerlink" title="打家劫舍"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/house-robber/">打家劫舍</a></h1><p>你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</p>
+<p>给定一个代表每个房屋存放金额的非负整数数组，计算你 不触动警报装置的情况下 ，一夜之内能够偷窃到的最高金额。</p>
+<p>示例 1：</p>
+<p>输入：[1,2,3,1] </p>
+<p>输出：4 </p>
+<p>解释：偷窃 1 号房屋 (金额 &#x3D; 1) ，然后偷窃 3 号房屋 (金额 &#x3D; 3)。   偷窃到的最高金额 &#x3D; 1 + 3 &#x3D; 4 </p>
+<p>示例 2： </p>
+<p>输入：[2,7,9,3,1] </p>
+<p>输出：12 </p>
+<p>解释：偷窃 1 号房屋 (金额 &#x3D; 2), 偷窃 3 号房屋 (金额 &#x3D; 9)，接着偷窃 5 号房屋 (金额 &#x3D; 1)。   偷窃到的最高金额 &#x3D; 2 + 9 + 1 &#x3D; 12 。</p>
+<p>提示：</p>
+<ul>
+<li>0 &lt;&#x3D; nums.length &lt;&#x3D; 100</li>
+<li>0 &lt;&#x3D; nums[i] &lt;&#x3D; 400</li>
+</ul>
+<h2 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h2><p>打家劫舍是dp解决的经典问题，动规五部曲分析如下：</p>
+<ol>
+<li>确定dp数组（dp table）以及下标的含义</li>
+</ol>
+<p>**dp[i]：考虑下标i（包括i）以内的房屋，最多可以偷窃的金额为dp[i]**。</p>
+<ol start="2">
+<li>确定递推公式</li>
+</ol>
+<p>决定dp[i]的因素就是第i房间偷还是不偷。</p>
+<p>如果偷第i房间，那么dp[i] &#x3D; dp[i - 2] + nums[i] ，即：第i-1房一定是不考虑的，找出 下标i-2（包括i-2）以内的房屋，最多可以偷窃的金额为dp[i-2] 加上第i房间偷到的钱。</p>
+<p>如果不偷第i房间，那么dp[i] &#x3D; dp[i - 1]，即考虑i-1房，（<strong>注意这里是考虑，并不是一定要偷i-1房，这是很多同学容易混淆的点</strong>）</p>
+<p>然后dp[i]取最大值，即dp[i] &#x3D; max(dp[i - 2] + nums[i], dp[i - 1]);</p>
+<ol start="3">
+<li>dp数组如何初始化</li>
+</ol>
+<p>从递推公式dp[i] &#x3D; max(dp[i - 2] + nums[i], dp[i - 1]);可以看出，递推公式的基础就是dp[0] 和 dp[1]</p>
+<p>从dp[i]的定义上来讲，dp[0] 一定是 nums[0]，dp[1]就是nums[0]和nums[1]的最大值即：dp[1] &#x3D; max(nums[0], nums[1]);</p>
+<p>代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">dp</span><span class="params">(nums.size())</span></span>;</span><br><span class="line">dp[<span class="number">0</span>] = nums[<span class="number">0</span>];</span><br><span class="line">dp[<span class="number">1</span>] = <span class="built_in">max</span>(nums[<span class="number">0</span>], nums[<span class="number">1</span>]);</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>确定遍历顺序</li>
+</ol>
+<p>dp[i] 是根据dp[i - 2] 和 dp[i - 1] 推导出来的，那么一定是从前到后遍历！</p>
+<p>代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">2</span>; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">    dp[i] = <span class="built_in">max</span>(dp[i - <span class="number">2</span>] + nums[i], dp[i - <span class="number">1</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>举例推导dp数组</li>
+</ol>
+<p>以示例二，输入[2,7,9,3,1]为例。</p>
+<p><img src="https://img-blog.csdnimg.cn/20210221170954115.jpg" alt="198.打家劫舍"></p>
+<p>红框dp[nums.size() - 1]为结果。</p>
+<p>以上分析完毕，C++代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">rob</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (nums.<span class="built_in">size</span>() == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (nums.<span class="built_in">size</span>() == <span class="number">1</span>) <span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">dp</span><span class="params">(nums.size())</span></span>;</span><br><span class="line">        dp[<span class="number">0</span>] = nums[<span class="number">0</span>];</span><br><span class="line">        dp[<span class="number">1</span>] = <span class="built_in">max</span>(nums[<span class="number">0</span>], nums[<span class="number">1</span>]);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">2</span>; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            dp[i] = <span class="built_in">max</span>(dp[i - <span class="number">2</span>] + nums[i], dp[i - <span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[nums.<span class="built_in">size</span>() - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="打家劫舍II"><a href="#打家劫舍II" class="headerlink" title="打家劫舍II"></a>打家劫舍II</h1><p>你是一个专业的小偷，计划偷窃沿街的房屋，每间房内都藏有一定的现金。这个地方所有的房屋都 围成一圈 ，这意味着第一个房屋和最后一个房屋是紧挨着的。同时，相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警 。</p>
+<p>给定一个代表每个房屋存放金额的非负整数数组，计算你 在不触动警报装置的情况下 ，能够偷窃到的最高金额。</p>
+<p>示例 1：</p>
+<p>输入：nums &#x3D; [2,3,2] 输出：3 解释：你不能先偷窃 1 号房屋（金额 &#x3D; 2），然后偷窃 3 号房屋（金额 &#x3D; 2）, 因为他们是相邻的。</p>
+<p>示例 2： 输入：nums &#x3D; [1,2,3,1] 输出：4 解释：你可以先偷窃 1 号房屋（金额 &#x3D; 1），然后偷窃 3 号房屋（金额 &#x3D; 3）。偷窃到的最高金额 &#x3D; 1 + 3 &#x3D; 4 。</p>
+<p>示例 3： 输入：nums &#x3D; [0] 输出：0</p>
+<p>提示：</p>
+<ul>
+<li>1 &lt;&#x3D; nums.length &lt;&#x3D; 100</li>
+<li>0 &lt;&#x3D; nums[i] &lt;&#x3D; 1000</li>
+</ul>
+<h2 id="思路-4"><a href="#思路-4" class="headerlink" title="思路"></a>思路</h2><p>这道题目和<a target="_blank" rel="noopener" href="https://programmercarl.com/0198.%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D.html">198.打家劫舍 </a>是差不多的，唯一区别就是成环了。</p>
+<p>对于一个数组，成环的话主要有如下三种情况：</p>
+<ul>
+<li>情况一：考虑不包含首尾元素</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20210129160748643.jpg" alt="213.打家劫舍II"></p>
+<ul>
+<li>情况二：考虑包含首元素，不包含尾元素</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20210129160821374.jpg" alt="213.打家劫舍II1"></p>
+<ul>
+<li>情况三：考虑包含尾元素，不包含首元素</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20210129160842491.jpg" alt="213.打家劫舍II2"></p>
+<p>**注意我这里用的是”考虑”**，例如情况三，虽然是考虑包含尾元素，但不一定要选尾部元素！ 对于情况三，取nums[1] 和 nums[3]就是最大的。</p>
+<p><strong>而情况二 和 情况三 都包含了情况一了，所以只考虑情况二和情况三就可以了</strong>。</p>
+<p>分析到这里，本题其实比较简单了。 剩下的和<a target="_blank" rel="noopener" href="https://programmercarl.com/0198.%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D.html">198.打家劫舍</a>就是一样的了。</p>
+<p>代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 注意注释中的情况二情况三，以及把198.打家劫舍的代码抽离出来了</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">rob</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (nums.<span class="built_in">size</span>() == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (nums.<span class="built_in">size</span>() == <span class="number">1</span>) <span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">        <span class="type">int</span> result1 = <span class="built_in">robRange</span>(nums, <span class="number">0</span>, nums.<span class="built_in">size</span>() - <span class="number">2</span>); <span class="comment">// 情况二</span></span><br><span class="line">        <span class="type">int</span> result2 = <span class="built_in">robRange</span>(nums, <span class="number">1</span>, nums.<span class="built_in">size</span>() - <span class="number">1</span>); <span class="comment">// 情况三</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>(result1, result2);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 198.打家劫舍的逻辑</span></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">robRange</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> start, <span class="type">int</span> end)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (end == start) <span class="keyword">return</span> nums[start];</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">dp</span><span class="params">(nums.size())</span></span>;</span><br><span class="line">        dp[start] = nums[start];</span><br><span class="line">        dp[start + <span class="number">1</span>] = <span class="built_in">max</span>(nums[start], nums[start + <span class="number">1</span>]);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = start + <span class="number">2</span>; i &lt;= end; i++) &#123;</span><br><span class="line">            dp[i] = <span class="built_in">max</span>(dp[i - <span class="number">2</span>] + nums[i], dp[i - <span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[end];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="打家劫舍-III"><a href="#打家劫舍-III" class="headerlink" title="打家劫舍 III"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/house-robber-iii/">打家劫舍 III</a></h1><p>在上次打劫完一条街道之后和一圈房屋后，小偷又发现了一个新的可行窃的地区。这个地区只有一个入口，我们称之为“根”。 除了“根”之外，每栋房子有且只有一个“父“房子与之相连。一番侦察之后，聪明的小偷意识到“这个地方的所有房屋的排列类似于一棵二叉树”。 如果两个直接相连的房子在同一天晚上被打劫，房屋将自动报警。</p>
+<p>计算在不触动警报的情况下，小偷一晚能够盗取的最高金额。</p>
+<p><img src="https://img-blog.csdnimg.cn/20210223173849619.png" alt="337.打家劫舍III"></p>
+<h2 id="思路-5"><a href="#思路-5" class="headerlink" title="思路"></a>思路</h2><p><strong>本题一定是要后序遍历，因为通过递归函数的返回值来做下一步计算</strong>。</p>
+<p>与198.打家劫舍，213.打家劫舍II一样，关键是要讨论当前节点抢还是不抢。</p>
+<p>如果抢了当前节点，两个孩子就不能动，如果没抢当前节点，就可以考虑抢左右孩子（<strong>注意这里说的是“考虑”</strong>）</p>
+<p>动态规划其实就是使用状态转移容器来记录状态的变化，这里可以使用一个长度为2的数组，记录当前节点偷与不偷所得到的的最大金钱。</p>
+<p><strong>这道题目算是树形dp的入门题目，因为是在树上进行状态转移，我们在讲解二叉树的时候说过递归三部曲，那么下面我以递归三部曲为框架，其中融合动规五部曲的内容来进行讲解</strong>。</p>
+<ol>
+<li>确定递归函数的参数和返回值</li>
+</ol>
+<p>这里我们要求一个节点 偷与不偷的两个状态所得到的金钱，那么返回值就是一个长度为2的数组。</p>
+<p>参数为当前节点，代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">robTree</span><span class="params">(TreeNode* cur)</span> </span>&#123;</span><br></pre></td></tr></table></figure>
+
+<p>其实这里的返回数组就是dp数组。</p>
+<p>所以dp数组（dp table）以及下标的含义：下标为0记录不偷该节点所得到的的最大金钱，下标为1记录偷该节点所得到的的最大金钱。</p>
+<p><strong>所以本题dp数组就是一个长度为2的数组！</strong></p>
+<p>那么有同学可能疑惑，长度为2的数组怎么标记树中每个节点的状态呢？</p>
+<p><strong>别忘了在递归的过程中，系统栈会保存每一层递归的参数</strong>。</p>
+<p>如果还不理解的话，就接着往下看，看到代码就理解了哈。</p>
+<ol start="2">
+<li>确定终止条件</li>
+</ol>
+<p>在遍历的过程中，如果遇到空节点的话，很明显，无论偷还是不偷都是0，所以就返回</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (cur == <span class="literal">NULL</span>) <span class="keyword">return</span> vector&lt;<span class="type">int</span>&gt;&#123;<span class="number">0</span>, <span class="number">0</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这也相当于dp数组的初始化</p>
+<ol start="3">
+<li>确定遍历顺序</li>
+</ol>
+<p>首先明确的是使用后序遍历。 因为通过递归函数的返回值来做下一步计算。</p>
+<p>通过递归左节点，得到左节点偷与不偷的金钱。</p>
+<p>通过递归右节点，得到右节点偷与不偷的金钱。</p>
+<p>代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 下标0：不偷，下标1：偷</span></span><br><span class="line">vector&lt;<span class="type">int</span>&gt; left = <span class="built_in">robTree</span>(cur-&gt;left); <span class="comment">// 左</span></span><br><span class="line">vector&lt;<span class="type">int</span>&gt; right = <span class="built_in">robTree</span>(cur-&gt;right); <span class="comment">// 右</span></span><br><span class="line"><span class="comment">// 中</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>确定单层递归的逻辑</li>
+</ol>
+<p>如果是偷当前节点，那么左右孩子就不能偷，val1 &#x3D; cur-&gt;val + left[0] + right[0]; （<strong>如果对下标含义不理解就在回顾一下dp数组的含义</strong>）</p>
+<p>如果不偷当前节点，那么左右孩子就可以偷，至于到底偷不偷一定是选一个最大的，所以：val2 &#x3D; max(left[0], left[1]) + max(right[0], right[1]);</p>
+<p>最后当前节点的状态就是{val2, val1}; 即：{不偷当前节点得到的最大金钱，偷当前节点得到的最大金钱}</p>
+<p>代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;<span class="type">int</span>&gt; left = <span class="built_in">robTree</span>(cur-&gt;left); <span class="comment">// 左</span></span><br><span class="line">vector&lt;<span class="type">int</span>&gt; right = <span class="built_in">robTree</span>(cur-&gt;right); <span class="comment">// 右</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 偷cur</span></span><br><span class="line"><span class="type">int</span> val1 = cur-&gt;val + left[<span class="number">0</span>] + right[<span class="number">0</span>];</span><br><span class="line"><span class="comment">// 不偷cur</span></span><br><span class="line"><span class="type">int</span> val2 = <span class="built_in">max</span>(left[<span class="number">0</span>], left[<span class="number">1</span>]) + <span class="built_in">max</span>(right[<span class="number">0</span>], right[<span class="number">1</span>]);</span><br><span class="line"><span class="keyword">return</span> &#123;val2, val1&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>举例推导dp数组</li>
+</ol>
+<p>以示例1为例，dp数组状态如下：（<strong>注意用后序遍历的方式推导</strong>）</p>
+<p><img src="https://code-thinking.cdn.bcebos.com/pics/337.%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8DIII.jpg" alt="337.打家劫舍III"></p>
+<p><strong>最后头结点就是 取下标0 和 下标1的最大值就是偷得的最大金钱</strong>。</p>
+<p>递归三部曲与动规五部曲分析完毕，C++代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">rob</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; result = <span class="built_in">robTree</span>(root);</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>(result[<span class="number">0</span>], result[<span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 长度为2的数组，0：不偷，1：偷</span></span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">robTree</span><span class="params">(TreeNode* cur)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (cur == <span class="literal">NULL</span>) <span class="keyword">return</span> vector&lt;<span class="type">int</span>&gt;&#123;<span class="number">0</span>, <span class="number">0</span>&#125;;</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; left = <span class="built_in">robTree</span>(cur-&gt;left);</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; right = <span class="built_in">robTree</span>(cur-&gt;right);</span><br><span class="line">        <span class="comment">// 偷cur</span></span><br><span class="line">        <span class="type">int</span> val1 = cur-&gt;val + left[<span class="number">0</span>] + right[<span class="number">0</span>];</span><br><span class="line">        <span class="comment">// 不偷cur</span></span><br><span class="line">        <span class="type">int</span> val2 = <span class="built_in">max</span>(left[<span class="number">0</span>], left[<span class="number">1</span>]) + <span class="built_in">max</span>(right[<span class="number">0</span>], right[<span class="number">1</span>]);</span><br><span class="line">        <span class="keyword">return</span> &#123;val2, val1&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>时间复杂度：$O(n)$，每个节点只遍历了一次</li>
+<li>空间复杂度：$O(\log n)$，算上递推系统栈的空间</li>
+</ul>
+<h1 id="买卖股票的最佳时机"><a href="#买卖股票的最佳时机" class="headerlink" title="买卖股票的最佳时机"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/">买卖股票的最佳时机</a></h1><p>给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。</p>
+<p>你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。</p>
+<p>返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0 。</p>
+<p>示例 1：<br>输入：[7,1,5,3,6,4]<br>输出：5<br>解释：在第 2 天（股票价格 &#x3D; 1）的时候买入，在第 5 天（股票价格 &#x3D; 6）的时候卖出，最大利润 &#x3D; 6-1 &#x3D; 5 。注意利润不能是 7-1 &#x3D; 6, 因为卖出价格需要大于买入价格；同时，你不能在买入前卖出股票。</p>
+<p>示例 2：<br>输入：prices &#x3D; [7,6,4,3,1]<br>输出：0<br>解释：在这种情况下, 没有交易完成, 所以最大利润为 0。</p>
+<h2 id="思路-6"><a href="#思路-6" class="headerlink" title="思路"></a>思路</h2><p>动规五部曲分析如下：</p>
+<ol>
+<li>确定dp数组（dp table）以及下标的含义</li>
+</ol>
+<p>dp[i][0] 表示第i天持有股票所得最多现金 ，<strong>这里可能有同学疑惑，本题中只能买卖一次，持有股票之后哪还有现金呢？</strong></p>
+<p>其实一开始现金是0，那么加入第i天买入股票现金就是 -prices[i]， 这是一个负数。</p>
+<p>dp[i][1] 表示第i天不持有股票所得最多现金</p>
+<p><strong>注意这里说的是“持有”，“持有”不代表就是当天“买入”！也有可能是昨天就买入了，今天保持持有的状态</strong></p>
+<p>很多同学把“持有”和“买入”没分区分清楚。</p>
+<p>在下面递推公式分析中，我会进一步讲解。</p>
+<ol start="2">
+<li>确定递推公式</li>
+</ol>
+<p>如果第i天持有股票即dp[i][0]， 那么可以由两个状态推出来</p>
+<ul>
+<li>第i-1天就持有股票，那么就保持现状，所得现金就是昨天持有股票的所得现金 即：dp[i - 1][0]</li>
+<li>第i天买入股票，所得现金就是买入今天的股票后所得现金即：-prices[i]</li>
+</ul>
+<p>那么dp[i][0]应该选所得现金最大的，所以<strong>dp[i][0] &#x3D; max(dp[i - 1][0], -prices[i])</strong>;</p>
+<p>如果第i天不持有股票即dp[i][1]， 也可以由两个状态推出来</p>
+<ul>
+<li>第i-1天就不持有股票，那么就保持现状，所得现金就是昨天不持有股票的所得现金 即：dp[i - 1][1]</li>
+<li>第i天卖出股票，所得现金就是按照今天股票佳价格卖出后所得现金即：prices[i] + dp[i - 1][0]</li>
+</ul>
+<p>同样dp[i][1]取最大的，<strong>dp[i][1] &#x3D; max(dp[i - 1][1], prices[i] + dp[i - 1][0])</strong>;</p>
+<p>这样递归公式我们就分析完了</p>
+<ol start="3">
+<li>dp数组如何初始化</li>
+</ol>
+<p>由递推公式 dp[i][0] &#x3D; max(dp[i - 1][0], -prices[i]); 和 dp[i][1] &#x3D; max(dp[i - 1][1], prices[i] + dp[i - 1][0]);可以看出</p>
+<p>其基础都是要从dp[0][0]和dp[0][1]推导出来。</p>
+<p>那么dp[0][0]表示第0天持有股票，此时的持有股票就一定是买入股票了，因为不可能有前一天推出来，所以dp[0][0] -&#x3D; prices[0];</p>
+<p>dp[0][1]表示第0天不持有股票，不持有股票那么现金就是0，所以dp[0][1] &#x3D; 0;</p>
+<ol start="4">
+<li>确定遍历顺序</li>
+</ol>
+<p>从递推公式可以看出dp[i]都是有dp[i - 1]推导出来的，那么一定是从前向后遍历。</p>
+<ol start="5">
+<li>举例推导dp数组</li>
+</ol>
+<p>以示例1，输入：[7,1,5,3,6,4]为例，dp数组状态如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210224225642465.png" alt="121.买卖股票的最佳时机"></p>
+<p>dp[5][1]就是最终结果。</p>
+<p>为什么不是dp[5][0]呢？</p>
+<p><strong>因为本题中不持有股票状态所得金钱一定比持有股票状态得到的多！</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 版本一</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maxProfit</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> len = prices.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span> (len == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">dp</span>(len, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(<span class="number">2</span>));</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">0</span>] -= prices[<span class="number">0</span>];</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; len; i++) &#123;</span><br><span class="line">            dp[i][<span class="number">0</span>] = <span class="built_in">max</span>(dp[i - <span class="number">1</span>][<span class="number">0</span>], -prices[i]);</span><br><span class="line">            dp[i][<span class="number">1</span>] = <span class="built_in">max</span>(dp[i - <span class="number">1</span>][<span class="number">1</span>], prices[i] + dp[i - <span class="number">1</span>][<span class="number">0</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[len - <span class="number">1</span>][<span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="买卖股票的最佳时机II"><a href="#买卖股票的最佳时机II" class="headerlink" title="买卖股票的最佳时机II"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/">买卖股票的最佳时机II</a></h1><p>给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。</p>
+<p>设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。</p>
+<p>注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。</p>
+<p>示例 1:<br>输入: [7,1,5,3,6,4]<br>输出: 7<br>解释: 在第 2 天（股票价格 &#x3D; 1）的时候买入，在第 3 天（股票价格 &#x3D; 5）的时候卖出, 这笔交易所能获得利润 &#x3D; 5-1 &#x3D; 4。随后，在第 4 天（股票价格 &#x3D; 3）的时候买入，在第 5 天（股票价格 &#x3D; 6）的时候卖出, 这笔交易所能获得利润 &#x3D; 6-3 &#x3D; 3 。</p>
+<p>示例 2:<br>输入: [1,2,3,4,5]<br>输出: 4<br>解释: 在第 1 天（股票价格 &#x3D; 1）的时候买入，在第 5 天 （股票价格 &#x3D; 5）的时候卖出, 这笔交易所能获得利润 &#x3D; 5-1 &#x3D; 4 。注意你不能在第 1 天和第 2 天接连购买股票，之后再将它们卖出。因为这样属于同时参与了多笔交易，你必须在再次购买前出售掉之前的股票。</p>
+<p>示例 3:<br>输入: [7,6,4,3,1]<br>输出: 0<br>解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。</p>
+<p>提示：</p>
+<ul>
+<li>1 &lt;&#x3D; prices.length &lt;&#x3D; 3 * 10 ^ 4</li>
+<li>0 &lt;&#x3D; prices[i] &lt;&#x3D; 10 ^ 4</li>
+</ul>
+<h1 id="思路-7"><a href="#思路-7" class="headerlink" title="思路"></a>思路</h1><p>本题和<a target="_blank" rel="noopener" href="https://programmercarl.com/0121.%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA.html">121. 买卖股票的最佳时机</a>的唯一区别本题股票可以买卖多次了（注意只有一只股票，所以再次购买前要出售掉之前的股票）</p>
+<p>在动规五部曲中，这个区别主要是体现在递推公式上，其他都和<a target="_blank" rel="noopener" href="https://programmercarl.com/0121.%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA.html">121. 买卖股票的最佳时机 </a>一样一样的。</p>
+<p>所以我们重点讲一讲递推公式。</p>
+<p>这里重申一下dp数组的含义：</p>
+<ul>
+<li>dp[i][0] 表示第i天持有股票所得现金。</li>
+<li>dp[i][1] 表示第i天不持有股票所得最多现金</li>
+</ul>
+<p>如果第i天持有股票即dp[i][0]， 那么可以由两个状态推出来</p>
+<ul>
+<li>第i-1天就持有股票，那么就保持现状，所得现金就是昨天持有股票的所得现金 即：dp[i - 1][0]</li>
+<li>第i天买入股票，所得现金就是昨天不持有股票的所得现金减去 今天的股票价格 即：dp[i - 1][1] - prices[i]</li>
+</ul>
+<p>注意这里和<a target="_blank" rel="noopener" href="https://programmercarl.com/0121.%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA.html">121. 买卖股票的最佳时机 </a>唯一不同的地方，就是推导dp[i][0]的时候，第i天买入股票的情况。</p>
+<p>在<a target="_blank" rel="noopener" href="https://programmercarl.com/0121.%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA.html">121. 买卖股票的最佳时机</a>中，因为股票全程只能买卖一次，所以如果买入股票，那么第i天持有股票即dp[i][0]一定就是 -prices[i]。</p>
+<p>而本题，因为一只股票可以买卖多次，所以当第i天买入股票的时候，所持有的现金可能有之前买卖过的利润。</p>
+<p>那么第i天持有股票即dp[i][0]，如果是第i天买入股票，所得现金就是昨天不持有股票的所得现金 减去 今天的股票价格 即：dp[i - 1][1] - prices[i]。</p>
+<p>在来看看如果第i天不持有股票即dp[i][1]的情况， 依然可以由两个状态推出来</p>
+<ul>
+<li>第i-1天就不持有股票，那么就保持现状，所得现金就是昨天不持有股票的所得现金 即：dp[i - 1][1]</li>
+<li>第i天卖出股票，所得现金就是按照今天股票佳价格卖出后所得现金即：prices[i] + dp[i - 1][0]</li>
+</ul>
+<p><strong>注意这里和<a target="_blank" rel="noopener" href="https://programmercarl.com/0121.%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA.html">121. 买卖股票的最佳时机 </a>就是一样的逻辑，卖出股票收获利润（可能是负值）天经地义！</strong></p>
+<p>代码如下：（注意代码中的注释，标记了和121.买卖股票的最佳时机唯一不同的地方）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maxProfit</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> len = prices.<span class="built_in">size</span>();</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">dp</span>(len, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(<span class="number">2</span>, <span class="number">0</span>));</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">0</span>] -= prices[<span class="number">0</span>];</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; len; i++) &#123;</span><br><span class="line">            dp[i][<span class="number">0</span>] = <span class="built_in">max</span>(dp[i - <span class="number">1</span>][<span class="number">0</span>], dp[i - <span class="number">1</span>][<span class="number">1</span>] - prices[i]); <span class="comment">// 注意这里是和121. 买卖股票的最佳时机唯一不同的地方。</span></span><br><span class="line">            dp[i][<span class="number">1</span>] = <span class="built_in">max</span>(dp[i - <span class="number">1</span>][<span class="number">1</span>], dp[i - <span class="number">1</span>][<span class="number">0</span>] + prices[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[len - <span class="number">1</span>][<span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>声明：</p>
+<p>本博客整理主要参考《代码随想录》，题目来自leetcode</p>
 
     </div>
 
