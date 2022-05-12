@@ -21,27 +21,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="结论const int* i(int const* i):指向一个常量的指针，使用时不需要初始化，被指向的常量不可改变，但是可以改变指针指向的地址。 1234const int x&#x3D;10;const int* p1&#x3D;&amp;x;p1++;        &#x2F;&#x2F;ok(*p1)++;     &#x2F;&#x2F;error  const int&amp; i:指向常量的引用，使用时必须初始化。初始化后引用值不可改变，">
+    <meta name="description" content="这一节是根据谌嘉诚大佬的蓝图教程进行的小结 主要知识点有：对象引用，变量有效性，自定义事件 对象引用可以看作是C++中的引用传递 变量有效性（Is Valid）保证某变量不为空 自定义事件(添加自定义事件)就可以看作是自定义函数 思路我们要实现按键盘1，就能让一个Actor自转 实现自转功能 创建一个Actor蓝图类  创建一个bool值“能否旋转”，用“分支”节点使其值为true时连接到“添加本">
 <meta property="og:type" content="article">
-<meta property="og:title" content="const int* i与const int&amp; i以及int* const i的区别">
-<meta property="og:url" content="http://example.com/2022/03/13/about%20const%20int/index.html">
+<meta property="og:title" content="UE4-实现物体自转">
+<meta property="og:url" content="http://example.com/2022/05/11/UE4-%E5%AE%9E%E7%8E%B0%E7%89%A9%E4%BD%93%E8%87%AA%E8%BD%AC/index.html">
 <meta property="og:site_name" content="Williny&#39;home">
-<meta property="og:description" content="结论const int* i(int const* i):指向一个常量的指针，使用时不需要初始化，被指向的常量不可改变，但是可以改变指针指向的地址。 1234const int x&#x3D;10;const int* p1&#x3D;&amp;x;p1++;        &#x2F;&#x2F;ok(*p1)++;     &#x2F;&#x2F;error  const int&amp; i:指向常量的引用，使用时必须初始化。初始化后引用值不可改变，">
+<meta property="og:description" content="这一节是根据谌嘉诚大佬的蓝图教程进行的小结 主要知识点有：对象引用，变量有效性，自定义事件 对象引用可以看作是C++中的引用传递 变量有效性（Is Valid）保证某变量不为空 自定义事件(添加自定义事件)就可以看作是自定义函数 思路我们要实现按键盘1，就能让一个Actor自转 实现自转功能 创建一个Actor蓝图类  创建一个bool值“能否旋转”，用“分支”节点使其值为true时连接到“添加本">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-03-13T04:08:40.497Z">
-<meta property="article:modified_time" content="2022-03-31T05:43:29.726Z">
+<meta property="article:published_time" content="2022-05-11T07:23:37.000Z">
+<meta property="article:modified_time" content="2022-05-11T07:47:51.656Z">
 <meta property="article:author" content="williny">
+<meta property="article:tag" content="蓝图">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://example.com/2022/03/13/about%20const%20int/">
+<link rel="canonical" href="http://example.com/2022/05/11/UE4-%E5%AE%9E%E7%8E%B0%E7%89%A9%E4%BD%93%E8%87%AA%E8%BD%AC/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/03/13/about%20const%20int/","path":"2022/03/13/about const int/","title":"const int* i与const int& i以及int* const i的区别"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/05/11/UE4-%E5%AE%9E%E7%8E%B0%E7%89%A9%E4%BD%93%E8%87%AA%E8%BD%AC/","path":"2022/05/11/UE4-实现物体自转/","title":"UE4-实现物体自转"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>const int* i与const int& i以及int* const i的区别 | Williny'home</title>
+<title>UE4-实现物体自转 | Williny'home</title>
   
 
 
@@ -147,7 +148,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA"><span class="nav-number">1.</span> <span class="nav-text">结论</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E5%BC%95%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">对象引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E6%9C%89%E6%95%88%E6%80%A7%EF%BC%88Is-Valid%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">变量有效性（Is Valid）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BA%8B%E4%BB%B6-%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BA%8B%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">自定义事件(添加自定义事件)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">4.</span> <span class="nav-text">思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E8%87%AA%E8%BD%AC%E5%8A%9F%E8%83%BD"><span class="nav-number">4.1.</span> <span class="nav-text">实现自转功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E6%97%8B%E8%BD%AC%E4%BA%8B%E4%BB%B6"><span class="nav-number">4.2.</span> <span class="nav-text">控制旋转事件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E7%89%A9%E4%BD%93%E8%87%AA%E8%BD%AC"><span class="nav-number">5.</span> <span class="nav-text">控制物体自转</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -221,7 +222,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/13/about%20const%20int/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/11/UE4-%E5%AE%9E%E7%8E%B0%E7%89%A9%E4%BD%93%E8%87%AA%E8%BD%AC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -234,12 +235,12 @@
     </span>
     
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="const int* i与const int& i以及int* const i的区别 | Williny'home">
+      <meta itemprop="name" content="UE4-实现物体自转 | Williny'home">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          const int* i与const int& i以及int* const i的区别
+          UE4-实现物体自转
         </h1>
 
         <div class="post-meta-container">
@@ -249,15 +250,18 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2022-03-13 12:08:40" itemprop="dateCreated datePublished" datetime="2022-03-13T12:08:40+08:00">2022-03-13</time>
+      <time title="创建时间：2022-05-11 15:23:37 / 修改时间：15:47:51" itemprop="dateCreated datePublished" datetime="2022-05-11T15:23:37+08:00">2022-05-11</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
+        <i class="far fa-folder"></i>
       </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-31 13:43:29" itemprop="dateModified" datetime="2022-03-31T13:43:29+08:00">2022-03-31</time>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
     </span>
 
   
@@ -270,13 +274,44 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>const int* i(int const* i):指向一个常量的指针，使用时不需要初始化，被指向的常量不可改变，但是可以改变指针指向的地址。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> x=<span class="number">10</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span>* p1=&amp;x;</span><br><span class="line">p1++;        <span class="comment">//ok</span></span><br><span class="line">(*p1)++;     <span class="comment">//error</span></span><br></pre></td></tr></table></figure>
-
-<p>const int&amp; i:指向常量的引用，使用时必须初始化。初始化后引用值不可改变，引用的常量也不可改变。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span>&amp; p2;        <span class="comment">//error</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span>&amp; p2=x;        <span class="comment">//ok</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> y=<span class="number">20</span>;</span><br><span class="line">p2=y;                <span class="comment">//error</span></span><br><span class="line">p2++;                <span class="comment">//error</span></span><br></pre></td></tr></table></figure>
-
-<p>int* const i:指向的内容可以改变，但是指向的地址不能改变</p>
+        <p>这一节是根据<a target="_blank" rel="noopener" href="https://space.bilibili.com/31898841">谌嘉诚</a>大佬的<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV164411Y732?p=41">蓝图教程</a>进行的小结</p>
+<p>主要知识点有：对象引用，变量有效性，自定义事件</p>
+<h1 id="对象引用"><a href="#对象引用" class="headerlink" title="对象引用"></a>对象引用</h1><p>可以看作是C++中的引用传递</p>
+<h1 id="变量有效性（Is-Valid）"><a href="#变量有效性（Is-Valid）" class="headerlink" title="变量有效性（Is Valid）"></a>变量有效性（Is Valid）</h1><p>保证某变量不为空</p>
+<h1 id="自定义事件-添加自定义事件"><a href="#自定义事件-添加自定义事件" class="headerlink" title="自定义事件(添加自定义事件)"></a>自定义事件(添加自定义事件)</h1><p>就可以看作是自定义函数</p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>我们要实现按键盘1，就能让一个Actor自转</p>
+<h2 id="实现自转功能"><a href="#实现自转功能" class="headerlink" title="实现自转功能"></a>实现自转功能</h2><ol>
+<li><p>创建一个Actor蓝图类</p>
+</li>
+<li><p>创建一个bool值“能否旋转”，用“分支”节点使其值为true时连接到“添加本地旋转”节点上</p>
+</li>
+<li><p>为了能让Actor一直旋转，需要将“事件Tick”来实现帧更新</p>
+</li>
+<li><p>最后不要忘记将Actor本身添加到“添加本地旋转”节点的目标上！</p>
+</li>
+</ol>
+<h2 id="控制旋转事件"><a href="#控制旋转事件" class="headerlink" title="控制旋转事件"></a>控制旋转事件</h2><ol>
+<li><p>默认生成的“能否旋转”为false，现在我们创建一个自定义事件来使其能在true和false之间转换</p>
+</li>
+<li><p>创建“分支”节点-&gt;可以看作为if(能否旋转&#x3D;false){能否旋转&#x3D;true;}</p>
+</li>
+</ol>
+<h1 id="控制物体自转"><a href="#控制物体自转" class="headerlink" title="控制物体自转"></a>控制物体自转</h1><p>我们要明白，控制物体旋转，时根据小白人的操作来进行控制的，主要控制权还是在小白人身上，所以我们需要在小白人蓝图中添加一个新的图表（姑且看作时一个Class吧）来调用“控制旋转”这个自定义事件</p>
+<p>将小白人看作主函数，“控制旋转”时自定义函数，我们需要在主函数中调用“控制旋转”！</p>
+<ol>
+<li><p>创建新的图标，创建一个新的变量“自我旋转对象”</p>
+</li>
+<li><p>变量类型为我们之前创建的那个蓝图类（自我旋转的Actor）</p>
+</li>
+<li><p>将变量设置为公有，使其可在此蓝图的每个实例上进行编辑（变量右边的眼睛图标）</p>
+</li>
+<li><p>将变量拖入蓝图中，用”Is Valid”判断是否为空</p>
+</li>
+<li><p>从变量拖出引线，调用“控制旋转”事件</p>
+</li>
+<li><p>最后，返回虚幻编辑器，小白人的细节面板，找到“自我旋转对象”，点击吸管工具，在视口中选择要旋转的对象！</p>
+</li>
+</ol>
 
     </div>
 
@@ -285,15 +320,21 @@
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%93%9D%E5%9B%BE/" rel="tag"># 蓝图</a>
+          </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
+                <a href="/2022/05/11/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%88%E4%B8%89%EF%BC%89/" rel="prev" title="有关算法中的动态规划（三）">
+                  <i class="fa fa-chevron-left"></i> 有关算法中的动态规划（三）
+                </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2022/03/27/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E5%8F%8C%E6%8C%87%E9%92%88/" rel="next" title="有关算法中的双指针">
-                  有关算法中的双指针 <i class="fa fa-chevron-right"></i>
+                <a href="/2022/05/12/UE4-%E5%8F%98%E9%87%8F%EF%BC%8C%E5%AE%9A%E6%97%B6%E5%99%A8%E5%92%8C%E4%BA%8B%E4%BB%B6/" rel="next" title="UE4-变量，定时器和事件">
+                  UE4-变量，定时器和事件 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
