@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">50</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,250 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/24/UE4-%E8%93%9D%E5%9B%BE-%E8%A7%92%E8%89%B2%E5%8A%A8%E7%94%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/24/UE4-%E8%93%9D%E5%9B%BE-%E8%A7%92%E8%89%B2%E5%8A%A8%E7%94%BB/" class="post-title-link" itemprop="url">UE4-蓝图-角色动画</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-05-24 16:03:59 / 修改时间：17:10:15" itemprop="dateCreated datePublished" datetime="2022-05-24T16:03:59+08:00">2022-05-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>本博客为<a target="_blank" rel="noopener" href="https://space.bilibili.com/31898841">谌嘉诚</a>的<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV164411Y732?p=60">蓝图教程</a>小结与反思</p>
+<h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><p>导入一个角色，用蓝图为其编写行走，上下左右看，跳舞的功能。并且把动画都绑定上去。</p>
+<h1 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h1><p>主要涉及到混合空间1D，动画蓝图，蒙太奇动画的内容</p>
+<h2 id="混合空间1D"><a href="#混合空间1D" class="headerlink" title="混合空间1D"></a>混合空间1D</h2><p>右键内容浏览器-&gt;动画-&gt;混合空间1D</p>
+<p>主要用于将若干个不同的动画之间进行切换时候的混合处理</p>
+<p>通俗来讲，就是从站立到奔跑这两个动作之间的过度！</p>
+<h3 id="插槽"><a href="#插槽" class="headerlink" title="插槽"></a>插槽</h3><p>用来标记，姑且理解为文件别名吧。</p>
+<p>窗口-&gt;动画插槽管理器-&gt;添加插槽</p>
+<h3 id="界面"><a href="#界面" class="headerlink" title="界面"></a>界面</h3><ol>
+<li><p>视图右边的“水平坐标”是一个变量，决定了视图下方播放器内的大小</p>
+</li>
+<li><p>将动画资产拖入播放条中相应的位置，虚幻引擎会自动计算混合结果</p>
+</li>
+</ol>
+<p><img src="D:\R_programme\Blog\source\images\BP_1D.png" alt="BP_1D.png"></p>
+<h2 id="动画蓝图"><a href="#动画蓝图" class="headerlink" title="动画蓝图"></a>动画蓝图</h2><p>右键内容管理器-&gt;动画-&gt;动画蓝图</p>
+<ol>
+<li><p>用于使用“状态机”来输出角色的动画表现效果</p>
+</li>
+<li><p>状态机内可以使用动画资源或者直接导入混合空间1D来编辑动画切换逻辑</p>
+<ul>
+<li><p>如果使用混合空间1D的话，需要对其进行编辑，通过原本混合空间1D设置好的“水平坐标”变量进行控制切换</p>
+</li>
+<li><p>如果使用动画资源编辑动画逻辑的话，请看我前面的博客“第一人称FPS”</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="蒙太奇动画"><a href="#蒙太奇动画" class="headerlink" title="蒙太奇动画"></a>蒙太奇动画</h2><p>右键一个动画序列-&gt;创建蒙太奇动画</p>
+<p>再蓝图内引用蒙太奇动画的时候需要</p>
+<ol>
+<li><p>由对应的网格体引出“获取动画实例”</p>
+</li>
+<li><p>引出“蒙太奇播放”，选择蒙太奇动画资源</p>
+</li>
+<li><p>或者引出“蒙太奇停止”，注意设置推出的时候的混合时间，这样可以让动画切换不那么生硬</p>
+</li>
+</ol>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><ol>
+<li><p>导入角色骨骼，然后再导入其动画，记得导入动画的时候绑定对应的骨骼</p>
+</li>
+<li><p>以Charactor为父类创建一个蓝图类，将骨骼网格体导入到“网格体”组件内</p>
+</li>
+<li><p>写好蓝图逻辑</p>
+<ul>
+<li><p>角色位移和蓝图旋转</p>
+</li>
+<li><p>奔跑</p>
+</li>
+<li><p>按下F跳舞（松开中断跳舞）</p>
+</li>
+<li><p>行走打断跳舞</p>
+</li>
+</ul>
+</li>
+<li><p>创建混合空间1D，将动画资源设置好，并且配置好插槽</p>
+</li>
+<li><p>创建蓝图动画</p>
+<ul>
+<li><p>在AnimGraph中添加状态机，插槽</p>
+</li>
+<li><p>编辑状态机，添加之前创建的混合空间1D</p>
+</li>
+<li><p>编辑混合空间1D，将其状态用它本身创建的“水平坐标”变量控制</p>
+</li>
+</ul>
+</li>
+<li><p>创建一个游戏模式，将默认的Pawn类修改好</p>
+</li>
+</ol>
+<h1 id="蓝图"><a href="#蓝图" class="headerlink" title="蓝图"></a>蓝图</h1><h2 id="BP-Charactor"><a href="#BP-Charactor" class="headerlink" title="BP_Charactor"></a>BP_Charactor</h2><p><img src="D:\R_programme\Blog\source\images\BP_Amination_Charator.png"></p>
+<p><img src="D:\R_programme\Blog\source\images\RUU7KVSI5[[VV{BDD{CSH6V.png"></p>
+<p><img src="D:\R_programme\Blog\source\images_UHMH0GVPGY@WBYKG3V_@Q3.png"></p>
+<h2 id="BP-Animation"><a href="#BP-Animation" class="headerlink" title="BP_Animation"></a>BP_Animation</h2><p><img src="D:\R_programme\Blog\source\images[TFNH3$A}J5IF}R8HTFXZ7F.png"></p>
+<p><img src="D:\R_programme\Blog\source\images\123123.png"></p>
+<p><img src="D:\R_programme\Blog\source\images\VN7}7G4H6]M3M$6F6VX~CP4.png"></p>
+<p><img src="D:\R_programme\Blog\source\images\3223523525.png"></p>
+<h2 id="混合空间1D-1"><a href="#混合空间1D-1" class="headerlink" title="混合空间1D"></a>混合空间1D</h2><p><img src="D:\R_programme\Blog\source\images\684864.png"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/24/%E7%9B%9B%E5%A4%8F%E7%9A%84%E5%90%90%E6%81%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/24/%E7%9B%9B%E5%A4%8F%E7%9A%84%E5%90%90%E6%81%AF/" class="post-title-link" itemprop="url">盛夏的吐息</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-05-24 13:48:36 / 修改时间：15:04:45" itemprop="dateCreated datePublished" datetime="2022-05-24T13:48:36+08:00">2022-05-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%A2%A6%E6%B8%B8%E7%AC%94%E8%B0%88/" itemprop="url" rel="index"><span itemprop="name">梦游笔谈</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>恍然地一个抬头，是云卷云舒，风云聚散。</p>
+<p>道路两旁是高大挺拔的梧桐树，阳光打在树叶上，顺着风的轨迹投下一片片的斑驳。</p>
+<p>若是能从高天之上俯瞰，便能看见一个故作潇洒的背刀侠客，一副神游天外的样子，漫步在某条人来人往的官道上。</p>
+<p>像是坚定的磐石劈开了力竭的海浪，他逆着人流往上，往上，往上！</p>
+<p>灵光乍现在冷却的肉体内，精魄沉积在沸腾的灵魂里。一下子拨开迷雾，倒是见到了前所未有的风景。</p>
+<p>很多选择并不是处于“我想要”，而是“我只能”。来来回回间，我只是顺势而为，选择了一个“不算错”的结果，因为对未来的迷茫，所以选择了这一行。口口声声说着“把爱好当作了职业”，但我很清楚，对于计算机与游戏，我谈不上热爱，只能算不讨厌。如果真的要根据爱好来选择职业的话，说不定我会成为一个作家？</p>
+<p>计算机算是高不成低不就，文字也太久没有动过笔了。以至于现在陷入了首鼠两端的尴尬处境。不过也好，如果我真的从事了文字工作，万一从此以后我便不再热爱文字了呢？</p>
+<p>我很清楚自己的才能，不是那种能改变世界的伟人，最多也只能算作是万千人海中的某个路人甲。更不是那些能写下荡气回肠的故事的主角，我只能算作那些故事里面的背景板，如果运气好的话，说不定能成为某个不太重要的配角。</p>
+<p>但其实我也并没有因此而感到沮丧，倒不如说我甚至乐得于此，我的个性也不允许我成为万众瞩目的焦点，时刻紧绷着大脑中每一个神经元的生活让我感到恐惧。我倒是有些喜欢慢一点的生活，如果没有生活的压力，或许我真的会劈柴，喂马，周游世界。成为一个诗人，作家，甚至是哲学家也说不定。</p>
+<p>都说小隐隐于野，大隐隐于市。生活的无奈容不下我隐于野，境界的贫瘠不允许我隐于市。只能学着那些街头巷尾算命的老头儿，做个半吊子神仙，摆几枚铜板，挂一张破布，上书几个大字，看着过往的走肉，有客接客，无客便摇扇，饮酒，洒脱。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1989,870 +2233,6 @@
 <li><p>调用父类：右键节点“将调用添加到父类函数”</p>
 </li>
 </ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/11/UE4-%E5%AE%9E%E7%8E%B0%E7%89%A9%E4%BD%93%E8%87%AA%E8%BD%AC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/05/11/UE4-%E5%AE%9E%E7%8E%B0%E7%89%A9%E4%BD%93%E8%87%AA%E8%BD%AC/" class="post-title-link" itemprop="url">UE4-实现物体自转</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-05-11 15:23:37 / 修改时间：15:47:51" itemprop="dateCreated datePublished" datetime="2022-05-11T15:23:37+08:00">2022-05-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>这一节是根据<a target="_blank" rel="noopener" href="https://space.bilibili.com/31898841">谌嘉诚</a>大佬的<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV164411Y732?p=41">蓝图教程</a>进行的小结</p>
-<p>主要知识点有：对象引用，变量有效性，自定义事件</p>
-<h1 id="对象引用"><a href="#对象引用" class="headerlink" title="对象引用"></a>对象引用</h1><p>可以看作是C++中的引用传递</p>
-<h1 id="变量有效性（Is-Valid）"><a href="#变量有效性（Is-Valid）" class="headerlink" title="变量有效性（Is Valid）"></a>变量有效性（Is Valid）</h1><p>保证某变量不为空</p>
-<h1 id="自定义事件-添加自定义事件"><a href="#自定义事件-添加自定义事件" class="headerlink" title="自定义事件(添加自定义事件)"></a>自定义事件(添加自定义事件)</h1><p>就可以看作是自定义函数</p>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>我们要实现按键盘1，就能让一个Actor自转</p>
-<h2 id="实现自转功能"><a href="#实现自转功能" class="headerlink" title="实现自转功能"></a>实现自转功能</h2><ol>
-<li><p>创建一个Actor蓝图类</p>
-</li>
-<li><p>创建一个bool值“能否旋转”，用“分支”节点使其值为true时连接到“添加本地旋转”节点上</p>
-</li>
-<li><p>为了能让Actor一直旋转，需要将“事件Tick”来实现帧更新</p>
-</li>
-<li><p>最后不要忘记将Actor本身添加到“添加本地旋转”节点的目标上！</p>
-</li>
-</ol>
-<h2 id="控制旋转事件"><a href="#控制旋转事件" class="headerlink" title="控制旋转事件"></a>控制旋转事件</h2><ol>
-<li><p>默认生成的“能否旋转”为false，现在我们创建一个自定义事件来使其能在true和false之间转换</p>
-</li>
-<li><p>创建“分支”节点-&gt;可以看作为if(能否旋转&#x3D;false){能否旋转&#x3D;true;}</p>
-</li>
-</ol>
-<h1 id="控制物体自转"><a href="#控制物体自转" class="headerlink" title="控制物体自转"></a>控制物体自转</h1><p>我们要明白，控制物体旋转，时根据小白人的操作来进行控制的，主要控制权还是在小白人身上，所以我们需要在小白人蓝图中添加一个新的图表（姑且看作时一个Class吧）来调用“控制旋转”这个自定义事件</p>
-<p>将小白人看作主函数，“控制旋转”时自定义函数，我们需要在主函数中调用“控制旋转”！</p>
-<ol>
-<li><p>创建新的图标，创建一个新的变量“自我旋转对象”</p>
-</li>
-<li><p>变量类型为我们之前创建的那个蓝图类（自我旋转的Actor）</p>
-</li>
-<li><p>将变量设置为公有，使其可在此蓝图的每个实例上进行编辑（变量右边的眼睛图标）</p>
-</li>
-<li><p>将变量拖入蓝图中，用”Is Valid”判断是否为空</p>
-</li>
-<li><p>从变量拖出引线，调用“控制旋转”事件</p>
-</li>
-<li><p>最后，返回虚幻编辑器，小白人的细节面板，找到“自我旋转对象”，点击吸管工具，在视口中选择要旋转的对象！</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/11/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%88%E4%B8%89%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/05/11/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%88%E4%B8%89%EF%BC%89/" class="post-title-link" itemprop="url">有关算法中的动态规划（三）</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-05-11 08:38:33" itemprop="dateCreated datePublished" datetime="2022-05-11T08:38:33+08:00">2022-05-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-05-22 10:15:17" itemprop="dateModified" datetime="2022-05-22T10:15:17+08:00">2022-05-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="最长递增子序列"><a href="#最长递增子序列" class="headerlink" title="最长递增子序列"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/longest-increasing-subsequence/">最长递增子序列</a></h1><p>给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。</p>
-<p>子序列是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，[3,6,2,7] 是数组 [0,3,1,6,2,2,7] 的子序列。</p>
-<p>示例 1： </p>
-<p>输入：nums &#x3D; [10,9,2,5,3,7,101,18] </p>
-<p>输出：4 </p>
-<p>解释：最长递增子序列是 [2,3,7,101]，因此长度为 4 。</p>
-<p>示例 2： </p>
-<p>输入：nums &#x3D; [0,1,0,3,2,3] </p>
-<p>输出：4</p>
-<p>示例 3： </p>
-<p>输入：nums &#x3D; [7,7,7,7,7,7,7] </p>
-<p>输出：1</p>
-<p>提示：</p>
-<ul>
-<li>1 &lt;&#x3D; nums.length &lt;&#x3D; 2500</li>
-<li>-10^4 &lt;&#x3D; nums[i] &lt;&#x3D; 104</li>
-</ul>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>最长上升子序列是动规的经典题目，这里dp[i]是可以根据dp[j] （j &lt; i）推导出来的，那么依然用动规五部曲来分析详细一波：</p>
-<ol>
-<li>dp[i]的定义</li>
-</ol>
-<p><strong>dp[i]表示i之前包括i的以nums[i]结尾最长上升子序列的长度</strong></p>
-<ol start="2">
-<li>状态转移方程</li>
-</ol>
-<p>位置i的最长升序子序列等于j从0到i-1各个位置的最长升序子序列 + 1 的最大值。</p>
-<p>所以：if (nums[i] &gt; nums[j]) dp[i] &#x3D; max(dp[i], dp[j] + 1);</p>
-<p><strong>注意这里不是要dp[i] 与 dp[j] + 1进行比较，而是我们要取dp[j] + 1的最大值</strong>。</p>
-<ol start="3">
-<li>dp[i]的初始化</li>
-</ol>
-<p>每一个i，对应的dp[i]（即最长上升子序列）起始大小至少都是1。</p>
-<ol start="4">
-<li>确定遍历顺序</li>
-</ol>
-<p>dp[i] 是有0到i-1各个位置的最长升序子序列 推导而来，那么遍历i一定是从前向后遍历。</p>
-<p>j其实就是0到i-1，遍历i的循环在外层，遍历j则在内层，代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; i; j++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums[i] &gt; nums[j]) dp[i] = <span class="built_in">max</span>(dp[i], dp[j] + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (dp[i] &gt; result) result = dp[i]; <span class="comment">// 取长的子序列</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="5">
-<li>举例推导dp数组</li>
-</ol>
-<p>输入：[0,1,0,3,2]，dp数组的变化如下：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210110170945618.jpg" alt="300.最长上升子序列"></p>
-<p>如果代码写出来，但一直AC不了，那么就把dp数组打印出来，看看对不对！</p>
-<p>以上五部分析完毕，C++代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">lengthOfLIS</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (nums.<span class="built_in">size</span>() &lt;= <span class="number">1</span>) <span class="keyword">return</span> nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">dp</span><span class="params">(nums.size(), <span class="number">1</span>)</span></span>;</span><br><span class="line">        <span class="type">int</span> result = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; i; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (nums[i] &gt; nums[j]) dp[i] = <span class="built_in">max</span>(dp[i], dp[j] + <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (dp[i] &gt; result) result = dp[i]; <span class="comment">// 取长的子序列</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h1 id="最长连续递增序列"><a href="#最长连续递增序列" class="headerlink" title="最长连续递增序列"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/longest-continuous-increasing-subsequence/">最长连续递增序列</a></h1><p>给定一个未经排序的整数数组，找到最长且 连续递增的子序列，并返回该序列的长度。</p>
-<p>连续递增的子序列 可以由两个下标 l 和 r（l &lt; r）确定，如果对于每个 l &lt;&#x3D; i &lt; r，都有 nums[i] &lt; nums[i + 1] ，那么子序列 [nums[l], nums[l + 1], …, nums[r - 1], nums[r]] 就是连续递增子序列。</p>
-<p>示例 1： </p>
-<p>输入：nums &#x3D; [1,3,5,4,7] </p>
-<p>输出：3 </p>
-<p>解释：最长连续递增序列是 [1,3,5], 长度为3。 尽管 [1,3,5,7] 也是升序的子序列, 但它不是连续的，因为 5 和 7 在原数组里被 4 隔开。</p>
-<p>示例 2： </p>
-<p>输入：nums &#x3D; [2,2,2,2,2] </p>
-<p>输出：1 </p>
-<p>解释：最长连续递增序列是 [2], 长度为1。</p>
-<p>提示：</p>
-<ul>
-<li>0 &lt;&#x3D; nums.length &lt;&#x3D; 10^4</li>
-<li>-10^9 &lt;&#x3D; nums[i] &lt;&#x3D; 10^9</li>
-</ul>
-<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><p>动规五部曲分析如下：</p>
-<ol>
-<li>确定dp数组（dp table）以及下标的含义</li>
-</ol>
-<p>**dp[i]：以下标i为结尾的数组的连续递增的子序列长度为dp[i]**。</p>
-<p>注意这里的定义，一定是以下标i为结尾，并不是说一定以下标0为起始位置。</p>
-<ol start="2">
-<li>确定递推公式</li>
-</ol>
-<p>如果 nums[i + 1] &gt; nums[i]，那么以 i+1 为结尾的数组的连续递增的子序列长度 一定等于 以i为结尾的数组的连续递增的子序列长度 + 1 。</p>
-<p>即：dp[i + 1] &#x3D; dp[i] + 1;</p>
-<p><strong>注意这里就体现出和<a target="_blank" rel="noopener" href="https://programmercarl.com/0300.%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97.html">动态规划：300.最长递增子序列</a>的区别！</strong></p>
-<p>因为本题要求连续递增子序列，所以就必要比较nums[i + 1]与nums[i]，而不用去比较nums[j]与nums[i] （j是在0到i之间遍历）。</p>
-<p>既然不用j了，那么也不用两层for循环，本题一层for循环就行，比较nums[i + 1] 和 nums[i]。</p>
-<p>这里大家要好好体会一下！</p>
-<ol start="3">
-<li>dp数组如何初始化</li>
-</ol>
-<p>以下标i为结尾的数组的连续递增的子序列长度最少也应该是1，即就是nums[i]这一个元素。</p>
-<p>所以dp[i]应该初始1;</p>
-<ol start="4">
-<li>确定遍历顺序</li>
-</ol>
-<p>从递推公式上可以看出， dp[i + 1]依赖dp[i]，所以一定是从前向后遍历。</p>
-<p>本文在确定递推公式的时候也说明了为什么本题只需要一层for循环，代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>() - <span class="number">1</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (nums[i + <span class="number">1</span>] &gt; nums[i]) &#123; <span class="comment">// 连续记录</span></span><br><span class="line">        dp[i + <span class="number">1</span>] = dp[i] + <span class="number">1</span>; <span class="comment">// 递推公式</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="5">
-<li>举例推导dp数组</li>
-</ol>
-<p>已输入nums &#x3D; [1,3,5,4,7]为例，dp数组状态如下：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210204103529742.jpg" alt="674.最长连续递增序列"></p>
-<p><strong>注意这里要取dp[i]里的最大值，所以dp[2]才是结果！</strong></p>
-<p>以上分析完毕，C++代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">findLengthOfLCIS</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (nums.<span class="built_in">size</span>() == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> result = <span class="number">1</span>;</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">dp</span><span class="params">(nums.size() ,<span class="number">1</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>() - <span class="number">1</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i + <span class="number">1</span>] &gt; nums[i]) &#123; <span class="comment">// 连续记录</span></span><br><span class="line">                dp[i + <span class="number">1</span>] = dp[i] + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (dp[i + <span class="number">1</span>] &gt; result) result = dp[i + <span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h1 id="最长重复子数组"><a href="#最长重复子数组" class="headerlink" title="最长重复子数组"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/maximum-length-of-repeated-subarray/">最长重复子数组</a></h1><p>给两个整数数组 A 和 B ，返回两个数组中公共的、长度最长的子数组的长度。</p>
-<p>示例：</p>
-<p>输入： A: [1,2,3,2,1] B: [3,2,1,4,7] 输出：3 解释： 长度最长的公共子数组是 [3, 2, 1] 。</p>
-<p>提示：</p>
-<ul>
-<li>1 &lt;&#x3D; len(A), len(B) &lt;&#x3D; 1000</li>
-<li>0 &lt;&#x3D; A[i], B[i] &lt; 100</li>
-</ul>
-<h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><p>注意题目中说的子数组，其实就是连续子序列。</p>
-<p>这种问题动规最拿手，动规五部曲分析如下：</p>
-<ol>
-<li>确定dp数组（dp table）以及下标的含义</li>
-</ol>
-<p>dp[i][j] ：以下标i - 1为结尾的A，和以下标j - 1为结尾的B，最长重复子数组长度为dp[i][j]。</p>
-<p>此时细心的同学应该发现，那dp[0][0]是什么含义呢？总不能是以下标-1为结尾的A数组吧。</p>
-<p>其实dp[i][j]的定义也就决定着，我们在遍历dp[i][j]的时候i 和 j都要从1开始。</p>
-<p>那有同学问了，我就定义dp[i][j]为 以下标i为结尾的A，和以下标j 为结尾的B，最长重复子数组长度。不行么？</p>
-<p>行倒是行！ 但实现起来就麻烦一点，大家看下面的dp数组状态图就明白了。</p>
-<ol start="2">
-<li>确定递推公式</li>
-</ol>
-<p>根据dp[i][j]的定义，dp[i][j]的状态只能由dp[i - 1][j - 1]推导出来。</p>
-<p>即当A[i - 1] 和B[j - 1]相等的时候，dp[i][j] &#x3D; dp[i - 1][j - 1] + 1;</p>
-<p>根据递推公式可以看出，遍历i 和 j 要从1开始！</p>
-<ol start="3">
-<li>dp数组如何初始化</li>
-</ol>
-<p>根据dp[i][j]的定义，dp[i][0] 和dp[0][j]其实都是没有意义的！</p>
-<p>但dp[i][0] 和dp[0][j]要初始值，因为 为了方便递归公式dp[i][j] &#x3D; dp[i - 1][j - 1] + 1;</p>
-<p>所以dp[i][0] 和dp[0][j]初始化为0。</p>
-<p>举个例子A[0]如果和B[0]相同的话，dp[1][1] &#x3D; dp[0][0] + 1，只有dp[0][0]初始为0，正好符合递推公式逐步累加起来。</p>
-<ol start="4">
-<li>确定遍历顺序</li>
-</ol>
-<p>外层for循环遍历A，内层for循环遍历B。</p>
-<p>那又有同学问了，外层for循环遍历B，内层for循环遍历A。不行么？</p>
-<p>也行，一样的，我这里就用外层for循环遍历A，内层for循环遍历B了。</p>
-<p>同时题目要求长度最长的子数组的长度。所以在遍历的时候顺便把dp[i][j]的最大值记录下来。</p>
-<p>代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= A.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= B.<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (A[i - <span class="number">1</span>] == B[j - <span class="number">1</span>]) &#123;</span><br><span class="line">            dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (dp[i][j] &gt; result) result = dp[i][j];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="5">
-<li>举例推导dp数组</li>
-</ol>
-<p>拿示例1中，A: [1,2,3,2,1]，B: [3,2,1,4,7]为例，画一个dp数组的状态变化，如下：</p>
-<p><img src="https://img-blog.csdnimg.cn/2021011215282060.jpg" alt="718.最长重复子数组"></p>
-<p>以上五部曲分析完毕，C++代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">findLength</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; A, vector&lt;<span class="type">int</span>&gt;&amp; B)</span> </span>&#123;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">dp</span> (A.<span class="built_in">size</span>() + <span class="number">1</span>, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(B.<span class="built_in">size</span>() + <span class="number">1</span>, <span class="number">0</span>));</span><br><span class="line">        <span class="type">int</span> result = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= A.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= B.<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (A[i - <span class="number">1</span>] == B[j - <span class="number">1</span>]) &#123;</span><br><span class="line">                    dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (dp[i][j] &gt; result) result = dp[i][j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h1 id="最长公共子序列"><a href="#最长公共子序列" class="headerlink" title="最长公共子序列"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/longest-common-subsequence/">最长公共子序列</a></h1><p>给定两个字符串 text1 和 text2，返回这两个字符串的最长公共子序列的长度。</p>
-<p>一个字符串的 子序列 是指这样一个新的字符串：它是由原字符串在不改变字符的相对顺序的情况下删除某些字符（也可以不删除任何字符）后组成的新字符串。</p>
-<p>例如，”ace” 是 “abcde” 的子序列，但 “aec” 不是 “abcde” 的子序列。两个字符串的「公共子序列」是这两个字符串所共同拥有的子序列。</p>
-<p>若这两个字符串没有公共子序列，则返回 0。</p>
-<p>示例 1:</p>
-<p>输入：text1 &#x3D; “abcde”, text2 &#x3D; “ace”<br>输出：3<br>解释：最长公共子序列是 “ace”，它的长度为 3。</p>
-<p>示例 2:<br>输入：text1 &#x3D; “abc”, text2 &#x3D; “abc”<br>输出：3<br>解释：最长公共子序列是 “abc”，它的长度为 3。</p>
-<p>示例 3:<br>输入：text1 &#x3D; “abc”, text2 &#x3D; “def”<br>输出：0<br>解释：两个字符串没有公共子序列，返回 0。</p>
-<p>提示:</p>
-<ul>
-<li>1 &lt;&#x3D; text1.length &lt;&#x3D; 1000</li>
-<li>1 &lt;&#x3D; text2.length &lt;&#x3D; 1000 输入的字符串只含有小写英文字符。</li>
-</ul>
-<h2 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h2><p>本题和<a target="_blank" rel="noopener" href="https://programmercarl.com/0718.%E6%9C%80%E9%95%BF%E9%87%8D%E5%A4%8D%E5%AD%90%E6%95%B0%E7%BB%84.html">动态规划：718. 最长重复子数组 </a>区别在于这里不要求是连续的了，但要有相对顺序，即：”ace” 是 “abcde” 的子序列，但 “aec” 不是 “abcde” 的子序列。</p>
-<p>继续动规五部曲分析如下：</p>
-<ol>
-<li>确定dp数组（dp table）以及下标的含义</li>
-</ol>
-<p>dp[i][j]：长度为[0, i - 1]的字符串text1 与长度为[0, j - 1]的字符串text2的最长公共子序列为dp[i][j]</p>
-<p>有同学会问：为什么要定义长度为[0, i - 1]的字符串text1，定义为长度为[0, i]的字符串text1不香么？</p>
-<p>这样定义是为了后面代码实现方便，如果非要定义为为长度为[0, i]的字符串text1也可以，大家可以试一试！</p>
-<ol start="2">
-<li>确定递推公式</li>
-</ol>
-<p>主要就是两大情况： text1[i - 1] 与 text2[j - 1]相同，text1[i - 1] 与 text2[j - 1]不相同</p>
-<p>如果text1[i - 1] 与 text2[j - 1]相同，那么找到了一个公共元素，所以dp[i][j] &#x3D; dp[i - 1][j - 1] + 1;</p>
-<p>如果text1[i - 1] 与 text2[j - 1]不相同，那就看看text1[0, i - 2]与text2[0, j - 1]的最长公共子序列 和 text1[0, i - 1]与text2[0, j - 2]的最长公共子序列，取最大的。</p>
-<p>即：dp[i][j] &#x3D; max(dp[i - 1][j], dp[i][j - 1]);</p>
-<p>代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (text1[i - <span class="number">1</span>] == text2[j - <span class="number">1</span>]) &#123;</span><br><span class="line">    dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    dp[i][j] = <span class="built_in">max</span>(dp[i - <span class="number">1</span>][j], dp[i][j - <span class="number">1</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>dp数组如何初始化</li>
-</ol>
-<p>先看看dp[i][0]应该是多少呢？</p>
-<p>test1[0, i-1]和空串的最长公共子序列自然是0，所以dp[i][0] &#x3D; 0;</p>
-<p>同理dp[0][j]也是0。</p>
-<p>其他下标都是随着递推公式逐步覆盖，初始为多少都可以，那么就统一初始为0。</p>
-<p>代码：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">dp</span>(text1.<span class="built_in">size</span>() + <span class="number">1</span>, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(text2.<span class="built_in">size</span>() + <span class="number">1</span>, <span class="number">0</span>));</span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li>确定遍历顺序</li>
-</ol>
-<p>从递推公式，可以看出，有三个方向可以推出dp[i][j]，如图：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210204115139616.jpg" alt="1143.最长公共子序列"></p>
-<p>那么为了在递推的过程中，这三个方向都是经过计算的数值，所以要从前向后，从上到下来遍历这个矩阵。</p>
-<ol start="5">
-<li>举例推导dp数组</li>
-</ol>
-<p>以输入：text1 &#x3D; “abcde”, text2 &#x3D; “ace” 为例，dp状态如图：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210210150215918.jpg" alt="1143.最长公共子序列1"></p>
-<p>最后红框dp[text1.size()][text2.size()]为最终结果</p>
-<p>以上分析完毕，C++代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">longestCommonSubsequence</span><span class="params">(string text1, string text2)</span> </span>&#123;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">dp</span>(text1.<span class="built_in">size</span>() + <span class="number">1</span>, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(text2.<span class="built_in">size</span>() + <span class="number">1</span>, <span class="number">0</span>));</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= text1.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= text2.<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (text1[i - <span class="number">1</span>] == text2[j - <span class="number">1</span>]) &#123;</span><br><span class="line">                    dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    dp[i][j] = <span class="built_in">max</span>(dp[i - <span class="number">1</span>][j], dp[i][j - <span class="number">1</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[text1.<span class="built_in">size</span>()][text2.<span class="built_in">size</span>()];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h1 id="不相交的线"><a href="#不相交的线" class="headerlink" title="不相交的线"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/uncrossed-lines/">不相交的线</a></h1><p>我们在两条独立的水平线上按给定的顺序写下 A 和 B 中的整数。</p>
-<p>现在，我们可以绘制一些连接两个数字 A[i] 和 B[j] 的直线，只要 A[i] &#x3D;&#x3D; B[j]，且我们绘制的直线不与任何其他连线（非水平线）相交。</p>
-<p>以这种方法绘制线条，并返回我们可以绘制的最大连线数。</p>
-<p><img src="https://img-blog.csdnimg.cn/2021032116363533.png" alt="1035.不相交的线"></p>
-<h2 id="思路-4"><a href="#思路-4" class="headerlink" title="思路"></a>思路</h2><p>绘制一些连接两个数字 A[i] 和 B[j] 的直线，只要 A[i] &#x3D;&#x3D; B[j]，且直线不能相交！</p>
-<p>直线不能相交，这就是说明在字符串A中 找到一个与字符串B相同的子序列，且这个子序列不能改变相对顺序，只要相对顺序不改变，链接相同数字的直线就不会相交。</p>
-<p>拿示例一A &#x3D; [1,4,2], B &#x3D; [1,2,4]为例，相交情况如图：</p>
-<p><img src="https://code-thinking-1253855093.file.myqcloud.com/pics/20210914145158.png"></p>
-<p>其实也就是说A和B的最长公共子序列是[1,4]，长度为2。 这个公共子序列指的是相对顺序不变（即数字4在字符串A中数字1的后面，那么数字4也应该在字符串B数字1的后面）</p>
-<p>这么分析完之后，大家可以发现：<strong>本题说是求绘制的最大连线数，其实就是求两个字符串的最长公共子序列的长度！</strong></p>
-<p>那么本题就和我们刚刚讲过的这道题目<a target="_blank" rel="noopener" href="https://programmercarl.com/1143.%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E5%BA%8F%E5%88%97.html">动态规划：1143.最长公共子序列 </a>就是一样一样的了。</p>
-<p>一样到什么程度呢？ 把字符串名字改一下，其他代码都不用改，直接copy过来就行了。</p>
-<p>其实本题就是求最长公共子序列的长度，介于我们刚刚讲过<a target="_blank" rel="noopener" href="https://programmercarl.com/1143.%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E5%BA%8F%E5%88%97.html">动态规划：1143.最长公共子序列 </a>，所以本题我就不再做动规五部曲分析了。</p>
-<p>如果大家有点遗忘了最长公共子序列，就再看一下这篇：<a target="_blank" rel="noopener" href="https://programmercarl.com/1143.%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E5%BA%8F%E5%88%97.html">动态规划：1143.最长公共子序列</a></p>
-<p>本题代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maxUncrossedLines</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; A, vector&lt;<span class="type">int</span>&gt;&amp; B)</span> </span>&#123;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">dp</span>(A.<span class="built_in">size</span>() + <span class="number">1</span>, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(B.<span class="built_in">size</span>() + <span class="number">1</span>, <span class="number">0</span>));</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= A.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= B.<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (A[i - <span class="number">1</span>] == B[j - <span class="number">1</span>]) &#123;</span><br><span class="line">                    dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    dp[i][j] = <span class="built_in">max</span>(dp[i - <span class="number">1</span>][j], dp[i][j - <span class="number">1</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[A.<span class="built_in">size</span>()][B.<span class="built_in">size</span>()];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h1 id="最大子序和"><a href="#最大子序和" class="headerlink" title="最大子序和"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/maximum-subarray/">最大子序和</a></h1><p>给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。</p>
-<p>示例: 输入: [-2,1,-3,4,-1,2,1,-5,4] 输出: 6 解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。</p>
-<h2 id="思路-5"><a href="#思路-5" class="headerlink" title="思路"></a>思路</h2><p>这道题之前我们在讲解贪心专题的时候用贪心算法解决过一次，<a target="_blank" rel="noopener" href="https://programmercarl.com/0053.%E6%9C%80%E5%A4%A7%E5%AD%90%E5%BA%8F%E5%92%8C.html">贪心算法：最大子序和 </a>。</p>
-<p>这次我们用动态规划的思路再来分析一次。</p>
-<p>动规五部曲如下：</p>
-<ol>
-<li>确定dp数组（dp table）以及下标的含义</li>
-</ol>
-<p>**dp[i]：包括下标i之前的最大连续子序列和为dp[i]**。</p>
-<ol start="2">
-<li>确定递推公式</li>
-</ol>
-<p>dp[i]只有两个方向可以推出来：</p>
-<ul>
-<li>dp[i - 1] + nums[i]，即：nums[i]加入当前连续子序列和</li>
-<li>nums[i]，即：从头开始计算当前连续子序列和</li>
-</ul>
-<p>一定是取最大的，所以dp[i] &#x3D; max(dp[i - 1] + nums[i], nums[i]);</p>
-<ol start="3">
-<li>dp数组如何初始化</li>
-</ol>
-<p>从递推公式可以看出来dp[i]是依赖于dp[i - 1]的状态，dp[0]就是递推公式的基础。</p>
-<p>dp[0]应该是多少呢?</p>
-<p>根据dp[i]的定义，很明显dp[0]应为nums[0]即dp[0] &#x3D; nums[0]。</p>
-<ol start="4">
-<li>确定遍历顺序</li>
-</ol>
-<p>递推公式中dp[i]依赖于dp[i - 1]的状态，需要从前向后遍历。</p>
-<ol start="5">
-<li>举例推导dp数组</li>
-</ol>
-<p>以示例一为例，输入：nums &#x3D; [-2,1,-3,4,-1,2,1,-5,4]，对应的dp状态如下： <img src="https://img-blog.csdnimg.cn/20210303104129101.png" alt="53.最大子序和（动态规划）"></p>
-<p><strong>注意最后的结果可不是dp[nums.size() - 1]！</strong> ，而是dp[6]。</p>
-<p>在回顾一下dp[i]的定义：包括下标i之前的最大连续子序列和为dp[i]。</p>
-<p>那么我们要找最大的连续子序列，就应该找每一个i为终点的连续最大子序列。</p>
-<p>所以在递推公式的时候，可以直接选出最大的dp[i]。</p>
-<p>以上动规五部曲分析完毕，完整代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maxSubArray</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (nums.<span class="built_in">size</span>() == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">dp</span><span class="params">(nums.size())</span></span>;</span><br><span class="line">        dp[<span class="number">0</span>] = nums[<span class="number">0</span>];</span><br><span class="line">        <span class="type">int</span> result = dp[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            dp[i] = <span class="built_in">max</span>(dp[i - <span class="number">1</span>] + nums[i], nums[i]); <span class="comment">// 状态转移公式</span></span><br><span class="line">            <span class="keyword">if</span> (dp[i] &gt; result) result = dp[i]; <span class="comment">// result 保存dp[i]的最大值</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h1 id="判断子序列"><a href="#判断子序列" class="headerlink" title="判断子序列"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/is-subsequence/">判断子序列</a></h1><p>给定字符串 s 和 t ，判断 s 是否为 t 的子序列。</p>
-<p>字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，”ace”是”abcde”的一个子序列，而”aec”不是）。</p>
-<p>示例 1： 输入：s &#x3D; “abc”, t &#x3D; “ahbgdc” 输出：true</p>
-<p>示例 2： 输入：s &#x3D; “axc”, t &#x3D; “ahbgdc” 输出：false</p>
-<p>提示：</p>
-<ul>
-<li>0 &lt;&#x3D; s.length &lt;&#x3D; 100</li>
-<li>0 &lt;&#x3D; t.length &lt;&#x3D; 10^4</li>
-</ul>
-<p>两个字符串都只由小写字符组成。</p>
-<h2 id="思路-6"><a href="#思路-6" class="headerlink" title="思路"></a>思路</h2><p>（这道题可以用双指针的思路来实现，时间复杂度就是$O(n)$）</p>
-<p>这道题应该算是编辑距离的入门题目，因为从题意中我们也可以发现，只需要计算删除的情况，不用考虑增加和替换的情况。</p>
-<p><strong>所以掌握本题也是对后面要讲解的编辑距离的题目打下基础</strong>。</p>
-<p>动态规划五部曲分析如下：</p>
-<ol>
-<li>确定dp数组（dp table）以及下标的含义</li>
-</ol>
-<p>**dp[i][j] 表示以下标i-1为结尾的字符串s，和以下标j-1为结尾的字符串t，相同子序列的长度为dp[i][j]**。</p>
-<p>注意这里是判断s是否为t的子序列。即t的长度是大于等于s的。</p>
-<p>有同学问了，为啥要表示下标i-1为结尾的字符串呢，为啥不表示下标i为结尾的字符串呢？</p>
-<p>用i来表示也可以！</p>
-<p>但我统一以下标i-1为结尾的字符串来计算，这样在下面的递归公式中会容易理解一些，如果还有疑惑，可以继续往下看。</p>
-<ol start="2">
-<li>确定递推公式</li>
-</ol>
-<p>在确定递推公式的时候，首先要考虑如下两种操作，整理如下：</p>
-<ul>
-<li>if (s[i - 1] &#x3D;&#x3D; t[j - 1])<ul>
-<li>t中找到了一个字符在s中也出现了</li>
-</ul>
-</li>
-<li>if (s[i - 1] !&#x3D; t[j - 1])<ul>
-<li>相当于<strong>t要删除元素，继续匹配</strong></li>
-</ul>
-</li>
-</ul>
-<p>if (s[i - 1] &#x3D;&#x3D; t[j - 1])，那么dp[i][j] &#x3D; dp[i - 1][j - 1] + 1;，因为找到了一个相同的字符，相同子序列长度自然要在dp[i-1][j-1]的基础上加1（<strong>如果不理解，在回看一下dp[i][j]的定义</strong>）</p>
-<p>if (s[i - 1] !&#x3D; t[j - 1])，此时相当于t要删除元素，t如果把当前元素t[j - 1]删除，那么dp[i][j] 的数值就是 看s[i - 1]与 t[j - 2]的比较结果了，即：dp[i][j] &#x3D; dp[i][j - 1];</p>
-<ol start="3">
-<li>dp数组如何初始化</li>
-</ol>
-<p>从递推公式可以看出dp[i][j]都是依赖于dp[i - 1][j - 1] 和 dp[i][j - 1]，所以dp[0][0]和dp[i][0]是一定要初始化的。</p>
-<p>这里大家已经可以发现，在定义dp[i][j]含义的时候为什么要**表示以下标i-1为结尾的字符串s，和以下标j-1为结尾的字符串t，相同子序列的长度为dp[i][j]**。</p>
-<p>因为这样的定义在dp二维矩阵中可以留出初始化的区间，如图：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210303173115966.png" alt="392.判断子序列"></p>
-<p>如果要是定义的dp[i][j]是以下标i为结尾的字符串s和以下标j为结尾的字符串t，初始化就比较麻烦了。</p>
-<p>dp[i][0] 表示以下标i-1为结尾的字符串，与空字符串的相同子序列长度，所以为0. dp[0][j]同理。</p>
-<p><strong>其实这里只初始化dp[i][0]就够了，但一起初始化也方便，所以就一起操作了</strong>，代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">dp</span>(s.<span class="built_in">size</span>() + <span class="number">1</span>, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(t.<span class="built_in">size</span>() + <span class="number">1</span>, <span class="number">0</span>));</span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li>确定遍历顺序</li>
-</ol>
-<p>同理从递推公式可以看出dp[i][j]都是依赖于dp[i - 1][j - 1] 和 dp[i][j - 1]，那么遍历顺序也应该是从上到下，从左到右</p>
-<p>如图所示：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210303172354155.jpg" alt="392.判断子序列1"></p>
-<ol start="5">
-<li>举例推导dp数组</li>
-</ol>
-<p>以示例一为例，输入：s &#x3D; “abc”, t &#x3D; “ahbgdc”，dp状态转移图如下：</p>
-<p><img src="https://img-blog.csdnimg.cn/2021030317364166.jpg" alt="392.判断子序列2"></p>
-<p>dp[i][j]表示以下标i-1为结尾的字符串s和以下标j-1为结尾的字符串t 相同子序列的长度，所以如果dp[s.size()][t.size()] 与 字符串s的长度相同说明：s与t的最长相同子序列就是s，那么s 就是 t 的子序列。</p>
-<p>图中dp[s.size()][t.size()] &#x3D; 3， 而s.size() 也为3。所以s是t 的子序列，返回true。</p>
-<p>动规五部曲分析完毕，C++代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isSubsequence</span><span class="params">(string s, string t)</span> </span>&#123;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">dp</span>(s.<span class="built_in">size</span>() + <span class="number">1</span>, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(t.<span class="built_in">size</span>() + <span class="number">1</span>, <span class="number">0</span>));</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= s.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= t.<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (s[i - <span class="number">1</span>] == t[j - <span class="number">1</span>]) dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">else</span> dp[i][j] = dp[i][j - <span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (dp[s.<span class="built_in">size</span>()][t.<span class="built_in">size</span>()] == s.<span class="built_in">size</span>()) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h1 id="不同的子序列"><a href="#不同的子序列" class="headerlink" title="不同的子序列"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/distinct-subsequences/">不同的子序列</a></h1><p>给定一个字符串 s 和一个字符串 t ，计算在 s 的子序列中 t 出现的个数。</p>
-<p>字符串的一个 子序列 是指，通过删除一些（也可以不删除）字符且不干扰剩余字符相对位置所组成的新字符串。（例如，”ACE” 是 “ABCDE” 的一个子序列，而 “AEC” 不是）</p>
-<p>题目数据保证答案符合 32 位带符号整数范围。</p>
-<p><img src="https://code-thinking.cdn.bcebos.com/pics/115.%E4%B8%8D%E5%90%8C%E7%9A%84%E5%AD%90%E5%BA%8F%E5%88%97%E7%A4%BA%E4%BE%8B.jpg" alt="115.不同的子序列示例"></p>
-<p>提示：</p>
-<p>0 &lt;&#x3D; s.length, t.length &lt;&#x3D; 1000 s 和 t 由英文字母组成</p>
-<h2 id="思路-7"><a href="#思路-7" class="headerlink" title="思路"></a>思路</h2><p>这道题目如果不是子序列，而是要求连续序列的，那就可以考虑用KMP。</p>
-<p>这道题目相对于72. 编辑距离，简单了不少，因为本题相当于只有删除操作，不用考虑替换增加之类的。</p>
-<p>但相对于刚讲过的<a target="_blank" rel="noopener" href="https://programmercarl.com/0392.%E5%88%A4%E6%96%AD%E5%AD%90%E5%BA%8F%E5%88%97.html">动态规划：392.判断子序列</a>就有难度了，这道题目双指针法可就做不了了，来看看动规五部曲分析如下：</p>
-<ol>
-<li>确定dp数组（dp table）以及下标的含义</li>
-</ol>
-<p>dp[i][j]：以i-1为结尾的s子序列中出现以j-1为结尾的t的个数为dp[i][j]。</p>
-<ol start="2">
-<li>确定递推公式</li>
-</ol>
-<p>这一类问题，基本是要分析两种情况</p>
-<ul>
-<li>s[i - 1] 与 t[j - 1]相等</li>
-<li>s[i - 1] 与 t[j - 1] 不相等</li>
-</ul>
-<p>当s[i - 1] 与 t[j - 1]相等时，dp[i][j]可以有两部分组成。</p>
-<p>一部分是用s[i - 1]来匹配，那么个数为dp[i - 1][j - 1]。</p>
-<p>一部分是不用s[i - 1]来匹配，个数为dp[i - 1][j]。</p>
-<p>这里可能有同学不明白了，为什么还要考虑 不用s[i - 1]来匹配，都相同了指定要匹配啊。</p>
-<p>例如： s：bagg 和 t：bag ，s[3] 和 t[2]是相同的，但是字符串s也可以不用s[3]来匹配，即用s[0]s[1]s[2]组成的bag。</p>
-<p>当然也可以用s[3]来匹配，即：s[0]s[1]s[3]组成的bag。</p>
-<p>所以当s[i - 1] 与 t[j - 1]相等时，<strong>dp[i][j] &#x3D; dp[i - 1][j - 1] + dp[i - 1][j];</strong></p>
-<p>当s[i - 1] 与 t[j - 1]不相等时，dp[i][j]只有一部分组成，不用s[i - 1]来匹配，即：dp[i - 1][j]</p>
-<p>所以递推公式为：<strong>dp[i][j] &#x3D; dp[i - 1][j];</strong></p>
-<ol start="3">
-<li>dp数组如何初始化</li>
-</ol>
-<p>从递推公式dp[i][j] &#x3D; dp[i - 1][j - 1] + dp[i - 1][j]; 和 dp[i][j] &#x3D; dp[i - 1][j]; 中可以看出dp[i][0] 和dp[0][j]是一定要初始化的。</p>
-<p>每次当初始化的时候，都要回顾一下dp[i][j]的定义，不要凭感觉初始化。</p>
-<p>dp[i][0]表示什么呢？</p>
-<p>dp[i][0] 表示：以i-1为结尾的s可以随便删除元素，出现空字符串的个数。</p>
-<p>那么dp[i][0]一定都是1，因为也就是把以i-1为结尾的s，删除所有元素，出现空字符串的个数就是1。</p>
-<p>再来看dp[0][j]，dp[0][j]：空字符串s可以随便删除元素，出现以j-1为结尾的字符串t的个数。</p>
-<p>那么dp[0][j]一定都是0，s如论如何也变成不了t。</p>
-<p>最后就要看一个特殊位置了，即：dp[0][0] 应该是多少。</p>
-<p>dp[0][0]应该是1，空字符串s，可以删除0个元素，变成空字符串t。</p>
-<p>初始化分析完毕，代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;vector&lt;<span class="type">long</span> <span class="type">long</span>&gt;&gt; <span class="built_in">dp</span>(s.<span class="built_in">size</span>() + <span class="number">1</span>, <span class="built_in">vector</span>&lt;<span class="type">long</span> <span class="type">long</span>&gt;(t.<span class="built_in">size</span>() + <span class="number">1</span>));</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt;= s.<span class="built_in">size</span>(); i++) dp[i][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= t.<span class="built_in">size</span>(); j++) dp[<span class="number">0</span>][j] = <span class="number">0</span>; <span class="comment">// 其实这行代码可以和dp数组初始化的时候放在一起，但我为了凸显初始化的逻辑，所以还是加上了。</span></span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li>确定遍历顺序</li>
-</ol>
-<p>从递推公式dp[i][j] &#x3D; dp[i - 1][j - 1] + dp[i - 1][j]; 和 dp[i][j] &#x3D; dp[i - 1][j]; 中可以看出dp[i][j]都是根据左上方和正上方推出来的。</p>
-<p>所以遍历的时候一定是从上到下，从左到右，这样保证dp[i][j]可以根据之前计算出来的数值进行计算。</p>
-<p>代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= s.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= t.<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (s[i - <span class="number">1</span>] == t[j - <span class="number">1</span>]) &#123;</span><br><span class="line">            dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + dp[i - <span class="number">1</span>][j];</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            dp[i][j] = dp[i - <span class="number">1</span>][j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="5">
-<li>举例推导dp数组</li>
-</ol>
-<p>以s：”baegg”，t：”bag”为例，推导dp数组状态如下：</p>
-<p><img src="https://code-thinking.cdn.bcebos.com/pics/115.%E4%B8%8D%E5%90%8C%E7%9A%84%E5%AD%90%E5%BA%8F%E5%88%97.jpg" alt="115.不同的子序列"></p>
-<p>如果写出来的代码怎么改都通过不了，不妨把dp数组打印出来，看一看，是不是这样的。</p>
-<p>动规五部曲分析完毕，代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">numDistinct</span><span class="params">(string s, string t)</span> </span>&#123;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">uint64_t</span>&gt;&gt; <span class="built_in">dp</span>(s.<span class="built_in">size</span>() + <span class="number">1</span>, <span class="built_in">vector</span>&lt;<span class="type">uint64_t</span>&gt;(t.<span class="built_in">size</span>() + <span class="number">1</span>));</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; s.<span class="built_in">size</span>(); i++) dp[i][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt; t.<span class="built_in">size</span>(); j++) dp[<span class="number">0</span>][j] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= s.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= t.<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (s[i - <span class="number">1</span>] == t[j - <span class="number">1</span>]) &#123;</span><br><span class="line">                    dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + dp[i - <span class="number">1</span>][j];</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    dp[i][j] = dp[i - <span class="number">1</span>][j];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[s.<span class="built_in">size</span>()][t.<span class="built_in">size</span>()];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h1 id="两个字符串的删除操作"><a href="#两个字符串的删除操作" class="headerlink" title="两个字符串的删除操作"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/delete-operation-for-two-strings/">两个字符串的删除操作</a></h1><p>给定两个单词 word1 和 word2，找到使得 word1 和 word2 相同所需的最小步数，每步可以删除任意一个字符串中的一个字符。</p>
-<p>示例：</p>
-<p>输入: “sea”, “eat”<br>输出: 2 解释: 第一步将”sea”变为”ea”，第二步将”eat”变为”ea”</p>
-<h2 id="思路-8"><a href="#思路-8" class="headerlink" title="思路"></a>思路</h2><h3 id="动态规划一"><a href="#动态规划一" class="headerlink" title="动态规划一"></a>动态规划一</h3><p>本题和<a target="_blank" rel="noopener" href="https://programmercarl.com/0115.%E4%B8%8D%E5%90%8C%E7%9A%84%E5%AD%90%E5%BA%8F%E5%88%97.html">动态规划：115.不同的子序列</a>相比，其实就是两个字符串都可以删除了，情况虽说复杂一些，但整体思路是不变的。</p>
-<p>这次是两个字符串可以相互删了，这种题目也知道用动态规划的思路来解，动规五部曲，分析如下：</p>
-<ol>
-<li>确定dp数组（dp table）以及下标的含义</li>
-</ol>
-<p>dp[i][j]：以i-1为结尾的字符串word1，和以j-1位结尾的字符串word2，想要达到相等，所需要删除元素的最少次数。</p>
-<p>这里dp数组的定义有点点绕，大家要撸清思路。</p>
-<ol start="2">
-<li>确定递推公式</li>
-</ol>
-<ul>
-<li>当word1[i - 1] 与 word2[j - 1]相同的时候</li>
-<li>当word1[i - 1] 与 word2[j - 1]不相同的时候</li>
-</ul>
-<p>当word1[i - 1] 与 word2[j - 1]相同的时候，dp[i][j] &#x3D; dp[i - 1][j - 1];</p>
-<p>当word1[i - 1] 与 word2[j - 1]不相同的时候，有三种情况：</p>
-<p>情况一：删word1[i - 1]，最少操作次数为dp[i - 1][j] + 1</p>
-<p>情况二：删word2[j - 1]，最少操作次数为dp[i][j - 1] + 1</p>
-<p>情况三：同时删word1[i - 1]和word2[j - 1]，操作的最少次数为dp[i - 1][j - 1] + 2</p>
-<p>那最后当然是取最小值，所以当word1[i - 1] 与 word2[j - 1]不相同的时候，递推公式：<strong>dp[i][j] &#x3D; min({dp[i - 1][j - 1] + 2, dp[i - 1][j] + 1, dp[i][j - 1] + 1});</strong></p>
-<ol start="3">
-<li>dp数组如何初始化</li>
-</ol>
-<p>从递推公式中，可以看出来，dp[i][0] 和 dp[0][j]是一定要初始化的。</p>
-<p>dp[i][0]：word2为空字符串，以i-1为结尾的字符串word1要删除多少个元素，才能和word2相同呢，很明显dp[i][0] &#x3D; i。</p>
-<p>dp[0][j]的话同理，所以代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">dp</span>(word1.<span class="built_in">size</span>() + <span class="number">1</span>, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(word2.<span class="built_in">size</span>() + <span class="number">1</span>));</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt;= word1.<span class="built_in">size</span>(); i++) dp[i][<span class="number">0</span>] = i;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt;= word2.<span class="built_in">size</span>(); j++) dp[<span class="number">0</span>][j] = j;</span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li>确定遍历顺序</li>
-</ol>
-<p>从递推公式 dp[i][j] &#x3D; min(dp[i - 1][j - 1] + 2, min(dp[i - 1][j], dp[i][j - 1]) + 1); 和dp[i][j] &#x3D; dp[i - 1][j - 1]可以看出dp[i][j]都是根据左上方、正上方、正左方推出来的。</p>
-<p>所以遍历的时候一定是从上到下，从左到右，这样保证dp[i][j]可以根据之前计算出来的数值进行计算。</p>
-<ol start="5">
-<li>举例推导dp数组</li>
-</ol>
-<p>以word1:”sea”，word2:”eat”为例，推导dp数组状态图如下：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210714101750205.png" alt="583.两个字符串的删除操作1"></p>
-<p>以上分析完毕，代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">minDistance</span><span class="params">(string word1, string word2)</span> </span>&#123;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">dp</span>(word1.<span class="built_in">size</span>() + <span class="number">1</span>, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(word2.<span class="built_in">size</span>() + <span class="number">1</span>));</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt;= word1.<span class="built_in">size</span>(); i++) dp[i][<span class="number">0</span>] = i;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt;= word2.<span class="built_in">size</span>(); j++) dp[<span class="number">0</span>][j] = j;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= word1.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= word2.<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (word1[i - <span class="number">1</span>] == word2[j - <span class="number">1</span>]) &#123;</span><br><span class="line">                    dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>];</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    dp[i][j] = <span class="built_in">min</span>(&#123;dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">2</span>, dp[i - <span class="number">1</span>][j] + <span class="number">1</span>, dp[i][j - <span class="number">1</span>] + <span class="number">1</span>&#125;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[word1.<span class="built_in">size</span>()][word2.<span class="built_in">size</span>()];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h3 id="动态规划二"><a href="#动态规划二" class="headerlink" title="动态规划二"></a>动态规划二</h3><p>本题和<a target="_blank" rel="noopener" href="https://programmercarl.com/1143.%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E5%BA%8F%E5%88%97.html">动态规划：1143.最长公共子序列</a>基本相同，只要求出两个字符串的最长公共子序列长度即可，那么除了最长公共子序列之外的字符都是必须删除的，最后用两个字符串的总长度减去两个最长公共子序列的长度就是删除的最少步数。</p>
-<p>代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">minDistance</span><span class="params">(string word1, string word2)</span> </span>&#123;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">dp</span>(word1.<span class="built_in">size</span>()+<span class="number">1</span>, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(word2.<span class="built_in">size</span>()+<span class="number">1</span>, <span class="number">0</span>));</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">1</span>; i&lt;=word1.<span class="built_in">size</span>(); i++)&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j=<span class="number">1</span>; j&lt;=word2.<span class="built_in">size</span>(); j++)&#123;</span><br><span class="line">                <span class="keyword">if</span> (word1[i<span class="number">-1</span>] == word2[j<span class="number">-1</span>]) dp[i][j] = dp[i<span class="number">-1</span>][j<span class="number">-1</span>] + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">else</span> dp[i][j] = <span class="built_in">max</span>(dp[i<span class="number">-1</span>][j], dp[i][j<span class="number">-1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> word1.<span class="built_in">size</span>()+word2.<span class="built_in">size</span>()-dp[word1.<span class="built_in">size</span>()][word2.<span class="built_in">size</span>()]*<span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h1 id="编辑距离"><a href="#编辑距离" class="headerlink" title="编辑距离"></a>编辑距离</h1><p>给你两个单词 word1 和 word2，请你计算出将 word1 转换成 word2 所使用的最少操作数 。</p>
-<p>你可以对一个单词进行如下三种操作：</p>
-<ul>
-<li>插入一个字符</li>
-<li>删除一个字符</li>
-<li>替换一个字符</li>
-</ul>
-<p>示例 1： 输入：word1 &#x3D; “horse”, word2 &#x3D; “ros” 输出：3 解释： horse -&gt; rorse (将 ‘h’ 替换为 ‘r’) rorse -&gt; rose (删除 ‘r’) rose -&gt; ros (删除 ‘e’)</p>
-<p>示例 2： 输入：word1 &#x3D; “intention”, word2 &#x3D; “execution” 输出：5 解释： intention -&gt; inention (删除 ‘t’) inention -&gt; enention (将 ‘i’ 替换为 ‘e’) enention -&gt; exention (将 ‘n’ 替换为 ‘x’) exention -&gt; exection (将 ‘n’ 替换为 ‘c’) exection -&gt; execution (插入 ‘u’)</p>
-<p>提示：</p>
-<ul>
-<li>0 &lt;&#x3D; word1.length, word2.length &lt;&#x3D; 500</li>
-<li>word1 和 word2 由小写英文字母组成</li>
-</ul>
-<h2 id="思路-9"><a href="#思路-9" class="headerlink" title="思路"></a>思路</h2><p>编辑距离终于来了，这道题目如果大家没有了解动态规划的话，会感觉超级复杂。</p>
-<p>编辑距离是用动规来解决的经典题目，这道题目看上去好像很复杂，但用动规可以很巧妙的算出最少编辑距离。</p>
-<p>接下来我依然使用动规五部曲，对本题做一个详细的分析：</p>
-<h3 id="1-确定dp数组（dp-table）以及下标的含义"><a href="#1-确定dp数组（dp-table）以及下标的含义" class="headerlink" title="1. 确定dp数组（dp table）以及下标的含义"></a>1. 确定dp数组（dp table）以及下标的含义</h3><p>**dp[i][j] 表示以下标i-1为结尾的字符串word1，和以下标j-1为结尾的字符串word2，最近编辑距离为dp[i][j]**。</p>
-<p>这里在强调一下：为啥要表示下标i-1为结尾的字符串呢，为啥不表示下标i为结尾的字符串呢？</p>
-<p>用i来表示也可以！ 但我统一以下标i-1为结尾的字符串，在下面的递归公式中会容易理解一点。</p>
-<h3 id="2-确定递推公式"><a href="#2-确定递推公式" class="headerlink" title="2. 确定递推公式"></a>2. 确定递推公式</h3><p>在确定递推公式的时候，首先要考虑清楚编辑的几种操作，整理如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (word1[i - <span class="number">1</span>] == word2[j - <span class="number">1</span>])</span><br><span class="line">    不操作</span><br><span class="line"><span class="keyword">if</span> (word1[i - <span class="number">1</span>] != word2[j - <span class="number">1</span>])</span><br><span class="line">    增</span><br><span class="line">    删</span><br><span class="line">    换</span><br></pre></td></tr></table></figure>
-
-<p>也就是如上4种情况。</p>
-<p><code>if (word1[i - 1] == word2[j - 1])</code> 那么说明不用任何编辑，<code>dp[i][j]</code> 就应该是 <code>dp[i - 1][j - 1]</code>，即<code>dp[i][j] = dp[i - 1][j - 1];</code></p>
-<p>此时可能有同学有点不明白，为啥要即<code>dp[i][j] = dp[i - 1][j - 1]</code>呢？</p>
-<p>那么就在回顾上面讲过的<code>dp[i][j]</code>的定义，<code>word1[i - 1]</code> 与 <code>word2[j - 1]</code>相等了，那么就不用编辑了，以下标i-2为结尾的字符串word1和以下标j-2为结尾的字符串<code>word2</code>的最近编辑距离<code>dp[i - 1][j - 1]</code>就是 <code>dp[i][j]</code>了。</p>
-<p>在下面的讲解中，如果哪里看不懂，就回想一下<code>dp[i][j]</code>的定义，就明白了。</p>
-<p><strong>在整个动规的过程中，最为关键就是正确理解<code>dp[i][j]</code>的定义！</strong></p>
-<p><code>if (word1[i - 1] != word2[j - 1])</code>，此时就需要编辑了，如何编辑呢？</p>
-<ul>
-<li>操作一：word1删除一个元素，那么就是以下标i - 2为结尾的word1 与 j-1为结尾的word2的最近编辑距离 再加上一个操作。</li>
-</ul>
-<p>即 <code>dp[i][j] = dp[i - 1][j] + 1;</code></p>
-<ul>
-<li>操作二：word2删除一个元素，那么就是以下标i - 1为结尾的word1 与 j-2为结尾的word2的最近编辑距离 再加上一个操作。</li>
-</ul>
-<p>即 <code>dp[i][j] = dp[i][j - 1] + 1;</code></p>
-<p>这里有同学发现了，怎么都是删除元素，添加元素去哪了。</p>
-<p><strong>word2添加一个元素，相当于word1删除一个元素</strong>，例如 <code>word1 = &quot;ad&quot; ，word2 = &quot;a&quot;</code>，<code>word1</code>删除元素<code>&#39;d&#39;</code> 和 <code>word2</code>添加一个元素<code>&#39;d&#39;</code>，变成<code>word1=&quot;a&quot;, word2=&quot;ad&quot;</code>， 最终的操作数是一样！ dp数组如下图所示意的：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">           a                         a     d</span><br><span class="line">  +-----+-----+             +-----+-----+-----+</span><br><span class="line">  |  0  |  1  |             |  0  |  1  |  2  |</span><br><span class="line">  +-----+-----+   ===&gt;      +-----+-----+-----+</span><br><span class="line">a |  1  |  0  |           a |  1  |  0  |  1  |</span><br><span class="line">  +-----+-----+             +-----+-----+-----+</span><br><span class="line">d |  2  |  1  |</span><br><span class="line">  +-----+-----+</span><br></pre></td></tr></table></figure>
-
-<p>操作三：替换元素，<code>word1</code>替换<code>word1[i - 1]</code>，使其与<code>word2[j - 1]</code>相同，此时不用增加元素，那么以下标<code>i-2</code>为结尾的<code>word1</code> 与 <code>j-2</code>为结尾的<code>word2</code>的最近编辑距离 加上一个替换元素的操作。</p>
-<p>即 <code>dp[i][j] = dp[i - 1][j - 1] + 1;</code></p>
-<p>综上，当 <code>if (word1[i - 1] != word2[j - 1])</code> 时取最小的，即：<code>dp[i][j] = min(&#123;dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]&#125;) + 1;</code></p>
-<p>递归公式代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (word1[i - <span class="number">1</span>] == word2[j - <span class="number">1</span>]) &#123;</span><br><span class="line">    dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    dp[i][j] = <span class="built_in">min</span>(&#123;dp[i - <span class="number">1</span>][j - <span class="number">1</span>], dp[i - <span class="number">1</span>][j], dp[i][j - <span class="number">1</span>]&#125;) + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-dp数组如何初始化"><a href="#3-dp数组如何初始化" class="headerlink" title="3. dp数组如何初始化"></a>3. dp数组如何初始化</h3><p>再回顾一下dp[i][j]的定义：</p>
-<p>**dp[i][j] 表示以下标i-1为结尾的字符串word1，和以下标j-1为结尾的字符串word2，最近编辑距离为dp[i][j]**。</p>
-<p>那么dp[i][0] 和 dp[0][j] 表示什么呢？</p>
-<p>dp[i][0] ：以下标i-1为结尾的字符串word1，和空字符串word2，最近编辑距离为dp[i][0]。</p>
-<p>那么dp[i][0]就应该是i，对word1里的元素全部做删除操作，即：dp[i][0] &#x3D; i;</p>
-<p>同理dp[0][j] &#x3D; j;</p>
-<p>所以C++代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt;= word1.<span class="built_in">size</span>(); i++) dp[i][<span class="number">0</span>] = i;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt;= word2.<span class="built_in">size</span>(); j++) dp[<span class="number">0</span>][j] = j;</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-确定遍历顺序"><a href="#4-确定遍历顺序" class="headerlink" title="4. 确定遍历顺序"></a>4. 确定遍历顺序</h3><p>从如下四个递推公式：</p>
-<ul>
-<li><code>dp[i][j] = dp[i - 1][j - 1]</code></li>
-<li><code>dp[i][j] = dp[i - 1][j - 1] + 1</code></li>
-<li><code>dp[i][j] = dp[i][j - 1] + 1</code></li>
-<li><code>dp[i][j] = dp[i - 1][j] + 1</code></li>
-</ul>
-<p>可以看出dp[i][j]是依赖左方，上方和左上方元素的，如图：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210114162113131.jpg" alt="72.编辑距离"></p>
-<p>所以在dp矩阵中一定是从左到右从上到下去遍历。</p>
-<p>代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= word1.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= word2.<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (word1[i - <span class="number">1</span>] == word2[j - <span class="number">1</span>]) &#123;</span><br><span class="line">            dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            dp[i][j] = <span class="built_in">min</span>(&#123;dp[i - <span class="number">1</span>][j - <span class="number">1</span>], dp[i - <span class="number">1</span>][j], dp[i][j - <span class="number">1</span>]&#125;) + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="5-举例推导dp数组"><a href="#5-举例推导dp数组" class="headerlink" title="5. 举例推导dp数组"></a>5. 举例推导dp数组</h3><p>以示例1为例，输入：<code>word1 = &quot;horse&quot;, word2 = &quot;ros&quot;</code>为例，dp矩阵状态图如下：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210114162132300.jpg" alt="72.编辑距离1"></p>
-<p>以上动规五部分析完毕，C++代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">minDistance</span><span class="params">(string word1, string word2)</span> </span>&#123;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">dp</span>(word1.<span class="built_in">size</span>() + <span class="number">1</span>, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(word2.<span class="built_in">size</span>() + <span class="number">1</span>, <span class="number">0</span>));</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt;= word1.<span class="built_in">size</span>(); i++) dp[i][<span class="number">0</span>] = i;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt;= word2.<span class="built_in">size</span>(); j++) dp[<span class="number">0</span>][j] = j;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= word1.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= word2.<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (word1[i - <span class="number">1</span>] == word2[j - <span class="number">1</span>]) &#123;</span><br><span class="line">                    dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>];</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    dp[i][j] = <span class="built_in">min</span>(&#123;dp[i - <span class="number">1</span>][j - <span class="number">1</span>], dp[i - <span class="number">1</span>][j], dp[i][j - <span class="number">1</span>]&#125;) + <span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[word1.<span class="built_in">size</span>()][word2.<span class="built_in">size</span>()];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h1 id="回文子串"><a href="#回文子串" class="headerlink" title="回文子串"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/palindromic-substrings/">回文子串</a></h1><p>给定一个字符串，你的任务是计算这个字符串中有多少个回文子串。</p>
-<p>具有不同开始位置或结束位置的子串，即使是由相同的字符组成，也会被视作不同的子串。</p>
-<p>示例 1：</p>
-<p>输入：”abc” </p>
-<p>输出：3 </p>
-<p>解释：三个回文子串: “a”, “b”, “c”</p>
-<p>示例 2：</p>
-<p>输入：”aaa” </p>
-<p>输出：6 </p>
-<p>解释：6个回文子串: “a”, “a”, “a”, “aa”, “aa”, “aaa”</p>
-<p>提示：</p>
-<p>输入的字符串长度不会超过 1000 。</p>
-<h2 id="思路-10"><a href="#思路-10" class="headerlink" title="思路"></a>思路</h2><h2 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h2><p>动规五部曲：</p>
-<ol>
-<li>确定dp数组（dp table）以及下标的含义</li>
-</ol>
-<p>布尔类型的dp[i][j]：表示区间范围[i,j] （注意是左闭右闭）的子串是否是回文子串，如果是dp[i][j]为true，否则为false。</p>
-<ol start="2">
-<li>确定递推公式</li>
-</ol>
-<p>在确定递推公式时，就要分析如下几种情况。</p>
-<p>整体上是两种，就是s[i]与s[j]相等，s[i]与s[j]不相等这两种。</p>
-<p>当s[i]与s[j]不相等，那没啥好说的了，dp[i][j]一定是false。</p>
-<p>当s[i]与s[j]相等时，这就复杂一些了，有如下三种情况</p>
-<ul>
-<li>情况一：下标i 与 j相同，同一个字符例如a，当然是回文子串</li>
-<li>情况二：下标i 与 j相差为1，例如aa，也是回文子串</li>
-<li>情况三：下标：i 与 j相差大于1的时候，例如cabac，此时s[i]与s[j]已经相同了，我们看i到j区间是不是回文子串就看aba是不是回文就可以了，那么aba的区间就是 i+1 与 j-1区间，这个区间是不是回文就看dp[i + 1][j - 1]是否为true。</li>
-</ul>
-<p>以上三种情况分析完了，那么递归公式如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (s[i] == s[j]) &#123;</span><br><span class="line">    <span class="keyword">if</span> (j - i &lt;= <span class="number">1</span>) &#123; <span class="comment">// 情况一 和 情况二</span></span><br><span class="line">        result++;</span><br><span class="line">        dp[i][j] = <span class="literal">true</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (dp[i + <span class="number">1</span>][j - <span class="number">1</span>]) &#123; <span class="comment">// 情况三</span></span><br><span class="line">        result++;</span><br><span class="line">        dp[i][j] = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>result就是统计回文子串的数量。</p>
-<p>注意这里我没有列出当s[i]与s[j]不相等的时候，因为在下面dp[i][j]初始化的时候，就初始为false。</p>
-<ol start="3">
-<li>dp数组如何初始化</li>
-</ol>
-<p>dp[i][j]可以初始化为true么？ 当然不行，怎能刚开始就全都匹配上了。</p>
-<p>所以dp[i][j]初始化为false。</p>
-<ol start="4">
-<li>确定遍历顺序</li>
-</ol>
-<p>遍历顺序可有有点讲究了。</p>
-<p>首先从递推公式中可以看出，情况三是根据dp[i + 1][j - 1]是否为true，在对dp[i][j]进行赋值true的。</p>
-<p>dp[i + 1][j - 1] 在 dp[i][j]的左下角，如图：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210121171032473.jpg" alt="647.回文子串"></p>
-<p>如果这矩阵是从上到下，从左到右遍历，那么会用到没有计算过的dp[i + 1][j - 1]，也就是根据不确定是不是回文的区间[i+1,j-1]，来判断了[i,j]是不是回文，那结果一定是不对的。</p>
-<p><strong>所以一定要从下到上，从左到右遍历，这样保证dp[i + 1][j - 1]都是经过计算的</strong>。</p>
-<p>有的代码实现是优先遍历列，然后遍历行，其实也是一个道理，都是为了保证dp[i + 1][j - 1]都是经过计算的。</p>
-<p>代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = s.<span class="built_in">size</span>() - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;  <span class="comment">// 注意遍历顺序</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = i; j &lt; s.<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (s[i] == s[j]) &#123;</span><br><span class="line">            <span class="keyword">if</span> (j - i &lt;= <span class="number">1</span>) &#123; <span class="comment">// 情况一 和 情况二</span></span><br><span class="line">                result++;</span><br><span class="line">                dp[i][j] = <span class="literal">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (dp[i + <span class="number">1</span>][j - <span class="number">1</span>]) &#123; <span class="comment">// 情况三</span></span><br><span class="line">                result++;</span><br><span class="line">                dp[i][j] = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<ol start="5">
-<li>举例推导dp数组</li>
-</ol>
-<p>举例，输入：”aaa”，dp[i][j]状态如下：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210121171059951.jpg" alt="647.回文子串1"></p>
-<p>图中有6个true，所以就是有6个回文子串。</p>
-<p><strong>注意因为dp[i][j]的定义，所以j一定是大于等于i的，那么在填充dp[i][j]的时候一定是只填充右上半部分</strong>。</p>
-<p>以上分析完毕，C++代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">countSubstrings</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">bool</span>&gt;&gt; <span class="built_in">dp</span>(s.<span class="built_in">size</span>(), <span class="built_in">vector</span>&lt;<span class="type">bool</span>&gt;(s.<span class="built_in">size</span>(), <span class="literal">false</span>));</span><br><span class="line">        <span class="type">int</span> result = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = s.<span class="built_in">size</span>() - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;  <span class="comment">// 注意遍历顺序</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = i; j &lt; s.<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (s[i] == s[j]) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (j - i &lt;= <span class="number">1</span>) &#123; <span class="comment">// 情况一 和 情况二</span></span><br><span class="line">                        result++;</span><br><span class="line">                        dp[i][j] = <span class="literal">true</span>;</span><br><span class="line">                    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (dp[i + <span class="number">1</span>][j - <span class="number">1</span>]) &#123; <span class="comment">// 情况三</span></span><br><span class="line">                        result++;</span><br><span class="line">                        dp[i][j] = <span class="literal">true</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h2 id="双指针法"><a href="#双指针法" class="headerlink" title="双指针法"></a>双指针法</h2><p>动态规划的空间复杂度是偏高的，我们再看一下双指针法。</p>
-<p>首先确定回文串，就是找中心然后向两边扩散看是不是对称的就可以了。</p>
-<p><strong>在遍历中心点的时候，要注意中心点有两种情况</strong>。</p>
-<p>一个元素可以作为中心点，两个元素也可以作为中心点。</p>
-<p>那么有人同学问了，三个元素还可以做中心点呢。其实三个元素就可以由一个元素左右添加元素得到，四个元素则可以由两个元素左右添加元素得到。</p>
-<p>所以我们在计算的时候，要注意一个元素为中心点和两个元素为中心点的情况。</p>
-<p><strong>这两种情况可以放在一起计算，但分别计算思路更清晰，我倾向于分别计算</strong>，代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">countSubstrings</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> result = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; s.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            result += <span class="built_in">extend</span>(s, i, i, s.<span class="built_in">size</span>()); <span class="comment">// 以i为中心</span></span><br><span class="line">            result += <span class="built_in">extend</span>(s, i, i + <span class="number">1</span>, s.<span class="built_in">size</span>()); <span class="comment">// 以i和i+1为中心</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">extend</span><span class="params">(<span class="type">const</span> string&amp; s, <span class="type">int</span> i, <span class="type">int</span> j, <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (i &gt;= <span class="number">0</span> &amp;&amp; j &lt; n &amp;&amp; s[i] == s[j]) &#123;</span><br><span class="line">            i--;</span><br><span class="line">            j++;</span><br><span class="line">            res++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h1 id="最长回文子序列"><a href="#最长回文子序列" class="headerlink" title="最长回文子序列"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/longest-palindromic-subsequence/">最长回文子序列</a></h1><p>给定一个字符串 s ，找到其中最长的回文子序列，并返回该序列的长度。可以假设 s 的最大长度为 1000 。</p>
-<p>示例 1: 输入: “bbbab” </p>
-<p>输出: 4 </p>
-<p>一个可能的最长回文子序列为 “bbbb”。</p>
-<p>示例 2: </p>
-<p>输入:”cbbd” </p>
-<p>输出: 2 </p>
-<p>一个可能的最长回文子序列为 “bb”。</p>
-<p>提示：</p>
-<ul>
-<li>1 &lt;&#x3D; s.length &lt;&#x3D; 1000</li>
-<li>s 只包含小写英文字母</li>
-</ul>
-<h2 id="思路-11"><a href="#思路-11" class="headerlink" title="思路"></a>思路</h2><p>我们刚刚做过了 <a target="_blank" rel="noopener" href="https://programmercarl.com/0647.%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2.html">动态规划：回文子串 </a>，求的是回文子串，而本题要求的是回文子序列， 要搞清楚这两者之间的区别。</p>
-<p><strong>回文子串是要连续的，回文子序列可不是连续的！</strong> 回文子串，回文子序列都是动态规划经典题目。</p>
-<p>回文子串，可以做这两题：</p>
-<ul>
-<li>647.回文子串</li>
-<li>5.最长回文子串</li>
-</ul>
-<p>思路其实是差不多的，但本题要比求回文子串简单一点，因为情况少了一点。</p>
-<p>动规五部曲分析如下：</p>
-<ol>
-<li>确定dp数组（dp table）以及下标的含义</li>
-</ol>
-<p>**dp[i][j]：字符串s在[i, j]范围内最长的回文子序列的长度为dp[i][j]**。</p>
-<ol start="2">
-<li>确定递推公式</li>
-</ol>
-<p>在判断回文子串的题目中，关键逻辑就是看s[i]与s[j]是否相同。</p>
-<p>如果s[i]与s[j]相同，那么dp[i][j] &#x3D; dp[i + 1][j - 1] + 2;</p>
-<p>如图： <img src="https://img-blog.csdnimg.cn/20210127151350563.jpg" alt="516.最长回文子序列"></p>
-<p>（如果这里看不懂，回忆一下dp[i][j]的定义）</p>
-<p>如果s[i]与s[j]不相同，说明s[i]和s[j]的同时加入 并不能增加[i,j]区间回文子串的长度，那么分别加入s[i]、s[j]看看哪一个可以组成最长的回文子序列。</p>
-<p>加入s[j]的回文子序列长度为dp[i + 1][j]。</p>
-<p>加入s[i]的回文子序列长度为dp[i][j - 1]。</p>
-<p>那么dp[i][j]一定是取最大的，即：dp[i][j] &#x3D; max(dp[i + 1][j], dp[i][j - 1]);</p>
-<p><img src="https://img-blog.csdnimg.cn/20210127151420476.jpg" alt="516.最长回文子序列1"></p>
-<p>代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (s[i] == s[j]) &#123;</span><br><span class="line">    dp[i][j] = dp[i + <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">2</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    dp[i][j] = <span class="built_in">max</span>(dp[i + <span class="number">1</span>][j], dp[i][j - <span class="number">1</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<ol start="3">
-<li>dp数组如何初始化</li>
-</ol>
-<p>首先要考虑当i 和j 相同的情况，从递推公式：dp[i][j] &#x3D; dp[i + 1][j - 1] + 2; 可以看出 递推公式是计算不到 i 和j相同时候的情况。</p>
-<p>所以需要手动初始化一下，当i与j相同，那么dp[i][j]一定是等于1的，即：一个字符的回文子序列长度就是1。</p>
-<p>其他情况dp[i][j]初始为0就行，这样递推公式：dp[i][j] &#x3D; max(dp[i + 1][j], dp[i][j - 1]); 中dp[i][j]才不会被初始值覆盖。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">dp</span>(s.<span class="built_in">size</span>(), <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(s.<span class="built_in">size</span>(), <span class="number">0</span>));</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; s.<span class="built_in">size</span>(); i++) dp[i][i] = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<ol start="4">
-<li>确定遍历顺序</li>
-</ol>
-<p>从递推公式dp[i][j] &#x3D; dp[i + 1][j - 1] + 2 和 dp[i][j] &#x3D; max(dp[i + 1][j], dp[i][j - 1]) 可以看出，dp[i][j]是依赖于dp[i + 1][j - 1] 和 dp[i + 1][j]，</p>
-<p>也就是从矩阵的角度来说，dp[i][j] 下一行的数据。 <strong>所以遍历i的时候一定要从下到上遍历，这样才能保证，下一行的数据是经过计算的</strong>。</p>
-<p>递推公式：dp[i][j] &#x3D; dp[i + 1][j - 1] + 2，dp[i][j] &#x3D; max(dp[i + 1][j], dp[i][j - 1]) 分别对应着下图中的红色箭头方向，如图：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210127151452993.jpg" alt="516.最长回文子序列2"></p>
-<p>代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = s.<span class="built_in">size</span>() - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = i + <span class="number">1</span>; j &lt; s.<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (s[i] == s[j]) &#123;</span><br><span class="line">            dp[i][j] = dp[i + <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">2</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            dp[i][j] = <span class="built_in">max</span>(dp[i + <span class="number">1</span>][j], dp[i][j - <span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<ol start="5">
-<li>举例推导dp数组</li>
-</ol>
-<p>输入s:”cbbd” 为例，dp数组状态如图：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210127151521432.jpg" alt="516.最长回文子序列3"></p>
-<p>红色框即：dp[0][s.size() - 1]; 为最终结果。</p>
-<p>以上分析完毕，C++代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">longestPalindromeSubseq</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">dp</span>(s.<span class="built_in">size</span>(), <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(s.<span class="built_in">size</span>(), <span class="number">0</span>));</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; s.<span class="built_in">size</span>(); i++) dp[i][i] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = s.<span class="built_in">size</span>() - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = i + <span class="number">1</span>; j &lt; s.<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (s[i] == s[j]) &#123;</span><br><span class="line">                    dp[i][j] = dp[i + <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">2</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    dp[i][j] = <span class="built_in">max</span>(dp[i + <span class="number">1</span>][j], dp[i][j - <span class="number">1</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">0</span>][s.<span class="built_in">size</span>() - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>声明</p>
-<p>本博客整理依据《代码随想录》，题目来自leetcode</p>
 
       
     </div>
