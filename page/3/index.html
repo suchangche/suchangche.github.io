@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,353 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/20/UE4-%E8%93%9D%E5%9B%BE-%E8%93%9D%E5%9B%BE%E6%8E%A5%E5%8F%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/20/UE4-%E8%93%9D%E5%9B%BE-%E8%93%9D%E5%9B%BE%E6%8E%A5%E5%8F%A3/" class="post-title-link" itemprop="url">UE4-蓝图-蓝图接口</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-05-20 14:26:02 / 修改时间：14:44:52" itemprop="dateCreated datePublished" datetime="2022-05-20T14:26:02+08:00">2022-05-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="蓝图接口是什么？"><a href="#蓝图接口是什么？" class="headerlink" title="蓝图接口是什么？"></a>蓝图接口是什么？</h1><p>一个蓝图接口是一个或多个Function的集合，可以被添加至别的蓝图中，任何添加了接口的蓝图都可以保证具有这些功能，在每个添加了蓝图接口的蓝图类中，都可以为其添加功能实现。类似编程中的接口概念。允许不同类型的对象通过一个公共接口来访问他。</p>
+<h1 id="为什么要使用蓝图接口？"><a href="#为什么要使用蓝图接口？" class="headerlink" title="为什么要使用蓝图接口？"></a>为什么要使用蓝图接口？</h1><p>在使用中蓝图接口允许一种通用的方法与所有拥有蓝图接口的对象进行交互。</p>
+<p>也就是说，在不同类型的对象，他们可以拥有一个相同的功能。</p>
+<p>比如汽车和树木，都可以被武器射击。所以就可以创建一个蓝图接口，在武器射击汽车或者大树时调用对应的函数。</p>
+<h1 id="蓝图接口的特点"><a href="#蓝图接口的特点" class="headerlink" title="蓝图接口的特点"></a>蓝图接口的特点</h1><ul>
+<li><p>目的：与多个对象中的特定几个对象进行通信</p>
+</li>
+<li><p>方式：对检测到的对象发送消息，只有设置了对应接口的对象才会接收到消息并且相应。其他的对象就跟瞎了一样。</p>
+</li>
+</ul>
+<h1 id="创建蓝图接口"><a href="#创建蓝图接口" class="headerlink" title="创建蓝图接口"></a>创建蓝图接口</h1><ul>
+<li><p>创建一个蓝图接口</p>
+</li>
+<li><p>设置目标蓝图类（接收者）</p>
+</li>
+<li><p>在发信者蓝图类中编写逻辑</p>
+</li>
+<li><p>在接收者蓝图类中调用接口</p>
+</li>
+</ul>
+<h2 id="1-新建一个Blueprint-Interface。"><a href="#1-新建一个Blueprint-Interface。" class="headerlink" title="1.新建一个Blueprint Interface。"></a>1.新建一个Blueprint Interface。</h2><img src="https://img-blog.csdnimg.cn/2021030423122868.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTM2MzE1Ng==,size_16,color_FFFFFF,t_70" title="" alt="" width="349">
+
+<h2 id="2-在新建的BluePrint-Interface中添加一个函数，点击Add-New即可。"><a href="#2-在新建的BluePrint-Interface中添加一个函数，点击Add-New即可。" class="headerlink" title="2.在新建的BluePrint Interface中添加一个函数，点击Add New即可。"></a>2.在新建的BluePrint Interface中添加一个函数，点击Add New即可。</h2><p>其中Voice就是叫的Function，我们在这里通过声明一个Voice的函数，然后在添加过该接口的类中写实现，然后在别的地方调用这个函数。</p>
+<img src="https://img-blog.csdnimg.cn/20210304231337210.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTM2MzE1Ng==,size_16,color_FFFFFF,t_70" title="" alt="" width="572">
+
+<h2 id="3-新建两个Actor，一个是Dog，一个Cow。"><a href="#3-新建两个Actor，一个是Dog，一个Cow。" class="headerlink" title="3.新建两个Actor，一个是Dog，一个Cow。"></a>3.新建两个Actor，一个是Dog，一个Cow。</h2><p><img src="https://img-blog.csdnimg.cn/20210304231852229.png"></p>
+<h2 id="4-打开新建的Dog类，在Class-Setting中添加上面创建的蓝图接口。（设置接收者）"><a href="#4-打开新建的Dog类，在Class-Setting中添加上面创建的蓝图接口。（设置接收者）" class="headerlink" title="4.打开新建的Dog类，在Class Setting中添加上面创建的蓝图接口。（设置接收者）"></a>4.打开新建的Dog类，在Class Setting中添加上面创建的蓝图接口。（设置接收者）</h2><p><img src="https://img-blog.csdnimg.cn/20210304232034505.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTM2MzE1Ng==,size_16,color_FFFFFF,t_70"></p>
+<h2 id="5-完成Voice的实现。"><a href="#5-完成Voice的实现。" class="headerlink" title="5.完成Voice的实现。"></a>5.完成Voice的实现。</h2><p><img src="https://img-blog.csdnimg.cn/20210304232133311.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTM2MzE1Ng==,size_16,color_FFFFFF,t_70"></p>
+<h2 id="6-将Cow类进行同样的操作，在Print-String中输出MOUMOU。"><a href="#6-将Cow类进行同样的操作，在Print-String中输出MOUMOU。" class="headerlink" title="6.将Cow类进行同样的操作，在Print String中输出MOUMOU。"></a>6.将Cow类进行同样的操作，在Print String中输出MOUMOU。</h2><p><img src="https://img-blog.csdnimg.cn/20210304232226225.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTM2MzE1Ng==,size_16,color_FFFFFF,t_70"></p>
+<h2 id="7-我们在关卡蓝图中添加该接口并调用该方法。"><a href="#7-我们在关卡蓝图中添加该接口并调用该方法。" class="headerlink" title="7.我们在关卡蓝图中添加该接口并调用该方法。"></a>7.我们在关卡蓝图中添加该接口并调用该方法。</h2><p><img src="https://img-blog.csdnimg.cn/20210304232333544.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTM2MzE1Ng==,size_16,color_FFFFFF,t_70"></p>
+<h2 id="8-运行，按下2，得到Dog和cow的叫声。"><a href="#8-运行，按下2，得到Dog和cow的叫声。" class="headerlink" title="8.运行，按下2，得到Dog和cow的叫声。"></a>8.运行，按下2，得到Dog和cow的叫声。</h2><p><img src="https://img-blog.csdnimg.cn/20210304232417781.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTM2MzE1Ng==,size_16,color_FFFFFF,t_70"></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>蓝图接口就是先定义了一个函数接口，告诉别人存在这个函数，可以进行调用，但是每个类中可以有不同的实现</p>
+<p>蓝图接口可以进行一对多甚至多对多的广播，一处调用，多出响应。</p>
+<p>版权声明：本博客参考自<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_41363156/article/details/114356562">「wang161x」</a>与<a target="_blank" rel="noopener" href="https://blog.csdn.net/Motarookie/article/details/121627783">「宗浩多捞」</a>的CSDN文章</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/18/UE4-%E8%93%9D%E5%9B%BE-%E8%A7%92%E8%89%B2%E4%B8%8A%E4%B8%8B%E8%BD%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/18/UE4-%E8%93%9D%E5%9B%BE-%E8%A7%92%E8%89%B2%E4%B8%8A%E4%B8%8B%E8%BD%A6/" class="post-title-link" itemprop="url">UE4-蓝图-角色上下车</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-05-18 15:21:02" itemprop="dateCreated datePublished" datetime="2022-05-18T15:21:02+08:00">2022-05-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-05-20 10:27:19" itemprop="dateModified" datetime="2022-05-20T10:27:19+08:00">2022-05-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>本博客根据<a target="_blank" rel="noopener" href="https://space.bilibili.com/31898841">谌嘉诚</a>大佬的<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV164411Y732?p=49">虚幻蓝图教程</a>进行整理</p>
+<h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><p>实现角色上车和下车的切换</p>
+<h1 id="节点"><a href="#节点" class="headerlink" title="节点"></a>节点</h1><h2 id="获取场景变换"><a href="#获取场景变换" class="headerlink" title="获取场景变换"></a>获取场景变换</h2><p>获取目标引脚在场景中的位置，旋转，缩放等信息</p>
+<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-18-15-27-40-image.png"></p>
+<h2 id="拆分变换"><a href="#拆分变换" class="headerlink" title="拆分变换"></a>拆分变换</h2><p>将场景变换的位置，旋转，缩放等信息分开</p>
+<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-18-15-27-50-image.png"></p>
+<h2 id="设置Actor变换"><a href="#设置Actor变换" class="headerlink" title="设置Actor变换"></a>设置Actor变换</h2><p>字面意思，设置Actor的位置，旋转，缩放情况</p>
+<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-18-15-28-05-image.png"></p>
+<h2 id="设置Actor启用碰撞"><a href="#设置Actor启用碰撞" class="headerlink" title="设置Actor启用碰撞"></a>设置Actor启用碰撞</h2><p>关闭或开启Actor的碰撞效果</p>
+<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-18-15-29-03-image.png"></p>
+<h2 id="附加Actor到组件"><a href="#附加Actor到组件" class="headerlink" title="附加Actor到组件"></a>附加Actor到组件</h2><p>将Actor附加到组件上，相当于把Actor黏贴到组件上</p>
+<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-18-15-29-16-image.png"></p>
+<h2 id="设置手动输入"><a href="#设置手动输入" class="headerlink" title="设置手动输入"></a>设置手动输入</h2><p>让载具可以或不接收键盘的输入</p>
+<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-20-10-08-08-image.png"></p>
+<h2 id="设置油门输入"><a href="#设置油门输入" class="headerlink" title="设置油门输入"></a>设置油门输入</h2><p>字面意思</p>
+<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-20-10-09-01-image.png"></p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>大体可分为——上车，下车，下车减速三个模块。</p>
+<h2 id="实现上车"><a href="#实现上车" class="headerlink" title="实现上车"></a>实现上车</h2><p>首先弄清楚，我们需要在ThirdPersonCharacter中按F键来切换到汽车上</p>
+<p>所以，可以在Sedan（汽车蓝图）内添加一个名为“上车”的自定义事件</p>
+<p>然后在ThirdPersonCharacter蓝图中定义按F键调用“上车事件”</p>
+<h3 id="自定义上车事件"><a href="#自定义上车事件" class="headerlink" title="自定义上车事件"></a>自定义上车事件</h3><ol>
+<li><p>在Sedan(汽车蓝图内)中添加自定义事件“上车”</p>
+</li>
+<li><p>在ThirdPersonCharacter蓝图内添加一个Sedan类型的变量“VehicleRef”</p>
+</li>
+<li><p>由VehicleRef引出“上车”事件</p>
+</li>
+<li><p>再用Is Valid节点判断VehicleRef是否有效，如果有效，则链接“上车”事件</p>
+</li>
+<li><p>另外，在Sedan的“上车”事件中将目标提升为变量，并且设置为小白人，类型设置为Pawn</p>
+</li>
+<li><p>在ThirdPersonCharacter蓝图中的上车事件的小白人引脚引出节点“self”（小白人）</p>
+</li>
+</ol>
+<h3 id="转移控制权"><a href="#转移控制权" class="headerlink" title="转移控制权"></a>转移控制权</h3><p>在这里，我们需要将玩家的控制权从小白人身上转换到汽车上！</p>
+<ol>
+<li><p>首先在汽车上面添加一个碰撞盒子，用来检测小白人是否到了可以上下车的位置</p>
+</li>
+<li><p>添加重叠开始和结束事件，并类型转换为ThirdPersonCharacter</p>
+</li>
+<li><p>用Gate判断是否可以开始</p>
+</li>
+<li><p>获取玩家控制器，引出“控制”节点，In Pawn引脚引出“Self”节点（汽车）</p>
+</li>
+<li><p>“上车”和“Gate”的输出都连接到“控制”的输入</p>
+</li>
+</ol>
+<h3 id="将小白人附加到汽车上"><a href="#将小白人附加到汽车上" class="headerlink" title="将小白人附加到汽车上"></a>将小白人附加到汽车上</h3><ol>
+<li><p>“上车”事件的小白人引脚已经在前面提升成变量了，此时由此变量节点的输出引出“设置Actor变换”节点。以此达到变换小白人位置的目标</p>
+</li>
+<li><p>将小白人的位置与汽车重合</p>
+<ol>
+<li><p>添加一个名为“up”的球体碰撞组件，将其放在汽车的合适位置</p>
+</li>
+<li><p>在蓝图中获取“up”节点，引出“获取场景变换”节点</p>
+</li>
+<li><p>再引出“拆分变换节点”</p>
+</li>
+<li><p>将对应的位置，旋转数据连接到“设置Actor变换”节点上，同时“获取小白人变量”将其附加到“设置Actor变换”的目标上</p>
+</li>
+<li><p>此时我们就实现了将小白人的位置与“up”的位置保持一致</p>
+</li>
+</ol>
+</li>
+<li><p>接下来我们需要取消小白人自身的碰撞，否则会与汽车的碰撞产生冲突，最后形成奇怪的bug</p>
+<ol>
+<li>“设置Actor变换”输出引出“设置Actor启用碰撞”节点，目标为“小白人”，取消勾选“New Actor Enable Collision”引脚</li>
+</ol>
+</li>
+<li><p>最后将小白人附加到up上，这样up移动的时候就会带动小白人一起移动</p>
+<ol>
+<li><p>由“设置Actor启用碰撞”节点引出“附加Actor到组件”节点</p>
+</li>
+<li><p>目标设置为“小白人”</p>
+</li>
+<li><p>Parent设置为“Up”</p>
+</li>
+<li><p>位置，旋转，缩放均改为“保持场景一致”</p>
+</li>
+</ol>
+</li>
+</ol>
+<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-19-16-43-48-image.png"></p>
+<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-19-16-44-42-image.png"></p>
+<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-19-16-45-00-image.png"></p>
+<h2 id="实现下车"><a href="#实现下车" class="headerlink" title="实现下车"></a>实现下车</h2><p>我们在车上的时候，控制权在“车”蓝图里，所以我们只需要在“车”蓝图内设置“按键 F”进行下车操作即可，然后就是和上车的步骤反过来——将小白人和车分离，设置小白人位置，启用小白人碰撞，将控制权转换回小白人身上</p>
+<h3 id="分离小白人"><a href="#分离小白人" class="headerlink" title="分离小白人"></a>分离小白人</h3><ol>
+<li><p>获取小白人变量，用Is Valid判断是否有效，并且接入“键盘 F”节点</p>
+</li>
+<li><p>由小白人变量引出“从Actor分离”节点，将各个引脚设置为“保持场景”</p>
+</li>
+</ol>
+<h3 id="设置小白人位置"><a href="#设置小白人位置" class="headerlink" title="设置小白人位置"></a>设置小白人位置</h3><ol>
+<li><p>再添加一个名为“down”的球体碰撞组件，放在车外合适的位置</p>
+</li>
+<li><p>获取“down”，引出“获取场景变换”节点，引出“拆分变换”节点</p>
+</li>
+<li><p>由小白人变量引出“设置Actor变换”节点，并与“从Actor分离”节点链接</p>
+</li>
+<li><p>将“设置Actor变换”节点的位置引脚，旋转引脚中的Z轴与“拆分变换”中相应的引脚链接</p>
+<ol>
+<li>为什么只同步旋转引脚中的Z轴？因为如果在车身是斜着的情况下下车的话，小白人也成了斜着走路的了，所以只需要同步Z轴，也就是“面向”即可</li>
+</ol>
+</li>
+</ol>
+<h3 id="启用碰撞"><a href="#启用碰撞" class="headerlink" title="启用碰撞"></a>启用碰撞</h3><ol>
+<li><p>由“设置Actor变换”节点的输出引出“设置Actor启用碰撞”节点</p>
+</li>
+<li><p>目标为“小白人”变量</p>
+</li>
+<li><p>“New Actor Enable Collision”引脚取消勾选</p>
+</li>
+</ol>
+<h3 id="转移控制权-1"><a href="#转移控制权-1" class="headerlink" title="转移控制权"></a>转移控制权</h3><ol>
+<li><p>获取玩家控制器，引出“控制”节点</p>
+</li>
+<li><p>“In Pawn”引脚为“小白人”</p>
+</li>
+<li><p>但是我们为了有个过渡，所以我们还需要从“获取玩家控制器”节点引出“使用混合设置视图目标”节点</p>
+</li>
+<li><p>New View Target 引脚为小白人，混合时间和混合方式随便啦！</p>
+</li>
+<li><p>记得再引出“延迟”节点，和混合时间相同</p>
+</li>
+<li><p>最后先链接“使用混合设置视图目标”，再链接“控制”节点即可</p>
+</li>
+</ol>
+<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-19-17-02-57-image.png"></p>
+<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-19-17-03-10-image.png"></p>
+<h2 id="实现下车减速"><a href="#实现下车减速" class="headerlink" title="实现下车减速"></a>实现下车减速</h2><p>车在告诉行驶的时候我们进行下车操作，如果不进行下车减速的话，车会一直往前跑。根本停不下来。所以我们需要下车减速功能。</p>
+<h3 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h3><p>首先看Sedan中的事件图表中的Throttle Input注释</p>
+<p>这一块实现了加油门的功能，我们要下车，就要把油门关掉</p>
+<p>此模块是帧刷新的，所以我们需要用一个bool值和一个分支节点来关闭“设置油门输入”节点</p>
+<h4 id="关闭油门"><a href="#关闭油门" class="headerlink" title="关闭油门"></a>关闭油门</h4><ol>
+<li><p>添加一个bool变量“下车”，初始值为true（因为一开始我们不再车上）</p>
+</li>
+<li><p>然后在Throttle Input中获取变量，引出分支节点</p>
+</li>
+<li><p>当值为false时输出“设置油门节点”</p>
+</li>
+<li><p>在“上下车”图表中的“上车”注释内的最后“设置下车变量”为false</p>
+</li>
+</ol>
+<h4 id="取消手动输入"><a href="#取消手动输入" class="headerlink" title="取消手动输入"></a>取消手动输入</h4><ol>
+<li><p>将组件“载具移动”获取到“上下车”图表中的“下车”注释内，引出“设置手制动输入”和“设置油门输入”节点</p>
+</li>
+<li><p>由“使用混合设置视图目标”引出“设置下车变量”节点，将其值为true</p>
+</li>
+<li><p>下车变量链接“设置手动输入”再链接“设置油门输入”最后链接“延迟”</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1989,234 +2336,6 @@
 <li><p>再就是设置X与Y轴的移动变化</p>
 </li>
 </ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/05/%E4%B8%80%E4%BA%9B%E9%B8%A1%E6%B1%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/05/05/%E4%B8%80%E4%BA%9B%E9%B8%A1%E6%B1%A4/" class="post-title-link" itemprop="url">一些鸡汤</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-05-05 20:35:08" itemprop="dateCreated datePublished" datetime="2022-05-05T20:35:08+08:00">2022-05-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-05-11 08:36:09" itemprop="dateModified" datetime="2022-05-11T08:36:09+08:00">2022-05-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%A2%A6%E6%B8%B8%E7%AC%94%E8%B0%88/" itemprop="url" rel="index"><span itemprop="name">梦游笔谈</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>这是一篇写给自己看的流水账。</p>
-<p>距离上一次靠文字排解自己的心情，已经过了一个月。</p>
-<p>在这一个月的时间里面，我过得真的挺充实的，算法的学习完成了一个小的阶段，同时也开始了unreal engine 的学习，上午算法，下午unreal engine，晚上健身和娱乐。每天做着大体相同的事情，但每天都有不同的收获。</p>
-<p>相比之前的基础性知识的积累，现在的unreal engine给到我的正向反馈，让我学习兴趣大大增加，也报了<a target="_blank" rel="noopener" href="https://space.bilibili.com/31898841">谌嘉诚</a>的虚幻课程，这个月底就要开始正式进行一个完整的项目了，这让我对未来充满了信心。</p>
-<p>再就是健身，这一个月以来，每天坚持健身，特别是每次在镜子里看到我的肌肉线条慢慢明显的时候，就很开心——我要变成猛男了哈哈哈！</p>
-<p>虽然也有苦恼的，就是右臂肌肉比左臂大一倍，这一点目前还没有什么很好解决的办法。</p>
-<p>偶尔晚上健身完之后我会试试正念冥想——虽然还没有感受到实质性的好处，但是我是在冥想结束后动了写下这篇文字的念头的——这样想来，也许冥想能让我沉静下来，将我原本并未意识到的需求在这时告诉我。</p>
-<p>再来说一说社交情况，实话实说，目前为止我基本已经停止了大部分社交活动，也不再出席任何社交场合，室友去图书馆备战考研，我就在寝室自己学自己的，我们一天也见不了几面，晚上回来和我的交流兴许也是寥寥几句。现在我的社交完全就是靠着和高中同学以及发小的吹牛打屁撑着的。本来我以为我会在某一刻崩掉，但是到目前为止，我的状态还算ok。哦，还有一件事，有个高中同学前几天跟对象掰了。来找我倾诉，我能有啥立场？自然是跟他穿一条裤子呗。他可能觉得，我这会是听他倾诉了，他觉得我很铁，但不完全是，我心态没崩可能也和他有关，他在我要崩的那个临界点出现了。也算是相互拉了一把。</p>
-<p>还有每天都会在网上看各种各样的美女，因为听说看美女能够益寿延年。</p>
-<p>哈哈，果然只有当人处于悲伤的状态下才会文思泉涌，我现在就完全没话说了。</p>
-<p>补充一点我的名人名言吧！</p>
-<ul>
-<li><p>那个下午做出了足以改变人生轨迹的决定，多年后回想起来仍然觉得惊心动魄，只不过当时还以为这只是一个普通平凡的午后。</p>
-</li>
-<li><p>人类的高贵之处在于克制与忍耐。</p>
-</li>
-</ul>
-<p>那，就这样吧！</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/03/UE4-%E8%93%9D%E5%9B%BE-%E5%BC%80%E5%85%B3%E9%97%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/05/03/UE4-%E8%93%9D%E5%9B%BE-%E5%BC%80%E5%85%B3%E9%97%A8/" class="post-title-link" itemprop="url">UE4-蓝图-开关门</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-05-03 16:21:55 / 修改时间：17:30:09" itemprop="dateCreated datePublished" datetime="2022-05-03T16:21:55+08:00">2022-05-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>本博客是根据哔哩哔哩UP主<a target="_blank" rel="noopener" href="https://space.bilibili.com/31898841">谌嘉诚</a>出品的<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV164411Y732?p=28">UE4初学者系列教程合集-全中文新手入门教程</a>进行整理的，他把基础部分和蓝图部分讲解地非常细致而且通俗易懂，有兴趣的可以去看看。</p>
-<h1 id="按E键实现开关门"><a href="#按E键实现开关门" class="headerlink" title="按E键实现开关门"></a>按E键实现开关门</h1><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ul>
-<li><p>我们根据碰撞盒子（box collision）来判断啥时候可以按E开门，也就是进入到这个碰撞盒子的范围的时候，我们就可以按E了</p>
-</li>
-<li><p>我们在组件面板里面添加一个box collision，然后左键选中它，添加两个碰撞事件——开始重叠和离开重叠</p>
-</li>
-<li><p>然后我们要明确一点——输入E是要启用输入的！于是创建enable input结点和disable input两个结点来启用和禁用输入，在这个节点上会有player controller这个东西，那就创建一个get palyer controller结点连接上即可！</p>
-</li>
-<li><p>接下来是流程控制结点gate，启用输入连接到open，禁用输入连接到close，把按键E链接到Enter</p>
-</li>
-<li><p>后面是另一个流程控制结点——Filp Flop这个东西的意思是，第一次执行则从A点输出，第二次执行则从B点输出，以此往复，后面就可以将AB分别连接到时间轴的play和reverse上，即可实现正向开门和关门了</p>
-</li>
-<li><p>创建时间轴——创建一个时间轴，双击编辑他并创建一个浮点型轨道“开关门时间轴”，在这里要注意的是——浮点型轨道的长度必须是最后一个关键帧结束的位置</p>
-<ul>
-<li><p>创建开始结点和结束结点</p>
-</li>
-<li><p>开始节点时间为0，值为0</p>
-</li>
-<li><p>结束结点时间为2，值为门旋转的角度</p>
-</li>
-<li><p>然后右键结点点击自动，让曲线变得平滑</p>
-</li>
-</ul>
-</li>
-<li><p>退出之后，我们可以开到在时间轴结点的右下角多了一个“开关门时间轴”的点</p>
-</li>
-<li><p>设置相对旋转，目标为门，把时间轴的update连接上，并且将xyz中的z轴连接到“关门时间轴”点上</p>
-</li>
-</ul>
-<h2 id="知识点小结"><a href="#知识点小结" class="headerlink" title="知识点小结"></a>知识点小结</h2><p>流程控制：</p>
-<ul>
-<li><p>启用输入和禁用输入</p>
-</li>
-<li><p>获取玩家控制器</p>
-</li>
-<li><p>Gate：启用输入时Open，禁用输入时Close，Enter为按键输入</p>
-</li>
-<li><p>Flip Flop：第一次输入执行A，第二次输入执行B</p>
-</li>
-<li><p>时间轴：浮点型轨道的长度要注意</p>
-</li>
-<li><p>设置相对旋转：与时间旋转不同</p>
-</li>
-</ul>
-<h1 id="鼠标点击实现开关门"><a href="#鼠标点击实现开关门" class="headerlink" title="鼠标点击实现开关门"></a>鼠标点击实现开关门</h1><h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><p>其实跟按E键实现开关门差不多，区别就在于要设置玩家控制器</p>
-<p>世界场景设置-&gt;游戏模式-&gt;选中的游戏模式-&gt;玩家控制器类-&gt;新建一个-&gt;启用点击事件</p>
-<p>然后在编辑-&gt;项目设置-&gt;地图和模式-&gt;默认玩家控制器-&gt;旋转刚刚创建的那个蓝图类</p>
-<p>在“获取玩家控制器”的</p>
 
       
     </div>
