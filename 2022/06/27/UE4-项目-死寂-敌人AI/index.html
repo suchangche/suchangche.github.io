@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="感想前面的几个章节已经将角色的大部分功能完善了，关于玩家角色还剩下的功能，大概就是伤害系统，生命值系统这些有要用到UI界面的，这就放到后面的UI一起解决。 接下来就是激动人心的敌人AI了！兄弟们，这个FPS项目进度正式过半，加油！！！ 丧尸随机移动及追逐玩家知识点获取黑板在AI控制器中使用，字面意思 创建文字命名根据传入的值，返回变量名相同的变量 将值设为布尔在AI控制器使用，字面意思 将目标中的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE4-项目-死寂-敌人AI">
+<meta property="og:url" content="http://example.com/2022/06/27/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%95%8C%E4%BA%BAAI/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="感想前面的几个章节已经将角色的大部分功能完善了，关于玩家角色还剩下的功能，大概就是伤害系统，生命值系统这些有要用到UI界面的，这就放到后面的UI一起解决。 接下来就是激动人心的敌人AI了！兄弟们，这个FPS项目进度正式过半，加油！！！ 丧尸随机移动及追逐玩家知识点获取黑板在AI控制器中使用，字面意思 创建文字命名根据传入的值，返回变量名相同的变量 将值设为布尔在AI控制器使用，字面意思 将目标中的">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-06-27T06:58:48.000Z">
+<meta property="article:modified_time" content="2022-06-30T08:23:53.589Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="项目">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/06/27/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%95%8C%E4%BA%BAAI/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/06/27/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%95%8C%E4%BA%BAAI/","path":"2022/06/27/UE4-项目-死寂-敌人AI/","title":"UE4-项目-死寂-敌人AI"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>UE4-项目-死寂-敌人AI | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%84%9F%E6%83%B3"><span class="nav-number">1.</span> <span class="nav-text">感想</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%A7%E5%B0%B8%E9%9A%8F%E6%9C%BA%E7%A7%BB%E5%8A%A8%E5%8F%8A%E8%BF%BD%E9%80%90%E7%8E%A9%E5%AE%B6"><span class="nav-number">2.</span> <span class="nav-text">丧尸随机移动及追逐玩家</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-number">2.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E9%BB%91%E6%9D%BF"><span class="nav-number">2.1.1.</span> <span class="nav-text">获取黑板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%96%87%E5%AD%97%E5%91%BD%E5%90%8D"><span class="nav-number">2.1.2.</span> <span class="nav-text">创建文字命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%86%E5%80%BC%E8%AE%BE%E4%B8%BA%E5%B8%83%E5%B0%94"><span class="nav-number">2.1.3.</span> <span class="nav-text">将值设为布尔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%8C%E4%B8%BA%E6%A0%91%E4%B8%AD%E7%9A%84Sequence"><span class="nav-number">2.1.4.</span> <span class="nav-text">行为树中的Sequence</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Backbroad"><span class="nav-number">2.1.5.</span> <span class="nav-text">Backbroad</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA%E4%BB%BB%E5%8A%A1"><span class="nav-number">2.1.6.</span> <span class="nav-text">新建任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E6%8E%A5%E6%94%B6%E6%89%A7%E8%A1%8CAI"><span class="nav-number">2.1.7.</span> <span class="nav-text">事件接收执行AI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%8C%E6%88%90%E6%89%A7%E8%A1%8C"><span class="nav-number">2.1.8.</span> <span class="nav-text">完成执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AI-MoveTo"><span class="nav-number">2.1.9.</span> <span class="nav-text">AI MoveTo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E6%97%B6"><span class="nav-number">2.1.10.</span> <span class="nav-text">控制时</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E8%A1%8C%E4%B8%BA%E6%A0%91"><span class="nav-number">2.1.11.</span> <span class="nav-text">运行行为树</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">2.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%A7%E5%B0%B8%E7%9C%8B%E8%A7%81%E7%8E%A9%E5%AE%B6%E5%B0%96%E5%8F%AB%E5%B9%B6%E8%BF%BD%E8%B5%B6"><span class="nav-number">3.</span> <span class="nav-text">丧尸看见玩家尖叫并追赶</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-1"><span class="nav-number">3.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E9%9F%B3%E6%95%88%E5%B7%B2%E9%99%84%E5%8A%A0"><span class="nav-number">3.1.1.</span> <span class="nav-text">生成音效已附加</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%80%E6%AF%81%E7%BB%84%E4%BB%B6"><span class="nav-number">3.1.2.</span> <span class="nav-text">销毁组件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-1"><span class="nav-number">3.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%A7%E5%B0%B8%E4%B8%A2%E5%A4%B1%E7%9B%AE%E6%A0%87%E5%90%8E%E7%A7%BB%E5%8A%A8%E5%88%B0%E7%9B%AE%E6%A0%87%E6%9C%80%E5%90%8E%E4%BD%8D%E7%BD%AE"><span class="nav-number">4.</span> <span class="nav-text">丧尸丢失目标后移动到目标最后位置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-2"><span class="nav-number">4.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%A7%E5%B0%B8%E6%94%BB%E5%87%BB%E7%8E%A9%E5%AE%B6%E5%8A%A8%E7%94%BB"><span class="nav-number">5.</span> <span class="nav-text">丧尸攻击玩家动画</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-2"><span class="nav-number">5.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E5%BA%8F%E5%88%97%E6%92%AD%E6%94%BE%E5%99%A8"><span class="nav-number">5.1.1.</span> <span class="nav-text">随机序列播放器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-3"><span class="nav-number">5.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%98%E5%8C%96-%E4%B8%A7%E5%B0%B8%E6%94%BB%E5%87%BB%E8%A7%92%E8%89%B2%E6%97%B6%E7%9A%84%E9%9D%A2%E5%90%91%E5%8F%8A%E9%98%BB%E6%8C%A1%E6%91%84%E5%83%8F%E6%9C%BA"><span class="nav-number">6.</span> <span class="nav-text">优化-丧尸攻击角色时的面向及阻挡摄像机</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-3"><span class="nav-number">6.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Orient-Roatation-to-Movement"><span class="nav-number">6.1.1.</span> <span class="nav-text">Orient Roatation to Movement</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Use-Content-Rotation-Yaw"><span class="nav-number">6.1.2.</span> <span class="nav-text">Use Content Rotation Yaw</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E7%84%A6%E8%B7%9D"><span class="nav-number">6.1.3.</span> <span class="nav-text">设置焦距</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B8%85%E9%99%A4%E7%84%A6%E8%B7%9D"><span class="nav-number">6.1.4.</span> <span class="nav-text">清除焦距</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-4"><span class="nav-number">6.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%A7%E5%B0%B8%E6%94%BB%E5%87%BB%E9%9F%B3%E6%95%88"><span class="nav-number">7.</span> <span class="nav-text">丧尸攻击音效</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-5"><span class="nav-number">7.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%A7%E5%B0%B8%E8%84%9A%E6%AD%A5%E5%A3%B0%E5%AE%9E%E7%8E%B0"><span class="nav-number">8.</span> <span class="nav-text">丧尸脚步声实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-6"><span class="nav-number">8.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E4%B8%A7%E5%B0%B8%E6%A8%A1%E5%9E%8B%E5%92%8C%E6%9C%9D%E5%90%91"><span class="nav-number">9.</span> <span class="nav-text">随机丧尸模型和朝向</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-7"><span class="nav-number">9.1.</span> <span class="nav-text">思路</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/27/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%95%8C%E4%BA%BAAI/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="UE4-项目-死寂-敌人AI | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UE4-项目-死寂-敌人AI
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-06-27 14:58:48" itemprop="dateCreated datePublished" datetime="2022-06-27T14:58:48+08:00">2022-06-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-06-30 16:23:53" itemprop="dateModified" datetime="2022-06-30T16:23:53+08:00">2022-06-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h1><p>前面的几个章节已经将角色的大部分功能完善了，关于玩家角色还剩下的功能，大概就是伤害系统，生命值系统这些有要用到UI界面的，这就放到后面的UI一起解决。</p>
+<p>接下来就是激动人心的敌人AI了！兄弟们，这个FPS项目进度正式过半，加油！！！</p>
+<h1 id="丧尸随机移动及追逐玩家"><a href="#丧尸随机移动及追逐玩家" class="headerlink" title="丧尸随机移动及追逐玩家"></a>丧尸随机移动及追逐玩家</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="获取黑板"><a href="#获取黑板" class="headerlink" title="获取黑板"></a>获取黑板</h3><p>在AI控制器中使用，字面意思</p>
+<h3 id="创建文字命名"><a href="#创建文字命名" class="headerlink" title="创建文字命名"></a>创建文字命名</h3><p>根据传入的值，返回变量名相同的变量</p>
+<h3 id="将值设为布尔"><a href="#将值设为布尔" class="headerlink" title="将值设为布尔"></a>将值设为布尔</h3><p>在AI控制器使用，字面意思</p>
+<p>将目标中的名为key name引脚传入的值的布尔变量进行设置</p>
+<h3 id="行为树中的Sequence"><a href="#行为树中的Sequence" class="headerlink" title="行为树中的Sequence"></a>行为树中的Sequence</h3><ol>
+<li><p>可添加装饰器backbroad</p>
+</li>
+<li><p>修改backbroad的黑板键，观察器中止</p>
+</li>
+</ol>
+<h3 id="Backbroad"><a href="#Backbroad" class="headerlink" title="Backbroad"></a>Backbroad</h3><ol>
+<li><p>观察器中止：再AI行为树的同一深度中，任一一个条件达成，就会中断同层的所有节点</p>
+</li>
+<li><p>黑板键：黑板中设置的值</p>
+</li>
+</ol>
+<h3 id="新建任务"><a href="#新建任务" class="headerlink" title="新建任务"></a>新建任务</h3><p>AI行为树中的左上角图表，点击之后为该行为树创建一个任务，用于在达成某条件之后AI需要执行的操作</p>
+<h3 id="事件接收执行AI"><a href="#事件接收执行AI" class="headerlink" title="事件接收执行AI"></a>事件接收执行AI</h3><p>在任务被触发的时候会执行的函数</p>
+<h3 id="完成执行"><a href="#完成执行" class="headerlink" title="完成执行"></a>完成执行</h3><p>AI行为树的任务中的节点，告诉系统此任务已经完成，可以执行下一个任务</p>
+<h3 id="AI-MoveTo"><a href="#AI-MoveTo" class="headerlink" title="AI MoveTo"></a>AI MoveTo</h3><p>AI行为树的任务中的节点：操控AI移动到具体位置或者跟随某Actor进行移动</p>
+<h3 id="控制时"><a href="#控制时" class="headerlink" title="控制时"></a>控制时</h3><p>AI控制器中的可重载函数：在AI被AI控制器控制的时候触发的事件</p>
+<h3 id="运行行为树"><a href="#运行行为树" class="headerlink" title="运行行为树"></a>运行行为树</h3><p>AI控制器中的节点：字面意思</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>创建丧尸蓝图类，动画蓝图，混合空间1D，AI行为树，黑板，AI控制器</p>
+</li>
+<li><p>在蓝图类中配置动画蓝图，AI控制器，移动组件的“将旋转朝向运动”为true，类默认值“使用控制器旋转yaw”为false</p>
+</li>
+<li><p>设置混合空间1D，设置根据速度变化的丧尸行走&#x2F;慢跑&#x2F;冲刺动画</p>
+</li>
+<li><p>配置动画蓝图</p>
+<ul>
+<li><p>创建基础状态机并缓存，输出为基础状态机的缓存</p>
+</li>
+<li><p>编辑基础状态机，添加状态“基础状态”</p>
+</li>
+<li><p>编辑基础状态，将创建的混合空间1D输出，并将其速度引脚提升为变量</p>
+</li>
+<li><p>编辑事件图表，判断尝试获取pawn拥有者是否有效，如果有效则获取其速度，再获取其向量长度，传给变量“速度”</p>
+</li>
+</ul>
+</li>
+<li><p>编辑黑板，添加变量“是否看到玩家”（布尔），“是否追逐玩家”（布尔），“要去的位置”（向量）</p>
+</li>
+<li><p>编辑AI控制器，添加组件“AI感知组件”</p>
+<ul>
+<li><p>编辑AI感知组件，添加AI视力配置并修改其属性</p>
+</li>
+<li><p>其中视力配置除了视线半径和角度之外，重要的还有按归属检测需要全部勾选</p>
+</li>
+<li><p>添加AI感知组件的事件“目标感知更新时”，中断其值并将类型转换为BP_Player</p>
+</li>
+<li><p>用“将值设置为布尔”节点，根据中断值中的“Successfully Sensed”节点修改黑板中的“是否看到玩家”（“获取黑板”节点和“创建文字命名”节点）</p>
+</li>
+</ul>
+</li>
+<li><p>配置行为树</p>
+<ul>
+<li><p>将行为树的黑板配置为刚创建的</p>
+</li>
+<li><p>跟节点引出一个Selector；Selector引出两个Sequence</p>
+</li>
+<li><p>给两个Sequence添加一个装饰器“backbroad”，将其黑板键设置为“是否看到玩家”（一个设置为已设置，另一个设置为未设置），观察器终止修改为Both</p>
+</li>
+<li><p>新建一个任务并编辑，重载函数“事件接收执行AI”</p>
+</li>
+<li><p>获取Actor位置，并获取可导航半径的随机点</p>
+</li>
+<li><p>新建黑板键选择器类型的变量“随机移动位置”，并将其设置为可编辑实例</p>
+</li>
+<li><p>将“随机移动位置”拖出，并将黑板值设为变量，将“获取可导航半径内的随机点”的输出引脚作为输入引入</p>
+</li>
+<li><p>添加“完成执行”节点</p>
+</li>
+<li><p>在行为树中调用刚创建的事件，并在其默认值中传入形参“随机移动位置”的实参</p>
+</li>
+<li><p>调用内置任务“Move To”和“Wait”（到这里才会移动，上一个任务是计算“要去的位置”，在Move To节点中调用其值才会具体行动）</p>
+</li>
+<li><p>新建任务“发现玩家”，重载“事件接收TickAI”函数，调用AI MoveTo节点，“获取玩家pawn”作为“Target Actor”引脚的输入值，最后“完成执行”</p>
+</li>
+<li><p>在行为树中调用该任务</p>
+</li>
+</ul>
+</li>
+<li><p>修改AI控制器</p>
+<ul>
+<li>重载函数“事件控制时”，并将其引脚提升为变量“控制的zombie”，“运行行为树”</li>
+</ul>
+</li>
+<li><p>在世界中放入“导航网格体边界体积”</p>
+</li>
+<li><p>优化丧尸行动速度</p>
+<ul>
+<li><p>在丧尸的角色蓝图中添加事件图表“随机移动”，添加自定义事件“随机找点移动”，调用角色移动组件并“set max walk speed”为20（此时为未发现玩家的速度）</p>
+</li>
+<li><p>添加事件图表“发现玩家”，添加自定义事件“发现玩家做的事”，调用角色移动组件并“set max walk speed”，传入速度用“范围内随机浮点”取值为400-500</p>
+</li>
+<li><p>在两个AI行为树的任务“随即移动”和“发现玩家”中分别用蓝图通信后调用“随即找点移动”以及“发现玩家做的事”</p>
+</li>
+<li><p>最后在丧尸的角色蓝图中设置其最大行走速度为20</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="丧尸看见玩家尖叫并追赶"><a href="#丧尸看见玩家尖叫并追赶" class="headerlink" title="丧尸看见玩家尖叫并追赶"></a>丧尸看见玩家尖叫并追赶</h1><h2 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h2><h3 id="生成音效已附加"><a href="#生成音效已附加" class="headerlink" title="生成音效已附加"></a>生成音效已附加</h3><p>生成一个音效并且附加到某个组件上，实现丧尸追逐玩家的同时会发出声音</p>
+<h3 id="销毁组件"><a href="#销毁组件" class="headerlink" title="销毁组件"></a>销毁组件</h3><p>某组件可引出的节点，字面意思</p>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>打开丧尸的动画蓝图，添加两个变量“是否可以尖叫”，“是否死亡”，判断是否死亡后判断是否可以尖叫，然后播放尖叫的蒙太奇动画（在动画蓝图中需要添加其插槽），在丧尸尖叫的时候速度为0，动画播放完之后设置移动速度为400-500</p>
+</li>
+<li><p>添加一个变量“是否正在尖叫”，在开始尖叫是设置为true，结束播放尖叫动画的时候设置为false</p>
+</li>
+<li><p>使用“生成音效已附加”节点，创建一个丧尸追逐主角的音效，附加到丧尸身上，实现丧尸追逐主角的同时进行尖叫</p>
+</li>
+<li><p>在丧尸不能尖叫的时候判断丧尸是否在尖叫，如果不在尖叫，则判断丧尸的追逐音效是否有效，若无效，则将逻辑链接到后面的设置速度并且添加音效上</p>
+</li>
+<li><p>丧尸随机移动事件图表，首先判断是否死亡，然后设置行走速度，在之后需要用一个序列，判断丧尸追逐音效是否有效，有效则“销毁组件”（未看到玩家的时候随机移动但不发出尖叫）</p>
+</li>
+<li><p>序列的另一个引脚引出“Do Once”节点，并以函数名设置定时器，时间设置为15s</p>
+<ul>
+<li><p>新建自定义事件“重置尖叫”，并设置“是否可以尖叫”为true</p>
+</li>
+<li><p>新建自定义事件“reset”，链接到Do Once的Reset引脚上</p>
+</li>
+<li><p>将“以函数名设置定时器”的函数名修改为“重置尖叫”</p>
+</li>
+</ul>
+</li>
+<li><p>为了防止丧尸在发现玩家之后尖叫，并且在十五秒之后又尖叫，所以在“发现玩家”事件图表中的开头调用“reset”事件，并“以函数名清除定时器”</p>
+</li>
+<li><p>优化一下丧尸追逐玩家时候的音效，在“生成音效已附加”节点的“Start Time”引脚中引出节点“范围内随机浮点”，看下丧尸音效的时长，设置在范围内即可</p>
+</li>
+</ol>
+<h1 id="丧尸丢失目标后移动到目标最后位置"><a href="#丧尸丢失目标后移动到目标最后位置" class="headerlink" title="丧尸丢失目标后移动到目标最后位置"></a>丧尸丢失目标后移动到目标最后位置</h1><h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>在丧尸的AI控制器中新建向量类型变量“最后看到玩家的位置”</p>
+</li>
+<li><p>获取BP_Player的位置后，获取可导航半径内的随机点，然后设置给“最后看到玩家的位置”</p>
+</li>
+<li><p>判断感知组件是否感知到玩家，false则链接Do Once节点，并且使用“将值设为布尔值”，key name为“是否追逐玩家”，目标为黑板</p>
+</li>
+<li><p>新建自定义事件“reset”连接到Do Once的reset节点上、</p>
+</li>
+<li><p>优化行为树，先“是否看到玩家”，在“未设置”分支中选择“是否追逐玩家”，未追逐则随即移动等，追逐则创建新的任务</p>
+<ul>
+<li><p>新建任务“追赶玩家到最后位置”，重载“事件接收执行AI”，类型转换为AI控制器，获取其中的“最后看到玩家位置”并且“AI MoveTo”</p>
+</li>
+<li><p>使用“将值设置为布尔”将黑板中的“是否追逐玩家”设置为false，再调用AI控制器中的reset事件，最后“完成执行”</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="丧尸攻击玩家动画"><a href="#丧尸攻击玩家动画" class="headerlink" title="丧尸攻击玩家动画"></a>丧尸攻击玩家动画</h1><h2 id="知识点-2"><a href="#知识点-2" class="headerlink" title="知识点"></a>知识点</h2><h3 id="随机序列播放器"><a href="#随机序列播放器" class="headerlink" title="随机序列播放器"></a>随机序列播放器</h3><p>动画蓝图中的节点：随机播放这个节点中的动画中的某一个</p>
+<h2 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>在动画蓝图中创建变量“是否攻击”，并作为“按布尔混合姿势”的判断条件</p>
+</li>
+<li><p>添加节点“随机序列播放器”，在此节点中放入两个丧尸攻击的动画，勾选随机播放</p>
+</li>
+<li><p>使用“每个骨骼的分层混合”节点将基础状态和攻击动画进行上下半身混合。注意添加骨骼之后还需要勾选“网格体空间旋转混合”</p>
+</li>
+<li><p>最后基础状态作为“按布尔混合姿势”的false，上下半身混合之后的动画作为true</p>
+</li>
+<li><p>在丧尸的角色蓝图中创建新图表“攻击玩家”，由“事件Tick”先判断是否死亡，再以黑板中的“是否看到玩家”作为判断条件，true则创建射线检测（由通道检测球体）</p>
+</li>
+<li><p>“由通道检测球体”的起始位置是actor位置，终点位置是actor前方110cm的100cm半径的球体</p>
+<ul>
+<li><p>创建新的通道命名为“ZombieAttack”默认为忽略</p>
+</li>
+<li><p>在球形通道检测中使用该通道</p>
+</li>
+<li><p>在角色蓝图中的mesh组件中将碰撞预设的ZombieAttack修改为阻挡</p>
+</li>
+</ul>
+</li>
+<li><p>接下来判断球体检测是否碰撞到物体，若是，则中断其检测结果，判断是否为玩家actor（类型转换为玩家actor，如果成功，则是）</p>
+</li>
+<li><p>获取丧尸动画实例中的“是否攻击”，如果玩家未死亡，则设置为true，否则false</p>
+<ul>
+<li>与此同时，在类型转换为玩家失败的时候（检测物体不为玩家），以及丧尸未看到玩家的时候均将“是否攻击”设置为false</li>
+</ul>
+</li>
+</ol>
+<h1 id="优化-丧尸攻击角色时的面向及阻挡摄像机"><a href="#优化-丧尸攻击角色时的面向及阻挡摄像机" class="headerlink" title="优化-丧尸攻击角色时的面向及阻挡摄像机"></a>优化-丧尸攻击角色时的面向及阻挡摄像机</h1><p>如果不进行这个优化的话就会出现玩家一个绕背就能让丧尸丢失目标</p>
+<h2 id="知识点-3"><a href="#知识点-3" class="headerlink" title="知识点"></a>知识点</h2><h3 id="Orient-Roatation-to-Movement"><a href="#Orient-Roatation-to-Movement" class="headerlink" title="Orient Roatation to Movement"></a>Orient Roatation to Movement</h3><p>角色移动组件的属性：将旋转朝向运动</p>
+<h3 id="Use-Content-Rotation-Yaw"><a href="#Use-Content-Rotation-Yaw" class="headerlink" title="Use Content Rotation Yaw"></a>Use Content Rotation Yaw</h3><p>角色移动组件的属性：使用控制器旋转</p>
+<h3 id="设置焦距"><a href="#设置焦距" class="headerlink" title="设置焦距"></a>设置焦距</h3><p>AI控制器：脚焦距设置到指定的actor上</p>
+<h3 id="清除焦距"><a href="#清除焦距" class="headerlink" title="清除焦距"></a>清除焦距</h3><p>AI控制器：字面意思啦！</p>
+<h2 id="思路-4"><a href="#思路-4" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>丧尸蓝图中创建函数”更改控制旋转模式“</p>
+</li>
+<li><p>使用角色移动组件，分别调用”Orient Roatation to Movement“和”Use Content Rotation Yaw“节点并将其公开到函数参数</p>
+</li>
+<li><p>在丧尸攻击玩家时调用此函数，”使用控制器所需的旋转“勾选，否则勾选”将旋转朝向的运动“</p>
+</li>
+<li><p>获取AI控制器，然后”设置焦距“在玩家上，不攻击则”清除焦距“</p>
+</li>
+<li><p>点开丧尸的mesh，将碰撞中的摄像机忽略</p>
+</li>
+</ol>
+<h1 id="丧尸攻击音效"><a href="#丧尸攻击音效" class="headerlink" title="丧尸攻击音效"></a>丧尸攻击音效</h1><h2 id="思路-5"><a href="#思路-5" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>创建一个音效cue</p>
+</li>
+<li><p>找到丧尸攻击动画，在合适位置创建通知音效，将cue传入到通知中</p>
+</li>
+</ol>
+<h1 id="丧尸脚步声实现"><a href="#丧尸脚步声实现" class="headerlink" title="丧尸脚步声实现"></a>丧尸脚步声实现</h1><h2 id="思路-6"><a href="#思路-6" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>直接用玩家角色蓝图中的“脚步声判断”函数来实现脚步功能</p>
+</li>
+<li><p>丧尸角色蓝图的事件图表中，事件开始运行时，获取actor的所有类，提升为变量“玩家蓝图实例”</p>
+</li>
+<li><p>添加两个箭头组件分别将其插槽设置到丧尸的左右脚</p>
+</li>
+<li><p>创建新事件图表“脚步声”，新建自定义事件“左脚步声”，“右脚步声”，分别调用玩家蓝图实例中的“脚步声判断”，并且将两个箭头组件作为参数传入</p>
+</li>
+<li><p>复制之前玩家的动画通知“Notif_RightFoot”和“Notif_LeftFoot”到丧尸文件夹并改为“Notif_ZombieRightFoot”和“Notif_ZombieLeftFoot”</p>
+<ul>
+<li>修改动画通知，将类型转换为“BP_Zombie”并分别调用左右脚步声</li>
+</ul>
+</li>
+<li><p>将动画通知添加到动画的合适位置</p>
+</li>
+</ol>
+<h1 id="随机丧尸模型和朝向"><a href="#随机丧尸模型和朝向" class="headerlink" title="随机丧尸模型和朝向"></a>随机丧尸模型和朝向</h1><h2 id="思路-7"><a href="#思路-7" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>在丧尸角色蓝图中创建新图表“随机丧尸模型”</p>
+</li>
+<li><p>创建一个元素为骨骼网格体的数组“丧尸模型”，并向其中添加丧尸骨骼网格体元素</p>
+</li>
+<li><p>新建自定义事件“随机Zombie模型”，由网格体组件引出“设置骨骼网格体”</p>
+</li>
+<li><p>将“丧尸模型”在“范围内随机整数”传入到“设置骨骼网格体”</p>
+</li>
+<li><p>在事件图表的开始运行处调用“随机Zombie模型”事件</p>
+</li>
+<li><p>最后设置actor旋转，传入“范围内随机浮点”</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag"># 项目</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/06/23/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%8B%BE%E5%8F%96%E7%B3%BB%E7%BB%9F%E5%8F%8A%E6%AD%A6%E5%99%A8%E5%88%87%E6%8D%A2/" rel="prev" title="UE4-项目-死寂-拾取系统及武器切换">
+                  <i class="fa fa-chevron-left"></i> UE4-项目-死寂-拾取系统及武器切换
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

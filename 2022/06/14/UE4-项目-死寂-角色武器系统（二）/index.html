@@ -29,7 +29,7 @@
 <meta property="og:description" content="子弹击中设置，击中特效知识点发射物移动组件此组件可给物体添加抛射线计算，使其有初始速度和弹道 事件命中当蓝图实例产生了碰撞之后，就会产生信息，此节点可将信息输出 贴花在某位置产生贴花的时候，就可以覆盖原本位置的材质和图案（弹孔效果） 当贴花材质完全垂直于原物体的表面的时候，才可以完整的显示出来（没有拉伸） 在位置处生成贴画字面意思 物理材质通过物理材质可以实现任务走在不同材质的地面上产生不同的声音">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-06-14T08:20:40.000Z">
-<meta property="article:modified_time" content="2022-06-17T06:49:30.757Z">
+<meta property="article:modified_time" content="2022-06-18T03:41:04.581Z">
 <meta property="article:author" content="williny">
 <meta property="article:tag" content="项目">
 <meta name="twitter:card" content="summary">
@@ -148,7 +148,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%90%E5%BC%B9%E5%87%BB%E4%B8%AD%E8%AE%BE%E7%BD%AE%EF%BC%8C%E5%87%BB%E4%B8%AD%E7%89%B9%E6%95%88"><span class="nav-number">1.</span> <span class="nav-text">子弹击中设置，击中特效</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-number">1.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%91%E5%B0%84%E7%89%A9%E7%A7%BB%E5%8A%A8%E7%BB%84%E4%BB%B6"><span class="nav-number">1.1.1.</span> <span class="nav-text">发射物移动组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E5%91%BD%E4%B8%AD"><span class="nav-number">1.1.2.</span> <span class="nav-text">事件命中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B4%B4%E8%8A%B1"><span class="nav-number">1.1.3.</span> <span class="nav-text">贴花</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E4%BD%8D%E7%BD%AE%E5%A4%84%E7%94%9F%E6%88%90%E8%B4%B4%E7%94%BB"><span class="nav-number">1.1.4.</span> <span class="nav-text">在位置处生成贴画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%A9%E7%90%86%E6%9D%90%E8%B4%A8"><span class="nav-number">1.1.5.</span> <span class="nav-text">物理材质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%A9%E7%90%86%E8%A1%A8%E9%9D%A2%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.6.</span> <span class="nav-text">物理表面类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E4%B8%AD%E7%BB%93%E6%9E%9C"><span class="nav-number">1.1.7.</span> <span class="nav-text">命中结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E6%96%AD%E5%91%BD%E4%B8%AD%E7%BB%93%E6%9E%9C"><span class="nav-number">1.1.8.</span> <span class="nav-text">中断命中结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B1%E9%80%9A%E9%81%93%E6%A3%80%E6%B5%8B%E7%90%83%E4%BD%93"><span class="nav-number">1.1.9.</span> <span class="nav-text">由通道检测球体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E8%A1%A8%E9%9D%A2%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.10.</span> <span class="nav-text">获取表面类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%A9%E7%90%86%E6%9D%90%E8%B4%A8-1"><span class="nav-number">1.1.11.</span> <span class="nav-text">物理材质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E4%BD%8D%E7%BD%AE%E5%A4%84%E7%94%9F%E6%88%90%E5%8F%91%E5%B0%84%E5%99%A8"><span class="nav-number">1.1.12.</span> <span class="nav-text">在位置处生成发射器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E6%A8%A1%E6%8B%9F%E7%89%A9%E7%90%86%E7%8E%B0%E8%B1%A1"><span class="nav-number">1.1.13.</span> <span class="nav-text">为模拟物理现象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%86%B2%E9%87%8F"><span class="nav-number">1.1.14.</span> <span class="nav-text">添加冲量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%92%AD%E6%94%BE%E4%BD%8D%E7%BD%AE%E5%A4%84%E7%9A%84%E9%9F%B3%E6%95%88"><span class="nav-number">1.1.15.</span> <span class="nav-text">播放位置处的音效</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">1.2.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">1.3.</span> <span class="nav-text">注意事项</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%91%E5%B0%84%E5%AD%90%E5%BC%B9"><span class="nav-number">2.</span> <span class="nav-text">发射子弹</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-1"><span class="nav-number">2.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%8F%92%E6%A7%BD%E5%8F%98%E6%8D%A2"><span class="nav-number">2.1.1.</span> <span class="nav-text">获取插槽变换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%AD%E5%A4%B4%E7%BB%84%E4%BB%B6"><span class="nav-number">2.1.2.</span> <span class="nav-text">箭头组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A5%E4%BA%8B%E4%BB%B6%E8%AE%BE%E7%BD%AE%E5%AE%9A%E6%97%B6%E5%99%A8"><span class="nav-number">2.1.3.</span> <span class="nav-text">以事件设置定时器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A5%E5%8F%A5%E6%9F%84%E6%B8%85%E9%99%A4%E5%AE%9A%E6%97%B6%E5%99%A8%E5%B9%B6%E4%BD%BF%E4%B9%8B%E6%97%A0%E6%95%88"><span class="nav-number">2.1.4.</span> <span class="nav-text">以句柄清除定时器并使之无效</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-1"><span class="nav-number">2.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%B9%E5%A3%B3%E8%90%BD%E5%9C%B0%E9%9F%B3%E6%95%88"><span class="nav-number">3.</span> <span class="nav-text">弹壳落地音效</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-2"><span class="nav-number">3.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9F%B3%E6%95%88Cue"><span class="nav-number">3.1.1.</span> <span class="nav-text">音效Cue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA"><span class="nav-number">3.1.2.</span> <span class="nav-text">随机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E5%88%B6%E5%99%A8"><span class="nav-number">3.1.3.</span> <span class="nav-text">调制器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%B0%E5%87%8F"><span class="nav-number">3.1.4.</span> <span class="nav-text">衰减</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E9%85%8DOn-Particle-Collide"><span class="nav-number">3.1.5.</span> <span class="nav-text">分配On Particle Collide</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Do-N"><span class="nav-number">3.1.6.</span> <span class="nav-text">Do N</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-2"><span class="nav-number">3.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%92%E8%89%B2%E8%A3%85%E5%A4%87%E6%AD%A6%E5%99%A8%E9%9F%B3%E6%95%88"><span class="nav-number">4.</span> <span class="nav-text">角色装备武器音效</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-3"><span class="nav-number">4.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%92%AD%E6%94%BE%E9%9F%B3%E6%95%882D"><span class="nav-number">4.1.1.</span> <span class="nav-text">播放音效2D</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-3"><span class="nav-number">4.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%92%E8%89%B2%E8%B7%B3%E8%B7%83%E9%9F%B3%E6%95%88"><span class="nav-number">5.</span> <span class="nav-text">角色跳跃音效</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-4"><span class="nav-number">5.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%A6%E5%99%A8%E5%85%A8%E8%87%AA%E5%8A%A8%E5%92%8C%E5%8D%8A%E8%87%AA%E5%8A%A8%E5%88%87%E6%8D%A2"><span class="nav-number">6.</span> <span class="nav-text">武器全自动和半自动切换</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-5"><span class="nav-number">6.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%A6%E5%99%A8%E5%90%8E%E5%9D%90%E5%8A%9B%EF%BC%88%E6%9E%AA%E5%8F%A3%E5%90%91%E4%B8%8A%E5%81%8F%E7%A7%BB%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">武器后坐力（枪口向上偏移）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-4"><span class="nav-number">7.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8C%83%E5%9B%B4%E5%86%85%E9%9A%8F%E6%9C%BA%E6%B5%AE%E7%82%B9"><span class="nav-number">7.1.1.</span> <span class="nav-text">范围内随机浮点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-6"><span class="nav-number">7.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%A6%E5%99%A8%E6%8D%A2%E5%BC%B9%E7%B3%BB%E7%BB%9F"><span class="nav-number">8.</span> <span class="nav-text">武器换弹系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-5"><span class="nav-number">8.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Do-Once"><span class="nav-number">8.1.1.</span> <span class="nav-text">Do Once</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%8B%E8%BD%AC%E6%B5%AE%E7%82%B9"><span class="nav-number">8.1.2.</span> <span class="nav-text">旋转浮点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-7"><span class="nav-number">8.2.</span> <span class="nav-text">思路</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%90%E5%BC%B9%E5%87%BB%E4%B8%AD%E8%AE%BE%E7%BD%AE%EF%BC%8C%E5%87%BB%E4%B8%AD%E7%89%B9%E6%95%88"><span class="nav-number">1.</span> <span class="nav-text">子弹击中设置，击中特效</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-number">1.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%91%E5%B0%84%E7%89%A9%E7%A7%BB%E5%8A%A8%E7%BB%84%E4%BB%B6"><span class="nav-number">1.1.1.</span> <span class="nav-text">发射物移动组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E5%91%BD%E4%B8%AD"><span class="nav-number">1.1.2.</span> <span class="nav-text">事件命中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B4%B4%E8%8A%B1"><span class="nav-number">1.1.3.</span> <span class="nav-text">贴花</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E4%BD%8D%E7%BD%AE%E5%A4%84%E7%94%9F%E6%88%90%E8%B4%B4%E7%94%BB"><span class="nav-number">1.1.4.</span> <span class="nav-text">在位置处生成贴画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%A9%E7%90%86%E6%9D%90%E8%B4%A8"><span class="nav-number">1.1.5.</span> <span class="nav-text">物理材质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%A9%E7%90%86%E8%A1%A8%E9%9D%A2%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.6.</span> <span class="nav-text">物理表面类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E4%B8%AD%E7%BB%93%E6%9E%9C"><span class="nav-number">1.1.7.</span> <span class="nav-text">命中结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E6%96%AD%E5%91%BD%E4%B8%AD%E7%BB%93%E6%9E%9C"><span class="nav-number">1.1.8.</span> <span class="nav-text">中断命中结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B1%E9%80%9A%E9%81%93%E6%A3%80%E6%B5%8B%E7%90%83%E4%BD%93"><span class="nav-number">1.1.9.</span> <span class="nav-text">由通道检测球体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E8%A1%A8%E9%9D%A2%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.10.</span> <span class="nav-text">获取表面类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%A9%E7%90%86%E6%9D%90%E8%B4%A8-1"><span class="nav-number">1.1.11.</span> <span class="nav-text">物理材质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E4%BD%8D%E7%BD%AE%E5%A4%84%E7%94%9F%E6%88%90%E5%8F%91%E5%B0%84%E5%99%A8"><span class="nav-number">1.1.12.</span> <span class="nav-text">在位置处生成发射器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E6%A8%A1%E6%8B%9F%E7%89%A9%E7%90%86%E7%8E%B0%E8%B1%A1"><span class="nav-number">1.1.13.</span> <span class="nav-text">为模拟物理现象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%86%B2%E9%87%8F"><span class="nav-number">1.1.14.</span> <span class="nav-text">添加冲量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%92%AD%E6%94%BE%E4%BD%8D%E7%BD%AE%E5%A4%84%E7%9A%84%E9%9F%B3%E6%95%88"><span class="nav-number">1.1.15.</span> <span class="nav-text">播放位置处的音效</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">1.2.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">1.3.</span> <span class="nav-text">注意事项</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%91%E5%B0%84%E5%AD%90%E5%BC%B9"><span class="nav-number">2.</span> <span class="nav-text">发射子弹</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-1"><span class="nav-number">2.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%8F%92%E6%A7%BD%E5%8F%98%E6%8D%A2"><span class="nav-number">2.1.1.</span> <span class="nav-text">获取插槽变换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%AD%E5%A4%B4%E7%BB%84%E4%BB%B6"><span class="nav-number">2.1.2.</span> <span class="nav-text">箭头组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A5%E4%BA%8B%E4%BB%B6%E8%AE%BE%E7%BD%AE%E5%AE%9A%E6%97%B6%E5%99%A8"><span class="nav-number">2.1.3.</span> <span class="nav-text">以事件设置定时器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A5%E5%8F%A5%E6%9F%84%E6%B8%85%E9%99%A4%E5%AE%9A%E6%97%B6%E5%99%A8%E5%B9%B6%E4%BD%BF%E4%B9%8B%E6%97%A0%E6%95%88"><span class="nav-number">2.1.4.</span> <span class="nav-text">以句柄清除定时器并使之无效</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-1"><span class="nav-number">2.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%B9%E5%A3%B3%E8%90%BD%E5%9C%B0%E9%9F%B3%E6%95%88"><span class="nav-number">3.</span> <span class="nav-text">弹壳落地音效</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-2"><span class="nav-number">3.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9F%B3%E6%95%88Cue"><span class="nav-number">3.1.1.</span> <span class="nav-text">音效Cue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA"><span class="nav-number">3.1.2.</span> <span class="nav-text">随机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E5%88%B6%E5%99%A8"><span class="nav-number">3.1.3.</span> <span class="nav-text">调制器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%B0%E5%87%8F"><span class="nav-number">3.1.4.</span> <span class="nav-text">衰减</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E9%85%8DOn-Particle-Collide"><span class="nav-number">3.1.5.</span> <span class="nav-text">分配On Particle Collide</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Do-N"><span class="nav-number">3.1.6.</span> <span class="nav-text">Do N</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-2"><span class="nav-number">3.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%92%E8%89%B2%E8%A3%85%E5%A4%87%E6%AD%A6%E5%99%A8%E9%9F%B3%E6%95%88"><span class="nav-number">4.</span> <span class="nav-text">角色装备武器音效</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-3"><span class="nav-number">4.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%92%AD%E6%94%BE%E9%9F%B3%E6%95%882D"><span class="nav-number">4.1.1.</span> <span class="nav-text">播放音效2D</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-3"><span class="nav-number">4.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%92%E8%89%B2%E8%B7%B3%E8%B7%83%E9%9F%B3%E6%95%88"><span class="nav-number">5.</span> <span class="nav-text">角色跳跃音效</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-4"><span class="nav-number">5.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%A6%E5%99%A8%E5%85%A8%E8%87%AA%E5%8A%A8%E5%92%8C%E5%8D%8A%E8%87%AA%E5%8A%A8%E5%88%87%E6%8D%A2"><span class="nav-number">6.</span> <span class="nav-text">武器全自动和半自动切换</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-5"><span class="nav-number">6.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%A6%E5%99%A8%E5%90%8E%E5%9D%90%E5%8A%9B%EF%BC%88%E6%9E%AA%E5%8F%A3%E5%90%91%E4%B8%8A%E5%81%8F%E7%A7%BB%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">武器后坐力（枪口向上偏移）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-4"><span class="nav-number">7.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8C%83%E5%9B%B4%E5%86%85%E9%9A%8F%E6%9C%BA%E6%B5%AE%E7%82%B9"><span class="nav-number">7.1.1.</span> <span class="nav-text">范围内随机浮点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-6"><span class="nav-number">7.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%92%E8%89%B2%E6%8D%A2%E5%BC%B9%E5%8A%A8%E7%94%BB%E5%8F%8A%E9%9F%B3%E6%95%88"><span class="nav-number">8.</span> <span class="nav-text">角色换弹动画及音效</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-5"><span class="nav-number">8.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Do-Once"><span class="nav-number">8.1.1.</span> <span class="nav-text">Do Once</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%8B%E8%BD%AC%E6%B5%AE%E7%82%B9"><span class="nav-number">8.1.2.</span> <span class="nav-text">旋转浮点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-7"><span class="nav-number">8.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%B9%E5%A4%B9%E9%99%84%E5%8A%A0%E5%88%B0%E6%89%8B%E4%B8%8A%E5%8F%8A%E4%B8%A2%E5%BC%83"><span class="nav-number">9.</span> <span class="nav-text">弹夹附加到手上及丢弃</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-6"><span class="nav-number">9.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E7%94%BB%E9%80%9A%E7%9F%A5"><span class="nav-number">9.1.1.</span> <span class="nav-text">动画通知</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8EActor%E5%88%86%E7%A6%BB"><span class="nav-number">9.1.2.</span> <span class="nav-text">从Actor分离</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-8"><span class="nav-number">9.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%92%E8%89%B2%E8%84%9A%E6%AD%A5%E5%A3%B0%E9%9F%B3%E6%95%88"><span class="nav-number">10.</span> <span class="nav-text">角色脚步声音效</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-7"><span class="nav-number">10.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B1%E9%80%9A%E9%81%93%E6%A3%80%E6%B5%8B%E7%BA%BF%E6%9D%A1"><span class="nav-number">10.1.1.</span> <span class="nav-text">由通道检测线条</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-9"><span class="nav-number">10.2.</span> <span class="nav-text">思路</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">56</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -258,7 +258,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-06-17 14:49:30" itemprop="dateModified" datetime="2022-06-17T14:49:30+08:00">2022-06-17</time>
+      <time title="修改时间：2022-06-18 11:41:04" itemprop="dateModified" datetime="2022-06-18T11:41:04+08:00">2022-06-18</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -502,7 +502,7 @@
 </li>
 <li><p>那么再武器基类蓝图中新建一个事件图表“武器后坐力”，然后新建一个自定义事件，通过“获取玩家Pawn”节点调用“添加控制器Pitch输入”</p>
 </li>
-<li><p>然后需要将“添加控制器Pitch输入”的val设置为<mark>-0.4</mark></p>
+<li><p>然后需要将“添加控制器Pitch输入”的val设置为<mark>-0.4</mark>（后面会提升为变量使用）</p>
 </li>
 </ul>
 </li>
@@ -539,7 +539,7 @@
 <li><p>在父类中添加了“后坐力Pitch”和“后坐力Yaw”，还需要再子类中设置其具体的值</p>
 </li>
 </ol>
-<h1 id="武器换弹系统"><a href="#武器换弹系统" class="headerlink" title="武器换弹系统"></a>武器换弹系统</h1><h2 id="知识点-5"><a href="#知识点-5" class="headerlink" title="知识点"></a>知识点</h2><h3 id="Do-Once"><a href="#Do-Once" class="headerlink" title="Do Once"></a>Do Once</h3><p>和Do N差不多，字面意思啦！</p>
+<h1 id="角色换弹动画及音效"><a href="#角色换弹动画及音效" class="headerlink" title="角色换弹动画及音效"></a>角色换弹动画及音效</h1><h2 id="知识点-5"><a href="#知识点-5" class="headerlink" title="知识点"></a>知识点</h2><h3 id="Do-Once"><a href="#Do-Once" class="headerlink" title="Do Once"></a>Do Once</h3><p>和Do N差不多，字面意思啦！</p>
 <h3 id="旋转浮点"><a href="#旋转浮点" class="headerlink" title="旋转浮点"></a>旋转浮点</h3><p>根据bool值来进行输出</p>
 <p>若true则输出A引脚的值</p>
 <p>若false则输出B引脚的值</p>
@@ -621,6 +621,139 @@
 </ul>
 </li>
 </ol>
+<h1 id="弹夹附加到手上及丢弃"><a href="#弹夹附加到手上及丢弃" class="headerlink" title="弹夹附加到手上及丢弃"></a>弹夹附加到手上及丢弃</h1><h2 id="知识点-6"><a href="#知识点-6" class="headerlink" title="知识点"></a>知识点</h2><h3 id="动画通知"><a href="#动画通知" class="headerlink" title="动画通知"></a>动画通知</h3><p>之前在拔枪那一节中运用过</p>
+<p>动画通知&#x3D;函数</p>
+<p>动画的某一帧调用函数</p>
+<h3 id="从Actor分离"><a href="#从Actor分离" class="headerlink" title="从Actor分离"></a>从Actor分离</h3><p>字面意思啦！</p>
+<h2 id="思路-8"><a href="#思路-8" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>三个动画通知</p>
+<ul>
+<li><p>把弹夹从枪械上拔下来（弹夹从跟随枪械运动变为跟随手运动，延迟之后松开弹夹使其掉落到地上）</p>
+</li>
+<li><p>生成一个新的弹夹拿出来（生成新弹夹，附加到手部并跟随运动）</p>
+</li>
+<li><p>把弹夹插到枪械上（弹夹运动到靠近枪械位置之后，附加到枪械上）</p>
+</li>
+</ul>
+</li>
+<li><p>创建动画通知，并添加到动画中</p>
+<ul>
+<li><p>创建弹夹掉落，换弹结束，生成弹夹三个通知</p>
+</li>
+<li><p>在动画序列中新建一个通知轨道，将三个通知放入合适的位置</p>
+</li>
+</ul>
+</li>
+<li><p>创建弹匣基类</p>
+<ul>
+<li><p>创建一个Actor蓝图类取名为“BP_MagazineBase”作为弹匣基类</p>
+<ul>
+<li><p>添加静态网格体组件</p>
+</li>
+<li><p>设置碰撞预设为自定义，碰撞启用设置为查询和物理，对象类型设置为物理类型（忽略pawn的碰撞响应，不然会卡碰撞）</p>
+</li>
+</ul>
+</li>
+<li><p>在武器基类蓝图中的“事件图表”中使用“序列”节点的第二个引脚</p>
+<ul>
+<li><p>从类生成Actor，将类提升为变量“弹匣”，返回值提升为变量“弹匣引用”</p>
+</li>
+<li><p>“创建变换”节点引入位置信息</p>
+</li>
+</ul>
+</li>
+<li><p>“附加Actor到组件”节点将弹匣引用附加到武器模型上</p>
+</li>
+</ul>
+</li>
+<li><p>在子类中设置具体需要附加到的弹匣是哪一个</p>
+<ul>
+<li>以“BP_MagazineBase”为父类创建子类“BP_AKM_Magazine”，设置具体模型</li>
+</ul>
+</li>
+<li><p>弹匣分离</p>
+<ul>
+<li><p>在弹匣父类中创建自定义事件“弹匣分离”</p>
+</li>
+<li><p>使用“从Actor分离”节点，“模拟物理”节点，”延迟“节点，“销毁”节点</p>
+</li>
+</ul>
+</li>
+<li><p>调用弹匣分离</p>
+<ul>
+<li><p>在武器基类蓝图中创建新图表“换弹”</p>
+</li>
+<li><p>添加三个自定义事件“拔下弹匣”，“生成新弹匣”，“换弹结束”</p>
+</li>
+<li><p>”拔下弹匣“事件将”弹匣引用“从角色蓝图的网格体上“附加Actor到组件”（将弹匣附加到角色的手上）</p>
+</li>
+<li><p>编辑“附加Actor到组件”节点，在角色骨骼的手上创建插槽，编辑好插槽位置之后将其名称填写到节点的Socket Name引脚上</p>
+</li>
+<li><p>延迟0.1秒之后将“弹匣引用”转换为“BP_MagazineBase”，调用“弹匣分离”</p>
+</li>
+<li><p>最后在动画通知“Notif_ClipDroppedAnimation”中调用角色蓝图中的“武器实例”，再调用“弹匣分离”</p>
+</li>
+</ul>
+</li>
+<li><p>生成新弹匣</p>
+<ul>
+<li><p>从弹匣类生成Actor，然后将其附加到组件</p>
+</li>
+<li><p>需要将弹匣数量–</p>
+</li>
+<li><p>最后在动画通知中调用</p>
+</li>
+</ul>
+</li>
+<li><p>换弹结束</p>
+<ul>
+<li><p>将弹匣引用附加到武器实例上，还需要将子弹数量设置为子弹总数量（一个弹匣中的子弹数量）</p>
+</li>
+<li><p>在动画通知中调用</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="角色脚步声音效"><a href="#角色脚步声音效" class="headerlink" title="角色脚步声音效"></a>角色脚步声音效</h1><h2 id="知识点-7"><a href="#知识点-7" class="headerlink" title="知识点"></a>知识点</h2><h3 id="由通道检测线条"><a href="#由通道检测线条" class="headerlink" title="由通道检测线条"></a>由通道检测线条</h3><p>将沿给定线条执行碰撞追踪，并返回所有遭遇的命中，直到并包含首次阻挡命中，只返回对特定追踪通道响应的对象。</p>
+<p>这就意味着追踪的开始和结束之间有多个带碰撞的Actor 或 组件 与特定的追踪通道发生重叠，而您将接收到所有的 Actor 和组件。</p>
+<p>但是，如果首次命中阻挡了特定的追踪通道，则只会接收到这一个内容。</p>
+<p>如希望无视追踪通道的重叠或阻挡接受所有内容，则需要使用MultiLineTraceByObject 节点</p>
+<h2 id="思路-9"><a href="#思路-9" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>用Cue制作各自类型的脚步声</p>
+</li>
+<li><p>给角色网格体添加两个箭头组件，分别为“左脚”，“右脚”，并附加到相应骨骼位置</p>
+</li>
+<li><p>创建一个函数“脚步声判断”</p>
+<ul>
+<li><p>添加场景组件类型的输入“哪只脚”，获取其“场景位置”</p>
+</li>
+<li><p>根据“由通道检测线条”节点，起始点为箭头位置，终点为箭头向下50cm（向量-向量）位置</p>
+</li>
+<li><p>判断是否由返回值，若有，则“获取表面类型”，switch，再“中断命中结果”获取位置信息</p>
+</li>
+<li><p>根据位置信息播放不同的音效“播放位置处的音效”</p>
+</li>
+</ul>
+</li>
+<li><p>调用“脚步声判断”函数</p>
+<ul>
+<li><p>新建事件图表“脚步声”</p>
+</li>
+<li><p>新建自定义事件“左脚步声”，“右脚步声”，分别调用函数，参数分别传入“左脚”以及“右脚”</p>
+</li>
+</ul>
+</li>
+<li><p>创建动画通知调用“脚步声”事件</p>
+<ul>
+<li><p>创建左脚，右脚脚步声动画通知</p>
+</li>
+<li><p>”获取拥有者“，转换为BP_Player，分别调用“左脚步声”，“右脚步声”</p>
+</li>
+</ul>
+</li>
+<li><p>最后将动画通知添加到所有和脚步声有关的动画中去</p>
+</li>
+</ol>
 
     </div>
 
@@ -642,6 +775,9 @@
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/2022/06/23/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%8B%BE%E5%8F%96%E7%B3%BB%E7%BB%9F%E5%8F%8A%E6%AD%A6%E5%99%A8%E5%88%87%E6%8D%A2/" rel="next" title="UE4-项目-死寂-拾取系统及武器切换">
+                  UE4-项目-死寂-拾取系统及武器切换 <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
     </footer>
