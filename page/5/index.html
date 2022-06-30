@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">56</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,378 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/25/UE4-HowTo-Components/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/04/25/UE4-HowTo-Components/" class="post-title-link" itemprop="url">UE4-HowTo_Components</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-04-25 17:08:45" itemprop="dateCreated datePublished" datetime="2022-04-25T17:08:45+08:00">2022-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-04-27 09:11:14" itemprop="dateModified" datetime="2022-04-27T09:11:14+08:00">2022-04-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>官方案例——<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.27/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/Components/">解组件和碰撞</a></p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><ol>
+<li><p>明确目标：创建一个有物理性质的球体，能和其他物体碰撞，并且拥有火焰粒子效果</p>
+</li>
+<li><p>创建CollidingPawn</p>
+</li>
+<li><p>创建这个球体本身需要什么头文件</p>
+</li>
+<li><p>修改根组件为对物理反应的球体</p>
+</li>
+<li><p>创建球体并附加到根组件上</p>
+</li>
+<li><p>将粒子系统直接附加到球体上（不是根组件）</p>
+</li>
+<li><p>添加弹簧臂组件，并在其上插槽内添加摄像机组件</p>
+</li>
+<li><p>将此Pawn设为受默认玩家控制</p>
+</li>
+<li><p>配置输入：编辑-&gt;设置项目-&gt;输入-&gt;操作映射（粒子系统）-&gt;轴映射(移动和转动)</p>
+</li>
+<li><p>创建Pawn移动组件类（PawnMovementComponent）CollidingPawnMovementComponent</p>
+</li>
+<li><p>定义TickComonent函数，告知逐帧移动方式</p>
+</li>
+<li><p>将Pawn移动组件添加到Pawn内</p>
+</li>
+<li><p>创建Pawn移动组件并将其与Pawn关联，使其更新根组件</p>
+</li>
+<li><p>声明并定义一些函数处理Pawn会接收的输入</p>
+</li>
+<li><p>将函数绑定到输入事件</p>
+</li>
+</ol>
+<h1 id="CollidingPawn-h"><a href="#CollidingPawn-h" class="headerlink" title="CollidingPawn.h"></a>CollidingPawn.h</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/Pawn.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CollidingPawn.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HOWTO_COMPONENTS_API</span> ACollidingPawn : <span class="keyword">public</span> APawn</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 设置此Pawn属性的默认值</span></span><br><span class="line">    <span class="built_in">ACollidingPawn</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="comment">// 游戏开始或生成时调用</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 逐帧调用</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">( <span class="type">float</span> DeltaSeconds )</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 调用以将功能与输入绑定（也就是将要设定的wasd和空格的输入功能）</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">SetupPlayerInputComponent</span><span class="params">(<span class="keyword">class</span> UInputComponent* InInputComponent)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//声明粒子系统（火焰燃烧效果等）</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>()</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">UParticleSystemComponent</span>* OurParticleSystem;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//声明移动组件，使其可以追踪变量</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>()</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">UCollidingPawnMovementComponent</span>* OurMovementComponent;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Pawn拥有名为 GetMovementComponent 的函数，用于提供引擎中其他类访问该Pawn当前所用Pawn移动组件的权限。需覆盖该函数，使其返回自定义Pawn移动组件</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> UPawnMovementComponent* <span class="title">GetMovementComponent</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建代码处理pawn接受过来的输入</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">MoveForward</span><span class="params">(<span class="type">float</span> AxisValue)</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">MoveRight</span><span class="params">(<span class="type">float</span> AxisValue)</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Turn</span><span class="params">(<span class="type">float</span> AxisValue)</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">ParticleToggle</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="CollidingPawn-cpp"><a href="#CollidingPawn-cpp" class="headerlink" title="CollidingPawn.cpp"></a>CollidingPawn.cpp</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CollidingPawn.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CollidingPawnMovementComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UObject/ConstructorHelpers.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Particles/ParticleSystemComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/SphereComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Camera/CameraComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/SpringArmComponent.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置默认值</span></span><br><span class="line">ACollidingPawn::<span class="built_in">ACollidingPawn</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 设置该Pawn以逐帧调用Tick()。如无需此功能，可关闭以提高性能。</span></span><br><span class="line">    PrimaryActorTick.bCanEverTick = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 根组件将成为对物理反应的球体</span></span><br><span class="line">    USphereComponent* SphereComponent = <span class="built_in">CreateDefaultSubobject</span>&lt;USphereComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;RootComponent&quot;</span>));</span><br><span class="line">    RootComponent = SphereComponent;</span><br><span class="line">    SphereComponent-&gt;<span class="built_in">InitSphereRadius</span>(<span class="number">40.0f</span>);<span class="comment">//初始化球的半径</span></span><br><span class="line">    SphereComponent-&gt;<span class="built_in">SetCollisionProfileName</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;Pawn&quot;</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建并放置网格体组件，以便查看球体位置</span></span><br><span class="line">    UStaticMeshComponent* SphereVisual = <span class="built_in">CreateDefaultSubobject</span>&lt;UStaticMeshComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;VisualRepresentation&quot;</span>));</span><br><span class="line">    SphereVisual-&gt;<span class="built_in">SetupAttachment</span>(RootComponent);</span><br><span class="line">    <span class="function"><span class="type">static</span> ConstructorHelpers::FObjectFinder&lt;UStaticMesh&gt; <span class="title">SphereVisualAsset</span><span class="params">(TEXT(<span class="string">&quot;/Game/StarterContent/Shapes/Shape_Sphere.Shape_Sphere&quot;</span>))</span></span>;</span><br><span class="line">    <span class="keyword">if</span> (SphereVisualAsset.<span class="built_in">Succeeded</span>())<span class="comment">//如果找到了绑定的网格体</span></span><br><span class="line">    &#123;</span><br><span class="line">        SphereVisual-&gt;<span class="built_in">SetStaticMesh</span>(SphereVisualAsset.Object);<span class="comment">//则将找到的网格体附加到SphereVisual上！</span></span><br><span class="line">        SphereVisual-&gt;<span class="built_in">SetRelativeLocation</span>(<span class="built_in">FVector</span>(<span class="number">0.0f</span>, <span class="number">0.0f</span>, <span class="number">-40.0f</span>));<span class="comment">//设置相对位置</span></span><br><span class="line">        SphereVisual-&gt;<span class="built_in">SetWorldScale3D</span>(<span class="built_in">FVector</span>(<span class="number">0.8f</span>));<span class="comment">//缩放为80%</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建可激活或停止的粒子系统</span></span><br><span class="line">    <span class="comment">// 粒子系统组件直接附加到静态网格体组件，而非附加到根。其同时略微偏离网格体底部中心，以便在运行时清晰显示。</span></span><br><span class="line">    OurParticleSystem = <span class="built_in">CreateDefaultSubobject</span>&lt;UParticleSystemComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;MovementParticles&quot;</span>));</span><br><span class="line">    OurParticleSystem-&gt;<span class="built_in">SetupAttachment</span>(SphereVisual);<span class="comment">//将粒子效果组件添加到SphereVisual上！</span></span><br><span class="line">    OurParticleSystem-&gt;bAutoActivate = <span class="literal">false</span>;<span class="comment">//关闭激活粒子效果</span></span><br><span class="line">    OurParticleSystem-&gt;<span class="built_in">SetRelativeLocation</span>(<span class="built_in">FVector</span>(<span class="number">-20.0f</span>, <span class="number">0.0f</span>, <span class="number">20.0f</span>));<span class="comment">//设定粒子效果在网格体上的相对位置</span></span><br><span class="line">    <span class="function"><span class="type">static</span> ConstructorHelpers::FObjectFinder&lt;UParticleSystem&gt; <span class="title">ParticleAsset</span><span class="params">(TEXT(<span class="string">&quot;/Game/StarterContent/Particles/P_Fire.P_Fire&quot;</span>))</span></span>;</span><br><span class="line">    <span class="keyword">if</span> (ParticleAsset.<span class="built_in">Succeeded</span>())<span class="comment">//如果在资源中找到指定的粒子效果</span></span><br><span class="line">    &#123;</span><br><span class="line">        OurParticleSystem-&gt;<span class="built_in">SetTemplate</span>(ParticleAsset.Object);<span class="comment">//将找到的粒子效果附加到PartcleAsset上！</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用弹簧臂给予摄像机平滑自然的运动感。</span></span><br><span class="line">    USpringArmComponent* SpringArm = <span class="built_in">CreateDefaultSubobject</span>&lt;USpringArmComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;CameraAttachmentArm&quot;</span>));</span><br><span class="line">    SpringArm-&gt;<span class="built_in">SetupAttachment</span>(RootComponent);<span class="comment">//将弹簧臂附加到根组件上</span></span><br><span class="line">    SpringArm-&gt;<span class="built_in">SetRelativeRotation</span>(<span class="built_in">FRotator</span>(<span class="number">-45.f</span>, <span class="number">0.f</span>, <span class="number">0.f</span>));<span class="comment">//设定弹簧臂相对于转子的位置</span></span><br><span class="line">    SpringArm-&gt;TargetArmLength = <span class="number">400.0f</span>;<span class="comment">//弹簧臂长度</span></span><br><span class="line">    SpringArm-&gt;bEnableCameraLag = <span class="literal">true</span>;<span class="comment">//打开平滑效果</span></span><br><span class="line">    SpringArm-&gt;CameraLagSpeed = <span class="number">3.0f</span>;<span class="comment">//设置平滑效果时间</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建摄像机并附加到弹簧臂</span></span><br><span class="line">    <span class="comment">// 弹簧臂内置一个特殊的插槽，可供我们添加对象，这样就不必将对象直接添加到组件的根节点上。</span></span><br><span class="line">    UCameraComponent* Camera = <span class="built_in">CreateDefaultSubobject</span>&lt;UCameraComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;ActualCamera&quot;</span>));</span><br><span class="line">    Camera-&gt;<span class="built_in">SetupAttachment</span>(SpringArm, USpringArmComponent::SocketName);<span class="comment">//将摄像机添加到弹簧臂的插槽上！</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 控制默认玩家</span></span><br><span class="line">    AutoPossessPlayer = EAutoReceiveInput::Player0;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建移动组件的实例，并要求其更新根组件。</span></span><br><span class="line">    OurMovementComponent = <span class="built_in">CreateDefaultSubobject</span>&lt;UCollidingPawnMovementComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;CustomMovementComponent&quot;</span>));</span><br><span class="line">    OurMovementComponent-&gt;UpdatedComponent = RootComponent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 游戏开始或生成时调用</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACollidingPawn::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 逐帧调用</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACollidingPawn::Tick</span><span class="params">( <span class="type">float</span> DeltaTime )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">Tick</span>( DeltaTime );</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置键盘输入将会发生的事件，其中前进左右转弯等等函数将在下文定义</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACollidingPawn::SetupPlayerInputComponent</span><span class="params">(<span class="keyword">class</span> UInputComponent* InInputComponent)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">SetupPlayerInputComponent</span>(InInputComponent);</span><br><span class="line"></span><br><span class="line">    InInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;ParticleToggle&quot;</span>, IE_Pressed, <span class="keyword">this</span>, &amp;ACollidingPawn::ParticleToggle);</span><br><span class="line"></span><br><span class="line">    InInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveForward&quot;</span>, <span class="keyword">this</span>, &amp;ACollidingPawn::MoveForward);</span><br><span class="line">    InInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveRight&quot;</span>, <span class="keyword">this</span>, &amp;ACollidingPawn::MoveRight);</span><br><span class="line">    InInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;Turn&quot;</span>, <span class="keyword">this</span>, &amp;ACollidingPawn::Turn);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//用于提供引擎中其他类访问该Pawn当前所用Pawn移动组件的权限。</span></span><br><span class="line"><span class="function">UPawnMovementComponent* <span class="title">ACollidingPawn::GetMovementComponent</span><span class="params">()</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> OurMovementComponent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义前后移动的函数代码</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACollidingPawn::MoveForward</span><span class="params">(<span class="type">float</span> AxisValue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//保证移动组件存在并且移动组件用来更新根组件</span></span><br><span class="line">    <span class="keyword">if</span> (OurMovementComponent &amp;&amp; (OurMovementComponent-&gt;UpdatedComponent == RootComponent))</span><br><span class="line">    &#123;</span><br><span class="line">        OurMovementComponent-&gt;<span class="built_in">AddInputVector</span>(<span class="built_in">GetActorForwardVector</span>() * AxisValue);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义左右转动的函数代码</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACollidingPawn::MoveRight</span><span class="params">(<span class="type">float</span> AxisValue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (OurMovementComponent &amp;&amp; (OurMovementComponent-&gt;UpdatedComponent == RootComponent))</span><br><span class="line">    &#123;</span><br><span class="line">        OurMovementComponent-&gt;<span class="built_in">AddInputVector</span>(<span class="built_in">GetActorRightVector</span>() * AxisValue);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义转向代码</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACollidingPawn::Turn</span><span class="params">(<span class="type">float</span> AxisValue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    FRotator NewRotation = <span class="built_in">GetActorRotation</span>();<span class="comment">//获取actor当前位置</span></span><br><span class="line">    NewRotation.Yaw += AxisValue;<span class="comment">//围绕Z轴旋转更新actor</span></span><br><span class="line">    <span class="built_in">SetActorRotation</span>(NewRotation);<span class="comment">//更新actor的旋转角度</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义粒子效果开关代码</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACollidingPawn::ParticleToggle</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//保证粒子效果存在且已经设定好了模板</span></span><br><span class="line">    <span class="keyword">if</span> (OurParticleSystem &amp;&amp; OurParticleSystem-&gt;Template)</span><br><span class="line">    &#123;</span><br><span class="line">        OurParticleSystem-&gt;<span class="built_in">ToggleActive</span>();<span class="comment">//ToggleActor的意思是切换状态</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="有关BindAction-与BindAction"><a href="#有关BindAction-与BindAction" class="headerlink" title="有关BindAction()与BindAction()"></a>有关BindAction()与BindAction()</h2><p><code>BindAction(&quot;ZoomIn&quot;, IE_Pressed, this, &amp;APawnWithCamera::ZoomIn);</code></p>
+<ul>
+<li><p>参数一：为 虚幻4-&gt;设置 -&gt;输入-&gt;按键绑定的名称 </p>
+</li>
+<li><p>参数二：事件名称 IE_Pressed 按下 IE_Released松开 IE_DoubleClick双击 </p>
+</li>
+<li><p>参数三：当前对象——this</p>
+</li>
+<li><p>参数四：事件方法的函数指针 例 &amp;类名::方法名的写法</p>
+</li>
+</ul>
+<p><code>BindAxis(&quot;MoveForward&quot;, this, &amp;ACollidingPawn::MoveForward);</code></p>
+<p>参数一：为 虚幻4-&gt;设置 -&gt;输入-&gt;按键绑定的名称 一定要一样 重要！！！<br>参数二 ：当前对象——this<br>参数三 事件方法的函数指针 例 &amp;类名::方法名 的写法</p>
+<h1 id="CollidingPawnMovementComponent-h"><a href="#CollidingPawnMovementComponent-h" class="headerlink" title="CollidingPawnMovementComponent.h"></a>CollidingPawnMovementComponent.h</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/PawnMovementComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CollidingPawnMovementComponent.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* </span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HOWTO_COMPONENTS_API</span> UCollidingPawnMovementComponent : <span class="keyword">public</span> UPawnMovementComponent</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">//TickComponent函数类似于Tick，意思是逐帧刷新</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">TickComponent</span><span class="params">(<span class="type">float</span> DeltaTime, <span class="keyword">enum</span> ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)</span> <span class="keyword">override</span></span>;  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="CollidingPawnMovementComponent-cpp"><a href="#CollidingPawnMovementComponent-cpp" class="headerlink" title="CollidingPawnMovementComponent.cpp"></a>CollidingPawnMovementComponent.cpp</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CollidingPawnMovementComponent.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UCollidingPawnMovementComponent::TickComponent</span><span class="params">(<span class="type">float</span> DeltaTime, <span class="keyword">enum</span> ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">TickComponent</span>(DeltaTime, TickType, ThisTickFunction);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 确保所有事物持续有效，以便进行移动。</span></span><br><span class="line">    <span class="keyword">if</span> (!PawnOwner || !UpdatedComponent || <span class="built_in">ShouldSkipUpdate</span>(DeltaTime))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取（然后清除）ACollidingPawn::Tick中设置的移动向量</span></span><br><span class="line">    <span class="comment">// 设定一个变量来存储移动输入的变量值（ConsumeInputVector()），然后通过运行时间来设置运动速度</span></span><br><span class="line">    FVector DesiredMovementThisFrame = <span class="built_in">ConsumeInputVector</span>().<span class="built_in">GetClampedToMaxSize</span>(<span class="number">1.0f</span>) * DeltaTime * <span class="number">150.0f</span>;</span><br><span class="line">    <span class="keyword">if</span> (!DesiredMovementThisFrame.<span class="built_in">IsNearlyZero</span>())</span><br><span class="line">    &#123;    </span><br><span class="line">        <span class="comment">//Hit变量来记录碰撞结果</span></span><br><span class="line">        FHitResult Hit;</span><br><span class="line">        <span class="comment">//用虚幻引擎物理移动pawn移动组件，同时会考虑到固体障碍物</span></span><br><span class="line">        <span class="built_in">SafeMoveUpdatedComponent</span>(DesiredMovementThisFrame, UpdatedComponent-&gt;<span class="built_in">GetComponentRotation</span>(), <span class="literal">true</span>, Hit);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 若发生碰撞，尝试滑过去</span></span><br><span class="line">        <span class="keyword">if</span> (Hit.<span class="built_in">IsValidBlockingHit</span>())</span><br><span class="line">        &#123;    </span><br><span class="line">            <span class="comment">//移动导致碰撞时， SlideAlongSurface 会处理沿墙壁和斜坡等碰撞表面平滑滑动所涉及的计算和物理，而非直接停留原地，粘在墙壁或斜坡上。</span></span><br><span class="line">            <span class="built_in">SlideAlongSurface</span>(DesiredMovementThisFrame, <span class="number">1.f</span> - Hit.Time, Hit.Normal, Hit);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="GetClampedToMaxSize"><a href="#GetClampedToMaxSize" class="headerlink" title="GetClampedToMaxSize()"></a>GetClampedToMaxSize()</h2><p>用于更新vector的位置</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FVector <span class="title">FVector::GetClampedToMaxSize</span><span class="params">(<span class="type">float</span> MaxSize)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>用于创建一个新的vector，方向与原本的方向一直，距离为MaxSize</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FVector <span class="title">FVector::GetClampedToSize</span><span class="params">(<span class="type">float</span> Min,<span class="type">float</span> Max)</span> </span></span><br></pre></td></tr></table></figure>
+
+<p>创建一个新的Vector，方向与原方向一致</p>
+<p>距离为</p>
+<ol>
+<li><p>若距离&lt;Min，则新的vector距离为Min</p>
+</li>
+<li><p>若距离&gt;Max，则新的vector距离为Max</p>
+</li>
+<li><p>若距离在Min和Max之间，则新的vector等于原本的vector</p>
+</li>
+</ol>
+<h2 id="ConsumeInputVector-1-0f"><a href="#ConsumeInputVector-1-0f" class="headerlink" title="ConsumeInputVector(1.0f)"></a>ConsumeInputVector(1.0f)</h2><p>报告并清空用于存储移动输入的内置变量值。</p>
+<h2 id="SafeMoveUpdatedComponent"><a href="#SafeMoveUpdatedComponent" class="headerlink" title="SafeMoveUpdatedComponent()"></a>SafeMoveUpdatedComponent()</h2><p><code>SafeMoveUpdatedComponent(const FVector&amp; Delta, const FRotator&amp; NewRotation, bool bSweep, FHitResult&amp; OutHit, ETeleportType Teleport)</code></p>
+<p><code>SafeMoveUpdatedComponent(DesiredMovementThisFrame, UpdatedComponent-&gt;GetComponentRotation(), true, Hit);</code></p>
+<p>利用虚幻引擎物理移动Pawn移动组件，同时考虑固体障碍。</p>
+<ul>
+<li><p>第一个参数：要移动的Vector</p>
+</li>
+<li><p>第二个参数：旋转参数</p>
+</li>
+<li><p>第三个参数：是否考虑物理障碍（如果为true，将在移动过程中扫描以阻止碰撞。如果为false，它将简单地传送到下一个位置并忽略碰撞。）</p>
+</li>
+<li><p>第四个参数：碰撞结果</p>
+</li>
+<li><p>第五个参数：可省略，远距离传送类型</p>
+</li>
+</ul>
+<h2 id="SlideAlongSurface"><a href="#SlideAlongSurface" class="headerlink" title="SlideAlongSurface()"></a>SlideAlongSurface()</h2><p><code>SlideAlongSurface(const FVector&amp; Delta, float Time, const FQuat Rotation, const FVector&amp; Normal, FHitResult&amp; Hit, bool bHandleImpact)</code></p>
+<ul>
+<li><p>第一个参数：要移动的vector</p>
+</li>
+<li><p>第二个参数：运动时间</p>
+</li>
+<li><p>第三个参数：旋转情况（可省略）</p>
+</li>
+<li><p>第四个参数：vector类型？（这个不太确定）</p>
+</li>
+<li><p>第五个参数：碰撞结果（必须为bBlockingHit）</p>
+</li>
+<li><p>第六个参数：手柄反馈？（这个扎找不到源文件）</p>
+</li>
+</ul>
+<h1 id="配置项目输入设置"><a href="#配置项目输入设置" class="headerlink" title="配置项目输入设置"></a>配置项目输入设置</h1><p>这里要注意的一点是，在给动作映射和轴映射命名的时候一定要和代码中定义的函数名相同否则无效。</p>
+<ol>
+<li><p>回到 <strong>虚幻编辑器</strong>，开始配置项目输入设置。可在 <strong>编辑</strong> 下拉菜单中的 <strong>项目设置</strong> 下找到相关设置。</p>
+<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/Components/EditProjectSettings.jpg" alt="EditProjectSettings.png"></p>
+<p>进入该菜单后，可在左侧面板中的 <strong>引擎</strong> 部分中选择 <strong>输入</strong>。同时需要设置粒子系统切换的 <strong>操作映射</strong> 、移动 <strong>Pawn</strong> 的两个 <strong>轴映射</strong>，和转动 <strong>Pawn</strong> 的一个 <strong>轴映射</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>操作映射</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ParticleToggle</td>
+<td>空格</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>轴映射</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MoveForward</td>
+<td>W</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td></td>
+<td>S</td>
+<td>-1.0</td>
+</tr>
+<tr>
+<td>MoveRight</td>
+<td>A</td>
+<td>-1.0</td>
+</tr>
+<tr>
+<td></td>
+<td>D</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>Turn</td>
+<td>Mouse X</td>
+<td>1.0</td>
+</tr>
+</tbody></table>
+<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/Components/InputSettings.jpg" alt="InputSettings.png"></p>
+</li>
+</ol>
+<p>将创建 <strong>移动组件</strong> 管理移动，而非直接在Pawn类中处理所有移动。本教程中将扩展 <strong>Pawn移动组件</strong> 类。首先在 <strong>文件</strong> 下拉菜单中选择 <strong>将代码添加到项目（Add Code to Project）</strong> 命令。</p>
+<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/Components/AddCPPCode.jpg" alt="AddCPPCode.png"></p>
+<p>与Pawn类不同的，Pawn移动组件类默认为不可见。要找到该组件，需选中 <strong>显示所有类（Show All Classes）</strong> 选项。</p>
+<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/Components/ShowAllClasses.jpg" alt="ShowAllClasses.png"></p>
+<p>在搜索栏中输入”movement”，以便快速缩小列表范围。</p>
+<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/Components/ChooseParentClass2.jpg" alt="ChooseParentClass2.png"></p>
+<p>Pawn移动组件拥有部分强大内置功能，以便使用常见物理功能，同时便于在大量Pawn类型间共享移动代码。使用组件分隔不同功能是上佳方法，可在项目增大、Pawn越加复杂时减少杂乱。</p>
+<p>这里放一个来自于的<a target="_blank" rel="noopener" href="https://blog.csdn.net/heneyT" title="heneyT">heneyT</a>移动组件的继承树</p>
+<p><img src="https://img-blog.csdn.net/20171130205337919?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjk5OTk4NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/22/UE4-CameraDirector/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/04/22/UE4-CameraDirector/" class="post-title-link" itemprop="url">UE4-CameraDirector</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-04-22 15:20:03" itemprop="dateCreated datePublished" datetime="2022-04-22T15:20:03+08:00">2022-04-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-04-24 10:48:47" itemprop="dateModified" datetime="2022-04-24T10:48:47+08:00">2022-04-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h1><p>分析官方案例<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.27/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/AutoCamera/">CameraDirector</a></p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><ol>
+<li><p>放两个摄像机</p>
+<ul>
+<li><p>所有类中直接拖入</p>
+</li>
+<li><p>先创建一个立方体，然后给他添加一个摄像机组件</p>
+</li>
+</ul>
+</li>
+<li><p>以Actor为父类创建C++类</p>
+</li>
+</ol>
+<h2 id="CameraDirector-h"><a href="#CameraDirector-h" class="headerlink" title="CameraDirector.h"></a>CameraDirector.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UPROPERTY</span>(EditAnywhere)</span><br><span class="line">AActor* CameraOne;</span><br><span class="line"></span><br><span class="line"><span class="built_in">UPROPERTY</span>(EditAnywhere)</span><br><span class="line">AActor* CameraTwo;</span><br><span class="line"></span><br><span class="line"><span class="type">float</span> TimeToNextCameraChange;</span><br></pre></td></tr></table></figure>
+
+<h2 id="CameraDirector-cpp"><a href="#CameraDirector-cpp" class="headerlink" title="CameraDirector.cpp"></a>CameraDirector.cpp</h2><p>添加到引用位置</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Kismet/GameplayStatics.h&quot;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>添加到<strong>ACameraDirector::Tick</strong> 的底部位置</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">float</span> TimeBetweenCameraChanges = <span class="number">2.0f</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">float</span> SmoothBlendTime = <span class="number">0.75f</span>;</span><br><span class="line">TimeToNextCameraChange -= DeltaTime;</span><br><span class="line"><span class="keyword">if</span> (TimeToNextCameraChange &lt;= <span class="number">0.0f</span>)</span><br><span class="line">&#123;</span><br><span class="line">    TimeToNextCameraChange += TimeBetweenCameraChanges;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查找处理本地玩家控制的actor。</span></span><br><span class="line">    APlayerController* OurPlayerController = UGameplayStatics::<span class="built_in">GetPlayerController</span>(<span class="keyword">this</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (OurPlayerController)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> ((OurPlayerController-&gt;<span class="built_in">GetViewTarget</span>() != CameraOne) &amp;&amp; (CameraOne != <span class="literal">nullptr</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 立即切换到摄像机1。</span></span><br><span class="line">            OurPlayerController-&gt;<span class="built_in">SetViewTarget</span>(CameraOne);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> ((OurPlayerController-&gt;<span class="built_in">GetViewTarget</span>() != CameraTwo) &amp;&amp; (CameraTwo != <span class="literal">nullptr</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 平滑地混合到摄像机2。</span></span><br><span class="line">            OurPlayerController-&gt;<span class="built_in">SetViewTargetWithBlend</span>(CameraTwo, SmoothBlendTime);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="添加C-类"><a href="#添加C-类" class="headerlink" title="添加C++类"></a>添加C++类</h2><p>在代码编译完成后，我们可以将 <strong>内容浏览器（Content Browser）</strong> 中的新类的实例拖曳到 <strong>关卡编辑器（Level Editor）</strong> 中。</p>
+<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/AutoCamera/CameraDirectorInContentBrowser.jpg" alt="CameraDirectorInContentBrowser.png"></p>
+<p>接下来，我们需要设置摄像机1（CameraOne）和摄像机2（CameraTwo）变量。在 <strong>World Outliner （世界大纲视图）</strong> 中找到CameraDirector，并在 <strong>详细信息面板（Details Panel）</strong> 中进行编辑。</p>
+<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/AutoCamera/CameraDirectorDetails.jpg" alt="CameraDirectorDetails.png"></p>
+<p>单击标记为”无（None）”的下拉框，然后将变量设置为 <strong>Cube（立方体）</strong> 和我们之前创建的 <strong>摄像机Actor （CameraActor）</strong>。</p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>ok以上是来自官网的教程，现在我来把它掰开来理解</p>
+<h2 id="CameraDirector-h-1"><a href="#CameraDirector-h-1" class="headerlink" title="CameraDirector.h"></a>CameraDirector.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/Actor.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CameraDirector.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HOWTO_AUTOCAMERA_API</span> ACameraDirector : <span class="keyword">public</span> AActor</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>: </span><br><span class="line">    <span class="comment">// 为此Actor的属性设置默认值</span></span><br><span class="line">    <span class="built_in">ACameraDirector</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="comment">// 当游戏开始或生成时调用</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 每一帧调用</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">( <span class="type">float</span> DeltaSeconds )</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(EditAnywhere)</span><br><span class="line">    AActor* CameraOne;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(EditAnywhere)</span><br><span class="line">    AActor* CameraTwo;</span><br><span class="line"></span><br><span class="line">    <span class="type">float</span> TimeToNextCameraChange;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这一段代码，其实没啥需要讲解的，在我的前两篇博客中已经讲得很明白了。</p>
+<p>在此就不多做赘述。</p>
+<h2 id="CameraDirector-cpp-1"><a href="#CameraDirector-cpp-1" class="headerlink" title="CameraDirector.cpp"></a>CameraDirector.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;HowTo_AutoCamera.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CameraDirector.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Kismet/GameplayStatics.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置默认值</span></span><br><span class="line">ACameraDirector::<span class="built_in">ACameraDirector</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 将此Actor设置为每一帧调用Tick()。如果不需要，可以关闭此选项来提高性能。</span></span><br><span class="line">    PrimaryActorTick.bCanEverTick = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当游戏开始或生成时调用</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACameraDirector::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 每一帧调用</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACameraDirector::Tick</span><span class="params">( <span class="type">float</span> DeltaTime )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">Tick</span>( DeltaTime );</span><br><span class="line"></span><br><span class="line">    <span class="type">const</span> <span class="type">float</span> TimeBetweenCameraChanges = <span class="number">2.0f</span>;</span><br><span class="line">    <span class="type">const</span> <span class="type">float</span> SmoothBlendTime = <span class="number">0.75f</span>;</span><br><span class="line">    TimeToNextCameraChange -= DeltaTime;</span><br><span class="line">    <span class="keyword">if</span> (TimeToNextCameraChange &lt;= <span class="number">0.0f</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        TimeToNextCameraChange += TimeBetweenCameraChanges;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//查找处理本地玩家控制的Actor。</span></span><br><span class="line">        APlayerController* OurPlayerController = UGameplayStatics::<span class="built_in">GetPlayerController</span>(<span class="keyword">this</span>, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span> (OurPlayerController)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (CameraTwo &amp;&amp; (OurPlayerController-&gt;<span class="built_in">GetViewTarget</span>() == CameraOne))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//平滑地混合到摄像机2。</span></span><br><span class="line">                OurPlayerController-&gt;<span class="built_in">SetViewTargetWithBlend</span>(CameraTwo, SmoothBlendTime);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (CameraOne)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//立即切换到摄像机1。</span></span><br><span class="line">                OurPlayerController-&gt;<span class="built_in">SetViewTarget</span>(CameraOne);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们首先解决这些代码中API的问题</p>
+<h3 id="GetPlayerController-this-0"><a href="#GetPlayerController-this-0" class="headerlink" title="GetPlayerController(this,0)"></a>GetPlayerController(this,0)</h3><p>这一段可以通过查看其定义明白其含义——获取玩家控制器</p>
+<p>this指当前玩家控制器，0是玩家控制器的标号，代表了本地玩家控制器</p>
+<p>在定义代码中，GetPlayerController返回的返回值是APlayerController，所以在前面定义一个该类型的指针OurPlayerController</p>
+<h3 id="GetViewTarget"><a href="#GetViewTarget" class="headerlink" title="GetViewTarget()"></a>GetViewTarget()</h3><p>获取玩家身上的摄像机Actor</p>
+<h3 id="SetViewTargetWithBlend-CameraTwo-SmoothBlendTime"><a href="#SetViewTargetWithBlend-CameraTwo-SmoothBlendTime" class="headerlink" title="SetViewTargetWithBlend(CameraTwo,SmoothBlendTime);"></a>SetViewTargetWithBlend(CameraTwo,SmoothBlendTime);</h3><p>使摄像机平滑切换到摄像机二，前一个变量使设定切换到哪个摄像机，后一个使设定切换时间</p>
+<p>理解了API的意思之后，代码逻辑我就不再讲解了，代码中的变量和常量完全可以见文知意，结构使非常基础的if判断，如果看不懂的话还是需要先好好学习数据结构与算法。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -3692,673 +4064,6 @@
 <p>        写下这些话，就是把过往留在这里。从此刻往前，我的象牙之章就该落下帷幕了。</p>
 <p>        再见，旧时光。</p>
 <p>        你好，新世界！</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/04/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/04/04/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/" class="post-title-link" itemprop="url">有关算法中的栈与队列</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-04-04 13:27:01 / 修改时间：15:02:49" itemprop="dateCreated datePublished" datetime="2022-04-04T13:27:01+08:00">2022-04-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="基础理论"><a href="#基础理论" class="headerlink" title="基础理论"></a>基础理论</h1><p>栈：先进后出</p>
-<p>队列：先进先出</p>
-<table>
-<thead>
-<tr>
-<th>成员函数</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>empty()</td>
-<td>无元素时返回true；反之，返回false</td>
-</tr>
-<tr>
-<td>size()</td>
-<td>返回存储元素个数</td>
-</tr>
-<tr>
-<td>top()</td>
-<td>返回栈顶元素的引用，类型为T&amp;。如果为空，则报错</td>
-</tr>
-<tr>
-<td>push(const T&amp; val)</td>
-<td>先复制val，再将val的副本压入栈顶</td>
-</tr>
-<tr>
-<td>push(T&amp;&amp; obj)</td>
-<td>以移动元素的方式将其压入栈顶</td>
-</tr>
-<tr>
-<td>pop()</td>
-<td>弹出栈顶元素</td>
-</tr>
-<tr>
-<td>emplace(arg…)</td>
-<td>arg…可以是一个元素，也可以是多个元素。用于在栈顶直接生成一个元素</td>
-</tr>
-<tr>
-<td>swap(stack<T>&amp;other_stack)</td>
-<td>将两个栈中的元素进行互换（元素类型和底层的基础类型必须相同）</td>
-</tr>
-</tbody></table>
-<h2 id="优先级队列"><a href="#优先级队列" class="headerlink" title="优先级队列"></a>优先级队列</h2><p>其实<strong>就是一个披着队列外衣的堆</strong>，因为优先级队列对外接口只是从队头取元素，从队尾添加元素，再无其他取元素的方式，看起来就是一个队列。</p>
-<p>而且优先级队列内部元素是自动依照元素的权值排列。那么它是如何有序排列的呢？</p>
-<p>缺省情况下priority_queue利用max-heap（大顶堆）完成对元素的排序，这个大顶堆是以vector为表现形式的complete binary tree（完全二叉树）。</p>
-<p>什么是堆呢？</p>
-<p><strong>堆是一棵完全二叉树，树中每个结点的值都不小于（或不大于）其左右孩子的值。</strong> 如果父亲结点是大于等于左右孩子就是<strong>大顶堆</strong>，小于等于左右孩子就是<strong>小顶堆</strong>。</p>
-<p>所以大家经常说的大顶堆（堆头是最大元素），小顶堆（堆头是最小元素），如果懒得自己实现的话，就直接用priority_queue（优先级队列）就可以了，底层实现都是一样的，<strong>从小到大排就是小顶堆，从大到小排就是大顶堆</strong>。</p>
-<h1 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h1><h2 id="用栈实现队列"><a href="#用栈实现队列" class="headerlink" title="用栈实现队列"></a>用栈实现队列</h2><p>使用栈实现队列的下列操作：</p>
-<p>push(x) – 将一个元素放入队列的尾部。<br>pop() – 从队列首部移除元素。<br>peek() – 返回队列首部的元素。<br>empty() – 返回队列是否为空。</p>
-<p>示例:</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">MyQueue queue = <span class="keyword">new</span> <span class="built_in">MyQueue</span>();</span><br><span class="line">queue.<span class="built_in">push</span>(<span class="number">1</span>);</span><br><span class="line">queue.<span class="built_in">push</span>(<span class="number">2</span>);</span><br><span class="line">queue.<span class="built_in">peek</span>();  <span class="comment">// 返回 1</span></span><br><span class="line">queue.<span class="built_in">pop</span>();   <span class="comment">// 返回 1</span></span><br><span class="line">queue.<span class="built_in">empty</span>(); <span class="comment">// 返回 false</span></span><br></pre></td></tr></table></figure>
-
-<p>说明:</p>
-<ul>
-<li>你只能使用标准的栈操作 – 也就是只有 push to top, peek&#x2F;pop from top, size, 和 is empty 操作是合法的。</li>
-<li>你所使用的语言也许不支持栈。你可以使用 list 或者 deque（双端队列）来模拟一个栈，只要是标准的栈操作即可。</li>
-<li>假设所有操作都是有效的 （例如，一个空的队列不会调用 pop 或者 peek 操作）。</li>
-</ul>
-<p>思路</p>
-<ul>
-<li><p>用两个栈，一个输出栈，一个输入栈</p>
-</li>
-<li><p>在push数据时，将数据放入输入栈即可</p>
-</li>
-<li><p>在pop数据时</p>
-<ul>
-<li><p>若输出栈为空，就把输入栈的数据全部导入进来，再从输出栈弹出数据</p>
-</li>
-<li><p>如果不为空，直接弹出</p>
-</li>
-</ul>
-</li>
-<li><p>如何判断队列为空？</p>
-<ul>
-<li>如果输入栈和输出栈都为空，则模拟队列为空</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyQueue</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    stack&lt;<span class="type">int</span>&gt; stIn;</span><br><span class="line">    stack&lt;<span class="type">int</span>&gt; stOut;</span><br><span class="line">    <span class="comment">/** Initialize your data structure here. */</span></span><br><span class="line">    <span class="built_in">MyQueue</span>() &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/** Push element x to the back of queue. */</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">push</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">        stIn.<span class="built_in">push</span>(x);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** Removes the element from in front of queue and returns that element. */</span></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 只有当stOut为空的时候，再从stIn里导入数据（导入stIn全部数据）</span></span><br><span class="line">        <span class="keyword">if</span> (stOut.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">            <span class="comment">// 从stIn导入数据直到stIn为空</span></span><br><span class="line">            <span class="keyword">while</span>(!stIn.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">                stOut.<span class="built_in">push</span>(stIn.<span class="built_in">top</span>());</span><br><span class="line">                stIn.<span class="built_in">pop</span>();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> result = stOut.<span class="built_in">top</span>();</span><br><span class="line">        stOut.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** Get the front element. */</span></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">peek</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> res = <span class="keyword">this</span>-&gt;<span class="built_in">pop</span>(); <span class="comment">// 直接使用已有的pop函数</span></span><br><span class="line">        stOut.<span class="built_in">push</span>(res); <span class="comment">// 因为pop函数弹出了元素res，所以再添加回去</span></span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** Returns whether the queue is empty. */</span></span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">empty</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> stIn.<span class="built_in">empty</span>() &amp;&amp; stOut.<span class="built_in">empty</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="用队列实现栈"><a href="#用队列实现栈" class="headerlink" title="用队列实现栈"></a>用队列实现栈</h2><p>使用队列实现栈的下列操作：</p>
-<ul>
-<li>push(x) – 元素 x 入栈</li>
-<li>pop() – 移除栈顶元素</li>
-<li>top() – 获取栈顶元素</li>
-<li>empty() – 返回栈是否为空</li>
-</ul>
-<p>注意:</p>
-<ul>
-<li>你只能使用队列的基本操作– 也就是 push to back, peek&#x2F;pop from front, size, 和 is empty 这些操作是合法的。</li>
-<li>你所使用的语言也许不支持队列。 你可以使用 list 或者 deque（双端队列）来模拟一个队列 , 只要是标准的队列操作即可。</li>
-<li>你可以假设所有操作都是有效的（例如, 对一个空的栈不会调用 pop 或者 top 操作）。</li>
-</ul>
-<p>思路：</p>
-<ul>
-<li><p>que1和que2两个队列模拟栈</p>
-</li>
-<li><p>que2完全就是用来备份的</p>
-</li>
-<li><p>把que1最后面的元素以外的所有元素都备份到<img src="/" alt="que2">中</p>
-</li>
-<li><p>弹出que1最后面的元素</p>
-</li>
-<li><p>再把其他元素从que2导入到que1</p>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">queue.<span class="built_in">push</span>(<span class="number">1</span>);        </span><br><span class="line">queue.<span class="built_in">push</span>(<span class="number">2</span>);        </span><br><span class="line">queue.<span class="built_in">pop</span>();   <span class="comment">// 注意弹出的操作       </span></span><br><span class="line">queue.<span class="built_in">push</span>(<span class="number">3</span>);        </span><br><span class="line">queue.<span class="built_in">push</span>(<span class="number">4</span>);       </span><br><span class="line">queue.<span class="built_in">pop</span>();  <span class="comment">// 注意弹出的操作    </span></span><br><span class="line">queue.<span class="built_in">pop</span>();    </span><br><span class="line">queue.<span class="built_in">pop</span>();    </span><br><span class="line">queue.<span class="built_in">empty</span>();  </span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyStack</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    queue&lt;<span class="type">int</span>&gt; que1;</span><br><span class="line">    queue&lt;<span class="type">int</span>&gt; que2; <span class="comment">// 辅助队列，用来备份</span></span><br><span class="line">    <span class="comment">/** Initialize your data structure here. */</span></span><br><span class="line">    <span class="built_in">MyStack</span>() &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** Push element x onto stack. */</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">push</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">        que1.<span class="built_in">push</span>(x);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** Removes the element on top of the stack and returns that element. */</span></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> size = que1.<span class="built_in">size</span>();</span><br><span class="line">        size--;</span><br><span class="line">        <span class="keyword">while</span> (size--) &#123; <span class="comment">// 将que1 导入que2，但要留下最后一个元素</span></span><br><span class="line">            que2.<span class="built_in">push</span>(que1.<span class="built_in">front</span>());</span><br><span class="line">            que1.<span class="built_in">pop</span>();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> result = que1.<span class="built_in">front</span>(); <span class="comment">// 留下的最后一个元素就是要返回的值</span></span><br><span class="line">        que1.<span class="built_in">pop</span>();</span><br><span class="line">        que1 = que2;            <span class="comment">// 再将que2赋值给que1</span></span><br><span class="line">        <span class="keyword">while</span> (!que2.<span class="built_in">empty</span>()) &#123; <span class="comment">// 清空que2</span></span><br><span class="line">            que2.<span class="built_in">pop</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** Get the top element. */</span></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> que1.<span class="built_in">back</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** Returns whether the stack is empty. */</span></span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">empty</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> que1.<span class="built_in">empty</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h2 id="有效括号"><a href="#有效括号" class="headerlink" title="有效括号"></a>有效括号</h2><p>给定一个只包括 ‘(‘，’)’，’{‘，’}’，’[‘，’]’ 的字符串，判断字符串是否有效。</p>
-<p>有效字符串需满足：</p>
-<ul>
-<li>左括号必须用相同类型的右括号闭合。</li>
-<li>左括号必须以正确的顺序闭合。</li>
-<li>注意空字符串可被认为是有效字符串。</li>
-</ul>
-<p>示例 1:</p>
-<ul>
-<li>输入: “()”</li>
-<li>输出: true</li>
-</ul>
-<p>示例 2:</p>
-<ul>
-<li>输入: “()[]{}”</li>
-<li>输出: true</li>
-</ul>
-<p>示例 3:</p>
-<ul>
-<li>输入: “(]”</li>
-<li>输出: false</li>
-</ul>
-<p>示例 4:</p>
-<ul>
-<li>输入: “([)]”</li>
-<li>输出: false</li>
-</ul>
-<p>示例 5:</p>
-<ul>
-<li>输入: “{[]}”</li>
-<li>输出: true</li>
-</ul>
-<p>思路：</p>
-<ul>
-<li><p>用栈来解决问题</p>
-</li>
-<li><p>遍历s，当s[i]为左括号时，则将其对应的右括号入栈</p>
-</li>
-<li><p>第一种情况：还没有遍历完，栈已经为空（右括号没有对应的左括号），返回false</p>
-</li>
-<li><p>第二种情况：遍历过程中，发现栈里面没有我们要匹配的字符，返回false</p>
-</li>
-<li><p>第三种情况：已经遍历完字符串，但是栈不为空，返回false</p>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isValid</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        stack&lt;<span class="type">int</span>&gt; st;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; s.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (s[i] == <span class="string">&#x27;(&#x27;</span>) st.<span class="built_in">push</span>(<span class="string">&#x27;)&#x27;</span>);</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (s[i] == <span class="string">&#x27;&#123;&#x27;</span>) st.<span class="built_in">push</span>(<span class="string">&#x27;&#125;&#x27;</span>);</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (s[i] == <span class="string">&#x27;[&#x27;</span>) st.<span class="built_in">push</span>(<span class="string">&#x27;]&#x27;</span>);</span><br><span class="line">            <span class="comment">// 第三种情况：遍历字符串匹配的过程中，栈已经为空了，没有匹配的字符了，说明右括号没有找到对应的左括号 return false</span></span><br><span class="line">            <span class="comment">// 第二种情况：遍历字符串匹配的过程中，发现栈里没有我们要匹配的字符。所以return false</span></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (st.<span class="built_in">empty</span>() || st.<span class="built_in">top</span>() != s[i]) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            <span class="keyword">else</span> st.<span class="built_in">pop</span>(); <span class="comment">// st.top() 与 s[i]相等，栈弹出元素</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 第一种情况：此时我们已经遍历完了字符串，但是栈不为空，说明有相应的左括号没有右括号来匹配，所以return false，否则就return true</span></span><br><span class="line">        <span class="keyword">return</span> st.<span class="built_in">empty</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="删除字符串中所有相邻重复项"><a href="#删除字符串中所有相邻重复项" class="headerlink" title="删除字符串中所有相邻重复项"></a>删除字符串中所有相邻重复项</h2><p>给出由小写字母组成的字符串 S，重复项删除操作会选择两个相邻且相同的字母，并删除它们。</p>
-<p>在 S 上反复执行重复项删除操作，直到无法继续删除。</p>
-<p>在完成所有重复项删除操作后返回最终的字符串。答案保证唯一。</p>
-<p>示例：</p>
-<ul>
-<li>输入：”abbaca”</li>
-<li>输出：”ca”</li>
-<li>解释：例如，在 “abbaca” 中，我们可以删除 “bb” 由于两字母相邻且相同，这是此时唯一可以执行删除操作的重复项。之后我们得到字符串 “aaca”，其中又只有 “aa” 可以执行重复项删除操作，所以最后的字符串为 “ca”。</li>
-</ul>
-<p>提示：</p>
-<ul>
-<li>1 &lt;&#x3D; S.length &lt;&#x3D; 20000</li>
-<li>S 仅由小写英文字母组成。</li>
-</ul>
-<p>思路：</p>
-<ul>
-<li><p>用栈解决问题</p>
-</li>
-<li><p>如果发现相邻的两个元素相等，则弹出栈顶元素</p>
-</li>
-<li><p>出栈</p>
-</li>
-<li><p>反转字符串（因为<strong>从栈里弹出的元素是倒叙的</strong>）</p>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">removeDuplicates</span><span class="params">(string S)</span> </span>&#123;</span><br><span class="line">        stack&lt;<span class="type">char</span>&gt; st;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">char</span> s : S) &#123;</span><br><span class="line">            <span class="keyword">if</span> (st.<span class="built_in">empty</span>() || s != st.<span class="built_in">top</span>()) &#123;</span><br><span class="line">                st.<span class="built_in">push</span>(s);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                st.<span class="built_in">pop</span>(); <span class="comment">// s 与 st.top()相等的情况</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        string result = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">while</span> (!st.<span class="built_in">empty</span>()) &#123; <span class="comment">// 将栈中元素放到result字符串汇总</span></span><br><span class="line">            result += st.<span class="built_in">top</span>();</span><br><span class="line">            st.<span class="built_in">pop</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">reverse</span> (result.<span class="built_in">begin</span>(), result.<span class="built_in">end</span>()); <span class="comment">// 此时字符串需要反转一下</span></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="逆波兰表达式求值"><a href="#逆波兰表达式求值" class="headerlink" title="逆波兰表达式求值"></a>逆波兰表达式求值</h2><p>根据 逆波兰表示法，求表达式的值。</p>
-<p>有效的运算符包括 + ,  - ,  * ,  &#x2F; 。每个运算对象可以是整数，也可以是另一个逆波兰表达式。</p>
-<p>说明：</p>
-<p>整数除法只保留整数部分。 给定逆波兰表达式总是有效的。换句话说，表达式总会得出有效数值且不存在除数为 0 的情况。</p>
-<p>示例 1：</p>
-<ul>
-<li>输入: [“2”, “1”, “+”, “3”, “ * “]</li>
-<li>输出: 9</li>
-<li>解释: 该算式转化为常见的中缀算术表达式为：((2 + 1) * 3) &#x3D; 9</li>
-</ul>
-<p>示例 2：</p>
-<ul>
-<li>输入: [“4”, “13”, “5”, “&#x2F;“, “+”]</li>
-<li>输出: 6</li>
-<li>解释: 该算式转化为常见的中缀算术表达式为：(4 + (13 &#x2F; 5)) &#x3D; 6</li>
-</ul>
-<p>示例 3：</p>
-<ul>
-<li><p>输入: [“10”, “6”, “9”, “3”, “+”, “-11”, “ * “, “&#x2F;“, “ * “, “17”, “+”, “5”, “+”]</p>
-</li>
-<li><p>输出: 22</p>
-</li>
-<li><p>解释:该算式转化为常见的中缀算术表达式为：</p>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">((<span class="number">10</span> * (<span class="number">6</span> / ((<span class="number">9</span> + <span class="number">3</span>) * <span class="number">-11</span>))) + <span class="number">17</span>) + <span class="number">5</span>       </span><br><span class="line">= ((<span class="number">10</span> * (<span class="number">6</span> / (<span class="number">12</span> * <span class="number">-11</span>))) + <span class="number">17</span>) + <span class="number">5</span>       </span><br><span class="line">= ((<span class="number">10</span> * (<span class="number">6</span> / <span class="number">-132</span>)) + <span class="number">17</span>) + <span class="number">5</span>     </span><br><span class="line">= ((<span class="number">10</span> * <span class="number">0</span>) + <span class="number">17</span>) + <span class="number">5</span>     </span><br><span class="line">= (<span class="number">0</span> + <span class="number">17</span>) + <span class="number">5</span>    </span><br><span class="line">= <span class="number">17</span> + <span class="number">5</span>    </span><br><span class="line">= <span class="number">22</span>    </span><br></pre></td></tr></table></figure>
-
-<p>逆波兰表达式：是一种后缀表达式，所谓后缀就是指算符写在后面。</p>
-<p>平常使用的算式则是一种中缀表达式，如 ( 1 + 2 ) * ( 3 + 4 ) 。</p>
-<p>该算式的逆波兰表达式写法为 ( ( 1 2 + ) ( 3 4 + ) * ) 。</p>
-<p>逆波兰表达式主要有以下两个优点：</p>
-<ul>
-<li><p>去掉括号后表达式无歧义，上式即便写成 1 2 + 3 4 + * 也可以依据次序计算出正确结果。</p>
-</li>
-<li><p>适合用栈操作运算：遇到数字则入栈；遇到算符则取出栈顶两个数字进行计算，并将结果压入栈中。</p>
-</li>
-</ul>
-<p>思路：</p>
-<ul>
-<li><p>用栈来解决问题</p>
-</li>
-<li><p>如果输入是数字，则直接压入栈顶</p>
-</li>
-<li><p>如果输入是运算符，则将栈顶元素取出，然后再取出一个栈顶元素</p>
-</li>
-<li><p>两个元素进行对应运算符的运算</p>
-</li>
-<li><p>将结果压入栈</p>
-</li>
-<li><p>运算结束后，栈中只剩一个元素，此元素则为结果</p>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">evalRPN</span><span class="params">(vector&lt;string&gt;&amp; tokens)</span> </span>&#123;</span><br><span class="line">        stack&lt;<span class="type">int</span>&gt; st;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; tokens.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (tokens[i] == <span class="string">&quot;+&quot;</span> || tokens[i] == <span class="string">&quot;-&quot;</span> || tokens[i] == <span class="string">&quot;*&quot;</span> || tokens[i] == <span class="string">&quot;/&quot;</span>) &#123;</span><br><span class="line">                <span class="type">int</span> num1 = st.<span class="built_in">top</span>();</span><br><span class="line">                st.<span class="built_in">pop</span>();</span><br><span class="line">                <span class="type">int</span> num2 = st.<span class="built_in">top</span>();</span><br><span class="line">                st.<span class="built_in">pop</span>();</span><br><span class="line">                <span class="keyword">if</span> (tokens[i] == <span class="string">&quot;+&quot;</span>) st.<span class="built_in">push</span>(num2 + num1);</span><br><span class="line">                <span class="keyword">if</span> (tokens[i] == <span class="string">&quot;-&quot;</span>) st.<span class="built_in">push</span>(num2 - num1);</span><br><span class="line">                <span class="keyword">if</span> (tokens[i] == <span class="string">&quot;*&quot;</span>) st.<span class="built_in">push</span>(num2 * num1);</span><br><span class="line">                <span class="keyword">if</span> (tokens[i] == <span class="string">&quot;/&quot;</span>) st.<span class="built_in">push</span>(num2 / num1);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                st.<span class="built_in">push</span>(<span class="built_in">stoi</span>(tokens[i]));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> result = st.<span class="built_in">top</span>();</span><br><span class="line">        st.<span class="built_in">pop</span>(); <span class="comment">// 把栈里最后一个元素弹出（其实不弹出也没事）</span></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h2 id="滑动窗口最大值"><a href="#滑动窗口最大值" class="headerlink" title="滑动窗口最大值"></a>滑动窗口最大值</h2><p>给定一个数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。</p>
-<p>返回滑动窗口中的最大值。</p>
-<p>进阶：</p>
-<p>你能在线性时间复杂度内解决此题吗？</p>
-<p>思路：</p>
-<ul>
-<li><p>采用用deque实现的单调队列（即元素单调递增或单调递减的队列）</p>
-</li>
-<li><p>单调队列只维护维护其中最大或者最小的两个元素，保证在输出的时候是单调递减（递增）就可以了</p>
-</li>
-<li><p>此时单调队列里的元素怎么配合窗口进行滑动？</p>
-<ul>
-<li><p>pop(value)：如果窗口移除的元素value等于单调队列的出口元素，那么队列弹出元素，否则就不用进行任何操作</p>
-</li>
-<li><p>push(value)：如果push的元素value大于入口元素的数值，那么九江队列入口的元素弹出，直到push元素的数值小于等于队列入口的元素值为止</p>
-</li>
-<li><p>保持上述规则，就可以使每次窗口移动的时候，只要que.front()就可以返回当前窗口的最大值</p>
-</li>
-</ul>
-</li>
-</ul>
-<p>单调队列的实现：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyQueue</span> &#123; <span class="comment">//单调队列（从大到小）</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    deque&lt;<span class="type">int</span>&gt; que; <span class="comment">// 使用deque来实现单调队列</span></span><br><span class="line">    <span class="comment">// 每次弹出的时候，比较当前要弹出的数值是否等于队列出口元素的数值，如果相等则弹出。</span></span><br><span class="line">    <span class="comment">// 同时pop之前判断队列当前是否为空。</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">pop</span><span class="params">(<span class="type">int</span> value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!que.<span class="built_in">empty</span>() &amp;&amp; value == que.<span class="built_in">front</span>()) &#123;</span><br><span class="line">            que.<span class="built_in">pop_front</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 如果push的数值大于入口元素的数值，那么就将队列后端的数值弹出，直到push的数值小于等于队列入口元素的数值为止。</span></span><br><span class="line">    <span class="comment">// 这样就保持了队列里的数值是单调从大到小的了。</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">push</span><span class="params">(<span class="type">int</span> value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span> (!que.<span class="built_in">empty</span>() &amp;&amp; value &gt; que.<span class="built_in">back</span>()) &#123;</span><br><span class="line">            que.<span class="built_in">pop_back</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        que.<span class="built_in">push_back</span>(value);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 查询当前队列里的最大值 直接返回队列前端也就是front就可以了。</span></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">front</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> que.<span class="built_in">front</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>滑动窗口问题：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">MyQueue</span> &#123; <span class="comment">//单调队列（从大到小）</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        deque&lt;<span class="type">int</span>&gt; que; <span class="comment">// 使用deque来实现单调队列</span></span><br><span class="line">        <span class="comment">// 每次弹出的时候，比较当前要弹出的数值是否等于队列出口元素的数值，如果相等则弹出。</span></span><br><span class="line">        <span class="comment">// 同时pop之前判断队列当前是否为空。</span></span><br><span class="line">        <span class="function"><span class="type">void</span> <span class="title">pop</span><span class="params">(<span class="type">int</span> value)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (!que.<span class="built_in">empty</span>() &amp;&amp; value == que.<span class="built_in">front</span>()) &#123;</span><br><span class="line">                que.<span class="built_in">pop_front</span>();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 如果push的数值大于入口元素的数值，那么就将队列后端的数值弹出，直到push的数值小于等于队列入口元素的数值为止。</span></span><br><span class="line">        <span class="comment">// 这样就保持了队列里的数值是单调从大到小的了。</span></span><br><span class="line">        <span class="function"><span class="type">void</span> <span class="title">push</span><span class="params">(<span class="type">int</span> value)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">while</span> (!que.<span class="built_in">empty</span>() &amp;&amp; value &gt; que.<span class="built_in">back</span>()) &#123;</span><br><span class="line">                que.<span class="built_in">pop_back</span>();</span><br><span class="line">            &#125;</span><br><span class="line">            que.<span class="built_in">push_back</span>(value);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 查询当前队列里的最大值 直接返回队列前端也就是front就可以了。</span></span><br><span class="line">        <span class="function"><span class="type">int</span> <span class="title">front</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> que.<span class="built_in">front</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">maxSlidingWindow</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">        MyQueue que;</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; result;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; k; i++) &#123; <span class="comment">// 先将前k的元素放进队列</span></span><br><span class="line">            que.<span class="built_in">push</span>(nums[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        result.<span class="built_in">push_back</span>(que.<span class="built_in">front</span>()); <span class="comment">// result 记录前k的元素的最大值</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = k; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            que.<span class="built_in">pop</span>(nums[i - k]); <span class="comment">// 滑动窗口移除最前面元素</span></span><br><span class="line">            que.<span class="built_in">push</span>(nums[i]); <span class="comment">// 滑动窗口前加入最后面的元素</span></span><br><span class="line">            result.<span class="built_in">push_back</span>(que.<span class="built_in">front</span>()); <span class="comment">// 记录对应的最大值</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="前k个高频元素"><a href="#前k个高频元素" class="headerlink" title="前k个高频元素"></a>前k个高频元素</h2><p>给定一个非空的整数数组，返回其中出现频率前 k 高的元素。</p>
-<p>示例 1:</p>
-<ul>
-<li>输入: nums &#x3D; [1,1,1,2,2,3], k &#x3D; 2</li>
-<li>输出: [1,2]</li>
-</ul>
-<p>示例 2:</p>
-<ul>
-<li>输入: nums &#x3D; [1], k &#x3D; 1</li>
-<li>输出: [1]</li>
-</ul>
-<p>提示：</p>
-<ul>
-<li>你可以假设给定的 k 总是合理的，且 1 ≤ k ≤ 数组中不相同的元素的个数。</li>
-<li>你的算法的时间复杂度必须优于 $O(n \log n)$ , n 是数组的大小。</li>
-<li>题目数据保证答案唯一，换句话说，数组中前 k 个高频元素的集合是唯一的。</li>
-<li>你可以按任意顺序返回答案。</li>
-</ul>
-<p>思路：</p>
-<ol>
-<li><p>要统计元素出现的频率（使用map进行统计）</p>
-</li>
-<li><p>对频率排序（<strong>优先级队列</strong>）</p>
-</li>
-<li><p>找出前k个高频元素</p>
-<ol>
-<li>用小顶堆：要统计最大前k个元素，只有小顶堆每次将最小的元素弹出，最后小顶堆里积累的才是前k个最大的元素</li>
-</ol>
-</li>
-</ol>
-<p>寻找前k个最大元素流程如图所示：（图中的频率只有三个，所以正好构成一个大小为3的小顶堆，如果频率更多一些，则用这个小顶堆进行扫描）</p>
-<p><img src="https://code-thinking.cdn.bcebos.com/pics/347.%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0.jpg" alt="347.前K个高频元素"></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 时间复杂度：O(nlogk)</span></span><br><span class="line"><span class="comment">// 空间复杂度：O(n)</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 小顶堆</span></span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">mycomparison</span> &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="function"><span class="type">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="type">const</span> pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt;&amp; lhs, <span class="type">const</span> pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt;&amp; rhs)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> lhs.second &gt; rhs.second;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">topKFrequent</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 要统计元素出现频率</span></span><br><span class="line">        unordered_map&lt;<span class="type">int</span>, <span class="type">int</span>&gt; map; <span class="comment">// map&lt;nums[i],对应出现的次数&gt;</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            map[nums[i]]++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 对频率排序</span></span><br><span class="line">        <span class="comment">// 定义一个小顶堆，大小为k</span></span><br><span class="line">        priority_queue&lt;pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt;, vector&lt;pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt;&gt;, mycomparison&gt; pri_que;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 用固定大小为k的小顶堆，扫面所有频率的数值</span></span><br><span class="line">        <span class="keyword">for</span> (unordered_map&lt;<span class="type">int</span>, <span class="type">int</span>&gt;::iterator it = map.<span class="built_in">begin</span>(); it != map.<span class="built_in">end</span>(); it++) &#123;</span><br><span class="line">            pri_que.<span class="built_in">push</span>(*it);</span><br><span class="line">            <span class="keyword">if</span> (pri_que.<span class="built_in">size</span>() &gt; k) &#123; <span class="comment">// 如果堆的大小大于了K，则队列弹出，保证堆的大小一直为k</span></span><br><span class="line">                pri_que.<span class="built_in">pop</span>();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 找出前K个高频元素，因为小顶堆先弹出的是最小的，所以倒序来输出到数组</span></span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">result</span><span class="params">(k)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = k - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            result[i] = pri_que.<span class="built_in">top</span>().first;</span><br><span class="line">            pri_que.<span class="built_in">pop</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>声明：本博客整理思路参考《代码随想录》，题目来自leetcode</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/01/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E5%93%88%E5%B8%8C%E8%A1%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/04/01/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E5%93%88%E5%B8%8C%E8%A1%A8/" class="post-title-link" itemprop="url">有关算法中的哈希表</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-04-01 15:35:43" itemprop="dateCreated datePublished" datetime="2022-04-01T15:35:43+08:00">2022-04-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-04-04 12:11:36" itemprop="dateModified" datetime="2022-04-04T12:11:36+08:00">2022-04-04</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="哈希容器属性一览"><a href="#哈希容器属性一览" class="headerlink" title="哈希容器属性一览"></a>哈希容器属性一览</h1><p>当我们遇到需要快速判断一个元素是否存在一个集合里面的时候，就可以考虑使用哈希表</p>
-<table>
-<thead>
-<tr>
-<th>集合</th>
-<th>底层</th>
-<th>是否有序</th>
-<th>数值是否可重复</th>
-<th>是否能更改数值</th>
-<th>查询效率</th>
-<th>增删改效率</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>std::set</td>
-<td>红黑树</td>
-<td>有序</td>
-<td>否</td>
-<td>否</td>
-<td>$O(\log n)$</td>
-<td>$O(\log n)$</td>
-</tr>
-<tr>
-<td>std::multiset</td>
-<td>红黑树</td>
-<td>有序</td>
-<td>是</td>
-<td>否</td>
-<td>$O(\log n)$</td>
-<td>$O(\log n)$</td>
-</tr>
-<tr>
-<td>std::unordered_set</td>
-<td>哈希表</td>
-<td>无序</td>
-<td>否</td>
-<td>否</td>
-<td>$O(1)$</td>
-<td>$O(1)$</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>映射</th>
-<th>底层实现</th>
-<th>是否有序</th>
-<th>数值是否可以重复</th>
-<th>能否更改数值</th>
-<th>查询效率</th>
-<th>增删效率</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>std::map</td>
-<td>红黑树</td>
-<td>key有序</td>
-<td>key不可重复</td>
-<td>key不可修改</td>
-<td>$O(\log n)$</td>
-<td>$O(\log n)$</td>
-</tr>
-<tr>
-<td>std::multimap</td>
-<td>红黑树</td>
-<td>key有序</td>
-<td>key可重复</td>
-<td>key不可修改</td>
-<td>$O(\log n)$</td>
-<td>$O(\log n)$</td>
-</tr>
-<tr>
-<td>std::unordered_map</td>
-<td>哈希表</td>
-<td>key无序</td>
-<td>key不可重复</td>
-<td>key不可修改</td>
-<td>$O(1)$</td>
-<td>$O(1)$</td>
-</tr>
-</tbody></table>
-<h1 id="应用场景实例"><a href="#应用场景实例" class="headerlink" title="应用场景实例"></a>应用场景实例</h1><h2 id="有效的字母异位"><a href="#有效的字母异位" class="headerlink" title="有效的字母异位"></a>有效的字母异位</h2><p>给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的字母异位词。</p>
-<p>示例 1: 输入: s &#x3D; “anagram”, t &#x3D; “nagaram” 输出: true</p>
-<p>示例 2: 输入: s &#x3D; “rat”, t &#x3D; “car” 输出: false</p>
-<p><strong>说明:</strong> 你可以假设字符串只包含小写字母。</p>
-<p>思路：</p>
-<ol>
-<li><p>首先定义一个大小为26的record数组，初始化为0</p>
-</li>
-<li><p>把a~z映射到数组内（a下标为0，z下标为25）</p>
-</li>
-<li><p>先遍历t，将record[s[i]-‘a’]++;</p>
-</li>
-<li><p>再遍历s，将record[s[i]-‘a’]–;</p>
-</li>
-<li><p>最后判断record中有没有不为0的数，如果有，则返回false</p>
-</li>
-</ol>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isAnagram</span><span class="params">(string s, string t)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> record[<span class="number">26</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; s.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="comment">// 并不需要记住字符a的ASCII，只要求出一个相对数值就可以了</span></span><br><span class="line">            record[s[i] - <span class="string">&#x27;a&#x27;</span>]++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; t.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            record[t[i] - <span class="string">&#x27;a&#x27;</span>]--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">26</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (record[i] != <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="comment">// record数组如果有的元素不为零0，说明字符串s和t 一定是谁多了字符或者谁少了字符。</span></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// record数组所有元素都为零0，说明字符串s和t是字母异位词</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h2 id="两个数组的交集"><a href="#两个数组的交集" class="headerlink" title="两个数组的交集"></a>两个数组的交集</h2><p>题意：给定两个数组，编写一个函数来计算它们的交集。</p>
-<p><strong>说明：</strong> 输出结果中的每个元素一定是唯一的。 我们可以不考虑输出结果的顺序。</p>
-<p>思路：</p>
-<ol>
-<li><p>使用unordered_set</p>
-</li>
-<li><p>unordered_set将nums1中的数据转换一次</p>
-</li>
-<li><p>nums2再输入一次数据，如果发现原本unordered中有的数据，则输出</p>
-</li>
-</ol>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">intersection</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums1, vector&lt;<span class="type">int</span>&gt;&amp; nums2)</span> </span>&#123;</span><br><span class="line">        unordered_set&lt;<span class="type">int</span>&gt; result_set; <span class="comment">// 存放结果</span></span><br><span class="line">        <span class="function">unordered_set&lt;<span class="type">int</span>&gt; <span class="title">nums_set</span><span class="params">(nums1.begin(), nums1.end())</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> num : nums2) &#123;</span><br><span class="line">            <span class="comment">// 发现nums2的元素 在nums_set里又出现过</span></span><br><span class="line">            <span class="keyword">if</span> (nums_set.<span class="built_in">find</span>(num) != nums_set.<span class="built_in">end</span>()) &#123;</span><br><span class="line">                result_set.<span class="built_in">insert</span>(num);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(result_set.<span class="built_in">begin</span>(), result_set.<span class="built_in">end</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h2 id="快乐数"><a href="#快乐数" class="headerlink" title="快乐数"></a>快乐数</h2><p>编写一个算法来判断一个数 n 是不是快乐数。</p>
-<p>「快乐数」定义为：对于一个正整数，每一次将该数替换为它每个位置上的数字的平方和，然后重复这个过程直到这个数变为 1，也可能是 无限循环 但始终变不到 1。如果 可以变为  1，那么这个数就是快乐数。</p>
-<p>如果 n 是快乐数就返回 True ；不是，则返回 False 。</p>
-<p><strong>示例：</strong></p>
-<p>输入：19<br>输出：true<br>解释：<br>1^2 + 9^2 &#x3D; 82<br>8^2 + 2^2 &#x3D; 68<br>6^2 + 8^2 &#x3D; 100<br>1^2 + 0^2 + 0^2 &#x3D; 1</p>
-<p>思路：</p>
-<ul>
-<li><p>根据题意，如果出现无限循环的情况下，就不是快乐数。返回false</p>
-</li>
-<li><p>就用哈希表来判断，某数是否出现过，如果出现过，直接返回false</p>
-</li>
-<li><p>一直到sum为1</p>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 取数值各个位上的单数之和</span></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">getSum</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (n) &#123;</span><br><span class="line">            sum += (n % <span class="number">10</span>) * (n % <span class="number">10</span>);</span><br><span class="line">            n /= <span class="number">10</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isHappy</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">        unordered_set&lt;<span class="type">int</span>&gt; set;</span><br><span class="line">        <span class="keyword">while</span>(<span class="number">1</span>) &#123;</span><br><span class="line">            <span class="type">int</span> sum = <span class="built_in">getSum</span>(n);</span><br><span class="line">            <span class="keyword">if</span> (sum == <span class="number">1</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 如果这个sum曾经出现过，说明已经陷入了无限循环了，立刻return false</span></span><br><span class="line">            <span class="keyword">if</span> (set.<span class="built_in">find</span>(sum) != set.<span class="built_in">end</span>()) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                set.<span class="built_in">insert</span>(sum);</span><br><span class="line">            &#125;</span><br><span class="line">            n = sum;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h2 id="两数之和"><a href="#两数之和" class="headerlink" title="两数之和"></a>两数之和</h2><p>给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。</p>
-<p>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。</p>
-<p><strong>示例:</strong></p>
-<p>给定 nums &#x3D; [2, 7, 11, 15], target &#x3D; 9</p>
-<p>因为 nums[0] + nums[1] &#x3D; 2 + 7 &#x3D; 9</p>
-<p>所以返回 [0, 1]</p>
-<p>思路：</p>
-<ul>
-<li><p>本题使用map进行解决，键保存数值，值保存下标</p>
-</li>
-<li><p>因为本题不需要map有序，所以选用unordered_map效率更高</p>
-</li>
-<li><p>unordered_map&lt;数值,下标&gt; map</p>
-</li>
-<li><p>寻找target-nums[i]在不在map中，若不在，则将其插入到map中</p>
-</li>
-<li><p>若在map中找到了，则返回两者的下标</p>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">twoSum</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">        std::unordered_map &lt;<span class="type">int</span>,<span class="type">int</span>&gt; map;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">auto</span> iter = map.<span class="built_in">find</span>(target - nums[i]);</span><br><span class="line">            <span class="keyword">if</span>(iter != map.<span class="built_in">end</span>()) &#123;<span class="comment">//若find()未找到，则返回map的end()</span></span><br><span class="line">                <span class="keyword">return</span> &#123;iter-&gt;second, i&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            map.<span class="built_in">insert</span>(<span class="built_in">pair</span>&lt;<span class="type">int</span>, <span class="type">int</span>&gt;(nums[i], i));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h2 id="四数相加"><a href="#四数相加" class="headerlink" title="四数相加"></a>四数相加</h2><p>给定四个包含整数的数组列表 A , B , C , D ,计算有多少个元组 (i, j, k, l) ，使得 A[i] + B[j] + C[k] + D[l] &#x3D; 0。</p>
-<p>为了使问题简单化，所有的 A, B, C, D 具有相同的长度 N，且 0 ≤ N ≤ 500 。所有整数的范围在 -2^28 到 2^28 - 1 之间，最终结果不会超过 2^31 - 1 。</p>
-<p><strong>例如:</strong></p>
-<p>输入: A &#x3D; [ 1, 2] B &#x3D; [-2,-1] C &#x3D; [-1, 2] D &#x3D; [ 0, 2] 输出: 2 </p>
-<p><strong>解释:</strong> 两个元组如下:</p>
-<ol>
-<li>(0, 0, 0, 1) -&gt; A[0] + B[0] + C[0] + D[1] &#x3D; 1 + (-2) + (-1) + 2 &#x3D; 0</li>
-<li>(1, 1, 0, 0) -&gt; A[1] + B[1] + C[0] + D[0] &#x3D; 2 + (-1) + (-1) + 0 &#x3D; 0</li>
-</ol>
-<p>思路：</p>
-<ol>
-<li><p>定义一个unordered_map，key放a与b两数之和，value放a与b两数之和出现的次数</p>
-</li>
-<li><p>遍历A，B数组，统计两个数组元素之和，以及出现的次数，放进map中</p>
-</li>
-<li><p>定义int变量count，用来统计a+b+c+d&#x3D;0出现的次数</p>
-</li>
-<li><p>在遍历C与D数组，找到如果0-(c+d)在map中出现过的话，就用count把map中key对应的value（出现次数）统计出来</p>
-</li>
-<li><p>最后返回count</p>
-</li>
-</ol>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">fourSumCount</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; A, vector&lt;<span class="type">int</span>&gt;&amp; B, vector&lt;<span class="type">int</span>&gt;&amp; C, vector&lt;<span class="type">int</span>&gt;&amp; D)</span> </span>&#123;</span><br><span class="line">        unordered_map&lt;<span class="type">int</span>, <span class="type">int</span>&gt; umap; <span class="comment">//key:a+b的数值，value:a+b数值出现的次数</span></span><br><span class="line">        <span class="comment">// 遍历大A和大B数组，统计两个数组元素之和，和出现的次数，放到map中</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> a : A) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> b : B) &#123;</span><br><span class="line">                umap[a + b]++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> count = <span class="number">0</span>; <span class="comment">// 统计a+b+c+d = 0 出现的次数</span></span><br><span class="line">        <span class="comment">// 在遍历大C和大D数组，找到如果 0-(c+d) 在map中出现过的话，就把map中key对应的value也就是出现次数统计出来。</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> c : C) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> d : D) &#123;</span><br><span class="line">                <span class="keyword">if</span> (umap.<span class="built_in">find</span>(<span class="number">0</span> - (c + d)) != umap.<span class="built_in">end</span>()) &#123;</span><br><span class="line">                    count += umap[<span class="number">0</span> - (c + d)];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h2 id="赎金信"><a href="#赎金信" class="headerlink" title="赎金信"></a>赎金信</h2><p>给定一个赎金信 (ransom) 字符串和一个杂志(magazine)字符串，判断第一个字符串 ransom 能不能由第二个字符串 magazines 里面的字符构成。如果可以构成，返回 true ；否则返回 false。</p>
-<p>(题目说明：为了不暴露赎金信字迹，要从杂志上搜索各个需要的字母，组成单词来表达意思。杂志字符串中的每个字符只能在赎金信字符串中使用一次。)</p>
-<p><strong>注意：</strong></p>
-<p>你可以假设两个字符串均只含有小写字母。</p>
-<p>canConstruct(“a”, “b”) -&gt; false<br>canConstruct(“aa”, “ab”) -&gt; false<br>canConstruct(“aa”, “aab”) -&gt; true</p>
-<p>思路：</p>
-<ul>
-<li><p>用一个长度为26的数组记录magazine里字母出现的次数</p>
-</li>
-<li><p>再用ransomnote验证这个数组里面是否包含了ransomnote所需要的字母</p>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">canConstruct</span><span class="params">(string ransomNote, string magazine)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> record[<span class="number">26</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; magazine.<span class="built_in">length</span>(); i++) &#123;</span><br><span class="line">            <span class="comment">// 通过recode数据记录 magazine里各个字符出现次数</span></span><br><span class="line">            record[magazine[i]-<span class="string">&#x27;a&#x27;</span>] ++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; ransomNote.<span class="built_in">length</span>(); j++) &#123;</span><br><span class="line">            <span class="comment">// 遍历ransomNote，在record里对应的字符个数做--操作</span></span><br><span class="line">            record[ransomNote[j]-<span class="string">&#x27;a&#x27;</span>]--;</span><br><span class="line">            <span class="comment">// 如果小于零说明ransomNote里出现的字符，magazine没有</span></span><br><span class="line">            <span class="keyword">if</span>(record[ransomNote[j]-<span class="string">&#x27;a&#x27;</span>] &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>声明：本博客整理思路参考《代码随想录》，题目来源于leetcode</p>
 
       
     </div>
