@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="引言今天可算是开了这个项目了！学习了这么久的C++理论，这下终于要实操了！ 这是一个塔防类型的项目，全程使用C++进行开发！ 这个系列的博客用来总结其中知识点和大致逻辑！算作是笔记。 本项目是根据AboutCG站内的独立游戏全流程教程作为记录的！感兴趣的好兄弟记得去该网站支持原创！ 核心架构知识点GameInstanceGameInstance是基于GameEngine创建的 一场游戏，GameI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE4-项目-TowerDefence-游戏架构搭建">
+<meta property="og:url" content="http://example.com/2022/06/30/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E6%B8%B8%E6%88%8F%E6%9E%B6%E6%9E%84%E6%90%AD%E5%BB%BA/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="引言今天可算是开了这个项目了！学习了这么久的C++理论，这下终于要实操了！ 这是一个塔防类型的项目，全程使用C++进行开发！ 这个系列的博客用来总结其中知识点和大致逻辑！算作是笔记。 本项目是根据AboutCG站内的独立游戏全流程教程作为记录的！感兴趣的好兄弟记得去该网站支持原创！ 核心架构知识点GameInstanceGameInstance是基于GameEngine创建的 一场游戏，GameI">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-06-30T13:58:07.000Z">
+<meta property="article:modified_time" content="2022-07-03T09:03:09.620Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="项目">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/06/30/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E6%B8%B8%E6%88%8F%E6%9E%B6%E6%9E%84%E6%90%AD%E5%BB%BA/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/06/30/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E6%B8%B8%E6%88%8F%E6%9E%B6%E6%9E%84%E6%90%AD%E5%BB%BA/","path":"2022/06/30/UE4-项目-TowerDefence-游戏架构搭建/","title":"UE4-项目-TowerDefence-游戏架构搭建"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>UE4-项目-TowerDefence-游戏架构搭建 | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%9E%B6%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">核心架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-number">2.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GameInstance"><span class="nav-number">2.1.1.</span> <span class="nav-text">GameInstance</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GameInstance%E5%BA%94%E8%AF%A5%E6%94%BE%E5%93%AA%E4%BA%9B%E9%80%BB%E8%BE%91%EF%BC%9F"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">GameInstance应该放哪些逻辑？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gamestate"><span class="nav-number">2.1.2.</span> <span class="nav-text">Gamestate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#playerstate"><span class="nav-number">2.1.3.</span> <span class="nav-text">playerstate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#playerController"><span class="nav-number">2.1.4.</span> <span class="nav-text">playerController</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GameUserSettings"><span class="nav-number">2.1.5.</span> <span class="nav-text">GameUserSettings</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">2.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UI%E6%9E%B6%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">UI架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-1"><span class="nav-number">3.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UMG"><span class="nav-number">3.1.1.</span> <span class="nav-text">UMG</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-1"><span class="nav-number">3.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%92%E8%89%B2%E6%9E%B6%E6%9E%84"><span class="nav-number">4.</span> <span class="nav-text">角色架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-2"><span class="nav-number">4.1.</span> <span class="nav-text">思路</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/30/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E6%B8%B8%E6%88%8F%E6%9E%B6%E6%9E%84%E6%90%AD%E5%BB%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="UE4-项目-TowerDefence-游戏架构搭建 | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UE4-项目-TowerDefence-游戏架构搭建
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-06-30 21:58:07" itemprop="dateCreated datePublished" datetime="2022-06-30T21:58:07+08:00">2022-06-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-07-03 17:03:09" itemprop="dateModified" datetime="2022-07-03T17:03:09+08:00">2022-07-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>今天可算是开了这个项目了！学习了这么久的C++理论，这下终于要实操了！</p>
+<p>这是一个塔防类型的项目，全程使用C++进行开发！</p>
+<p>这个系列的博客用来总结其中知识点和大致逻辑！算作是笔记。</p>
+<p>本项目是根据<a target="_blank" rel="noopener" href="https://www.aboutcg.org/">AboutCG</a>站内的<a target="_blank" rel="noopener" href="https://www.aboutcg.org/courseDetails/354/introduce">独立游戏全流程</a>教程作为记录的！感兴趣的好兄弟记得去该网站支持原创！</p>
+<h1 id="核心架构"><a href="#核心架构" class="headerlink" title="核心架构"></a>核心架构</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="GameInstance"><a href="#GameInstance" class="headerlink" title="GameInstance"></a>GameInstance</h3><p>GameInstance是基于GameEngine创建的</p>
+<p>一场游戏，<strong>GameInstance只有一个</strong></p>
+<p>多人在线游戏中，每一个玩家（Player）都是一个进程，所有玩家都在一个Game下运作，玩家间的通信就是进程间的通信</p>
+<p>GameInstance也会被上层的Engine实例化多个出来，比如说PIE实例化一个出来，Play也会实例化….等等</p>
+<h4 id="GameInstance应该放哪些逻辑？"><a href="#GameInstance应该放哪些逻辑？" class="headerlink" title="GameInstance应该放哪些逻辑？"></a>GameInstance应该放哪些逻辑？</h4><p>1、GameInstance代理World的切换</p>
+<p>2、GameInstance实现了许多接口可以让你动态的添加删除Player</p>
+<p>3、UI，控制UI的各种逻辑</p>
+<p>4、全局的配置（全局变量，在Level之外，持续存在的对象）</p>
+<p>5、游戏的额外的第三方逻辑：比如自己写的网络通信、自定义的配置文件或者自己的一些程序算法。</p>
+<p>6、GameInstace最好只存临时的数据</p>
+<h3 id="Gamestate"><a href="#Gamestate" class="headerlink" title="Gamestate"></a>Gamestate</h3><p>Gamestate在服务器存在，并且会复制到每个客户端，与整场比赛相关的数据放在Gamestate中并复制，客户端可以很方便的获取到整场比赛的数据。</p>
+<h3 id="playerstate"><a href="#playerstate" class="headerlink" title="playerstate"></a>playerstate</h3><p>玩家状态，方便获取玩家数据</p>
+<h3 id="playerController"><a href="#playerController" class="headerlink" title="playerController"></a>playerController</h3><p>玩家控制器，链接着HUD系统和PlayerState</p>
+<h3 id="GameUserSettings"><a href="#GameUserSettings" class="headerlink" title="GameUserSettings"></a>GameUserSettings</h3><p>内含游戏音量，画面等设置</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>将GameCore，HallCore，SelectLevelCore三个文件夹放在Core文件夹下</p>
+</li>
+<li><p>将Settings文件夹与Core并列</p>
+</li>
+<li><p>GameCore框架</p>
+<ul>
+<li><p>创建Pawn类型的C++类TowerDefenceGameCamera</p>
+</li>
+<li><p>创建GameInstance类型的C++类TowerDefenceGameInstance</p>
+</li>
+<li><p>创建Gamestate类型的C++类TowerDefenceGamestate</p>
+</li>
+<li><p>创建Playerstate类型的C++类TowerDefencePlayerState</p>
+</li>
+<li><p>创建PlayerController类型的C++类TowerDefencePlayerController</p>
+</li>
+</ul>
+</li>
+<li><p>HallCore框架</p>
+<ul>
+<li><p>创建GameMode类型的C++类TowerDefenceHallGameMode</p>
+</li>
+<li><p>创建GameState类型的C++类TowerDefenceHallGameState</p>
+</li>
+<li><p>创建Pawn类型的C++类TowerDefenceHallPawn</p>
+</li>
+<li><p>创建PlayerController类型的C++类TowerDefenceHallPlayerController</p>
+</li>
+</ul>
+</li>
+<li><p>SelectLevelCore框架</p>
+<ul>
+<li>创建GameMode类型的C++类TowersDefenceSelectLevelGamemode</li>
+</ul>
+</li>
+<li><p>Settings框架</p>
+<ul>
+<li><p>创建WorldSettings类型的C++类TowerDefenceWorldSettings</p>
+</li>
+<li><p>创建GameUserSettings类型的C++类TowerDefencePlayerController</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="UI架构"><a href="#UI架构" class="headerlink" title="UI架构"></a>UI架构</h1><h2 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h2><h3 id="UMG"><a href="#UMG" class="headerlink" title="UMG"></a>UMG</h3><p>优先级处于最高，属于基类</p>
+<p>UMG的核心是控件，这些控件是一系列预先制作的函数，可用于构建界面（如按钮、复选框、滑块、进度条等）。布局方面和写网页差不多，但主要的还是解决通信问题。</p>
+<p>可以以某个UserWeigt类为基类创建其他子类，实现脱离引擎达到自定义界面的效果</p>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>UI文件夹下创建Core，GameUI，HallUI，SelectLevelUI文件夹</p>
+</li>
+<li><p>UI&#x2F;Core框架</p>
+<ul>
+<li>创建UserWeight类型的C++类UI_RuleOfTheWidget</li>
+</ul>
+</li>
+<li><p>UI&#x2F;GameUI&#x2F;Core框架</p>
+<ul>
+<li>创建HUD类型的C++类RuleOfTheHUD</li>
+</ul>
+</li>
+<li><p>UI&#x2F;HallUI&#x2F;Core框架</p>
+<ul>
+<li>创建HUD类型的C++类TowerDefenceHallHUD</li>
+</ul>
+</li>
+<li><p>UI&#x2F;SelectLevelUI&#x2F;Core框架</p>
+<ul>
+<li>创建HUD类型的C++类TwoersDefenceSelectLevelHUD</li>
+</ul>
+</li>
+<li><p>UI&#x2F;GameUI&#x2F;UMG框架</p>
+<ul>
+<li>创建以UI_RuleOfTheWidget为父类的C++类UI_MainScreen</li>
+<li>创建以UI_RuleOfTheWidget为父类的C++类UI_RucksackSystem</li>
+<li>创建以UI_RuleOfTheWidget为父类的C++类UI_PlayerSkillSystem</li>
+<li>创建以UI_RuleOfTheWidget为父类的C++类UI_GameInfoPrintSystem</li>
+<li>创建以UI_RuleOfTheWidget为父类的C++类UI_GameMenuSystem</li>
+<li>创建以UI_RuleOfTheWidget为父类的C++类UI_MiniMapSystem</li>
+<li>创建以UI_RuleOfTheWidget为父类的C++类UI_MissionSystem</li>
+<li>创建以UI_RuleOfTheWidget为父类的C++类UI_ToolBarSystem</li>
+</ul>
+</li>
+<li><p>UI&#x2F;HallUI&#x2F;UMG框架</p>
+<ul>
+<li>创建以UI_RuleOfTheWidget为父类的C++类UI_MainHall</li>
+</ul>
+</li>
+<li><p>UI&#x2F;SelectLevelUI&#x2F;UMG框架</p>
+<ul>
+<li>创建以UI_RuleOfTheWidget为父类的C++类UI_SelectLevelMain</li>
+</ul>
+</li>
+<li><p>UI&#x2F;GameUI&#x2F;UMG&#x2F;Skill框架</p>
+<ul>
+<li>创建以UI_RuleOfTheWidget为父类的C++类UI_SkillSlot</li>
+</ul>
+</li>
+<li><p>UI&#x2F;GameUI&#x2F;UMG&#x2F;Inventory框架</p>
+<ul>
+<li><p>创建以UI_RuleOfTheWidget为父类的C++类UI_Inventory</p>
+</li>
+<li><p>创建以UI_RuleOfTheWidget为父类的C++类UI_InventorySlot</p>
+</li>
+</ul>
+</li>
+<li><p>UI&#x2F;Common&#x2F;UMG框架</p>
+<ul>
+<li><p>创建以UI_RuleOfTheWidget为父类的C++类UI_GameSettingsSystem</p>
+</li>
+<li><p>创建以UI_RuleOfTheWidget为父类的C++类UI_SaveAndLoadingGameSystem</p>
+</li>
+</ul>
+</li>
+<li><p>UI&#x2F;Common&#x2F;UMG&#x2F;GameSettings框架</p>
+<ul>
+<li><p>创建以UI_RuleOfTheWidget为父类的C++类UI_GameSettingsAudio</p>
+</li>
+<li><p>创建以UI_RuleOfTheWidget为父类的C++类UI_GameSettingsGame</p>
+</li>
+<li><p>创建以UI_RuleOfTheWidget为父类的C++类UI_GameSettingsOtherSettings</p>
+</li>
+<li><p>创建以UI_RuleOfTheWidget为父类的C++类UI_GameSettingsVideo</p>
+</li>
+</ul>
+</li>
+<li><p>UI&#x2F;Common&#x2F;UMG&#x2F;SaveLoad框架</p>
+<ul>
+<li>创建以UI_RuleOfTheWidget为父类的C++类UI_SaveAndLoadBar</li>
+</ul>
+</li>
+<li><p>UI&#x2F;SelectLevelUI&#x2F;UMG&#x2F;Button框架</p>
+<ul>
+<li>创建以UI_RuleOfTheWidget为父类的C++类UI_LevelButton</li>
+</ul>
+</li>
+</ol>
+<h1 id="角色架构"><a href="#角色架构" class="headerlink" title="角色架构"></a>角色架构</h1><h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>Character&#x2F;Core架构</p>
+<ul>
+<li>创建Character类型的C++类RuleOfTheCharacter</li>
+</ul>
+</li>
+<li><p>Character&#x2F;CharacterCore架构</p>
+<ul>
+<li><p>创建以RuleOfTheCharacter为父类的C++类Towers</p>
+</li>
+<li><p>创建以RuleOfTheCharacter为父类的C++类Monsters</p>
+</li>
+</ul>
+</li>
+<li><p>Character&#x2F;AIController</p>
+<ul>
+<li><p>创建以AIController为父类的C++类MonsterAIContrall</p>
+</li>
+<li><p>创建以AIController为父类的C++类TowersAIController</p>
+</li>
+</ul>
+</li>
+<li><p>Character&#x2F;Bullet</p>
+<ul>
+<li>创建以Actor为父类的C++类RuleOfTheBullet</li>
+</ul>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag"># 项目</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/06/30/UE4-C-%E6%96%AD%E8%A8%80/" rel="prev" title="UE4-C++-断言">
+                  <i class="fa fa-chevron-left"></i> UE4-C++-断言
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/07/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E5%9B%A0%E7%89%B9%E7%BD%91%E6%A6%82%E8%BF%B0/" rel="next" title="计算机网络-因特网概述">
+                  计算机网络-因特网概述 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
