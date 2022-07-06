@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-count">66</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,842 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/06/%E7%AE%97%E6%B3%95-%E6%95%B0%E7%BB%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/06/%E7%AE%97%E6%B3%95-%E6%95%B0%E7%BB%84/" class="post-title-link" itemprop="url">算法-数组</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-06 11:13:40 / 修改时间：12:16:23" itemprop="dateCreated datePublished" datetime="2022-07-06T11:13:40+08:00">2022-07-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>算法二刷来啦！！！</p>
+<p>依旧是跟着代码随想录学习，之前学的不少都忘得差不多了，现在巩固一下！虽然可能博文内容会重复，但这一次刷题尽量自己多写总结！</p>
+<p>这一次也会把之前跳过的拓展题目重新思考！</p>
+<h1 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/binary-search/">二分查找</a></h1><p>给定一个 n 个元素有序的（升序）整型数组 nums 和一个目标值 target  ，写一个函数搜索 nums 中的 target，如果目标值存在返回下标，否则返回 -1。</p>
+<p>示例 1:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: nums = [<span class="number">-1</span>,<span class="number">0</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">9</span>,<span class="number">12</span>], target = <span class="number">9</span>     </span><br><span class="line">输出: <span class="number">4</span>       </span><br><span class="line">解释: <span class="number">9</span> 出现在 nums 中并且下标为 <span class="number">4</span>     </span><br></pre></td></tr></table></figure>
+
+<p>示例 2:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: nums = [<span class="number">-1</span>,<span class="number">0</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">9</span>,<span class="number">12</span>], target = <span class="number">2</span>     </span><br><span class="line">输出: <span class="number">-1</span>        </span><br><span class="line">解释: <span class="number">2</span> 不存在 nums 中因此返回 <span class="number">-1</span>        </span><br></pre></td></tr></table></figure>
+
+<p>提示：</p>
+<ul>
+<li>你可以假设 nums 中的所有元素是不重复的。</li>
+<li>n 将在 [1, 10000]之间。</li>
+<li>nums 的每个元素都将在 [-9999, 9999]之间。</li>
+</ul>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><h3 id="二分查找的运用条件"><a href="#二分查找的运用条件" class="headerlink" title="二分查找的运用条件"></a>二分查找的运用条件</h3><ol>
+<li><p>数组必须为有序数组（如果无序，自己排列一下也不是不行）</p>
+</li>
+<li><p>数组中元素无重复</p>
+<ul>
+<li>因为一旦有重复元素，使用二分查找法返回的元素下标可能不是唯一的</li>
+</ul>
+</li>
+</ol>
+<h3 id="二分查找的逻辑思维"><a href="#二分查找的逻辑思维" class="headerlink" title="二分查找的逻辑思维"></a>二分查找的逻辑思维</h3><ol>
+<li><p>获取两个下标，一个代表最左边left，一个代表最右边right</p>
+</li>
+<li><p>通过两个下表获取一个中间值middle</p>
+</li>
+<li><p><code>arr[midlle]</code>和目标值target进行比较，因为数组有序，所以如果middle小于target，则将left更新到middle的位置，反之将right更新到middle</p>
+</li>
+<li><p>最后<code>arr[middle]</code>一定会等于target</p>
+</li>
+<li><p>middle就是值为target的数组元素的下标了！</p>
+</li>
+</ol>
+<p><img src="https://img-blog.csdnimg.cn/20210311153055723.jpg" alt="704.二分查找"></p>
+<h3 id="二分查找的边界条件"><a href="#二分查找的边界条件" class="headerlink" title="二分查找的边界条件"></a>二分查找的边界条件</h3><p>也就是区间问题，一般分为两种</p>
+<ol>
+<li><p>左闭右闭即[left, right]</p>
+<ul>
+<li><p><code>while(left&lt;=right)</code>，使用<code>&lt;=</code>是因为<code>left==right</code>有意义</p>
+</li>
+<li><p><code>if(nums[middle]&gt;target)</code>时right要赋值为<code>middle-1</code>，因为当前的<code>nums[middle]!=target</code>，所以接下来查找的左区间就为middle-1</p>
+</li>
+</ul>
+</li>
+<li><p>左闭右开即[left, right)</p>
+<ul>
+<li><p><code>while (left &lt; right)</code>，使用<code>&lt;</code>是因为<code>left==right</code>无意义</p>
+</li>
+<li><p><code>if(nums[middle]&gt;target)</code>时right要赋值为<code>middle</code>，因为当前<code>nums[middle]</code>不等于target，去左区间继续寻找，而寻找区间是左闭右开区间，所以right更新为middle，即：下一个查询区间不会去比较nums[middle]</p>
+</li>
+<li><p>注意：left依旧要赋值为middle+1，因为左边是闭区间！</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>确定是否符合运用条件（有序且无重复数组）</p>
+</li>
+<li><p>确定边界条件</p>
+</li>
+<li><p>定义left和right进行比较</p>
+</li>
+</ol>
+<h3 id="左闭右闭即-left-right"><a href="#左闭右闭即-left-right" class="headerlink" title="左闭右闭即[left, right]"></a>左闭右闭即[left, right]</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">search</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> left = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> right = nums.<span class="built_in">size</span>() - <span class="number">1</span>; <span class="comment">// 定义target在左闭右闭的区间里，[left, right]</span></span><br><span class="line">        <span class="keyword">while</span> (left &lt;= right) &#123; <span class="comment">// 当left==right，区间[left, right]依然有效，所以用 &lt;=</span></span><br><span class="line">            <span class="type">int</span> middle = left + ((right - left) / <span class="number">2</span>);<span class="comment">// 防止溢出 等同于(left + right)/2</span></span><br><span class="line">            <span class="keyword">if</span> (nums[middle] &gt; target) &#123;</span><br><span class="line">                right = middle - <span class="number">1</span>; <span class="comment">// target 在左区间，所以[left, middle - 1]</span></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[middle] &lt; target) &#123;</span><br><span class="line">                left = middle + <span class="number">1</span>; <span class="comment">// target 在右区间，所以[middle + 1, right]</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123; <span class="comment">// nums[middle] == target</span></span><br><span class="line">                <span class="keyword">return</span> middle; <span class="comment">// 数组中找到目标值，直接返回下标</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 未找到目标值</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="左闭右开即-left-right"><a href="#左闭右开即-left-right" class="headerlink" title="左闭右开即[left, right)"></a>左闭右开即[left, right)</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">search</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> left = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> right = nums.<span class="built_in">size</span>(); <span class="comment">// 定义target在左闭右开的区间里，即：[left, right)</span></span><br><span class="line">        <span class="keyword">while</span> (left &lt; right) &#123; <span class="comment">// 因为left == right的时候，在[left, right)是无效的空间，所以使用 &lt;</span></span><br><span class="line">            <span class="type">int</span> middle = left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">            <span class="keyword">if</span> (nums[middle] &gt; target) &#123;</span><br><span class="line">                right = middle; <span class="comment">// target 在左区间，在[left, middle)中</span></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[middle] &lt; target) &#123;</span><br><span class="line">                left = middle + <span class="number">1</span>; <span class="comment">// target 在右区间，在[middle + 1, right)中</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123; <span class="comment">// nums[middle] == target</span></span><br><span class="line">                <span class="keyword">return</span> middle; <span class="comment">// 数组中找到目标值，直接返回下标</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 未找到目标值</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="搜索插入位置"><a href="#搜索插入位置" class="headerlink" title="搜索插入位置"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/search-insert-position/">搜索插入位置</a></h1><p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。</p>
+<p>你可以假设数组中无重复元素。</p>
+<p>示例 1:</p>
+<ul>
+<li>输入: [1,3,5,6], 5</li>
+<li>输出: 2</li>
+</ul>
+<p>示例 2:</p>
+<ul>
+<li>输入: [1,3,5,6], 2</li>
+<li>输出: 1</li>
+</ul>
+<p>示例 3:</p>
+<ul>
+<li>输入: [1,3,5,6], 7</li>
+<li>输出: 4</li>
+</ul>
+<p>示例 4:</p>
+<ul>
+<li>输入: [1,3,5,6], 0</li>
+<li>输出: 0</li>
+</ul>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><p>直接上二分查找！</p>
+<ol>
+<li><p>确定数组有序且无重复元素</p>
+</li>
+<li><p>确定解法左闭右闭</p>
+</li>
+<li><p>最后想下“返回将会被插入位置的下标”</p>
+<ul>
+<li><p>二分查找最后的查找位置在整个数组中是按序的</p>
+</li>
+<li><p>要考虑的是最后插入位置和left，middle，right中的哪一个相关</p>
+<ul>
+<li><p>若在[left,right]范围内找不到，那意味着被反复二分查找的地方不存在此数</p>
+</li>
+<li><p>意味着该数字大于被反复二分查找的那些数</p>
+</li>
+<li><p>所以应该大于right</p>
+</li>
+</ul>
+</li>
+<li><p>最后插入位置应该是right+1</p>
+</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">searchInsert</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="type">int</span> left = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> right = n - <span class="number">1</span>; <span class="comment">// 定义target在左闭右闭的区间里，[left, right]</span></span><br><span class="line">        <span class="keyword">while</span> (left &lt;= right) &#123; <span class="comment">// 当left==right，区间[left, right]依然有效</span></span><br><span class="line">            <span class="type">int</span> middle = left + ((right - left) / <span class="number">2</span>);<span class="comment">// 防止溢出 等同于(left + right)/2</span></span><br><span class="line">            <span class="keyword">if</span> (nums[middle] &gt; target) &#123;</span><br><span class="line">                right = middle - <span class="number">1</span>; <span class="comment">// target 在左区间，所以[left, middle - 1]</span></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[middle] &lt; target) &#123;</span><br><span class="line">                left = middle + <span class="number">1</span>; <span class="comment">// target 在右区间，所以[middle + 1, right]</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123; <span class="comment">// nums[middle] == target</span></span><br><span class="line">                <span class="keyword">return</span> middle;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 分别处理如下四种情况</span></span><br><span class="line">        <span class="comment">// 目标值在数组所有元素之前  [0, -1]</span></span><br><span class="line">        <span class="comment">// 目标值等于数组中某一个元素  return middle;</span></span><br><span class="line">        <span class="comment">// 目标值插入数组中的位置 [left, right]，return  right + 1</span></span><br><span class="line">        <span class="comment">// 目标值在数组所有元素之后的情况 [left, right]， 因为是右闭区间，所以 return right + 1</span></span><br><span class="line">        <span class="keyword">return</span> right + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">searchInsert</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> left=<span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> right=nums.<span class="built_in">size</span>()<span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">while</span>(left&lt;=right)&#123;</span><br><span class="line">            <span class="type">int</span> middle=(left+right)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(nums[middle]&lt;target)&#123;</span><br><span class="line">                left=middle+<span class="number">1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(nums[middle]&gt;target)&#123;</span><br><span class="line">                right=middle<span class="number">-1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">return</span> middle;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> right+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/06/Socket%E7%BC%96%E7%A8%8B-OSI%E7%BD%91%E7%BB%9C%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/06/Socket%E7%BC%96%E7%A8%8B-OSI%E7%BD%91%E7%BB%9C%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B/" class="post-title-link" itemprop="url">Socket编程-OSI网络七层模型与TCP/IP协议族</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-06 10:50:20 / 修改时间：11:00:17" itemprop="dateCreated datePublished" datetime="2022-07-06T10:50:20+08:00">2022-07-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Socket/" itemprop="url" rel="index"><span itemprop="name">Socket</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>OSI 模型把网络通信的工作分为 7 层，从下到上分别是物理层、数据链路层、网络层、传输层、会话层、表示层和应用层。  </p>
+<p>OSI 只是存在于概念和理论上的一种模型，它的缺点是分层太多，增加了网络工作的复杂性，所以没有大规模应用。后来人们对 OSI 进行了简化，合并了一些层，最终只保留了 4 层，从下到上分别是接口层、网络层、传输层和应用层，这就是大名鼎鼎的 TCP&#x2F;IP 模型。</p>
+<h1 id="OSI模型与TCP-x2F-IP模型"><a href="#OSI模型与TCP-x2F-IP模型" class="headerlink" title="OSI模型与TCP&#x2F;IP模型"></a>OSI模型与TCP&#x2F;IP模型</h1><p><img src="D:\R_program\Blog\source_posts\Socket编程-OSI网络七层模型\1.jpg"></p>
+<h1 id="Socket编程位置"><a href="#Socket编程位置" class="headerlink" title="Socket编程位置"></a>Socket编程位置</h1><p> <a target="_blank" rel="noopener" href="http://c.biancheng.net/socket/">socket</a> 编程，是站在传输层的基础上，所以可以使用 TCP&#x2F;UDP 协议，但是不能干「访问网页」这样的事情，因为访问网页所需要的 http 协议位于应用层。</p>
+<p>两台计算机进行通信时，必须遵守以下原则：</p>
+<ul>
+<li>必须是同一层次进行通信，比如，A 计算机的应用层和 B 计算机的传输层就不能通信，因为它们不在一个层次，数据的拆包会遇到问题。</li>
+<li>每一层的功能都必须相同，也就是拥有完全相同的网络模型。如果网络模型都不同，那不就乱套了，谁都不认识谁。</li>
+<li>数据只能逐层传输，不能跃层。</li>
+<li>每一层可以使用下层提供的服务，并向上层提供服务。</li>
+</ul>
+<h1 id="TCP-x2F-IP协议族"><a href="#TCP-x2F-IP协议族" class="headerlink" title="TCP&#x2F;IP协议族"></a>TCP&#x2F;IP协议族</h1><p>目前实际使用的网络模型是 TCP&#x2F;IP 模型，它对 OSI 模型进行了简化，只包含了四层，从上到下分别是应用层、传输层、网络层和链路层（网络接口层），每一层都包含了若干协议。  </p>
+<p>协议（Protocol）就是网络通信过程中的约定或者合同，通信的双方必须都遵守才能正常收发数据。协议有很多种，例如 TCP、UDP、IP 等，通信的双方必须使用同一协议才能通信。协议是一种规范，由计算机组织制定，规定了很多细节，例如，如何建立连接，如何相互识别等。</p>
+<blockquote>
+<p>协议仅仅是一种规范，必须由计算机软件来实现。例如 IP 协议规定了如何找到目标计算机，那么各个开发商在开发自己的软件时就必须遵守该协议，不能另起炉灶。</p>
+</blockquote>
+<p>TCP&#x2F;IP 模型包含了 TCP、IP、UDP、Telnet、FTP、SMTP 等上百个互为关联的协议，其中 TCP 和 IP 是最常用的两种底层协议，所以把它们统称为“TCP&#x2F;IP 协议族”。</p>
+<p> <a target="_blank" rel="noopener" href="http://c.biancheng.net/socket/">socket</a> 编程是基于 TCP 和 UDP 协议的，它们的层级关系如下图所示：  </p>
+<p><img src="D:\R_program\Blog\source_posts\Socket编程-OSI网络七层模型\2.gif"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/06/Socket%E7%BC%96%E7%A8%8B-%E9%9D%A2%E5%90%91%E8%BF%9E%E6%8E%A5%E5%92%8C%E6%97%A0%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%A5%97%E6%8E%A5%E5%AD%97%E7%9A%84%E5%8C%BA%E5%88%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/06/Socket%E7%BC%96%E7%A8%8B-%E9%9D%A2%E5%90%91%E8%BF%9E%E6%8E%A5%E5%92%8C%E6%97%A0%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%A5%97%E6%8E%A5%E5%AD%97%E7%9A%84%E5%8C%BA%E5%88%AB/" class="post-title-link" itemprop="url">Socket编程-面向连接和无连接的套接字的区别</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-06 10:30:53 / 修改时间：10:48:20" itemprop="dateCreated datePublished" datetime="2022-07-06T10:30:53+08:00">2022-07-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Socket/" itemprop="url" rel="index"><span itemprop="name">Socket</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="套接字类型"><a href="#套接字类型" class="headerlink" title="套接字类型"></a>套接字类型</h1><ol>
+<li><p>流格式套接字：面向连接的套接字，基于TCP协议</p>
+</li>
+<li><p>数据报格式套接字：无连接的套接字，基于UDP协议</p>
+</li>
+</ol>
+<p>现在有一个互联网模型如下所示</p>
+<p><img src="D:\R_program\Blog\source_posts\Socket编程-面向连接和无连接的套接字的区别\1.gif"></p>
+<p>假设 H1 要发送若干个数据包给 H6，那么有多条路径可以选择，比如：</p>
+<pre><code>路径①：H1 --&gt; A --&gt; C --&gt; E --&gt; H6
+
+路径②：H1 --&gt; A --&gt; B --&gt; E --&gt; H6
+
+路径③：H1 --&gt; A --&gt; B --&gt; D --&gt; E --&gt; H6
+
+路径④：H1 --&gt; A --&gt; B --&gt; C --&gt; E --&gt; H6
+
+路径⑤：H1 --&gt; A --&gt; C --&gt; B --&gt; D --&gt; E --&gt; H6
+</code></pre>
+<h1 id="无连接的套接字"><a href="#无连接的套接字" class="headerlink" title="无连接的套接字"></a>无连接的套接字</h1><ol>
+<li><p>每个数据包可以<strong>选择不同的路径</strong>且<strong>到达的顺序是不确定的</strong></p>
+<ul>
+<li>比如第一个数据包选择路径1，第二个数据包选择路径4…</li>
+</ul>
+</li>
+<li><p>数据包在传输过程中会发生各种不测，也会发生各种奇迹</p>
+<ul>
+<li><p>比如传输的过程中网络波动，断网，断电等情况</p>
+</li>
+<li><p>而且也不管啥时候到达，也不管到达了几个，到达的顺序如何</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="面向连接的套接字"><a href="#面向连接的套接字" class="headerlink" title="面向连接的套接字"></a>面向连接的套接字</h1><ol>
+<li><p>面向连接的套接字在正式通信之前先确定一条路径，然后固定地使用这条路径来传递数据包，如果路径故障（某个路由器坏了，断电了）则重新建立路径</p>
+</li>
+<li><p>这条预先建立好的路径被称为“虚电路”，就是一条虚拟的通信电路</p>
+<ul>
+<li>建立虚电路</li>
+<li>数据传输</li>
+<li>虚电路释放</li>
+</ul>
+</li>
+<li><p>同TCP通信相同，在报文抵达目的地址之后，需要接收方发送回一个确认信息，如果长时间没有收到确认信息的话，则会再次发送该报文，并且是依次发送，意味着报文的抵达是按顺抵达的</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9A%84%E5%AE%9A%E4%B9%89%E5%92%8C%E5%88%86%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9A%84%E5%AE%9A%E4%B9%89%E5%92%8C%E5%88%86%E7%B1%BB/" class="post-title-link" itemprop="url">计算机网络-定义和分类</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-06 10:11:14 / 修改时间：10:28:50" itemprop="dateCreated datePublished" datetime="2022-07-06T10:11:14+08:00">2022-07-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="计算机网络的定义"><a href="#计算机网络的定义" class="headerlink" title="计算机网络的定义"></a>计算机网络的定义</h1><h2 id="简单定义"><a href="#简单定义" class="headerlink" title="简单定义"></a>简单定义</h2><p>一些互相连接的，自治的计算机的集合</p>
+<ul>
+<li><p>互连：计算机之间可以通过有线或无线的方式进行数据通信</p>
+</li>
+<li><p>自治：是指独立的计算机，有自己的硬件和软件，可以单独运行和使用</p>
+</li>
+<li><p>集合：至少需要两台计算机</p>
+</li>
+</ul>
+<h2 id="完整定义"><a href="#完整定义" class="headerlink" title="完整定义"></a>完整定义</h2><p>计算机网络主要由一些通用的，可编程的硬件互连而成的，而这些硬件并非专门用来实现某一特定目的的（例如，传送数据或视频信号）。而这些可编程的硬件能用来传送多种不同类型的数据，并能支持广泛的和日益增长的应用。</p>
+<ul>
+<li><p>连接的硬件不只是计算机，而包括了只能手机等智能硬件</p>
+</li>
+<li><p>计算机网络并非专门用于传送数据，而是能支持很多种应用（包括今后可能出现的各自应用）</p>
+</li>
+</ul>
+<h1 id="计算机网络的分类"><a href="#计算机网络的分类" class="headerlink" title="计算机网络的分类"></a>计算机网络的分类</h1><h2 id="按交换技术分类"><a href="#按交换技术分类" class="headerlink" title="按交换技术分类"></a>按交换技术分类</h2><ol>
+<li><p>电路交换网络</p>
+</li>
+<li><p>报文交换网络</p>
+</li>
+<li><p>分组交换网络</p>
+</li>
+</ol>
+<h2 id="按使用者分类"><a href="#按使用者分类" class="headerlink" title="按使用者分类"></a>按使用者分类</h2><ol>
+<li><p>公用网</p>
+</li>
+<li><p>专用网</p>
+</li>
+</ol>
+<h2 id="按传输介质分类"><a href="#按传输介质分类" class="headerlink" title="按传输介质分类"></a>按传输介质分类</h2><ol>
+<li><p>有线网络</p>
+</li>
+<li><p>无线网络</p>
+</li>
+</ol>
+<h2 id="按覆盖范围分类"><a href="#按覆盖范围分类" class="headerlink" title="按覆盖范围分类"></a>按覆盖范围分类</h2><ol>
+<li><p>广域网WAN（国家，地区，洲）</p>
+</li>
+<li><p>城域网MAN（城市）</p>
+</li>
+<li><p>局域网LAN（街区，学校）</p>
+</li>
+<li><p>个域网PAN（个人热点）</p>
+</li>
+</ol>
+<h2 id="按拓扑结构分类"><a href="#按拓扑结构分类" class="headerlink" title="按拓扑结构分类"></a>按拓扑结构分类</h2><ol>
+<li><p>总线型网络</p>
+<ul>
+<li>一条线，一点出故障，全网瘫痪</li>
+</ul>
+</li>
+<li><p>星型网络</p>
+<ul>
+<li>每个计算机以单独的线路与中央设备（集线器&#x2F;交换机&#x2F;路由器）连接</li>
+</ul>
+</li>
+<li><p>环型网络</p>
+<ul>
+<li>连接成一个环，信号单向传输</li>
+</ul>
+</li>
+<li><p>网状型网络</p>
+<ul>
+<li><p>每个节点至少由两条路径与其他节点相连</p>
+</li>
+<li><p>可靠性高，线路复杂，成本高</p>
+</li>
+</ul>
+</li>
+</ol>
+<p><img src="D:\R_program\Blog\source_posts\计算机网络的定义和分类\1.png"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E7%A7%8D%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E7%A7%8D%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%BC%8F/" class="post-title-link" itemprop="url">计算机网络-三种交换方式</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-06 09:45:36 / 修改时间：10:08:10" itemprop="dateCreated datePublished" datetime="2022-07-06T09:45:36+08:00">2022-07-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="电路交换"><a href="#电路交换" class="headerlink" title="电路交换"></a>电路交换</h1><p>电话交换机接通电话线的方式称为电路交换</p>
+<p>从通信资源的分配角度来看，交换就是按照某种方式动态地去分配传输线路的资源</p>
+<h2 id="电路交换的三个步骤"><a href="#电路交换的三个步骤" class="headerlink" title="电路交换的三个步骤"></a>电路交换的三个步骤</h2><ol>
+<li><p>建立连接（分配通信资源）</p>
+</li>
+<li><p>通话（一直占用通信资源）</p>
+</li>
+<li><p>释放连接（归还通信资源）</p>
+</li>
+</ol>
+<p>使用电路交换可以实现传输计算机数据，但是效率低下</p>
+<h1 id="分组交换"><a href="#分组交换" class="headerlink" title="分组交换"></a>分组交换</h1><p>计算机网络通常采用分组交换来实现通信</p>
+<p>即发送方将要发送的报文分成几组，并添加对应的首部报文，分组发送到接收方之后，接收方将报文首部去除，重新组合成完整报文</p>
+<h2 id="三方作用"><a href="#三方作用" class="headerlink" title="三方作用"></a>三方作用</h2><ol>
+<li><p>发送方：构造分组，发送分组</p>
+</li>
+<li><p>路由器：缓存分组，转发分组</p>
+</li>
+<li><p>接收方：接收分组，还原报文</p>
+</li>
+</ol>
+<h1 id="报文交换"><a href="#报文交换" class="headerlink" title="报文交换"></a>报文交换</h1><p>通常在早期的电文交换中使用，现已经被分组交换取代</p>
+<h1 id="三种交换方式的对比"><a href="#三种交换方式的对比" class="headerlink" title="三种交换方式的对比"></a>三种交换方式的对比</h1><p><img src="D:\R_program\Blog\source_posts\计算机网络-三种交换方式\1.png"></p>
+<h2 id="电路交换优缺点"><a href="#电路交换优缺点" class="headerlink" title="电路交换优缺点"></a>电路交换优缺点</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ol>
+<li><p>通信时延小</p>
+</li>
+<li><p>有序传输</p>
+</li>
+<li><p>没有冲突</p>
+</li>
+<li><p>适用范围广</p>
+</li>
+<li><p>实时性强</p>
+</li>
+<li><p>控制简单</p>
+</li>
+</ol>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<li><p>建立连接时间长</p>
+</li>
+<li><p>线路独占，使用效率低</p>
+</li>
+<li><p>灵活性差</p>
+</li>
+<li><p>难以规格化</p>
+</li>
+</ol>
+<h2 id="报文交换-1"><a href="#报文交换-1" class="headerlink" title="报文交换"></a>报文交换</h2><h3 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h3><ol>
+<li><p>无需建立连接</p>
+</li>
+<li><p>动态分配路线</p>
+</li>
+<li><p>提高线路可靠性</p>
+</li>
+<li><p>提高线路利用率</p>
+</li>
+<li><p>提供多目标服务</p>
+</li>
+</ol>
+<h3 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<li><p>有转发时延</p>
+</li>
+<li><p>需要较大存储缓存空间</p>
+</li>
+<li><p>需要传输额外的信息量</p>
+</li>
+</ol>
+<h2 id="分组交换-1"><a href="#分组交换-1" class="headerlink" title="分组交换"></a>分组交换</h2><h3 id="优点-2"><a href="#优点-2" class="headerlink" title="优点"></a>优点</h3><ol>
+<li><p>无需建立连接</p>
+</li>
+<li><p>线路利用率高</p>
+</li>
+<li><p>简化了存储管理</p>
+</li>
+<li><p>加速传输</p>
+</li>
+<li><p>减少出错概率和重发数据量</p>
+</li>
+</ol>
+<h3 id="缺点-2"><a href="#缺点-2" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<li><p>引起了转发时延</p>
+</li>
+<li><p>需要传输额外的信息量</p>
+</li>
+<li><p>对于数据报服务，存在失序，丢失或重复分组的问题；对于虚电路服务，存在呼叫建立，数据传输和虚电路释放三个过程</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/05/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%9C%BA%E6%99%AF%E4%B8%8EUI%E4%BB%A5%E5%8F%8A%E5%AD%98%E6%A1%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/05/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%9C%BA%E6%99%AF%E4%B8%8EUI%E4%BB%A5%E5%8F%8A%E5%AD%98%E6%A1%A3/" class="post-title-link" itemprop="url">UE4-项目-死寂-场景与UI以及存档</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-05 20:30:59 / 修改时间：22:42:05" itemprop="dateCreated datePublished" datetime="2022-07-05T20:30:59+08:00">2022-07-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="场景导入"><a href="#场景导入" class="headerlink" title="场景导入"></a>场景导入</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="RecastNavMesh"><a href="#RecastNavMesh" class="headerlink" title="RecastNavMesh"></a>RecastNavMesh</h3><p>导航网格体的具体参数</p>
+<p>可修改其中的生成-&gt;代理半径为5，使得导航精度更高（值越小精度越高）</p>
+<p>可修改其中的生成-&gt;代理最大斜面，使得AI能上到不同倾斜角度的斜面上</p>
+<h3 id="角色移动：物理交互-gt-推动力因子"><a href="#角色移动：物理交互-gt-推动力因子" class="headerlink" title="角色移动：物理交互-&gt;推动力因子"></a>角色移动：物理交互-&gt;推动力因子</h3><p>角色移动碰撞到其他物体之后给该物体施加的力的大小</p>
+<h3 id="碰撞-gt-是否能影响导航"><a href="#碰撞-gt-是否能影响导航" class="headerlink" title="碰撞-&gt;是否能影响导航"></a>碰撞-&gt;是否能影响导航</h3><p>位于静态网格体组件中的设置，字面意思</p>
+<h3 id="碰撞预设与射线检测"><a href="#碰撞预设与射线检测" class="headerlink" title="碰撞预设与射线检测"></a><mark>碰撞预设与射线检测</mark></h3><p>丧尸的感知组件是通过visibility来进行感知的，但有时候某些物体（枪械，碰撞盒子）的碰撞预设将visibility阻挡了，导致角色受这些影响（手持枪械，进入一个阻挡visibility的碰撞盒子）的时候会出现丧尸看不到玩家的情况</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>导入新场景，打开之后要添加一个后期盒子，让我们拾取物品的时候有描边效果（和之前在测试地图的操作相同）</p>
+</li>
+<li><p>导入导航网格体边界体积，并且设置其大小，修改RecastNavMesh-&gt;生成-&gt;代理半径为5，修改代理最大斜面为89</p>
+</li>
+<li><p>找到场景中门的父类蓝图，删掉其中破坏门的逻辑，并将其质量设置为800</p>
+</li>
+<li><p>编辑丧尸蓝图类和角色蓝图类中的移动组件中的“角色移动：物理交互-&gt;推动力因子”均为75000</p>
+</li>
+<li><p>将门父类的模型中的碰撞-&gt;是否能影响导航为false（使得丧尸可以撞开门向前移动）</p>
+</li>
+<li><p>将场景中的所有材质设置正确（工程浩大啊可恶！）</p>
+</li>
+<li><p>将建筑父类中的盒体碰撞的“碰撞已启用”关闭，并且删掉玩家在建筑内的检测逻辑</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -622,7 +1458,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-07-03 17:03:09" itemprop="dateModified" datetime="2022-07-03T17:03:09+08:00">2022-07-03</time>
+      <time title="修改时间：2022-07-05 17:07:45" itemprop="dateModified" datetime="2022-07-05T17:07:45+08:00">2022-07-05</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -826,2411 +1662,46 @@
 <li>创建以Actor为父类的C++类RuleOfTheBullet</li>
 </ul>
 </li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/30/UE4-C-%E6%96%AD%E8%A8%80/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/06/30/UE4-C-%E6%96%AD%E8%A8%80/" class="post-title-link" itemprop="url">UE4-C++-断言</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-06-30 16:31:32 / 修改时间：17:01:48" itemprop="dateCreated datePublished" datetime="2022-06-30T16:31:32+08:00">2022-06-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>断言（assertion）是编程中的一种常用手段，在通常情况下，断言就是将一个返回值总是真（或者我们需要是真）的判别式放在语句中，用以排除在设计逻辑上不应该出现的情况。</p>
-<p>举个例子：我们都知道除数不能为0，那么就可以对除数使用断言，以使<strong>程序在除数为0的情况下产生异常退出</strong>。</p>
-<h1 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h1><h2 id="简单断言check"><a href="#简单断言check" class="headerlink" title="简单断言check()"></a>简单断言check()</h2><p>在传入值为空指针，0，false时都会触发断点进而崩溃</p>
-<h2 id="额外信息断言"><a href="#额外信息断言" class="headerlink" title="额外信息断言"></a>额外信息断言</h2><h3 id="verifyf"><a href="#verifyf" class="headerlink" title="verifyf()"></a>verifyf()</h3><p><code>verifyf(bool,TEXT(&quot;更多提示信息 verifyf&quot;))</code></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">verifyf</span>(<span class="literal">false</span>,<span class="built_in">TEXT</span>(<span class="string">&quot;ssss %s&quot;</span>),*<span class="keyword">this</span>-&gt;<span class="built_in">GetName</span>());</span><br></pre></td></tr></table></figure>
-
-<p>可将TEXT()中的内容打印在调试内容中，同时后面的this指针也会打印出此函数的类名称</p>
-<h3 id="checkf"><a href="#checkf" class="headerlink" title="checkf()"></a>checkf()</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">checkf</span>(<span class="literal">false</span>,<span class="built_in">TEXT</span>(<span class="string">&quot;ssss %s&quot;</span>),*<span class="keyword">this</span>-&gt;<span class="built_in">GetName</span>());</span><br></pre></td></tr></table></figure>
-
-<p>用法同verifyf</p>
-<h2 id="阻塞流程断言"><a href="#阻塞流程断言" class="headerlink" title="阻塞流程断言"></a>阻塞流程断言</h2><h3 id="checkNoEntry"><a href="#checkNoEntry" class="headerlink" title="checkNoEntry()"></a>checkNoEntry()</h3><p>在某函数内使用，检测程序是否进入到该函数内，如果进入到了则立刻触发断点</p>
-<h3 id="checkNoReentry"><a href="#checkNoReentry" class="headerlink" title="checkNoReentry()"></a>checkNoReentry()</h3><p>在某函数内使用，若该函数被执行两次，则立刻触发断点</p>
-<h3 id="checkNoRecursion"><a href="#checkNoRecursion" class="headerlink" title="checkNoRecursion()"></a>checkNoRecursion()</h3><p>如果某函数内存在递归，则会触发该断言</p>
-<h2 id="断点式断言"><a href="#断点式断言" class="headerlink" title="断点式断言"></a>断点式断言</h2><h3 id="ensure"><a href="#ensure" class="headerlink" title="ensure()"></a>ensure()</h3><p>类似于check()但是不同的是，该断言触发后不会导致程序崩溃，会给出断点信息</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ensure</span>(<span class="type">bool</span> &amp;&amp; <span class="string">&quot;提示信息&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="ensureMsgf（）"><a href="#ensureMsgf（）" class="headerlink" title="ensureMsgf（）"></a>ensureMsgf（）</h3><p>可以获取额外信息</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ensureMsgf</span>(<span class="number">0</span>,<span class="built_in">TEXT</span>(<span class="string">&quot;ssss %S&quot;</span>),*<span class="keyword">this</span>-&gt;<span class="built_in">GetName</span>());</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/27/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%95%8C%E4%BA%BAAI/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/06/27/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%95%8C%E4%BA%BAAI/" class="post-title-link" itemprop="url">UE4-项目-死寂-敌人AI与简单伤害系统</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-06-27 14:58:48" itemprop="dateCreated datePublished" datetime="2022-06-27T14:58:48+08:00">2022-06-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-07-03 11:12:54" itemprop="dateModified" datetime="2022-07-03T11:12:54+08:00">2022-07-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h1><p>前面的几个章节已经将角色的大部分功能完善了，关于玩家角色还剩下的功能，大概就是伤害系统，生命值系统这些有要用到UI界面的，这就放到后面的UI一起解决。</p>
-<p>接下来就是激动人心的敌人AI了！兄弟们，这个FPS项目进度正式过半，加油！！！</p>
-<h1 id="丧尸随机移动及追逐玩家"><a href="#丧尸随机移动及追逐玩家" class="headerlink" title="丧尸随机移动及追逐玩家"></a>丧尸随机移动及追逐玩家</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="获取黑板"><a href="#获取黑板" class="headerlink" title="获取黑板"></a>获取黑板</h3><p>在AI控制器中使用，字面意思</p>
-<h3 id="创建文字命名"><a href="#创建文字命名" class="headerlink" title="创建文字命名"></a>创建文字命名</h3><p>根据传入的值，返回变量名相同的变量</p>
-<h3 id="将值设为布尔"><a href="#将值设为布尔" class="headerlink" title="将值设为布尔"></a>将值设为布尔</h3><p>在AI控制器使用，字面意思</p>
-<p>将目标中的名为key name引脚传入的值的布尔变量进行设置</p>
-<h3 id="行为树中的Sequence"><a href="#行为树中的Sequence" class="headerlink" title="行为树中的Sequence"></a>行为树中的Sequence</h3><ol>
-<li><p>可添加装饰器backbroad</p>
-</li>
-<li><p>修改backbroad的黑板键，观察器中止</p>
-</li>
-</ol>
-<h3 id="Backbroad"><a href="#Backbroad" class="headerlink" title="Backbroad"></a>Backbroad</h3><ol>
-<li><p>观察器中止：再AI行为树的同一深度中，任一一个条件达成，就会中断同层的所有节点</p>
-</li>
-<li><p>黑板键：黑板中设置的值</p>
-</li>
-</ol>
-<h3 id="新建任务"><a href="#新建任务" class="headerlink" title="新建任务"></a>新建任务</h3><p>AI行为树中的左上角图表，点击之后为该行为树创建一个任务，用于在达成某条件之后AI需要执行的操作</p>
-<h3 id="事件接收执行AI"><a href="#事件接收执行AI" class="headerlink" title="事件接收执行AI"></a>事件接收执行AI</h3><p>在任务被触发的时候会执行的函数</p>
-<h3 id="完成执行"><a href="#完成执行" class="headerlink" title="完成执行"></a>完成执行</h3><p>AI行为树的任务中的节点，告诉系统此任务已经完成，可以执行下一个任务</p>
-<h3 id="AI-MoveTo"><a href="#AI-MoveTo" class="headerlink" title="AI MoveTo"></a>AI MoveTo</h3><p>AI行为树的任务中的节点：操控AI移动到具体位置或者跟随某Actor进行移动</p>
-<h3 id="控制时"><a href="#控制时" class="headerlink" title="控制时"></a>控制时</h3><p>AI控制器中的可重载函数：在AI被AI控制器控制的时候触发的事件</p>
-<h3 id="运行行为树"><a href="#运行行为树" class="headerlink" title="运行行为树"></a>运行行为树</h3><p>AI控制器中的节点：字面意思</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>创建丧尸蓝图类，动画蓝图，混合空间1D，AI行为树，黑板，AI控制器</p>
-</li>
-<li><p>在蓝图类中配置动画蓝图，AI控制器，移动组件的“将旋转朝向运动”为true，类默认值“使用控制器旋转yaw”为false</p>
-</li>
-<li><p>设置混合空间1D，设置根据速度变化的丧尸行走&#x2F;慢跑&#x2F;冲刺动画</p>
-</li>
-<li><p>配置动画蓝图</p>
+<li><p>创建一个空白的插件StoneToolClass</p>
 <ul>
-<li><p>创建基础状态机并缓存，输出为基础状态机的缓存</p>
+<li><p>在TowerDefence&#x2F;Plugins&#x2F;StoneToolClass&#x2F;Source&#x2F;StoneToolClass&#x2F;Public&#x2F;Core文件夹下创建一个以Actor为父类的C++类ToolBase</p>
 </li>
-<li><p>编辑基础状态机，添加状态“基础状态”</p>
-</li>
-<li><p>编辑基础状态，将创建的混合空间1D输出，并将其速度引脚提升为变量</p>
-</li>
-<li><p>编辑事件图表，判断尝试获取pawn拥有者是否有效，如果有效则获取其速度，再获取其向量长度，传给变量“速度”</p>
-</li>
-</ul>
-</li>
-<li><p>编辑黑板，添加变量“是否看到玩家”（布尔），“是否追逐玩家”（布尔），“要去的位置”（向量）</p>
-</li>
-<li><p>编辑AI控制器，添加组件“AI感知组件”</p>
-<ul>
-<li><p>编辑AI感知组件，添加AI视力配置并修改其属性</p>
-</li>
-<li><p>其中视力配置除了视线半径和角度之外，重要的还有按归属检测需要全部勾选</p>
-</li>
-<li><p>添加AI感知组件的事件“目标感知更新时”，中断其值并将类型转换为BP_Player</p>
-</li>
-<li><p>用“将值设置为布尔”节点，根据中断值中的“Successfully Sensed”节点修改黑板中的“是否看到玩家”（“获取黑板”节点和“创建文字命名”节点）</p>
-</li>
-</ul>
-</li>
-<li><p>配置行为树</p>
-<ul>
-<li><p>将行为树的黑板配置为刚创建的</p>
-</li>
-<li><p>跟节点引出一个Selector；Selector引出两个Sequence</p>
-</li>
-<li><p>给两个Sequence添加一个装饰器“backbroad”，将其黑板键设置为“是否看到玩家”（一个设置为已设置，另一个设置为未设置），观察器终止修改为Both</p>
-</li>
-<li><p>新建一个任务并编辑，重载函数“事件接收执行AI”</p>
-</li>
-<li><p>获取Actor位置，并获取可导航半径的随机点</p>
-</li>
-<li><p>新建黑板键选择器类型的变量“随机移动位置”，并将其设置为可编辑实例</p>
-</li>
-<li><p>将“随机移动位置”拖出，并将黑板值设为变量，将“获取可导航半径内的随机点”的输出引脚作为输入引入</p>
-</li>
-<li><p>添加“完成执行”节点</p>
-</li>
-<li><p>在行为树中调用刚创建的事件，并在其默认值中传入形参“随机移动位置”的实参</p>
-</li>
-<li><p>调用内置任务“Move To”和“Wait”（到这里才会移动，上一个任务是计算“要去的位置”，在Move To节点中调用其值才会具体行动）</p>
-</li>
-<li><p>新建任务“发现玩家”，重载“事件接收TickAI”函数，调用AI MoveTo节点，“获取玩家pawn”作为“Target Actor”引脚的输入值，最后“完成执行”</p>
-</li>
-<li><p>在行为树中调用该任务</p>
-</li>
-</ul>
-</li>
-<li><p>修改AI控制器</p>
-<ul>
-<li>重载函数“事件控制时”，并将其引脚提升为变量“控制的zombie”，“运行行为树”</li>
-</ul>
-</li>
-<li><p>在世界中放入“导航网格体边界体积”</p>
-</li>
-<li><p>优化丧尸行动速度</p>
-<ul>
-<li><p>在丧尸的角色蓝图中添加事件图表“随机移动”，添加自定义事件“随机找点移动”，调用角色移动组件并“set max walk speed”为20（此时为未发现玩家的速度）</p>
-</li>
-<li><p>添加事件图表“发现玩家”，添加自定义事件“发现玩家做的事”，调用角色移动组件并“set max walk speed”，传入速度用“范围内随机浮点”取值为400-500</p>
-</li>
-<li><p>在两个AI行为树的任务“随即移动”和“发现玩家”中分别用蓝图通信后调用“随即找点移动”以及“发现玩家做的事”</p>
-</li>
-<li><p>最后在丧尸的角色蓝图中设置其最大行走速度为20</p>
+<li><p>在TowerDefence&#x2F;Plugins&#x2F;StoneToolClass&#x2F;Source&#x2F;StoneToolClass&#x2F;Public&#x2F;Tool文件夹下创建一个以ToolBase为父类的C++类DisplayCameraTigger</p>
 </li>
 </ul>
 </li>
 </ol>
-<h1 id="丧尸看见玩家尖叫并追赶"><a href="#丧尸看见玩家尖叫并追赶" class="headerlink" title="丧尸看见玩家尖叫并追赶"></a>丧尸看见玩家尖叫并追赶</h1><h2 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h2><h3 id="生成音效已附加"><a href="#生成音效已附加" class="headerlink" title="生成音效已附加"></a>生成音效已附加</h3><p>生成一个音效并且附加到某个组件上，实现丧尸追逐玩家的同时会发出声音</p>
-<h3 id="销毁组件"><a href="#销毁组件" class="headerlink" title="销毁组件"></a>销毁组件</h3><p>某组件可引出的节点，字面意思</p>
-<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>打开丧尸的动画蓝图，添加两个变量“是否可以尖叫”，“是否死亡”，判断是否死亡后判断是否可以尖叫，然后播放尖叫的蒙太奇动画（在动画蓝图中需要添加其插槽），在丧尸尖叫的时候速度为0，动画播放完之后设置移动速度为400-500</p>
-</li>
-<li><p>添加一个变量“是否正在尖叫”，在开始尖叫是设置为true，结束播放尖叫动画的时候设置为false</p>
-</li>
-<li><p>使用“生成音效已附加”节点，创建一个丧尸追逐主角的音效，附加到丧尸身上，实现丧尸追逐主角的同时进行尖叫</p>
-</li>
-<li><p>在丧尸不能尖叫的时候判断丧尸是否在尖叫，如果不在尖叫，则判断丧尸的追逐音效是否有效，若无效，则将逻辑链接到后面的设置速度并且添加音效上</p>
-</li>
-<li><p>丧尸随机移动事件图表，首先判断是否死亡，然后设置行走速度，在之后需要用一个序列，判断丧尸追逐音效是否有效，有效则“销毁组件”（未看到玩家的时候随机移动但不发出尖叫）</p>
-</li>
-<li><p>序列的另一个引脚引出“Do Once”节点，并以函数名设置定时器，时间设置为15s</p>
-<ul>
-<li><p>新建自定义事件“重置尖叫”，并设置“是否可以尖叫”为true</p>
-</li>
-<li><p>新建自定义事件“reset”，链接到Do Once的Reset引脚上</p>
-</li>
-<li><p>将“以函数名设置定时器”的函数名修改为“重置尖叫”</p>
-</li>
-</ul>
-</li>
-<li><p>为了防止丧尸在发现玩家之后尖叫，并且在十五秒之后又尖叫，所以在“发现玩家”事件图表中的开头调用“reset”事件，并“以函数名清除定时器”</p>
-</li>
-<li><p>优化一下丧尸追逐玩家时候的音效，在“生成音效已附加”节点的“Start Time”引脚中引出节点“范围内随机浮点”，看下丧尸音效的时长，设置在范围内即可</p>
-</li>
-</ol>
-<h1 id="丧尸丢失目标后移动到目标最后位置"><a href="#丧尸丢失目标后移动到目标最后位置" class="headerlink" title="丧尸丢失目标后移动到目标最后位置"></a>丧尸丢失目标后移动到目标最后位置</h1><h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在丧尸的AI控制器中新建向量类型变量“最后看到玩家的位置”</p>
-</li>
-<li><p>获取BP_Player的位置后，获取可导航半径内的随机点，然后设置给“最后看到玩家的位置”</p>
-</li>
-<li><p>判断感知组件是否感知到玩家，false则链接Do Once节点，并且使用“将值设为布尔值”，key name为“是否追逐玩家”，目标为黑板</p>
-</li>
-<li><p>新建自定义事件“reset”连接到Do Once的reset节点上、</p>
-</li>
-<li><p>优化行为树，先“是否看到玩家”，在“未设置”分支中选择“是否追逐玩家”，未追逐则随即移动等，追逐则创建新的任务</p>
-<ul>
-<li><p>新建任务“追赶玩家到最后位置”，重载“事件接收执行AI”，类型转换为AI控制器，获取其中的“最后看到玩家位置”并且“AI MoveTo”</p>
-</li>
-<li><p>使用“将值设置为布尔”将黑板中的“是否追逐玩家”设置为false，再调用AI控制器中的reset事件，最后“完成执行”</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="丧尸攻击玩家动画"><a href="#丧尸攻击玩家动画" class="headerlink" title="丧尸攻击玩家动画"></a>丧尸攻击玩家动画</h1><h2 id="知识点-2"><a href="#知识点-2" class="headerlink" title="知识点"></a>知识点</h2><h3 id="随机序列播放器"><a href="#随机序列播放器" class="headerlink" title="随机序列播放器"></a>随机序列播放器</h3><p>动画蓝图中的节点：随机播放这个节点中的动画中的某一个</p>
+<h1 id="数据架构"><a href="#数据架构" class="headerlink" title="数据架构"></a>数据架构</h1><p>决定了以后是否可扩展，一定要解耦合！</p>
+<p>将显示，控制，渲染分开放！</p>
 <h2 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在动画蓝图中创建变量“是否攻击”，并作为“按布尔混合姿势”的判断条件</p>
-</li>
-<li><p>添加节点“随机序列播放器”，在此节点中放入两个丧尸攻击的动画，勾选随机播放</p>
-</li>
-<li><p>使用“每个骨骼的分层混合”节点将基础状态和攻击动画进行上下半身混合。注意添加骨骼之后还需要勾选“网格体空间旋转混合”</p>
-</li>
-<li><p>最后基础状态作为“按布尔混合姿势”的false，上下半身混合之后的动画作为true</p>
-</li>
-<li><p>在丧尸的角色蓝图中创建新图表“攻击玩家”，由“事件Tick”先判断是否死亡，再以黑板中的“是否看到玩家”作为判断条件，true则创建射线检测（由通道检测球体）</p>
-</li>
-<li><p>“由通道检测球体”的起始位置是actor位置，终点位置是actor前方110cm的100cm半径的球体</p>
+<li><p>TowerDefence&#x2F;Public&#x2F;Data&#x2F;Core</p>
 <ul>
-<li><p>创建新的通道命名为“ZombieAttack”默认为忽略</p>
+<li><p>创建以UObject为父类的C++类CharacterData</p>
 </li>
-<li><p>在球形通道检测中使用该通道</p>
+<li><p>创建以UObject为父类的C++类PlayerData</p>
 </li>
-<li><p>在角色蓝图中的mesh组件中将碰撞预设的ZombieAttack修改为阻挡</p>
+<li><p>创建以UObject为父类的C++类GlobalData</p>
 </li>
 </ul>
 </li>
-<li><p>接下来判断球体检测是否碰撞到物体，若是，则中断其检测结果，判断是否为玩家actor（类型转换为玩家actor，如果成功，则是）</p>
-</li>
-<li><p>获取丧尸动画实例中的“是否攻击”，如果玩家未死亡，则设置为true，否则false</p>
+<li><p>TowerDefence\Source\TowerDefence\Public\Resources\Core</p>
 <ul>
-<li>与此同时，在类型转换为玩家失败的时候（检测物体不为玩家），以及丧尸未看到玩家的时候均将“是否攻击”设置为false</li>
+<li>创建以UObject为父类的C++类TDGameResources（资源类，用于加载资源）</li>
 </ul>
 </li>
 </ol>
-<h1 id="优化-丧尸攻击角色时的面向及阻挡摄像机"><a href="#优化-丧尸攻击角色时的面向及阻挡摄像机" class="headerlink" title="优化-丧尸攻击角色时的面向及阻挡摄像机"></a>优化-丧尸攻击角色时的面向及阻挡摄像机</h1><p>如果不进行这个优化的话就会出现玩家一个绕背就能让丧尸丢失目标</p>
-<h2 id="知识点-3"><a href="#知识点-3" class="headerlink" title="知识点"></a>知识点</h2><h3 id="Orient-Roatation-to-Movement"><a href="#Orient-Roatation-to-Movement" class="headerlink" title="Orient Roatation to Movement"></a>Orient Roatation to Movement</h3><p>角色移动组件的属性：将旋转朝向运动</p>
-<h3 id="Use-Content-Rotation-Yaw"><a href="#Use-Content-Rotation-Yaw" class="headerlink" title="Use Content Rotation Yaw"></a>Use Content Rotation Yaw</h3><p>角色移动组件的属性：使用控制器旋转</p>
-<h3 id="设置焦距"><a href="#设置焦距" class="headerlink" title="设置焦距"></a>设置焦距</h3><p>AI控制器：脚焦距设置到指定的actor上</p>
-<h3 id="清除焦距"><a href="#清除焦距" class="headerlink" title="清除焦距"></a>清除焦距</h3><p>AI控制器：字面意思啦！</p>
-<h2 id="思路-4"><a href="#思路-4" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>丧尸蓝图中创建函数”更改控制旋转模式“</p>
-</li>
-<li><p>使用角色移动组件，分别调用”Orient Roatation to Movement“和”Use Content Rotation Yaw“节点并将其公开到函数参数</p>
-</li>
-<li><p>在丧尸攻击玩家时调用此函数，”使用控制器所需的旋转“勾选，否则勾选”将旋转朝向的运动“</p>
-</li>
-<li><p>获取AI控制器，然后”设置焦距“在玩家上，不攻击则”清除焦距“</p>
-</li>
-<li><p>点开丧尸的mesh，将碰撞中的摄像机忽略</p>
-</li>
-</ol>
-<h1 id="丧尸攻击音效"><a href="#丧尸攻击音效" class="headerlink" title="丧尸攻击音效"></a>丧尸攻击音效</h1><h2 id="思路-5"><a href="#思路-5" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>创建一个音效cue</p>
-</li>
-<li><p>找到丧尸攻击动画，在合适位置创建通知音效，将cue传入到通知中</p>
-</li>
-</ol>
-<h1 id="丧尸脚步声实现"><a href="#丧尸脚步声实现" class="headerlink" title="丧尸脚步声实现"></a>丧尸脚步声实现</h1><h2 id="思路-6"><a href="#思路-6" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>直接用玩家角色蓝图中的“脚步声判断”函数来实现脚步功能</p>
-</li>
-<li><p>丧尸角色蓝图的事件图表中，事件开始运行时，获取actor的所有类，提升为变量“玩家蓝图实例”</p>
-</li>
-<li><p>添加两个箭头组件分别将其插槽设置到丧尸的左右脚</p>
-</li>
-<li><p>创建新事件图表“脚步声”，新建自定义事件“左脚步声”，“右脚步声”，分别调用玩家蓝图实例中的“脚步声判断”，并且将两个箭头组件作为参数传入</p>
-</li>
-<li><p>复制之前玩家的动画通知“Notif_RightFoot”和“Notif_LeftFoot”到丧尸文件夹并改为“Notif_ZombieRightFoot”和“Notif_ZombieLeftFoot”</p>
-<ul>
-<li>修改动画通知，将类型转换为“BP_Zombie”并分别调用左右脚步声</li>
-</ul>
-</li>
-<li><p>将动画通知添加到动画的合适位置</p>
-</li>
-</ol>
-<h1 id="随机丧尸模型和朝向"><a href="#随机丧尸模型和朝向" class="headerlink" title="随机丧尸模型和朝向"></a>随机丧尸模型和朝向</h1><h2 id="思路-7"><a href="#思路-7" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在丧尸角色蓝图中创建新图表“随机丧尸模型”</p>
-</li>
-<li><p>创建一个元素为骨骼网格体的数组“丧尸模型”，并向其中添加丧尸骨骼网格体元素</p>
-</li>
-<li><p>新建自定义事件“随机Zombie模型”，由网格体组件引出“设置骨骼网格体”</p>
-</li>
-<li><p>将“丧尸模型”在“范围内随机整数”传入到“设置骨骼网格体”</p>
-</li>
-<li><p>在事件图表的开始运行处调用“随机Zombie模型”事件</p>
-</li>
-<li><p>最后设置actor旋转，传入“范围内随机浮点”</p>
-</li>
-</ol>
-<h1 id="丧尸被击中动画和死亡系统"><a href="#丧尸被击中动画和死亡系统" class="headerlink" title="丧尸被击中动画和死亡系统"></a>丧尸被击中动画和死亡系统</h1><h2 id="知识点-4"><a href="#知识点-4" class="headerlink" title="知识点"></a>知识点</h2><h3 id="应用伤害"><a href="#应用伤害" class="headerlink" title="应用伤害"></a>应用伤害</h3><p>将伤害施加给“Damaged Actor”引脚传入的Actor</p>
-<h3 id="获取相关剩余动画的时间"><a href="#获取相关剩余动画的时间" class="headerlink" title="获取相关剩余动画的时间"></a>获取相关剩余动画的时间</h3><p>在动画蓝图中使用：字面意思</p>
-<h3 id="事件任意伤害"><a href="#事件任意伤害" class="headerlink" title="事件任意伤害"></a>事件任意伤害</h3><p>会响应并输出对此蓝图类造成的任何伤害信息</p>
-<p>和“应用伤害”属于配套的接口</p>
-<h2 id="思路-8"><a href="#思路-8" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在子弹事件蓝图中判断击中的是否为丧尸（类型转换为丧尸蓝图类）</p>
-</li>
-<li><p>类型转换成功则在击中部位生成血液飞溅例子特效和血色烟雾例子特效（在位置处生成发射器）</p>
-</li>
-<li><p>根据子弹的命中结果判断击中的骨骼是否为头部骨骼，如果是，则使用“应用伤害”节点施加更多的伤害，如果不是，则施加适量伤害</p>
-</li>
-<li><p>在击中位置“播放位置处音效”，连接上之前蓝图逻辑的序列，判断击中物体是否模拟物理</p>
-</li>
-<li><p>因为子弹的碰撞对象类型对丧尸的类型“pawn”是重叠的，不能造成影响，所以要将丧尸模型的碰撞对象类型修改为“PhysicalBody”，将丧尸胶囊体的碰撞预设的子弹进行忽略</p>
-</li>
-<li><p>添加丧尸被击中动画，在丧尸动画蓝图中的基础状态机中新增状态“被击中”，添加新的变量“是否被击中”，被击中判断逻辑为“是否被击中”为true，被击中返回基础状态逻辑为“获取相关剩余动画的时间”&lt;0.1</p>
-</li>
-<li><p>在被击中状态中添加动画，使用上下半身混合（每个骨骼的分层混合）base为丧尸的混合空间动画，blend posed 0为丧尸被击中动画（取消勾选循环播放）</p>
-</li>
-<li><p>在丧尸蓝图类中新建事件图表“事件任意伤害”，新建浮点型变量“丧尸血量”，将“事件任意伤害”传出的Damage引脚与“丧尸血量”相减之后再赋值给“丧尸血量”</p>
-</li>
-<li><p>判断丧尸血量是否&lt;&#x3D;0，true则死亡，false则播放被击中动画</p>
-</li>
-<li><p>再播放被击中动画之前要先判断丧尸是否在播放攻击动画</p>
-</li>
-<li><p>新建一个函数“通信到动画蓝图”，获取角色mesh的动画实例，再类型转换为Anim_Zombie，添加一个返回节点，将类型转换返回值输出</p>
-</li>
-<li><p>在“伤害检测和死亡系统”事件图表中调用“通信到动画蓝图”函数，引出“是否攻击”作为判断依据，false时设置“是否被击中”为true，延迟0.1s之后设置“是否被击中”为false</p>
-</li>
-<li><p>判断丧尸为死亡的时候使用“Do Once”设置丧尸网格体模拟物理，将其角色移动最大速度设置为0，并且将碰撞预设碰撞启用修改为“已启用碰撞（查询和物理）”</p>
-</li>
-<li><p>将丧尸的胶囊体的碰撞预设中忽略PhyscialBody</p>
-</li>
-<li><p>将丧尸的“是否死亡”设置为true，关闭胶囊体的碰撞，调用通信到动画蓝图函数之后设置“是否攻击”为false，判断“丧尸追逐音效”是否有效，true则销毁组件，同时序列“延迟10s”之后销毁actor</p>
-</li>
-<li><p>最后在丧尸脚步声事件图表中先判断丧尸是否死亡，未死王才能生成脚步声</p>
-</li>
-</ol>
-<h1 id="丧尸攻击范围检测"><a href="#丧尸攻击范围检测" class="headerlink" title="丧尸攻击范围检测"></a>丧尸攻击范围检测</h1><h2 id="知识点-5"><a href="#知识点-5" class="headerlink" title="知识点"></a>知识点</h2><h3 id="获取插槽位置"><a href="#获取插槽位置" class="headerlink" title="获取插槽位置"></a>获取插槽位置</h3><p>获取骨骼插槽位置信息</p>
-<h2 id="思路-9"><a href="#思路-9" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>丧尸角色蓝图中新建事件图表“攻击范围检测”，新建自定义事件“攻击范围”，使用“由通道检测球体”来检测丧尸的攻击范围</p>
-</li>
-<li><p>创建两个命名类型的变量“攻击检测起始骨骼”和“攻击检测终点骨骼”，并且调用网格体“获取插槽位置”，并将两个变量作为引脚传入</p>
-</li>
-<li><p>创建新的Actor类型变量“HitPlayer”，判断是否击中物体，再判断击中物体是否与“HitPlayer”相同，不相同才可继续操作（为了防止一个动画造成N次伤害）</p>
-</li>
-<li><p>接下来类型转换为BP_Player，重新保存“HitPlyaer”</p>
-</li>
-<li><p>使用“应用伤害”节点，然后“在位置处生成发射器”</p>
-</li>
-<li><p>创建动画通知，在动画通知中调用此事件</p>
-</li>
-<li><p>创建三个动画通知“Notif_ZombieBoneSettings”，“Notif_ZombieEndOfAttack”，“Notif_ZombieStartAttack”</p>
-</li>
-<li><p>在“Notif_ZombieStartAttack”中“以函数名设置定时器”调用自定义事件“攻击范围”</p>
-</li>
-<li><p>在“Notif_ZombieEndOfAttack”中“以函数名清除定时器”清除“攻击范围”函数，并且将“HitPlayer”设置为空</p>
-</li>
-<li><p>在“Notif_ZombieBoneSettings”中设置“攻击检测起始骨骼”和“攻击检测终点骨骼”分别为右手手肘和右手中指（因为攻击动画中是用右手攻击的）</p>
-</li>
-<li><p>在丧尸死亡之后清除攻击范围检测并且将HitPlayer设置为空，攻击玩家事件图表的最后（停止播放攻击动画）亦然</p>
-</li>
-<li><p>在丧尸攻击动画中的合适位置添加三个动画通知</p>
-</li>
-</ol>
-<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><ol>
-<li>在动画通知中“以函数名设置定时器”节点的Time引脚和Looping引脚需要设置（每Time秒调用一次该函数）</li>
-</ol>
-<h1 id="角色死亡系统"><a href="#角色死亡系统" class="headerlink" title="角色死亡系统"></a>角色死亡系统</h1><h2 id="知识点-6"><a href="#知识点-6" class="headerlink" title="知识点"></a>知识点</h2><h3 id="设置激活"><a href="#设置激活" class="headerlink" title="设置激活"></a>设置激活</h3><p>可以激活或者关闭某个组件</p>
-<h3 id="禁用移动"><a href="#禁用移动" class="headerlink" title="禁用移动"></a>禁用移动</h3><p>使用此节点可以使得角色移动组件不可移动</p>
-<h3 id="设置碰撞已启用"><a href="#设置碰撞已启用" class="headerlink" title="设置碰撞已启用"></a>设置碰撞已启用</h3><p>可以设置某组件碰撞类型（关闭&#x2F;查询&#x2F;物理）</p>
-<h3 id="set-post-process-setting"><a href="#set-post-process-setting" class="headerlink" title="set post process setting"></a>set post process setting</h3><p>可以设置摄像机后期盒子的一些参数</p>
-<p>拉住唯一的引脚”创建PostProcessSettings“</p>
-<h3 id="思路-10"><a href="#思路-10" class="headerlink" title="思路"></a>思路</h3><ol>
-<li><p>新建事件图表“死亡系统”，调用“事件任意伤害”，新建float变量“当前血量”默认值为100和“目标血量”默认值为0</p>
-</li>
-<li><p>用受到伤害量与当前血量相减，然后传给“目标血量”，用一个序列节点，第一个引脚链接一个时间轴“血量平滑过渡”的“Playe from start”，设置时间轴时长为0.5s，值为1</p>
-</li>
-<li><p>用“插值”节点，将当前血量到目标血量进行过渡，最后传给“当前血量”</p>
-</li>
-<li><p>序列节点的第二个引脚判断目标血量是否小于等于0，如果是，则使用Do Once将角色状态设置为死亡（前面的角色状态枚举中添加一个死亡状态）</p>
-</li>
-<li><p>开启角色模型的碰撞预设中的启用碰撞（查询和物理）并且调用模型“设置模拟物理”为true，碰撞对象类型为PhycialBody，忽略bullit碰撞，胶囊体的碰撞对于PhycialBody进行忽略</p>
-</li>
-<li><p>添加新的摄像机视角，实现死亡之后的视角</p>
-<ul>
-<li><p>在胶囊体之下添加一个新的弹簧臂组件（关闭碰撞，摄像机设置全部关闭）和新的摄像机组件（默认值激活为false）</p>
-</li>
-<li><p>将原本的摄像机使用“设置激活”为false，将新的摄像机设置为true</p>
-</li>
-<li><p>调用角色移动组件并且“禁用移动”</p>
-</li>
-<li><p>调用胶囊体组件并“设置碰撞已启用”为无碰撞</p>
-</li>
-</ul>
-</li>
-<li><p>使得武器自动掉落到地上</p>
-<ul>
-<li><p>武器父类新建事件图表“开启模拟物理”，并自定义事件“开启物理模拟“，使得武器模型”设置物理模拟“为true</p>
-</li>
-<li><p>设置武器模型的碰撞预设为自定义，碰撞启用为查询和物理，对象类型为WorldDynamic，并将PhycialBody和Bullet进行忽略</p>
-</li>
-<li><p>在角色蓝图死亡系统最后使用一个序列节点，分别判断主武器和副武器是否有效，若有效则使用”从Actor分离“后开启模拟物理</p>
-</li>
-</ul>
-</li>
-<li><p>实现视角从彩色变为黑白效果</p>
-<ul>
-<li><p>在原本的序列节点上加一个引脚，引出一个时间轴”拉长弹簧臂长度“，新建轨道之后使用插值从默认长度300到2000update给死亡后弹簧臂长度</p>
-</li>
-<li><p>调用死亡后摄像机组件“set post process setting”并且”创建set post process setting“将Saturation（饱和度）和Contrast（对比度）以及Intensity（强度）公开为引脚</p>
-</li>
-<li><p>在世界中放入后期处理盒子并使其无线范围</p>
-</li>
-<li><p>使用”插值“和”创建向量4“分别设置饱和度，对比度，强度（只用插值即可）</p>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="注意-1"><a href="#注意-1" class="headerlink" title="注意"></a>注意</h2><ol>
-<li>任意伤害事件更新血量的时候，不要把伤害量和当前血量减法位置弄错</li>
-</ol>
-<h1 id="玩家被击中动画"><a href="#玩家被击中动画" class="headerlink" title="玩家被击中动画"></a>玩家被击中动画</h1><h2 id="知识点-7"><a href="#知识点-7" class="headerlink" title="知识点"></a>知识点</h2><h3 id="客户端开始摄像机晃动"><a href="#客户端开始摄像机晃动" class="headerlink" title="客户端开始摄像机晃动"></a>客户端开始摄像机晃动</h3><p>玩家控制器的内置函数：字面意思</p>
-<h2 id="思路-11"><a href="#思路-11" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>四个被击中动画批量编辑RoorMotion-&gt;启用跟运动true-&gt;强制根锁定</p>
-</li>
-<li><p>给四个被击中动画创建为蒙太奇，并且修改插槽为Hit</p>
-</li>
-<li><p>将四个蒙太奇动画的混入和混出时间均修改为0.35</p>
-</li>
-<li><p>在角色蓝图动画中最外层添加插槽Hit（这个被击中动画优先级最高）</p>
-</li>
-<li><p>在角色蓝图中的死亡系统中，未死亡的情况下，先播放被击中音效，然后获取玩家控制器“客户端开始摄像机晃动”，接下来遍历玩家功能状态枚举，在“空白”，“跳跃”，“拾取物品”的时候可以“蒙太奇播放”</p>
-</li>
-<li><p>将蒙太奇输入引脚提升为变量，变为数组类型，将四个蒙太奇动画输入其中，然后在“范围内随机整数”下get</p>
-</li>
-</ol>
-<h1 id="玩家死亡之后丧尸随机移动"><a href="#玩家死亡之后丧尸随机移动" class="headerlink" title="玩家死亡之后丧尸随机移动"></a>玩家死亡之后丧尸随机移动</h1><h2 id="思路-12"><a href="#思路-12" class="headerlink" title="思路"></a>思路</h2><p>之前玩家死亡之后丧尸没有随机移动是因为玩家死亡后虽然将状态修改为死亡，但是在其他的蓝图中有不少定时器，会在一定时间内将玩家状态修改为空白</p>
+<h1 id="调试类"><a href="#调试类" class="headerlink" title="调试类"></a>调试类</h1><p>记得巫师三的控制台吗？就是这玩意，可以用来调试，也可以实现作弊功能</p>
 <ol>
-<li><p>在修改玩家状态为死亡之前添加一个“以函数名设置定时器”节点，每0.1秒循环</p>
-</li>
-<li><p>创建一个自定义事件“强制开启死亡”，将状态修改为死亡</p>
-</li>
-<li><p>函数名设置定时器“强制开启死亡”。这样就保证了玩家死亡之后每0.1秒都会将状态重置为死亡</p>
-</li>
-<li><p>在丧尸AI控制器中，类型转换为玩家角色之后，判断玩家状态是否为死亡，true则将黑板中的“是否看到玩家”设置为false，false则走原本的逻辑路线</p>
-</li>
-<li><p>在丧尸角色蓝图中的“发现玩家”事件图表中也做相同的操作</p>
-</li>
-</ol>
-<h1 id="优化-丧尸阻挡摄像机与死亡后音效关闭"><a href="#优化-丧尸阻挡摄像机与死亡后音效关闭" class="headerlink" title="优化-丧尸阻挡摄像机与死亡后音效关闭"></a>优化-丧尸阻挡摄像机与死亡后音效关闭</h1><ol>
-<li><p>将丧尸的胶囊体和网格体组件中均忽略摄像机组件</p>
-</li>
-<li><p>在丧尸死亡系统中最后将“丧尸追逐音效”使用“设置激活”为false</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/23/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%8B%BE%E5%8F%96%E7%B3%BB%E7%BB%9F%E5%8F%8A%E6%AD%A6%E5%99%A8%E5%88%87%E6%8D%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/06/23/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%8B%BE%E5%8F%96%E7%B3%BB%E7%BB%9F%E5%8F%8A%E6%AD%A6%E5%99%A8%E5%88%87%E6%8D%A2/" class="post-title-link" itemprop="url">UE4-项目-死寂-拾取系统及武器切换</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-06-23 11:44:39" itemprop="dateCreated datePublished" datetime="2022-06-23T11:44:39+08:00">2022-06-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-06-25 17:26:10" itemprop="dateModified" datetime="2022-06-25T17:26:10+08:00">2022-06-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="拾取物品高亮显示"><a href="#拾取物品高亮显示" class="headerlink" title="拾取物品高亮显示"></a>拾取物品高亮显示</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="蓝图接口"><a href="#蓝图接口" class="headerlink" title="蓝图接口"></a>蓝图接口</h3><p>一个集成了很多功能的函数，可以通过蓝图接口实现蓝图之间的通信</p>
-<h3 id="获取玩家摄像机管理器"><a href="#获取玩家摄像机管理器" class="headerlink" title="获取玩家摄像机管理器"></a>获取玩家摄像机管理器</h3><p>无论在第一人称或者第三人称状态下都可以返回摄像机相关的信息</p>
-<h3 id="添加返回节点"><a href="#添加返回节点" class="headerlink" title="添加返回节点"></a>添加返回节点</h3><p>在函数内使用，添加函数的返回值</p>
-<h3 id="获取有接口的所有actor"><a href="#获取有接口的所有actor" class="headerlink" title="获取有接口的所有actor"></a>获取有接口的所有actor</h3><p>选择一个接口，然后获取拥有该接口的所有actor</p>
-<h3 id="设置渲染自定义深度"><a href="#设置渲染自定义深度" class="headerlink" title="设置渲染自定义深度"></a>设置渲染自定义深度</h3><p>能够产生物体的描边效果</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>创建一个拾取物品列表“BP_PickUpItemsBase”</p>
-</li>
-<li><p>创建一个拾取物品蓝图接口”PickUpSystem”</p>
+<li><p>TowerDefence&#x2F;Source&#x2F;TowerDefence&#x2F;Public&#x2F;Debug</p>
 <ul>
-<li>新增三个函数“拾取物品”，“开启该光显示”，“关闭高光显示”</li>
-</ul>
-</li>
-<li><p>在“BP_PickUpItemsBase”中添加蓝图接口</p>
-</li>
-<li><p>在角色蓝图中添加函数“拾取范围检测”</p>
-<ul>
-<li><p>在一定范围内检测是否可以拾取</p>
-</li>
-<li><p>选择“由通道检测球体”来规定范围</p>
-</li>
-<li><p>起始点为摄像机位置</p>
-</li>
-<li><p>终点为摄像机往前（*向量）一定距离的位置（+向量）</p>
-</li>
-</ul>
-</li>
-<li><p>新增碰撞通道PickUp，默认设置为忽略（能拾取的物体再设置为阻挡）</p>
-</li>
-<li><p>设置“由通道检测球体”节点的检测通道</p>
-</li>
-<li><p>在“BP_PickUpItemsBase”的球体检测的碰撞属性中修改PickUp为阻挡</p>
-</li>
-<li><p>在角色蓝图中添加事件图表“拾取系统”</p>
-<ul>
-<li><p>添加actor类型的变量“检测到的物体”</p>
-</li>
-<li><p>调用“拾取范围检测”函数，判断是否检测到物体</p>
-</li>
-<li><p>判断检测到的物体是否为之前未检测到的物体（对同一个物体，高亮效果只执行一次）</p>
-</li>
-<li><p>判断检测到的物体是否有效（以免第一次使用的时候“检测到的物品”为空）</p>
-</li>
-<li><p>有效则关闭当前物体的高亮显示，将当前碰撞检测到的物体设置为“检测到的物品”，然后开启高亮显示</p>
-</li>
-<li><p>无效则将当前碰撞检测到的物体设置为“检测到的物品”，然后开启高亮显示</p>
-</li>
-<li><p>如果检测到物体不是可以拾取的，就要将之前识别到的高亮物体取消高亮</p>
-</li>
-<li><p>使用Do once节点关闭物体高亮（因为“拾取范围检测”是每帧都会执行一次的，我们不需要每帧都关闭，关闭一次即可）</p>
-</li>
-<li><p>当重新检测到能拾取的物体的时候重置do once（用序列节点实现）</p>
-</li>
-<li><p>关闭所有高亮显示使用“获取有接口的所有actor”</p>
-</li>
-<li><p>遍历获取到的actor，再调用“关闭高亮显示”节点，最后将“检测到的物品“重置为空</p>
-</li>
-</ul>
-</li>
-<li><p>在角色事件图表中每帧调用”拾取物品高亮显示“</p>
-</li>
-<li><p>在“BP_PickUpItemsBase”中定义蓝图接口中的三个函数</p>
-</li>
-<li><p>调用”设置渲染自定义深度“，并且在世界中放入”后期处理体积“来实现物体描边显示</p>
-<ul>
-<li><p>”后期处理体积“将无限范围为True</p>
-</li>
-<li><p>渲染功能的后期处理材质调用一个特定材质</p>
-</li>
+<li>创建以CheatManager为父类的C++类CommandLineManager</li>
 </ul>
 </li>
 </ol>
-<h1 id="拾取系统"><a href="#拾取系统" class="headerlink" title="拾取系统"></a>拾取系统</h1><h2 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h2><h3 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h3><p>和C++里面的没区别</p>
-<h3 id="固定在条目上重设"><a href="#固定在条目上重设" class="headerlink" title="固定在条目上重设"></a>固定在条目上重设</h3><p>状态机中状态的细节属性，勾选后可以使得每次播放动画都是从头开始播放（包括上一次动画如果被打断的话，下一次播放还是从头开始）</p>
-<h3 id="设置骨骼网格体"><a href="#设置骨骼网格体" class="headerlink" title="设置骨骼网格体"></a>设置骨骼网格体</h3><p>在”目标“的位置生成”new mesh“传入的骨骼网格体</p>
-<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>添加操作映射”拾取“，在角色蓝图中的”拾取系统“事件图表中调用</p>
-</li>
-<li><p>先判断角色状态是否为空白，或者是否瞄准（空白状态和瞄准状态均可拾取物品）</p>
-</li>
-<li><p>调用”拾取范围检测“节点，其返回值中的”Hit Actor“调用”拾取物品“</p>
-</li>
-<li><p>创建三个枚举”PickUpType“,”ClothType”,”WeaponType”来区分拾取到的物品类型，然后创建一个结构体，将其包含进去</p>
-</li>
-<li><p>结构体”Struct_PickUp“包含三个枚举之外，还包含骨骼网格体类型的”服饰模型“，Actor（类引用）类型的”拾取后生成的类“</p>
-</li>
-<li><p>将设置好的结构体作为变量添加到“BP_PickUpItemsBase”中</p>
-</li>
-<li><p>在角色蓝图的”拾取系统“事件图表中添加自定义事件”获取拾取信息并播放动画“,并且添加变量”拾取物品种类“，”武器种类“，”服饰种类“，”拾取后生成的类“，”服饰模型“</p>
-</li>
-<li><p>添加”获取拾取信息并播放动画“的输入”拾取物品信息“，类型为之前创建好的结构体</p>
-</li>
-<li><p>中断其命中结果，将五个引脚分别保存至刚创建的五个变量中</p>
-</li>
-<li><p>在“BP_PickUpItemsBase”中的事件图表实现和角色蓝图的通信，变量保存为”角色蓝图实例“</p>
-</li>
-<li><p>实现”拾取物品“事件：用角色蓝图实例调用”获取拾取信息并播放拾取动画“事件，传入PickUp变量，延迟0.4秒（播放完角色拾取动画）后销毁self</p>
-</li>
-<li><p>将角色功能状态枚举中新增一个”拾取物品“状态，在角色蓝图的”获取拾取信息并播放动画“事件中设置状态为”拾取物品“</p>
-</li>
-<li><p>在动画蓝图中添加新的变量”是否拾取“，在功能状态机中创建新的状态”拾取动画“，来去逻辑根据”是否拾取“决定</p>
-</li>
-<li><p>创建混合空间设置动画，水平坐标”站立蹲“，垂直坐标”持枪状态“</p>
-</li>
-<li><p>在”拾取动画“状态中调用混合空间，并且通过”每个骨骼的分层混合“节点进行混合</p>
-</li>
-<li><p>将”站立蹲“和”持枪状态“均提升为变量，然后在分别在动画蓝图的事件图表和角色蓝图类中的”装备武器“事件图表中设置</p>
-</li>
-<li><p>在角色蓝图中设置”是否拾取“为true，然后延迟0.4秒之后将其设置为false，并且将功能状态枚举修改为空白</p>
-</li>
-<li><p>在动画蓝图中的功能状态机中点击”拾取动画“，将其事件的”固定在条目上重设“</p>
-</li>
-<li><p>在角色蓝图类”拾取系统“中，延迟0.4秒之前用一个序列节点，同样延迟0.4秒，判断拾取物品种类-&gt;判断服饰种类&#x2F;判断武器种类</p>
-</li>
-<li><p>是背包的话，将角色模型中原本背包组件的位置作为目标，服饰模型作为参数”设置骨骼网格体“</p>
-</li>
-<li><p>在”BP_PickUp_BackBag”蓝图中设置变量”PickUp“，拾取种类设置为”服饰“，服饰模型设置为背包的模型</p>
-</li>
-<li><p>创建可以拾取的武器</p>
-<ul>
-<li><p>在角色蓝图的事件图表中将武器添加到角色身上的那一组逻辑剪切下来（角色一开始就没有武器在身上了）</p>
-</li>
-<li><p>创建一个新函数“生成主武器”，将之前剪切下来的粘贴进去</p>
-</li>
-<li><p>将从类生成actor的类传入之前定义的变量“拾取后生成的类”，将返回值转换为“BP_WeaponBase”，将武器实例的变量类型转换为“BP_WeaponBase”类型的</p>
-</li>
-<li><p>在拾取系统事件图表中调用“生成主武器”函数</p>
-</li>
-<li><p>以BP_PickUpItemsBase为父类生成子类“BP_PickUpAKM”，在其中设置其结构体的变量，特别是将拾取后生成的类修改为BP_Weapon_AKM</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="主副武器切换"><a href="#主副武器切换" class="headerlink" title="主副武器切换"></a>主副武器切换</h1><h2 id="知识点-2"><a href="#知识点-2" class="headerlink" title="知识点"></a>知识点</h2><h3 id="Blend"><a href="#Blend" class="headerlink" title="Blend"></a>Blend</h3><p>在动画蓝图中使用，和switch遍历方式一样，需要右键节点手动添加引脚</p>
-<p>可以根据遍历出的值的不同和输出不同的动画</p>
-<h3 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h3><p>一个选择节点，将下标改为bool类型之后即可根据引入判断值返回true引脚或者false引脚</p>
-<h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>修改之前与武器相关的变量名称，并添加一些变量名称，分别代表主副武器的实例，装备插槽，未装备插槽</p>
-</li>
-<li><p>在角色的骨骼中的合适位置添加虚拟骨骼插槽，并于角色蓝图中的新建变量和旧有变量进行绑定</p>
-</li>
-<li><p>复制“生成主武器”函数，并将其修改为“生成副武器”函数（需要修改其中的实例和插槽）</p>
-</li>
-<li><p>在拾取系统中分别调用“生成主武器”和“生成副武器”</p>
-<ul>
-<li><p>主武器实例无效时生成主武器，有效时生成副武器</p>
-</li>
-<li><p>副武器实例无效时生成副武器，有效时提醒“武器已满”</p>
-</li>
-</ul>
-</li>
-<li><p>在装备了背包之后需要修改主武器和副武器在背上的位置</p>
-<ul>
-<li><p>将主副武器未装备插槽的名称修改为虚拟骨骼对应的名称</p>
-</li>
-<li><p>判断是否拥有主副武器，判断是否装备了主副武器</p>
-</li>
-<li><p>未装备则使用“附加Actor到组件”节点，将主副武器实例附加到网格体的对应插槽位置上</p>
-</li>
-</ul>
-</li>
-<li><p>修改原本的装备武器动画通知为Notif_EquipMainWeaponAnimation和创建新的动画通知Notif_EquipSecondaryWeaponAnimation，并且将装备副武器动画通知中的主武器实例替换成副武器，主武器插槽也替换成副武器插槽</p>
-</li>
-<li><p>将之前装备武器的动画通知复制一下，在其中将装备主武器动画通知替换为装备副武器动画通知</p>
-</li>
-<li><p>在动画蓝图中新建WeaponType类型的变量“武器种类”，根据这个变量的值来播放不同的动画</p>
-</li>
-<li><p>在动画蓝图中的功能状态机的装备武器状态中调用Blend节点遍历“武器种类”，使得装备主武器动画和装备副武器动画进行选择输出</p>
-</li>
-<li><p>添加新的操作映射“主武器切换”1和“副武器切换”2</p>
-</li>
-<li><p>在“装备武器”事件图表中“判断是否持枪”的false之后需要修改“武器种类”为主武器</p>
-</li>
-<li><p>装备武器动画播放方向之后需要设置“是否装备主武器”为false和true</p>
-</li>
-<li><p>新建变量“是否可以主切换副”，“是否可以副切换主”</p>
-</li>
-<li><p>将主武器切换蓝图逻辑复制一下，替换为副武器切换，注意其中需要将武器种类修改为副武器，是否装备主武器修改为是否装备副武器，按键映射也需要修改，最后两者的时间轴用同一个即可，以免冲突</p>
-</li>
-<li><p>另外，在装备主武器之前还需要判断是否装备了副武器，如果未装备副武器，则可以直接装备主武器，如果已经装备了副武器，则需要将副武器收起来，然后再装备主武器</p>
-<ul>
-<li><p>创建一个自定义事件“收起副武器”链接到装备副武器的逻辑节点前</p>
-</li>
-<li><p>在主武器逻辑中“是否装备副武器”为true时调用“收起副武器”</p>
-</li>
-<li><p>于此同时需要创建一个自定义事件“副武器切换主武器”链接到主武器“是否持枪”之前</p>
-</li>
-<li><p>最后在副武器装备的蓝图逻辑中判断“是否可以副切换主”，为true时调用“副武器切换主武器”，并且延迟0.1秒之后将“是否可以副切换主”设置为false</p>
-</li>
-</ul>
-</li>
-<li><p>主武器切换为副武器同理创建“收起主武器”，“主武器切换副武器”事件即可</p>
-</li>
-<li><p>再切换主武器和副武器开头，还需要判断是否拥有主副武器，也就是判断主武器&#x2F;副武器实例是否有效，只有再拥有了武器的状态下才能切换武器</p>
-</li>
-<li><p>还需要做一个替换，在射击的时候，之前的蓝图节点中都写得是主武器的实例，如果不加上副武器，那么射击的时候，背在背上的主武器射击，手上的副武器就不动了</p>
-<ul>
-<li><p>在射击事件中，开始射击之前使用“选择”节点，将index修改为bool，以“是否装备主武器”为判断依据，分别返回主武器实例和副武器实例</p>
-</li>
-<li><p>根据查找引用，同样替换其他逻辑代码（射击，换弹，全自动半自动切换）</p>
-</li>
-</ul>
-</li>
-<li><p>新建枪械Scar的模型，子弹，弹匣，可拾取蓝图（复制AKM的之后修改细节，注意的是可拾取蓝图中生成的类需要替换成Scar的蓝图类）</p>
-</li>
-<li><p>将三个换弹的动画通知里面的主武器实例同上修改为以选择节点来判断的逻辑</p>
-</li>
-</ol>
-<h1 id="拾取多把武器替换功能"><a href="#拾取多把武器替换功能" class="headerlink" title="拾取多把武器替换功能"></a>拾取多把武器替换功能</h1><p>拾取第三把武器的时候将主武器丢弃，将新的武器安置在主武器的位置</p>
-<p>但是当手持主武器的时候，就替换副武器</p>
-<p>最后将替换下来的武器生成在脚下</p>
-<h2 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在拾取系统事件图表中创建自定义事件“替换武器”，在原本的“武器已满”位置调用“替换武器”事件图表</p>
-</li>
-<li><p>创建一个新函数“生成可拾取武器到地上”</p>
-<ul>
-<li><p>“由通道检测线条”，起始位置是actor位置，终点位置是actor往下500cm</p>
-</li>
-<li><p>用一个分支节点判断是否命中，中断检测结果，将其中的位置信息传入“由类生成actor”中</p>
-</li>
-<li><p>在武器父类中创建Actor类引用的变量“替换现有武器到地上”</p>
-</li>
-<li><p>在武器子类中分别设置“替换现有武器到地上”为对应武器的可拾取蓝图</p>
-</li>
-<li><p>以“是否装备副武器为判断依据”true输出主武器实例，false输出副武器实例，链接“替换现有武器到地上”，最后作为从类生成actor的类</p>
-</li>
-<li><p>在武器父类中创建新的事件图表“自己销毁”，创建新的自定义事件“自毁”，销毁武器，并且销毁弹匣</p>
-</li>
-<li><p>在角色蓝图的生成可拾取武器到地上函数中的选择输出的武器实例调用“自毁”事件</p>
-</li>
-<li><p>最后通过输出的武器实例来判断是主武器实例还是副武器实例，如果是主武器实例，则调用“生成主武器”；否则“生成副武器”</p>
-</li>
-</ul>
-</li>
-<li><p>在“替换武器”事件中调用“生成可拾取武器在地上”</p>
-</li>
-</ol>
-<h1 id="角色拾取服装系统"><a href="#角色拾取服装系统" class="headerlink" title="角色拾取服装系统"></a>角色拾取服装系统</h1><h2 id="思路-4"><a href="#思路-4" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在拾取系统内，判断服饰种类之后，添加背包之前，需要判断一下当前身上有没有背包</p>
-<ul>
-<li>将背包组件拖入，引出get skeletal mesh（获取骨骼网格体）判断是否为空（&#x3D;&#x3D;），如果为空，则可以直接生成背包，否则需要执行替换背包逻辑</li>
-</ul>
-</li>
-<li><p>创建一个Actor类引用类型的变量“生成可拾取的背包”，在上一节点为true时，set“生成可拾取的背包”，并将拾取物品信息中断，将拾取后生成的类引入</p>
-</li>
-<li><p>创建函数“生成可拾取服饰到地上”逻辑思路类似“生成可拾取武器到地上”，其中删除自毁逻辑和生成主副武器逻辑，将“从类生成actor”的class为函数的形式参数</p>
-</li>
-<li><p>在拾取系统中调用“生成可拾取服饰到地上”</p>
-<ul>
-<li><p>传入的参数为”生成可拾取的背包“，也就是之前旧的背包</p>
-</li>
-<li><p>下一个节点为”设置生成可拾取的背包“</p>
-</li>
-<li><p>也就是每次拾取到新背包之后，将旧背包生成到地上，在这之后，需要将现在背上的背包传入”生成可拾取的背包“变量里面</p>
-</li>
-</ul>
-</li>
-<li><p>在”BP_PickUp_Bag“里面的结构体中设置拾取后生成的类</p>
-</li>
-<li><p>创建一个透明的材质球，打开一个角色网格体将角色衣服之外的材质均替换为透明材质球，重命名为Cloth1</p>
-</li>
-<li><p>根据可拾取物品创建一个子类”BP_PickUpCloth1”设置其模型和类默认值中的”拾取后生成的类“等属性</p>
-</li>
-<li><p>在角色蓝图中新增骨骼网格体组件”衣服“，在其构造函数中将其传入到”设置总姿势组件“节点的“目标”引脚</p>
-</li>
-<li><p>在角色拾取系统中先判断角色是否穿衣服（和背包那边相同），然后设置角色网格体的材质（衣服材质）为透明【让这个角色看起来没有穿衣服】，后面的逻辑就和之前的背包逻辑一模一样了</p>
-</li>
-</ol>
-<h1 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h1><h2 id="切换全自动与半自动"><a href="#切换全自动与半自动" class="headerlink" title="切换全自动与半自动"></a>切换全自动与半自动</h2><p>在切换之前要判断是否装备武器，先判断主武器，再判断副武器，任意有一把就能切换，否则打印字符串“未装备武器，不能切换”</p>
-<h2 id="拾取系统中创建的变量"><a href="#拾取系统中创建的变量" class="headerlink" title="拾取系统中创建的变量"></a>拾取系统中创建的变量</h2><p>将之前创建了很多的变量全部用结构体代替</p>
-<p>将该事件的输入值“拾取物品信息”创建为一个变量，输入值传入变量中，在后面需要结构体中的变量的时候就将其调用</p>
-<h2 id="装备武器系统"><a href="#装备武器系统" class="headerlink" title="装备武器系统"></a>装备武器系统</h2><p>可以将相同的逻辑节点写到一个宏当中，根据情况的不同传入不同的参数即可</p>
-<h1 id="BUG小结"><a href="#BUG小结" class="headerlink" title="BUG小结"></a>BUG小结</h1><ol>
-<li>报错出现“无访问”的提示的时候就是引入的目标为空置，也就是没有赋值！此时就需要去检查一下引入的变量的赋值情况</li>
-</ol>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>最后的架构如下</p>
+<p><img src="D:\R_program\Blog\source_posts\UE4-项目-TowerDefence-游戏架构搭建\1.png"></p>
+<p><img src="D:\R_program\Blog\source_posts\UE4-项目-TowerDefence-游戏架构搭建\2.png"></p>
 
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/14/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2%E6%AD%A6%E5%99%A8%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%BA%8C%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/06/14/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2%E6%AD%A6%E5%99%A8%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%BA%8C%EF%BC%89/" class="post-title-link" itemprop="url">UE4-项目-死寂-角色武器系统（二）</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-06-14 16:20:40" itemprop="dateCreated datePublished" datetime="2022-06-14T16:20:40+08:00">2022-06-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-06-18 11:41:04" itemprop="dateModified" datetime="2022-06-18T11:41:04+08:00">2022-06-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="子弹击中设置，击中特效"><a href="#子弹击中设置，击中特效" class="headerlink" title="子弹击中设置，击中特效"></a>子弹击中设置，击中特效</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="发射物移动组件"><a href="#发射物移动组件" class="headerlink" title="发射物移动组件"></a>发射物移动组件</h3><p>此组件可给物体添加抛射线计算，使其有初始速度和弹道</p>
-<h3 id="事件命中"><a href="#事件命中" class="headerlink" title="事件命中"></a>事件命中</h3><p>当蓝图实例产生了碰撞之后，就会产生信息，此节点可将信息输出</p>
-<h3 id="贴花"><a href="#贴花" class="headerlink" title="贴花"></a>贴花</h3><p>在某位置产生贴花的时候，就可以覆盖原本位置的材质和图案（弹孔效果）</p>
-<p>当贴花材质完全垂直于原物体的表面的时候，才可以完整的显示出来（没有拉伸）</p>
-<h3 id="在位置处生成贴画"><a href="#在位置处生成贴画" class="headerlink" title="在位置处生成贴画"></a>在位置处生成贴画</h3><p>字面意思</p>
-<h3 id="物理材质"><a href="#物理材质" class="headerlink" title="物理材质"></a>物理材质</h3><p>通过物理材质可以实现任务走在不同材质的地面上产生不同的声音</p>
-<p>可以理解为一个标签，用来区分角色走在的材质表面具体是哪一种材质</p>
-<h3 id="物理表面类型"><a href="#物理表面类型" class="headerlink" title="物理表面类型"></a>物理表面类型</h3><p>辅助物理材质来使用，有了类型才能区分物理材质</p>
-<p>在项目设置-&gt;物理-&gt;物理表面即可新建和编辑</p>
-<h3 id="命中结果"><a href="#命中结果" class="headerlink" title="命中结果"></a>命中结果</h3><p>这是一个数据类型，代表的就是字面意思</p>
-<h3 id="中断命中结果"><a href="#中断命中结果" class="headerlink" title="中断命中结果"></a>中断命中结果</h3><p>这是一个节点，可以获取“命中结果”类型数据的信息（法线，位置，时间等等）</p>
-<h3 id="由通道检测球体"><a href="#由通道检测球体" class="headerlink" title="由通道检测球体"></a>由通道检测球体</h3><p>此节点和球形碰撞检测的“碰撞预设”中的“检测相应”相关。</p>
-<p>要想运用此节点，就需要创建新的碰撞检测通道，如果想要被检测到，就在节点设置中调用对应通道，并在球形碰撞检测的详情面板中调整为“阻挡”</p>
-<h3 id="获取表面类型"><a href="#获取表面类型" class="headerlink" title="获取表面类型"></a>获取表面类型</h3><p>是“由通道检测球体”的输出节点，由“Out Hit”引脚引出</p>
-<p>获取碰撞到的物体的表面材质，属性，类别等信息</p>
-<h3 id="物理材质-1"><a href="#物理材质-1" class="headerlink" title="物理材质"></a>物理材质</h3><p>新建-&gt;物理-&gt;物理材质</p>
-<p>可在其中修改物理属性-&gt;表面类型</p>
-<h3 id="在位置处生成发射器"><a href="#在位置处生成发射器" class="headerlink" title="在位置处生成发射器"></a>在位置处生成发射器</h3><p>在位置处生成一些粒子特效</p>
-<h3 id="为模拟物理现象"><a href="#为模拟物理现象" class="headerlink" title="为模拟物理现象"></a>为模拟物理现象</h3><p>由“事件命中”节点引出，用来判断被击中的物体是否开启模拟物理选项</p>
-<h3 id="添加冲量"><a href="#添加冲量" class="headerlink" title="添加冲量"></a>添加冲量</h3><p>由“事件命中”节点引出，给被击中的物体添加一个冲量，输入为一个向量“速度”</p>
-<h3 id="播放位置处的音效"><a href="#播放位置处的音效" class="headerlink" title="播放位置处的音效"></a>播放位置处的音效</h3><p>字面意思</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>要先创建一个子弹父类蓝图</p>
-<ul>
-<li><p>添加一个球形碰撞检测</p>
-</li>
-<li><p>添加一个“发射物移动组件”，并设置其速度属性</p>
-</li>
-</ul>
-</li>
-<li><p>给子弹新增一个碰撞通道，默认响应设置为Block</p>
-</li>
-<li><p>回到子弹父类蓝图中，设置碰撞预设</p>
-</li>
-<li><p>编辑子弹击中物体时的蓝图逻辑</p>
-<ul>
-<li>用“事件命中”和“在位置处生成贴花”生成弹孔效果</li>
-</ul>
-</li>
-<li><p>添加击中物体特效</p>
-<ul>
-<li>创建一个函数“击中物体特效”</li>
-<li>用“中断命中结果”，“由通道检测球体”，“获取表面类型”来编写逻辑</li>
-<li>最后用Switch来遍历获取到的表面类型，并“在位置处生成发射器”来生成例子特效</li>
-</ul>
-</li>
-<li><p>在事件图表中调用“击中物体特效”函数</p>
-</li>
-<li><p>还需要判断被子弹击中的物体是否有“模拟物理”的效果，如果有，就要给它们添加一个冲量</p>
-<ul>
-<li><p>在事件图表中的“事件命中”节点的“Other Comp”引脚引出“is Valid”判断是否击中其他组件（模型）</p>
-</li>
-<li><p>接着引出“为模拟物理现象”和“为模拟物理现象”来判断击中的目标是否模拟物理</p>
-</li>
-<li><p>用“添加冲量”为被击中的物体添加冲量</p>
-</li>
-<li><p>最后销毁子弹Actor</p>
-</li>
-</ul>
-</li>
-<li><p>添加子弹击中物体的音效</p>
-<ul>
-<li>“事件开始运行”节点引出“播放位置处的音效”，将音效提升为变量“武器音效”，并“获取Actor位置”</li>
-</ul>
-</li>
-<li><p>现在已经把通用父类的逻辑编辑好，如今根据父类创建一个蓝图子类“BP_AKM_Bullet”</p>
-<ul>
-<li><p>在眼睛图标那边点击显示继承的变量</p>
-</li>
-<li><p>设置“武器音效”</p>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
-<li><p>添加球形碰撞检测之后需要使其覆盖最上层的组件</p>
-</li>
-<li><p>如果要给子弹添加网格体，那就需要将子弹的碰撞预设改成NoCollision（因为碰撞是由球形碰撞盒子进行检测的）</p>
-</li>
-<li><p>碰撞预设设置为自定义的，并且碰撞启用“检测和物理”，并且碰撞相应得设置为阻挡（除了Pawn）</p>
-</li>
-<li><p>“由通道检测球体”节点需要创建碰撞检测通道，并绑定</p>
-</li>
-<li><p>销毁子弹的时候使用“序列”节点，并且放在“在位置处生成贴花”后面</p>
-</li>
-</ol>
-<h1 id="发射子弹"><a href="#发射子弹" class="headerlink" title="发射子弹"></a>发射子弹</h1><h2 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h2><h3 id="获取插槽变换"><a href="#获取插槽变换" class="headerlink" title="获取插槽变换"></a>获取插槽变换</h3><p>由一个拥有骨骼的组件（静态网格体组件）引出，即可获得虚拟插槽的位置信息</p>
-<h3 id="箭头组件"><a href="#箭头组件" class="headerlink" title="箭头组件"></a>箭头组件</h3><p>一个游戏中看不见的箭头，可根据箭头位置生成抛壳特效</p>
-<h3 id="以事件设置定时器"><a href="#以事件设置定时器" class="headerlink" title="以事件设置定时器"></a>以事件设置定时器</h3><p>和之前的以函数名设置定时器差不多，是倒计时结束之后就开始执行引入的事件</p>
-<h3 id="以句柄清除定时器并使之无效"><a href="#以句柄清除定时器并使之无效" class="headerlink" title="以句柄清除定时器并使之无效"></a>以句柄清除定时器并使之无效</h3><p>就是清除定时器的意思，但是注意的是，引入引脚需要是“要清除定时器”的返回值</p>
-<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在武器基类蓝图中添加三个自定义事件“射击中”，“开始射击”，“停止射击”</p>
-</li>
-<li><p>射击中状态，是不断有子弹从枪口位置生成的</p>
-<ul>
-<li><p>生成子弹由“从类生成Actor”解决</p>
-</li>
-<li><p>生成位置，首先在枪口处创建一个虚拟骨骼，然后由“获取插槽变换”来获取其位置</p>
-</li>
-</ul>
-</li>
-<li><p>射击状态，会有抛弹壳的特效</p>
-<ul>
-<li><p>使用节点“在位置处生成发射器”来实现抛壳特效</p>
-</li>
-<li><p>创建一个箭头组件，特效生成位置根据此箭头组件位置调整</p>
-</li>
-</ul>
-</li>
-<li><p>另外还有枪口的火焰特效</p>
-<ul>
-<li><p>用“在位置处生成发射器”生成粒子特效</p>
-</li>
-<li><p>用枪口的虚拟骨骼位置确定生成位置</p>
-</li>
-</ul>
-</li>
-<li><p>最后需要设置开枪时候武器的动画（枪栓的移动）</p>
-<ul>
-<li><p>创建一个“动画序列”类型的变量“武器动画”</p>
-</li>
-<li><p>用“播放动画”节点选择目标和要播放的动画</p>
-</li>
-</ul>
-</li>
-<li><p>接下来是实现“开始射击”</p>
-<ul>
-<li><p>通过“以事件设置定时器”来调用“射击中”事件</p>
-</li>
-<li><p>将延迟时间，也就是“Time”引脚提升为变量，命名为“射速”</p>
-</li>
-<li><p>在执行定时器之前还需要先调用一次“射击中”事件，否则开第一枪会有“射速”的延迟</p>
-</li>
-<li><p>最后给定时器勾选“Looping”</p>
-</li>
-</ul>
-</li>
-<li><p>停止射击</p>
-<ul>
-<li>在“开始射击”的“以事件设置定时器”的返回值引出“以句柄清除定时器并使之无效”节点，即可停止射击</li>
-</ul>
-</li>
-<li><p>在武器子类中设置在父类中创建的变量</p>
-</li>
-<li><p>在角色蓝图类的“射击”事件图表中调用“武器实例”的“开始射击”和“停止射击”节点</p>
-</li>
-</ol>
-<h1 id="弹壳落地音效"><a href="#弹壳落地音效" class="headerlink" title="弹壳落地音效"></a>弹壳落地音效</h1><h2 id="知识点-2"><a href="#知识点-2" class="headerlink" title="知识点"></a>知识点</h2><h3 id="音效Cue"><a href="#音效Cue" class="headerlink" title="音效Cue"></a>音效Cue</h3><p>专门针对音效的一种蓝图</p>
-<h3 id="随机"><a href="#随机" class="headerlink" title="随机"></a>随机</h3><p>音效Cue中的一个节点，随机播放输入的音效</p>
-<h3 id="调制器"><a href="#调制器" class="headerlink" title="调制器"></a>调制器</h3><p>音效Cue中的一个节点，可以在一定范围内随机音量和音高</p>
-<h3 id="衰减"><a href="#衰减" class="headerlink" title="衰减"></a>衰减</h3><p>音效Cue中的属性设置，可以使得声音拥有距离感和方向感</p>
-<h3 id="分配On-Particle-Collide"><a href="#分配On-Particle-Collide" class="headerlink" title="分配On Particle Collide"></a>分配On Particle Collide</h3><p>当例子特效碰到其他物体的时候，就会触发此事件</p>
-<h3 id="Do-N"><a href="#Do-N" class="headerlink" title="Do N"></a>Do N</h3><p>此节点设置某事件可执行N次</p>
-<h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>设置音效本身，根据音效创建Cue，然后使得同种类型的三个音效随机播放（为了显得真实，不那么单调）</p>
-</li>
-<li><p>在武器基类中调用音效</p>
-<ul>
-<li><p>在实现抛壳特效后面使用分支节点，链接“分配On Particle Collide”</p>
-</li>
-<li><p>用“Do N”节点，在执行第三次的时候播放结束音效，“延迟”0.5秒之后再重置“Do N”节点</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="角色装备武器音效"><a href="#角色装备武器音效" class="headerlink" title="角色装备武器音效"></a>角色装备武器音效</h1><h2 id="知识点-3"><a href="#知识点-3" class="headerlink" title="知识点"></a>知识点</h2><h3 id="播放音效2D"><a href="#播放音效2D" class="headerlink" title="播放音效2D"></a>播放音效2D</h3><p>播放一个没有空间感，距离感的音效（就很平面）</p>
-<h2 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在角色蓝图中“瞄准状态切换”事件图表中添加“播放音效2D”来设置音效</p>
-</li>
-<li><p>需要修改之前的瞄准和射击事件中的切换状态，以免多次播放音效</p>
-<ul>
-<li><p>在松开瞄准和松开射击的引脚后都需要判断角色是否持枪</p>
-</li>
-<li><p>在瞄准更改弹簧臂长度之前需要判断角色是否瞄准</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="角色跳跃音效"><a href="#角色跳跃音效" class="headerlink" title="角色跳跃音效"></a>角色跳跃音效</h1><h2 id="思路-4"><a href="#思路-4" class="headerlink" title="思路"></a>思路</h2><ol>
-<li>在角色蓝图“跳跃的动画和高度设置”函数内，蒙太奇播放节点前添加“播放音效2D”</li>
-</ol>
-<h1 id="武器全自动和半自动切换"><a href="#武器全自动和半自动切换" class="headerlink" title="武器全自动和半自动切换"></a>武器全自动和半自动切换</h1><h2 id="思路-5"><a href="#思路-5" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>添加一个按键映射“切换全自动”，按键设置为B</p>
-</li>
-<li><p>在武器基类蓝图中新建变量“是否全自动”，并在定时器之前判断</p>
-</li>
-<li><p>在角色蓝图中创建新图表“全自动和半自动切换”</p>
-<ul>
-<li>修改武器蓝图中的“是否全自动”值</li>
-</ul>
-</li>
-<li><p>在角色射击时切换全自动或半自动需要停止射击</p>
-<ul>
-<li><p>在射击事件图表中，停止松开鼠标停止射击那一串逻辑，在之前添加一个自定义事件“停止射击”，将其包含进去</p>
-</li>
-<li><p>在切换全自动&#x2F;半自动状态后面调用“停止射击”事件</p>
-</li>
-</ul>
-</li>
-<li><p>全自动和半自动之间的切换取决于角色的操作，但是全自动于半自动之间的表现取决于枪支的动画表现，所以在此我们需要将角色蓝图中设置的全自动于半自动切换引到武器蓝图当中去</p>
-<ul>
-<li><p>在武器基类中实现和角色蓝图之间的通信（获取类所有Actor）</p>
-</li>
-<li><p>在武器蓝图“射击”图表中“停止射击”后判断了“是否全自动”，true连接了循环播放动画</p>
-</li>
-<li><p>那么false链接上角色蓝图中的“停止射击”事件</p>
-</li>
-<li><p>与此同时，如果直接“停止射击”，则不会播放射击时的角色动画（后坐力动画），所以需要延迟0.1秒之后再“停止射击”</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="武器后坐力（枪口向上偏移）"><a href="#武器后坐力（枪口向上偏移）" class="headerlink" title="武器后坐力（枪口向上偏移）"></a>武器后坐力（枪口向上偏移）</h1><h2 id="知识点-4"><a href="#知识点-4" class="headerlink" title="知识点"></a>知识点</h2><h3 id="范围内随机浮点"><a href="#范围内随机浮点" class="headerlink" title="范围内随机浮点"></a>范围内随机浮点</h3><p>就是在一定范围内随机取浮点数</p>
-<h2 id="思路-6"><a href="#思路-6" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>实现后坐力的效果就是使得玩家的控制器不受玩家控制得向上偏移，有两个需要注意的点</p>
-<ul>
-<li><p>获得玩家控制器，也就是“获取玩家Pawn”</p>
-</li>
-<li><p>控制器向上偏移，也就是之前用于控制玩家视口转向的节点“添加控制器Pitch输入”</p>
-</li>
-<li><p>那么再武器基类蓝图中新建一个事件图表“武器后坐力”，然后新建一个自定义事件，通过“获取玩家Pawn”节点调用“添加控制器Pitch输入”</p>
-</li>
-<li><p>然后需要将“添加控制器Pitch输入”的val设置为<mark>-0.4</mark>（后面会提升为变量使用）</p>
-</li>
-</ul>
-</li>
-<li><p>创建好后坐力之后需要在“射击”图表中调用“后坐力事件”</p>
-</li>
-<li><p>接下来是动画效果的优化，如果不进行这一步的话，动画效果感觉一抽一抽的</p>
-<ul>
-<li><p>用时间轴来解决这个问题</p>
-</li>
-<li><p>添加一个自定义事件“后坐力回弹”</p>
-</li>
-<li><p>添加一个时间轴</p>
-</li>
-<li><p>两个自定义事件分别链接上“play from start”和”Reverse”</p>
-</li>
-<li><p>在finish引脚处调用“后坐力回弹”</p>
-</li>
-<li><p>创建时间轴轨道，三个关键帧分别为(0,0)，(0.02,1)，(0.1,0)</p>
-</li>
-<li><p>新建浮点型变量”后坐力pitch”和“后坐力Yaw”</p>
-</li>
-<li><p>时间轴轨道引出”插值”节点，连接上“Alpha”引脚，“后坐力Picth”连接上B引脚</p>
-</li>
-<li><p>返回值乘以-1后链接上“添加控制器Pitch”的val引脚</p>
-</li>
-<li><p>时间轴的Direction引脚引出“switch”节点，快进引脚链接上未乘以-1的“添加玩家控制器pitch”，快退链接上另一个</p>
-</li>
-<li><p>除了向上后坐力，还有左右偏移</p>
-</li>
-<li><p>在末尾连上“添加控制器Yaw输入”，val引脚链接“Yaw”乘以-1之后“范围内随机浮点”的值</p>
-</li>
-</ul>
-</li>
-<li><p>在父类中添加了“后坐力Pitch”和“后坐力Yaw”，还需要再子类中设置其具体的值</p>
-</li>
-</ol>
-<h1 id="角色换弹动画及音效"><a href="#角色换弹动画及音效" class="headerlink" title="角色换弹动画及音效"></a>角色换弹动画及音效</h1><h2 id="知识点-5"><a href="#知识点-5" class="headerlink" title="知识点"></a>知识点</h2><h3 id="Do-Once"><a href="#Do-Once" class="headerlink" title="Do Once"></a>Do Once</h3><p>和Do N差不多，字面意思啦！</p>
-<h3 id="旋转浮点"><a href="#旋转浮点" class="headerlink" title="旋转浮点"></a>旋转浮点</h3><p>根据bool值来进行输出</p>
-<p>若true则输出A引脚的值</p>
-<p>若false则输出B引脚的值</p>
-<h2 id="思路-7"><a href="#思路-7" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>创建三个整数型变量“子弹数量”，“弹夹数量”，“子弹总数量”</p>
-</li>
-<li><p>在子弹消耗完之后就不可以继续开枪，所以在武器蓝图中的“射击”图表中，“射击中”的开端需要判断子弹数量是否为0，如果为0，则停止播放音效，也停止角色射击动画；如果不为零，则继续射击</p>
-<ul>
-<li><p>需要使用到“Do Once”和“序列”节点进行配合</p>
-</li>
-<li><p>“Do Once”用来执行一次“子弹耗尽音效”和“停止射击”</p>
-</li>
-<li><p>“序列”用来在换弹之后去Reset“Do Once”节点</p>
-</li>
-</ul>
-</li>
-<li><p>换弹操作是由角色控制的，所以在操作映射中添加一个换弹操作“R”，然后再角色蓝图中新增一个事件图表“换弹”</p>
-<ul>
-<li><p>判断角色是否持枪，是否在执行其他状态（判断方法同角色射击蓝图）</p>
-</li>
-<li><p>判断子弹数量是否大于子弹总数量（弹夹内子弹数量），false则可以换弹</p>
-</li>
-<li><p>判断弹夹数量是否小于等于0，false则可以换弹</p>
-</li>
-<li><p>还需要更改枚举值的功能状态（枚举中新增一个功能状态“换弹”）</p>
-</li>
-<li><p>换弹时需要停止射击</p>
-</li>
-</ul>
-</li>
-<li><p>设置换弹动画</p>
-<ul>
-<li><p>找到换弹动画序列，将其取消根节点运动，提升为蒙太奇动画，设置好插槽“换弹”</p>
-</li>
-<li><p>在动画蓝图中“功能状态机”里添加新的状态“换弹”，添加变量“是否换弹”用于切换状态</p>
-</li>
-<li><p>在“换弹”状态中调用“换弹”插槽，和“总状态缓存”，以“每个骨骼的分层混合”来进行半身混合设置</p>
-</li>
-</ul>
-</li>
-<li><p>调用换弹动画</p>
-<ul>
-<li><p>在角色蓝图的“换弹”，停止射击之后切换“是否换弹”，然后调用蒙太奇播放来播放蒙太奇动画</p>
-</li>
-<li><p>延迟之后将“是否换弹”切换回来，再设置状态为空白</p>
-</li>
-</ul>
-</li>
-<li><p>在AKM中设置“子弹数量”，“子弹总数量”，“弹夹数量”</p>
-</li>
-<li><p>在武器基类蓝图中添加“子弹减少”的功能</p>
-<ul>
-<li>在武器基类蓝图的最末尾，子弹数量“–”</li>
-</ul>
-</li>
-<li><p>子弹射击完之后需要有一个子弹耗尽的音效</p>
-<ul>
-<li><p>在角色蓝图类中判断了是否持枪以及自身枚举状态之后，判断子弹数量是否为零</p>
-</li>
-<li><p>若不为零，则继续正常射击</p>
-</li>
-<li><p>若为零，则播放子弹耗尽音效</p>
-</li>
-</ul>
-</li>
-<li><p>换弹状态不能被射击的“停止瞄准”事件的定时器将状态切换为空白</p>
-<ul>
-<li><p>所以将其“停止射击”事件修改一下</p>
-</li>
-<li><p>如果“是否换弹”为false，才可以将状态修改为空白</p>
-</li>
-<li><p>同样，瞄准状态也是一样的处理方式</p>
-</li>
-</ul>
-</li>
-<li><p>换弹的时候角色速度应该没那么快，所以需要在“角色速度判断”函数中修改</p>
-<ul>
-<li>使用以“是否换弹”为判断条件的“旋转浮点”</li>
-</ul>
-</li>
-</ol>
-<h1 id="弹夹附加到手上及丢弃"><a href="#弹夹附加到手上及丢弃" class="headerlink" title="弹夹附加到手上及丢弃"></a>弹夹附加到手上及丢弃</h1><h2 id="知识点-6"><a href="#知识点-6" class="headerlink" title="知识点"></a>知识点</h2><h3 id="动画通知"><a href="#动画通知" class="headerlink" title="动画通知"></a>动画通知</h3><p>之前在拔枪那一节中运用过</p>
-<p>动画通知&#x3D;函数</p>
-<p>动画的某一帧调用函数</p>
-<h3 id="从Actor分离"><a href="#从Actor分离" class="headerlink" title="从Actor分离"></a>从Actor分离</h3><p>字面意思啦！</p>
-<h2 id="思路-8"><a href="#思路-8" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>三个动画通知</p>
-<ul>
-<li><p>把弹夹从枪械上拔下来（弹夹从跟随枪械运动变为跟随手运动，延迟之后松开弹夹使其掉落到地上）</p>
-</li>
-<li><p>生成一个新的弹夹拿出来（生成新弹夹，附加到手部并跟随运动）</p>
-</li>
-<li><p>把弹夹插到枪械上（弹夹运动到靠近枪械位置之后，附加到枪械上）</p>
-</li>
-</ul>
-</li>
-<li><p>创建动画通知，并添加到动画中</p>
-<ul>
-<li><p>创建弹夹掉落，换弹结束，生成弹夹三个通知</p>
-</li>
-<li><p>在动画序列中新建一个通知轨道，将三个通知放入合适的位置</p>
-</li>
-</ul>
-</li>
-<li><p>创建弹匣基类</p>
-<ul>
-<li><p>创建一个Actor蓝图类取名为“BP_MagazineBase”作为弹匣基类</p>
-<ul>
-<li><p>添加静态网格体组件</p>
-</li>
-<li><p>设置碰撞预设为自定义，碰撞启用设置为查询和物理，对象类型设置为物理类型（忽略pawn的碰撞响应，不然会卡碰撞）</p>
-</li>
-</ul>
-</li>
-<li><p>在武器基类蓝图中的“事件图表”中使用“序列”节点的第二个引脚</p>
-<ul>
-<li><p>从类生成Actor，将类提升为变量“弹匣”，返回值提升为变量“弹匣引用”</p>
-</li>
-<li><p>“创建变换”节点引入位置信息</p>
-</li>
-</ul>
-</li>
-<li><p>“附加Actor到组件”节点将弹匣引用附加到武器模型上</p>
-</li>
-</ul>
-</li>
-<li><p>在子类中设置具体需要附加到的弹匣是哪一个</p>
-<ul>
-<li>以“BP_MagazineBase”为父类创建子类“BP_AKM_Magazine”，设置具体模型</li>
-</ul>
-</li>
-<li><p>弹匣分离</p>
-<ul>
-<li><p>在弹匣父类中创建自定义事件“弹匣分离”</p>
-</li>
-<li><p>使用“从Actor分离”节点，“模拟物理”节点，”延迟“节点，“销毁”节点</p>
-</li>
-</ul>
-</li>
-<li><p>调用弹匣分离</p>
-<ul>
-<li><p>在武器基类蓝图中创建新图表“换弹”</p>
-</li>
-<li><p>添加三个自定义事件“拔下弹匣”，“生成新弹匣”，“换弹结束”</p>
-</li>
-<li><p>”拔下弹匣“事件将”弹匣引用“从角色蓝图的网格体上“附加Actor到组件”（将弹匣附加到角色的手上）</p>
-</li>
-<li><p>编辑“附加Actor到组件”节点，在角色骨骼的手上创建插槽，编辑好插槽位置之后将其名称填写到节点的Socket Name引脚上</p>
-</li>
-<li><p>延迟0.1秒之后将“弹匣引用”转换为“BP_MagazineBase”，调用“弹匣分离”</p>
-</li>
-<li><p>最后在动画通知“Notif_ClipDroppedAnimation”中调用角色蓝图中的“武器实例”，再调用“弹匣分离”</p>
-</li>
-</ul>
-</li>
-<li><p>生成新弹匣</p>
-<ul>
-<li><p>从弹匣类生成Actor，然后将其附加到组件</p>
-</li>
-<li><p>需要将弹匣数量–</p>
-</li>
-<li><p>最后在动画通知中调用</p>
-</li>
-</ul>
-</li>
-<li><p>换弹结束</p>
-<ul>
-<li><p>将弹匣引用附加到武器实例上，还需要将子弹数量设置为子弹总数量（一个弹匣中的子弹数量）</p>
-</li>
-<li><p>在动画通知中调用</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="角色脚步声音效"><a href="#角色脚步声音效" class="headerlink" title="角色脚步声音效"></a>角色脚步声音效</h1><h2 id="知识点-7"><a href="#知识点-7" class="headerlink" title="知识点"></a>知识点</h2><h3 id="由通道检测线条"><a href="#由通道检测线条" class="headerlink" title="由通道检测线条"></a>由通道检测线条</h3><p>将沿给定线条执行碰撞追踪，并返回所有遭遇的命中，直到并包含首次阻挡命中，只返回对特定追踪通道响应的对象。</p>
-<p>这就意味着追踪的开始和结束之间有多个带碰撞的Actor 或 组件 与特定的追踪通道发生重叠，而您将接收到所有的 Actor 和组件。</p>
-<p>但是，如果首次命中阻挡了特定的追踪通道，则只会接收到这一个内容。</p>
-<p>如希望无视追踪通道的重叠或阻挡接受所有内容，则需要使用MultiLineTraceByObject 节点</p>
-<h2 id="思路-9"><a href="#思路-9" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>用Cue制作各自类型的脚步声</p>
-</li>
-<li><p>给角色网格体添加两个箭头组件，分别为“左脚”，“右脚”，并附加到相应骨骼位置</p>
-</li>
-<li><p>创建一个函数“脚步声判断”</p>
-<ul>
-<li><p>添加场景组件类型的输入“哪只脚”，获取其“场景位置”</p>
-</li>
-<li><p>根据“由通道检测线条”节点，起始点为箭头位置，终点为箭头向下50cm（向量-向量）位置</p>
-</li>
-<li><p>判断是否由返回值，若有，则“获取表面类型”，switch，再“中断命中结果”获取位置信息</p>
-</li>
-<li><p>根据位置信息播放不同的音效“播放位置处的音效”</p>
-</li>
-</ul>
-</li>
-<li><p>调用“脚步声判断”函数</p>
-<ul>
-<li><p>新建事件图表“脚步声”</p>
-</li>
-<li><p>新建自定义事件“左脚步声”，“右脚步声”，分别调用函数，参数分别传入“左脚”以及“右脚”</p>
-</li>
-</ul>
-</li>
-<li><p>创建动画通知调用“脚步声”事件</p>
-<ul>
-<li><p>创建左脚，右脚脚步声动画通知</p>
-</li>
-<li><p>”获取拥有者“，转换为BP_Player，分别调用“左脚步声”，“右脚步声”</p>
-</li>
-</ul>
-</li>
-<li><p>最后将动画通知添加到所有和脚步声有关的动画中去</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/09/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2%E6%AD%A6%E5%99%A8%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B8%80%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/06/09/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2%E6%AD%A6%E5%99%A8%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B8%80%EF%BC%89/" class="post-title-link" itemprop="url">UE4-项目-死寂-角色武器系统（一）</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-06-09 10:09:48" itemprop="dateCreated datePublished" datetime="2022-06-09T10:09:48+08:00">2022-06-09</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-06-14 16:21:08" itemprop="dateModified" datetime="2022-06-14T16:21:08+08:00">2022-06-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="持枪动画切换"><a href="#持枪动画切换" class="headerlink" title="持枪动画切换"></a>持枪动画切换</h1><p>这一部分的主要目标是实现持枪动画的切换</p>
-<ol>
-<li><p>实现角色本身的持枪姿势切换</p>
-</li>
-<li><p>实现角色从默认状态到持枪之间的切换状态（也就是抽枪动画）</p>
-</li>
-</ol>
-<h1 id="角色本身持枪姿势切换"><a href="#角色本身持枪姿势切换" class="headerlink" title="角色本身持枪姿势切换"></a>角色本身持枪姿势切换</h1><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>给基础状态机添加一个缓存，此时，基础状态机就能同步在其他位置被调用了</p>
-</li>
-<li><p>编辑基础状态机的基础姿势，在其中添加持枪切换动画（混合空间1D）</p>
-</li>
-<li><p>添加一个新的功能状态机，在其中使用基础状态机的缓存姿势</p>
-</li>
-</ol>
-<h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="保存新的缓存姿势"><a href="#保存新的缓存姿势" class="headerlink" title="保存新的缓存姿势"></a>保存新的缓存姿势</h3><p>此节点可将状态机进行实时备份，相当于让其多了一个分身。</p>
-<p>有了此缓存之后，便可在其他位置添加“使用缓存姿势”节点，即可引用原状态机，并对其进行编辑操作</p>
-<h3 id="使用缓存姿势"><a href="#使用缓存姿势" class="headerlink" title="使用缓存姿势"></a>使用缓存姿势</h3><p>此节点为上一个节点的引用，可以这样理解：</p>
-<ul>
-<li><p><strong>保存新的缓存姿势</strong>是声明并定义函数</p>
-</li>
-<li><p><strong>使用缓存姿势</strong>是调用函数</p>
-</li>
-</ul>
-<h2 id="实现大致步骤"><a href="#实现大致步骤" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h2><ol>
-<li><p>创建混合空间1D“WeaponRealse”表示放松状态下的持枪走路-&gt;奔跑状态的切换，并且合理设置最大轴值以及网格区分数量还有采样插值</p>
-</li>
-<li><p>打开动画蓝图，事件图标，将原本的“瞄准偏移”相关的节点全选，右键“折叠到函数”</p>
-<ul>
-<li><p>命名为“瞄准偏移计算”</p>
-</li>
-<li><p>编辑函数，有两个输入值，但其实只需要将其合并为一个</p>
-<ul>
-<li>因为函数内的两个输入节点，都是“尝试获取Pawn拥有者”节点的输出节点</li>
-</ul>
-</li>
-<li><p>右键函数节点，刷新</p>
-</li>
-</ul>
-</li>
-<li><p>打开动画状态图表，对状态机进行一定的修改</p>
-<ul>
-<li><p>基础状态机-&gt;“保存新的缓存姿势”并命名为“基础状态机缓存”</p>
-</li>
-<li><p>新建状态机“功能状态机”，代替“基础状态机”接入“插槽跳跃”</p>
-</li>
-</ul>
-</li>
-<li><p>编辑“功能状态机”</p>
-<ul>
-<li><p>添加新状态“基础状态”</p>
-</li>
-<li><p>编辑“基础状态”，添加“使用缓存姿势“基础状态机缓存””，连接到输出动画姿势</p>
-</li>
-</ul>
-</li>
-<li><p>编辑基础状态机中的基础姿势，将武器切换的基础逻辑添加进去</p>
-<ul>
-<li><p>创建一个新bool变量“是否持枪”默认为false</p>
-</li>
-<li><p>创建一个“按布尔混合姿势”节点，将“是否持枪”连接上</p>
-</li>
-<li><p>false姿势链接以“是否蹲伏”为条件的“按布尔混合姿势”节点</p>
-</li>
-<li><p>true姿势链接刚刚创建的混合空间1D“WeaponRealse”，并连接变量“速度”</p>
-</li>
-<li><p>最后输出链接“输出动画姿势”</p>
-</li>
-</ul>
-</li>
-<li><p>在前面声明了“是否持枪”这个变量，现在，我们需要在<strong>角色蓝图</strong>中对其定义</p>
-<ul>
-<li><p>新建事件图表“装备武器”</p>
-</li>
-<li><p>键盘 1作为事件，链接“分支节点”</p>
-</li>
-<li><p>用动画蓝图节点引出“是否持枪”节点，作为“分支”节点的输入</p>
-</li>
-<li><p>true则设置“是否持枪”为false</p>
-</li>
-<li><p>false则设置“是否持枪”为true</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="装备武器姿势动画实现"><a href="#装备武器姿势动画实现" class="headerlink" title="装备武器姿势动画实现"></a>装备武器姿势动画实现</h1><p>从默认状态到持枪状态之间，是把枪从背后抽出来的，我们现在就要实现这个抽枪和收抢的效果</p>
-<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在功能状态机中创建新的“装备武器状态”，和基础状态之间进行切换，达到拔枪和收枪的动画效果</p>
-</li>
-<li><p>拔枪和收枪动画就是正向播放和反向播放的区别，设置该动画的<strong>播放速率</strong>（公开为引脚，并且提升为变量）</p>
-</li>
-<li><p>然后拔枪动画还得设置“<strong>循环动画</strong>”为false，不然一直会循环播放，当动画不循环播放之后，就可以根据动画剩余时间从持枪状态返回到基础状态</p>
-</li>
-<li><p>加一个新的bool变量“是否装备武器”来控制拔枪动画的切换（在动画蓝图中声明，在角色蓝图中定义）</p>
-</li>
-<li><p>需要用“每个骨骼的分层混合”来实现，跑步的时候不会出现停止下来拔枪的效果（角色此时还在向前移动）</p>
-</li>
-</ol>
-<h2 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h2><h3 id="每个骨骼的分层混合"><a href="#每个骨骼的分层混合" class="headerlink" title="每个骨骼的分层混合"></a>每个骨骼的分层混合</h3><ul>
-<li><p>整体播放引入的“Base Pose”的动画</p>
-</li>
-<li><p>“分支过滤器”添加指定“骨骼名称”的部分播放引入的“Blend Poses 0”的动画</p>
-</li>
-<li><p>”网格体空间旋转混合“使得为相对网格体坐标旋转混合，而不是相对世界坐标混合</p>
-</li>
-</ul>
-<h3 id="获取相关剩余动画时间"><a href="#获取相关剩余动画时间" class="headerlink" title="获取相关剩余动画时间"></a>获取相关剩余动画时间</h3><p>字面意思，就是可以获得该动画还剩多少秒结束</p>
-<h2 id="实现大致步骤-1"><a href="#实现大致步骤-1" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h2><ol>
-<li><p>在功能状态机中创建新状态“装备武器状态”，并于“基础状态”正反向链接</p>
-</li>
-<li><p>编辑“装备武器状态”</p>
-<ul>
-<li><p>拖入拔枪动画，将播放速率公开为引脚，并提升为变量“<strong>装备武器方向</strong>”</p>
-</li>
-<li><p>添加“每个骨骼的分层混合”</p>
-</li>
-<li><p>添加“使用缓存姿势”作为Base Pose输入</p>
-</li>
-<li><p>将拔枪动画作为Blend Posses0 输入</p>
-</li>
-<li><p>添加“每个骨骼分层混合”的分支过滤器，填上骨骼名称，勾选“网格体空间旋转混合”</p>
-</li>
-<li><p>输出为动画姿势</p>
-</li>
-</ul>
-</li>
-<li><p>添加bool变量“<strong>是否装备武器</strong>”</p>
-</li>
-<li><p>从基础状态切换为装备武器状态的规则为“是否装备武器”为false</p>
-</li>
-<li><p>从装备武器状态切换为基础状态规则为“获取相关剩余动画时间（装备武器状态）”&lt;0.1</p>
-</li>
-<li><p>接下来就是在角色蓝图中定义“装备武器方向”和“是否装备武器”</p>
-</li>
-<li><p>角色蓝图中，持枪时，设置装备武器方向为-1，未持枪时，设置装备武器方向为1</p>
-</li>
-<li><p>另外，为了使得基础状态切换为装备武器状态之后，下一次切换还可以用“是否装备武器”作为条件，我们需要在最后将“是否装备武器”设置为true之后，延迟0.1秒，设置为false</p>
-</li>
-</ol>
-<h1 id="添加背包（换装系统）"><a href="#添加背包（换装系统）" class="headerlink" title="添加背包（换装系统）"></a>添加背包（换装系统）</h1><p>就是将一个背包添加到角色的背上，随着角色一起运动</p>
-<h2 id="知识点-2"><a href="#知识点-2" class="headerlink" title="知识点"></a>知识点</h2><h3 id="设置总姿势组件"><a href="#设置总姿势组件" class="headerlink" title="设置总姿势组件"></a>设置总姿势组件</h3><p>使用条件：两模型必须使用同一个骨骼</p>
-<p>将目标引脚的组件添加到New Master Bone Component引脚上</p>
-<h2 id="实现大致步骤-2"><a href="#实现大致步骤-2" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h2><ol>
-<li><p>找到背包模型，作为组件添加到角色蓝图的网格体上</p>
-</li>
-<li><p>为了能让背包和角色网格体贴合且匹配：需要满足两者骨骼为同一个</p>
-</li>
-<li><p>然后设置角色蓝图的“构造脚本”</p>
-<ul>
-<li>在这里我将其理解为构造函数，功能是相同的</li>
-</ul>
-</li>
-<li><p>添加节点“设置总姿势组件”</p>
-<ul>
-<li><p>目标为背包模型</p>
-</li>
-<li><p>New Master Bone Component 链接角色骨骼</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="添加武器模型"><a href="#添加武器模型" class="headerlink" title="添加武器模型"></a>添加武器模型</h1><p>将武器模型添加到角色的背部</p>
-<h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>先创建一个武器基类（父类），在里面编辑一些武器的基本参数</p>
-</li>
-<li><p>然后根据此基类创建子类，就是具体的武器类型（实例化）</p>
-</li>
-<li><p>将子类实例化之后附加到虚拟骨骼上（一个装备武器插槽，一个未装备武器插槽）</p>
-</li>
-</ol>
-<h2 id="知识点-3"><a href="#知识点-3" class="headerlink" title="知识点"></a>知识点</h2><h3 id="虚拟骨骼（插槽）"><a href="#虚拟骨骼（插槽）" class="headerlink" title="虚拟骨骼（插槽）"></a>虚拟骨骼（插槽）</h3><p>在角色的骨骼当中新建一个虚拟骨骼（插槽），此插槽是独立于角色骨骼的，我们可以对其位置，朝向等进行修改，不会影响到角色骨骼本身，而且此插槽会随着角色骨骼本身进行运动。</p>
-<p>通过添加变量类型“命名”，即可将虚拟骨骼作为一个变量，在蓝图中进行调用！</p>
-<h3 id="从类生成Actor"><a href="#从类生成Actor" class="headerlink" title="从类生成Actor"></a>从类生成Actor</h3><p>顾名思义，就是根据给的蓝图类，生成一个实例</p>
-<h3 id="附加Actor到组件（attach）"><a href="#附加Actor到组件（attach）" class="headerlink" title="附加Actor到组件（attach）"></a>附加Actor到组件（attach）</h3><p>就是将生成的实例，附加到某个组件上（需要提供附加到的插槽&#x2F;虚拟骨骼）</p>
-<p>跟UEC++中的那个成员函数很像</p>
-<h2 id="实现大致步骤-3"><a href="#实现大致步骤-3" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h2><ol>
-<li><p>创建一个actor类型的蓝图命名为”BP_WeaponBase”</p>
-</li>
-<li><p>根据父类创建子类“BP_Weapon_AKM”，在细节面板中添加模型</p>
-</li>
-<li><p>在角色骨骼当中添加两个插槽</p>
-<ul>
-<li><p>一个在背上“未装备武器插槽”，调整好位置以及旋转</p>
-</li>
-<li><p>一个在右手上“装备武器插槽”，调整好位置以及旋转</p>
-</li>
-</ul>
-</li>
-<li><p>在角色蓝图类中将插槽作为变量存储下来</p>
-<ul>
-<li><p>添加变量类型“命名”，值为“未装备武器插槽”</p>
-</li>
-<li><p>添加变量类型“命名”，值未“装备武器插槽”</p>
-</li>
-</ul>
-</li>
-<li><p>在角色蓝图的事件图表中，将武器实例添加到角色的背部</p>
-<ul>
-<li><p>添加“从类生成Actor”，类选择为“BP_Weapon_AKM”</p>
-</li>
-<li><p>位置变换信息链接“创建变换”节点（这里不用设置位置，因为在后面我们会用虚拟骨骼来具体为其定位到角色的背上）</p>
-</li>
-<li><p>将“从类生成Actor”的返回值提升为变量，命名为“武器实例”</p>
-</li>
-<li><p>链接“附加Actor”到组件，目标为角色网格体组件，插槽为“未装备武器插槽”，位置，旋转，缩放规则皆为“对其到目标”</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="武器跟随角色手部运动"><a href="#武器跟随角色手部运动" class="headerlink" title="武器跟随角色手部运动"></a>武器跟随角色手部运动</h1><p>实现角色拔枪的时候，将背部的枪拔出来，而不是拔空气</p>
-<h2 id="知识点-4"><a href="#知识点-4" class="headerlink" title="知识点"></a>知识点</h2><h3 id="AnimNotify（动画通知）"><a href="#AnimNotify（动画通知）" class="headerlink" title="AnimNotify（动画通知）"></a>AnimNotify（动画通知）</h3><p>理解为一个函数，在里面编辑好逻辑代码之后，将这个东西添加到角色的动画的播放序列中的某一帧，当动画播放到那一帧的时候，就会调用此通知。</p>
-<h3 id="序列"><a href="#序列" class="headerlink" title="序列"></a>序列</h3><p>执行引脚1之后执行引脚2</p>
-<h2 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>创建一个动画通知编辑其逻辑，使其可以进行拔枪效果</p>
-<ul>
-<li><p>重载函数“已接收的通知”</p>
-</li>
-<li><p>获取Mesh Comp的拥有者，也就是角色网格体组件，再将类型转换为角色蓝图</p>
-</li>
-<li><p>判断一下角色“是否持枪”</p>
-</li>
-<li><p>如果持枪，就将“武器实例”附加到角色网格体的背部插槽上“装备武器插槽”</p>
-</li>
-<li><p>如果不持枪，则将武器实例度假岛角色网格体的手部插槽上“未装备武器插槽”</p>
-</li>
-</ul>
-</li>
-<li><p>需要注意的是，如果反复拔枪，就会出现拔枪抽搐的情况，这个时候就需要创建一个bool来判定，能否拔枪</p>
-</li>
-<li><p>将动画通知放到拔枪动画的合适位置</p>
-</li>
-</ol>
-<h2 id="实现大致步骤-4"><a href="#实现大致步骤-4" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h2><ol>
-<li><p>添加一个动画通知，命名为”Notif_EquipWeaponAnimation”</p>
-</li>
-<li><p>打开拔枪动画，在通知栏的合适位置添加”Notif_EquipWeaponAnimation”</p>
-</li>
-<li><p>编辑”Notif_EquipWeaponAnimation”</p>
-<ul>
-<li><p>重载函数“已接收的通知”</p>
-</li>
-<li><p>Mesh Comp引出“获取拥有者”</p>
-</li>
-<li><p>引出“Is valid”来判断是否有效，然后“类型转换为BP_Player”</p>
-</li>
-<li><p>引出动画蓝图，“是否持枪”变量，判断角色是否为持枪状态</p>
-</li>
-<li><p>如果为True，则使用“附加Actor到组件”，目标为武器实例，parent为网格体，插槽为“装备武器插槽”</p>
-</li>
-<li><p>如果为False，则使用“附加Actor到组件”，目标为武器实例，parent为网格体，插槽为“未装备武器插槽”</p>
-</li>
-</ul>
-</li>
-<li><p>实现持枪状态相机偏移</p>
-<ul>
-<li><p>在两个“设置装备武器方向”节点后分别添加两个“序列”节点，引脚1都链接“是否装备武器”节点</p>
-</li>
-<li><p>添加新的时间轴，新建轨道，引出插值（15，50）</p>
-</li>
-<li><p>play和reverse分别和正向播放动画，反向播放动画链接</p>
-</li>
-<li><p>引入弹簧臂组件，引出获取Socket Office节点和设置Socket Office节点，并且都分割引脚，并且将z轴链接</p>
-</li>
-<li><p>时间轴的update引脚链接弹簧臂的设置Socket Office（设置插槽偏移）</p>
-</li>
-<li><p>插值链接Y轴</p>
-</li>
-</ul>
-</li>
-<li><p>在角色蓝图，装备武器事件图表中，添加变量“是否可以切换武器”</p>
-<ul>
-<li><p>默认值为true，在“键盘 1”节点后，通过分支节点进行判断，为true，则设置其为false后进入后面节点</p>
-</li>
-<li><p>在上一步的时间轴中的finish引脚设置“是否可以切换武器”为true</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="持枪蹲伏"><a href="#持枪蹲伏" class="headerlink" title="持枪蹲伏"></a>持枪蹲伏</h1><h2 id="思路-4"><a href="#思路-4" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>通过状态机里面添加混合空间1D来实现持枪蹲伏效果</p>
-<ul>
-<li><p>用一个“按布尔混合姿势”来进行判断输出</p>
-</li>
-<li><p>当“是否蹲伏”为true，输出蹲伏动画</p>
-</li>
-<li><p>当“是否蹲伏”为false，输出站立动画</p>
-</li>
-</ul>
-</li>
-<li><p>后面再加一个“按布尔混合姿势”节点来判断是否持枪</p>
-</li>
-</ol>
-<h2 id="实现大致步骤-5"><a href="#实现大致步骤-5" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h2><ol>
-<li><p>创建混合空间1D，命名为“BS_WeaponRealseCrouch”，并添加动画，将其设置好</p>
-</li>
-<li><p>打开动画蓝图，编辑基础状态机中的基础姿势状态（实现持枪蹲伏效果）</p>
-<ul>
-<li><p>添加“BS_WeaponRealseCrouch”到蓝图中</p>
-</li>
-<li><p>再添加一个以“是否蹲伏”为条件的“按布尔混合姿势”节点</p>
-</li>
-<li><p>true链接持枪蹲伏动画，false链接持枪站立动画</p>
-</li>
-<li><p>后面链接上以“是否持枪”为判断条件的“按布尔混合姿势”节点，来区分是否持枪的站立和蹲伏动画</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="持枪跳跃"><a href="#持枪跳跃" class="headerlink" title="持枪跳跃"></a>持枪跳跃</h1><p>之前实现跳跃的时候是编写了一个跳跃函数的，形参有三个蒙太奇动画</p>
-<p>现在我们要编辑一下这个跳跃函数，将形参多添加三个“跳跃高度”，因为持枪和未持枪的跳跃高度是不同的！</p>
-<h2 id="思路-5"><a href="#思路-5" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>更改“跳跃的动画和高度设置”函数，方便传参</p>
-</li>
-<li><p>创建持枪跳跃蒙太奇动画，添加插槽</p>
-</li>
-<li><p>跳跃事件调用“跳跃的动画和高度设置”函数的时候，添加一个以“是否持枪”为判断标准的“分支”节点，分别调用“跳跃的动画和高度设置”函数，并传入不同的参数</p>
-</li>
-</ol>
-<h2 id="实现大致步骤-6"><a href="#实现大致步骤-6" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h2><ol>
-<li><p>点击<strong>跳跃动画和高度设置</strong>函数，将三个跳跃高度连接到输入节点，分别命名为“慢跑&#x2F;行走&#x2F;冲刺的跳跃高度”</p>
-</li>
-<li><p>找到三个状态下的持枪跳跃动画，创建为蒙太奇动画，插槽更改为“跳跃”</p>
-</li>
-<li><p>打开“角色跳跃”事件图表，断开“跳跃的动画和高度设置”函数的链接</p>
-</li>
-<li><p>在原本位置上添加一个序列，引脚0链接原本的“延迟”节点</p>
-</li>
-<li><p>引脚1链接一个“分支”节点，判断条件为“是否持枪”</p>
-<ul>
-<li><p>true输出为“跳跃的动画和高度设置”（动画为持枪跳跃，高度略低）</p>
-</li>
-<li><p>false输出为“跳跃的动画和高度设置”（动画为未持枪跳跃，高度略高）</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="持枪坠落"><a href="#持枪坠落" class="headerlink" title="持枪坠落"></a>持枪坠落</h1><h2 id="思路-6"><a href="#思路-6" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>要修改角色基础状态机，将其从一个基类，变为一个子类。新建一个基类，只包含蹲伏及站立的蓝图逻辑</p>
-<ul>
-<li><p>因为我们需要编辑”坠落状态“</p>
-</li>
-<li><p>而编辑坠落，需要和原本的持枪状态进行”每个骨骼的分层混合“，就需要调用缓存</p>
-</li>
-<li><p>但是自身不能调用自身的缓存，所以就将原本的站立&#x2F;蹲伏姿势独立出去</p>
-</li>
-<li><p>这样就可以在子类中调用基类的缓存了！</p>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="实现大致步骤-7"><a href="#实现大致步骤-7" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h2><ol>
-<li><p>重命名原本的“基础状态机”为”总基础状态“，并且同步修改其缓存的名称</p>
-</li>
-<li><p>新建名为“角色基础状态”的状态机，并且缓存</p>
-</li>
-<li><p>编辑“角色基础状态”状态机</p>
-<ul>
-<li><p>新建一个名为“基础状态”的状态</p>
-</li>
-<li><p>返回“总基础状态”，将其中“基础姿势”的节点全部剪切到“基础状态”中</p>
-</li>
-<li><p>在“总基础状态机”中的“基础姿势”中“使用总基础状态的缓存”</p>
-</li>
-</ul>
-</li>
-<li><p>在总基础状态机中的坠落状态中编辑逻辑代码</p>
-<ul>
-<li><p>调用”每个骨骼的分层混合“节点</p>
-</li>
-<li><p>Base为坠落动画，Blend为”角色基础状态缓存“动画</p>
-</li>
-<li><p>编辑”每个骨骼的分层混合“节点，添加两个新的分支过滤器，骨骼名称分别为角色的左右手臂骨骼</p>
-</li>
-<li><p>再调用一个以”是否持枪“为判断条件的”按布尔混合姿势“节点</p>
-</li>
-<li><p>true输出刚刚写好的持枪坠落的混合动画</p>
-</li>
-<li><p>false输出未持枪坠落动画</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="BUG-切换武器时跳跃导致切了个寂寞"><a href="#BUG-切换武器时跳跃导致切了个寂寞" class="headerlink" title="BUG-切换武器时跳跃导致切了个寂寞"></a>BUG-切换武器时跳跃导致切了个寂寞</h1><h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>在角色切换武器时进行跳跃，导致先进行跳跃，然后角色的切换武器动画做了一半，武器也没有切换到手上&#x2F;背部，但是姿势变为了”持枪“或者”未持枪“</p>
-<h2 id="BUG诱因"><a href="#BUG诱因" class="headerlink" title="BUG诱因"></a>BUG诱因</h2><p>跳跃动画是蒙太奇动画，在切换武器时进行跳跃，蒙太奇动画会直接打断切换武器动画</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>使得角色在切换武器时不可跳跃，或者在跳跃时不能切换武器</p>
-<p>添加一个枚举，枚举值分别为”空白“，”跳跃“，”装备武器“</p>
-<p>只有在枚举值为”空白“的时候，才能”跳跃“或者”装备武器“</p>
-<h2 id="实现大致步骤-8"><a href="#实现大致步骤-8" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h2><ol>
-<li><p>创建一个名为”Player_FuntionState“的枚举</p>
-</li>
-<li><p>将之前那个枚举重命名为”Player_MoveSate“</p>
-</li>
-<li><p>编辑”Player_FuntionState“</p>
-<ul>
-<li><p>添加枚举值”空白“（什么功能都没有触发）</p>
-</li>
-<li><p>添加枚举值”跳跃“</p>
-</li>
-<li><p>添加枚举值”装备武器“</p>
-</li>
-<li><p>添加枚举值”瞄准“</p>
-</li>
-</ul>
-</li>
-<li><p>在角色蓝图类中创建”Player_FuntionState“枚举</p>
-</li>
-<li><p>在角色跳跃图表中进行编辑</p>
-<ul>
-<li><p>将”是否可以跳跃“为判断标准的”分支“节点替换为枚举值是否为”空白“的”分支“节点</p>
-</li>
-<li><p>在执行true之后将枚举值改为”跳跃“</p>
-</li>
-<li><p>在跳跃事件结束之后，将枚举值改为空白</p>
-</li>
-<li><p>删除”是否可以跳跃“变量</p>
-</li>
-</ul>
-</li>
-<li><p>在装备武器图表中进行编辑</p>
-<ul>
-<li><p>将”是否可以切换武器“为判断标准的”分支“节点替换为枚举值是否为”空白“的”分支“节点</p>
-</li>
-<li><p>在执行true之后将枚举值改为”装备武器“</p>
-</li>
-<li><p>在装备武器事件结束之后，将枚举值改为空白</p>
-</li>
-<li><p>删除”是否可以切换武器“变量</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="BUG-坠落时可跳跃以及蹲伏"><a href="#BUG-坠落时可跳跃以及蹲伏" class="headerlink" title="BUG-坠落时可跳跃以及蹲伏"></a>BUG-坠落时可跳跃以及蹲伏</h1><h2 id="问题描述-1"><a href="#问题描述-1" class="headerlink" title="问题描述"></a>问题描述</h2><p>当角色坠落的时候，按空格键会播放跳跃动画，按C键不会播放跳跃动画，但是会出现视角变低的情况</p>
-<h2 id="BUG诱因-1"><a href="#BUG诱因-1" class="headerlink" title="BUG诱因"></a>BUG诱因</h2><h3 id="跳跃BUG"><a href="#跳跃BUG" class="headerlink" title="跳跃BUG"></a>跳跃BUG</h3><p><strong>状态机的动画优先级</strong>：优先播放优先级高的动画</p>
-<ol>
-<li><p>越外层，优先级越高</p>
-</li>
-<li><p>越靠左，优先级越高</p>
-</li>
-</ol>
-<p>在动画图表中，插槽”跳跃“在最外层，导致优先级比在内层的”坠落“高，在具体播放动画的时候，就会打断”坠落“，优先播放”跳跃“</p>
-<h3 id="蹲伏BUG"><a href="#蹲伏BUG" class="headerlink" title="蹲伏BUG"></a>蹲伏BUG</h3><p>没有告诉程序：在空中不能蹲伏</p>
-<h2 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案"></a>解决方案</h2><h3 id="跳跃BUG-1"><a href="#跳跃BUG-1" class="headerlink" title="跳跃BUG"></a>跳跃BUG</h3><p>将”跳跃“插槽放到”角色基础状态“-&gt;”基础状态“的最右边，使其优先级最低</p>
-<h3 id="蹲伏BUG-1"><a href="#蹲伏BUG-1" class="headerlink" title="蹲伏BUG"></a>蹲伏BUG</h3><ol>
-<li><p>在角色蓝图的蹲伏事件图表中</p>
-</li>
-<li><p>引用动画蓝图中的变量“是否在空中”作为“分支”节点的判断依据</p>
-</li>
-<li><p>当值为flase时，才可执行后面的操作</p>
-</li>
-</ol>
-<h1 id="BUG-蹲伏状态直接跳跃"><a href="#BUG-蹲伏状态直接跳跃" class="headerlink" title="BUG-蹲伏状态直接跳跃"></a>BUG-蹲伏状态直接跳跃</h1><h2 id="问题描述-2"><a href="#问题描述-2" class="headerlink" title="问题描述"></a>问题描述</h2><p>在蹲伏的时候，按键盘空格键，就会出现直接进行跳跃的情况</p>
-<h2 id="BUG诱因-2"><a href="#BUG诱因-2" class="headerlink" title="BUG诱因"></a>BUG诱因</h2><p>同优先级的动画会直接进行播放</p>
-<h2 id="解决方案-2"><a href="#解决方案-2" class="headerlink" title="解决方案"></a>解决方案</h2><p>在跳跃动画播放之前，判断一下是否蹲伏，如果是蹲伏，则先解除蹲伏，然后再进行跳跃</p>
-<h2 id="实现大致步骤-9"><a href="#实现大致步骤-9" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h2><ol>
-<li><p>在角色蹲伏图表中新增一个自定义事件，链接着”解除蹲伏“节点</p>
-</li>
-<li><p>在角色跳跃图表中，添加一个以“角色移动组件”的“正在蹲伏”为判断条件的“分支”节点</p>
-</li>
-<li><p>true则调用“解除蹲伏”事件，false则继续原本逻辑</p>
-</li>
-</ol>
-<h1 id="优化-角色摩擦力"><a href="#优化-角色摩擦力" class="headerlink" title="优化-角色摩擦力"></a>优化-角色摩擦力</h1><h2 id="问题描述-3"><a href="#问题描述-3" class="headerlink" title="问题描述"></a>问题描述</h2><p>在之前设置角色摩擦力为0，会有一个停止行走之后还会向前移动一小段距离的情况（就比较自然），需要优化的地方是，现在角色摩擦力为零，则会导致看起来角色像是在冰面上走一样，就比较难受。</p>
-<h2 id="优化思路"><a href="#优化思路" class="headerlink" title="优化思路"></a>优化思路</h2><ol>
-<li><p>在角色运动时，将摩擦力设置为默认值8，在角色停止运动时，将摩擦力设置为0</p>
-</li>
-<li><p>如何判断角色是否运动？</p>
-<ul>
-<li>根据轴映射的值来判断，如果forword运动和right运动值均为零，则意味着角色已经停止了运动</li>
-</ul>
-</li>
-</ol>
-<h2 id="实现大致步骤-10"><a href="#实现大致步骤-10" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h2><ol>
-<li><p>在角色蓝图，角色基础移动事件图表中</p>
-</li>
-<li><p>分别将“输入轴moveforword”和“输入轴moveright”的返回值引出节点“&#x3D;&#x3D;（浮点）”</p>
-</li>
-<li><p>将两个bool引入节点“and”</p>
-</li>
-<li><p>将返回的bool作为一个“分支”节点的判断标准</p>
-</li>
-<li><p>引入角色移动组件-&gt;”set ground friction”节点</p>
-</li>
-<li><p>true则”set ground friction”为0；false则设置”set ground friction”为8</p>
-</li>
-</ol>
-<h1 id="角色瞄准状态切换"><a href="#角色瞄准状态切换" class="headerlink" title="角色瞄准状态切换"></a>角色瞄准状态切换</h1><p>角色瞄准状态的主要表现形式——视野拉近，角色朝向随着鼠标朝向而不是键盘输入朝向</p>
-<h2 id="思路-7"><a href="#思路-7" class="headerlink" title="思路"></a>思路</h2><h3 id="视野拉近"><a href="#视野拉近" class="headerlink" title="视野拉近"></a>视野拉近</h3><ol>
-<li><p>视野是由弹簧臂进行控制的，想要改变视野，就需要改变弹簧臂长度</p>
-</li>
-<li><p>另外，还需要判断角色是否处于持枪状态，是否在跳跃过程中，是否在装备武器状态过程中</p>
-</li>
-<li><p>在判断完成之后，可以通过时间轴来对弹簧臂长度进行控制</p>
-</li>
-</ol>
-<h3 id="角色朝向"><a href="#角色朝向" class="headerlink" title="角色朝向"></a>角色朝向</h3><ol>
-<li><p>角色朝向可以根据两个地方进行修改</p>
-<ul>
-<li><p>角色蓝图类-&gt;类默认值-&gt;Pawn-&gt;使用控制器旋转Yaw【True面向跟随鼠标】</p>
-</li>
-<li><p>角色移动组件-&gt;角色移动（旋转设置）-&gt;将旋转朝向运动【True面向跟随键盘】</p>
-</li>
-<li><p>另外，需要注意的是，两个值必须一开一关，因为两者是相冲突的。</p>
-</li>
-</ul>
-</li>
-<li><p>所以我们只需要把角色朝向分为两个状态</p>
-<ul>
-<li><p>瞄准时面向随着鼠标</p>
-</li>
-<li><p>非瞄准状态面向随着键盘</p>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="实现大致步骤-11"><a href="#实现大致步骤-11" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h2><ol>
-<li><p>添加一个键盘映射“鼠标右键”</p>
-</li>
-<li><p>在角色蓝图类中创建两个新图表“瞄准”以及“瞄准状态切换”</p>
-</li>
-<li><p>在瞄准状态切换图表中做如下操作，分别控制角色瞄准状态的朝向和非瞄准状态的朝向</p>
-<ul>
-<li><p>添加自定义事件“瞄准状态”以及“放松状态”</p>
-</li>
-<li><p>瞄准状态-&gt;”set use controller rotation Yaw”（true）-&gt;角色移动组件-&gt;”set Orient rotation to movement”（false）</p>
-</li>
-<li><p>放松状态-&gt;”set use controller rotation Yaw”（false）-&gt;角色移动组件-&gt;”set Orient rotation to movement”（true）</p>
-</li>
-</ul>
-</li>
-<li><p>在瞄准事件图表中进行如下操作，用于改变弹簧臂的长度</p>
-<ul>
-<li><p>输入操作“瞄准”节点-&gt;以是否持枪未判断依据的分支-&gt;true-&gt;以Player Funtion State 的值是否为空白为判断依据的分支</p>
-</li>
-<li><p>Pressed链接“瞄准状态”事件，Released链接“放松状态”事件</p>
-</li>
-<li><p>瞄准状态-&gt;set Player Funtion State（瞄准）</p>
-</li>
-<li><p>放松状态-&gt;set Player Funtion State（空白）</p>
-</li>
-<li><p>添加时间轴，新建轨道，瞄准链接play引脚，空白链接reverse引脚</p>
-</li>
-<li><p>update-&gt;弹簧臂组件（set Target Arm length）</p>
-</li>
-<li><p>新建轨道-&gt;插值（170，50）-&gt;目标臂长度</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="题外话"><a href="#题外话" class="headerlink" title="题外话"></a>题外话</h1><p>感觉每次整理笔记最耗费时间的就是写实现大致步骤了，有点用处，但是用处不大，最重要的还是思路和知识点的整理，所以说后面的就不再写大致步骤了。把重点放在思路和知识点上吧！</p>
-<h1 id="角色瞄准动画"><a href="#角色瞄准动画" class="headerlink" title="角色瞄准动画"></a>角色瞄准动画</h1><p>角色瞄准时，自身的行走状态动画</p>
-<h2 id="知识点-5"><a href="#知识点-5" class="headerlink" title="知识点"></a>知识点</h2><h3 id="角色运动八个方向的角度值"><a href="#角色运动八个方向的角度值" class="headerlink" title="角色运动八个方向的角度值"></a>角色运动八个方向的角度值</h3><ul>
-<li><p>前方为0，后方为180&#x2F;-180</p>
-</li>
-<li><p>右边为正数</p>
-</li>
-<li><p>左边为负数</p>
-</li>
-</ul>
-<p><img src="/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2%E6%AD%A6%E5%99%A8%E7%B3%BB%E7%BB%9F%5C1.png"></p>
-<h3 id="计算方向"><a href="#计算方向" class="headerlink" title="计算方向"></a>计算方向</h3><p>虚幻引擎中内置了一个函数“计算方向”</p>
-<p>通过输入的“速度”和“旋转”来进行计算此时的Actor的方向</p>
-<h3 id="旋转浮点（select）"><a href="#旋转浮点（select）" class="headerlink" title="旋转浮点（select）"></a>旋转浮点（select）</h3><p>是一个以布尔值为判断依据，输出两个不同值的函数</p>
-<ol>
-<li><p>如果为true，则输出引脚A</p>
-</li>
-<li><p>如果为false，则输出引脚B</p>
-</li>
-</ol>
-<h2 id="思路-8"><a href="#思路-8" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>因为角色行走时，是八个方向的动画，我们可以使用混合空间来进行实现状态变化</p>
-</li>
-<li><p>创建一个混合空间，横坐标为运动方向（也就是运动的八个方向），纵坐标为速度（只需要设置行走速度，因为瞄准时会在后面设置不可冲刺）</p>
-</li>
-<li><p>在动画蓝图中通过传入速度和旋转到“计算方向”节点来判断角色目前的行走方向</p>
-</li>
-<li><p>新建一个瞄准状态，和基础状态之间进行切换</p>
-<ul>
-<li><p>判断条件为一个bool值“是否瞄准”</p>
-</li>
-<li><p>瞄准状态里面播放之前创建的混合空间</p>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="优化-持枪行走速度优化"><a href="#优化-持枪行走速度优化" class="headerlink" title="优化-持枪行走速度优化"></a>优化-持枪行走速度优化</h2><p>根据常识来讲，人在持枪瞄准的时候，不能行走太快，所以在这里我们做一个速度上的限制</p>
-<h3 id="思路-9"><a href="#思路-9" class="headerlink" title="思路"></a>思路</h3><ol>
-<li><p>在之前创建的角色速度判断函数中添加一个判断即可</p>
-</li>
-<li><p>用“旋转浮点”作为判断节点，判断条件为“是否瞄准”</p>
-</li>
-<li><p>true则输出150（瞄准时的行走速度）</p>
-</li>
-<li><p>false则输出原本函数计算的行走速度</p>
-</li>
-</ol>
-<h1 id="BUG-持枪瞄准偏移的手部运动"><a href="#BUG-持枪瞄准偏移的手部运动" class="headerlink" title="BUG-持枪瞄准偏移的手部运动"></a>BUG-持枪瞄准偏移的手部运动</h1><p>之前我们是把瞄准偏移放在状态机的最外围，现在为了实现持枪状态下也可以实现瞄准偏移，将瞄准便宜放在最内层（状态机的优先性）</p>
-<h2 id="BUG描述"><a href="#BUG描述" class="headerlink" title="BUG描述"></a>BUG描述</h2><p>当我们把瞄准偏移放在最内侧之后，确实实现了持枪也实现了瞄准偏移的效果，但是这个时候会发现，瞄准偏移的时候，手部运动出现了问题——手没有放在枪械上（原力持枪）</p>
-<h2 id="知识点-6"><a href="#知识点-6" class="headerlink" title="知识点"></a>知识点</h2><h3 id="IK（逆向动力学）"><a href="#IK（逆向动力学）" class="headerlink" title="IK（逆向动力学）"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/f980511/article/details/123319383">IK（逆向动力学）</a></h3><p><strong>是一种设置动画的方法，它翻转链操纵的方向。它是从叶子而不是根开始进行工作的。</strong></p>
-<h4 id="简单演示"><a href="#简单演示" class="headerlink" title="简单演示"></a>简单演示</h4><p>现在举个手臂的例子。要设置使用正向运动学的手臂的动画，可以旋转大臂使它移离肩膀，然后旋转小臂，手部等等，为每个子对象添加旋转关键点。</p>
-<p>要设置使用反向运动学的手臂的动画，可以移动用以定位腕部的目标。手臂的上半部分和下半部分为 IK 解决方案所旋转，使称为<strong>末端效应器</strong>的腕部轴点向着目标移动。</p>
-<p><img src="https://img-blog.csdnimg.cn/822f0bb60b7047488df65b35b4cd4369.png"></p>
-<p><img src="https://img-blog.csdnimg.cn/27996887b51b4dd69599e8e003fa5cac.gif"></p>
-<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>可以理解为，一般的正向动力学是用手臂带动拳头；逆向动力学就是用拳头去带动手臂</p>
-<h4 id="节点FABRIK"><a href="#节点FABRIK" class="headerlink" title="节点FABRIK"></a>节点FABRIK</h4><p>这个节点就是虚幻引擎中的IK相关节点</p>
-<ol>
-<li><p><strong>执行器</strong>选择一个骨骼&#x2F;组件&#x2F;世界场景&#x2F;父骨骼进行参考，让“解算器“参考它进行运动</p>
-</li>
-<li><p><strong>解算器</strong>选择的IK的”叶子“和”根“</p>
-</li>
-<li><p>最后在预览视图中可以直接调整<strong>末端效应器</strong>的位置</p>
-</li>
-</ol>
-<h2 id="解决方案-3"><a href="#解决方案-3" class="headerlink" title="解决方案"></a>解决方案</h2><ol>
-<li><p>在看了逆向动力学的原理之后，就可以想到，如果我们把手部设置为逆向动力学的末端效应器，跟随着另一只手进行运动，就不会产生之前的问题了</p>
-</li>
-<li><p>所以在动画图表中，瞄准偏移后添加一个”FABRIK”节点，将其设置好即可</p>
-</li>
-</ol>
-<h1 id="瞄准状态的瞄准偏移动画"><a href="#瞄准状态的瞄准偏移动画" class="headerlink" title="瞄准状态的瞄准偏移动画"></a>瞄准状态的瞄准偏移动画</h1><p>目前为止，瞄准状态只会瞄准正前方，不能瞄准其他方向，现在需要做的事情就是瞄准其他位置的方向，并且为其添加动画</p>
-<h2 id="知识点-7"><a href="#知识点-7" class="headerlink" title="知识点"></a>知识点</h2><h3 id="资产操作-gt-通过属性矩阵进行批量资产编辑-gt-AdditiveSettings"><a href="#资产操作-gt-通过属性矩阵进行批量资产编辑-gt-AdditiveSettings" class="headerlink" title="资产操作-&gt;通过属性矩阵进行批量资产编辑-&gt;AdditiveSettings"></a>资产操作-&gt;通过属性矩阵进行批量资产编辑-&gt;AdditiveSettings</h3><p>如果想要把一组动画变为附加动画的时候就要进行如下操作，在此可选择附加操作的参考姿势</p>
-<h3 id="AO-瞄准偏移"><a href="#AO-瞄准偏移" class="headerlink" title="AO_瞄准偏移"></a>AO_瞄准偏移</h3><ol>
-<li><p>水平坐标（Yaw轴，也就是Z轴）：实际操作中，鼠标往左右移动在游戏中表现为左右摇头，此时鼠标在桌子上按水平坐标移动，游戏中根据Yaw轴旋转（Z轴）</p>
-</li>
-<li><p>垂直坐标（Pitch轴，也就是Y轴）：实际操作中，鼠标往上下移动在游戏中表现为抬头低头，此时鼠标在桌子上按垂直坐标移动，游戏中根据Pitch轴旋转（Y轴）</p>
-</li>
-<li><p>选中一个参考姿势后创建一个瞄准偏移，将被参考的姿势放入正中间，其他姿势按效果设置</p>
-</li>
-</ol>
-<h2 id="思路-10"><a href="#思路-10" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>创建一个持枪瞄准偏移</p>
-</li>
-<li><p>将瞄准偏移放到动画蓝图中的”瞄准状态“状态中，传入Yaw和Pitch即可</p>
-</li>
-<li><p>然后会出钱之前持枪瞄准偏移的bug，直接复制之前的IK计算到瞄准状态的瞄准偏移那边去，然后设置好末端效应器位置即可</p>
-</li>
-</ol>
-<h1 id="瞄准状态蹲伏"><a href="#瞄准状态蹲伏" class="headerlink" title="瞄准状态蹲伏"></a>瞄准状态蹲伏</h1><h2 id="思路-11"><a href="#思路-11" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>创建一个混合空间，设置好水平坐标（方向）和垂直坐标（速度）以及动画</p>
-</li>
-<li><p>添加进”瞄准状态“状态中，使用”按照布尔混合姿势“和站立瞄准状态进行区分</p>
-</li>
-<li><p>然后那些瞄准偏移和IK就不用额外做了，因为程序按照顺序执行之后，就直接使用了站立瞄准状态的瞄准偏移和IK</p>
-</li>
-</ol>
-<h1 id="BUG-蹲伏站起之后的穿模"><a href="#BUG-蹲伏站起之后的穿模" class="headerlink" title="BUG-蹲伏站起之后的穿模"></a>BUG-蹲伏站起之后的穿模</h1><h2 id="BUG描述-1"><a href="#BUG描述-1" class="headerlink" title="BUG描述"></a>BUG描述</h2><p>在角色遇到一个障碍物的时候，蹲伏通过，在未通过的状态下取消蹲伏，会直接站起来，导致穿模</p>
-<h2 id="BUG诱因-3"><a href="#BUG诱因-3" class="headerlink" title="BUG诱因"></a>BUG诱因</h2><p>其实虚幻引擎中内置的”解除蹲伏“函数自带检测上方是否有障碍物阻挡，如果有，则会一直保持蹲伏状态，但是为啥在这里又站起来了呢？</p>
-<p>是因为函数认为角色依旧在蹲伏状态，但是我们原本写的代码逻辑中，不管是否蹲伏，都会按照时间轴播放一次动画。</p>
-<p>所以是，<strong>角色的灵魂还在蹲伏，身体却站起来了</strong></p>
-<h2 id="解决方案-4"><a href="#解决方案-4" class="headerlink" title="解决方案"></a>解决方案</h2><p>让”解除蹲伏“函数发挥真正的作用</p>
-<p>之前是在角色蓝图中判断角色”是否蹲伏“，现在我们把角色蓝图中的”是否蹲伏“判断删掉</p>
-<p>在动画蓝图中去进行判断</p>
-<p>把动画蓝图看作身体，角色蓝图看作灵魂</p>
-<p>之前是灵魂代管了一部分身体，出现了不协调的情况，所以现在各自管各自的，就不会出现不协调的情况了</p>
-<h2 id="思路-12"><a href="#思路-12" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>删除角色蓝图中的”解除蹲伏“和”蹲伏“节点后的”设置是否蹲伏“</p>
-</li>
-<li><p>在动画蓝图中获取角色移动组件-&gt;”正在蹲伏“节点-&gt;设置”是否蹲伏“</p>
-</li>
-</ol>
-<h1 id="射击"><a href="#射击" class="headerlink" title="射击"></a>射击</h1><p>先设置跳跃时不可射击，瞄准时可射击（只有瞄准的时候手臂才是抬起来的）</p>
-<h2 id="知识点-8"><a href="#知识点-8" class="headerlink" title="知识点"></a>知识点</h2><h3 id="以函数名设置定时器"><a href="#以函数名设置定时器" class="headerlink" title="以函数名设置定时器"></a>以函数名设置定时器</h3><p>此节点传入一个函数名&#x2F;事件名，设置一个时间，在达到这个时间之后，就会执行那个传入的函数&#x2F;事件</p>
-<h3 id="以函数名清除定时器"><a href="#以函数名清除定时器" class="headerlink" title="以函数名清除定时器"></a>以函数名清除定时器</h3><p>根据函数名&#x2F;事件名清楚定时器</p>
-<h2 id="思路-13"><a href="#思路-13" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>添加操作映射”射击“</p>
-</li>
-<li><p>创建新的事件图表”射击“，在其中调用操作映射”射击“</p>
-</li>
-<li><p>判断一下”是否持枪“；枚举状态是否为”空白“，或者在”瞄准射击“状态内即可执行”瞄准射击“（在这里把瞄准和射击的状态合并在一起了，但是具体是瞄准操作还是射击操作，用两段逻辑实现）</p>
-</li>
-<li><p>同时修改一下”瞄准“事件图表中的判断条件，让在”空白“或者”瞄准射击“状态下均可以进行瞄准操作</p>
-</li>
-<li><p>接下来在”射击“图表中更改当前状态为”瞄准射击“</p>
-</li>
-<li><p>再判断一下”是否瞄准“状态，因为只有再瞄准状态，角色手臂才是抬起来的</p>
-<ul>
-<li><p>false则调用”瞄准状态“函数来切换到瞄准状态</p>
-</li>
-<li><p>true则直接射击，具体射击逻辑下面写</p>
-</li>
-</ul>
-</li>
-<li><p>射击的pressed，是否为瞄准状态，如果是，则保留不做任何更改；如果不是，则延迟几秒再把手放下来（切换到”放松状态“，并把枚举值设置为”空白“），为了防止快速点击鼠标左键，出现抽搐的情况</p>
-<ul>
-<li><p>添加一个bool值”是否瞄准“</p>
-</li>
-<li><p>pressed链接以”是否瞄准“为判断依据的”分支“节点</p>
-</li>
-<li><p>true啥也不连（保持现状）</p>
-</li>
-<li><p>false链接一个”以函数名设置定时器“节点，时间设置为0.7</p>
-</li>
-</ul>
-</li>
-<li><p>创建一个自定义事件”停止瞄准“</p>
-<ul>
-<li><p>Set Player Funtion State为空白</p>
-</li>
-<li><p>调用”放松状态“函数</p>
-</li>
-</ul>
-</li>
-<li><p>在”以函数名设置定时器“节点中调用”停止瞄准“事件</p>
-</li>
-<li><p>为了防止在先射击再瞄准的时候出现角色在0.7秒后取消了瞄准状态</p>
-<ul>
-<li><p>在”瞄准“事件图表中，设置”是否瞄准“为true后面调用”以函数名清除定时器“</p>
-</li>
-<li><p>也就是说，在已经瞄准的状态下，除非我主动进行”不瞄准“的操作，不然不能切换为放松状态，如果不再此处清除定时器，那么定时器就会自动执行”进入放松状态“的逻辑</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="后坐力动画的添加"><a href="#后坐力动画的添加" class="headerlink" title="后坐力动画的添加"></a>后坐力动画的添加</h1><p>用附加动画来实现后坐力的效果</p>
-<h2 id="知识点-9"><a href="#知识点-9" class="headerlink" title="知识点"></a>知识点</h2><h3 id="应用网格体additive动画"><a href="#应用网格体additive动画" class="headerlink" title="应用网格体additive动画"></a>应用网格体additive动画</h3><p>就是附加动画，将additive添加到base上进行一个混合</p>
-<h3 id="切换ETimeLineDirection"><a href="#切换ETimeLineDirection" class="headerlink" title="切换ETimeLineDirection"></a>切换ETimeLineDirection</h3><p>用在时间轴的Direction引脚，可以在正向播放和反向播放的时候进行一些操作</p>
-<h2 id="思路-14"><a href="#思路-14" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>找到并设置后坐力的动画</p>
-<ul>
-<li><p>附加设置-&gt;additive动画类型-&gt;“网格体空间”</p>
-</li>
-<li><p>附加设置-&gt;基础姿势类型-&gt;”选择的动画帧“</p>
-</li>
-<li><p>附加设置-&gt;预览动画-&gt;选择站立的持枪瞄准动画</p>
-</li>
-</ul>
-</li>
-<li><p>再动画蓝图中”总基础动画“的”基础姿势“中编辑</p>
-<ul>
-<li><p>添加bool”是否射击“</p>
-</li>
-<li><p>以”是否射击“为条件”按布尔混合姿势“，false输出原本姿势</p>
-</li>
-<li><p>将之前设置之后的后坐力动画拖出来，作为”应用网格体空间Additive动画“的Additive引脚，将原本输出动画作为Base引脚</p>
-</li>
-<li><p>最后将混合好的动画输出作为”按布尔混合姿势“的true引脚</p>
-</li>
-</ul>
-</li>
-<li><p>在角色蓝图类中给”是否射击“进行定义</p>
-<ul>
-<li><p>自定义事件”开始射击“-&gt;”设置是否射击“为true</p>
-</li>
-<li><p>在以”是否瞄准“为判断依据的”分支“节点的true调用”开始射击“</p>
-</li>
-<li><p>“瞄准状态”节点后面调用”以函数名设置定时器“调用”开始射击“，延时0.4秒（非瞄准状态下先抬枪，过0.4秒之后开枪）</p>
-</li>
-<li><p>在pressed引脚”设置是否射击“为false</p>
-</li>
-<li><p>同时还要再pressed处“以函数名清除定时器”</p>
-</li>
-</ul>
-</li>
-<li><p>已经在射击中判断了此时是否瞄准，也要在瞄准中判断是否射击</p>
-<ul>
-<li><p>在播放完”停止瞄准“动画之后判断是否在射击</p>
-</li>
-<li><p>如果没在射击，就返回放松状态，否则就不变</p>
-</li>
-<li><p>实现的是：瞄准射击之后，放弃瞄准，但依旧可以普通射击</p>
-</li>
-</ul>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/02/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%B1%87%E6%80%BB%EF%BC%88%E4%B8%80%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/06/02/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%B1%87%E6%80%BB%EF%BC%88%E4%B8%80%EF%BC%89/" class="post-title-link" itemprop="url">UE4-项目-死寂-知识点汇总（一）</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-06-02 09:19:52" itemprop="dateCreated datePublished" datetime="2022-06-02T09:19:52+08:00">2022-06-02</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          
       
     </div>
 
