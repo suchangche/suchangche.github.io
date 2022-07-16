@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="角色属性UI排版思路 创建新的控件蓝图“游戏中界面”  添加一个文本作为游戏声明，放在不起眼的位置，颜色调整为灰色  添加一个新的画布面板“子弹和生命值”  添加一个图像放在右下角作为主武器还是副武器的背景图  添加一个文本放在图像上面用于显示当前弹匣数量  添加一个文本显示子弹数量放在图像的左边  添加一个图像，拉长成为细线，作为和下面血条的分割线  添加一个进度条作为血量条，设置其背景图，填充">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE4-项目-死寂-角色UI">
+<meta property="og:url" content="http://example.com/2022/07/16/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2UI/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="角色属性UI排版思路 创建新的控件蓝图“游戏中界面”  添加一个文本作为游戏声明，放在不起眼的位置，颜色调整为灰色  添加一个新的画布面板“子弹和生命值”  添加一个图像放在右下角作为主武器还是副武器的背景图  添加一个文本放在图像上面用于显示当前弹匣数量  添加一个文本显示子弹数量放在图像的左边  添加一个图像，拉长成为细线，作为和下面血条的分割线  添加一个进度条作为血量条，设置其背景图，填充">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-16T02:24:27.000Z">
+<meta property="article:modified_time" content="2022-07-16T03:33:53.116Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="项目">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/07/16/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2UI/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/07/16/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2UI/","path":"2022/07/16/UE4-项目-死寂-角色UI/","title":"UE4-项目-死寂-角色UI"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>UE4-项目-死寂-角色UI | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%92%E8%89%B2%E5%B1%9E%E6%80%A7UI%E6%8E%92%E7%89%88"><span class="nav-number">1.</span> <span class="nav-text">角色属性UI排版</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">1.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%92%E8%89%B2%E7%94%9F%E5%91%BD%E5%80%BC%E7%BB%91%E5%AE%9A"><span class="nav-number">2.</span> <span class="nav-text">角色生命值绑定</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-number">2.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E7%8E%A9%E5%AE%B6%E8%A7%92%E8%89%B2"><span class="nav-number">2.1.1.</span> <span class="nav-text">获取玩家角色</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-1"><span class="nav-number">2.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%90%E5%BC%B9%E6%95%B0%E9%87%8F%E7%BB%91%E5%AE%9A"><span class="nav-number">3.</span> <span class="nav-text">子弹数量绑定</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-2"><span class="nav-number">3.1.</span> <span class="nav-text">思路</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">77</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/16/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2UI/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="UE4-项目-死寂-角色UI | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UE4-项目-死寂-角色UI
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-16 10:24:27 / 修改时间：11:33:53" itemprop="dateCreated datePublished" datetime="2022-07-16T10:24:27+08:00">2022-07-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="角色属性UI排版"><a href="#角色属性UI排版" class="headerlink" title="角色属性UI排版"></a>角色属性UI排版</h1><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>创建新的控件蓝图“游戏中界面”</p>
+<ul>
+<li><p>添加一个文本作为游戏声明，放在不起眼的位置，颜色调整为灰色</p>
+</li>
+<li><p>添加一个新的画布面板“子弹和生命值”</p>
+<ul>
+<li><p>添加一个图像放在右下角作为主武器还是副武器的背景图</p>
+</li>
+<li><p>添加一个文本放在图像上面用于显示当前弹匣数量</p>
+</li>
+<li><p>添加一个文本显示子弹数量放在图像的左边</p>
+</li>
+<li><p>添加一个图像，拉长成为细线，作为和下面血条的分割线</p>
+</li>
+<li><p>添加一个进度条作为血量条，设置其背景图，填充图</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="角色生命值绑定"><a href="#角色生命值绑定" class="headerlink" title="角色生命值绑定"></a>角色生命值绑定</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="获取玩家角色"><a href="#获取玩家角色" class="headerlink" title="获取玩家角色"></a>获取玩家角色</h3><p>字面意思，通常配合“类型转换为（角色蓝图）”</p>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>给血量条创建绑定</p>
+<ul>
+<li><p>点击血量条，百分比，创建绑定</p>
+</li>
+<li><p>获取玩家角色，类型转换为BP_Player</p>
+</li>
+<li><p>获取“当前血量”，“（浮点）&#x2F;（浮点）”，连接到返回值</p>
+<ul>
+<li>因为百分比最大是1，角色血量最大是100，要达到能和百分比搭配的地步</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>绑定血量条颜色（底血量的情况下颜色变红）</p>
+<ul>
+<li><p>进度条-&gt;外观-&gt;填充颜色和不透明度-&gt;绑定-&gt;创建绑定</p>
+</li>
+<li><p>大体逻辑和血量条数值绑定一样，只有最后的输出不一样</p>
+</li>
+<li><p>返回节点创建颜色，当前血量&#x2F;100之后连接到G,B引脚上,R引脚设置为1</p>
+<ul>
+<li>颜色是由R(红色),G(绿色),B(蓝色),A(透明度)组成的，取值范围是[0,1]，当全为1的时候则为白色，当一个值为1，其他值为0时，则显示为1的那个颜色</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="子弹数量绑定"><a href="#子弹数量绑定" class="headerlink" title="子弹数量绑定"></a>子弹数量绑定</h1><h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>点击“子弹剩余数量”这个文本-&gt;内容-&gt;文本-&gt;绑定-&gt;创建绑定</p>
+<ul>
+<li><p>获取玩家角色，类型转换为BP_Player</p>
+</li>
+<li><p>判断是否装备主武器</p>
+<ul>
+<li><p>true则获取主武器实例，获取子弹数量，输出</p>
+</li>
+<li><p>false则判断是否装备副武器</p>
+</li>
+</ul>
+</li>
+<li><p>是否装备副武器</p>
+<ul>
+<li><p>true则获取副武器实例，获取子弹数量，输出</p>
+</li>
+<li><p>false则输出0</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>绑定弹匣数量</p>
+<ul>
+<li><p>选中“弹匣数量”文本，创建绑定</p>
+</li>
+<li><p>思路和绑定子弹数量一样，只不过将子弹数量换成弹匣数量</p>
+</li>
+</ul>
+</li>
+<li><p>将角色UI添加到视口</p>
+<ul>
+<li><p>因为是有可操纵角色的时候才能有这个UI，所以打开“BP_Player”</p>
+</li>
+<li><p>在事件图表中的“事件开始运行时”最后面“创建控件”，class选择“游戏中界面”，将返回值提升为变量“游戏中界面”，将其“添加到视口”</p>
+</li>
+</ul>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag"># 项目</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/07/15/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%8A%A0%E8%BD%BD%E6%B8%B8%E6%88%8FUI%E7%95%8C%E9%9D%A2/" rel="prev" title="UE4-项目-死寂-加载游戏UI界面">
+                  <i class="fa fa-chevron-left"></i> UE4-项目-死寂-加载游戏UI界面
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/07/16/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2%E5%8F%97%E4%BC%A4%E5%B1%8F%E5%B9%95%E6%95%88%E6%9E%9C/" rel="next" title="UE4-项目-死寂-角色受伤屏幕效果">
+                  UE4-项目-死寂-角色受伤屏幕效果 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

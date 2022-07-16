@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="一，位运算符   &amp; 按位与    ^ 按位异或   ~ 取反   &lt;&lt; 左移   &gt;&gt; 右移   &lt;&lt;(按位左移运算符)左移是基于一个数的二进制来说的，&lt;&lt;用来将一个数的二进制整体向位左移动若干位，移动的位数取决于其右操作数（右操作数必须是非负数），右边空出的位用0来补足。  如果高位左移后出现溢出情况，则舍弃高位  若高位不为1，左移一位">
+<meta property="og:type" content="article">
+<meta property="og:title" content="有关算法中的位运算">
+<meta property="og:url" content="http://example.com/2022/03/28/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E4%BD%8D%E8%BF%90%E7%AE%97/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="一，位运算符   &amp; 按位与    ^ 按位异或   ~ 取反   &lt;&lt; 左移   &gt;&gt; 右移   &lt;&lt;(按位左移运算符)左移是基于一个数的二进制来说的，&lt;&lt;用来将一个数的二进制整体向位左移动若干位，移动的位数取决于其右操作数（右操作数必须是非负数），右边空出的位用0来补足。  如果高位左移后出现溢出情况，则舍弃高位  若高位不为1，左移一位">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-03-28T11:06:21.000Z">
+<meta property="article:modified_time" content="2022-06-09T01:13:16.453Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/03/28/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E4%BD%8D%E8%BF%90%E7%AE%97/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/03/28/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E4%BD%8D%E8%BF%90%E7%AE%97/","path":"2022/03/28/有关算法中的位运算/","title":"有关算法中的位运算"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>有关算法中的位运算 | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%EF%BC%8C%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.</span> <span class="nav-text">一，位运算符</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#lt-lt-%E6%8C%89%E4%BD%8D%E5%B7%A6%E7%A7%BB%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.1.</span> <span class="nav-text">&lt;&lt;(按位左移运算符)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gt-gt-%E6%8C%89%E4%BD%8D%E5%8F%B3%E7%A7%BB%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.2.</span> <span class="nav-text">&gt;&gt;(按位右移运算符)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#amp-%E6%8C%89%E4%BD%8D%E4%B8%8E%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.3.</span> <span class="nav-text">&amp;(按位与运算符)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%89%E4%BD%8D%E6%88%96%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.4.</span> <span class="nav-text">|(按位或运算符)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%89%E4%BD%8D%E5%BC%82%E6%88%96%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.5.</span> <span class="nav-text">^(按位异或运算符)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%89%E4%BD%8D%E5%8F%96%E5%8F%8D%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.6.</span> <span class="nav-text">~(按位取反运算符)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%EF%BC%8C%E4%B8%8D%E5%90%8C%E9%95%BF%E5%BA%A6%E8%BF%9B%E8%A1%8C%E4%BD%8D%E8%BF%90%E7%AE%97"><span class="nav-number">2.</span> <span class="nav-text">二，不同长度进行位运算</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%EF%BC%8C%E5%B8%B8%E8%A7%81%E7%9A%84%E4%BA%8C%E8%BF%9B%E5%88%B6%E4%BD%8D%E5%8F%98%E6%8D%A2%E6%93%8D%E4%BD%9C"><span class="nav-number">3.</span> <span class="nav-text">三，常见的二进制位变换操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%EF%BC%8C%E5%BA%94%E7%94%A8%E4%B8%BE%E4%BE%8B"><span class="nav-number">4.</span> <span class="nav-text">四，应用举例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%EF%BC%8C%E6%8C%89%E4%BD%8D%E4%B8%8E%EF%BC%88-amp-%EF%BC%89"><span class="nav-number">4.1.</span> <span class="nav-text">一，按位与（&amp;）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%89%E4%BD%8D%E6%88%96%EF%BC%88-%EF%BC%89"><span class="nav-number">4.2.</span> <span class="nav-text">按位或（|）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E6%88%96%EF%BC%88-%EF%BC%89"><span class="nav-number">4.3.</span> <span class="nav-text">异或（^）</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">77</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/28/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E4%BD%8D%E8%BF%90%E7%AE%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="有关算法中的位运算 | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          有关算法中的位运算
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-03-28 19:06:21" itemprop="dateCreated datePublished" datetime="2022-03-28T19:06:21+08:00">2022-03-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-06-09 09:13:16" itemprop="dateModified" datetime="2022-06-09T09:13:16+08:00">2022-06-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="一，位运算符"><a href="#一，位运算符" class="headerlink" title="一，位运算符"></a>一，位运算符</h1><table>
+<thead>
+<tr>
+<th>&amp;</th>
+<th>按位与</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>^</td>
+<td>按位异或</td>
+</tr>
+<tr>
+<td>~</td>
+<td>取反</td>
+</tr>
+<tr>
+<td>&lt;&lt;</td>
+<td>左移</td>
+</tr>
+<tr>
+<td>&gt;&gt;</td>
+<td>右移</td>
+</tr>
+</tbody></table>
+<h2 id="lt-lt-按位左移运算符"><a href="#lt-lt-按位左移运算符" class="headerlink" title="&lt;&lt;(按位左移运算符)"></a>&lt;&lt;(按位左移运算符)</h2><p>左移是基于一个数的二进制来说的，&lt;&lt;用来将一个数的二进制整体向位左移动若干位，移动的位数取决于其右操作数（右操作数必须是非负数），右边空出的位用0来补足。</p>
+<ul>
+<li><p>如果高位左移后出现溢出情况，则舍弃高位</p>
+</li>
+<li><p>若高位不为1，左移一位相当于原数据在十进制的情况下乘以2【2&lt;&lt;1&#x3D;&#x3D;4】</p>
+</li>
+</ul>
+<h2 id="gt-gt-按位右移运算符"><a href="#gt-gt-按位右移运算符" class="headerlink" title="&gt;&gt;(按位右移运算符)"></a>&gt;&gt;(按位右移运算符)</h2><p>右移也是基于数的二进制来说的，&gt;&gt;用来将一个属的二进制数整体向右移动若干位，移动的位数取决于其右操作数（必须为非负数），移到右端的数被舍弃。</p>
+<ul>
+<li><p>对于无符号数，高位补0</p>
+</li>
+<li><p>对于有符号数，有些计算机将左边空出的位数用符号位补足，而有些用0补足</p>
+</li>
+</ul>
+<h2 id="amp-按位与运算符"><a href="#amp-按位与运算符" class="headerlink" title="&amp;(按位与运算符)"></a>&amp;(按位与运算符)</h2><p>a&amp;b是指将参加运算的两个整数a与b的<strong>二进制位</strong>进行与运算</p>
+<p>运算规则：两者同时为1才为1，否则为0</p>
+<ul>
+<li><p>0&amp;0&#x3D;0</p>
+</li>
+<li><p>0&amp;1&#x3D;0</p>
+</li>
+<li><p>1&amp;1&#x3D;0</p>
+</li>
+</ul>
+<h2 id="按位或运算符"><a href="#按位或运算符" class="headerlink" title="|(按位或运算符)"></a>|(按位或运算符)</h2><p>a|b是指将参加运算的两个整数a与b的<strong>二进制位</strong>进行或运算</p>
+<p>运算规则：两者只要有一个为1，则结果为1</p>
+<ul>
+<li><p>0|0&#x3D;0</p>
+</li>
+<li><p>0|1&#x3D;1</p>
+</li>
+<li><p>1|1&#x3D;1</p>
+</li>
+</ul>
+<p>例如：3|5</p>
+<p>3|5 -&gt; 0000 0011|0000 0101&#x3D;0000 0111</p>
+<p>即结果为7</p>
+<p>另外，负数按照补码形式参加运算</p>
+<h2 id="按位异或运算符"><a href="#按位异或运算符" class="headerlink" title="^(按位异或运算符)"></a>^(按位异或运算符)</h2><p>a^b是指将a与b的二进制形式进行异或运算</p>
+<p>运算规则：参加运算的两个对象如果值不同，结果为1，否则为0</p>
+<ul>
+<li><p>0^0&#x3D;0</p>
+</li>
+<li><p>0^1&#x3D;1</p>
+</li>
+<li><p>1^1&#x3D;0</p>
+</li>
+</ul>
+<p>异或其实就是不进位的加法</p>
+<p>1+1&#x3D;0；0+0&#x3D;0；1+0&#x3D;1</p>
+<p>异或的性质</p>
+<ul>
+<li><p>交换律：a^b&#x3D;b^a</p>
+</li>
+<li><p>结合律：(a^b)^c&#x3D;a^(b^c)</p>
+</li>
+</ul>
+<p>异或运算的特殊作用</p>
+<ol>
+<li><p>使特定位翻转</p>
+<ul>
+<li>x&#x3D;1010 1110 我们要把<strong>后4位数反转</strong>，则可以使x^0000 1111&#x3D;1010 0001</li>
+</ul>
+</li>
+<li><p>与0相异或可保留原值</p>
+<ul>
+<li>1010 1110^0000 0000&#x3D;1010 1110</li>
+</ul>
+</li>
+<li><p>对于任何数x都有<strong>自反性</strong></p>
+<ul>
+<li>x^x&#x3D;0；x^0&#x3D;x    A^B^B&#x3D;A</li>
+</ul>
+</li>
+<li><p>交换两个数</p>
+<ul>
+<li>a&#x3D;a^b；b&#x3D;b^a；a&#x3D;a^b</li>
+</ul>
+</li>
+</ol>
+<h2 id="按位取反运算符"><a href="#按位取反运算符" class="headerlink" title="~(按位取反运算符)"></a>~(按位取反运算符)</h2><p>按位取反是指将a的二进制形式全都取反——1变为0，0变为1</p>
+<p>eg：~9</p>
+<p>9&#x3D;0000 1001-&gt;1111 0110</p>
+<p>1111 0110的最高位是1，即为补码</p>
+<p>补码还原成反码（补码减1）得1111 0101</p>
+<p>反码还原成原码（最高位不变，其他各位取反）得1000 1010</p>
+<p>则~9&#x3D;-10</p>
+<h1 id="二，不同长度进行位运算"><a href="#二，不同长度进行位运算" class="headerlink" title="二，不同长度进行位运算"></a>二，不同长度进行位运算</h1><p>如果两个不同长度的数据进行位运算，则将两者按右对其，然后进行位运算</p>
+<p>eg：若一个4字节的数据与一个2字节的数据进行与运算</p>
+<p>首先右端对齐，然后左边有以下三种情况</p>
+<ol>
+<li><p>如果数据为正数，则左边补16个0</p>
+</li>
+<li><p>如果数据为负数，则左边补16个1</p>
+</li>
+<li><p>如果数据为无符号数，则左边补16个0</p>
+</li>
+</ol>
+<h1 id="三，常见的二进制位变换操作"><a href="#三，常见的二进制位变换操作" class="headerlink" title="三，常见的二进制位变换操作"></a>三，常见的二进制位变换操作</h1><table>
+<thead>
+<tr>
+<th>x&gt;&gt;1</th>
+<th>去掉最后一位</th>
+<th>1011 01-&gt;1011 0</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>x&lt;&lt;1</td>
+<td>在最后加一个0</td>
+<td>1011 01-&gt;1011 010</td>
+</tr>
+<tr>
+<td>(x&lt;&lt;1)+1</td>
+<td>在最后加一个1</td>
+<td>1011 01-&gt;1011 011</td>
+</tr>
+<tr>
+<td>x|1</td>
+<td>把最后一位变为1</td>
+<td>1011 00-&gt;1011 01</td>
+</tr>
+<tr>
+<td>(x|1)-1</td>
+<td>把最后一位变为0</td>
+<td>1011 01-&gt;1011 00</td>
+</tr>
+<tr>
+<td>x^1</td>
+<td>最后一位取反</td>
+<td>101101-&gt;1011 00</td>
+</tr>
+<tr>
+<td>x|(1&lt;&lt;(k-1))，k&#x3D;3</td>
+<td>把右往左数第k位数变为1</td>
+<td>1010 01-&gt;1011 01</td>
+</tr>
+<tr>
+<td>x&amp;~(1&lt;&lt;(k-1))，k&#x3D;3</td>
+<td>把从右往左数第k位变为0</td>
+<td>1011 01-&gt;1011 01</td>
+</tr>
+<tr>
+<td>x ^ (1&lt;&lt;(k-1))，k&#x3D;3</td>
+<td>右数第k位取反</td>
+<td>1010 01-&gt;1011 01</td>
+</tr>
+<tr>
+<td>x &amp;7</td>
+<td>取末三位</td>
+<td>11011 01-&gt;101</td>
+</tr>
+<tr>
+<td>x &gt;&gt; (k-1)&amp;1，k&#x3D;4</td>
+<td>取右数第k位</td>
+<td>1101 101-&gt;1</td>
+</tr>
+<tr>
+<td>x|(1&lt;&lt;k-1)，k&#x3D;4</td>
+<td>把末k位变成1</td>
+<td>1010 01-&gt;1011 11</td>
+</tr>
+<tr>
+<td>x^(1&lt;&lt;k-1)，k&#x3D;4</td>
+<td>末k位取反</td>
+<td>101001-&gt;100110</td>
+</tr>
+<tr>
+<td>x&amp;(x+1)</td>
+<td>把右边连续的1变成0</td>
+<td>100101111-&gt;100100000</td>
+</tr>
+<tr>
+<td>x|(x-1)</td>
+<td>把右边连续的0变成1</td>
+<td>11011000-&gt;11011111</td>
+</tr>
+<tr>
+<td>x|(x+1)</td>
+<td>把右起第一个0变成1</td>
+<td>100101111-&gt;100111111</td>
+</tr>
+<tr>
+<td>(x^(x+1))&gt;&gt;1</td>
+<td>取右边连续的1</td>
+<td>100101111-&gt;1111</td>
+</tr>
+<tr>
+<td>x&amp;(x^(x-1))</td>
+<td>去掉右起第一个1的左边</td>
+<td>100101000-&gt;1000</td>
+</tr>
+</tbody></table>
+<h1 id="四，应用举例"><a href="#四，应用举例" class="headerlink" title="四，应用举例"></a>四，应用举例</h1><h2 id="一，按位与（-amp-）"><a href="#一，按位与（-amp-）" class="headerlink" title="一，按位与（&amp;）"></a>一，按位与（&amp;）</h2><p>eg1：判断一个数n是否为2的整数幂</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> n;</span><br><span class="line">cin&gt;&gt;n;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(n&amp;(n<span class="number">-1</span>))&#123;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;no&quot;</span>&lt;&lt;endl;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;yes&quot;</span>&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>eg2:编写一个函数，以二进制串的形式输入一个无符号整数，返回其二进制表达式中数字位数为 ‘1’ 的个数（也被称为汉明重量）。【leetcode.191.easy】</p>
+<p>思路：循环检查n的二进制每一位是否为1</p>
+<p>当检查第i位时，可以让n与2的i次方(<strong>1进行左移i位</strong>)进行与运算，当且仅当n的第i位为1时，运算结果不为0</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">hammingWeight</span><span class="params">(<span class="type">uint32_t</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> ret = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">32</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (n &amp; (<span class="number">1</span> &lt;&lt; i)) &#123;</span><br><span class="line">                ret++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="按位或（-）"><a href="#按位或（-）" class="headerlink" title="按位或（|）"></a>按位或（|）</h2><p>eg1:颠倒给定的 32 位无符号整数的二进制位。</p>
+<p>思路：将n视作一个长为32的二进制串，从低位往高位枚举n的每一位，将其倒序添加到反转结果rev中。</p>
+<p>每枚举一位就将n右移一位，这样当前n的最低位就是我们要枚举的那一位，当n为0时就可以结束循环。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">uint32_t</span> <span class="title">reverseBits</span><span class="params">(<span class="type">uint32_t</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="type">uint32_t</span> rev = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">//rev由32个0组成</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">32</span> &amp;&amp; n &gt; <span class="number">0</span>; ++i) &#123;</span><br><span class="line">            <span class="comment">//n&amp;1用来取n的最低位(1或者0)</span></span><br><span class="line">            <span class="comment">//rev | (n&amp;1)则是把rev的最后一位变为1或者不变（原本值为0）</span></span><br><span class="line">            rev |= (n &amp; <span class="number">1</span>) &lt;&lt; (<span class="number">31</span> - i);<span class="comment">//将rev |= (n &amp; 1)的结果左移31-i位</span></span><br><span class="line">            n &gt;&gt;= <span class="number">1</span>;<span class="comment">//n右移1位，保证当前最低位为我们要操作的那一位</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> rev;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="异或（-）"><a href="#异或（-）" class="headerlink" title="异或（^）"></a>异或（^）</h2><p>给定一个<strong>非空</strong>整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。</p>
+<p>异或运算有以下三个性质。</p>
+<p>任何数和 0 做异或运算，结果仍然是原来的数<br>任何数和其自身做异或运算，结果是 0<br>异或运算满足交换律和结合律</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">singleNumber</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> ret = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> e: nums) ret ^= e;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>未完待续……</p>
+<p>声明：此博客整理思路参考《代码随想录》题目摘自leetcode</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C++</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/03/27/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E5%8F%8C%E6%8C%87%E9%92%88/" rel="prev" title="有关算法中的双指针">
+                  <i class="fa fa-chevron-left"></i> 有关算法中的双指针
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/03/28/about%20const%20int/" rel="next" title="const int* i与const int& i以及int* const i的区别">
+                  const int* i与const int& i以及int* const i的区别 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

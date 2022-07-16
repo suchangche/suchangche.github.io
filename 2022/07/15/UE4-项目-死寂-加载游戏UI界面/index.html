@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="加载游戏UI界面知识点选择通过Index引脚选择返回值 随机布尔字面意思，用于“选择”节点的index引脚为布尔的时候随机输出返回值 使用纹理设置笔刷可以直接将一个图片当作画刷用，但是通常用于覆盖当前图片 创建控件以一个类（控件蓝图）来创建新的控件界面 思路 将玩家点击的地图选择按钮的名称传到“主界面”控件蓝图中  在地图选择按钮控件蓝图中添加命名类型的变量“选择的游戏地图”，勾选其“可编辑实例”">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE4-项目-死寂-加载游戏UI界面">
+<meta property="og:url" content="http://example.com/2022/07/15/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%8A%A0%E8%BD%BD%E6%B8%B8%E6%88%8FUI%E7%95%8C%E9%9D%A2/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="加载游戏UI界面知识点选择通过Index引脚选择返回值 随机布尔字面意思，用于“选择”节点的index引脚为布尔的时候随机输出返回值 使用纹理设置笔刷可以直接将一个图片当作画刷用，但是通常用于覆盖当前图片 创建控件以一个类（控件蓝图）来创建新的控件界面 思路 将玩家点击的地图选择按钮的名称传到“主界面”控件蓝图中  在地图选择按钮控件蓝图中添加命名类型的变量“选择的游戏地图”，勾选其“可编辑实例”">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-15T06:57:41.000Z">
+<meta property="article:modified_time" content="2022-07-15T08:49:05.222Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="项目">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/07/15/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%8A%A0%E8%BD%BD%E6%B8%B8%E6%88%8FUI%E7%95%8C%E9%9D%A2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/07/15/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%8A%A0%E8%BD%BD%E6%B8%B8%E6%88%8FUI%E7%95%8C%E9%9D%A2/","path":"2022/07/15/UE4-项目-死寂-加载游戏UI界面/","title":"UE4-项目-死寂-加载游戏UI界面"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>UE4-项目-死寂-加载游戏UI界面 | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD%E6%B8%B8%E6%88%8FUI%E7%95%8C%E9%9D%A2"><span class="nav-number">1.</span> <span class="nav-text">加载游戏UI界面</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-number">1.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9"><span class="nav-number">1.1.1.</span> <span class="nav-text">选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E5%B8%83%E5%B0%94"><span class="nav-number">1.1.2.</span> <span class="nav-text">随机布尔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%BA%B9%E7%90%86%E8%AE%BE%E7%BD%AE%E7%AC%94%E5%88%B7"><span class="nav-number">1.1.3.</span> <span class="nav-text">使用纹理设置笔刷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%8E%A7%E4%BB%B6"><span class="nav-number">1.1.4.</span> <span class="nav-text">创建控件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">1.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E8%83%8C%E6%99%AF%E9%9F%B3%E4%B9%90"><span class="nav-number">2.</span> <span class="nav-text">添加背景音乐</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BUG-%E4%B8%8D%E9%80%89%E6%8B%A9%E5%9C%B0%E5%9B%BE%E7%9B%B4%E6%8E%A5%E5%BC%80%E5%A7%8B%E6%B8%B8%E6%88%8F"><span class="nav-number">3.</span> <span class="nav-text">BUG-不选择地图直接开始游戏</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF"><span class="nav-number">3.1.</span> <span class="nav-text">解决思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%AD%A5%E9%AA%A4"><span class="nav-number">3.2.</span> <span class="nav-text">解决步骤</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">77</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/15/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%8A%A0%E8%BD%BD%E6%B8%B8%E6%88%8FUI%E7%95%8C%E9%9D%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="UE4-项目-死寂-加载游戏UI界面 | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UE4-项目-死寂-加载游戏UI界面
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-15 14:57:41 / 修改时间：16:49:05" itemprop="dateCreated datePublished" datetime="2022-07-15T14:57:41+08:00">2022-07-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="加载游戏UI界面"><a href="#加载游戏UI界面" class="headerlink" title="加载游戏UI界面"></a>加载游戏UI界面</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h3><p>通过Index引脚选择返回值</p>
+<h3 id="随机布尔"><a href="#随机布尔" class="headerlink" title="随机布尔"></a>随机布尔</h3><p>字面意思，用于“选择”节点的index引脚为布尔的时候随机输出返回值</p>
+<h3 id="使用纹理设置笔刷"><a href="#使用纹理设置笔刷" class="headerlink" title="使用纹理设置笔刷"></a>使用纹理设置笔刷</h3><p>可以直接将一个图片当作画刷用，但是通常用于覆盖当前图片</p>
+<h3 id="创建控件"><a href="#创建控件" class="headerlink" title="创建控件"></a>创建控件</h3><p>以一个类（控件蓝图）来创建新的控件界面</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>将玩家点击的地图选择按钮的名称传到“主界面”控件蓝图中</p>
+<ul>
+<li><p>在地图选择按钮控件蓝图中添加命名类型的变量“选择的游戏地图”，勾选其“可编辑实例”以及“生成时公开”</p>
+</li>
+<li><p>在“地图选择”控件蓝图中选择按钮后设置“选择的游戏地图”</p>
+</li>
+<li><p>在“主界面”控件蓝图中创建命名类型的变量“选中的地图”</p>
+</li>
+<li><p>在“地图选择按钮”中获取类的所有控件之后“设置选中的地图”，然后将地图选择按钮中的变量”选择的游戏地图“赋值给它（发生在关闭选中状态之后，开启选中状态之前）</p>
+</li>
+</ul>
+</li>
+<li><p>新建一个控件蓝图“加载界面”</p>
+<ul>
+<li><p>添加一个图像“加载图片组件”作为背景，修改其锚点和偏移</p>
+</li>
+<li><p>添加一个文本“载入关卡中”，修改其锚点和尺寸，字体，位置</p>
+</li>
+<li><p>添加一个图像作为加载时闪烁的logo，放在合适的位置</p>
+</li>
+<li><p>添加一个边界，用于做出游戏黑屏后慢慢显示加载界面的效果</p>
+</li>
+<li><p>添加一个进度条，设置其位置和尺寸大小，设置其样式中的着色和外观中的”填充颜色和不透明度“</p>
+</li>
+<li><p>添加动画“淡入”，给边界添加一个轨道，设置其渲染不透明度由1到0</p>
+</li>
+<li><p>添加动画“闪烁”，给logo添加一个轨道，设置其变换中的缩放从0.1到0.2到0.1；设置其渲染不透明度由0到1到0</p>
+</li>
+<li><p>添加一个命名类型的变量“选中的地图”，勾选可编辑实例和生成时公开；一个纹理2D类型的变量“加载图片”</p>
+</li>
+<li><p>在事件构造中判断“选中的地图”是否&#x3D;&#x3D;“地图名称”</p>
+</li>
+<li><p>分别通过“随机布尔”和“选择”节点来设置“加载图片”</p>
+</li>
+<li><p>使用“加载图片组件”调用“使用纹理设置笔刷”来使得“加载图片”覆盖“加载图片组件”</p>
+</li>
+<li><p>播放“闪烁”动画和“淡入”动画（注意：闪烁动画的循环次数为0：意味着无线循环）</p>
+</li>
+<li><p>实现进度条更新百分比</p>
+<ul>
+<li><p>首先明确一点，进度条的最大值为1！</p>
+</li>
+<li><p>创建一个浮点型变量“进度条加载时间”</p>
+</li>
+<li><p>以事件设置定时器，创建一个自定义事件“Loading”，使用一个分支判断，条件为“进度条加载时间”是否&gt;&#x3D;1</p>
+</li>
+<li><p>true则”Do Once”，按名称打开关卡，将“选中的地图”作为变量传入</p>
+</li>
+<li><p>false则将“进度条加载时间”+0.01后重新赋值给“进度条加载时间”</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>给地图选择界面添加开始游戏按钮及功能</p>
+<ul>
+<li><p>在地图选择控件蓝图中添加“按钮交互”控件蓝图，设置其位置和尺寸以及内容</p>
+</li>
+<li><p>在主界面拖入地图选择界面，获取“按钮交互”，获取button，绑定事件到点击时，创建自定义事件“游戏加载”</p>
+</li>
+<li><p>调用“关闭所有UI交互”函数，“创建控件”（类选择为“加载界面”），“添加到视口”，将“选中的地图”变量传入“创建控件”的“选中的地图”引脚中</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="添加背景音乐"><a href="#添加背景音乐" class="headerlink" title="添加背景音乐"></a>添加背景音乐</h1><ol>
+<li><p>选择一个背景音乐，点开，设置其“正在循环”为true</p>
+</li>
+<li><p>将背景音乐拖入场景中</p>
+</li>
+</ol>
+<h1 id="BUG-不选择地图直接开始游戏"><a href="#BUG-不选择地图直接开始游戏" class="headerlink" title="BUG-不选择地图直接开始游戏"></a>BUG-不选择地图直接开始游戏</h1><h2 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h2><p>在未选择地图的情况下不可以点击开始游戏按钮即可</p>
+<h2 id="解决步骤"><a href="#解决步骤" class="headerlink" title="解决步骤"></a>解决步骤</h2><ol>
+<li><p>在地图选择控件蓝图中选中“开始游戏”按钮交互-&gt;行为-&gt;已启用-&gt;false</p>
+</li>
+<li><p>在地图选择按钮控件蓝图中的“开启选中状态”函数中</p>
+<ul>
+<li><p>通过“获取类的所有控件”节点获取“主界面”，从而获取“地图选择界面”，获取“按钮交互”，“设置已启用”为true</p>
+</li>
+<li><p>关闭选中状态同理设置为false</p>
+</li>
+</ul>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag"># 项目</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/07/15/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%9C%B0%E5%9B%BE%E9%80%89%E6%8B%A9%E5%8A%9F%E8%83%BD/" rel="prev" title="UE4-项目-死寂-地图选择功能">
+                  <i class="fa fa-chevron-left"></i> UE4-项目-死寂-地图选择功能
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/07/16/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2UI/" rel="next" title="UE4-项目-死寂-角色UI">
+                  UE4-项目-死寂-角色UI <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

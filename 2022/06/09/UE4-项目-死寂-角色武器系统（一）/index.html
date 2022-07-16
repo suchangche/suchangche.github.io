@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="持枪动画切换这一部分的主要目标是实现持枪动画的切换  实现角色本身的持枪姿势切换  实现角色从默认状态到持枪之间的切换状态（也就是抽枪动画）   角色本身持枪姿势切换思路 给基础状态机添加一个缓存，此时，基础状态机就能同步在其他位置被调用了  编辑基础状态机的基础姿势，在其中添加持枪切换动画（混合空间1D）  添加一个新的功能状态机，在其中使用基础状态机的缓存姿势   知识点保存新的缓存姿势此节点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE4-项目-死寂-角色武器系统（一）">
+<meta property="og:url" content="http://example.com/2022/06/09/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2%E6%AD%A6%E5%99%A8%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="持枪动画切换这一部分的主要目标是实现持枪动画的切换  实现角色本身的持枪姿势切换  实现角色从默认状态到持枪之间的切换状态（也就是抽枪动画）   角色本身持枪姿势切换思路 给基础状态机添加一个缓存，此时，基础状态机就能同步在其他位置被调用了  编辑基础状态机的基础姿势，在其中添加持枪切换动画（混合空间1D）  添加一个新的功能状态机，在其中使用基础状态机的缓存姿势   知识点保存新的缓存姿势此节点">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2%E6%AD%A6%E5%99%A8%E7%B3%BB%E7%BB%9F%5C1.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/822f0bb60b7047488df65b35b4cd4369.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/27996887b51b4dd69599e8e003fa5cac.gif">
+<meta property="article:published_time" content="2022-06-09T02:09:48.000Z">
+<meta property="article:modified_time" content="2022-06-14T08:21:08.377Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="项目">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2%E6%AD%A6%E5%99%A8%E7%B3%BB%E7%BB%9F%5C1.png">
+
+
+<link rel="canonical" href="http://example.com/2022/06/09/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2%E6%AD%A6%E5%99%A8%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B8%80%EF%BC%89/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/06/09/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2%E6%AD%A6%E5%99%A8%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B8%80%EF%BC%89/","path":"2022/06/09/UE4-项目-死寂-角色武器系统（一）/","title":"UE4-项目-死寂-角色武器系统（一）"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>UE4-项目-死寂-角色武器系统（一） | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%81%E6%9E%AA%E5%8A%A8%E7%94%BB%E5%88%87%E6%8D%A2"><span class="nav-number">1.</span> <span class="nav-text">持枪动画切换</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%92%E8%89%B2%E6%9C%AC%E8%BA%AB%E6%8C%81%E6%9E%AA%E5%A7%BF%E5%8A%BF%E5%88%87%E6%8D%A2"><span class="nav-number">2.</span> <span class="nav-text">角色本身持枪姿势切换</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">2.1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-number">2.2.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%9D%E5%AD%98%E6%96%B0%E7%9A%84%E7%BC%93%E5%AD%98%E5%A7%BF%E5%8A%BF"><span class="nav-number">2.2.1.</span> <span class="nav-text">保存新的缓存姿势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%BC%93%E5%AD%98%E5%A7%BF%E5%8A%BF"><span class="nav-number">2.2.2.</span> <span class="nav-text">使用缓存姿势</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E5%A4%A7%E8%87%B4%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.3.</span> <span class="nav-text">实现大致步骤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A3%85%E5%A4%87%E6%AD%A6%E5%99%A8%E5%A7%BF%E5%8A%BF%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.</span> <span class="nav-text">装备武器姿势动画实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-1"><span class="nav-number">3.1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-1"><span class="nav-number">3.2.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AF%8F%E4%B8%AA%E9%AA%A8%E9%AA%BC%E7%9A%84%E5%88%86%E5%B1%82%E6%B7%B7%E5%90%88"><span class="nav-number">3.2.1.</span> <span class="nav-text">每个骨骼的分层混合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E7%9B%B8%E5%85%B3%E5%89%A9%E4%BD%99%E5%8A%A8%E7%94%BB%E6%97%B6%E9%97%B4"><span class="nav-number">3.2.2.</span> <span class="nav-text">获取相关剩余动画时间</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E5%A4%A7%E8%87%B4%E6%AD%A5%E9%AA%A4-1"><span class="nav-number">3.3.</span> <span class="nav-text">实现大致步骤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E8%83%8C%E5%8C%85%EF%BC%88%E6%8D%A2%E8%A3%85%E7%B3%BB%E7%BB%9F%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">添加背包（换装系统）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-2"><span class="nav-number">4.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E6%80%BB%E5%A7%BF%E5%8A%BF%E7%BB%84%E4%BB%B6"><span class="nav-number">4.1.1.</span> <span class="nav-text">设置总姿势组件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E5%A4%A7%E8%87%B4%E6%AD%A5%E9%AA%A4-2"><span class="nav-number">4.2.</span> <span class="nav-text">实现大致步骤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E6%AD%A6%E5%99%A8%E6%A8%A1%E5%9E%8B"><span class="nav-number">5.</span> <span class="nav-text">添加武器模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-2"><span class="nav-number">5.1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-3"><span class="nav-number">5.2.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E9%AA%A8%E9%AA%BC%EF%BC%88%E6%8F%92%E6%A7%BD%EF%BC%89"><span class="nav-number">5.2.1.</span> <span class="nav-text">虚拟骨骼（插槽）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8E%E7%B1%BB%E7%94%9F%E6%88%90Actor"><span class="nav-number">5.2.2.</span> <span class="nav-text">从类生成Actor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%84%E5%8A%A0Actor%E5%88%B0%E7%BB%84%E4%BB%B6%EF%BC%88attach%EF%BC%89"><span class="nav-number">5.2.3.</span> <span class="nav-text">附加Actor到组件（attach）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E5%A4%A7%E8%87%B4%E6%AD%A5%E9%AA%A4-3"><span class="nav-number">5.3.</span> <span class="nav-text">实现大致步骤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%A6%E5%99%A8%E8%B7%9F%E9%9A%8F%E8%A7%92%E8%89%B2%E6%89%8B%E9%83%A8%E8%BF%90%E5%8A%A8"><span class="nav-number">6.</span> <span class="nav-text">武器跟随角色手部运动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-4"><span class="nav-number">6.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AnimNotify%EF%BC%88%E5%8A%A8%E7%94%BB%E9%80%9A%E7%9F%A5%EF%BC%89"><span class="nav-number">6.1.1.</span> <span class="nav-text">AnimNotify（动画通知）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%8F%E5%88%97"><span class="nav-number">6.1.2.</span> <span class="nav-text">序列</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-3"><span class="nav-number">6.2.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E5%A4%A7%E8%87%B4%E6%AD%A5%E9%AA%A4-4"><span class="nav-number">6.3.</span> <span class="nav-text">实现大致步骤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%81%E6%9E%AA%E8%B9%B2%E4%BC%8F"><span class="nav-number">7.</span> <span class="nav-text">持枪蹲伏</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-4"><span class="nav-number">7.1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E5%A4%A7%E8%87%B4%E6%AD%A5%E9%AA%A4-5"><span class="nav-number">7.2.</span> <span class="nav-text">实现大致步骤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%81%E6%9E%AA%E8%B7%B3%E8%B7%83"><span class="nav-number">8.</span> <span class="nav-text">持枪跳跃</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-5"><span class="nav-number">8.1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E5%A4%A7%E8%87%B4%E6%AD%A5%E9%AA%A4-6"><span class="nav-number">8.2.</span> <span class="nav-text">实现大致步骤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%81%E6%9E%AA%E5%9D%A0%E8%90%BD"><span class="nav-number">9.</span> <span class="nav-text">持枪坠落</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-6"><span class="nav-number">9.1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E5%A4%A7%E8%87%B4%E6%AD%A5%E9%AA%A4-7"><span class="nav-number">9.2.</span> <span class="nav-text">实现大致步骤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BUG-%E5%88%87%E6%8D%A2%E6%AD%A6%E5%99%A8%E6%97%B6%E8%B7%B3%E8%B7%83%E5%AF%BC%E8%87%B4%E5%88%87%E4%BA%86%E4%B8%AA%E5%AF%82%E5%AF%9E"><span class="nav-number">10.</span> <span class="nav-text">BUG-切换武器时跳跃导致切了个寂寞</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-number">10.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BUG%E8%AF%B1%E5%9B%A0"><span class="nav-number">10.2.</span> <span class="nav-text">BUG诱因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">10.3.</span> <span class="nav-text">解决方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E5%A4%A7%E8%87%B4%E6%AD%A5%E9%AA%A4-8"><span class="nav-number">10.4.</span> <span class="nav-text">实现大致步骤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BUG-%E5%9D%A0%E8%90%BD%E6%97%B6%E5%8F%AF%E8%B7%B3%E8%B7%83%E4%BB%A5%E5%8F%8A%E8%B9%B2%E4%BC%8F"><span class="nav-number">11.</span> <span class="nav-text">BUG-坠落时可跳跃以及蹲伏</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0-1"><span class="nav-number">11.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BUG%E8%AF%B1%E5%9B%A0-1"><span class="nav-number">11.2.</span> <span class="nav-text">BUG诱因</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%B3%E8%B7%83BUG"><span class="nav-number">11.2.1.</span> <span class="nav-text">跳跃BUG</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B9%B2%E4%BC%8FBUG"><span class="nav-number">11.2.2.</span> <span class="nav-text">蹲伏BUG</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88-1"><span class="nav-number">11.3.</span> <span class="nav-text">解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%B3%E8%B7%83BUG-1"><span class="nav-number">11.3.1.</span> <span class="nav-text">跳跃BUG</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B9%B2%E4%BC%8FBUG-1"><span class="nav-number">11.3.2.</span> <span class="nav-text">蹲伏BUG</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BUG-%E8%B9%B2%E4%BC%8F%E7%8A%B6%E6%80%81%E7%9B%B4%E6%8E%A5%E8%B7%B3%E8%B7%83"><span class="nav-number">12.</span> <span class="nav-text">BUG-蹲伏状态直接跳跃</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0-2"><span class="nav-number">12.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BUG%E8%AF%B1%E5%9B%A0-2"><span class="nav-number">12.2.</span> <span class="nav-text">BUG诱因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88-2"><span class="nav-number">12.3.</span> <span class="nav-text">解决方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E5%A4%A7%E8%87%B4%E6%AD%A5%E9%AA%A4-9"><span class="nav-number">12.4.</span> <span class="nav-text">实现大致步骤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%98%E5%8C%96-%E8%A7%92%E8%89%B2%E6%91%A9%E6%93%A6%E5%8A%9B"><span class="nav-number">13.</span> <span class="nav-text">优化-角色摩擦力</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0-3"><span class="nav-number">13.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E6%80%9D%E8%B7%AF"><span class="nav-number">13.2.</span> <span class="nav-text">优化思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E5%A4%A7%E8%87%B4%E6%AD%A5%E9%AA%A4-10"><span class="nav-number">13.3.</span> <span class="nav-text">实现大致步骤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%92%E8%89%B2%E7%9E%84%E5%87%86%E7%8A%B6%E6%80%81%E5%88%87%E6%8D%A2"><span class="nav-number">14.</span> <span class="nav-text">角色瞄准状态切换</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-7"><span class="nav-number">14.1.</span> <span class="nav-text">思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%86%E9%87%8E%E6%8B%89%E8%BF%91"><span class="nav-number">14.1.1.</span> <span class="nav-text">视野拉近</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%92%E8%89%B2%E6%9C%9D%E5%90%91"><span class="nav-number">14.1.2.</span> <span class="nav-text">角色朝向</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E5%A4%A7%E8%87%B4%E6%AD%A5%E9%AA%A4-11"><span class="nav-number">14.2.</span> <span class="nav-text">实现大致步骤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E5%A4%96%E8%AF%9D"><span class="nav-number">15.</span> <span class="nav-text">题外话</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%92%E8%89%B2%E7%9E%84%E5%87%86%E5%8A%A8%E7%94%BB"><span class="nav-number">16.</span> <span class="nav-text">角色瞄准动画</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-5"><span class="nav-number">16.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%92%E8%89%B2%E8%BF%90%E5%8A%A8%E5%85%AB%E4%B8%AA%E6%96%B9%E5%90%91%E7%9A%84%E8%A7%92%E5%BA%A6%E5%80%BC"><span class="nav-number">16.1.1.</span> <span class="nav-text">角色运动八个方向的角度值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%96%B9%E5%90%91"><span class="nav-number">16.1.2.</span> <span class="nav-text">计算方向</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%8B%E8%BD%AC%E6%B5%AE%E7%82%B9%EF%BC%88select%EF%BC%89"><span class="nav-number">16.1.3.</span> <span class="nav-text">旋转浮点（select）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-8"><span class="nav-number">16.2.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E5%8C%96-%E6%8C%81%E6%9E%AA%E8%A1%8C%E8%B5%B0%E9%80%9F%E5%BA%A6%E4%BC%98%E5%8C%96"><span class="nav-number">16.3.</span> <span class="nav-text">优化-持枪行走速度优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-9"><span class="nav-number">16.3.1.</span> <span class="nav-text">思路</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BUG-%E6%8C%81%E6%9E%AA%E7%9E%84%E5%87%86%E5%81%8F%E7%A7%BB%E7%9A%84%E6%89%8B%E9%83%A8%E8%BF%90%E5%8A%A8"><span class="nav-number">17.</span> <span class="nav-text">BUG-持枪瞄准偏移的手部运动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#BUG%E6%8F%8F%E8%BF%B0"><span class="nav-number">17.1.</span> <span class="nav-text">BUG描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-6"><span class="nav-number">17.2.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IK%EF%BC%88%E9%80%86%E5%90%91%E5%8A%A8%E5%8A%9B%E5%AD%A6%EF%BC%89"><span class="nav-number">17.2.1.</span> <span class="nav-text">IK（逆向动力学）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E6%BC%94%E7%A4%BA"><span class="nav-number">17.2.1.1.</span> <span class="nav-text">简单演示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">17.2.1.2.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8A%82%E7%82%B9FABRIK"><span class="nav-number">17.2.1.3.</span> <span class="nav-text">节点FABRIK</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88-3"><span class="nav-number">17.3.</span> <span class="nav-text">解决方案</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9E%84%E5%87%86%E7%8A%B6%E6%80%81%E7%9A%84%E7%9E%84%E5%87%86%E5%81%8F%E7%A7%BB%E5%8A%A8%E7%94%BB"><span class="nav-number">18.</span> <span class="nav-text">瞄准状态的瞄准偏移动画</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-7"><span class="nav-number">18.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B5%84%E4%BA%A7%E6%93%8D%E4%BD%9C-gt-%E9%80%9A%E8%BF%87%E5%B1%9E%E6%80%A7%E7%9F%A9%E9%98%B5%E8%BF%9B%E8%A1%8C%E6%89%B9%E9%87%8F%E8%B5%84%E4%BA%A7%E7%BC%96%E8%BE%91-gt-AdditiveSettings"><span class="nav-number">18.1.1.</span> <span class="nav-text">资产操作-&gt;通过属性矩阵进行批量资产编辑-&gt;AdditiveSettings</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AO-%E7%9E%84%E5%87%86%E5%81%8F%E7%A7%BB"><span class="nav-number">18.1.2.</span> <span class="nav-text">AO_瞄准偏移</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-10"><span class="nav-number">18.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9E%84%E5%87%86%E7%8A%B6%E6%80%81%E8%B9%B2%E4%BC%8F"><span class="nav-number">19.</span> <span class="nav-text">瞄准状态蹲伏</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-11"><span class="nav-number">19.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BUG-%E8%B9%B2%E4%BC%8F%E7%AB%99%E8%B5%B7%E4%B9%8B%E5%90%8E%E7%9A%84%E7%A9%BF%E6%A8%A1"><span class="nav-number">20.</span> <span class="nav-text">BUG-蹲伏站起之后的穿模</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#BUG%E6%8F%8F%E8%BF%B0-1"><span class="nav-number">20.1.</span> <span class="nav-text">BUG描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BUG%E8%AF%B1%E5%9B%A0-3"><span class="nav-number">20.2.</span> <span class="nav-text">BUG诱因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88-4"><span class="nav-number">20.3.</span> <span class="nav-text">解决方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-12"><span class="nav-number">20.4.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%84%E5%87%BB"><span class="nav-number">21.</span> <span class="nav-text">射击</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-8"><span class="nav-number">21.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A5%E5%87%BD%E6%95%B0%E5%90%8D%E8%AE%BE%E7%BD%AE%E5%AE%9A%E6%97%B6%E5%99%A8"><span class="nav-number">21.1.1.</span> <span class="nav-text">以函数名设置定时器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A5%E5%87%BD%E6%95%B0%E5%90%8D%E6%B8%85%E9%99%A4%E5%AE%9A%E6%97%B6%E5%99%A8"><span class="nav-number">21.1.2.</span> <span class="nav-text">以函数名清除定时器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-13"><span class="nav-number">21.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%8E%E5%9D%90%E5%8A%9B%E5%8A%A8%E7%94%BB%E7%9A%84%E6%B7%BB%E5%8A%A0"><span class="nav-number">22.</span> <span class="nav-text">后坐力动画的添加</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-9"><span class="nav-number">22.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E7%BD%91%E6%A0%BC%E4%BD%93additive%E5%8A%A8%E7%94%BB"><span class="nav-number">22.1.1.</span> <span class="nav-text">应用网格体additive动画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%87%E6%8D%A2ETimeLineDirection"><span class="nav-number">22.1.2.</span> <span class="nav-text">切换ETimeLineDirection</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-14"><span class="nav-number">22.2.</span> <span class="nav-text">思路</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">77</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/09/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2%E6%AD%A6%E5%99%A8%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B8%80%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="UE4-项目-死寂-角色武器系统（一） | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UE4-项目-死寂-角色武器系统（一）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-06-09 10:09:48" itemprop="dateCreated datePublished" datetime="2022-06-09T10:09:48+08:00">2022-06-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-06-14 16:21:08" itemprop="dateModified" datetime="2022-06-14T16:21:08+08:00">2022-06-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="持枪动画切换"><a href="#持枪动画切换" class="headerlink" title="持枪动画切换"></a>持枪动画切换</h1><p>这一部分的主要目标是实现持枪动画的切换</p>
+<ol>
+<li><p>实现角色本身的持枪姿势切换</p>
+</li>
+<li><p>实现角色从默认状态到持枪之间的切换状态（也就是抽枪动画）</p>
+</li>
+</ol>
+<h1 id="角色本身持枪姿势切换"><a href="#角色本身持枪姿势切换" class="headerlink" title="角色本身持枪姿势切换"></a>角色本身持枪姿势切换</h1><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>给基础状态机添加一个缓存，此时，基础状态机就能同步在其他位置被调用了</p>
+</li>
+<li><p>编辑基础状态机的基础姿势，在其中添加持枪切换动画（混合空间1D）</p>
+</li>
+<li><p>添加一个新的功能状态机，在其中使用基础状态机的缓存姿势</p>
+</li>
+</ol>
+<h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="保存新的缓存姿势"><a href="#保存新的缓存姿势" class="headerlink" title="保存新的缓存姿势"></a>保存新的缓存姿势</h3><p>此节点可将状态机进行实时备份，相当于让其多了一个分身。</p>
+<p>有了此缓存之后，便可在其他位置添加“使用缓存姿势”节点，即可引用原状态机，并对其进行编辑操作</p>
+<h3 id="使用缓存姿势"><a href="#使用缓存姿势" class="headerlink" title="使用缓存姿势"></a>使用缓存姿势</h3><p>此节点为上一个节点的引用，可以这样理解：</p>
+<ul>
+<li><p><strong>保存新的缓存姿势</strong>是声明并定义函数</p>
+</li>
+<li><p><strong>使用缓存姿势</strong>是调用函数</p>
+</li>
+</ul>
+<h2 id="实现大致步骤"><a href="#实现大致步骤" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h2><ol>
+<li><p>创建混合空间1D“WeaponRealse”表示放松状态下的持枪走路-&gt;奔跑状态的切换，并且合理设置最大轴值以及网格区分数量还有采样插值</p>
+</li>
+<li><p>打开动画蓝图，事件图标，将原本的“瞄准偏移”相关的节点全选，右键“折叠到函数”</p>
+<ul>
+<li><p>命名为“瞄准偏移计算”</p>
+</li>
+<li><p>编辑函数，有两个输入值，但其实只需要将其合并为一个</p>
+<ul>
+<li>因为函数内的两个输入节点，都是“尝试获取Pawn拥有者”节点的输出节点</li>
+</ul>
+</li>
+<li><p>右键函数节点，刷新</p>
+</li>
+</ul>
+</li>
+<li><p>打开动画状态图表，对状态机进行一定的修改</p>
+<ul>
+<li><p>基础状态机-&gt;“保存新的缓存姿势”并命名为“基础状态机缓存”</p>
+</li>
+<li><p>新建状态机“功能状态机”，代替“基础状态机”接入“插槽跳跃”</p>
+</li>
+</ul>
+</li>
+<li><p>编辑“功能状态机”</p>
+<ul>
+<li><p>添加新状态“基础状态”</p>
+</li>
+<li><p>编辑“基础状态”，添加“使用缓存姿势“基础状态机缓存””，连接到输出动画姿势</p>
+</li>
+</ul>
+</li>
+<li><p>编辑基础状态机中的基础姿势，将武器切换的基础逻辑添加进去</p>
+<ul>
+<li><p>创建一个新bool变量“是否持枪”默认为false</p>
+</li>
+<li><p>创建一个“按布尔混合姿势”节点，将“是否持枪”连接上</p>
+</li>
+<li><p>false姿势链接以“是否蹲伏”为条件的“按布尔混合姿势”节点</p>
+</li>
+<li><p>true姿势链接刚刚创建的混合空间1D“WeaponRealse”，并连接变量“速度”</p>
+</li>
+<li><p>最后输出链接“输出动画姿势”</p>
+</li>
+</ul>
+</li>
+<li><p>在前面声明了“是否持枪”这个变量，现在，我们需要在<strong>角色蓝图</strong>中对其定义</p>
+<ul>
+<li><p>新建事件图表“装备武器”</p>
+</li>
+<li><p>键盘 1作为事件，链接“分支节点”</p>
+</li>
+<li><p>用动画蓝图节点引出“是否持枪”节点，作为“分支”节点的输入</p>
+</li>
+<li><p>true则设置“是否持枪”为false</p>
+</li>
+<li><p>false则设置“是否持枪”为true</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="装备武器姿势动画实现"><a href="#装备武器姿势动画实现" class="headerlink" title="装备武器姿势动画实现"></a>装备武器姿势动画实现</h1><p>从默认状态到持枪状态之间，是把枪从背后抽出来的，我们现在就要实现这个抽枪和收抢的效果</p>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>在功能状态机中创建新的“装备武器状态”，和基础状态之间进行切换，达到拔枪和收枪的动画效果</p>
+</li>
+<li><p>拔枪和收枪动画就是正向播放和反向播放的区别，设置该动画的<strong>播放速率</strong>（公开为引脚，并且提升为变量）</p>
+</li>
+<li><p>然后拔枪动画还得设置“<strong>循环动画</strong>”为false，不然一直会循环播放，当动画不循环播放之后，就可以根据动画剩余时间从持枪状态返回到基础状态</p>
+</li>
+<li><p>加一个新的bool变量“是否装备武器”来控制拔枪动画的切换（在动画蓝图中声明，在角色蓝图中定义）</p>
+</li>
+<li><p>需要用“每个骨骼的分层混合”来实现，跑步的时候不会出现停止下来拔枪的效果（角色此时还在向前移动）</p>
+</li>
+</ol>
+<h2 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h2><h3 id="每个骨骼的分层混合"><a href="#每个骨骼的分层混合" class="headerlink" title="每个骨骼的分层混合"></a>每个骨骼的分层混合</h3><ul>
+<li><p>整体播放引入的“Base Pose”的动画</p>
+</li>
+<li><p>“分支过滤器”添加指定“骨骼名称”的部分播放引入的“Blend Poses 0”的动画</p>
+</li>
+<li><p>”网格体空间旋转混合“使得为相对网格体坐标旋转混合，而不是相对世界坐标混合</p>
+</li>
+</ul>
+<h3 id="获取相关剩余动画时间"><a href="#获取相关剩余动画时间" class="headerlink" title="获取相关剩余动画时间"></a>获取相关剩余动画时间</h3><p>字面意思，就是可以获得该动画还剩多少秒结束</p>
+<h2 id="实现大致步骤-1"><a href="#实现大致步骤-1" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h2><ol>
+<li><p>在功能状态机中创建新状态“装备武器状态”，并于“基础状态”正反向链接</p>
+</li>
+<li><p>编辑“装备武器状态”</p>
+<ul>
+<li><p>拖入拔枪动画，将播放速率公开为引脚，并提升为变量“<strong>装备武器方向</strong>”</p>
+</li>
+<li><p>添加“每个骨骼的分层混合”</p>
+</li>
+<li><p>添加“使用缓存姿势”作为Base Pose输入</p>
+</li>
+<li><p>将拔枪动画作为Blend Posses0 输入</p>
+</li>
+<li><p>添加“每个骨骼分层混合”的分支过滤器，填上骨骼名称，勾选“网格体空间旋转混合”</p>
+</li>
+<li><p>输出为动画姿势</p>
+</li>
+</ul>
+</li>
+<li><p>添加bool变量“<strong>是否装备武器</strong>”</p>
+</li>
+<li><p>从基础状态切换为装备武器状态的规则为“是否装备武器”为false</p>
+</li>
+<li><p>从装备武器状态切换为基础状态规则为“获取相关剩余动画时间（装备武器状态）”&lt;0.1</p>
+</li>
+<li><p>接下来就是在角色蓝图中定义“装备武器方向”和“是否装备武器”</p>
+</li>
+<li><p>角色蓝图中，持枪时，设置装备武器方向为-1，未持枪时，设置装备武器方向为1</p>
+</li>
+<li><p>另外，为了使得基础状态切换为装备武器状态之后，下一次切换还可以用“是否装备武器”作为条件，我们需要在最后将“是否装备武器”设置为true之后，延迟0.1秒，设置为false</p>
+</li>
+</ol>
+<h1 id="添加背包（换装系统）"><a href="#添加背包（换装系统）" class="headerlink" title="添加背包（换装系统）"></a>添加背包（换装系统）</h1><p>就是将一个背包添加到角色的背上，随着角色一起运动</p>
+<h2 id="知识点-2"><a href="#知识点-2" class="headerlink" title="知识点"></a>知识点</h2><h3 id="设置总姿势组件"><a href="#设置总姿势组件" class="headerlink" title="设置总姿势组件"></a>设置总姿势组件</h3><p>使用条件：两模型必须使用同一个骨骼</p>
+<p>将目标引脚的组件添加到New Master Bone Component引脚上</p>
+<h2 id="实现大致步骤-2"><a href="#实现大致步骤-2" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h2><ol>
+<li><p>找到背包模型，作为组件添加到角色蓝图的网格体上</p>
+</li>
+<li><p>为了能让背包和角色网格体贴合且匹配：需要满足两者骨骼为同一个</p>
+</li>
+<li><p>然后设置角色蓝图的“构造脚本”</p>
+<ul>
+<li>在这里我将其理解为构造函数，功能是相同的</li>
+</ul>
+</li>
+<li><p>添加节点“设置总姿势组件”</p>
+<ul>
+<li><p>目标为背包模型</p>
+</li>
+<li><p>New Master Bone Component 链接角色骨骼</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="添加武器模型"><a href="#添加武器模型" class="headerlink" title="添加武器模型"></a>添加武器模型</h1><p>将武器模型添加到角色的背部</p>
+<h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>先创建一个武器基类（父类），在里面编辑一些武器的基本参数</p>
+</li>
+<li><p>然后根据此基类创建子类，就是具体的武器类型（实例化）</p>
+</li>
+<li><p>将子类实例化之后附加到虚拟骨骼上（一个装备武器插槽，一个未装备武器插槽）</p>
+</li>
+</ol>
+<h2 id="知识点-3"><a href="#知识点-3" class="headerlink" title="知识点"></a>知识点</h2><h3 id="虚拟骨骼（插槽）"><a href="#虚拟骨骼（插槽）" class="headerlink" title="虚拟骨骼（插槽）"></a>虚拟骨骼（插槽）</h3><p>在角色的骨骼当中新建一个虚拟骨骼（插槽），此插槽是独立于角色骨骼的，我们可以对其位置，朝向等进行修改，不会影响到角色骨骼本身，而且此插槽会随着角色骨骼本身进行运动。</p>
+<p>通过添加变量类型“命名”，即可将虚拟骨骼作为一个变量，在蓝图中进行调用！</p>
+<h3 id="从类生成Actor"><a href="#从类生成Actor" class="headerlink" title="从类生成Actor"></a>从类生成Actor</h3><p>顾名思义，就是根据给的蓝图类，生成一个实例</p>
+<h3 id="附加Actor到组件（attach）"><a href="#附加Actor到组件（attach）" class="headerlink" title="附加Actor到组件（attach）"></a>附加Actor到组件（attach）</h3><p>就是将生成的实例，附加到某个组件上（需要提供附加到的插槽&#x2F;虚拟骨骼）</p>
+<p>跟UEC++中的那个成员函数很像</p>
+<h2 id="实现大致步骤-3"><a href="#实现大致步骤-3" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h2><ol>
+<li><p>创建一个actor类型的蓝图命名为”BP_WeaponBase”</p>
+</li>
+<li><p>根据父类创建子类“BP_Weapon_AKM”，在细节面板中添加模型</p>
+</li>
+<li><p>在角色骨骼当中添加两个插槽</p>
+<ul>
+<li><p>一个在背上“未装备武器插槽”，调整好位置以及旋转</p>
+</li>
+<li><p>一个在右手上“装备武器插槽”，调整好位置以及旋转</p>
+</li>
+</ul>
+</li>
+<li><p>在角色蓝图类中将插槽作为变量存储下来</p>
+<ul>
+<li><p>添加变量类型“命名”，值为“未装备武器插槽”</p>
+</li>
+<li><p>添加变量类型“命名”，值未“装备武器插槽”</p>
+</li>
+</ul>
+</li>
+<li><p>在角色蓝图的事件图表中，将武器实例添加到角色的背部</p>
+<ul>
+<li><p>添加“从类生成Actor”，类选择为“BP_Weapon_AKM”</p>
+</li>
+<li><p>位置变换信息链接“创建变换”节点（这里不用设置位置，因为在后面我们会用虚拟骨骼来具体为其定位到角色的背上）</p>
+</li>
+<li><p>将“从类生成Actor”的返回值提升为变量，命名为“武器实例”</p>
+</li>
+<li><p>链接“附加Actor”到组件，目标为角色网格体组件，插槽为“未装备武器插槽”，位置，旋转，缩放规则皆为“对其到目标”</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="武器跟随角色手部运动"><a href="#武器跟随角色手部运动" class="headerlink" title="武器跟随角色手部运动"></a>武器跟随角色手部运动</h1><p>实现角色拔枪的时候，将背部的枪拔出来，而不是拔空气</p>
+<h2 id="知识点-4"><a href="#知识点-4" class="headerlink" title="知识点"></a>知识点</h2><h3 id="AnimNotify（动画通知）"><a href="#AnimNotify（动画通知）" class="headerlink" title="AnimNotify（动画通知）"></a>AnimNotify（动画通知）</h3><p>理解为一个函数，在里面编辑好逻辑代码之后，将这个东西添加到角色的动画的播放序列中的某一帧，当动画播放到那一帧的时候，就会调用此通知。</p>
+<h3 id="序列"><a href="#序列" class="headerlink" title="序列"></a>序列</h3><p>执行引脚1之后执行引脚2</p>
+<h2 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>创建一个动画通知编辑其逻辑，使其可以进行拔枪效果</p>
+<ul>
+<li><p>重载函数“已接收的通知”</p>
+</li>
+<li><p>获取Mesh Comp的拥有者，也就是角色网格体组件，再将类型转换为角色蓝图</p>
+</li>
+<li><p>判断一下角色“是否持枪”</p>
+</li>
+<li><p>如果持枪，就将“武器实例”附加到角色网格体的背部插槽上“装备武器插槽”</p>
+</li>
+<li><p>如果不持枪，则将武器实例度假岛角色网格体的手部插槽上“未装备武器插槽”</p>
+</li>
+</ul>
+</li>
+<li><p>需要注意的是，如果反复拔枪，就会出现拔枪抽搐的情况，这个时候就需要创建一个bool来判定，能否拔枪</p>
+</li>
+<li><p>将动画通知放到拔枪动画的合适位置</p>
+</li>
+</ol>
+<h2 id="实现大致步骤-4"><a href="#实现大致步骤-4" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h2><ol>
+<li><p>添加一个动画通知，命名为”Notif_EquipWeaponAnimation”</p>
+</li>
+<li><p>打开拔枪动画，在通知栏的合适位置添加”Notif_EquipWeaponAnimation”</p>
+</li>
+<li><p>编辑”Notif_EquipWeaponAnimation”</p>
+<ul>
+<li><p>重载函数“已接收的通知”</p>
+</li>
+<li><p>Mesh Comp引出“获取拥有者”</p>
+</li>
+<li><p>引出“Is valid”来判断是否有效，然后“类型转换为BP_Player”</p>
+</li>
+<li><p>引出动画蓝图，“是否持枪”变量，判断角色是否为持枪状态</p>
+</li>
+<li><p>如果为True，则使用“附加Actor到组件”，目标为武器实例，parent为网格体，插槽为“装备武器插槽”</p>
+</li>
+<li><p>如果为False，则使用“附加Actor到组件”，目标为武器实例，parent为网格体，插槽为“未装备武器插槽”</p>
+</li>
+</ul>
+</li>
+<li><p>实现持枪状态相机偏移</p>
+<ul>
+<li><p>在两个“设置装备武器方向”节点后分别添加两个“序列”节点，引脚1都链接“是否装备武器”节点</p>
+</li>
+<li><p>添加新的时间轴，新建轨道，引出插值（15，50）</p>
+</li>
+<li><p>play和reverse分别和正向播放动画，反向播放动画链接</p>
+</li>
+<li><p>引入弹簧臂组件，引出获取Socket Office节点和设置Socket Office节点，并且都分割引脚，并且将z轴链接</p>
+</li>
+<li><p>时间轴的update引脚链接弹簧臂的设置Socket Office（设置插槽偏移）</p>
+</li>
+<li><p>插值链接Y轴</p>
+</li>
+</ul>
+</li>
+<li><p>在角色蓝图，装备武器事件图表中，添加变量“是否可以切换武器”</p>
+<ul>
+<li><p>默认值为true，在“键盘 1”节点后，通过分支节点进行判断，为true，则设置其为false后进入后面节点</p>
+</li>
+<li><p>在上一步的时间轴中的finish引脚设置“是否可以切换武器”为true</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="持枪蹲伏"><a href="#持枪蹲伏" class="headerlink" title="持枪蹲伏"></a>持枪蹲伏</h1><h2 id="思路-4"><a href="#思路-4" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>通过状态机里面添加混合空间1D来实现持枪蹲伏效果</p>
+<ul>
+<li><p>用一个“按布尔混合姿势”来进行判断输出</p>
+</li>
+<li><p>当“是否蹲伏”为true，输出蹲伏动画</p>
+</li>
+<li><p>当“是否蹲伏”为false，输出站立动画</p>
+</li>
+</ul>
+</li>
+<li><p>后面再加一个“按布尔混合姿势”节点来判断是否持枪</p>
+</li>
+</ol>
+<h2 id="实现大致步骤-5"><a href="#实现大致步骤-5" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h2><ol>
+<li><p>创建混合空间1D，命名为“BS_WeaponRealseCrouch”，并添加动画，将其设置好</p>
+</li>
+<li><p>打开动画蓝图，编辑基础状态机中的基础姿势状态（实现持枪蹲伏效果）</p>
+<ul>
+<li><p>添加“BS_WeaponRealseCrouch”到蓝图中</p>
+</li>
+<li><p>再添加一个以“是否蹲伏”为条件的“按布尔混合姿势”节点</p>
+</li>
+<li><p>true链接持枪蹲伏动画，false链接持枪站立动画</p>
+</li>
+<li><p>后面链接上以“是否持枪”为判断条件的“按布尔混合姿势”节点，来区分是否持枪的站立和蹲伏动画</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="持枪跳跃"><a href="#持枪跳跃" class="headerlink" title="持枪跳跃"></a>持枪跳跃</h1><p>之前实现跳跃的时候是编写了一个跳跃函数的，形参有三个蒙太奇动画</p>
+<p>现在我们要编辑一下这个跳跃函数，将形参多添加三个“跳跃高度”，因为持枪和未持枪的跳跃高度是不同的！</p>
+<h2 id="思路-5"><a href="#思路-5" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>更改“跳跃的动画和高度设置”函数，方便传参</p>
+</li>
+<li><p>创建持枪跳跃蒙太奇动画，添加插槽</p>
+</li>
+<li><p>跳跃事件调用“跳跃的动画和高度设置”函数的时候，添加一个以“是否持枪”为判断标准的“分支”节点，分别调用“跳跃的动画和高度设置”函数，并传入不同的参数</p>
+</li>
+</ol>
+<h2 id="实现大致步骤-6"><a href="#实现大致步骤-6" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h2><ol>
+<li><p>点击<strong>跳跃动画和高度设置</strong>函数，将三个跳跃高度连接到输入节点，分别命名为“慢跑&#x2F;行走&#x2F;冲刺的跳跃高度”</p>
+</li>
+<li><p>找到三个状态下的持枪跳跃动画，创建为蒙太奇动画，插槽更改为“跳跃”</p>
+</li>
+<li><p>打开“角色跳跃”事件图表，断开“跳跃的动画和高度设置”函数的链接</p>
+</li>
+<li><p>在原本位置上添加一个序列，引脚0链接原本的“延迟”节点</p>
+</li>
+<li><p>引脚1链接一个“分支”节点，判断条件为“是否持枪”</p>
+<ul>
+<li><p>true输出为“跳跃的动画和高度设置”（动画为持枪跳跃，高度略低）</p>
+</li>
+<li><p>false输出为“跳跃的动画和高度设置”（动画为未持枪跳跃，高度略高）</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="持枪坠落"><a href="#持枪坠落" class="headerlink" title="持枪坠落"></a>持枪坠落</h1><h2 id="思路-6"><a href="#思路-6" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>要修改角色基础状态机，将其从一个基类，变为一个子类。新建一个基类，只包含蹲伏及站立的蓝图逻辑</p>
+<ul>
+<li><p>因为我们需要编辑”坠落状态“</p>
+</li>
+<li><p>而编辑坠落，需要和原本的持枪状态进行”每个骨骼的分层混合“，就需要调用缓存</p>
+</li>
+<li><p>但是自身不能调用自身的缓存，所以就将原本的站立&#x2F;蹲伏姿势独立出去</p>
+</li>
+<li><p>这样就可以在子类中调用基类的缓存了！</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="实现大致步骤-7"><a href="#实现大致步骤-7" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h2><ol>
+<li><p>重命名原本的“基础状态机”为”总基础状态“，并且同步修改其缓存的名称</p>
+</li>
+<li><p>新建名为“角色基础状态”的状态机，并且缓存</p>
+</li>
+<li><p>编辑“角色基础状态”状态机</p>
+<ul>
+<li><p>新建一个名为“基础状态”的状态</p>
+</li>
+<li><p>返回“总基础状态”，将其中“基础姿势”的节点全部剪切到“基础状态”中</p>
+</li>
+<li><p>在“总基础状态机”中的“基础姿势”中“使用总基础状态的缓存”</p>
+</li>
+</ul>
+</li>
+<li><p>在总基础状态机中的坠落状态中编辑逻辑代码</p>
+<ul>
+<li><p>调用”每个骨骼的分层混合“节点</p>
+</li>
+<li><p>Base为坠落动画，Blend为”角色基础状态缓存“动画</p>
+</li>
+<li><p>编辑”每个骨骼的分层混合“节点，添加两个新的分支过滤器，骨骼名称分别为角色的左右手臂骨骼</p>
+</li>
+<li><p>再调用一个以”是否持枪“为判断条件的”按布尔混合姿势“节点</p>
+</li>
+<li><p>true输出刚刚写好的持枪坠落的混合动画</p>
+</li>
+<li><p>false输出未持枪坠落动画</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="BUG-切换武器时跳跃导致切了个寂寞"><a href="#BUG-切换武器时跳跃导致切了个寂寞" class="headerlink" title="BUG-切换武器时跳跃导致切了个寂寞"></a>BUG-切换武器时跳跃导致切了个寂寞</h1><h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>在角色切换武器时进行跳跃，导致先进行跳跃，然后角色的切换武器动画做了一半，武器也没有切换到手上&#x2F;背部，但是姿势变为了”持枪“或者”未持枪“</p>
+<h2 id="BUG诱因"><a href="#BUG诱因" class="headerlink" title="BUG诱因"></a>BUG诱因</h2><p>跳跃动画是蒙太奇动画，在切换武器时进行跳跃，蒙太奇动画会直接打断切换武器动画</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>使得角色在切换武器时不可跳跃，或者在跳跃时不能切换武器</p>
+<p>添加一个枚举，枚举值分别为”空白“，”跳跃“，”装备武器“</p>
+<p>只有在枚举值为”空白“的时候，才能”跳跃“或者”装备武器“</p>
+<h2 id="实现大致步骤-8"><a href="#实现大致步骤-8" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h2><ol>
+<li><p>创建一个名为”Player_FuntionState“的枚举</p>
+</li>
+<li><p>将之前那个枚举重命名为”Player_MoveSate“</p>
+</li>
+<li><p>编辑”Player_FuntionState“</p>
+<ul>
+<li><p>添加枚举值”空白“（什么功能都没有触发）</p>
+</li>
+<li><p>添加枚举值”跳跃“</p>
+</li>
+<li><p>添加枚举值”装备武器“</p>
+</li>
+<li><p>添加枚举值”瞄准“</p>
+</li>
+</ul>
+</li>
+<li><p>在角色蓝图类中创建”Player_FuntionState“枚举</p>
+</li>
+<li><p>在角色跳跃图表中进行编辑</p>
+<ul>
+<li><p>将”是否可以跳跃“为判断标准的”分支“节点替换为枚举值是否为”空白“的”分支“节点</p>
+</li>
+<li><p>在执行true之后将枚举值改为”跳跃“</p>
+</li>
+<li><p>在跳跃事件结束之后，将枚举值改为空白</p>
+</li>
+<li><p>删除”是否可以跳跃“变量</p>
+</li>
+</ul>
+</li>
+<li><p>在装备武器图表中进行编辑</p>
+<ul>
+<li><p>将”是否可以切换武器“为判断标准的”分支“节点替换为枚举值是否为”空白“的”分支“节点</p>
+</li>
+<li><p>在执行true之后将枚举值改为”装备武器“</p>
+</li>
+<li><p>在装备武器事件结束之后，将枚举值改为空白</p>
+</li>
+<li><p>删除”是否可以切换武器“变量</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="BUG-坠落时可跳跃以及蹲伏"><a href="#BUG-坠落时可跳跃以及蹲伏" class="headerlink" title="BUG-坠落时可跳跃以及蹲伏"></a>BUG-坠落时可跳跃以及蹲伏</h1><h2 id="问题描述-1"><a href="#问题描述-1" class="headerlink" title="问题描述"></a>问题描述</h2><p>当角色坠落的时候，按空格键会播放跳跃动画，按C键不会播放跳跃动画，但是会出现视角变低的情况</p>
+<h2 id="BUG诱因-1"><a href="#BUG诱因-1" class="headerlink" title="BUG诱因"></a>BUG诱因</h2><h3 id="跳跃BUG"><a href="#跳跃BUG" class="headerlink" title="跳跃BUG"></a>跳跃BUG</h3><p><strong>状态机的动画优先级</strong>：优先播放优先级高的动画</p>
+<ol>
+<li><p>越外层，优先级越高</p>
+</li>
+<li><p>越靠左，优先级越高</p>
+</li>
+</ol>
+<p>在动画图表中，插槽”跳跃“在最外层，导致优先级比在内层的”坠落“高，在具体播放动画的时候，就会打断”坠落“，优先播放”跳跃“</p>
+<h3 id="蹲伏BUG"><a href="#蹲伏BUG" class="headerlink" title="蹲伏BUG"></a>蹲伏BUG</h3><p>没有告诉程序：在空中不能蹲伏</p>
+<h2 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案"></a>解决方案</h2><h3 id="跳跃BUG-1"><a href="#跳跃BUG-1" class="headerlink" title="跳跃BUG"></a>跳跃BUG</h3><p>将”跳跃“插槽放到”角色基础状态“-&gt;”基础状态“的最右边，使其优先级最低</p>
+<h3 id="蹲伏BUG-1"><a href="#蹲伏BUG-1" class="headerlink" title="蹲伏BUG"></a>蹲伏BUG</h3><ol>
+<li><p>在角色蓝图的蹲伏事件图表中</p>
+</li>
+<li><p>引用动画蓝图中的变量“是否在空中”作为“分支”节点的判断依据</p>
+</li>
+<li><p>当值为flase时，才可执行后面的操作</p>
+</li>
+</ol>
+<h1 id="BUG-蹲伏状态直接跳跃"><a href="#BUG-蹲伏状态直接跳跃" class="headerlink" title="BUG-蹲伏状态直接跳跃"></a>BUG-蹲伏状态直接跳跃</h1><h2 id="问题描述-2"><a href="#问题描述-2" class="headerlink" title="问题描述"></a>问题描述</h2><p>在蹲伏的时候，按键盘空格键，就会出现直接进行跳跃的情况</p>
+<h2 id="BUG诱因-2"><a href="#BUG诱因-2" class="headerlink" title="BUG诱因"></a>BUG诱因</h2><p>同优先级的动画会直接进行播放</p>
+<h2 id="解决方案-2"><a href="#解决方案-2" class="headerlink" title="解决方案"></a>解决方案</h2><p>在跳跃动画播放之前，判断一下是否蹲伏，如果是蹲伏，则先解除蹲伏，然后再进行跳跃</p>
+<h2 id="实现大致步骤-9"><a href="#实现大致步骤-9" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h2><ol>
+<li><p>在角色蹲伏图表中新增一个自定义事件，链接着”解除蹲伏“节点</p>
+</li>
+<li><p>在角色跳跃图表中，添加一个以“角色移动组件”的“正在蹲伏”为判断条件的“分支”节点</p>
+</li>
+<li><p>true则调用“解除蹲伏”事件，false则继续原本逻辑</p>
+</li>
+</ol>
+<h1 id="优化-角色摩擦力"><a href="#优化-角色摩擦力" class="headerlink" title="优化-角色摩擦力"></a>优化-角色摩擦力</h1><h2 id="问题描述-3"><a href="#问题描述-3" class="headerlink" title="问题描述"></a>问题描述</h2><p>在之前设置角色摩擦力为0，会有一个停止行走之后还会向前移动一小段距离的情况（就比较自然），需要优化的地方是，现在角色摩擦力为零，则会导致看起来角色像是在冰面上走一样，就比较难受。</p>
+<h2 id="优化思路"><a href="#优化思路" class="headerlink" title="优化思路"></a>优化思路</h2><ol>
+<li><p>在角色运动时，将摩擦力设置为默认值8，在角色停止运动时，将摩擦力设置为0</p>
+</li>
+<li><p>如何判断角色是否运动？</p>
+<ul>
+<li>根据轴映射的值来判断，如果forword运动和right运动值均为零，则意味着角色已经停止了运动</li>
+</ul>
+</li>
+</ol>
+<h2 id="实现大致步骤-10"><a href="#实现大致步骤-10" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h2><ol>
+<li><p>在角色蓝图，角色基础移动事件图表中</p>
+</li>
+<li><p>分别将“输入轴moveforword”和“输入轴moveright”的返回值引出节点“&#x3D;&#x3D;（浮点）”</p>
+</li>
+<li><p>将两个bool引入节点“and”</p>
+</li>
+<li><p>将返回的bool作为一个“分支”节点的判断标准</p>
+</li>
+<li><p>引入角色移动组件-&gt;”set ground friction”节点</p>
+</li>
+<li><p>true则”set ground friction”为0；false则设置”set ground friction”为8</p>
+</li>
+</ol>
+<h1 id="角色瞄准状态切换"><a href="#角色瞄准状态切换" class="headerlink" title="角色瞄准状态切换"></a>角色瞄准状态切换</h1><p>角色瞄准状态的主要表现形式——视野拉近，角色朝向随着鼠标朝向而不是键盘输入朝向</p>
+<h2 id="思路-7"><a href="#思路-7" class="headerlink" title="思路"></a>思路</h2><h3 id="视野拉近"><a href="#视野拉近" class="headerlink" title="视野拉近"></a>视野拉近</h3><ol>
+<li><p>视野是由弹簧臂进行控制的，想要改变视野，就需要改变弹簧臂长度</p>
+</li>
+<li><p>另外，还需要判断角色是否处于持枪状态，是否在跳跃过程中，是否在装备武器状态过程中</p>
+</li>
+<li><p>在判断完成之后，可以通过时间轴来对弹簧臂长度进行控制</p>
+</li>
+</ol>
+<h3 id="角色朝向"><a href="#角色朝向" class="headerlink" title="角色朝向"></a>角色朝向</h3><ol>
+<li><p>角色朝向可以根据两个地方进行修改</p>
+<ul>
+<li><p>角色蓝图类-&gt;类默认值-&gt;Pawn-&gt;使用控制器旋转Yaw【True面向跟随鼠标】</p>
+</li>
+<li><p>角色移动组件-&gt;角色移动（旋转设置）-&gt;将旋转朝向运动【True面向跟随键盘】</p>
+</li>
+<li><p>另外，需要注意的是，两个值必须一开一关，因为两者是相冲突的。</p>
+</li>
+</ul>
+</li>
+<li><p>所以我们只需要把角色朝向分为两个状态</p>
+<ul>
+<li><p>瞄准时面向随着鼠标</p>
+</li>
+<li><p>非瞄准状态面向随着键盘</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="实现大致步骤-11"><a href="#实现大致步骤-11" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h2><ol>
+<li><p>添加一个键盘映射“鼠标右键”</p>
+</li>
+<li><p>在角色蓝图类中创建两个新图表“瞄准”以及“瞄准状态切换”</p>
+</li>
+<li><p>在瞄准状态切换图表中做如下操作，分别控制角色瞄准状态的朝向和非瞄准状态的朝向</p>
+<ul>
+<li><p>添加自定义事件“瞄准状态”以及“放松状态”</p>
+</li>
+<li><p>瞄准状态-&gt;”set use controller rotation Yaw”（true）-&gt;角色移动组件-&gt;”set Orient rotation to movement”（false）</p>
+</li>
+<li><p>放松状态-&gt;”set use controller rotation Yaw”（false）-&gt;角色移动组件-&gt;”set Orient rotation to movement”（true）</p>
+</li>
+</ul>
+</li>
+<li><p>在瞄准事件图表中进行如下操作，用于改变弹簧臂的长度</p>
+<ul>
+<li><p>输入操作“瞄准”节点-&gt;以是否持枪未判断依据的分支-&gt;true-&gt;以Player Funtion State 的值是否为空白为判断依据的分支</p>
+</li>
+<li><p>Pressed链接“瞄准状态”事件，Released链接“放松状态”事件</p>
+</li>
+<li><p>瞄准状态-&gt;set Player Funtion State（瞄准）</p>
+</li>
+<li><p>放松状态-&gt;set Player Funtion State（空白）</p>
+</li>
+<li><p>添加时间轴，新建轨道，瞄准链接play引脚，空白链接reverse引脚</p>
+</li>
+<li><p>update-&gt;弹簧臂组件（set Target Arm length）</p>
+</li>
+<li><p>新建轨道-&gt;插值（170，50）-&gt;目标臂长度</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="题外话"><a href="#题外话" class="headerlink" title="题外话"></a>题外话</h1><p>感觉每次整理笔记最耗费时间的就是写实现大致步骤了，有点用处，但是用处不大，最重要的还是思路和知识点的整理，所以说后面的就不再写大致步骤了。把重点放在思路和知识点上吧！</p>
+<h1 id="角色瞄准动画"><a href="#角色瞄准动画" class="headerlink" title="角色瞄准动画"></a>角色瞄准动画</h1><p>角色瞄准时，自身的行走状态动画</p>
+<h2 id="知识点-5"><a href="#知识点-5" class="headerlink" title="知识点"></a>知识点</h2><h3 id="角色运动八个方向的角度值"><a href="#角色运动八个方向的角度值" class="headerlink" title="角色运动八个方向的角度值"></a>角色运动八个方向的角度值</h3><ul>
+<li><p>前方为0，后方为180&#x2F;-180</p>
+</li>
+<li><p>右边为正数</p>
+</li>
+<li><p>左边为负数</p>
+</li>
+</ul>
+<p><img src="/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2%E6%AD%A6%E5%99%A8%E7%B3%BB%E7%BB%9F%5C1.png"></p>
+<h3 id="计算方向"><a href="#计算方向" class="headerlink" title="计算方向"></a>计算方向</h3><p>虚幻引擎中内置了一个函数“计算方向”</p>
+<p>通过输入的“速度”和“旋转”来进行计算此时的Actor的方向</p>
+<h3 id="旋转浮点（select）"><a href="#旋转浮点（select）" class="headerlink" title="旋转浮点（select）"></a>旋转浮点（select）</h3><p>是一个以布尔值为判断依据，输出两个不同值的函数</p>
+<ol>
+<li><p>如果为true，则输出引脚A</p>
+</li>
+<li><p>如果为false，则输出引脚B</p>
+</li>
+</ol>
+<h2 id="思路-8"><a href="#思路-8" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>因为角色行走时，是八个方向的动画，我们可以使用混合空间来进行实现状态变化</p>
+</li>
+<li><p>创建一个混合空间，横坐标为运动方向（也就是运动的八个方向），纵坐标为速度（只需要设置行走速度，因为瞄准时会在后面设置不可冲刺）</p>
+</li>
+<li><p>在动画蓝图中通过传入速度和旋转到“计算方向”节点来判断角色目前的行走方向</p>
+</li>
+<li><p>新建一个瞄准状态，和基础状态之间进行切换</p>
+<ul>
+<li><p>判断条件为一个bool值“是否瞄准”</p>
+</li>
+<li><p>瞄准状态里面播放之前创建的混合空间</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="优化-持枪行走速度优化"><a href="#优化-持枪行走速度优化" class="headerlink" title="优化-持枪行走速度优化"></a>优化-持枪行走速度优化</h2><p>根据常识来讲，人在持枪瞄准的时候，不能行走太快，所以在这里我们做一个速度上的限制</p>
+<h3 id="思路-9"><a href="#思路-9" class="headerlink" title="思路"></a>思路</h3><ol>
+<li><p>在之前创建的角色速度判断函数中添加一个判断即可</p>
+</li>
+<li><p>用“旋转浮点”作为判断节点，判断条件为“是否瞄准”</p>
+</li>
+<li><p>true则输出150（瞄准时的行走速度）</p>
+</li>
+<li><p>false则输出原本函数计算的行走速度</p>
+</li>
+</ol>
+<h1 id="BUG-持枪瞄准偏移的手部运动"><a href="#BUG-持枪瞄准偏移的手部运动" class="headerlink" title="BUG-持枪瞄准偏移的手部运动"></a>BUG-持枪瞄准偏移的手部运动</h1><p>之前我们是把瞄准偏移放在状态机的最外围，现在为了实现持枪状态下也可以实现瞄准偏移，将瞄准便宜放在最内层（状态机的优先性）</p>
+<h2 id="BUG描述"><a href="#BUG描述" class="headerlink" title="BUG描述"></a>BUG描述</h2><p>当我们把瞄准偏移放在最内侧之后，确实实现了持枪也实现了瞄准偏移的效果，但是这个时候会发现，瞄准偏移的时候，手部运动出现了问题——手没有放在枪械上（原力持枪）</p>
+<h2 id="知识点-6"><a href="#知识点-6" class="headerlink" title="知识点"></a>知识点</h2><h3 id="IK（逆向动力学）"><a href="#IK（逆向动力学）" class="headerlink" title="IK（逆向动力学）"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/f980511/article/details/123319383">IK（逆向动力学）</a></h3><p><strong>是一种设置动画的方法，它翻转链操纵的方向。它是从叶子而不是根开始进行工作的。</strong></p>
+<h4 id="简单演示"><a href="#简单演示" class="headerlink" title="简单演示"></a>简单演示</h4><p>现在举个手臂的例子。要设置使用正向运动学的手臂的动画，可以旋转大臂使它移离肩膀，然后旋转小臂，手部等等，为每个子对象添加旋转关键点。</p>
+<p>要设置使用反向运动学的手臂的动画，可以移动用以定位腕部的目标。手臂的上半部分和下半部分为 IK 解决方案所旋转，使称为<strong>末端效应器</strong>的腕部轴点向着目标移动。</p>
+<p><img src="https://img-blog.csdnimg.cn/822f0bb60b7047488df65b35b4cd4369.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/27996887b51b4dd69599e8e003fa5cac.gif"></p>
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>可以理解为，一般的正向动力学是用手臂带动拳头；逆向动力学就是用拳头去带动手臂</p>
+<h4 id="节点FABRIK"><a href="#节点FABRIK" class="headerlink" title="节点FABRIK"></a>节点FABRIK</h4><p>这个节点就是虚幻引擎中的IK相关节点</p>
+<ol>
+<li><p><strong>执行器</strong>选择一个骨骼&#x2F;组件&#x2F;世界场景&#x2F;父骨骼进行参考，让“解算器“参考它进行运动</p>
+</li>
+<li><p><strong>解算器</strong>选择的IK的”叶子“和”根“</p>
+</li>
+<li><p>最后在预览视图中可以直接调整<strong>末端效应器</strong>的位置</p>
+</li>
+</ol>
+<h2 id="解决方案-3"><a href="#解决方案-3" class="headerlink" title="解决方案"></a>解决方案</h2><ol>
+<li><p>在看了逆向动力学的原理之后，就可以想到，如果我们把手部设置为逆向动力学的末端效应器，跟随着另一只手进行运动，就不会产生之前的问题了</p>
+</li>
+<li><p>所以在动画图表中，瞄准偏移后添加一个”FABRIK”节点，将其设置好即可</p>
+</li>
+</ol>
+<h1 id="瞄准状态的瞄准偏移动画"><a href="#瞄准状态的瞄准偏移动画" class="headerlink" title="瞄准状态的瞄准偏移动画"></a>瞄准状态的瞄准偏移动画</h1><p>目前为止，瞄准状态只会瞄准正前方，不能瞄准其他方向，现在需要做的事情就是瞄准其他位置的方向，并且为其添加动画</p>
+<h2 id="知识点-7"><a href="#知识点-7" class="headerlink" title="知识点"></a>知识点</h2><h3 id="资产操作-gt-通过属性矩阵进行批量资产编辑-gt-AdditiveSettings"><a href="#资产操作-gt-通过属性矩阵进行批量资产编辑-gt-AdditiveSettings" class="headerlink" title="资产操作-&gt;通过属性矩阵进行批量资产编辑-&gt;AdditiveSettings"></a>资产操作-&gt;通过属性矩阵进行批量资产编辑-&gt;AdditiveSettings</h3><p>如果想要把一组动画变为附加动画的时候就要进行如下操作，在此可选择附加操作的参考姿势</p>
+<h3 id="AO-瞄准偏移"><a href="#AO-瞄准偏移" class="headerlink" title="AO_瞄准偏移"></a>AO_瞄准偏移</h3><ol>
+<li><p>水平坐标（Yaw轴，也就是Z轴）：实际操作中，鼠标往左右移动在游戏中表现为左右摇头，此时鼠标在桌子上按水平坐标移动，游戏中根据Yaw轴旋转（Z轴）</p>
+</li>
+<li><p>垂直坐标（Pitch轴，也就是Y轴）：实际操作中，鼠标往上下移动在游戏中表现为抬头低头，此时鼠标在桌子上按垂直坐标移动，游戏中根据Pitch轴旋转（Y轴）</p>
+</li>
+<li><p>选中一个参考姿势后创建一个瞄准偏移，将被参考的姿势放入正中间，其他姿势按效果设置</p>
+</li>
+</ol>
+<h2 id="思路-10"><a href="#思路-10" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>创建一个持枪瞄准偏移</p>
+</li>
+<li><p>将瞄准偏移放到动画蓝图中的”瞄准状态“状态中，传入Yaw和Pitch即可</p>
+</li>
+<li><p>然后会出钱之前持枪瞄准偏移的bug，直接复制之前的IK计算到瞄准状态的瞄准偏移那边去，然后设置好末端效应器位置即可</p>
+</li>
+</ol>
+<h1 id="瞄准状态蹲伏"><a href="#瞄准状态蹲伏" class="headerlink" title="瞄准状态蹲伏"></a>瞄准状态蹲伏</h1><h2 id="思路-11"><a href="#思路-11" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>创建一个混合空间，设置好水平坐标（方向）和垂直坐标（速度）以及动画</p>
+</li>
+<li><p>添加进”瞄准状态“状态中，使用”按照布尔混合姿势“和站立瞄准状态进行区分</p>
+</li>
+<li><p>然后那些瞄准偏移和IK就不用额外做了，因为程序按照顺序执行之后，就直接使用了站立瞄准状态的瞄准偏移和IK</p>
+</li>
+</ol>
+<h1 id="BUG-蹲伏站起之后的穿模"><a href="#BUG-蹲伏站起之后的穿模" class="headerlink" title="BUG-蹲伏站起之后的穿模"></a>BUG-蹲伏站起之后的穿模</h1><h2 id="BUG描述-1"><a href="#BUG描述-1" class="headerlink" title="BUG描述"></a>BUG描述</h2><p>在角色遇到一个障碍物的时候，蹲伏通过，在未通过的状态下取消蹲伏，会直接站起来，导致穿模</p>
+<h2 id="BUG诱因-3"><a href="#BUG诱因-3" class="headerlink" title="BUG诱因"></a>BUG诱因</h2><p>其实虚幻引擎中内置的”解除蹲伏“函数自带检测上方是否有障碍物阻挡，如果有，则会一直保持蹲伏状态，但是为啥在这里又站起来了呢？</p>
+<p>是因为函数认为角色依旧在蹲伏状态，但是我们原本写的代码逻辑中，不管是否蹲伏，都会按照时间轴播放一次动画。</p>
+<p>所以是，<strong>角色的灵魂还在蹲伏，身体却站起来了</strong></p>
+<h2 id="解决方案-4"><a href="#解决方案-4" class="headerlink" title="解决方案"></a>解决方案</h2><p>让”解除蹲伏“函数发挥真正的作用</p>
+<p>之前是在角色蓝图中判断角色”是否蹲伏“，现在我们把角色蓝图中的”是否蹲伏“判断删掉</p>
+<p>在动画蓝图中去进行判断</p>
+<p>把动画蓝图看作身体，角色蓝图看作灵魂</p>
+<p>之前是灵魂代管了一部分身体，出现了不协调的情况，所以现在各自管各自的，就不会出现不协调的情况了</p>
+<h2 id="思路-12"><a href="#思路-12" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>删除角色蓝图中的”解除蹲伏“和”蹲伏“节点后的”设置是否蹲伏“</p>
+</li>
+<li><p>在动画蓝图中获取角色移动组件-&gt;”正在蹲伏“节点-&gt;设置”是否蹲伏“</p>
+</li>
+</ol>
+<h1 id="射击"><a href="#射击" class="headerlink" title="射击"></a>射击</h1><p>先设置跳跃时不可射击，瞄准时可射击（只有瞄准的时候手臂才是抬起来的）</p>
+<h2 id="知识点-8"><a href="#知识点-8" class="headerlink" title="知识点"></a>知识点</h2><h3 id="以函数名设置定时器"><a href="#以函数名设置定时器" class="headerlink" title="以函数名设置定时器"></a>以函数名设置定时器</h3><p>此节点传入一个函数名&#x2F;事件名，设置一个时间，在达到这个时间之后，就会执行那个传入的函数&#x2F;事件</p>
+<h3 id="以函数名清除定时器"><a href="#以函数名清除定时器" class="headerlink" title="以函数名清除定时器"></a>以函数名清除定时器</h3><p>根据函数名&#x2F;事件名清楚定时器</p>
+<h2 id="思路-13"><a href="#思路-13" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>添加操作映射”射击“</p>
+</li>
+<li><p>创建新的事件图表”射击“，在其中调用操作映射”射击“</p>
+</li>
+<li><p>判断一下”是否持枪“；枚举状态是否为”空白“，或者在”瞄准射击“状态内即可执行”瞄准射击“（在这里把瞄准和射击的状态合并在一起了，但是具体是瞄准操作还是射击操作，用两段逻辑实现）</p>
+</li>
+<li><p>同时修改一下”瞄准“事件图表中的判断条件，让在”空白“或者”瞄准射击“状态下均可以进行瞄准操作</p>
+</li>
+<li><p>接下来在”射击“图表中更改当前状态为”瞄准射击“</p>
+</li>
+<li><p>再判断一下”是否瞄准“状态，因为只有再瞄准状态，角色手臂才是抬起来的</p>
+<ul>
+<li><p>false则调用”瞄准状态“函数来切换到瞄准状态</p>
+</li>
+<li><p>true则直接射击，具体射击逻辑下面写</p>
+</li>
+</ul>
+</li>
+<li><p>射击的pressed，是否为瞄准状态，如果是，则保留不做任何更改；如果不是，则延迟几秒再把手放下来（切换到”放松状态“，并把枚举值设置为”空白“），为了防止快速点击鼠标左键，出现抽搐的情况</p>
+<ul>
+<li><p>添加一个bool值”是否瞄准“</p>
+</li>
+<li><p>pressed链接以”是否瞄准“为判断依据的”分支“节点</p>
+</li>
+<li><p>true啥也不连（保持现状）</p>
+</li>
+<li><p>false链接一个”以函数名设置定时器“节点，时间设置为0.7</p>
+</li>
+</ul>
+</li>
+<li><p>创建一个自定义事件”停止瞄准“</p>
+<ul>
+<li><p>Set Player Funtion State为空白</p>
+</li>
+<li><p>调用”放松状态“函数</p>
+</li>
+</ul>
+</li>
+<li><p>在”以函数名设置定时器“节点中调用”停止瞄准“事件</p>
+</li>
+<li><p>为了防止在先射击再瞄准的时候出现角色在0.7秒后取消了瞄准状态</p>
+<ul>
+<li><p>在”瞄准“事件图表中，设置”是否瞄准“为true后面调用”以函数名清除定时器“</p>
+</li>
+<li><p>也就是说，在已经瞄准的状态下，除非我主动进行”不瞄准“的操作，不然不能切换为放松状态，如果不再此处清除定时器，那么定时器就会自动执行”进入放松状态“的逻辑</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="后坐力动画的添加"><a href="#后坐力动画的添加" class="headerlink" title="后坐力动画的添加"></a>后坐力动画的添加</h1><p>用附加动画来实现后坐力的效果</p>
+<h2 id="知识点-9"><a href="#知识点-9" class="headerlink" title="知识点"></a>知识点</h2><h3 id="应用网格体additive动画"><a href="#应用网格体additive动画" class="headerlink" title="应用网格体additive动画"></a>应用网格体additive动画</h3><p>就是附加动画，将additive添加到base上进行一个混合</p>
+<h3 id="切换ETimeLineDirection"><a href="#切换ETimeLineDirection" class="headerlink" title="切换ETimeLineDirection"></a>切换ETimeLineDirection</h3><p>用在时间轴的Direction引脚，可以在正向播放和反向播放的时候进行一些操作</p>
+<h2 id="思路-14"><a href="#思路-14" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>找到并设置后坐力的动画</p>
+<ul>
+<li><p>附加设置-&gt;additive动画类型-&gt;“网格体空间”</p>
+</li>
+<li><p>附加设置-&gt;基础姿势类型-&gt;”选择的动画帧“</p>
+</li>
+<li><p>附加设置-&gt;预览动画-&gt;选择站立的持枪瞄准动画</p>
+</li>
+</ul>
+</li>
+<li><p>再动画蓝图中”总基础动画“的”基础姿势“中编辑</p>
+<ul>
+<li><p>添加bool”是否射击“</p>
+</li>
+<li><p>以”是否射击“为条件”按布尔混合姿势“，false输出原本姿势</p>
+</li>
+<li><p>将之前设置之后的后坐力动画拖出来，作为”应用网格体空间Additive动画“的Additive引脚，将原本输出动画作为Base引脚</p>
+</li>
+<li><p>最后将混合好的动画输出作为”按布尔混合姿势“的true引脚</p>
+</li>
+</ul>
+</li>
+<li><p>在角色蓝图类中给”是否射击“进行定义</p>
+<ul>
+<li><p>自定义事件”开始射击“-&gt;”设置是否射击“为true</p>
+</li>
+<li><p>在以”是否瞄准“为判断依据的”分支“节点的true调用”开始射击“</p>
+</li>
+<li><p>“瞄准状态”节点后面调用”以函数名设置定时器“调用”开始射击“，延时0.4秒（非瞄准状态下先抬枪，过0.4秒之后开枪）</p>
+</li>
+<li><p>在pressed引脚”设置是否射击“为false</p>
+</li>
+<li><p>同时还要再pressed处“以函数名清除定时器”</p>
+</li>
+</ul>
+</li>
+<li><p>已经在射击中判断了此时是否瞄准，也要在瞄准中判断是否射击</p>
+<ul>
+<li><p>在播放完”停止瞄准“动画之后判断是否在射击</p>
+</li>
+<li><p>如果没在射击，就返回放松状态，否则就不变</p>
+</li>
+<li><p>实现的是：瞄准射击之后，放弃瞄准，但依旧可以普通射击</p>
+</li>
+</ul>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag"># 项目</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/06/02/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%88%E4%B8%89%EF%BC%89/" rel="prev" title="有关算法中的二叉树（三）">
+                  <i class="fa fa-chevron-left"></i> 有关算法中的二叉树（三）
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/06/14/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2%E6%AD%A6%E5%99%A8%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%BA%8C%EF%BC%89/" rel="next" title="UE4-项目-死寂-角色武器系统（二）">
+                  UE4-项目-死寂-角色武器系统（二） <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

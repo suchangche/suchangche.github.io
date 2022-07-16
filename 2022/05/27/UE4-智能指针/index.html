@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="定义虚幻智能指针库 为C++11智能指针的自定义实现，旨在减轻内存分配和追踪的负担。 该实现包括行业标准 共享指针、弱指针 和 唯一指针。 其还可添加 共享引用，此类引用的行为与不可为空的共享指针相同。 虚幻Objects使用更适合游戏代码的单独内存追踪系统，因此这些类无法与 UObject 系统同时使用。 人话就是魔改了原本C++11中的智能指针，使得更加适合虚幻引擎 智能指针类型智能指针可影响">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE4-智能指针">
+<meta property="og:url" content="http://example.com/2022/05/27/UE4-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="定义虚幻智能指针库 为C++11智能指针的自定义实现，旨在减轻内存分配和追踪的负担。 该实现包括行业标准 共享指针、弱指针 和 唯一指针。 其还可添加 共享引用，此类引用的行为与不可为空的共享指针相同。 虚幻Objects使用更适合游戏代码的单独内存追踪系统，因此这些类无法与 UObject 系统同时使用。 人话就是魔改了原本C++11中的智能指针，使得更加适合虚幻引擎 智能指针类型智能指针可影响">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-27T06:59:42.000Z">
+<meta property="article:modified_time" content="2022-07-06T08:15:24.733Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/05/27/UE4-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/05/27/UE4-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/","path":"2022/05/27/UE4-智能指针/","title":"UE4-智能指针"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>UE4-智能指针 | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%BA%E8%AF%9D"><span class="nav-number">1.1.</span> <span class="nav-text">人话</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">智能指针类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F"><span class="nav-number">2.1.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TSharedPtr"><span class="nav-number">3.</span> <span class="nav-text">TSharedPtr</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F-1"><span class="nav-number">3.1.</span> <span class="nav-text">注意</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8"><span class="nav-number">3.2.</span> <span class="nav-text">应用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TWeakPtr-%E5%BC%B1%E6%8C%87%E9%92%88"><span class="nav-number">4.</span> <span class="nav-text">TWeakPtr 弱指针</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TSharedRef-%E5%85%B1%E4%BA%AB%E5%BC%95%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">TSharedRef 共享引用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F-2"><span class="nav-number">5.1.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TUniquePtr%E5%94%AF%E4%B8%80%E6%8C%87%E9%92%88"><span class="nav-number">6.</span> <span class="nav-text">TUniquePtr唯一指针</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BE%85%E5%8A%A9%E7%B1%BB%E5%92%8C%E5%87%BD%E6%95%B0"><span class="nav-number">7.</span> <span class="nav-text">辅助类和函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TSharedFromeThis%E7%B1%BB"><span class="nav-number">7.1.</span> <span class="nav-text">TSharedFromeThis类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MakeShared%EF%BC%88%E5%8C%85%E6%8B%AC%E7%94%A8%E4%BA%8ETUniquePtr%E7%9A%84MakeUnique%EF%BC%89%E5%87%BD%E6%95%B0"><span class="nav-number">7.2.</span> <span class="nav-text">MakeShared（包括用于TUniquePtr的MakeUnique）函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MakeShareable%E5%87%BD%E6%95%B0"><span class="nav-number">7.3.</span> <span class="nav-text">MakeShareable函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#StaticCastSharedRef%E5%92%8CStaticCastSharedPtr%E5%87%BD%E6%95%B0"><span class="nav-number">7.4.</span> <span class="nav-text">StaticCastSharedRef和StaticCastSharedPtr函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ConstCastSharedRef%E5%92%8CConstCastSharedPtr%E5%87%BD%E6%95%B0"><span class="nav-number">7.5.</span> <span class="nav-text">ConstCastSharedRef和ConstCastSharedPtr函数</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">77</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/27/UE4-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="UE4-智能指针 | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UE4-智能指针
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-05-27 14:59:42" itemprop="dateCreated datePublished" datetime="2022-05-27T14:59:42+08:00">2022-05-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-07-06 16:15:24" itemprop="dateModified" datetime="2022-07-06T16:15:24+08:00">2022-07-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p><strong>虚幻智能指针库</strong> 为C++11智能指针的自定义实现，旨在减轻内存分配和追踪的负担。</p>
+<p>该实现包括行业标准 <strong>共享指针</strong>、<strong>弱指针</strong> 和 <strong>唯一指针</strong>。</p>
+<p>其还可添加 <strong>共享引用</strong>，此类引用的行为与不可为空的共享指针相同。</p>
+<p>虚幻Objects使用更适合游戏代码的单独内存追踪系统，因此这些类无法与 <code>UObject</code> 系统同时使用。</p>
+<h2 id="人话"><a href="#人话" class="headerlink" title="人话"></a>人话</h2><p>就是魔改了原本C++11中的智能指针，使得更加适合虚幻引擎</p>
+<h1 id="智能指针类型"><a href="#智能指针类型" class="headerlink" title="智能指针类型"></a>智能指针类型</h1><p>智能指针可影响其包含或引用对象的寿命。不同智能指针对对象有不同的限制和影响。下表可用于协助决定各类型智能指针的适用情况：</p>
+<table>
+<thead>
+<tr>
+<th>智能指针类型</th>
+<th>适用情形</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>共享指针(<code>TSharedPtr</code>)</td>
+<td>共享指针拥有其引用的对象，无限防止该对象被删除，并在无共享指针或共享引用引用其时，最终处理其的删除。共享指针可为空白，意味其不引用任何对象。任何非空共享指针都可对其引用的对象生成共享引用。</td>
+</tr>
+<tr>
+<td>共享引用(<code>TSharedRed</code>)</td>
+<td>共享引用的行为与共享指针类似，即其拥有自身引用的对象。对于空对象而言，其存在不同；共享引用须固定引用非空对象。共享指针无此类限制，因此共享引用可固定转换为共享指针，且该共享指针固定引用有效对象。要确认引用的对象是非空，或者要表明共享对象所有权时，请使用共享引用。</td>
+</tr>
+<tr>
+<td>弱指针(<code>TWeakPtr</code>)</td>
+<td>弱指针类与共享指针类似，但不拥有其引用的对象，因此不影响其生命周期。此属性中断引用循环，因此十分有用，但也意味弱指针可在无预警的情况下随时变为空。因此，弱指针可生成指向其引用对象的共享指针，确保程序员能对该对象进行安全临时访问。</td>
+</tr>
+<tr>
+<td><strong>唯一指针</strong>（<code>TUniquePtr</code>）</td>
+<td>唯一指针仅会显式拥有其引用的对象。仅有一个唯一指针指向给定资源，因此唯一指针可转移所有权，但无法共享。复制唯一指针的任何尝试都将导致编译错误。唯一指针超出范围时，其将自动删除其所引用的对象。</td>
+</tr>
+</tbody></table>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>对唯一指针引用的对象进行共享指针或共享引用的操作十分危险。即使其他智能指针继续引用该对象，此操作不会取消唯一指针自身被销毁时删除该对象的行为。同样，不应为共享指针或共享引用引用的对象创建唯一指针。</p>
+<table>
+<thead>
+<tr>
+<th>优点</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>防止内存泄漏</strong></td>
+<td>共享引用不存在时，智能指针（弱指针除外）会自动删除对象。</td>
+</tr>
+<tr>
+<td><strong>弱引用</strong></td>
+<td>弱指针会中断引用循环并阻止悬挂指针。</td>
+</tr>
+<tr>
+<td><strong>可选择的线程安全</strong>）</td>
+<td>虚幻智能指针库包括线程安全代码，可跨线程管理引用计数。如无需线程安全，可用其换取更好性能。</td>
+</tr>
+<tr>
+<td><strong>运行时安全</strong></td>
+<td>共享引用从不为空，可固定随时取消引用。</td>
+</tr>
+<tr>
+<td><strong>授予意图</strong></td>
+<td>可轻松区分对象所有者和观察者。</td>
+</tr>
+<tr>
+<td><strong>内存</strong></td>
+<td>智能指针在64位下仅为C++指针大小的两倍（加上共享的16字节引用控制器）。唯一指针除外，其与C++指针大小相同。</td>
+</tr>
+</tbody></table>
+<h1 id="TSharedPtr"><a href="#TSharedPtr" class="headerlink" title="TSharedPtr"></a>TSharedPtr</h1><p>同C++11的共享指针没有区别</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用普通指针右值初始化（不建议用普通指针左值初始化） </span></span><br><span class="line"><span class="function">TSharedPtr&lt;<span class="type">int</span>&gt; <span class="title">sp1</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>(<span class="number">111</span>))</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 强烈建议用MakeShared接口 </span></span><br><span class="line">TSharedPtr&lt;<span class="type">int</span>&gt; sp2 = <span class="built_in">MakeShared</span>&lt;<span class="type">int</span>&gt;(<span class="number">222</span>);</span><br><span class="line"><span class="function">TSharedPtr&lt;<span class="type">int</span>&gt; <span class="title">sp3</span><span class="params">(MakeShared&lt;<span class="type">int</span>&gt;(<span class="number">333</span>))</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="注意-1"><a href="#注意-1" class="headerlink" title="注意"></a>注意</h2><ol>
+<li>尽量不要在一个函数的生命周期去声明一个临时的共享指针（性能开销大！）</li>
+</ol>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建共享指针的基本类型</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TaskA</span>&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="type">int</span> a;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ATaskActor::TaskAA</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//将普通的指针转换为只能指针，也就是使用MakeTShareable接口</span></span><br><span class="line">    Task_a=<span class="built_in">MakeShareable</span>(<span class="keyword">new</span> <span class="built_in">TaskA</span>());<span class="comment">//根据TaskA类创建一个共享指针Task_a</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//使用已经创建好的Task_a</span></span><br><span class="line">    <span class="keyword">if</span>(Task_a.<span class="built_in">IsValid</span>()||Task_a.<span class="built_in">Get</span>())&#123;<span class="comment">//两者任选其一，推荐后者，因为使用后者之后不需要再引用具体值的时候使用.Get()了</span></span><br><span class="line">    Task_a.<span class="built_in">Get</span>()-&gt;a;<span class="comment">//必须要加上.Get()，否则容易引起断言崩溃</span></span><br><span class="line">    Task_a.<span class="built_in">Reset</span>();<span class="comment">//销毁</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="TWeakPtr-弱指针"><a href="#TWeakPtr-弱指针" class="headerlink" title="TWeakPtr 弱指针"></a>TWeakPtr 弱指针</h1><p>同C++11的弱指针也没啥区别</p>
+<p>注意：</p>
+<ul>
+<li>TWeakPtr 对内存并没有实际所有权，如果指向的<strong>共享内存被释放</strong>，<strong>TWeakPtr 也会变成空对象</strong></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">TSharedPtr&lt;<span class="type">int</span>&gt; sp = <span class="built_in">MakeShared</span>&lt;<span class="type">int</span>&gt;(<span class="number">666</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 多种创建方式 </span></span><br><span class="line">TWeakPtr&lt;<span class="type">int</span>&gt; wp1 = sp;</span><br><span class="line"><span class="function">TWeakPtr&lt;<span class="type">int</span>&gt; <span class="title">wp2</span><span class="params">(sp)</span></span>;</span><br><span class="line">TWeakPtr&lt;<span class="type">int</span>&gt; wp3 = wp2;</span><br><span class="line"></span><br><span class="line"><span class="comment">// TWeakPtr 也可以指向 TSharedRef </span></span><br><span class="line">TSharedRef&lt;<span class="type">int</span>&gt; sr = <span class="built_in">MakeShared</span>&lt;<span class="type">int</span>&gt;(<span class="number">888</span>);</span><br><span class="line"><span class="function">TWeakPtr&lt;<span class="type">int</span>&gt; <span class="title">wp4</span><span class="params">(sr)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 返回一个TSharedPtr，若其指向内存已被释放，则返回一个空智能指针对象 </span></span><br><span class="line"><span class="comment">// 特别注意，既然返回了一个TSharedPtr，其引用计数自然要加1</span></span><br><span class="line">TSharedPtr&lt;<span class="type">int</span>&gt; _sp = wp1.<span class="built_in">Pin</span>();</span><br></pre></td></tr></table></figure>
+
+<p>和标准C++的 weak_ptr 一样，<strong>TWeakPtr 主要也是为了解决 TSharedPtr 环形引用的问题：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">B</span>;</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">A</span></span><br><span class="line">    &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="built_in">A</span>() &#123; <span class="built_in">UE_LOG</span>(LogTemp, Log, <span class="built_in">TEXT</span>(<span class="string">&quot;Construct class A&quot;</span>)); &#125;</span><br><span class="line">        ~<span class="built_in">A</span>() &#123; <span class="built_in">UE_LOG</span>(LogTemp, Log, <span class="built_in">TEXT</span>(<span class="string">&quot;Destruct class A&quot;</span>)); &#125;</span><br><span class="line">        TSharedPtr&lt;B&gt; m_spB;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">B</span></span><br><span class="line">    &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="built_in">B</span>() &#123; <span class="built_in">UE_LOG</span>(LogTemp, Log, <span class="built_in">TEXT</span>(<span class="string">&quot;Construct class B&quot;</span>)); &#125;</span><br><span class="line">        ~<span class="built_in">B</span>() &#123; <span class="built_in">UE_LOG</span>(LogTemp, Log, <span class="built_in">TEXT</span>(<span class="string">&quot;Destruct class B&quot;</span>)); &#125;</span><br><span class="line">        TSharedPtr&lt;A&gt; m_spA;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">auto</span> spA = <span class="built_in">MakeShared</span>&lt;A&gt;();</span><br><span class="line">    <span class="keyword">auto</span> spB = <span class="built_in">MakeShared</span>&lt;B&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 发生了环形引用，两个对象的指针成员互相指向彼此的实例 </span></span><br><span class="line">    spA-&gt;m_spB = spB;</span><br><span class="line">    spB-&gt;m_spA = spA;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 离开作用域后两个局部对象并没有析构，日志输出：</span></span><br><span class="line"><span class="comment">// LogTemp: Construct class A</span></span><br><span class="line"><span class="comment">// LogTemp: Construct class B</span></span><br></pre></td></tr></table></figure>
+
+<p>因为A的实例中，有成员指向了B的实例，而B的实例，又有成员指向了A的实例，形成了一个环，导致彼此都不能正确释放（<strong>都在等待指向彼此的指针成员指向的对象释放完成</strong>）</p>
+<p>从而造成内存泄漏，此时就需要 TWeakPtr 上场了，只需要将A或B或二者类的定义中的指针成员由 TSharedPtr 改成 TWeakPtr 即可。因为 <strong>TWeakPtr 只引用不计数</strong>的特性，<strong>当拥有 TWeakPtr 成员的对象析构时，不会因为 TWeakPtr 所指向的内存还未释放而导致析构失败：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">B</span>;</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">A</span></span><br><span class="line">    &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="built_in">A</span>() &#123; <span class="built_in">UE_LOG</span>(LogTemp, Log, <span class="built_in">TEXT</span>(<span class="string">&quot;Construct class A&quot;</span>)); &#125;</span><br><span class="line">        ~<span class="built_in">A</span>() &#123; <span class="built_in">UE_LOG</span>(LogTemp, Log, <span class="built_in">TEXT</span>(<span class="string">&quot;Destruct class A&quot;</span>)); &#125;</span><br><span class="line">        <span class="comment">// 类A,B更改其一即可，这里二者都改成了弱引用 </span></span><br><span class="line">        TWeakPtr&lt;B&gt; m_spB;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">B</span></span><br><span class="line">    &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="built_in">B</span>() &#123; <span class="built_in">UE_LOG</span>(LogTemp, Log, <span class="built_in">TEXT</span>(<span class="string">&quot;Construct class B&quot;</span>)); &#125;</span><br><span class="line">        ~<span class="built_in">B</span>() &#123; <span class="built_in">UE_LOG</span>(LogTemp, Log, <span class="built_in">TEXT</span>(<span class="string">&quot;Destruct class B&quot;</span>)); &#125;</span><br><span class="line">        <span class="comment">// 类A,B更改其一即可，这里二者都改成了弱引用 </span></span><br><span class="line">        TWeakPtr&lt;A&gt; m_spA;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">auto</span> spA = <span class="built_in">MakeShared</span>&lt;A&gt;();</span><br><span class="line">    <span class="keyword">auto</span> spB = <span class="built_in">MakeShared</span>&lt;B&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 发生了环形引用，但 TWeakPtr 只引用不计数 </span></span><br><span class="line">    spA-&gt;m_spB = spB;</span><br><span class="line">    spB-&gt;m_spA = spA;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 离开作用域析构时，TWeakPtr 不会导致析构失败，日志输出：</span></span><br><span class="line"><span class="comment">// LogTemp: Construct class A</span></span><br><span class="line"><span class="comment">// LogTemp: Construct class B</span></span><br><span class="line"><span class="comment">// LogTemp: Destruct class B</span></span><br><span class="line"><span class="comment">// LogTemp: Destruct class A</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="TSharedRef-共享引用"><a href="#TSharedRef-共享引用" class="headerlink" title="TSharedRef 共享引用"></a>TSharedRef 共享引用</h1><p>虚幻引擎中独有的一种不可为空的智能指针</p>
+<ol>
+<li><p>不可为空</p>
+</li>
+<li><p>必须初始化（必须声明的时候就赋值！）</p>
+</li>
+<li><p>必须指向非空对象</p>
+</li>
+<li><p>无Reset() 和 IsValid() 接口</p>
+</li>
+<li><p><strong>只有 TSharedPtr 才能利用 ToSharedRef() 接口将共享指针转换为共享引用</strong>，和原 TSharedPtr 共享内存，且 TSharedPtr 中的共享引用计数器</p>
+</li>
+<li><p>共享指针和共享引用可以隐式直接转换</p>
+</li>
+<li><p>SharedReferenceCount 属性值会自增加，此时，如果将 TSharedPtr 重置，和TWeakPtr不同的是 <strong>TSharedRef 仍保有内存所有权</strong>，不会为空。</p>
+</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用普通指针右值初始化（不建议用普通指针左值初始化） </span></span><br><span class="line"><span class="function">TSharedRef&lt;<span class="type">int</span>&gt; <span class="title">sr1</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>(<span class="number">555</span>))</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 强烈建议用MakeShared接口 </span></span><br><span class="line">TSharedRef&lt;<span class="type">int</span>&gt; sr2 = <span class="built_in">MakeShared</span>&lt;<span class="type">int</span>&gt;(<span class="number">666</span>);</span><br><span class="line"><span class="function">TSharedRef&lt;<span class="type">int</span>&gt; <span class="title">sr3</span><span class="params">(MakeShared&lt;<span class="type">int</span>&gt;(<span class="number">777</span>))</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 仅 TSharedPtr 可通过 ToSharedRef() 接口转换为 TSharedRef </span></span><br><span class="line"><span class="comment">// 且原 TSharedPtr 重置不影响 TSharedRef 指向内存 </span></span><br><span class="line">TSharedPtr&lt;<span class="type">int</span>&gt; sp = <span class="built_in">MakeShared</span>&lt;<span class="type">int</span>&gt;(<span class="number">666</span>);</span><br><span class="line"><span class="comment">// sp 和 sr4 共享内存，引用计数自加 </span></span><br><span class="line">TSharedRef&lt;<span class="type">int</span>&gt; sr4 = sp.<span class="built_in">ToSharedRef</span>(); </span><br><span class="line"><span class="comment">// 重置sp后引用计数减少，但 sr4 仍然非空（这里不同于TWeakPtr） </span></span><br><span class="line">sp.<span class="built_in">Reset</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// TSharedRef 在指向空对象时会触发断言：</span></span><br><span class="line"><span class="comment">// 1、未初始化指向一个非空对象，执行时触发断言 </span></span><br><span class="line">TSharedRef&lt;<span class="type">int</span>&gt; srEmpty1; </span><br><span class="line"><span class="comment">// 2、指向的是一个空对象，执行时触发断言 </span></span><br><span class="line">TSharedPtr&lt;<span class="type">int</span>&gt; spEmpty;</span><br><span class="line">TSharedRef&lt;<span class="type">int</span>&gt; srEmpty2 = spEmpty.<span class="built_in">ToSharedRef</span>();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//访问共享引用中的元素</span></span><br><span class="line">sr1-&gt;a;</span><br></pre></td></tr></table></figure>
+
+<h2 id="注意-2"><a href="#注意-2" class="headerlink" title="注意"></a>注意</h2><p>在声明类的时候继承自<code>TSharedFromThis&lt;&gt;</code>可以使得获取此类的时候直接生成共享引用</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">TaskA</span>:<span class="keyword">public</span> TAharedFromThis&lt;TaskA&gt;</span><br><span class="line">&#123;</span><br><span class="line">     <span class="keyword">public</span>:</span><br><span class="line">        <span class="type">int</span> a;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">TaskA* cur=<span class="keyword">new</span> <span class="built_in">TaskA</span>();</span><br><span class="line">TShareRef&lt;TaskA&gt; Task_c=cur-&gt;<span class="built_in">AsShared</span>();</span><br></pre></td></tr></table></figure>
+
+<h1 id="TUniquePtr唯一指针"><a href="#TUniquePtr唯一指针" class="headerlink" title="TUniquePtr唯一指针"></a>TUniquePtr唯一指针</h1><ol>
+<li><p>强调对<strong>内存所有权的唯一性</strong></p>
+</li>
+<li><p>TUniquePtr 在构造时<strong>必须显示的调用构造函数</strong>（除非是默认构造），并且<strong>不能有赋值&#x2F;拷贝操作</strong>，其拷贝&#x2F;赋值重载被关键字 &#x3D;delete 标记</p>
+</li>
+<li><p>只能通过 <strong>MoveTemp() 转移内存所有权</strong>，类似C++中的std::move()</p>
+</li>
+<li><p>其指向的内存仅会被唯一的一个 TWeakPtr 所指向。</p>
+</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// TUniquePtr 带参构造函数被关键字 explicit 标记 </span></span><br><span class="line"><span class="function">TUniquePtr&lt;<span class="type">int</span>&gt; <span class="title">up1</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>(<span class="number">666</span>))</span></span>;</span><br><span class="line"><span class="comment">// 强烈建议用MakeShared接口 </span></span><br><span class="line"><span class="function">TUniquePtr&lt;<span class="type">int</span>&gt; <span class="title">up2</span><span class="params">(MakeUnique&lt;<span class="type">int</span>&gt;(<span class="number">888</span>))</span></span>;</span><br><span class="line">TUniquePtr&lt;<span class="type">int</span>&gt; up3 = <span class="built_in">MakeUnique</span>&lt;<span class="type">int</span>&gt;(<span class="number">888</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 拷贝/赋值重载被关键字 =delete 标记 </span></span><br><span class="line">TUniquePtr&lt;<span class="type">int</span>&gt; up4 = up1; <span class="comment">// 编译报错，尝试引用已删除的函数 </span></span><br><span class="line"><span class="function">TUniquePtr&lt;<span class="type">int</span>&gt; <span class="title">up5</span><span class="params">(up2)</span></span>; <span class="comment">// 编译报错，尝试引用已删除的函数 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 只能通过 MoveTemp() 转移内存所有权， </span></span><br><span class="line"><span class="comment">// 转移后 up1 指向内存转交给 up6，</span></span><br><span class="line"><span class="comment">// 同时指针变量 up1 被析构 </span></span><br><span class="line">TUniquePtr&lt;<span class="type">int</span>&gt; up6 = <span class="built_in">MoveTemp</span>(up1);</span><br></pre></td></tr></table></figure>
+
+<p><strong>需要特别注意的是：</strong></p>
+<p><strong>①</strong> 虽然不能有赋值&#x2F;拷贝操作，却能<strong>通过函数返回值来赋值</strong>，本质上相当于<strong>重新构造</strong>，重新构造后会<strong>析构之前占用的内存</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">TUniquePtr&lt;<span class="type">int</span>&gt; up = <span class="built_in">MakeUnique</span>&lt;<span class="type">int</span>&gt;(<span class="number">666</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span> GetUniquePtr = [](<span class="type">int</span> _value) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">MakeUnique</span>&lt;<span class="type">int</span>&gt;(_value);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">up = <span class="built_in">GetUniquePtr</span>(<span class="number">888</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>②</strong> 可以声明以 TUniquePtr 为元素类型的容器，不过元素赋值还是只能通过移动语义，且<strong>不能使用容器的初始化列表来初始化</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">TUniquePtr&lt;<span class="type">int</span>&gt; up = <span class="built_in">MakeUnique</span>&lt;<span class="type">int</span>&gt;(<span class="number">666</span>);</span><br><span class="line"><span class="keyword">auto</span> GetUniquePtr = [](<span class="type">int</span> _value) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">MakeUnique</span>&lt;<span class="type">int</span>&gt;(_value);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 即使通过转移语义或函数返回值，也不能用初始化列表 </span></span><br><span class="line">TArray&lt;TUniquePtr&lt;<span class="type">int</span>&gt;&gt; upArr = &#123;</span><br><span class="line">    <span class="comment">// 编译报错，尝试引用已删除的函数 </span></span><br><span class="line">    <span class="built_in">MoveTemp</span>(up), <span class="built_in">GetUniquePtr</span>(<span class="number">888</span>)</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 给数组中 TUniquePtr 元素赋值：</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">int</span> idx = <span class="number">0</span>; idx &lt; <span class="number">10</span>; ++idx)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 1、定义临时 TUniquePtr 变量然后用移动语义 </span></span><br><span class="line">    <span class="keyword">auto</span> tempUp = <span class="built_in">MakeUnique</span>&lt;<span class="type">int</span>&gt;(idx + <span class="number">1</span>);</span><br><span class="line">    upArr.<span class="built_in">Emplace</span>(<span class="built_in">MoveTemp</span>(tempUp));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2、 通过函数返回值赋值 </span></span><br><span class="line">    upArr.<span class="built_in">Emplace</span>(<span class="built_in">GetUniquePtr</span>(idx + <span class="number">2</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="辅助类和函数"><a href="#辅助类和函数" class="headerlink" title="辅助类和函数"></a>辅助类和函数</h1><p>UE4的智能指针库提供了很多<strong>辅助类和函数</strong>，目的是为了使用智能指针时更加<strong>方便直观</strong>。主要有以下几种：</p>
+<table>
+<thead>
+<tr>
+<th>助手</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>类</td>
+<td></td>
+</tr>
+<tr>
+<td><code>TSharedFromThis</code></td>
+<td>在添加 <code>AsShared</code> 或 <code>SharedThis</code> 函数的 <code>TSharedFromThis</code> 中衍生类。利用此类函数可获取对象的 <code>TSharedRef</code>。</td>
+</tr>
+<tr>
+<td>函数</td>
+<td></td>
+</tr>
+<tr>
+<td><code>MakeShared</code> 和 <code>MakeShareable</code></td>
+<td>在常规C++指针中创建共享指针。<code>MakeShared</code> 会在单个内存块中分配新的对象实例和引用控制器，但要求对象提交公共构造函数。<code>MakeShareable</code> 的效率较低，但即使对象的构造函数为私有，其仍可运行。利用此操作可拥有非自己创建的对象，并在删除对象时支持自定义行为。</td>
+</tr>
+<tr>
+<td><code>StaticCastSharedRef</code> 和 <code>StaticCastSharedPtr</code></td>
+<td>静态投射效用函数，通常用于向下投射到衍生类型。</td>
+</tr>
+<tr>
+<td><code>ConstCastSharedRef</code> 和 <code>ConstCastSharedPtr</code></td>
+<td>将 <code>const</code> 智能引用或智能指针分别转换为 <code>mutable</code> 智能引用或智能指针。</td>
+</tr>
+</tbody></table>
+<h2 id="TSharedFromeThis类"><a href="#TSharedFromeThis类" class="headerlink" title="TSharedFromeThis类"></a>TSharedFromeThis类</h2><p>如果要访问某个类实例的this指针，<strong>不建议直接将this指针返回</strong></p>
+<p>因为this指针是普通指针，对其进行delete操作是合法的，这会导致很多不好的后果，比如指针被<strong>重复释放</strong>，<strong>操作野指针</strong>等</p>
+<p>既然不能返回this指针，可能会考虑将其包装为智能指针返回，但这样会导致该类的实例被析构两次，因为包装成智能指针返回相当于创建了一个智能指针变量，该变量生命周期受操作系统控制，类的实例也是如此，返回的智能指针变量和类的实例相当于是指向了同一块内存，故而在析构它们时会导致内存被重复释放</p>
+<p>TSharedFromThis，和C++中的 <strong>std::shared_from_this()</strong> 类似，就是用来解决这个问题的，让**类公有继承自TSharedFromTthis<ClassName>**，使得能够安全使用类实例的this指针，其内部有一个 <strong>TWeakPtr</strong> 指针，若要获取类实例的this指针，它提供两类接口 <strong><mark>AsShared()</mark></strong> 和 <strong><mark>SharedThis()</mark><strong>，它们会</strong>通过 TWeakPtr 返回一个 TSharedRef</strong>；</p>
+<p><strong>需要注意的是：</strong></p>
+<p>① <strong>调用AsShared() 的对象必须是一个智能指针</strong>，否则仍然不能保证使用this裸指针或对内存重复释放，在UE4中会触发断言；</p>
+<p>② 在<strong>类外部调用静态方法 SharedThis() 时，当前操作模块的类也必须公有继承其自身的TSharedFromThis</strong>；</p>
+<p>③ 和C++类似，AsShared() 和 SharedThis() <strong>不能在构造函数内部使用</strong>，否则会触发断言；</p>
+<p><strong>使用示例：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> : <span class="keyword">public</span> TSharedFromThis&lt;MyClass&gt;</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">TSharedRef&lt;MyClass&gt; <span class="title">SharedMyself</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">SharedThis</span>(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 普通指针或对象，使用TSharedFromThis内的方法会触发断言 </span></span><br><span class="line">TSharedPtr&lt;MyClass&gt; ptr = <span class="built_in">MakeShared</span>&lt;MyClass&gt;();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过接口获取类实例的智能引用，维护的是同一块内存，同一个计数器 </span></span><br><span class="line">TSharedRef&lt;MyClass&gt; pRef1 = ptr-&gt;<span class="built_in">AsShared</span>();</span><br><span class="line">TSharedRef&lt;MyClass&gt; pRef2 = ptr-&gt;<span class="built_in">SharedMyself</span>();</span><br><span class="line"><span class="comment">// 在类外部使用该接口，那么操作模块的类也必须继承其自身的TSharedFromThis </span></span><br><span class="line">TSharedRef&lt;MyClass&gt; pRef3 = <span class="built_in">SharedThis</span>(ptr.<span class="built_in">Get</span>());</span><br></pre></td></tr></table></figure>
+
+<h2 id="MakeShared（包括用于TUniquePtr的MakeUnique）函数"><a href="#MakeShared（包括用于TUniquePtr的MakeUnique）函数" class="headerlink" title="MakeShared（包括用于TUniquePtr的MakeUnique）函数"></a>MakeShared（包括用于TUniquePtr的MakeUnique）函数</h2><p>类似于C++中的 std::make_shared ，比直接用普通指针创建效率更高，因为智能指针内存包含两部分，除了数据本身的内存之外，还有一个控制块内存，<strong>普通指针</strong>创建时，会<strong>分别申请两次内存</strong>，而使用 <strong>MakedShared 只需要进行一次内存申请</strong>，因而效率更高。</p>
+<h2 id="MakeShareable函数"><a href="#MakeShareable函数" class="headerlink" title="MakeShareable函数"></a>MakeShareable函数</h2><p>主要针对<strong>将一个普通指针转换为智能指针</strong>，而 TSharedPtr 需要在定义时显示调用构造函数才可以将一个普通指针传入（仍然不建议提前定义一个指针变量然后用来初始化指针智能），与之不同的是，<strong>MakeShareabel 支持自定义删除对象的行为</strong>，将自定义删除处理通过参数传入。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MakeShareable 自定义删除行为是一个右值引用 </span></span><br><span class="line"><span class="keyword">auto</span> DelFunc = [](<span class="type">int</span>* _ptr) &#123;</span><br><span class="line">    <span class="comment">// 删除申请的内存，</span></span><br><span class="line">    <span class="comment">// TSharedPtr 作为局部变量由操作系统控制生命周期 </span></span><br><span class="line">    <span class="keyword">delete</span> _ptr;</span><br><span class="line">    _ptr = <span class="literal">nullptr</span>;  </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">TSharedPtr&lt;<span class="type">int</span>&gt; sp;</span><br><span class="line">sp = <span class="built_in">MakeShareable</span>(<span class="keyword">new</span> <span class="built_in">int</span>(<span class="number">666</span>), <span class="built_in">MoveTemp</span>(DelF));</span><br></pre></td></tr></table></figure>
+
+<h2 id="StaticCastSharedRef和StaticCastSharedPtr函数"><a href="#StaticCastSharedRef和StaticCastSharedPtr函数" class="headerlink" title="StaticCastSharedRef和StaticCastSharedPtr函数"></a>StaticCastSharedRef和StaticCastSharedPtr函数</h2><p>类似于C++中的 static_cast，但<strong>只用于派生类的转换：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 始终注意UE4智能指针只能用于非UObject类群 </span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">BaseClass</span> &#123;&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">DerivedClass</span> : <span class="keyword">public</span> BaseClass &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 共享指针派生类静态转换 </span></span><br><span class="line">TSharedPtr&lt;BaseClass&gt; pBase1 = <span class="built_in">MakeShared</span>&lt;DerivedClass&gt;();</span><br><span class="line">TSharedPtr&lt;DerivedClass&gt; pDerived1 = </span><br><span class="line">    <span class="built_in">StaticCastSharedPtr</span>&lt;DerivedClass&gt;(pBase1);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 共享引用派生类静态转换 </span></span><br><span class="line">TSharedRef&lt;BaseClass&gt; pBase2 = <span class="built_in">MakeShared</span>&lt;DerivedClass&gt;();</span><br><span class="line">TSharedRef&lt;DerivedClass&gt; pDerived2 =</span><br><span class="line">    <span class="built_in">StaticCastSharedRef</span>&lt;DerivedClass&gt;(pBase2);</span><br></pre></td></tr></table></figure>
+
+<h2 id="ConstCastSharedRef和ConstCastSharedPtr函数"><a href="#ConstCastSharedRef和ConstCastSharedPtr函数" class="headerlink" title="ConstCastSharedRef和ConstCastSharedPtr函数"></a>ConstCastSharedRef<strong>和</strong>ConstCastSharedPtr函数</h2><p>用于<strong>将 const 类型的智能指针转换为非 const 类型</strong>，转换后两个指针指向的是同一块内存，不会申请新内存，如果修改转换后的非const类型的值，那么原来的const类型的值也会同步被修改：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">TSharedPtr&lt;<span class="type">const</span> <span class="type">int</span>&gt; sp1 = <span class="built_in">MakeShared</span>&lt;<span class="type">const</span> <span class="type">int</span>&gt;(<span class="number">666</span>);</span><br><span class="line"><span class="comment">// sp2 和 sp1 指向同一一块内存，并不会重新申请新内存 </span></span><br><span class="line">TSharedPtr&lt;<span class="type">int</span>&gt; sp2 = <span class="built_in">ConstCastSharedPtr</span>&lt;<span class="type">int</span>&gt;(sp1);</span><br><span class="line"><span class="comment">// 常量指针 sp1 的值也会同步被修改</span></span><br><span class="line">(*sp2) = <span class="number">888</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">// 对于指针引用也是类似 </span></span><br><span class="line">TSharedRef&lt;<span class="type">const</span> <span class="type">int</span>&gt; sr1 = <span class="built_in">MakeShared</span>&lt;<span class="type">const</span> <span class="type">int</span>&gt;(<span class="number">666</span>);</span><br><span class="line">TSharedRef&lt;<span class="type">int</span>&gt; sr2 = <span class="built_in">ConstCastSharedRef</span>&lt;<span class="type">int</span>&gt;(sr1);</span><br><span class="line"><span class="comment">// 常量引用 sr1 的值也会同步被修改 </span></span><br><span class="line">(*sr2) = <span class="number">888</span>; </span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C++</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/05/27/UE4-%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" rel="prev" title="UE4-动态代理">
+                  <i class="fa fa-chevron-left"></i> UE4-动态代理
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/05/29/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%88%E4%BA%8C%EF%BC%89/" rel="next" title="有关算法中的二叉树（二）">
+                  有关算法中的二叉树（二） <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

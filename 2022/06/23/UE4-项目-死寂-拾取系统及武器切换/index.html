@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="拾取物品高亮显示知识点蓝图接口一个集成了很多功能的函数，可以通过蓝图接口实现蓝图之间的通信 获取玩家摄像机管理器无论在第一人称或者第三人称状态下都可以返回摄像机相关的信息 添加返回节点在函数内使用，添加函数的返回值 获取有接口的所有actor选择一个接口，然后获取拥有该接口的所有actor 设置渲染自定义深度能够产生物体的描边效果 思路 创建一个拾取物品列表“BP_PickUpItemsBase”">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE4-项目-死寂-拾取系统及武器切换">
+<meta property="og:url" content="http://example.com/2022/06/23/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%8B%BE%E5%8F%96%E7%B3%BB%E7%BB%9F%E5%8F%8A%E6%AD%A6%E5%99%A8%E5%88%87%E6%8D%A2/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="拾取物品高亮显示知识点蓝图接口一个集成了很多功能的函数，可以通过蓝图接口实现蓝图之间的通信 获取玩家摄像机管理器无论在第一人称或者第三人称状态下都可以返回摄像机相关的信息 添加返回节点在函数内使用，添加函数的返回值 获取有接口的所有actor选择一个接口，然后获取拥有该接口的所有actor 设置渲染自定义深度能够产生物体的描边效果 思路 创建一个拾取物品列表“BP_PickUpItemsBase”">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-06-23T03:44:39.000Z">
+<meta property="article:modified_time" content="2022-06-25T09:26:10.240Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="项目">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/06/23/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%8B%BE%E5%8F%96%E7%B3%BB%E7%BB%9F%E5%8F%8A%E6%AD%A6%E5%99%A8%E5%88%87%E6%8D%A2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/06/23/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%8B%BE%E5%8F%96%E7%B3%BB%E7%BB%9F%E5%8F%8A%E6%AD%A6%E5%99%A8%E5%88%87%E6%8D%A2/","path":"2022/06/23/UE4-项目-死寂-拾取系统及武器切换/","title":"UE4-项目-死寂-拾取系统及武器切换"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>UE4-项目-死寂-拾取系统及武器切换 | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8B%BE%E5%8F%96%E7%89%A9%E5%93%81%E9%AB%98%E4%BA%AE%E6%98%BE%E7%A4%BA"><span class="nav-number">1.</span> <span class="nav-text">拾取物品高亮显示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-number">1.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%93%9D%E5%9B%BE%E6%8E%A5%E5%8F%A3"><span class="nav-number">1.1.1.</span> <span class="nav-text">蓝图接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E7%8E%A9%E5%AE%B6%E6%91%84%E5%83%8F%E6%9C%BA%E7%AE%A1%E7%90%86%E5%99%A8"><span class="nav-number">1.1.2.</span> <span class="nav-text">获取玩家摄像机管理器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E8%BF%94%E5%9B%9E%E8%8A%82%E7%82%B9"><span class="nav-number">1.1.3.</span> <span class="nav-text">添加返回节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%9C%89%E6%8E%A5%E5%8F%A3%E7%9A%84%E6%89%80%E6%9C%89actor"><span class="nav-number">1.1.4.</span> <span class="nav-text">获取有接口的所有actor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E6%B8%B2%E6%9F%93%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B7%B1%E5%BA%A6"><span class="nav-number">1.1.5.</span> <span class="nav-text">设置渲染自定义深度</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">1.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8B%BE%E5%8F%96%E7%B3%BB%E7%BB%9F"><span class="nav-number">2.</span> <span class="nav-text">拾取系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-1"><span class="nav-number">2.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-number">2.1.1.</span> <span class="nav-text">结构体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BA%E5%AE%9A%E5%9C%A8%E6%9D%A1%E7%9B%AE%E4%B8%8A%E9%87%8D%E8%AE%BE"><span class="nav-number">2.1.2.</span> <span class="nav-text">固定在条目上重设</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E9%AA%A8%E9%AA%BC%E7%BD%91%E6%A0%BC%E4%BD%93"><span class="nav-number">2.1.3.</span> <span class="nav-text">设置骨骼网格体</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-1"><span class="nav-number">2.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BB%E5%89%AF%E6%AD%A6%E5%99%A8%E5%88%87%E6%8D%A2"><span class="nav-number">3.</span> <span class="nav-text">主副武器切换</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-2"><span class="nav-number">3.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Blend"><span class="nav-number">3.1.1.</span> <span class="nav-text">Blend</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9"><span class="nav-number">3.1.2.</span> <span class="nav-text">选择</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-2"><span class="nav-number">3.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8B%BE%E5%8F%96%E5%A4%9A%E6%8A%8A%E6%AD%A6%E5%99%A8%E6%9B%BF%E6%8D%A2%E5%8A%9F%E8%83%BD"><span class="nav-number">4.</span> <span class="nav-text">拾取多把武器替换功能</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-3"><span class="nav-number">4.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%92%E8%89%B2%E6%8B%BE%E5%8F%96%E6%9C%8D%E8%A3%85%E7%B3%BB%E7%BB%9F"><span class="nav-number">5.</span> <span class="nav-text">角色拾取服装系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-4"><span class="nav-number">5.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%98%E5%8C%96"><span class="nav-number">6.</span> <span class="nav-text">优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%87%E6%8D%A2%E5%85%A8%E8%87%AA%E5%8A%A8%E4%B8%8E%E5%8D%8A%E8%87%AA%E5%8A%A8"><span class="nav-number">6.1.</span> <span class="nav-text">切换全自动与半自动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%BE%E5%8F%96%E7%B3%BB%E7%BB%9F%E4%B8%AD%E5%88%9B%E5%BB%BA%E7%9A%84%E5%8F%98%E9%87%8F"><span class="nav-number">6.2.</span> <span class="nav-text">拾取系统中创建的变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A3%85%E5%A4%87%E6%AD%A6%E5%99%A8%E7%B3%BB%E7%BB%9F"><span class="nav-number">6.3.</span> <span class="nav-text">装备武器系统</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BUG%E5%B0%8F%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text">BUG小结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">77</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/23/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%8B%BE%E5%8F%96%E7%B3%BB%E7%BB%9F%E5%8F%8A%E6%AD%A6%E5%99%A8%E5%88%87%E6%8D%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="UE4-项目-死寂-拾取系统及武器切换 | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UE4-项目-死寂-拾取系统及武器切换
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-06-23 11:44:39" itemprop="dateCreated datePublished" datetime="2022-06-23T11:44:39+08:00">2022-06-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-06-25 17:26:10" itemprop="dateModified" datetime="2022-06-25T17:26:10+08:00">2022-06-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="拾取物品高亮显示"><a href="#拾取物品高亮显示" class="headerlink" title="拾取物品高亮显示"></a>拾取物品高亮显示</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="蓝图接口"><a href="#蓝图接口" class="headerlink" title="蓝图接口"></a>蓝图接口</h3><p>一个集成了很多功能的函数，可以通过蓝图接口实现蓝图之间的通信</p>
+<h3 id="获取玩家摄像机管理器"><a href="#获取玩家摄像机管理器" class="headerlink" title="获取玩家摄像机管理器"></a>获取玩家摄像机管理器</h3><p>无论在第一人称或者第三人称状态下都可以返回摄像机相关的信息</p>
+<h3 id="添加返回节点"><a href="#添加返回节点" class="headerlink" title="添加返回节点"></a>添加返回节点</h3><p>在函数内使用，添加函数的返回值</p>
+<h3 id="获取有接口的所有actor"><a href="#获取有接口的所有actor" class="headerlink" title="获取有接口的所有actor"></a>获取有接口的所有actor</h3><p>选择一个接口，然后获取拥有该接口的所有actor</p>
+<h3 id="设置渲染自定义深度"><a href="#设置渲染自定义深度" class="headerlink" title="设置渲染自定义深度"></a>设置渲染自定义深度</h3><p>能够产生物体的描边效果</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>创建一个拾取物品列表“BP_PickUpItemsBase”</p>
+</li>
+<li><p>创建一个拾取物品蓝图接口”PickUpSystem”</p>
+<ul>
+<li>新增三个函数“拾取物品”，“开启该光显示”，“关闭高光显示”</li>
+</ul>
+</li>
+<li><p>在“BP_PickUpItemsBase”中添加蓝图接口</p>
+</li>
+<li><p>在角色蓝图中添加函数“拾取范围检测”</p>
+<ul>
+<li><p>在一定范围内检测是否可以拾取</p>
+</li>
+<li><p>选择“由通道检测球体”来规定范围</p>
+</li>
+<li><p>起始点为摄像机位置</p>
+</li>
+<li><p>终点为摄像机往前（*向量）一定距离的位置（+向量）</p>
+</li>
+</ul>
+</li>
+<li><p>新增碰撞通道PickUp，默认设置为忽略（能拾取的物体再设置为阻挡）</p>
+</li>
+<li><p>设置“由通道检测球体”节点的检测通道</p>
+</li>
+<li><p>在“BP_PickUpItemsBase”的球体检测的碰撞属性中修改PickUp为阻挡</p>
+</li>
+<li><p>在角色蓝图中添加事件图表“拾取系统”</p>
+<ul>
+<li><p>添加actor类型的变量“检测到的物体”</p>
+</li>
+<li><p>调用“拾取范围检测”函数，判断是否检测到物体</p>
+</li>
+<li><p>判断检测到的物体是否为之前未检测到的物体（对同一个物体，高亮效果只执行一次）</p>
+</li>
+<li><p>判断检测到的物体是否有效（以免第一次使用的时候“检测到的物品”为空）</p>
+</li>
+<li><p>有效则关闭当前物体的高亮显示，将当前碰撞检测到的物体设置为“检测到的物品”，然后开启高亮显示</p>
+</li>
+<li><p>无效则将当前碰撞检测到的物体设置为“检测到的物品”，然后开启高亮显示</p>
+</li>
+<li><p>如果检测到物体不是可以拾取的，就要将之前识别到的高亮物体取消高亮</p>
+</li>
+<li><p>使用Do once节点关闭物体高亮（因为“拾取范围检测”是每帧都会执行一次的，我们不需要每帧都关闭，关闭一次即可）</p>
+</li>
+<li><p>当重新检测到能拾取的物体的时候重置do once（用序列节点实现）</p>
+</li>
+<li><p>关闭所有高亮显示使用“获取有接口的所有actor”</p>
+</li>
+<li><p>遍历获取到的actor，再调用“关闭高亮显示”节点，最后将“检测到的物品“重置为空</p>
+</li>
+</ul>
+</li>
+<li><p>在角色事件图表中每帧调用”拾取物品高亮显示“</p>
+</li>
+<li><p>在“BP_PickUpItemsBase”中定义蓝图接口中的三个函数</p>
+</li>
+<li><p>调用”设置渲染自定义深度“，并且在世界中放入”后期处理体积“来实现物体描边显示</p>
+<ul>
+<li><p>”后期处理体积“将无限范围为True</p>
+</li>
+<li><p>渲染功能的后期处理材质调用一个特定材质</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="拾取系统"><a href="#拾取系统" class="headerlink" title="拾取系统"></a>拾取系统</h1><h2 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h2><h3 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h3><p>和C++里面的没区别</p>
+<h3 id="固定在条目上重设"><a href="#固定在条目上重设" class="headerlink" title="固定在条目上重设"></a>固定在条目上重设</h3><p>状态机中状态的细节属性，勾选后可以使得每次播放动画都是从头开始播放（包括上一次动画如果被打断的话，下一次播放还是从头开始）</p>
+<h3 id="设置骨骼网格体"><a href="#设置骨骼网格体" class="headerlink" title="设置骨骼网格体"></a>设置骨骼网格体</h3><p>在”目标“的位置生成”new mesh“传入的骨骼网格体</p>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>添加操作映射”拾取“，在角色蓝图中的”拾取系统“事件图表中调用</p>
+</li>
+<li><p>先判断角色状态是否为空白，或者是否瞄准（空白状态和瞄准状态均可拾取物品）</p>
+</li>
+<li><p>调用”拾取范围检测“节点，其返回值中的”Hit Actor“调用”拾取物品“</p>
+</li>
+<li><p>创建三个枚举”PickUpType“,”ClothType”,”WeaponType”来区分拾取到的物品类型，然后创建一个结构体，将其包含进去</p>
+</li>
+<li><p>结构体”Struct_PickUp“包含三个枚举之外，还包含骨骼网格体类型的”服饰模型“，Actor（类引用）类型的”拾取后生成的类“</p>
+</li>
+<li><p>将设置好的结构体作为变量添加到“BP_PickUpItemsBase”中</p>
+</li>
+<li><p>在角色蓝图的”拾取系统“事件图表中添加自定义事件”获取拾取信息并播放动画“,并且添加变量”拾取物品种类“，”武器种类“，”服饰种类“，”拾取后生成的类“，”服饰模型“</p>
+</li>
+<li><p>添加”获取拾取信息并播放动画“的输入”拾取物品信息“，类型为之前创建好的结构体</p>
+</li>
+<li><p>中断其命中结果，将五个引脚分别保存至刚创建的五个变量中</p>
+</li>
+<li><p>在“BP_PickUpItemsBase”中的事件图表实现和角色蓝图的通信，变量保存为”角色蓝图实例“</p>
+</li>
+<li><p>实现”拾取物品“事件：用角色蓝图实例调用”获取拾取信息并播放拾取动画“事件，传入PickUp变量，延迟0.4秒（播放完角色拾取动画）后销毁self</p>
+</li>
+<li><p>将角色功能状态枚举中新增一个”拾取物品“状态，在角色蓝图的”获取拾取信息并播放动画“事件中设置状态为”拾取物品“</p>
+</li>
+<li><p>在动画蓝图中添加新的变量”是否拾取“，在功能状态机中创建新的状态”拾取动画“，来去逻辑根据”是否拾取“决定</p>
+</li>
+<li><p>创建混合空间设置动画，水平坐标”站立蹲“，垂直坐标”持枪状态“</p>
+</li>
+<li><p>在”拾取动画“状态中调用混合空间，并且通过”每个骨骼的分层混合“节点进行混合</p>
+</li>
+<li><p>将”站立蹲“和”持枪状态“均提升为变量，然后在分别在动画蓝图的事件图表和角色蓝图类中的”装备武器“事件图表中设置</p>
+</li>
+<li><p>在角色蓝图中设置”是否拾取“为true，然后延迟0.4秒之后将其设置为false，并且将功能状态枚举修改为空白</p>
+</li>
+<li><p>在动画蓝图中的功能状态机中点击”拾取动画“，将其事件的”固定在条目上重设“</p>
+</li>
+<li><p>在角色蓝图类”拾取系统“中，延迟0.4秒之前用一个序列节点，同样延迟0.4秒，判断拾取物品种类-&gt;判断服饰种类&#x2F;判断武器种类</p>
+</li>
+<li><p>是背包的话，将角色模型中原本背包组件的位置作为目标，服饰模型作为参数”设置骨骼网格体“</p>
+</li>
+<li><p>在”BP_PickUp_BackBag”蓝图中设置变量”PickUp“，拾取种类设置为”服饰“，服饰模型设置为背包的模型</p>
+</li>
+<li><p>创建可以拾取的武器</p>
+<ul>
+<li><p>在角色蓝图的事件图表中将武器添加到角色身上的那一组逻辑剪切下来（角色一开始就没有武器在身上了）</p>
+</li>
+<li><p>创建一个新函数“生成主武器”，将之前剪切下来的粘贴进去</p>
+</li>
+<li><p>将从类生成actor的类传入之前定义的变量“拾取后生成的类”，将返回值转换为“BP_WeaponBase”，将武器实例的变量类型转换为“BP_WeaponBase”类型的</p>
+</li>
+<li><p>在拾取系统事件图表中调用“生成主武器”函数</p>
+</li>
+<li><p>以BP_PickUpItemsBase为父类生成子类“BP_PickUpAKM”，在其中设置其结构体的变量，特别是将拾取后生成的类修改为BP_Weapon_AKM</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="主副武器切换"><a href="#主副武器切换" class="headerlink" title="主副武器切换"></a>主副武器切换</h1><h2 id="知识点-2"><a href="#知识点-2" class="headerlink" title="知识点"></a>知识点</h2><h3 id="Blend"><a href="#Blend" class="headerlink" title="Blend"></a>Blend</h3><p>在动画蓝图中使用，和switch遍历方式一样，需要右键节点手动添加引脚</p>
+<p>可以根据遍历出的值的不同和输出不同的动画</p>
+<h3 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h3><p>一个选择节点，将下标改为bool类型之后即可根据引入判断值返回true引脚或者false引脚</p>
+<h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>修改之前与武器相关的变量名称，并添加一些变量名称，分别代表主副武器的实例，装备插槽，未装备插槽</p>
+</li>
+<li><p>在角色的骨骼中的合适位置添加虚拟骨骼插槽，并于角色蓝图中的新建变量和旧有变量进行绑定</p>
+</li>
+<li><p>复制“生成主武器”函数，并将其修改为“生成副武器”函数（需要修改其中的实例和插槽）</p>
+</li>
+<li><p>在拾取系统中分别调用“生成主武器”和“生成副武器”</p>
+<ul>
+<li><p>主武器实例无效时生成主武器，有效时生成副武器</p>
+</li>
+<li><p>副武器实例无效时生成副武器，有效时提醒“武器已满”</p>
+</li>
+</ul>
+</li>
+<li><p>在装备了背包之后需要修改主武器和副武器在背上的位置</p>
+<ul>
+<li><p>将主副武器未装备插槽的名称修改为虚拟骨骼对应的名称</p>
+</li>
+<li><p>判断是否拥有主副武器，判断是否装备了主副武器</p>
+</li>
+<li><p>未装备则使用“附加Actor到组件”节点，将主副武器实例附加到网格体的对应插槽位置上</p>
+</li>
+</ul>
+</li>
+<li><p>修改原本的装备武器动画通知为Notif_EquipMainWeaponAnimation和创建新的动画通知Notif_EquipSecondaryWeaponAnimation，并且将装备副武器动画通知中的主武器实例替换成副武器，主武器插槽也替换成副武器插槽</p>
+</li>
+<li><p>将之前装备武器的动画通知复制一下，在其中将装备主武器动画通知替换为装备副武器动画通知</p>
+</li>
+<li><p>在动画蓝图中新建WeaponType类型的变量“武器种类”，根据这个变量的值来播放不同的动画</p>
+</li>
+<li><p>在动画蓝图中的功能状态机的装备武器状态中调用Blend节点遍历“武器种类”，使得装备主武器动画和装备副武器动画进行选择输出</p>
+</li>
+<li><p>添加新的操作映射“主武器切换”1和“副武器切换”2</p>
+</li>
+<li><p>在“装备武器”事件图表中“判断是否持枪”的false之后需要修改“武器种类”为主武器</p>
+</li>
+<li><p>装备武器动画播放方向之后需要设置“是否装备主武器”为false和true</p>
+</li>
+<li><p>新建变量“是否可以主切换副”，“是否可以副切换主”</p>
+</li>
+<li><p>将主武器切换蓝图逻辑复制一下，替换为副武器切换，注意其中需要将武器种类修改为副武器，是否装备主武器修改为是否装备副武器，按键映射也需要修改，最后两者的时间轴用同一个即可，以免冲突</p>
+</li>
+<li><p>另外，在装备主武器之前还需要判断是否装备了副武器，如果未装备副武器，则可以直接装备主武器，如果已经装备了副武器，则需要将副武器收起来，然后再装备主武器</p>
+<ul>
+<li><p>创建一个自定义事件“收起副武器”链接到装备副武器的逻辑节点前</p>
+</li>
+<li><p>在主武器逻辑中“是否装备副武器”为true时调用“收起副武器”</p>
+</li>
+<li><p>于此同时需要创建一个自定义事件“副武器切换主武器”链接到主武器“是否持枪”之前</p>
+</li>
+<li><p>最后在副武器装备的蓝图逻辑中判断“是否可以副切换主”，为true时调用“副武器切换主武器”，并且延迟0.1秒之后将“是否可以副切换主”设置为false</p>
+</li>
+</ul>
+</li>
+<li><p>主武器切换为副武器同理创建“收起主武器”，“主武器切换副武器”事件即可</p>
+</li>
+<li><p>再切换主武器和副武器开头，还需要判断是否拥有主副武器，也就是判断主武器&#x2F;副武器实例是否有效，只有再拥有了武器的状态下才能切换武器</p>
+</li>
+<li><p>还需要做一个替换，在射击的时候，之前的蓝图节点中都写得是主武器的实例，如果不加上副武器，那么射击的时候，背在背上的主武器射击，手上的副武器就不动了</p>
+<ul>
+<li><p>在射击事件中，开始射击之前使用“选择”节点，将index修改为bool，以“是否装备主武器”为判断依据，分别返回主武器实例和副武器实例</p>
+</li>
+<li><p>根据查找引用，同样替换其他逻辑代码（射击，换弹，全自动半自动切换）</p>
+</li>
+</ul>
+</li>
+<li><p>新建枪械Scar的模型，子弹，弹匣，可拾取蓝图（复制AKM的之后修改细节，注意的是可拾取蓝图中生成的类需要替换成Scar的蓝图类）</p>
+</li>
+<li><p>将三个换弹的动画通知里面的主武器实例同上修改为以选择节点来判断的逻辑</p>
+</li>
+</ol>
+<h1 id="拾取多把武器替换功能"><a href="#拾取多把武器替换功能" class="headerlink" title="拾取多把武器替换功能"></a>拾取多把武器替换功能</h1><p>拾取第三把武器的时候将主武器丢弃，将新的武器安置在主武器的位置</p>
+<p>但是当手持主武器的时候，就替换副武器</p>
+<p>最后将替换下来的武器生成在脚下</p>
+<h2 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>在拾取系统事件图表中创建自定义事件“替换武器”，在原本的“武器已满”位置调用“替换武器”事件图表</p>
+</li>
+<li><p>创建一个新函数“生成可拾取武器到地上”</p>
+<ul>
+<li><p>“由通道检测线条”，起始位置是actor位置，终点位置是actor往下500cm</p>
+</li>
+<li><p>用一个分支节点判断是否命中，中断检测结果，将其中的位置信息传入“由类生成actor”中</p>
+</li>
+<li><p>在武器父类中创建Actor类引用的变量“替换现有武器到地上”</p>
+</li>
+<li><p>在武器子类中分别设置“替换现有武器到地上”为对应武器的可拾取蓝图</p>
+</li>
+<li><p>以“是否装备副武器为判断依据”true输出主武器实例，false输出副武器实例，链接“替换现有武器到地上”，最后作为从类生成actor的类</p>
+</li>
+<li><p>在武器父类中创建新的事件图表“自己销毁”，创建新的自定义事件“自毁”，销毁武器，并且销毁弹匣</p>
+</li>
+<li><p>在角色蓝图的生成可拾取武器到地上函数中的选择输出的武器实例调用“自毁”事件</p>
+</li>
+<li><p>最后通过输出的武器实例来判断是主武器实例还是副武器实例，如果是主武器实例，则调用“生成主武器”；否则“生成副武器”</p>
+</li>
+</ul>
+</li>
+<li><p>在“替换武器”事件中调用“生成可拾取武器在地上”</p>
+</li>
+</ol>
+<h1 id="角色拾取服装系统"><a href="#角色拾取服装系统" class="headerlink" title="角色拾取服装系统"></a>角色拾取服装系统</h1><h2 id="思路-4"><a href="#思路-4" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>在拾取系统内，判断服饰种类之后，添加背包之前，需要判断一下当前身上有没有背包</p>
+<ul>
+<li>将背包组件拖入，引出get skeletal mesh（获取骨骼网格体）判断是否为空（&#x3D;&#x3D;），如果为空，则可以直接生成背包，否则需要执行替换背包逻辑</li>
+</ul>
+</li>
+<li><p>创建一个Actor类引用类型的变量“生成可拾取的背包”，在上一节点为true时，set“生成可拾取的背包”，并将拾取物品信息中断，将拾取后生成的类引入</p>
+</li>
+<li><p>创建函数“生成可拾取服饰到地上”逻辑思路类似“生成可拾取武器到地上”，其中删除自毁逻辑和生成主副武器逻辑，将“从类生成actor”的class为函数的形式参数</p>
+</li>
+<li><p>在拾取系统中调用“生成可拾取服饰到地上”</p>
+<ul>
+<li><p>传入的参数为”生成可拾取的背包“，也就是之前旧的背包</p>
+</li>
+<li><p>下一个节点为”设置生成可拾取的背包“</p>
+</li>
+<li><p>也就是每次拾取到新背包之后，将旧背包生成到地上，在这之后，需要将现在背上的背包传入”生成可拾取的背包“变量里面</p>
+</li>
+</ul>
+</li>
+<li><p>在”BP_PickUp_Bag“里面的结构体中设置拾取后生成的类</p>
+</li>
+<li><p>创建一个透明的材质球，打开一个角色网格体将角色衣服之外的材质均替换为透明材质球，重命名为Cloth1</p>
+</li>
+<li><p>根据可拾取物品创建一个子类”BP_PickUpCloth1”设置其模型和类默认值中的”拾取后生成的类“等属性</p>
+</li>
+<li><p>在角色蓝图中新增骨骼网格体组件”衣服“，在其构造函数中将其传入到”设置总姿势组件“节点的“目标”引脚</p>
+</li>
+<li><p>在角色拾取系统中先判断角色是否穿衣服（和背包那边相同），然后设置角色网格体的材质（衣服材质）为透明【让这个角色看起来没有穿衣服】，后面的逻辑就和之前的背包逻辑一模一样了</p>
+</li>
+</ol>
+<h1 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h1><h2 id="切换全自动与半自动"><a href="#切换全自动与半自动" class="headerlink" title="切换全自动与半自动"></a>切换全自动与半自动</h2><p>在切换之前要判断是否装备武器，先判断主武器，再判断副武器，任意有一把就能切换，否则打印字符串“未装备武器，不能切换”</p>
+<h2 id="拾取系统中创建的变量"><a href="#拾取系统中创建的变量" class="headerlink" title="拾取系统中创建的变量"></a>拾取系统中创建的变量</h2><p>将之前创建了很多的变量全部用结构体代替</p>
+<p>将该事件的输入值“拾取物品信息”创建为一个变量，输入值传入变量中，在后面需要结构体中的变量的时候就将其调用</p>
+<h2 id="装备武器系统"><a href="#装备武器系统" class="headerlink" title="装备武器系统"></a>装备武器系统</h2><p>可以将相同的逻辑节点写到一个宏当中，根据情况的不同传入不同的参数即可</p>
+<h1 id="BUG小结"><a href="#BUG小结" class="headerlink" title="BUG小结"></a>BUG小结</h1><ol>
+<li>报错出现“无访问”的提示的时候就是引入的目标为空置，也就是没有赋值！此时就需要去检查一下引入的变量的赋值情况</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag"># 项目</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/06/14/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2%E6%AD%A6%E5%99%A8%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%BA%8C%EF%BC%89/" rel="prev" title="UE4-项目-死寂-角色武器系统（二）">
+                  <i class="fa fa-chevron-left"></i> UE4-项目-死寂-角色武器系统（二）
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/06/27/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%95%8C%E4%BA%BAAI/" rel="next" title="UE4-项目-死寂-敌人AI与简单伤害系统">
+                  UE4-项目-死寂-敌人AI与简单伤害系统 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

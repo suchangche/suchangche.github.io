@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="依托UMG创建UI界面知识点控件蓝图分为设计器和图表  设计器专门用于UI的布局和排版  图表用于UI的蓝图通信和互动逻辑   控件蓝图中的锚点设置了在屏幕缩小或者放大的时候组件靠拢的位置（就是放大缩小游戏界面的时候） 绑定按钮在主界面设置了一个按钮之后，在图表中拖出，还需要”获取 Button“到其父类 绑定事件到点击时字面意思 退出游戏顾名思义 创建控件在关卡蓝图中使用，可以在该节点中选择具体">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE4-项目-死寂-主界面制作和按钮动态效果">
+<meta property="og:url" content="http://example.com/2022/07/06/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E4%B8%BB%E7%95%8C%E9%9D%A2%E5%88%B6%E4%BD%9C%E5%92%8C%E6%8C%89%E9%92%AE%E5%8A%A8%E6%80%81%E6%95%88%E6%9E%9C/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="依托UMG创建UI界面知识点控件蓝图分为设计器和图表  设计器专门用于UI的布局和排版  图表用于UI的蓝图通信和互动逻辑   控件蓝图中的锚点设置了在屏幕缩小或者放大的时候组件靠拢的位置（就是放大缩小游戏界面的时候） 绑定按钮在主界面设置了一个按钮之后，在图表中拖出，还需要”获取 Button“到其父类 绑定事件到点击时字面意思 退出游戏顾名思义 创建控件在关卡蓝图中使用，可以在该节点中选择具体">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-06T14:18:38.000Z">
+<meta property="article:modified_time" content="2022-07-13T08:22:08.397Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="项目">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/07/06/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E4%B8%BB%E7%95%8C%E9%9D%A2%E5%88%B6%E4%BD%9C%E5%92%8C%E6%8C%89%E9%92%AE%E5%8A%A8%E6%80%81%E6%95%88%E6%9E%9C/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/07/06/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E4%B8%BB%E7%95%8C%E9%9D%A2%E5%88%B6%E4%BD%9C%E5%92%8C%E6%8C%89%E9%92%AE%E5%8A%A8%E6%80%81%E6%95%88%E6%9E%9C/","path":"2022/07/06/UE4-项目-死寂-主界面制作和按钮动态效果/","title":"UE4-项目-死寂-主界面制作和按钮动态效果"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>UE4-项目-死寂-主界面制作和按钮动态效果 | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BE%9D%E6%89%98UMG%E5%88%9B%E5%BB%BAUI%E7%95%8C%E9%9D%A2"><span class="nav-number">1.</span> <span class="nav-text">依托UMG创建UI界面</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-number">1.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A7%E4%BB%B6%E8%93%9D%E5%9B%BE"><span class="nav-number">1.1.1.</span> <span class="nav-text">控件蓝图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A7%E4%BB%B6%E8%93%9D%E5%9B%BE%E4%B8%AD%E7%9A%84%E9%94%9A%E7%82%B9"><span class="nav-number">1.1.2.</span> <span class="nav-text">控件蓝图中的锚点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%91%E5%AE%9A%E6%8C%89%E9%92%AE"><span class="nav-number">1.1.3.</span> <span class="nav-text">绑定按钮</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%91%E5%AE%9A%E4%BA%8B%E4%BB%B6%E5%88%B0%E7%82%B9%E5%87%BB%E6%97%B6"><span class="nav-number">1.1.4.</span> <span class="nav-text">绑定事件到点击时</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%80%E5%87%BA%E6%B8%B8%E6%88%8F"><span class="nav-number">1.1.5.</span> <span class="nav-text">退出游戏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%8E%A7%E4%BB%B6"><span class="nav-number">1.1.6.</span> <span class="nav-text">创建控件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%88%B0%E8%A7%86%E5%8F%A3"><span class="nav-number">1.1.7.</span> <span class="nav-text">添加到视口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%B7%B7%E5%90%88%E8%AE%BE%E7%BD%AE%E8%A7%86%E5%9B%BE%E7%9B%AE%E6%A0%87"><span class="nav-number">1.1.8.</span> <span class="nav-text">使用混合设置视图目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E8%BE%93%E5%85%A5%E6%A8%A1%E5%BC%8F%E6%B8%B8%E6%88%8F%E5%92%8CUI"><span class="nav-number">1.1.9.</span> <span class="nav-text">设置输入模式游戏和UI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A6%86%E5%B1%82%E7%BB%84%E4%BB%B6"><span class="nav-number">1.1.10.</span> <span class="nav-text">覆层组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%8F%AF%E8%A7%86%E6%80%A7"><span class="nav-number">1.1.11.</span> <span class="nav-text">设置可视性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">1.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E4%B8%AAUI%E7%95%8C%E9%9D%A2%E7%9A%84%E5%8A%A8%E6%80%81%E5%88%87%E6%8D%A2"><span class="nav-number">2.</span> <span class="nav-text">多个UI界面的动态切换</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-1"><span class="nav-number">2.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E6%8E%A7%E5%88%B6%E5%8F%B0%E5%91%BD%E4%BB%A4"><span class="nav-number">2.1.1.</span> <span class="nav-text">执行控制台命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%8F%AF%E8%A7%86%E6%80%A7-1"><span class="nav-number">2.1.2.</span> <span class="nav-text">设置可视性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8URL"><span class="nav-number">2.1.3.</span> <span class="nav-text">启动URL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E9%A2%9C%E8%89%B2%E5%92%8C%E4%B8%8D%E9%80%8F%E6%98%8E%E5%BA%A6"><span class="nav-number">2.1.4.</span> <span class="nav-text">设置颜色和不透明度</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-1"><span class="nav-number">2.2.</span> <span class="nav-text">思路</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">77</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/06/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E4%B8%BB%E7%95%8C%E9%9D%A2%E5%88%B6%E4%BD%9C%E5%92%8C%E6%8C%89%E9%92%AE%E5%8A%A8%E6%80%81%E6%95%88%E6%9E%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="UE4-项目-死寂-主界面制作和按钮动态效果 | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UE4-项目-死寂-主界面制作和按钮动态效果
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-07-06 22:18:38" itemprop="dateCreated datePublished" datetime="2022-07-06T22:18:38+08:00">2022-07-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-07-13 16:22:08" itemprop="dateModified" datetime="2022-07-13T16:22:08+08:00">2022-07-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="依托UMG创建UI界面"><a href="#依托UMG创建UI界面" class="headerlink" title="依托UMG创建UI界面"></a>依托UMG创建UI界面</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="控件蓝图"><a href="#控件蓝图" class="headerlink" title="控件蓝图"></a>控件蓝图</h3><p>分为设计器和图表</p>
+<ol>
+<li><p>设计器专门用于UI的布局和排版</p>
+</li>
+<li><p>图表用于UI的蓝图通信和互动逻辑</p>
+</li>
+</ol>
+<h3 id="控件蓝图中的锚点"><a href="#控件蓝图中的锚点" class="headerlink" title="控件蓝图中的锚点"></a>控件蓝图中的锚点</h3><p>设置了在屏幕缩小或者放大的时候组件靠拢的位置（就是放大缩小游戏界面的时候）</p>
+<h3 id="绑定按钮"><a href="#绑定按钮" class="headerlink" title="绑定按钮"></a>绑定按钮</h3><p>在主界面设置了一个按钮之后，在图表中拖出，还需要”获取 Button“到其父类</p>
+<h3 id="绑定事件到点击时"><a href="#绑定事件到点击时" class="headerlink" title="绑定事件到点击时"></a>绑定事件到点击时</h3><p>字面意思</p>
+<h3 id="退出游戏"><a href="#退出游戏" class="headerlink" title="退出游戏"></a>退出游戏</h3><p>顾名思义</p>
+<h3 id="创建控件"><a href="#创建控件" class="headerlink" title="创建控件"></a>创建控件</h3><p>在关卡蓝图中使用，可以在该节点中选择具体的控件蓝图</p>
+<h3 id="添加到视口"><a href="#添加到视口" class="headerlink" title="添加到视口"></a>添加到视口</h3><p>将控件蓝图添加到视口</p>
+<h3 id="使用混合设置视图目标"><a href="#使用混合设置视图目标" class="headerlink" title="使用混合设置视图目标"></a>使用混合设置视图目标</h3><p>将画面从目标引脚切换到new View Target引脚</p>
+<h3 id="设置输入模式游戏和UI"><a href="#设置输入模式游戏和UI" class="headerlink" title="设置输入模式游戏和UI"></a>设置输入模式游戏和UI</h3><p>玩家控制器引出节点：玩家直接可以与UI进行交互，否则需要点击屏幕之后才能交互</p>
+<h3 id="覆层组件"><a href="#覆层组件" class="headerlink" title="覆层组件"></a>覆层组件</h3><p>控件蓝图中的组件，两个覆层组件可以叠加显示</p>
+<h3 id="设置可视性"><a href="#设置可视性" class="headerlink" title="设置可视性"></a>设置可视性</h3><p>字面意思</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>创建一个用户界面-&gt;控件蓝图取名为“主界面”</p>
+</li>
+<li><p>拖入UI纹理，修改其锚点，图像大小，大小到内容true</p>
+</li>
+<li><p>将其行为-&gt;可视性修改为“非命中测试(仅自身)”</p>
+</li>
+<li><p>创建控件蓝图“按钮交互”</p>
+<ul>
+<li><p>将右上角的填充屏幕修改为自定义（X：170，Y：100）</p>
+</li>
+<li><p>添加按钮和文本</p>
+</li>
+<li><p>修改按钮的插槽为填充到屏幕，将偏移全部修改为0</p>
+</li>
+<li><p>将按钮的外观-&gt;普通-&gt;着色-&gt;A（透明度）修改为0</p>
+</li>
+<li><p>按钮设置纹理到外观栏的<strong>普通状态</strong>和<strong>已悬停</strong>状态图像</p>
+</li>
+<li><p>设置按钮的悬停和按压音效</p>
+</li>
+<li><p>给文本设置字体和字体大小，并且在界面左下角为其添加动画“交互”</p>
+</li>
+<li><p>选择文本，在时间轴上添加轨道，并且给轨道添加一个变换</p>
+</li>
+<li><p>选择“缩放”，在时间轴运行到0.3秒的时候将缩放xy修改为1.1</p>
+</li>
+<li><p>接下来将这个动画在鼠标悬停在按钮上时调用，所以选择按钮组件，添加内置事件“悬停时”和“未悬停时”</p>
+</li>
+<li><p>脱出变量中Animation分类中的动画“交互”，然后使用“播放动画”节点，悬停和未悬停分别将其引脚设置为”快进“和”翻转“</p>
+</li>
+<li><p>接下来是文本悬停时变色，选择文本，勾选细节面板中的<code>is Variable</code>为true，使其公开到图表中</p>
+</li>
+<li><p>在图表中调用文本并且拖出节点”设置影音颜色和不透明度“</p>
+</li>
+<li><p>创建文本类型的变量”Name“将”可编辑实例“和”生成时公开“设置为true</p>
+</li>
+<li><p>在设计器的文本组件细节面板-&gt;内容-&gt;绑定中选择Name（这样做是为了在设计器中修改了文本内容之后可以直接传入到图表中）</p>
+</li>
+</ul>
+</li>
+<li><p>在”主界面“控件蓝图中的面板添加”垂直框“，设置其锚点为居中，设置好其相对位置</p>
+<ul>
+<li><p>在垂直框中添加4个用户创建-&gt;按钮交互，分别为”开始游戏“，”游戏声明“，”制作者“，”退出游戏“（注意同时要给其Name变量赋值为相应值）</p>
+</li>
+<li><p>将最后一个”退出游戏“的”填充“的顶部修改为50，使其与其他按钮有所区分</p>
+</li>
+<li><p>在图表中拖出”退出游戏“按钮，获取button（与button绑定），”绑定事件到点击时“，为其添加一个自定义事件”立刻退出“，调用内置节点”退出游戏“</p>
+</li>
+</ul>
+</li>
+<li><p>打开关卡蓝图</p>
+<ul>
+<li><p>“时间开始运行”-&gt;”创建控件“，将其返回值提升为变量“主界面”</p>
+</li>
+<li><p>“添加到视口”，再获取玩家控制器-&gt;“使用混合设置视图目标”，new View Target引脚选择一个关卡中的摄像机</p>
+</li>
+<li><p>由玩家控制器引出“设置输入模式游戏和UI”，将in Widget to Focus引脚连接上“主界面”</p>
+</li>
+</ul>
+</li>
+<li><p>在世界场景设置中新增游戏模式，新增玩家控制器，并且将玩家控制器的细节面板中的“显示鼠标光标”设置为true</p>
+</li>
+</ol>
+<h1 id="多个UI界面的动态切换"><a href="#多个UI界面的动态切换" class="headerlink" title="多个UI界面的动态切换"></a>多个UI界面的动态切换</h1><h2 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h2><h3 id="执行控制台命令"><a href="#执行控制台命令" class="headerlink" title="执行控制台命令"></a>执行控制台命令</h3><p>调用当前关卡蓝图中的事件</p>
+<p>Command引脚中可填入”ce 事件名称“</p>
+<h3 id="设置可视性-1"><a href="#设置可视性-1" class="headerlink" title="设置可视性"></a>设置可视性</h3><p>字面意思，关闭UI交互可用</p>
+<h3 id="启动URL"><a href="#启动URL" class="headerlink" title="启动URL"></a>启动URL</h3><p>相当于一个超链接，在点击按钮的时候调用此函数，可以直接超链接跳转到网址</p>
+<h3 id="设置颜色和不透明度"><a href="#设置颜色和不透明度" class="headerlink" title="设置颜色和不透明度"></a>设置颜色和不透明度</h3><p>字面意思，可以设置控件的颜色和不透明度</p>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>创建新的控件蓝图“制作者”</p>
+</li>
+<li><p>填写好制作者中的信息（大概就是用图片和文字表示了！）</p>
+</li>
+<li><p>创建一个控件蓝图“返回按钮”，专门用来制作各个二级菜单返回一级菜单的按钮</p>
+<ul>
+<li><p>自定义其大小“宽度“为135，”高度“为45</p>
+</li>
+<li><p>添加一个按钮组件，将锚点设置为填充整个屏幕，偏移全部修改为0</p>
+</li>
+<li><p>设置其普通状态&#x2F;已悬停&#x2F;按压下的样式，边缘设置为0</p>
+</li>
+<li><p>在按钮组件下添加”水平框“组件和”文本“组件</p>
+</li>
+<li><p>在水平框组件下添加”覆层“组件</p>
+</li>
+<li><p>在覆层组件下添加两个图像组件</p>
+</li>
+<li><p>分别设置几个组件</p>
+</li>
+<li><p>给返回按钮添加动画”交互“，添加轨道之后给文本添加缩放效果</p>
+</li>
+<li><p>给Button添加”悬停时“和”未悬停时“事件，分别正向播放”交互“动画和反向播放，并且设置其颜色和不透明度，并且给按钮组件添加音效</p>
+</li>
+<li><p>返回按钮的背景图片公开到图表之后，悬停时”设置可视性“为折叠，未悬停时为可视</p>
+</li>
+</ul>
+</li>
+<li><p>将返回按钮添加到”制作者“界面中</p>
+</li>
+<li><p>在世界大纲中选择一个摄像机，在关卡蓝图中创建自定义事件”切换到制作者“，创建该摄像机实例，使用”使用混合设置视图目标“节点进行相机切换</p>
+</li>
+<li><p>将”制作者“界面添加到主界面，修改其锚点和偏移，注意：将渲染不透明度改为0</p>
+</li>
+<li><p>添加一个新的画布面板”主界面“，将主界面相关的控件全部挪进去</p>
+</li>
+<li><p>添加新的动画”点击制作者“，并给”主界面“画布，”制作者“控件添加轨道</p>
+<ul>
+<li><p>给制作者轨道添加”变换“和”渲染不透明度“</p>
+</li>
+<li><p>缩放效果：0秒的时候xy均为0，0.5秒的时候均为1</p>
+</li>
+<li><p>渲染不透明度：0秒为0，0.5秒为1</p>
+</li>
+<li><p>主界面类似，只不过反过来而已</p>
+</li>
+</ul>
+</li>
+<li><p>在图表中添加切换到”制作者界面“的蓝图逻辑</p>
+<ul>
+<li><p>将”制作者按钮“拖入其中，绑定按钮之后”绑定事件到点击时“</p>
+</li>
+<li><p>自定义事件”切换到制作者界面“，播放之前做好的动画”点击制作者“</p>
+</li>
+<li><p>”执行控制台命令“调用关卡蓝图中的”切换到制作者“（ce 切换到制作者）</p>
+</li>
+</ul>
+</li>
+<li><p>添加”从制作者界面切换到主界面“蓝图逻辑</p>
+<ul>
+<li><p>获取制作做控件，获取其中的返回按钮，绑定button，绑定事件到点击时</p>
+</li>
+<li><p>自定义事件”制作者返回主界面“，反向播放动画”点击制作者“</p>
+</li>
+<li><p>将不需要交互的组件的可视性全部修改为”非可命中测试（仅自身）“</p>
+</li>
+</ul>
+</li>
+<li><p>在主界面控件蓝图中新建函数”关闭所有UI交互“</p>
+<ul>
+<li>使用”设置可视性“节点，目标为”制作者界面“和”主界面“</li>
+</ul>
+</li>
+<li><p>调用”关闭所有UI交互“</p>
+</li>
+<li><p>创建新的控件蓝图“游戏声明”</p>
+<ul>
+<li><p>添加游戏声明（注意锚点不要设置为全屏，大部分的锚点居中即可）</p>
+</li>
+<li><p>创建一个按钮，上面附加一个文本框，可以点击按钮跳转个人博客</p>
+</li>
+<li><p>按钮默认透明度修改为0（这样一开始就看不到了）</p>
+</li>
+<li><p>注意设置悬停时候的音效和图像</p>
+</li>
+<li><p>添加返回按钮，选择一个场景中的摄像机作为目标摄像机，在关卡蓝图中创建该摄像机的引用，创建一个自定义事件“切换到游戏声明”，使用“使用混合设置视图目标”节点和“获取玩家控制器”达到切换视角的效果</p>
+</li>
+<li><p>将“游戏声明”控件蓝图添加到主界面中，锚点填充整个屏幕，渲染不透明度改为0</p>
+</li>
+<li><p>在“主界面”控件蓝图中，将“声明按钮”拖入，获取button，然后绑定事件到点击时，创建自定义事件“游戏声明”作为其“事件引脚”，接下来要在设计器中创建一个切换动画“点击游戏声明”，在轨道中添加游戏声明界面和主界面的轨道，设置其渲染不透明度和缩放</p>
+</li>
+<li><p>在主界面的图表中的“游戏声明”事件中播放其动画，调用“执行控制台命令”节点输入“ce 切换到游戏声明”（也就是关卡蓝图中的自定义事件）</p>
+</li>
+<li><p>在“关闭所有UI界面”函数中添加“游戏声明界面”</p>
+</li>
+<li><p>在事件中调用“关闭所有UI界面”，然后拖入“游戏声明界面”使用“设置可视性”为可视</p>
+</li>
+<li><p>同样的方法实现从游戏声明界面返回主界面：调用“游戏声明界面”获取“返回按钮”，获取button，“绑定事件到点击时”，自定义事件“从游戏界面返回主界面”，反向播放“点击游戏声明”动画，调用“执行控制台命令”（ce 切换到主界面），关闭所有UI交互之后打开主界面的UI交互</p>
+</li>
+<li><p>在“游戏声明”控件蓝图中的按钮添加“点击时”事件，添加节点“启动URL”</p>
+</li>
+<li><p>在“游戏声明”控件蓝图中的按钮添加“悬停时”和“未悬停时”事件，分别拖出文本控件，并且“设置颜色和不透明度”</p>
+</li>
+</ul>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag"># 项目</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/07/06/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97%E6%90%AD%E5%BB%BA/" rel="prev" title="UE4-项目-TowerDefence-核心模块搭建">
+                  <i class="fa fa-chevron-left"></i> UE4-项目-TowerDefence-核心模块搭建
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/07/07/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87/" rel="next" title="计算机网络-性能指标">
+                  计算机网络-性能指标 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
