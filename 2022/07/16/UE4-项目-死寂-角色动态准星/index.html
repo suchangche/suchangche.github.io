@@ -21,16 +21,17 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="孤独是人生的常态">
+    <meta name="description" content="动态准星知识点事件Tick帧更新，它的Delta Seconds引脚则是游戏帧率 已限制映射范围数学知识里面的映射，可以使得一个小一点的数映射成一个大一点的数，然后原本的数变换，映射之后的数随之变换 In Range A：输入最小值 In Range B：输入最大值 Out Range A：输出最小值 Out Range B：输出最大值 设置渲染平移可以设置控件蓝图中组件的平移 思路在角色开枪&amp;#">
 <meta property="og:type" content="article">
 <meta property="og:title" content="UE4-项目-死寂-角色动态准星">
 <meta property="og:url" content="http://example.com/2022/07/16/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2%E5%8A%A8%E6%80%81%E5%87%86%E6%98%9F/index.html">
 <meta property="og:site_name" content="Williny&#39;home">
-<meta property="og:description" content="孤独是人生的常态">
+<meta property="og:description" content="动态准星知识点事件Tick帧更新，它的Delta Seconds引脚则是游戏帧率 已限制映射范围数学知识里面的映射，可以使得一个小一点的数映射成一个大一点的数，然后原本的数变换，映射之后的数随之变换 In Range A：输入最小值 In Range B：输入最大值 Out Range A：输出最小值 Out Range B：输出最大值 设置渲染平移可以设置控件蓝图中组件的平移 思路在角色开枪&amp;#">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-07-16T07:52:30.000Z">
-<meta property="article:modified_time" content="2022-07-16T07:52:30.913Z">
+<meta property="article:modified_time" content="2022-07-17T02:59:21.779Z">
 <meta property="article:author" content="williny">
+<meta property="article:tag" content="项目">
 <meta name="twitter:card" content="summary">
 
 
@@ -134,7 +135,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -147,6 +148,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%87%86%E6%98%9F"><span class="nav-number">1.</span> <span class="nav-text">动态准星</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-number">1.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6Tick"><span class="nav-number">1.1.1.</span> <span class="nav-text">事件Tick</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%B2%E9%99%90%E5%88%B6%E6%98%A0%E5%B0%84%E8%8C%83%E5%9B%B4"><span class="nav-number">1.1.2.</span> <span class="nav-text">已限制映射范围</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E6%B8%B2%E6%9F%93%E5%B9%B3%E7%A7%BB"><span class="nav-number">1.1.3.</span> <span class="nav-text">设置渲染平移</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">1.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E5%87%86%E6%98%9F%E6%8C%87%E5%93%AA%E6%89%93%E5%93%AA"><span class="nav-number">2.</span> <span class="nav-text">实现准星指哪打哪</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-1"><span class="nav-number">2.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%86%E6%98%9F%E5%88%87%E6%8D%A2%EF%BC%88%E6%8C%81%E6%9E%AA%E4%B8%BA%E5%8D%81%E5%AD%97%EF%BC%8C%E6%9C%AA%E6%8C%81%E6%9E%AA%E4%B8%BA%E7%82%B9%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">准星切换（持枪为十字，未持枪为点）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-2"><span class="nav-number">3.1.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%BB%E4%B8%AD%E4%B8%A7%E5%B0%B8%E5%87%86%E6%98%9F%E5%8F%8D%E9%A6%88"><span class="nav-number">4.</span> <span class="nav-text">击中丧尸准星反馈</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-3"><span class="nav-number">4.1.</span> <span class="nav-text">思路</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -251,6 +253,22 @@
 
       <time title="创建时间：2022-07-16 15:52:30" itemprop="dateCreated datePublished" datetime="2022-07-16T15:52:30+08:00">2022-07-16</time>
     </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-07-17 10:59:21" itemprop="dateModified" datetime="2022-07-17T10:59:21+08:00">2022-07-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
 
   
 </div>
@@ -262,7 +280,152 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        
+        <h1 id="动态准星"><a href="#动态准星" class="headerlink" title="动态准星"></a>动态准星</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="事件Tick"><a href="#事件Tick" class="headerlink" title="事件Tick"></a>事件Tick</h3><p>帧更新，它的Delta Seconds引脚则是游戏帧率</p>
+<h3 id="已限制映射范围"><a href="#已限制映射范围" class="headerlink" title="已限制映射范围"></a>已限制映射范围</h3><p>数学知识里面的映射，可以使得一个小一点的数映射成一个大一点的数，然后原本的数变换，映射之后的数随之变换</p>
+<p>In Range A：输入最小值</p>
+<p>In Range B：输入最大值</p>
+<p>Out Range A：输出最小值</p>
+<p>Out Range B：输出最大值</p>
+<h3 id="设置渲染平移"><a href="#设置渲染平移" class="headerlink" title="设置渲染平移"></a>设置渲染平移</h3><p>可以设置控件蓝图中组件的平移</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>在角色开枪&#x2F;跑步的时候准星扩散，在角色不开枪的时候准星减小</p>
+<ol>
+<li><p>添加变量</p>
+<ul>
+<li><p>在角色蓝图中添加float类型变量“准星扩散当前值”，“准星扩散最大值”，“准星扩散最小值”，“准星扩散速度”</p>
+</li>
+<li><p>“准星扩散最大值”为0.2，准星扩散速度为0.3</p>
+</li>
+</ul>
+</li>
+<li><p>添加函数“准星扩散减小”</p>
+<ul>
+<li><p>给其添加一个float类型的输入“准星扩散减小”</p>
+</li>
+<li><p>“扩散准星当前值”-输入的“准星扩散减小”</p>
+</li>
+<li><p>判断值是否&lt;&#x3D;0</p>
+<ul>
+<li><p>true则将准星扩散当前值设置为“准星扩散最小值”</p>
+</li>
+<li><p>false则将“扩散准星当前值”-输入的“准星扩散减小”的结果赋值给“准星扩散当前值”</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>添加函数“准星扩散增加”</p>
+<ul>
+<li><p>给其添加一个float类型的输入“准星扩散增加”</p>
+</li>
+<li><p>“扩散准星当前值”+输入的“准星扩散增加”</p>
+</li>
+<li><p>判断值是否&gt;&#x3D;”准星扩散最大值”</p>
+<ul>
+<li><p>true则将准星扩散当前值设置为“准星扩散最大值”</p>
+</li>
+<li><p>false则将“扩散准星当前值”+输入的“准星扩散增加”的结果赋值给“准星扩散当前值”</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>调用“准星扩散减小”</p>
+<ul>
+<li><p>在角色蓝图中的事件图表中的“事件Tick”后面的序列节点，添加一个引脚</p>
+</li>
+<li><p>判断“准星扩散当前值”是否大于等于“准星扩散最小值”，true则调用“准星扩散减小”</p>
+</li>
+<li><p>拉出事件Tick的Delta Seconds引脚，乘以“准星扩散速度”之后传入“准星扩散减小”函数的引脚</p>
+</li>
+</ul>
+</li>
+<li><p>在“游戏中界面”的设计器中添加动态准星</p>
+<ul>
+<li><p>添加一个画布面板“准星十字”</p>
+</li>
+<li><p>给其添加一个图片“上”（十字当中的最上面那一笔），将其锚点居中，调整到屏幕合适位置，尺寸修改为条形，添加十字准星的条形纹理图片</p>
+</li>
+<li><p>同理，创建出“下，左，右”其他三个横条&#x2F;竖条，合理布局为一个准星的样子</p>
+</li>
+</ul>
+</li>
+<li><p>实现准星动态扩散效果</p>
+<ul>
+<li><p>在游戏中界面的图表中通过“获取类的所有actor”和”BP_Player”通信并将返回值提升为变量“蓝图角色实例”</p>
+</li>
+<li><p>“事件Tick”判断“蓝图角色实例”是否有效，有效则使用序列，分别通过“设置渲染平移”达到使得“上下左右”分别移动的效果</p>
+</li>
+<li><p>获取”角色蓝图实例“的“准星扩散当前值”，使用“已限制映射范围”将“准星扩散最大值”引入“In Range B”</p>
+</li>
+<li><p>设置Out Range B为“准星扩散最大值”乘以-200</p>
+</li>
+<li><p>将计算结果设置给上下左右的“设置渲染平移”</p>
+<ul>
+<li><p>上：直接将结果设置给Y轴平移</p>
+</li>
+<li><p>下：将结果取绝对值之后设置给Y轴平移</p>
+</li>
+<li><p>左：同“上”连接到X轴</p>
+</li>
+<li><p>右：同“下”连接到X轴</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>射击时准星持续扩散</p>
+<ul>
+<li>在武器父类中通过角色蓝图实例调用“准星扩散增加”</li>
+</ul>
+</li>
+<li><p>跑步时准星扩散</p>
+<ul>
+<li><p>在角色蓝图事件Tick后面的序列节点中调用“准星扩散增加”</p>
+</li>
+<li><p>传入值根据角色速度来计算</p>
+<ul>
+<li>“获取速度”，“向量长度”，“已限制映射范围”（400，600；0，0.01）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="实现准星指哪打哪"><a href="#实现准星指哪打哪" class="headerlink" title="实现准星指哪打哪"></a>实现准星指哪打哪</h1><p>修改子弹生成位置</p>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>在武器父类中“获取玩家摄像机管理器”</p>
+</li>
+<li><p>从而“获取actor位置”和“获取摄像机旋转”</p>
+</li>
+<li><p>连接到“生成Actor”（生成子弹的位置）节点上</p>
+</li>
+</ol>
+<h1 id="准星切换（持枪为十字，未持枪为点）"><a href="#准星切换（持枪为十字，未持枪为点）" class="headerlink" title="准星切换（持枪为十字，未持枪为点）"></a>准星切换（持枪为十字，未持枪为点）</h1><h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>在“游戏中界面”控件蓝图中添加一个图像组件“点准星”，放到合适位置，设置其纹理图像</p>
+</li>
+<li><p>将“准星十字”这一块图像的初始可视性设置为折叠</p>
+</li>
+<li><p>在图表中新建自定义事件“准星切换”</p>
+</li>
+<li><p>分别设置“准星十字”和“点准星”的可视性，并将其可视性作为事件的输入</p>
+</li>
+<li><p>在角色蓝图的装备武器的合适位置（装备武器宏前面）调用此事件</p>
+</li>
+</ol>
+<h1 id="击中丧尸准星反馈"><a href="#击中丧尸准星反馈" class="headerlink" title="击中丧尸准星反馈"></a>击中丧尸准星反馈</h1><h2 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>添加一个新的图像“击中反馈”，设置其锚点，尺寸，位置，透明度（一开始不可见），图像纹理</p>
+</li>
+<li><p>给其添加一个动画“击中标记”，给它添加缩放效果和不透明度效果</p>
+</li>
+<li><p>复制动画效果“击中头部标记”，给它添加缩放效果和不透明度效果（红色）</p>
+</li>
+<li><p>在图表中创建自定义事件“击中丧尸”和“击中丧尸头部”，分别播放两个动画</p>
+</li>
+<li><p>在子弹父类中通过“获取类的所有控件”达成和“游戏中界面”的蓝图通信（记得返回值提升为变量并且命名为“游戏中界面”）</p>
+</li>
+<li><p>在子弹父类中击中丧尸造成伤害的位置判断后面分别调用“击中丧尸头部”和“击中丧尸”</p>
+</li>
+</ol>
+
     </div>
 
     
@@ -270,6 +433,9 @@
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag"># 项目</a>
+          </div>
 
         
 
