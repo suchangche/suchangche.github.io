@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-count">84</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,118 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/20/UE4-%E8%93%9D%E5%9B%BE-%E8%93%9D%E5%9B%BE%E6%8E%A5%E5%8F%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/20/UE4-%E8%93%9D%E5%9B%BE-%E8%93%9D%E5%9B%BE%E6%8E%A5%E5%8F%A3/" class="post-title-link" itemprop="url">UE4-蓝图-蓝图接口</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-05-20 14:26:02 / 修改时间：14:44:52" itemprop="dateCreated datePublished" datetime="2022-05-20T14:26:02+08:00">2022-05-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="蓝图接口是什么？"><a href="#蓝图接口是什么？" class="headerlink" title="蓝图接口是什么？"></a>蓝图接口是什么？</h1><p>一个蓝图接口是一个或多个Function的集合，可以被添加至别的蓝图中，任何添加了接口的蓝图都可以保证具有这些功能，在每个添加了蓝图接口的蓝图类中，都可以为其添加功能实现。类似编程中的接口概念。允许不同类型的对象通过一个公共接口来访问他。</p>
+<h1 id="为什么要使用蓝图接口？"><a href="#为什么要使用蓝图接口？" class="headerlink" title="为什么要使用蓝图接口？"></a>为什么要使用蓝图接口？</h1><p>在使用中蓝图接口允许一种通用的方法与所有拥有蓝图接口的对象进行交互。</p>
+<p>也就是说，在不同类型的对象，他们可以拥有一个相同的功能。</p>
+<p>比如汽车和树木，都可以被武器射击。所以就可以创建一个蓝图接口，在武器射击汽车或者大树时调用对应的函数。</p>
+<h1 id="蓝图接口的特点"><a href="#蓝图接口的特点" class="headerlink" title="蓝图接口的特点"></a>蓝图接口的特点</h1><ul>
+<li><p>目的：与多个对象中的特定几个对象进行通信</p>
+</li>
+<li><p>方式：对检测到的对象发送消息，只有设置了对应接口的对象才会接收到消息并且相应。其他的对象就跟瞎了一样。</p>
+</li>
+</ul>
+<h1 id="创建蓝图接口"><a href="#创建蓝图接口" class="headerlink" title="创建蓝图接口"></a>创建蓝图接口</h1><ul>
+<li><p>创建一个蓝图接口</p>
+</li>
+<li><p>设置目标蓝图类（接收者）</p>
+</li>
+<li><p>在发信者蓝图类中编写逻辑</p>
+</li>
+<li><p>在接收者蓝图类中调用接口</p>
+</li>
+</ul>
+<h2 id="1-新建一个Blueprint-Interface。"><a href="#1-新建一个Blueprint-Interface。" class="headerlink" title="1.新建一个Blueprint Interface。"></a>1.新建一个Blueprint Interface。</h2><img src="https://img-blog.csdnimg.cn/2021030423122868.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTM2MzE1Ng==,size_16,color_FFFFFF,t_70" title="" alt="" width="349">
+
+<h2 id="2-在新建的BluePrint-Interface中添加一个函数，点击Add-New即可。"><a href="#2-在新建的BluePrint-Interface中添加一个函数，点击Add-New即可。" class="headerlink" title="2.在新建的BluePrint Interface中添加一个函数，点击Add New即可。"></a>2.在新建的BluePrint Interface中添加一个函数，点击Add New即可。</h2><p>其中Voice就是叫的Function，我们在这里通过声明一个Voice的函数，然后在添加过该接口的类中写实现，然后在别的地方调用这个函数。</p>
+<img src="https://img-blog.csdnimg.cn/20210304231337210.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTM2MzE1Ng==,size_16,color_FFFFFF,t_70" title="" alt="" width="572">
+
+<h2 id="3-新建两个Actor，一个是Dog，一个Cow。"><a href="#3-新建两个Actor，一个是Dog，一个Cow。" class="headerlink" title="3.新建两个Actor，一个是Dog，一个Cow。"></a>3.新建两个Actor，一个是Dog，一个Cow。</h2><p><img src="https://img-blog.csdnimg.cn/20210304231852229.png"></p>
+<h2 id="4-打开新建的Dog类，在Class-Setting中添加上面创建的蓝图接口。（设置接收者）"><a href="#4-打开新建的Dog类，在Class-Setting中添加上面创建的蓝图接口。（设置接收者）" class="headerlink" title="4.打开新建的Dog类，在Class Setting中添加上面创建的蓝图接口。（设置接收者）"></a>4.打开新建的Dog类，在Class Setting中添加上面创建的蓝图接口。（设置接收者）</h2><p><img src="https://img-blog.csdnimg.cn/20210304232034505.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTM2MzE1Ng==,size_16,color_FFFFFF,t_70"></p>
+<h2 id="5-完成Voice的实现。"><a href="#5-完成Voice的实现。" class="headerlink" title="5.完成Voice的实现。"></a>5.完成Voice的实现。</h2><p><img src="https://img-blog.csdnimg.cn/20210304232133311.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTM2MzE1Ng==,size_16,color_FFFFFF,t_70"></p>
+<h2 id="6-将Cow类进行同样的操作，在Print-String中输出MOUMOU。"><a href="#6-将Cow类进行同样的操作，在Print-String中输出MOUMOU。" class="headerlink" title="6.将Cow类进行同样的操作，在Print String中输出MOUMOU。"></a>6.将Cow类进行同样的操作，在Print String中输出MOUMOU。</h2><p><img src="https://img-blog.csdnimg.cn/20210304232226225.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTM2MzE1Ng==,size_16,color_FFFFFF,t_70"></p>
+<h2 id="7-我们在关卡蓝图中添加该接口并调用该方法。"><a href="#7-我们在关卡蓝图中添加该接口并调用该方法。" class="headerlink" title="7.我们在关卡蓝图中添加该接口并调用该方法。"></a>7.我们在关卡蓝图中添加该接口并调用该方法。</h2><p><img src="https://img-blog.csdnimg.cn/20210304232333544.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTM2MzE1Ng==,size_16,color_FFFFFF,t_70"></p>
+<h2 id="8-运行，按下2，得到Dog和cow的叫声。"><a href="#8-运行，按下2，得到Dog和cow的叫声。" class="headerlink" title="8.运行，按下2，得到Dog和cow的叫声。"></a>8.运行，按下2，得到Dog和cow的叫声。</h2><p><img src="https://img-blog.csdnimg.cn/20210304232417781.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTM2MzE1Ng==,size_16,color_FFFFFF,t_70"></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>蓝图接口就是先定义了一个函数接口，告诉别人存在这个函数，可以进行调用，但是每个类中可以有不同的实现</p>
+<p>蓝图接口可以进行一对多甚至多对多的广播，一处调用，多出响应。</p>
+<p>版权声明：本博客参考自<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_41363156/article/details/114356562">「wang161x」</a>与<a target="_blank" rel="noopener" href="https://blog.csdn.net/Motarookie/article/details/121627783">「宗浩多捞」</a>的CSDN文章</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -2224,108 +2336,6 @@
 <li><p>再就是设置X与Y轴的移动变化</p>
 </li>
 </ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/05/%E4%B8%80%E4%BA%9B%E9%B8%A1%E6%B1%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/05/05/%E4%B8%80%E4%BA%9B%E9%B8%A1%E6%B1%A4/" class="post-title-link" itemprop="url">一些鸡汤</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-05-05 20:35:08" itemprop="dateCreated datePublished" datetime="2022-05-05T20:35:08+08:00">2022-05-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-05-11 08:36:09" itemprop="dateModified" datetime="2022-05-11T08:36:09+08:00">2022-05-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%A2%A6%E6%B8%B8%E7%AC%94%E8%B0%88/" itemprop="url" rel="index"><span itemprop="name">梦游笔谈</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>这是一篇写给自己看的流水账。</p>
-<p>距离上一次靠文字排解自己的心情，已经过了一个月。</p>
-<p>在这一个月的时间里面，我过得真的挺充实的，算法的学习完成了一个小的阶段，同时也开始了unreal engine 的学习，上午算法，下午unreal engine，晚上健身和娱乐。每天做着大体相同的事情，但每天都有不同的收获。</p>
-<p>相比之前的基础性知识的积累，现在的unreal engine给到我的正向反馈，让我学习兴趣大大增加，也报了<a target="_blank" rel="noopener" href="https://space.bilibili.com/31898841">谌嘉诚</a>的虚幻课程，这个月底就要开始正式进行一个完整的项目了，这让我对未来充满了信心。</p>
-<p>再就是健身，这一个月以来，每天坚持健身，特别是每次在镜子里看到我的肌肉线条慢慢明显的时候，就很开心——我要变成猛男了哈哈哈！</p>
-<p>虽然也有苦恼的，就是右臂肌肉比左臂大一倍，这一点目前还没有什么很好解决的办法。</p>
-<p>偶尔晚上健身完之后我会试试正念冥想——虽然还没有感受到实质性的好处，但是我是在冥想结束后动了写下这篇文字的念头的——这样想来，也许冥想能让我沉静下来，将我原本并未意识到的需求在这时告诉我。</p>
-<p>再来说一说社交情况，实话实说，目前为止我基本已经停止了大部分社交活动，也不再出席任何社交场合，室友去图书馆备战考研，我就在寝室自己学自己的，我们一天也见不了几面，晚上回来和我的交流兴许也是寥寥几句。现在我的社交完全就是靠着和高中同学以及发小的吹牛打屁撑着的。本来我以为我会在某一刻崩掉，但是到目前为止，我的状态还算ok。哦，还有一件事，有个高中同学前几天跟对象掰了。来找我倾诉，我能有啥立场？自然是跟他穿一条裤子呗。他可能觉得，我这会是听他倾诉了，他觉得我很铁，但不完全是，我心态没崩可能也和他有关，他在我要崩的那个临界点出现了。也算是相互拉了一把。</p>
-<p>还有每天都会在网上看各种各样的美女，因为听说看美女能够益寿延年。</p>
-<p>哈哈，果然只有当人处于悲伤的状态下才会文思泉涌，我现在就完全没话说了。</p>
-<p>补充一点我的名人名言吧！</p>
-<ul>
-<li><p>那个下午做出了足以改变人生轨迹的决定，多年后回想起来仍然觉得惊心动魄，只不过当时还以为这只是一个普通平凡的午后。</p>
-</li>
-<li><p>人类的高贵之处在于克制与忍耐。</p>
-</li>
-</ul>
-<p>那，就这样吧！</p>
 
       
     </div>
