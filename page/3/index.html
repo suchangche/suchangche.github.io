@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-count">85</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,109 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/06/Socket%E7%BC%96%E7%A8%8B-OSI%E7%BD%91%E7%BB%9C%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/06/Socket%E7%BC%96%E7%A8%8B-OSI%E7%BD%91%E7%BB%9C%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B/" class="post-title-link" itemprop="url">Socket编程-OSI网络七层模型与TCP/IP协议族</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-07-06 10:50:20" itemprop="dateCreated datePublished" datetime="2022-07-06T10:50:20+08:00">2022-07-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-07-07 11:12:32" itemprop="dateModified" datetime="2022-07-07T11:12:32+08:00">2022-07-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Socket/" itemprop="url" rel="index"><span itemprop="name">Socket</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>OSI 模型把网络通信的工作分为 7 层，从下到上分别是物理层、数据链路层、网络层、传输层、会话层、表示层和应用层。  </p>
+<p>OSI 只是存在于概念和理论上的一种模型，它的缺点是分层太多，增加了网络工作的复杂性，所以没有大规模应用。后来人们对 OSI 进行了简化，合并了一些层，最终只保留了 4 层，从下到上分别是接口层、网络层、传输层和应用层，这就是大名鼎鼎的 TCP&#x2F;IP 模型。</p>
+<h1 id="OSI模型与TCP-x2F-IP模型"><a href="#OSI模型与TCP-x2F-IP模型" class="headerlink" title="OSI模型与TCP&#x2F;IP模型"></a>OSI模型与TCP&#x2F;IP模型</h1><p><img src="D:\R_program\Blog\source_posts\Socket编程-OSI网络七层模型\1.jpg"></p>
+<h1 id="Socket编程位置"><a href="#Socket编程位置" class="headerlink" title="Socket编程位置"></a>Socket编程位置</h1><p> <a target="_blank" rel="noopener" href="http://c.biancheng.net/socket/">socket</a> 编程，是站在传输层的基础上，所以可以使用 TCP&#x2F;UDP 协议，但是不能干「访问网页」这样的事情，因为访问网页所需要的 http 协议位于应用层。</p>
+<p>两台计算机进行通信时，必须遵守以下原则：</p>
+<ul>
+<li>必须是同一层次进行通信，比如，A 计算机的应用层和 B 计算机的传输层就不能通信，因为它们不在一个层次，数据的拆包会遇到问题。</li>
+<li>每一层的功能都必须相同，也就是拥有完全相同的网络模型。如果网络模型都不同，那不就乱套了，谁都不认识谁。</li>
+<li>数据只能逐层传输，不能跃层。</li>
+<li>每一层可以使用下层提供的服务，并向上层提供服务。</li>
+</ul>
+<h1 id="TCP-x2F-IP协议族"><a href="#TCP-x2F-IP协议族" class="headerlink" title="TCP&#x2F;IP协议族"></a>TCP&#x2F;IP协议族</h1><p>目前实际使用的网络模型是 TCP&#x2F;IP 模型，它对 OSI 模型进行了简化，只包含了四层，从上到下分别是应用层、传输层、网络层和链路层（网络接口层），每一层都包含了若干协议。  </p>
+<p>协议（Protocol）就是网络通信过程中的约定或者合同，通信的双方必须都遵守才能正常收发数据。协议有很多种，例如 TCP、UDP、IP 等，通信的双方必须使用同一协议才能通信。协议是一种规范，由计算机组织制定，规定了很多细节，例如，如何建立连接，如何相互识别等。</p>
+<blockquote>
+<p>协议仅仅是一种规范，必须由计算机软件来实现。例如 IP 协议规定了如何找到目标计算机，那么各个开发商在开发自己的软件时就必须遵守该协议，不能另起炉灶。</p>
+</blockquote>
+<p>TCP&#x2F;IP 模型包含了 TCP、IP、UDP、Telnet、FTP、SMTP 等上百个互为关联的协议，其中 TCP 和 IP 是最常用的两种底层协议，所以把它们统称为“TCP&#x2F;IP 协议族”。</p>
+<p> <a target="_blank" rel="noopener" href="http://c.biancheng.net/socket/">socket</a> 编程是基于 TCP 和 UDP 协议的，它们的层级关系如下图所示：  </p>
+<p><img src="D:\R_program\Blog\source_posts\Socket编程-OSI网络七层模型\2.gif"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1501,481 +1604,6 @@
 
 <h3 id="ensureMsgf（）"><a href="#ensureMsgf（）" class="headerlink" title="ensureMsgf（）"></a>ensureMsgf（）</h3><p>可以获取额外信息</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ensureMsgf</span>(<span class="number">0</span>,<span class="built_in">TEXT</span>(<span class="string">&quot;ssss %S&quot;</span>),*<span class="keyword">this</span>-&gt;<span class="built_in">GetName</span>());</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/27/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%95%8C%E4%BA%BAAI/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/06/27/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%95%8C%E4%BA%BAAI/" class="post-title-link" itemprop="url">UE4-项目-死寂-敌人AI与简单伤害系统</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-06-27 14:58:48" itemprop="dateCreated datePublished" datetime="2022-06-27T14:58:48+08:00">2022-06-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-07-03 11:12:54" itemprop="dateModified" datetime="2022-07-03T11:12:54+08:00">2022-07-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h1><p>前面的几个章节已经将角色的大部分功能完善了，关于玩家角色还剩下的功能，大概就是伤害系统，生命值系统这些有要用到UI界面的，这就放到后面的UI一起解决。</p>
-<p>接下来就是激动人心的敌人AI了！兄弟们，这个FPS项目进度正式过半，加油！！！</p>
-<h1 id="丧尸随机移动及追逐玩家"><a href="#丧尸随机移动及追逐玩家" class="headerlink" title="丧尸随机移动及追逐玩家"></a>丧尸随机移动及追逐玩家</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="获取黑板"><a href="#获取黑板" class="headerlink" title="获取黑板"></a>获取黑板</h3><p>在AI控制器中使用，字面意思</p>
-<h3 id="创建文字命名"><a href="#创建文字命名" class="headerlink" title="创建文字命名"></a>创建文字命名</h3><p>根据传入的值，返回变量名相同的变量</p>
-<h3 id="将值设为布尔"><a href="#将值设为布尔" class="headerlink" title="将值设为布尔"></a>将值设为布尔</h3><p>在AI控制器使用，字面意思</p>
-<p>将目标中的名为key name引脚传入的值的布尔变量进行设置</p>
-<h3 id="行为树中的Sequence"><a href="#行为树中的Sequence" class="headerlink" title="行为树中的Sequence"></a>行为树中的Sequence</h3><ol>
-<li><p>可添加装饰器backbroad</p>
-</li>
-<li><p>修改backbroad的黑板键，观察器中止</p>
-</li>
-</ol>
-<h3 id="Backbroad"><a href="#Backbroad" class="headerlink" title="Backbroad"></a>Backbroad</h3><ol>
-<li><p>观察器中止：再AI行为树的同一深度中，任一一个条件达成，就会中断同层的所有节点</p>
-</li>
-<li><p>黑板键：黑板中设置的值</p>
-</li>
-</ol>
-<h3 id="新建任务"><a href="#新建任务" class="headerlink" title="新建任务"></a>新建任务</h3><p>AI行为树中的左上角图表，点击之后为该行为树创建一个任务，用于在达成某条件之后AI需要执行的操作</p>
-<h3 id="事件接收执行AI"><a href="#事件接收执行AI" class="headerlink" title="事件接收执行AI"></a>事件接收执行AI</h3><p>在任务被触发的时候会执行的函数</p>
-<h3 id="完成执行"><a href="#完成执行" class="headerlink" title="完成执行"></a>完成执行</h3><p>AI行为树的任务中的节点，告诉系统此任务已经完成，可以执行下一个任务</p>
-<h3 id="AI-MoveTo"><a href="#AI-MoveTo" class="headerlink" title="AI MoveTo"></a>AI MoveTo</h3><p>AI行为树的任务中的节点：操控AI移动到具体位置或者跟随某Actor进行移动</p>
-<h3 id="控制时"><a href="#控制时" class="headerlink" title="控制时"></a>控制时</h3><p>AI控制器中的可重载函数：在AI被AI控制器控制的时候触发的事件</p>
-<h3 id="运行行为树"><a href="#运行行为树" class="headerlink" title="运行行为树"></a>运行行为树</h3><p>AI控制器中的节点：字面意思</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>创建丧尸蓝图类，动画蓝图，混合空间1D，AI行为树，黑板，AI控制器</p>
-</li>
-<li><p>在蓝图类中配置动画蓝图，AI控制器，移动组件的“将旋转朝向运动”为true，类默认值“使用控制器旋转yaw”为false</p>
-</li>
-<li><p>设置混合空间1D，设置根据速度变化的丧尸行走&#x2F;慢跑&#x2F;冲刺动画</p>
-</li>
-<li><p>配置动画蓝图</p>
-<ul>
-<li><p>创建基础状态机并缓存，输出为基础状态机的缓存</p>
-</li>
-<li><p>编辑基础状态机，添加状态“基础状态”</p>
-</li>
-<li><p>编辑基础状态，将创建的混合空间1D输出，并将其速度引脚提升为变量</p>
-</li>
-<li><p>编辑事件图表，判断尝试获取pawn拥有者是否有效，如果有效则获取其速度，再获取其向量长度，传给变量“速度”</p>
-</li>
-</ul>
-</li>
-<li><p>编辑黑板，添加变量“是否看到玩家”（布尔），“是否追逐玩家”（布尔），“要去的位置”（向量）</p>
-</li>
-<li><p>编辑AI控制器，添加组件“AI感知组件”</p>
-<ul>
-<li><p>编辑AI感知组件，添加AI视力配置并修改其属性</p>
-</li>
-<li><p>其中视力配置除了视线半径和角度之外，重要的还有按归属检测需要全部勾选</p>
-</li>
-<li><p>添加AI感知组件的事件“目标感知更新时”，中断其值并将类型转换为BP_Player</p>
-</li>
-<li><p>用“将值设置为布尔”节点，根据中断值中的“Successfully Sensed”节点修改黑板中的“是否看到玩家”（“获取黑板”节点和“创建文字命名”节点）</p>
-</li>
-</ul>
-</li>
-<li><p>配置行为树</p>
-<ul>
-<li><p>将行为树的黑板配置为刚创建的</p>
-</li>
-<li><p>跟节点引出一个Selector；Selector引出两个Sequence</p>
-</li>
-<li><p>给两个Sequence添加一个装饰器“backbroad”，将其黑板键设置为“是否看到玩家”（一个设置为已设置，另一个设置为未设置），观察器终止修改为Both</p>
-</li>
-<li><p>新建一个任务并编辑，重载函数“事件接收执行AI”</p>
-</li>
-<li><p>获取Actor位置，并获取可导航半径的随机点</p>
-</li>
-<li><p>新建黑板键选择器类型的变量“随机移动位置”，并将其设置为可编辑实例</p>
-</li>
-<li><p>将“随机移动位置”拖出，并将黑板值设为变量，将“获取可导航半径内的随机点”的输出引脚作为输入引入</p>
-</li>
-<li><p>添加“完成执行”节点</p>
-</li>
-<li><p>在行为树中调用刚创建的事件，并在其默认值中传入形参“随机移动位置”的实参</p>
-</li>
-<li><p>调用内置任务“Move To”和“Wait”（到这里才会移动，上一个任务是计算“要去的位置”，在Move To节点中调用其值才会具体行动）</p>
-</li>
-<li><p>新建任务“发现玩家”，重载“事件接收TickAI”函数，调用AI MoveTo节点，“获取玩家pawn”作为“Target Actor”引脚的输入值，最后“完成执行”</p>
-</li>
-<li><p>在行为树中调用该任务</p>
-</li>
-</ul>
-</li>
-<li><p>修改AI控制器</p>
-<ul>
-<li>重载函数“事件控制时”，并将其引脚提升为变量“控制的zombie”，“运行行为树”</li>
-</ul>
-</li>
-<li><p>在世界中放入“导航网格体边界体积”</p>
-</li>
-<li><p>优化丧尸行动速度</p>
-<ul>
-<li><p>在丧尸的角色蓝图中添加事件图表“随机移动”，添加自定义事件“随机找点移动”，调用角色移动组件并“set max walk speed”为20（此时为未发现玩家的速度）</p>
-</li>
-<li><p>添加事件图表“发现玩家”，添加自定义事件“发现玩家做的事”，调用角色移动组件并“set max walk speed”，传入速度用“范围内随机浮点”取值为400-500</p>
-</li>
-<li><p>在两个AI行为树的任务“随即移动”和“发现玩家”中分别用蓝图通信后调用“随即找点移动”以及“发现玩家做的事”</p>
-</li>
-<li><p>最后在丧尸的角色蓝图中设置其最大行走速度为20</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="丧尸看见玩家尖叫并追赶"><a href="#丧尸看见玩家尖叫并追赶" class="headerlink" title="丧尸看见玩家尖叫并追赶"></a>丧尸看见玩家尖叫并追赶</h1><h2 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h2><h3 id="生成音效已附加"><a href="#生成音效已附加" class="headerlink" title="生成音效已附加"></a>生成音效已附加</h3><p>生成一个音效并且附加到某个组件上，实现丧尸追逐玩家的同时会发出声音</p>
-<h3 id="销毁组件"><a href="#销毁组件" class="headerlink" title="销毁组件"></a>销毁组件</h3><p>某组件可引出的节点，字面意思</p>
-<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>打开丧尸的动画蓝图，添加两个变量“是否可以尖叫”，“是否死亡”，判断是否死亡后判断是否可以尖叫，然后播放尖叫的蒙太奇动画（在动画蓝图中需要添加其插槽），在丧尸尖叫的时候速度为0，动画播放完之后设置移动速度为400-500</p>
-</li>
-<li><p>添加一个变量“是否正在尖叫”，在开始尖叫是设置为true，结束播放尖叫动画的时候设置为false</p>
-</li>
-<li><p>使用“生成音效已附加”节点，创建一个丧尸追逐主角的音效，附加到丧尸身上，实现丧尸追逐主角的同时进行尖叫</p>
-</li>
-<li><p>在丧尸不能尖叫的时候判断丧尸是否在尖叫，如果不在尖叫，则判断丧尸的追逐音效是否有效，若无效，则将逻辑链接到后面的设置速度并且添加音效上</p>
-</li>
-<li><p>丧尸随机移动事件图表，首先判断是否死亡，然后设置行走速度，在之后需要用一个序列，判断丧尸追逐音效是否有效，有效则“销毁组件”（未看到玩家的时候随机移动但不发出尖叫）</p>
-</li>
-<li><p>序列的另一个引脚引出“Do Once”节点，并以函数名设置定时器，时间设置为15s</p>
-<ul>
-<li><p>新建自定义事件“重置尖叫”，并设置“是否可以尖叫”为true</p>
-</li>
-<li><p>新建自定义事件“reset”，链接到Do Once的Reset引脚上</p>
-</li>
-<li><p>将“以函数名设置定时器”的函数名修改为“重置尖叫”</p>
-</li>
-</ul>
-</li>
-<li><p>为了防止丧尸在发现玩家之后尖叫，并且在十五秒之后又尖叫，所以在“发现玩家”事件图表中的开头调用“reset”事件，并“以函数名清除定时器”</p>
-</li>
-<li><p>优化一下丧尸追逐玩家时候的音效，在“生成音效已附加”节点的“Start Time”引脚中引出节点“范围内随机浮点”，看下丧尸音效的时长，设置在范围内即可</p>
-</li>
-</ol>
-<h1 id="丧尸丢失目标后移动到目标最后位置"><a href="#丧尸丢失目标后移动到目标最后位置" class="headerlink" title="丧尸丢失目标后移动到目标最后位置"></a>丧尸丢失目标后移动到目标最后位置</h1><h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在丧尸的AI控制器中新建向量类型变量“最后看到玩家的位置”</p>
-</li>
-<li><p>获取BP_Player的位置后，获取可导航半径内的随机点，然后设置给“最后看到玩家的位置”</p>
-</li>
-<li><p>判断感知组件是否感知到玩家，false则链接Do Once节点，并且使用“将值设为布尔值”，key name为“是否追逐玩家”，目标为黑板</p>
-</li>
-<li><p>新建自定义事件“reset”连接到Do Once的reset节点上、</p>
-</li>
-<li><p>优化行为树，先“是否看到玩家”，在“未设置”分支中选择“是否追逐玩家”，未追逐则随即移动等，追逐则创建新的任务</p>
-<ul>
-<li><p>新建任务“追赶玩家到最后位置”，重载“事件接收执行AI”，类型转换为AI控制器，获取其中的“最后看到玩家位置”并且“AI MoveTo”</p>
-</li>
-<li><p>使用“将值设置为布尔”将黑板中的“是否追逐玩家”设置为false，再调用AI控制器中的reset事件，最后“完成执行”</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="丧尸攻击玩家动画"><a href="#丧尸攻击玩家动画" class="headerlink" title="丧尸攻击玩家动画"></a>丧尸攻击玩家动画</h1><h2 id="知识点-2"><a href="#知识点-2" class="headerlink" title="知识点"></a>知识点</h2><h3 id="随机序列播放器"><a href="#随机序列播放器" class="headerlink" title="随机序列播放器"></a>随机序列播放器</h3><p>动画蓝图中的节点：随机播放这个节点中的动画中的某一个</p>
-<h2 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在动画蓝图中创建变量“是否攻击”，并作为“按布尔混合姿势”的判断条件</p>
-</li>
-<li><p>添加节点“随机序列播放器”，在此节点中放入两个丧尸攻击的动画，勾选随机播放</p>
-</li>
-<li><p>使用“每个骨骼的分层混合”节点将基础状态和攻击动画进行上下半身混合。注意添加骨骼之后还需要勾选“网格体空间旋转混合”</p>
-</li>
-<li><p>最后基础状态作为“按布尔混合姿势”的false，上下半身混合之后的动画作为true</p>
-</li>
-<li><p>在丧尸的角色蓝图中创建新图表“攻击玩家”，由“事件Tick”先判断是否死亡，再以黑板中的“是否看到玩家”作为判断条件，true则创建射线检测（由通道检测球体）</p>
-</li>
-<li><p>“由通道检测球体”的起始位置是actor位置，终点位置是actor前方110cm的100cm半径的球体</p>
-<ul>
-<li><p>创建新的通道命名为“ZombieAttack”默认为忽略</p>
-</li>
-<li><p>在球形通道检测中使用该通道</p>
-</li>
-<li><p>在角色蓝图中的mesh组件中将碰撞预设的ZombieAttack修改为阻挡</p>
-</li>
-</ul>
-</li>
-<li><p>接下来判断球体检测是否碰撞到物体，若是，则中断其检测结果，判断是否为玩家actor（类型转换为玩家actor，如果成功，则是）</p>
-</li>
-<li><p>获取丧尸动画实例中的“是否攻击”，如果玩家未死亡，则设置为true，否则false</p>
-<ul>
-<li>与此同时，在类型转换为玩家失败的时候（检测物体不为玩家），以及丧尸未看到玩家的时候均将“是否攻击”设置为false</li>
-</ul>
-</li>
-</ol>
-<h1 id="优化-丧尸攻击角色时的面向及阻挡摄像机"><a href="#优化-丧尸攻击角色时的面向及阻挡摄像机" class="headerlink" title="优化-丧尸攻击角色时的面向及阻挡摄像机"></a>优化-丧尸攻击角色时的面向及阻挡摄像机</h1><p>如果不进行这个优化的话就会出现玩家一个绕背就能让丧尸丢失目标</p>
-<h2 id="知识点-3"><a href="#知识点-3" class="headerlink" title="知识点"></a>知识点</h2><h3 id="Orient-Roatation-to-Movement"><a href="#Orient-Roatation-to-Movement" class="headerlink" title="Orient Roatation to Movement"></a>Orient Roatation to Movement</h3><p>角色移动组件的属性：将旋转朝向运动</p>
-<h3 id="Use-Content-Rotation-Yaw"><a href="#Use-Content-Rotation-Yaw" class="headerlink" title="Use Content Rotation Yaw"></a>Use Content Rotation Yaw</h3><p>角色移动组件的属性：使用控制器旋转</p>
-<h3 id="设置焦距"><a href="#设置焦距" class="headerlink" title="设置焦距"></a>设置焦距</h3><p>AI控制器：脚焦距设置到指定的actor上</p>
-<h3 id="清除焦距"><a href="#清除焦距" class="headerlink" title="清除焦距"></a>清除焦距</h3><p>AI控制器：字面意思啦！</p>
-<h2 id="思路-4"><a href="#思路-4" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>丧尸蓝图中创建函数”更改控制旋转模式“</p>
-</li>
-<li><p>使用角色移动组件，分别调用”Orient Roatation to Movement“和”Use Content Rotation Yaw“节点并将其公开到函数参数</p>
-</li>
-<li><p>在丧尸攻击玩家时调用此函数，”使用控制器所需的旋转“勾选，否则勾选”将旋转朝向的运动“</p>
-</li>
-<li><p>获取AI控制器，然后”设置焦距“在玩家上，不攻击则”清除焦距“</p>
-</li>
-<li><p>点开丧尸的mesh，将碰撞中的摄像机忽略</p>
-</li>
-</ol>
-<h1 id="丧尸攻击音效"><a href="#丧尸攻击音效" class="headerlink" title="丧尸攻击音效"></a>丧尸攻击音效</h1><h2 id="思路-5"><a href="#思路-5" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>创建一个音效cue</p>
-</li>
-<li><p>找到丧尸攻击动画，在合适位置创建通知音效，将cue传入到通知中</p>
-</li>
-</ol>
-<h1 id="丧尸脚步声实现"><a href="#丧尸脚步声实现" class="headerlink" title="丧尸脚步声实现"></a>丧尸脚步声实现</h1><h2 id="思路-6"><a href="#思路-6" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>直接用玩家角色蓝图中的“脚步声判断”函数来实现脚步功能</p>
-</li>
-<li><p>丧尸角色蓝图的事件图表中，事件开始运行时，获取actor的所有类，提升为变量“玩家蓝图实例”</p>
-</li>
-<li><p>添加两个箭头组件分别将其插槽设置到丧尸的左右脚</p>
-</li>
-<li><p>创建新事件图表“脚步声”，新建自定义事件“左脚步声”，“右脚步声”，分别调用玩家蓝图实例中的“脚步声判断”，并且将两个箭头组件作为参数传入</p>
-</li>
-<li><p>复制之前玩家的动画通知“Notif_RightFoot”和“Notif_LeftFoot”到丧尸文件夹并改为“Notif_ZombieRightFoot”和“Notif_ZombieLeftFoot”</p>
-<ul>
-<li>修改动画通知，将类型转换为“BP_Zombie”并分别调用左右脚步声</li>
-</ul>
-</li>
-<li><p>将动画通知添加到动画的合适位置</p>
-</li>
-</ol>
-<h1 id="随机丧尸模型和朝向"><a href="#随机丧尸模型和朝向" class="headerlink" title="随机丧尸模型和朝向"></a>随机丧尸模型和朝向</h1><h2 id="思路-7"><a href="#思路-7" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在丧尸角色蓝图中创建新图表“随机丧尸模型”</p>
-</li>
-<li><p>创建一个元素为骨骼网格体的数组“丧尸模型”，并向其中添加丧尸骨骼网格体元素</p>
-</li>
-<li><p>新建自定义事件“随机Zombie模型”，由网格体组件引出“设置骨骼网格体”</p>
-</li>
-<li><p>将“丧尸模型”在“范围内随机整数”传入到“设置骨骼网格体”</p>
-</li>
-<li><p>在事件图表的开始运行处调用“随机Zombie模型”事件</p>
-</li>
-<li><p>最后设置actor旋转，传入“范围内随机浮点”</p>
-</li>
-</ol>
-<h1 id="丧尸被击中动画和死亡系统"><a href="#丧尸被击中动画和死亡系统" class="headerlink" title="丧尸被击中动画和死亡系统"></a>丧尸被击中动画和死亡系统</h1><h2 id="知识点-4"><a href="#知识点-4" class="headerlink" title="知识点"></a>知识点</h2><h3 id="应用伤害"><a href="#应用伤害" class="headerlink" title="应用伤害"></a>应用伤害</h3><p>将伤害施加给“Damaged Actor”引脚传入的Actor</p>
-<h3 id="获取相关剩余动画的时间"><a href="#获取相关剩余动画的时间" class="headerlink" title="获取相关剩余动画的时间"></a>获取相关剩余动画的时间</h3><p>在动画蓝图中使用：字面意思</p>
-<h3 id="事件任意伤害"><a href="#事件任意伤害" class="headerlink" title="事件任意伤害"></a>事件任意伤害</h3><p>会响应并输出对此蓝图类造成的任何伤害信息</p>
-<p>和“应用伤害”属于配套的接口</p>
-<h2 id="思路-8"><a href="#思路-8" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在子弹事件蓝图中判断击中的是否为丧尸（类型转换为丧尸蓝图类）</p>
-</li>
-<li><p>类型转换成功则在击中部位生成血液飞溅例子特效和血色烟雾例子特效（在位置处生成发射器）</p>
-</li>
-<li><p>根据子弹的命中结果判断击中的骨骼是否为头部骨骼，如果是，则使用“应用伤害”节点施加更多的伤害，如果不是，则施加适量伤害</p>
-</li>
-<li><p>在击中位置“播放位置处音效”，连接上之前蓝图逻辑的序列，判断击中物体是否模拟物理</p>
-</li>
-<li><p>因为子弹的碰撞对象类型对丧尸的类型“pawn”是重叠的，不能造成影响，所以要将丧尸模型的碰撞对象类型修改为“PhysicalBody”，将丧尸胶囊体的碰撞预设的子弹进行忽略</p>
-</li>
-<li><p>添加丧尸被击中动画，在丧尸动画蓝图中的基础状态机中新增状态“被击中”，添加新的变量“是否被击中”，被击中判断逻辑为“是否被击中”为true，被击中返回基础状态逻辑为“获取相关剩余动画的时间”&lt;0.1</p>
-</li>
-<li><p>在被击中状态中添加动画，使用上下半身混合（每个骨骼的分层混合）base为丧尸的混合空间动画，blend posed 0为丧尸被击中动画（取消勾选循环播放）</p>
-</li>
-<li><p>在丧尸蓝图类中新建事件图表“事件任意伤害”，新建浮点型变量“丧尸血量”，将“事件任意伤害”传出的Damage引脚与“丧尸血量”相减之后再赋值给“丧尸血量”</p>
-</li>
-<li><p>判断丧尸血量是否&lt;&#x3D;0，true则死亡，false则播放被击中动画</p>
-</li>
-<li><p>再播放被击中动画之前要先判断丧尸是否在播放攻击动画</p>
-</li>
-<li><p>新建一个函数“通信到动画蓝图”，获取角色mesh的动画实例，再类型转换为Anim_Zombie，添加一个返回节点，将类型转换返回值输出</p>
-</li>
-<li><p>在“伤害检测和死亡系统”事件图表中调用“通信到动画蓝图”函数，引出“是否攻击”作为判断依据，false时设置“是否被击中”为true，延迟0.1s之后设置“是否被击中”为false</p>
-</li>
-<li><p>判断丧尸为死亡的时候使用“Do Once”设置丧尸网格体模拟物理，将其角色移动最大速度设置为0，并且将碰撞预设碰撞启用修改为“已启用碰撞（查询和物理）”</p>
-</li>
-<li><p>将丧尸的胶囊体的碰撞预设中忽略PhyscialBody</p>
-</li>
-<li><p>将丧尸的“是否死亡”设置为true，关闭胶囊体的碰撞，调用通信到动画蓝图函数之后设置“是否攻击”为false，判断“丧尸追逐音效”是否有效，true则销毁组件，同时序列“延迟10s”之后销毁actor</p>
-</li>
-<li><p>最后在丧尸脚步声事件图表中先判断丧尸是否死亡，未死王才能生成脚步声</p>
-</li>
-</ol>
-<h1 id="丧尸攻击范围检测"><a href="#丧尸攻击范围检测" class="headerlink" title="丧尸攻击范围检测"></a>丧尸攻击范围检测</h1><h2 id="知识点-5"><a href="#知识点-5" class="headerlink" title="知识点"></a>知识点</h2><h3 id="获取插槽位置"><a href="#获取插槽位置" class="headerlink" title="获取插槽位置"></a>获取插槽位置</h3><p>获取骨骼插槽位置信息</p>
-<h2 id="思路-9"><a href="#思路-9" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>丧尸角色蓝图中新建事件图表“攻击范围检测”，新建自定义事件“攻击范围”，使用“由通道检测球体”来检测丧尸的攻击范围</p>
-</li>
-<li><p>创建两个命名类型的变量“攻击检测起始骨骼”和“攻击检测终点骨骼”，并且调用网格体“获取插槽位置”，并将两个变量作为引脚传入</p>
-</li>
-<li><p>创建新的Actor类型变量“HitPlayer”，判断是否击中物体，再判断击中物体是否与“HitPlayer”相同，不相同才可继续操作（为了防止一个动画造成N次伤害）</p>
-</li>
-<li><p>接下来类型转换为BP_Player，重新保存“HitPlyaer”</p>
-</li>
-<li><p>使用“应用伤害”节点，然后“在位置处生成发射器”</p>
-</li>
-<li><p>创建动画通知，在动画通知中调用此事件</p>
-</li>
-<li><p>创建三个动画通知“Notif_ZombieBoneSettings”，“Notif_ZombieEndOfAttack”，“Notif_ZombieStartAttack”</p>
-</li>
-<li><p>在“Notif_ZombieStartAttack”中“以函数名设置定时器”调用自定义事件“攻击范围”</p>
-</li>
-<li><p>在“Notif_ZombieEndOfAttack”中“以函数名清除定时器”清除“攻击范围”函数，并且将“HitPlayer”设置为空</p>
-</li>
-<li><p>在“Notif_ZombieBoneSettings”中设置“攻击检测起始骨骼”和“攻击检测终点骨骼”分别为右手手肘和右手中指（因为攻击动画中是用右手攻击的）</p>
-</li>
-<li><p>在丧尸死亡之后清除攻击范围检测并且将HitPlayer设置为空，攻击玩家事件图表的最后（停止播放攻击动画）亦然</p>
-</li>
-<li><p>在丧尸攻击动画中的合适位置添加三个动画通知</p>
-</li>
-</ol>
-<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><ol>
-<li>在动画通知中“以函数名设置定时器”节点的Time引脚和Looping引脚需要设置（每Time秒调用一次该函数）</li>
-</ol>
-<h1 id="角色死亡系统"><a href="#角色死亡系统" class="headerlink" title="角色死亡系统"></a>角色死亡系统</h1><h2 id="知识点-6"><a href="#知识点-6" class="headerlink" title="知识点"></a>知识点</h2><h3 id="设置激活"><a href="#设置激活" class="headerlink" title="设置激活"></a>设置激活</h3><p>可以激活或者关闭某个组件</p>
-<h3 id="禁用移动"><a href="#禁用移动" class="headerlink" title="禁用移动"></a>禁用移动</h3><p>使用此节点可以使得角色移动组件不可移动</p>
-<h3 id="设置碰撞已启用"><a href="#设置碰撞已启用" class="headerlink" title="设置碰撞已启用"></a>设置碰撞已启用</h3><p>可以设置某组件碰撞类型（关闭&#x2F;查询&#x2F;物理）</p>
-<h3 id="set-post-process-setting"><a href="#set-post-process-setting" class="headerlink" title="set post process setting"></a>set post process setting</h3><p>可以设置摄像机后期盒子的一些参数</p>
-<p>拉住唯一的引脚”创建PostProcessSettings“</p>
-<h3 id="思路-10"><a href="#思路-10" class="headerlink" title="思路"></a>思路</h3><ol>
-<li><p>新建事件图表“死亡系统”，调用“事件任意伤害”，新建float变量“当前血量”默认值为100和“目标血量”默认值为0</p>
-</li>
-<li><p>用受到伤害量与当前血量相减，然后传给“目标血量”，用一个序列节点，第一个引脚链接一个时间轴“血量平滑过渡”的“Playe from start”，设置时间轴时长为0.5s，值为1</p>
-</li>
-<li><p>用“插值”节点，将当前血量到目标血量进行过渡，最后传给“当前血量”</p>
-</li>
-<li><p>序列节点的第二个引脚判断目标血量是否小于等于0，如果是，则使用Do Once将角色状态设置为死亡（前面的角色状态枚举中添加一个死亡状态）</p>
-</li>
-<li><p>开启角色模型的碰撞预设中的启用碰撞（查询和物理）并且调用模型“设置模拟物理”为true，碰撞对象类型为PhycialBody，忽略bullit碰撞，胶囊体的碰撞对于PhycialBody进行忽略</p>
-</li>
-<li><p>添加新的摄像机视角，实现死亡之后的视角</p>
-<ul>
-<li><p>在胶囊体之下添加一个新的弹簧臂组件（关闭碰撞，摄像机设置全部关闭）和新的摄像机组件（默认值激活为false）</p>
-</li>
-<li><p>将原本的摄像机使用“设置激活”为false，将新的摄像机设置为true</p>
-</li>
-<li><p>调用角色移动组件并且“禁用移动”</p>
-</li>
-<li><p>调用胶囊体组件并“设置碰撞已启用”为无碰撞</p>
-</li>
-</ul>
-</li>
-<li><p>使得武器自动掉落到地上</p>
-<ul>
-<li><p>武器父类新建事件图表“开启模拟物理”，并自定义事件“开启物理模拟“，使得武器模型”设置物理模拟“为true</p>
-</li>
-<li><p>设置武器模型的碰撞预设为自定义，碰撞启用为查询和物理，对象类型为WorldDynamic，并将PhycialBody和Bullet进行忽略</p>
-</li>
-<li><p>在角色蓝图死亡系统最后使用一个序列节点，分别判断主武器和副武器是否有效，若有效则使用”从Actor分离“后开启模拟物理</p>
-</li>
-</ul>
-</li>
-<li><p>实现视角从彩色变为黑白效果</p>
-<ul>
-<li><p>在原本的序列节点上加一个引脚，引出一个时间轴”拉长弹簧臂长度“，新建轨道之后使用插值从默认长度300到2000update给死亡后弹簧臂长度</p>
-</li>
-<li><p>调用死亡后摄像机组件“set post process setting”并且”创建set post process setting“将Saturation（饱和度）和Contrast（对比度）以及Intensity（强度）公开为引脚</p>
-</li>
-<li><p>在世界中放入后期处理盒子并使其无线范围</p>
-</li>
-<li><p>使用”插值“和”创建向量4“分别设置饱和度，对比度，强度（只用插值即可）</p>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="注意-1"><a href="#注意-1" class="headerlink" title="注意"></a>注意</h2><ol>
-<li>任意伤害事件更新血量的时候，不要把伤害量和当前血量减法位置弄错</li>
-</ol>
-<h1 id="玩家被击中动画"><a href="#玩家被击中动画" class="headerlink" title="玩家被击中动画"></a>玩家被击中动画</h1><h2 id="知识点-7"><a href="#知识点-7" class="headerlink" title="知识点"></a>知识点</h2><h3 id="客户端开始摄像机晃动"><a href="#客户端开始摄像机晃动" class="headerlink" title="客户端开始摄像机晃动"></a>客户端开始摄像机晃动</h3><p>玩家控制器的内置函数：字面意思</p>
-<h2 id="思路-11"><a href="#思路-11" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>四个被击中动画批量编辑RoorMotion-&gt;启用跟运动true-&gt;强制根锁定</p>
-</li>
-<li><p>给四个被击中动画创建为蒙太奇，并且修改插槽为Hit</p>
-</li>
-<li><p>将四个蒙太奇动画的混入和混出时间均修改为0.35</p>
-</li>
-<li><p>在角色蓝图动画中最外层添加插槽Hit（这个被击中动画优先级最高）</p>
-</li>
-<li><p>在角色蓝图中的死亡系统中，未死亡的情况下，先播放被击中音效，然后获取玩家控制器“客户端开始摄像机晃动”，接下来遍历玩家功能状态枚举，在“空白”，“跳跃”，“拾取物品”的时候可以“蒙太奇播放”</p>
-</li>
-<li><p>将蒙太奇输入引脚提升为变量，变为数组类型，将四个蒙太奇动画输入其中，然后在“范围内随机整数”下get</p>
-</li>
-</ol>
-<h1 id="玩家死亡之后丧尸随机移动"><a href="#玩家死亡之后丧尸随机移动" class="headerlink" title="玩家死亡之后丧尸随机移动"></a>玩家死亡之后丧尸随机移动</h1><h2 id="思路-12"><a href="#思路-12" class="headerlink" title="思路"></a>思路</h2><p>之前玩家死亡之后丧尸没有随机移动是因为玩家死亡后虽然将状态修改为死亡，但是在其他的蓝图中有不少定时器，会在一定时间内将玩家状态修改为空白</p>
-<ol>
-<li><p>在修改玩家状态为死亡之前添加一个“以函数名设置定时器”节点，每0.1秒循环</p>
-</li>
-<li><p>创建一个自定义事件“强制开启死亡”，将状态修改为死亡</p>
-</li>
-<li><p>函数名设置定时器“强制开启死亡”。这样就保证了玩家死亡之后每0.1秒都会将状态重置为死亡</p>
-</li>
-<li><p>在丧尸AI控制器中，类型转换为玩家角色之后，判断玩家状态是否为死亡，true则将黑板中的“是否看到玩家”设置为false，false则走原本的逻辑路线</p>
-</li>
-<li><p>在丧尸角色蓝图中的“发现玩家”事件图表中也做相同的操作</p>
-</li>
-</ol>
-<h1 id="优化-丧尸阻挡摄像机与死亡后音效关闭"><a href="#优化-丧尸阻挡摄像机与死亡后音效关闭" class="headerlink" title="优化-丧尸阻挡摄像机与死亡后音效关闭"></a>优化-丧尸阻挡摄像机与死亡后音效关闭</h1><ol>
-<li><p>将丧尸的胶囊体和网格体组件中均忽略摄像机组件</p>
-</li>
-<li><p>在丧尸死亡系统中最后将“丧尸追逐音效”使用“设置激活”为false</p>
-</li>
-</ol>
 
       
     </div>

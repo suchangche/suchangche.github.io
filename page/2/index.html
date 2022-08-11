@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-count">85</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,175 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/16/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2UI/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/16/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2UI/" class="post-title-link" itemprop="url">UE4-项目-死寂-角色UI</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-16 10:24:27 / 修改时间：11:33:53" itemprop="dateCreated datePublished" datetime="2022-07-16T10:24:27+08:00">2022-07-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="角色属性UI排版"><a href="#角色属性UI排版" class="headerlink" title="角色属性UI排版"></a>角色属性UI排版</h1><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>创建新的控件蓝图“游戏中界面”</p>
+<ul>
+<li><p>添加一个文本作为游戏声明，放在不起眼的位置，颜色调整为灰色</p>
+</li>
+<li><p>添加一个新的画布面板“子弹和生命值”</p>
+<ul>
+<li><p>添加一个图像放在右下角作为主武器还是副武器的背景图</p>
+</li>
+<li><p>添加一个文本放在图像上面用于显示当前弹匣数量</p>
+</li>
+<li><p>添加一个文本显示子弹数量放在图像的左边</p>
+</li>
+<li><p>添加一个图像，拉长成为细线，作为和下面血条的分割线</p>
+</li>
+<li><p>添加一个进度条作为血量条，设置其背景图，填充图</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="角色生命值绑定"><a href="#角色生命值绑定" class="headerlink" title="角色生命值绑定"></a>角色生命值绑定</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="获取玩家角色"><a href="#获取玩家角色" class="headerlink" title="获取玩家角色"></a>获取玩家角色</h3><p>字面意思，通常配合“类型转换为（角色蓝图）”</p>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>给血量条创建绑定</p>
+<ul>
+<li><p>点击血量条，百分比，创建绑定</p>
+</li>
+<li><p>获取玩家角色，类型转换为BP_Player</p>
+</li>
+<li><p>获取“当前血量”，“（浮点）&#x2F;（浮点）”，连接到返回值</p>
+<ul>
+<li>因为百分比最大是1，角色血量最大是100，要达到能和百分比搭配的地步</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>绑定血量条颜色（底血量的情况下颜色变红）</p>
+<ul>
+<li><p>进度条-&gt;外观-&gt;填充颜色和不透明度-&gt;绑定-&gt;创建绑定</p>
+</li>
+<li><p>大体逻辑和血量条数值绑定一样，只有最后的输出不一样</p>
+</li>
+<li><p>返回节点创建颜色，当前血量&#x2F;100之后连接到G,B引脚上,R引脚设置为1</p>
+<ul>
+<li>颜色是由R(红色),G(绿色),B(蓝色),A(透明度)组成的，取值范围是[0,1]，当全为1的时候则为白色，当一个值为1，其他值为0时，则显示为1的那个颜色</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="子弹数量绑定"><a href="#子弹数量绑定" class="headerlink" title="子弹数量绑定"></a>子弹数量绑定</h1><h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>点击“子弹剩余数量”这个文本-&gt;内容-&gt;文本-&gt;绑定-&gt;创建绑定</p>
+<ul>
+<li><p>获取玩家角色，类型转换为BP_Player</p>
+</li>
+<li><p>判断是否装备主武器</p>
+<ul>
+<li><p>true则获取主武器实例，获取子弹数量，输出</p>
+</li>
+<li><p>false则判断是否装备副武器</p>
+</li>
+</ul>
+</li>
+<li><p>是否装备副武器</p>
+<ul>
+<li><p>true则获取副武器实例，获取子弹数量，输出</p>
+</li>
+<li><p>false则输出0</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>绑定弹匣数量</p>
+<ul>
+<li><p>选中“弹匣数量”文本，创建绑定</p>
+</li>
+<li><p>思路和绑定子弹数量一样，只不过将子弹数量换成弹匣数量</p>
+</li>
+</ul>
+</li>
+<li><p>将角色UI添加到视口</p>
+<ul>
+<li><p>因为是有可操纵角色的时候才能有这个UI，所以打开“BP_Player”</p>
+</li>
+<li><p>在事件图表中的“事件开始运行时”最后面“创建控件”，class选择“游戏中界面”，将返回值提升为变量“游戏中界面”，将其“添加到视口”</p>
+</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1812,109 +1981,6 @@
 <p>如果<code>A[i] * A[i] &gt;= A[j] * A[j]</code> 那么<code>result[k--] = A[i] * A[i];</code> 。</p>
 <p><img src="D:\R_program\Blog\source_posts\算法-数组\2.gif"></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">sortedSquares</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; A)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> k = A.<span class="built_in">size</span>() - <span class="number">1</span>;</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">result</span><span class="params">(A.size(), <span class="number">0</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>, j = A.<span class="built_in">size</span>() - <span class="number">1</span>; i &lt;= j;) &#123; <span class="comment">// 注意这里要i &lt;= j，因为最后要处理两个元素</span></span><br><span class="line">            <span class="keyword">if</span> (A[i] * A[i] &lt; A[j] * A[j])  &#123;</span><br><span class="line">                result[k--] = A[j] * A[j];</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                result[k--] = A[i] * A[i];</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/06/Socket%E7%BC%96%E7%A8%8B-OSI%E7%BD%91%E7%BB%9C%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/06/Socket%E7%BC%96%E7%A8%8B-OSI%E7%BD%91%E7%BB%9C%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B/" class="post-title-link" itemprop="url">Socket编程-OSI网络七层模型与TCP/IP协议族</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-07-06 10:50:20" itemprop="dateCreated datePublished" datetime="2022-07-06T10:50:20+08:00">2022-07-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-07-07 11:12:32" itemprop="dateModified" datetime="2022-07-07T11:12:32+08:00">2022-07-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Socket/" itemprop="url" rel="index"><span itemprop="name">Socket</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>OSI 模型把网络通信的工作分为 7 层，从下到上分别是物理层、数据链路层、网络层、传输层、会话层、表示层和应用层。  </p>
-<p>OSI 只是存在于概念和理论上的一种模型，它的缺点是分层太多，增加了网络工作的复杂性，所以没有大规模应用。后来人们对 OSI 进行了简化，合并了一些层，最终只保留了 4 层，从下到上分别是接口层、网络层、传输层和应用层，这就是大名鼎鼎的 TCP&#x2F;IP 模型。</p>
-<h1 id="OSI模型与TCP-x2F-IP模型"><a href="#OSI模型与TCP-x2F-IP模型" class="headerlink" title="OSI模型与TCP&#x2F;IP模型"></a>OSI模型与TCP&#x2F;IP模型</h1><p><img src="D:\R_program\Blog\source_posts\Socket编程-OSI网络七层模型\1.jpg"></p>
-<h1 id="Socket编程位置"><a href="#Socket编程位置" class="headerlink" title="Socket编程位置"></a>Socket编程位置</h1><p> <a target="_blank" rel="noopener" href="http://c.biancheng.net/socket/">socket</a> 编程，是站在传输层的基础上，所以可以使用 TCP&#x2F;UDP 协议，但是不能干「访问网页」这样的事情，因为访问网页所需要的 http 协议位于应用层。</p>
-<p>两台计算机进行通信时，必须遵守以下原则：</p>
-<ul>
-<li>必须是同一层次进行通信，比如，A 计算机的应用层和 B 计算机的传输层就不能通信，因为它们不在一个层次，数据的拆包会遇到问题。</li>
-<li>每一层的功能都必须相同，也就是拥有完全相同的网络模型。如果网络模型都不同，那不就乱套了，谁都不认识谁。</li>
-<li>数据只能逐层传输，不能跃层。</li>
-<li>每一层可以使用下层提供的服务，并向上层提供服务。</li>
-</ul>
-<h1 id="TCP-x2F-IP协议族"><a href="#TCP-x2F-IP协议族" class="headerlink" title="TCP&#x2F;IP协议族"></a>TCP&#x2F;IP协议族</h1><p>目前实际使用的网络模型是 TCP&#x2F;IP 模型，它对 OSI 模型进行了简化，只包含了四层，从上到下分别是应用层、传输层、网络层和链路层（网络接口层），每一层都包含了若干协议。  </p>
-<p>协议（Protocol）就是网络通信过程中的约定或者合同，通信的双方必须都遵守才能正常收发数据。协议有很多种，例如 TCP、UDP、IP 等，通信的双方必须使用同一协议才能通信。协议是一种规范，由计算机组织制定，规定了很多细节，例如，如何建立连接，如何相互识别等。</p>
-<blockquote>
-<p>协议仅仅是一种规范，必须由计算机软件来实现。例如 IP 协议规定了如何找到目标计算机，那么各个开发商在开发自己的软件时就必须遵守该协议，不能另起炉灶。</p>
-</blockquote>
-<p>TCP&#x2F;IP 模型包含了 TCP、IP、UDP、Telnet、FTP、SMTP 等上百个互为关联的协议，其中 TCP 和 IP 是最常用的两种底层协议，所以把它们统称为“TCP&#x2F;IP 协议族”。</p>
-<p> <a target="_blank" rel="noopener" href="http://c.biancheng.net/socket/">socket</a> 编程是基于 TCP 和 UDP 协议的，它们的层级关系如下图所示：  </p>
-<p><img src="D:\R_program\Blog\source_posts\Socket编程-OSI网络七层模型\2.gif"></p>
 
       
     </div>

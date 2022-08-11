@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-count">85</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,177 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/06/UE4-Player-Controlled-Cameras/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/06/UE4-Player-Controlled-Cameras/" class="post-title-link" itemprop="url">UE4-Player-Controlled Cameras</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-05-06 09:31:10 / 修改时间：11:13:24" itemprop="dateCreated datePublished" datetime="2022-05-06T09:31:10+08:00">2022-05-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>今天是官方案例<a href="(https://docs.unrealengine.com/4.27/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/PlayerCamera/">Player-Controlled Cameras</a></p>
+<h1 id="给我整无语了"><a href="#给我整无语了" class="headerlink" title="给我整无语了"></a>给我整无语了</h1><p>我现在使用的是4.27的版本文档，我是真的服了官方写这个文档的家伙了，咱作为萌新吧，看这玩意，学习顺序安排得不合理就算了，很多项目拿着官方给出的代码都运行不出来，真的是太无语了。</p>
+<p>这一节最明显的一个错误——<code># include &quot;Camera/Component.h&quot;</code>根本没这个头文件啊！兄弟！真的无语了，头文件都打错了，原本的头文件名为<code># include &quot;Camera/CameraComponent.h&quot;</code>!</p>
+<p>可恶！负责官方文档编写的人得扣工资，你说这种问题，是一个正常程序员能犯得错误嘛？</p>
+<p>tnnd，跟我玩阴的是吧？你爹我是来学习的还是来给你纠错的？f**k u！</p>
+<p>除了以上错误，还有别的我没发现的，我估摸着可能是头文件的问题，但是也懒得找了。</p>
+<p>我就单分析代码实现当中的API和一些实现逻辑好了。</p>
+<h1 id="摄像机连接到Pawn"><a href="#摄像机连接到Pawn" class="headerlink" title="摄像机连接到Pawn"></a>摄像机连接到Pawn</h1><p>直接上代码</p>
+<h2 id="PawnWithCamera-h"><a href="#PawnWithCamera-h" class="headerlink" title="PawnWithCamera.h"></a>PawnWithCamera.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/Pawn.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;PawnWithCamera.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HOWTO_PLAYERCAMERA_API</span> APawnWithCamera : <span class="keyword">public</span> APawn</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 为Pawn的属性设置默认值</span></span><br><span class="line">    <span class="built_in">APawnWithCamera</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="comment">// 游戏开始时或对象生成时调用</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 每帧调用</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">( <span class="type">float</span> DeltaSeconds )</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 用于绑定功能和输入</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">SetupPlayerInputComponent</span><span class="params">(<span class="keyword">class</span> UInputComponent* InputComponent)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="built_in">UPROPERTY</span>(EditAnywhere)</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">USpringArmComponent</span>* SpringArmComp;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(EditAnywhere)</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">UCameraComponent</span>* CameraComp;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(EditAnywhere)</span><br><span class="line">    UStaticMeshComponent* StaticMeshComp;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>头文件的变化仅在于声明了弹簧臂组件类和摄像机组件类以及一个静态网格体组件</p>
+<h2 id="PawnWithCamera-cpp"><a href="#PawnWithCamera-cpp" class="headerlink" title="PawnWithCamera.cpp"></a>PawnWithCamera.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;HowTo_PlayerCamera.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;PawnWithCamera.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/SpringArmComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Camera/CameraComponent.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置默认值</span></span><br><span class="line">APawnWithCamera::<span class="built_in">APawnWithCamera</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 让这个Pawn每帧调用Tick()。如不需要，你可以关闭这个函数以便提升性能。</span></span><br><span class="line">    PrimaryActorTick.bCanEverTick = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建组件</span></span><br><span class="line">    RootComponent = <span class="built_in">CreateDefaultSubobject</span>&lt;USceneComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;RootSceneComponent&quot;</span>));</span><br><span class="line">    StaticMeshComp = CreateDefaultSubobject &lt;UStaticMeshComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;StaticMeshComponent&quot;</span>));</span><br><span class="line">    SpringArmComp = <span class="built_in">CreateDefaultSubobject</span>&lt;USpringArmComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;SpringArmComponent&quot;</span>));</span><br><span class="line">    CameraComp = <span class="built_in">CreateDefaultSubobject</span>&lt;UCameraComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;CameraComponent&quot;</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 绑定组件</span></span><br><span class="line">    StaticMeshComp-&gt;<span class="built_in">SetupAttachment</span>(RootComponent);</span><br><span class="line">    SpringArmComp-&gt;<span class="built_in">SetupAttachment</span>(StaticMeshComp);</span><br><span class="line">    CameraComp-&gt;<span class="built_in">SetupAttachment</span>(SpringArmComp,USpringArmComponent::SocketName);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 为SpringArm类的变量赋值</span></span><br><span class="line">    SpringArmComp-&gt;<span class="built_in">SetRelativeLocationAndRotation</span>(<span class="built_in">FVector</span>(<span class="number">0.0f</span>, <span class="number">0.0f</span>, <span class="number">50.0f</span>), <span class="built_in">FRotator</span>(<span class="number">-60.0f</span>, <span class="number">0.0f</span>, <span class="number">0.0f</span>));</span><br><span class="line">    SpringArmComp-&gt;TargetArmLength = <span class="number">400.f</span>;</span><br><span class="line">    SpringArmComp-&gt;bEnableCameraLag = <span class="literal">true</span>;</span><br><span class="line">    SpringArmComp-&gt;CameraLagSpeed = <span class="number">3.0f</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 控制默认玩家</span></span><br><span class="line">    AutoPossessPlayer = EAutoReceiveInput::Player0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 游戏开始时或对象生成时调用</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">APawnWithCamera::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 每帧调用</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">APawnWithCamera::Tick</span><span class="params">( <span class="type">float</span> DeltaTime )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">Tick</span>( DeltaTime );</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 用于绑定功能和输入</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">APawnWithCamera::SetupPlayerInputComponent</span><span class="params">(<span class="keyword">class</span> UInputComponent* InputComponent)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">SetupPlayerInputComponent</span>(InputComponent);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="首先创建组件"><a href="#首先创建组件" class="headerlink" title="首先创建组件"></a>首先创建组件</h3><ul>
+<li>根组件，静态网格体组件，弹簧臂组件，摄像机组件</li>
+</ul>
+<h3 id="然后绑定组件"><a href="#然后绑定组件" class="headerlink" title="然后绑定组件"></a>然后绑定组件</h3><ul>
+<li><p>将静态网格体组件绑定在根组件之下，保证更新的是静态网格体</p>
+</li>
+<li><p>将弹簧臂组件绑定在静态网格体之下</p>
+</li>
+<li><p>再将摄像机插入弹簧臂的插槽上</p>
+</li>
+</ul>
+<h3 id="接下来设置弹簧臂类的变量值"><a href="#接下来设置弹簧臂类的变量值" class="headerlink" title="接下来设置弹簧臂类的变量值"></a>接下来设置弹簧臂类的变量值</h3><ul>
+<li><p>首先设置相对位置和角度</p>
+</li>
+<li><p>弹簧臂长度</p>
+</li>
+<li><p>启用弹簧臂平滑切换</p>
+</li>
+<li><p>设置平滑切换时间</p>
+</li>
+</ul>
+<h3 id="最后是将默认玩家设置一下"><a href="#最后是将默认玩家设置一下" class="headerlink" title="最后是将默认玩家设置一下"></a>最后是将默认玩家设置一下</h3><p>单人的话，默认玩家编号为Player0</p>
+<h1 id="定义输入函数和绑定操作"><a href="#定义输入函数和绑定操作" class="headerlink" title="定义输入函数和绑定操作"></a>定义输入函数和绑定操作</h1><p>前面的配置输入我就不讲了，之前的博客里面讲的很详细，或者去官网看看也可以，基本上没啥错误。这里直接过一下绑定输入操作。</p>
+<h2 id="声明成员变量和成员函数"><a href="#声明成员变量和成员函数" class="headerlink" title="声明成员变量和成员函数"></a>声明成员变量和成员函数</h2><p>首先我们需要定义一些成员变量来存储接收到的输入数据</p>
+<ul>
+<li><p>在帧更新的时候，我们需要获取移动数据和鼠标轴的移动方向数据，这都是二维向量类型的数值</p>
+</li>
+<li><p>还有摄像机画面是要放大还是缩小，以及摄像机当前状态距离到达这两种状态还有多少距离</p>
+</li>
+</ul>
+<p>所以我们在.h文件的protected:下定义以下代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//输入变量</span></span><br><span class="line">FVector2D MovementInput;<span class="comment">//移动数据</span></span><br><span class="line">FVector2D CameraInput;<span class="comment">//鼠标轴的移动方向数据</span></span><br><span class="line"><span class="type">float</span> ZoomFactor;<span class="comment">//距离放大缩小还有多远</span></span><br><span class="line"><span class="type">bool</span> bZoomingIn;<span class="comment">//放大还是缩小</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>还需要创建函数来跟踪输入，所以我们在.h中声明以下函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 输入函数</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">MoveForward</span><span class="params">(<span class="type">float</span> AxisValue)</span></span>;<span class="comment">//前后移动</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">MoveRight</span><span class="params">(<span class="type">float</span> AxisValue)</span></span>;<span class="comment">//左右移动</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">PitchCamera</span><span class="params">(<span class="type">float</span> AxisValue)</span></span>;<span class="comment">//绕Y轴旋转（上下颠簸）</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">YawCamera</span><span class="params">(<span class="type">float</span> AxisValue)</span></span>;<span class="comment">//绕Z轴旋转（左右拐弯）</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ZoomIn</span><span class="params">()</span></span>;<span class="comment">//放大</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ZoomOut</span><span class="params">()</span></span>;<span class="comment">//缩小</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>1 Roll 是自身旋转<br>2 Yaw 是左右拐弯<br>3 pitch 是上下颠动</p>
+<h2 id="定义成员函数"><a href="#定义成员函数" class="headerlink" title="定义成员函数"></a>定义成员函数</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 输入函数</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">APawnWithCamera::MoveForward</span><span class="params">(<span class="type">float</span> AxisValue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    MovementInput.X = FMath::<span class="built_in">Clamp</span>&lt;<span class="type">float</span>&gt;(AxisValue, <span class="number">-1.0f</span>, <span class="number">1.0f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">APawnWithCamera::MoveRight</span><span class="params">(<span class="type">float</span> AxisValue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    MovementInput.Y = FMath::<span class="built_in">Clamp</span>&lt;<span class="type">float</span>&gt;(AxisValue, <span class="number">-1.0f</span>, <span class="number">1.0f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">APawnWithCamera::PitchCamera</span><span class="params">(<span class="type">float</span> AxisValue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    CameraInput.Y = AxisValue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">APawnWithCamera::YawCamera</span><span class="params">(<span class="type">float</span> AxisValue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    CameraInput.X = AxisValue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">APawnWithCamera::ZoomIn</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    bZoomingIn = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">APawnWithCamera::ZoomOut</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    bZoomingIn = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>值得一提的是<code>Clamp&lt;float&gt;(AxisValue, -1.0f, 1.0f);</code>在前面的章节中我讲得不清楚，现在终于弄明白了！</p>
+<p>&lt;&gt;内是参数类型，</p>
+<p><code>Clamp(const FVector4 &amp; VectorToClamp, float Min, float Max)</code>是其函数原型</p>
+<ul>
+<li><p>这个Clamp其实看作是一种运算，可以把它看成一个一元一次方程</p>
+</li>
+<li><p>VectorToClamp就是这个方程的X，最后得出的Y</p>
+</li>
+<li><p>MIN 和MAX是设定的最大值和最小值</p>
+</li>
+<li><p>Y一定在MIN和MAX之间</p>
+</li>
+</ul>
+<h2 id="绑定轴映射事件和按键映射事件"><a href="#绑定轴映射事件和按键映射事件" class="headerlink" title="绑定轴映射事件和按键映射事件"></a>绑定轴映射事件和按键映射事件</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 绑定&quot;ZoomIn&quot;的事件</span></span><br><span class="line">InputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;ZoomIn&quot;</span>, IE_Pressed, <span class="keyword">this</span>, &amp;APawnWithCamera::ZoomIn);</span><br><span class="line">InputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;ZoomIn&quot;</span>, IE_Released, <span class="keyword">this</span>, &amp;APawnWithCamera::ZoomOut);</span><br><span class="line"></span><br><span class="line"><span class="comment">//为四条轴绑定事件（每帧调用）</span></span><br><span class="line">InputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveForward&quot;</span>, <span class="keyword">this</span>, &amp;APawnWithCamera::MoveForward);</span><br><span class="line">InputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveRight&quot;</span>, <span class="keyword">this</span>, &amp;APawnWithCamera::MoveRight);</span><br><span class="line">InputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;CameraPitch&quot;</span>, <span class="keyword">this</span>, &amp;APawnWithCamera::PitchCamera);</span><br><span class="line">InputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;CameraYaw&quot;</span>, <span class="keyword">this</span>, &amp;APawnWithCamera::YawCamera);</span><br></pre></td></tr></table></figure>
+
+<p>这个在之前博客里已经讲得很详细了，就不再赘述。</p>
+<h2 id="在Tick事件内绑定放大缩小"><a href="#在Tick事件内绑定放大缩小" class="headerlink" title="在Tick事件内绑定放大缩小"></a>在Tick事件内绑定放大缩小</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">APawnWithCamera::Tick</span><span class="params">( <span class="type">float</span> DeltaTime )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">Tick</span>(DeltaTime);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 按下ZoomIn按钮时进行放大，否则恢复正常</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (bZoomingIn)<span class="comment">//按下按钮事件</span></span><br><span class="line">        &#123;</span><br><span class="line">            ZoomFactor += DeltaTime / <span class="number">0.5f</span>;<span class="comment">//放大0.5秒以上</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span><span class="comment">//松开按钮事件</span></span><br><span class="line">        &#123;</span><br><span class="line">            ZoomFactor -= DeltaTime / <span class="number">0.25f</span>;<span class="comment">//缩小0.25秒以上</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        ZoomFactor = FMath::<span class="built_in">Clamp</span>&lt;<span class="type">float</span>&gt;(ZoomFactor, <span class="number">0.0f</span>, <span class="number">1.0f</span>);</span><br><span class="line">        <span class="comment">// 基于ZoomFactor设置摄像机的视野（范围）和SpringArm的长度 （范围）</span></span><br><span class="line">        CameraComp-&gt;FieldOfView = FMath::<span class="built_in">Lerp</span>&lt;<span class="type">float</span>&gt;(<span class="number">90.0f</span>, <span class="number">60.0f</span>, ZoomFactor);</span><br><span class="line">        SpringArmComp-&gt;TargetArmLength = FMath::<span class="built_in">Lerp</span>&lt;<span class="type">float</span>&gt;(<span class="number">400.0f</span>, <span class="number">300.0f</span>, ZoomFactor);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 旋转Actor的偏转角度，由于摄像机与Actor相互绑定，因此摄像机也会偏转</span></span><br><span class="line">    &#123;</span><br><span class="line">        FRotator NewRotation = <span class="built_in">GetActorRotation</span>();</span><br><span class="line">        NewRotation.Yaw += CameraInput.X;</span><br><span class="line">        <span class="built_in">SetActorRotation</span>(NewRotation);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 旋转摄像机的俯仰角度，但对其进行限制，确保我们始终朝下看</span></span><br><span class="line">    &#123;</span><br><span class="line">        FRotator NewRotation = SpringArmComp-&gt;<span class="built_in">GetComponentRotation</span>();</span><br><span class="line">        NewRotation.Pitch = FMath::<span class="built_in">Clamp</span>(NewRotation.Pitch + CameraInput.Y, <span class="number">-80.0f</span>, <span class="number">-15.0f</span>);</span><br><span class="line">        SpringArmComp-&gt;<span class="built_in">SetWorldRotation</span>(NewRotation);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 根据&quot;MoveX&quot;和&quot;MoveY&quot;的处理移动</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!MovementInput.<span class="built_in">IsZero</span>())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//把移动轴的输入数值放大100倍</span></span><br><span class="line">            MovementInput = MovementInput.<span class="built_in">SafeNormal</span>() * <span class="number">100.0f</span>;</span><br><span class="line">            FVector NewLocation = <span class="built_in">GetActorLocation</span>();</span><br><span class="line">            NewLocation += <span class="built_in">GetActorForwardVector</span>() * MovementInput.X * DeltaTime;</span><br><span class="line">            NewLocation += <span class="built_in">GetActorRightVector</span>() * MovementInput.Y * DeltaTime;</span><br><span class="line">            <span class="built_in">SetActorLocation</span>(NewLocation);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Lerp<float>(MAX,MIN,float Alpha)</p>
+<p>Alpha在通过Lerp运算后，得到的结果在MAX和MIN之间</p>
+<h3 id="代码逻辑"><a href="#代码逻辑" class="headerlink" title="代码逻辑"></a>代码逻辑</h3><ul>
+<li><p>首先我们根据按钮的按下或者松开来对ZoomFactor这个变量进行增加或者减小</p>
+</li>
+<li><p>然后根据ZoomFactor带入到Clamp来保证其值大于0，小于1</p>
+</li>
+<li><p>接下来将ZoomFactor带入到Lerp中设置摄像机的视野和弹簧臂的长度（均设置范围）</p>
+</li>
+<li><p>直接设置Actor的旋转角度，因为摄像机与其绑定，所以会连带着摄像机一同旋转</p>
+</li>
+<li><p>限定弹簧臂的俯仰角度，确保我们对其一直是俯视状态</p>
+<ul>
+<li>注意：设置弹簧臂的旋转角度的时候一定要是世界坐标内的旋转角度</li>
+</ul>
+</li>
+<li><p>再就是设置X与Y轴的移动变化</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -3272,130 +3443,6 @@
 <p>Pawn移动组件拥有部分强大内置功能，以便使用常见物理功能，同时便于在大量Pawn类型间共享移动代码。使用组件分隔不同功能是上佳方法，可在项目增大、Pawn越加复杂时减少杂乱。</p>
 <p>这里放一个来自于的<a target="_blank" rel="noopener" href="https://blog.csdn.net/heneyT" title="heneyT">heneyT</a>移动组件的继承树</p>
 <p><img src="https://img-blog.csdn.net/20171130205337919?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjk5OTk4NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/22/UE4-CameraDirector/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/04/22/UE4-CameraDirector/" class="post-title-link" itemprop="url">UE4-CameraDirector</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-04-22 15:20:03" itemprop="dateCreated datePublished" datetime="2022-04-22T15:20:03+08:00">2022-04-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-04-24 10:48:47" itemprop="dateModified" datetime="2022-04-24T10:48:47+08:00">2022-04-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h1><p>分析官方案例<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.27/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/AutoCamera/">CameraDirector</a></p>
-<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><ol>
-<li><p>放两个摄像机</p>
-<ul>
-<li><p>所有类中直接拖入</p>
-</li>
-<li><p>先创建一个立方体，然后给他添加一个摄像机组件</p>
-</li>
-</ul>
-</li>
-<li><p>以Actor为父类创建C++类</p>
-</li>
-</ol>
-<h2 id="CameraDirector-h"><a href="#CameraDirector-h" class="headerlink" title="CameraDirector.h"></a>CameraDirector.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UPROPERTY</span>(EditAnywhere)</span><br><span class="line">AActor* CameraOne;</span><br><span class="line"></span><br><span class="line"><span class="built_in">UPROPERTY</span>(EditAnywhere)</span><br><span class="line">AActor* CameraTwo;</span><br><span class="line"></span><br><span class="line"><span class="type">float</span> TimeToNextCameraChange;</span><br></pre></td></tr></table></figure>
-
-<h2 id="CameraDirector-cpp"><a href="#CameraDirector-cpp" class="headerlink" title="CameraDirector.cpp"></a>CameraDirector.cpp</h2><p>添加到引用位置</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Kismet/GameplayStatics.h&quot;</span></span></span><br></pre></td></tr></table></figure>
-
-<p>添加到<strong>ACameraDirector::Tick</strong> 的底部位置</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">float</span> TimeBetweenCameraChanges = <span class="number">2.0f</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">float</span> SmoothBlendTime = <span class="number">0.75f</span>;</span><br><span class="line">TimeToNextCameraChange -= DeltaTime;</span><br><span class="line"><span class="keyword">if</span> (TimeToNextCameraChange &lt;= <span class="number">0.0f</span>)</span><br><span class="line">&#123;</span><br><span class="line">    TimeToNextCameraChange += TimeBetweenCameraChanges;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查找处理本地玩家控制的actor。</span></span><br><span class="line">    APlayerController* OurPlayerController = UGameplayStatics::<span class="built_in">GetPlayerController</span>(<span class="keyword">this</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (OurPlayerController)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> ((OurPlayerController-&gt;<span class="built_in">GetViewTarget</span>() != CameraOne) &amp;&amp; (CameraOne != <span class="literal">nullptr</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 立即切换到摄像机1。</span></span><br><span class="line">            OurPlayerController-&gt;<span class="built_in">SetViewTarget</span>(CameraOne);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> ((OurPlayerController-&gt;<span class="built_in">GetViewTarget</span>() != CameraTwo) &amp;&amp; (CameraTwo != <span class="literal">nullptr</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 平滑地混合到摄像机2。</span></span><br><span class="line">            OurPlayerController-&gt;<span class="built_in">SetViewTargetWithBlend</span>(CameraTwo, SmoothBlendTime);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="添加C-类"><a href="#添加C-类" class="headerlink" title="添加C++类"></a>添加C++类</h2><p>在代码编译完成后，我们可以将 <strong>内容浏览器（Content Browser）</strong> 中的新类的实例拖曳到 <strong>关卡编辑器（Level Editor）</strong> 中。</p>
-<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/AutoCamera/CameraDirectorInContentBrowser.jpg" alt="CameraDirectorInContentBrowser.png"></p>
-<p>接下来，我们需要设置摄像机1（CameraOne）和摄像机2（CameraTwo）变量。在 <strong>World Outliner （世界大纲视图）</strong> 中找到CameraDirector，并在 <strong>详细信息面板（Details Panel）</strong> 中进行编辑。</p>
-<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/AutoCamera/CameraDirectorDetails.jpg" alt="CameraDirectorDetails.png"></p>
-<p>单击标记为”无（None）”的下拉框，然后将变量设置为 <strong>Cube（立方体）</strong> 和我们之前创建的 <strong>摄像机Actor （CameraActor）</strong>。</p>
-<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>ok以上是来自官网的教程，现在我来把它掰开来理解</p>
-<h2 id="CameraDirector-h-1"><a href="#CameraDirector-h-1" class="headerlink" title="CameraDirector.h"></a>CameraDirector.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/Actor.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CameraDirector.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HOWTO_AUTOCAMERA_API</span> ACameraDirector : <span class="keyword">public</span> AActor</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>: </span><br><span class="line">    <span class="comment">// 为此Actor的属性设置默认值</span></span><br><span class="line">    <span class="built_in">ACameraDirector</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="comment">// 当游戏开始或生成时调用</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 每一帧调用</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">( <span class="type">float</span> DeltaSeconds )</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(EditAnywhere)</span><br><span class="line">    AActor* CameraOne;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(EditAnywhere)</span><br><span class="line">    AActor* CameraTwo;</span><br><span class="line"></span><br><span class="line">    <span class="type">float</span> TimeToNextCameraChange;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>这一段代码，其实没啥需要讲解的，在我的前两篇博客中已经讲得很明白了。</p>
-<p>在此就不多做赘述。</p>
-<h2 id="CameraDirector-cpp-1"><a href="#CameraDirector-cpp-1" class="headerlink" title="CameraDirector.cpp"></a>CameraDirector.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;HowTo_AutoCamera.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CameraDirector.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Kismet/GameplayStatics.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置默认值</span></span><br><span class="line">ACameraDirector::<span class="built_in">ACameraDirector</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 将此Actor设置为每一帧调用Tick()。如果不需要，可以关闭此选项来提高性能。</span></span><br><span class="line">    PrimaryActorTick.bCanEverTick = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当游戏开始或生成时调用</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACameraDirector::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 每一帧调用</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACameraDirector::Tick</span><span class="params">( <span class="type">float</span> DeltaTime )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">Tick</span>( DeltaTime );</span><br><span class="line"></span><br><span class="line">    <span class="type">const</span> <span class="type">float</span> TimeBetweenCameraChanges = <span class="number">2.0f</span>;</span><br><span class="line">    <span class="type">const</span> <span class="type">float</span> SmoothBlendTime = <span class="number">0.75f</span>;</span><br><span class="line">    TimeToNextCameraChange -= DeltaTime;</span><br><span class="line">    <span class="keyword">if</span> (TimeToNextCameraChange &lt;= <span class="number">0.0f</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        TimeToNextCameraChange += TimeBetweenCameraChanges;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//查找处理本地玩家控制的Actor。</span></span><br><span class="line">        APlayerController* OurPlayerController = UGameplayStatics::<span class="built_in">GetPlayerController</span>(<span class="keyword">this</span>, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span> (OurPlayerController)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (CameraTwo &amp;&amp; (OurPlayerController-&gt;<span class="built_in">GetViewTarget</span>() == CameraOne))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//平滑地混合到摄像机2。</span></span><br><span class="line">                OurPlayerController-&gt;<span class="built_in">SetViewTargetWithBlend</span>(CameraTwo, SmoothBlendTime);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (CameraOne)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//立即切换到摄像机1。</span></span><br><span class="line">                OurPlayerController-&gt;<span class="built_in">SetViewTarget</span>(CameraOne);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>我们首先解决这些代码中API的问题</p>
-<h3 id="GetPlayerController-this-0"><a href="#GetPlayerController-this-0" class="headerlink" title="GetPlayerController(this,0)"></a>GetPlayerController(this,0)</h3><p>这一段可以通过查看其定义明白其含义——获取玩家控制器</p>
-<p>this指当前玩家控制器，0是玩家控制器的标号，代表了本地玩家控制器</p>
-<p>在定义代码中，GetPlayerController返回的返回值是APlayerController，所以在前面定义一个该类型的指针OurPlayerController</p>
-<h3 id="GetViewTarget"><a href="#GetViewTarget" class="headerlink" title="GetViewTarget()"></a>GetViewTarget()</h3><p>获取玩家身上的摄像机Actor</p>
-<h3 id="SetViewTargetWithBlend-CameraTwo-SmoothBlendTime"><a href="#SetViewTargetWithBlend-CameraTwo-SmoothBlendTime" class="headerlink" title="SetViewTargetWithBlend(CameraTwo,SmoothBlendTime);"></a>SetViewTargetWithBlend(CameraTwo,SmoothBlendTime);</h3><p>使摄像机平滑切换到摄像机二，前一个变量使设定切换到哪个摄像机，后一个使设定切换时间</p>
-<p>理解了API的意思之后，代码逻辑我就不再讲解了，代码中的变量和常量完全可以见文知意，结构使非常基础的if判断，如果看不懂的话还是需要先好好学习数据结构与算法。</p>
 
       
     </div>
