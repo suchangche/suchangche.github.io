@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-count">88</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,141 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/23/UE4-%E8%93%9D%E5%9B%BE-AI%E8%A1%8C%E4%B8%BA%E6%A0%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/23/UE4-%E8%93%9D%E5%9B%BE-AI%E8%A1%8C%E4%B8%BA%E6%A0%91/" class="post-title-link" itemprop="url">UE4-蓝图-AI行为树</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-05-23 16:43:49 / 修改时间：17:30:14" itemprop="dateCreated datePublished" datetime="2022-05-23T16:43:49+08:00">2022-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>本文是<a target="_blank" rel="noopener" href="https://space.bilibili.com/31898841">谌嘉诚</a>的蓝图教程的总结与笔记</p>
+<h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><p>通过AI行为树来控制AI跟踪玩家并用蒙太奇动画播放某行为（挥拳）</p>
+<h1 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h1><h2 id="导航网格体边界体积"><a href="#导航网格体边界体积" class="headerlink" title="导航网格体边界体积"></a>导航网格体边界体积</h2><p>放置Actor-&gt;体积-&gt;导航网格体边界体积</p>
+<p>放置这个东西之后，AI在这个提及范围内就会执行我们为其写好的逻辑进行移动或者跟踪</p>
+<h2 id="行为树"><a href="#行为树" class="headerlink" title="行为树"></a>行为树</h2><ol>
+<li><p>蒙太奇动画</p>
+<ul>
+<li>右键某个动画序列-&gt;创建-&gt;创建动画蒙太奇</li>
+</ul>
+</li>
+<li><p>AI行为树：一个可视化的逻辑，让封装好的函数按照二叉树的形式执行</p>
+<ul>
+<li>内容浏览器-&gt;右键空白-&gt;人工智能-&gt;AI行为树&#x2F;黑板</li>
+</ul>
+</li>
+<li><p>黑板：看作一个数据库，用来存储对应AI行为树内的变量</p>
+</li>
+</ol>
+<h2 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h2><p>AI感知组件：用于设置AI控制器，可以让AI“有感知力”</p>
+<h2 id="节点"><a href="#节点" class="headerlink" title="节点"></a>节点</h2><ol>
+<li><p>运行行为树</p>
+</li>
+<li><p>获取黑板</p>
+</li>
+<li><p>事件接收执行AI</p>
+</li>
+<li><p>蒙太奇播放</p>
+</li>
+<li><p>获取动画实例</p>
+</li>
+<li><p>以事件设置定时器</p>
+</li>
+<li><p>以句柄清除定时器</p>
+</li>
+<li><p>AI Move To</p>
+</li>
+<li><p>完成执行</p>
+</li>
+<li><p>获取样条点数量</p>
+</li>
+<li><p>获取样条点处的位置</p>
+</li>
+<li><p>设置焦距，清除焦距</p>
+</li>
+<li><p>获得可导航半径内的随机点</p>
+</li>
+</ol>
+<h1 id="成品蓝图"><a href="#成品蓝图" class="headerlink" title="成品蓝图"></a>成品蓝图</h1><h2 id="BP-AIController"><a href="#BP-AIController" class="headerlink" title="BP_AIController"></a>BP_AIController</h2><p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-23-17-12-41-image.png"></p>
+<h2 id="BP-AI"><a href="#BP-AI" class="headerlink" title="BP_AI"></a>BP_AI</h2><p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-23-17-15-12-image.png"></p>
+<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-23-17-15-49-image.png"></p>
+<h2 id="HaveFoundPlayer"><a href="#HaveFoundPlayer" class="headerlink" title="HaveFoundPlayer"></a>HaveFoundPlayer</h2><p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-23-17-16-34-image.png"></p>
+<h2 id="randomFindPoint"><a href="#randomFindPoint" class="headerlink" title="randomFindPoint"></a>randomFindPoint</h2><p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-23-17-17-49-image.png"></p>
+<h2 id="FindLine"><a href="#FindLine" class="headerlink" title="FindLine"></a>FindLine</h2><p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-23-17-18-52-image.png"></p>
+<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-23-17-19-22-image.png"></p>
+<h2 id="黑板"><a href="#黑板" class="headerlink" title="黑板"></a>黑板</h2><p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-23-17-19-55-image.png"></p>
+<h2 id="行为树-1"><a href="#行为树-1" class="headerlink" title="行为树"></a>行为树</h2><p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-23-17-22-43-image.png"></p>
+<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-23-17-25-58-image.png"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -2718,183 +2853,6 @@
 
 <p>声明</p>
 <p>本博客整理依据《代码随想录》，题目来自leetcode</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/10/UE4-%E4%BD%BF%E7%94%A8UMG%E7%9A%84%E7%94%A8%E6%88%B7%E7%95%8C%E9%9D%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/05/10/UE4-%E4%BD%BF%E7%94%A8UMG%E7%9A%84%E7%94%A8%E6%88%B7%E7%95%8C%E9%9D%A2/" class="post-title-link" itemprop="url">UE4-使用UMG的用户界面</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-05-10 08:58:00 / 修改时间：20:48:28" itemprop="dateCreated datePublished" datetime="2022-05-10T08:58:00+08:00">2022-05-10</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="这是啥？"><a href="#这是啥？" class="headerlink" title="这是啥？"></a>这是啥？</h1><p>这就是UI界面，也就是登录界面，属性面板等等界面</p>
-<h1 id="设置UMG的模块依赖性"><a href="#设置UMG的模块依赖性" class="headerlink" title="设置UMG的模块依赖性"></a>设置UMG的模块依赖性</h1><p>将.build.cs文件修改为以下样子</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> UnrealBuildTool;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HowTo_UMG</span> : ModuleRules</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HowTo_UMG</span><span class="params">(ReadOnlyTargetRules Target)</span> : base(Target)</span></span><br><span class="line"><span class="function">    &#123;</span></span><br><span class="line">        PublicDependencyModuleNames.<span class="built_in">AddRange</span>(<span class="keyword">new</span> string[] &#123; <span class="string">&quot;Core&quot;</span>, <span class="string">&quot;CoreUObject&quot;</span>, <span class="string">&quot;Engine&quot;</span>, <span class="string">&quot;InputCore&quot;</span>, <span class="string">&quot;UMG&quot;</span> &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//PrivateDependencyModuleNames.AddRange(new string[] &#123;  &#125;);</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 如使用Slate UI，则取消注释</span></span><br><span class="line">        PrivateDependencyModuleNames.<span class="built_in">AddRange</span>(<span class="keyword">new</span> string[] &#123; <span class="string">&quot;Slate&quot;</span>, <span class="string">&quot;SlateCore&quot;</span> &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 如使用在线功能，则取消注释</span></span><br><span class="line">        <span class="comment">// PrivateDependencyModuleNames.Add(&quot;OnlineSubsystem&quot;);</span></span><br><span class="line">        <span class="comment">// if ((Target.Platform == UnrealTargetPlatform.Win32) || (Target.Platform == UnrealTargetPlatform.Win64))</span></span><br><span class="line">        <span class="comment">// &#123;</span></span><br><span class="line">        <span class="comment">//      if (UEBuildConfiguration.bCompileSteamOSS == true)</span></span><br><span class="line">        <span class="comment">//      &#123;</span></span><br><span class="line">        <span class="comment">//          DynamicallyLoadedModuleNames.Add(&quot;OnlineSubsystemSteam&quot;);</span></span><br><span class="line">        <span class="comment">//      &#125;</span></span><br><span class="line">        <span class="comment">// &#125;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="扩展游戏模式"><a href="#扩展游戏模式" class="headerlink" title="扩展游戏模式"></a>扩展游戏模式</h1><h2 id="HowTo-UMGGameModeBase-h"><a href="#HowTo-UMGGameModeBase-h" class="headerlink" title="HowTo_UMGGameModeBase.h"></a>HowTo_UMGGameModeBase.h</h2><p>声明默认游戏菜单，变换游戏菜单两个函数，以及一个用作菜单的控件实例</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/GameModeBase.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Blueprint/UserWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;HowTo_UMGGameModeBase.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HOWTO_UMG_API</span> AHowTo_UMGGameMode : <span class="keyword">public</span> AGameModeBase</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">/** 移除当前菜单控件，并在指定类（如有）中新建控件。*/</span></span><br><span class="line">    <span class="built_in">UFUNCTION</span>(BlueprintCallable, Category = <span class="string">&quot;UMG Game&quot;</span>)</span><br><span class="line">        <span class="function"><span class="type">void</span> <span class="title">ChangeMenuWidget</span><span class="params">(TSubclassOf&lt;UUserWidget&gt; NewWidgetClass)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="comment">/** 游戏开始时调用。*/</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** 游戏开始时，用作菜单的控件类。*/</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(EditAnywhere, BlueprintReadOnly, Category = <span class="string">&quot;UMG Game&quot;</span>)</span><br><span class="line">        TSubclassOf&lt;UUserWidget&gt; StartingWidgetClass;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** 用作菜单的控件实例。*/</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>()</span><br><span class="line">        UUserWidget* CurrentWidget;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>TSubclassOf&lt;&gt;()</p>
-<p>以&lt;&gt;内的参数为父类，创建一个对象</p>
-<h2 id="HowTo-UMGGameModeBase-cpp"><a href="#HowTo-UMGGameModeBase-cpp" class="headerlink" title="HowTo_UMGGameModeBase.cpp"></a>HowTo_UMGGameModeBase.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;HowTo_UMG.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;HowTo_UMGGameModeBase.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AHowTo_UMGGameMode::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line">    <span class="built_in">ChangeMenuWidget</span>(StartingWidgetClass);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AHowTo_UMGGameMode::ChangeMenuWidget</span><span class="params">(TSubclassOf&lt;UUserWidget&gt; NewWidgetClass)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (CurrentWidget != <span class="literal">nullptr</span>)<span class="comment">//如果存在当前菜单</span></span><br><span class="line">    &#123;</span><br><span class="line">        CurrentWidget-&gt;<span class="built_in">RemoveFromViewport</span>();<span class="comment">//将当前菜单从当前视口移除</span></span><br><span class="line">        CurrentWidget = <span class="literal">nullptr</span>;<span class="comment">//将当前菜单赋值为空</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (NewWidgetClass != <span class="literal">nullptr</span>)<span class="comment">//如果要转变的菜单不为空</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//将根据要转变的菜单创建一个菜单，并赋值给当前菜单</span></span><br><span class="line">        CurrentWidget = <span class="built_in">CreateWidget</span>&lt;UUserWidget&gt;(<span class="built_in">GetWorld</span>(), NewWidgetClass);</span><br><span class="line">        <span class="keyword">if</span> (CurrentWidget != <span class="literal">nullptr</span>)<span class="comment">//赋值成功</span></span><br><span class="line">        &#123;</span><br><span class="line">            CurrentWidget-&gt;<span class="built_in">AddToViewport</span>();<span class="comment">//将当前菜单添加到视口中</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>ChangeMenuWidget()函数思路</p>
-<ol>
-<li><p>先搞清楚CurrentWidget是否为空，不为空，则代表视口内有菜单</p>
-</li>
-<li><p>将视口内的菜单移除</p>
-</li>
-<li><p>根据NewWidgetClass创建新的菜单，赋值给CurrentWidget</p>
-</li>
-<li><p>将CurrentWidget添加到视口内</p>
-</li>
-</ol>
-<h2 id="HowTo-UMGPlayerController-h"><a href="#HowTo-UMGPlayerController-h" class="headerlink" title="HowTo_UMGPlayerController.h"></a>HowTo_UMGPlayerController.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/PlayerController.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;HowTo_UMGPlayerController.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * </span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HOWTO_UMG_API</span> AHowTo_UMGPlayerController : <span class="keyword">public</span> APlayerController</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>声明，以便重载BeginPlay()函数</p>
-<h2 id="HowTo-UMGPlayerController-cpp"><a href="#HowTo-UMGPlayerController-cpp" class="headerlink" title="HowTo_UMGPlayerController.cpp"></a>HowTo_UMGPlayerController.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;HowTo_UMG.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;HowTo_UMGPlayerController.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AHowTo_UMGPlayerController::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line">    <span class="built_in">SetInputMode</span>(<span class="built_in">FInputModeGameAndUI</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>设置输入模式为FInputModeGameAndUI()</p>
-<h1 id="创建菜单控件蓝图"><a href="#创建菜单控件蓝图" class="headerlink" title="创建菜单控件蓝图"></a>创建菜单控件蓝图</h1><p>这个就相对简单了</p>
-<p>首先右键内容浏览器-&gt;用户界面-&gt;空间蓝图 创建MainMenu和NewGameMenu两个菜单界面</p>
-<p>分别表示主菜单和新游戏菜单</p>
-<p>用Button和Text进行合理布局</p>
-<p>为Button添加点击事件</p>
-<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/UMG/OnClicked_NewGame.jpg" alt="OnClicked_NewGame.png"></p>
-<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/UMG/OnClicked_Quit.jpg" alt="OnClicked_Quit.png"></p>
-<p>这就涉及到蓝图的类型转换和Actor通信问题了</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ul>
-<li><p>将点击事件的类型转换为HowTo_UMGGameMode</p>
-</li>
-<li><p>如果转换成功，则访问Change Menu Widget函数</p>
-</li>
-<li><p>将New Widget Class设定为New Game Menu</p>
-</li>
-</ul>
-<h1 id="配置游戏模式"><a href="#配置游戏模式" class="headerlink" title="配置游戏模式"></a>配置游戏模式</h1><p>基于项目的 <strong>GameMode</strong>，在 <strong>内容浏览器</strong> 中添加 <strong>蓝图类</strong>.利用此操作，可将这两个类上的公开变量设为需要的值。为此，需：</p>
-<ul>
-<li>在 <strong>内容浏览器</strong> 中点击的 <strong>添加</strong> 按钮。</li>
-</ul>
-<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/UMG/AddNewBPClass.jpg" alt="AddNewBPClass.png"></p>
-<ul>
-<li>选择 <strong>HowTo_UMGGameMode</strong> 作为父类。其将被列入 <strong>所有类（All Classes）</strong> 部分。</li>
-</ul>
-<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/UMG/PickParentClassForGameModeBP.jpg" alt="PickParentClassForGameModeBP.png"></p>
-<ol>
-<li><p>将得到的蓝图资源命名为MenuGameMode。</p>
-</li>
-<li><p>为使游戏光标出现在游戏中，需进行GameMode中的相同操作，创建 <strong>PlayerController</strong> 的蓝图。</p>
-<ul>
-<li><p>在 <strong>内容浏览器</strong> 中再次点击 <strong>添加</strong> 按钮。</p>
-</li>
-<li><p>在 <strong>常用类（Common Classes）</strong> 部分选择 <strong>玩家控制器</strong>。</p>
-</li>
-<li><p>将该蓝图命名为MenuPlayerController。</p>
-</li>
-</ul>
-</li>
-<li><p>编辑MenuPlayerController。</p>
-<ul>
-<li>勾选 <strong>显示鼠标光标（Show Mouse Cursor）</strong> 复选框。</li>
-</ul>
-</li>
-</ol>
-<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/UMG/GamePlayerController.jpg" alt="GamePlayerController.png"></p>
-<p>编辑MenuGameMode。</p>
-<ul>
-<li><p>须将 <strong>启动控件类（Starting Widget Class）</strong> 设为MainMenu资源，以便在游戏开始时打开菜单。</p>
-</li>
-<li><p>应将 <strong>默认Pawn类（Default Pawn Class）</strong> 设为 <strong>Pawn</strong> 而非 <strong>DefaultPawn</strong>，玩家便不会在菜单中乱飞。</p>
-</li>
-<li><p>应将 <strong>玩家控制器类</strong> 设为创建的MenuPlayerController资源，以便在游戏中显示鼠标光标。</p>
-</li>
-</ul>
-<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/UMG/ConfigureGameMode.jpg" alt="ConfigureGameMode.png"></p>
-<p>为使用蓝图，必返回 <strong>关卡编辑器</strong> 窗口，并通过 <strong>设置</strong> 按钮修改当前 <strong>关卡</strong> 的 <strong>场景设置</strong>。</p>
-<ol>
-<li><strong>地图和模式</strong> 部分的 <strong>项目设置</strong></li>
-</ol>
-<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/UMG/WorldSettings.webp" alt="WorldSettings.png"></p>
-<p>将打开 <strong>场景设置面板</strong>。其将默认与 <strong>细节面板</strong> 停靠，但也可将其移动到其他位置。需将 <strong>游戏模式覆盖（Game Mode Override）</strong> 字段设为MenuGameMode资源。</p>
-<p>自定义GameMode资源现已在关卡上生效，并被配置以加载主菜单，同时使用显示鼠标光标的玩家控制器。如现在运行游戏，退出按钮将预期生效，使用新游戏按钮将进入空白菜单。将在下一步中设置新游戏菜单。</p>
-<h1 id="构建二级菜单"><a href="#构建二级菜单" class="headerlink" title="构建二级菜单"></a>构建二级菜单</h1><p>在NewGameMenu中合理设置按钮和文本布局</p>
-<p>为确保仅在文本框非空白时启用按钮，可将文本框中的文本转换为字符串，然后检查其长度是否大于零。以下为此逻辑的显示方式：</p>
-<ul>
-<li>注意：哪个粉色的节点名称为”为文本”</li>
-</ul>
-<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/UMG/PlayGameButtonEnableFunction.jpg" alt="PlayGameButtonEnableFunction.png"></p>
-<p>再次添加 <strong>OnClicked</strong> 事件，向新按钮添加脚本。主菜单按钮将简单重加载主菜单控件，在 <strong>ChangeMenuWidget</strong> 函数的调用中不提供新控件，开始游戏按钮将停止菜单。显示短语 <strong>选择类</strong> 而非实际类或资产的命名，可对此进行显示。</p>
-<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/UMG/NewGameButtonBPs.jpg" alt="NewGameButtonBPs.png"></p>
-<p>这个就根前文解释过的逻辑相同，此处不再赘述</p>
 
       
     </div>

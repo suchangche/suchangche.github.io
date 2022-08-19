@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-count">88</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,242 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/19/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E5%B0%81%E8%A3%85%E7%8B%AC%E7%AB%8B%E6%8F%92%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/08/19/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E5%B0%81%E8%A3%85%E7%8B%AC%E7%AB%8B%E6%8F%92%E4%BB%B6/" class="post-title-link" itemprop="url">UE4-项目-TowerDefence-封装独立插件</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-08-19 14:50:34 / 修改时间：16:17:00" itemprop="dateCreated datePublished" datetime="2022-08-19T14:50:34+08:00">2022-08-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><p>创建几个插件用来管理项目的一些功能</p>
+<ol>
+<li><p><code>SimpleArchives</code></p>
+</li>
+<li><p><code>SimpleGameSettings</code></p>
+</li>
+<li><p><code>SimpleTutoria</code></p>
+</li>
+</ol>
+<h1 id="封装SimpleTutoria"><a href="#封装SimpleTutoria" class="headerlink" title="封装SimpleTutoria"></a>封装SimpleTutoria</h1><h2 id="大致步骤"><a href="#大致步骤" class="headerlink" title="大致步骤"></a>大致步骤</h2><ol>
+<li><p>创建一个空白插件，命名为<code>SimpleTutoria</code></p>
+</li>
+<li><p>在<code>TowerDefence\Plugins\SimpleTutoria\Source\SimpleTutoria\Private</code>位置创建文件<code>UI_TutoriaSystem.cpp</code></p>
+</li>
+<li><p>在<code>TowerDefence\Plugins\SimpleTutoria\Source\SimpleTutoria\Public</code>位置创建文件<code>UI_TutoriaSystem.h</code></p>
+</li>
+<li><p>在<code>Plugins\SimpleTutoria\Source\SimpleTutoria\Private\Tutoria</code>位置创建文件<code>UI_TutoriaSlot.cpp</code></p>
+</li>
+<li><p>在<code>Plugins\SimpleTutoria\Source\SimpleTutoria\Public\Tutoria</code>位置创建文件<code>UI_TutoriaSlot.h</code></p>
+</li>
+<li><p>在<code>SimpleTutoria.Build.cs</code>添加<code>UMG</code>模块</p>
+</li>
+<li><p>在<code>TowerDefence/Content/UI/Hall/System</code>位置创建<code>TutoriaSystem_BP</code>，并且修改其父类为<code>UI_TutoriaSystem</code></p>
+</li>
+<li><p>在<code>TowerDefence/Content/UI/Hall/System/Tutoria</code>位置创建<code>/TutoriaSlot_BP</code>，并且修改其父类为<code>UI_TutoriaSlot</code></p>
+</li>
+</ol>
+<h2 id="部分代码"><a href="#部分代码" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="UI-TutoriaSlot-h"><a href="#UI-TutoriaSlot-h" class="headerlink" title="UI_TutoriaSlot.h"></a>UI_TutoriaSlot.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Copyright Epic Games, Inc. All Rights Reserved.</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Modules/ModuleManager.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FSimpleTutoriaModule</span> : <span class="keyword">public</span> IModuleInterface</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** IModuleInterface implementation */</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">StartupModule</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">ShutdownModule</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="UI-TutoriaSlot-cpp"><a href="#UI-TutoriaSlot-cpp" class="headerlink" title="UI_TutoriaSlot.cpp"></a>UI_TutoriaSlot.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Tutoria\UI_TutoriaSlot.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="UI-TutoriaSystem-h"><a href="#UI-TutoriaSystem-h" class="headerlink" title="UI_TutoriaSystem.h"></a>UI_TutoriaSystem.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Blueprint\UserWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_TutoriaSystem.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SIMPLETUTORIA_API</span> UUI_TutoriaSystem : <span class="keyword">public</span> UUserWidget</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line">	</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="UI-TutoriaSystem-cpp"><a href="#UI-TutoriaSystem-cpp" class="headerlink" title="UI_TutoriaSystem.cpp"></a>UI_TutoriaSystem.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_TutoriaSystem.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="SimpleTutoria-Build-cs"><a href="#SimpleTutoria-Build-cs" class="headerlink" title="SimpleTutoria.Build.cs"></a>SimpleTutoria.Build.cs</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Copyright Epic Games, Inc. All Rights Reserved.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> UnrealBuildTool;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SimpleTutoria</span> : ModuleRules</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">SimpleTutoria</span><span class="params">(ReadOnlyTargetRules Target)</span> : base(Target)</span></span><br><span class="line"><span class="function">	&#123;</span></span><br><span class="line">		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;</span><br><span class="line">		</span><br><span class="line">		PublicIncludePaths.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[] &#123;</span><br><span class="line">				<span class="comment">// ... add public include paths required here ...</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">				</span><br><span class="line">		</span><br><span class="line">		PrivateIncludePaths.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[] &#123;</span><br><span class="line">				<span class="comment">// ... add other private include paths required here ...</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">			</span><br><span class="line">		</span><br><span class="line">		PublicDependencyModuleNames.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[]</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="string">&quot;Core&quot;</span>,</span><br><span class="line">				<span class="comment">// ... add other public dependencies that you statically link with here ...</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">			</span><br><span class="line">		</span><br><span class="line">		PrivateDependencyModuleNames.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[]</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="string">&quot;CoreUObject&quot;</span>,</span><br><span class="line">				<span class="string">&quot;Engine&quot;</span>,</span><br><span class="line">				<span class="string">&quot;Slate&quot;</span>,</span><br><span class="line">				<span class="string">&quot;SlateCore&quot;</span>,</span><br><span class="line">				<span class="string">&quot;UMG&quot;</span>,</span><br><span class="line">				<span class="comment">// ... add private dependencies that you statically link with here ...	</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		DynamicallyLoadedModuleNames.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[]</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="comment">// ... add any modules that your module loads dynamically here ...</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="封装SimpleGameSettings"><a href="#封装SimpleGameSettings" class="headerlink" title="封装SimpleGameSettings"></a>封装SimpleGameSettings</h1><h2 id="大致步骤-1"><a href="#大致步骤-1" class="headerlink" title="大致步骤"></a>大致步骤</h2><ol>
+<li><p>创建空白插件<code>SimpleGameSettings</code></p>
+</li>
+<li><p>在<code>SimpleGameSettings.Build.cs</code>添加<code>UMG</code>模块</p>
+</li>
+<li><p>将<code>UI_GameSettingsAudio.h</code>以及<code>UI_GameSettingsAudio.cpp</code>移到<code>TowerDefence\Plugins\SimpleGameSettings\Source\SimpleGameSettings\Public\GameSettings</code>内</p>
+<ul>
+<li>并且修改其<code>cpp头文件引用</code>，<code>继承自UUserWidget（#include &quot;Blueprint\UserWidget.h&quot;）</code>，修改API为<code>插件名称（大写）_API</code></li>
+</ul>
+</li>
+<li><p><code>UI_GameSettingsGame</code>，<code>UI_GameSettingsOtherSettings</code>，<code>UI_GameSettingsVideo</code>等同理</p>
+</li>
+<li><p><code>UI_GameSettingsSystem</code>移动到<code>Plugins\SimpleGameSettings\Source\SimpleGameSettings\Public</code>，并且修改部分同理</p>
+</li>
+<li><p>在<code>TowerDefence/Content/UI/Hall/System</code>位置创建控件蓝图<code>GameSettingsSystem_BP</code>并且修改父类为<code>UI_GameSettingsSystem</code></p>
+</li>
+<li><p>在<code>TowerDefence/Content/UI/Hall/System/GameSettings/</code>位置分别创建<code>GameSettingsAudio_BP</code>，<code>GameSettingsGameSetting_BP</code>，<code>GameSettingsOtherSettings_BP</code>，<code>GameSettingsVideo_BP</code>,并且修改其父类</p>
+</li>
+</ol>
+<h2 id="部分代码-1"><a href="#部分代码-1" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="SimpleGameSettings-Build-cs"><a href="#SimpleGameSettings-Build-cs" class="headerlink" title="SimpleGameSettings.Build.cs"></a>SimpleGameSettings.Build.cs</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> UnrealBuildTool;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SimpleGameSettings</span> : ModuleRules</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">SimpleGameSettings</span><span class="params">(ReadOnlyTargetRules Target)</span> : base(Target)</span></span><br><span class="line"><span class="function">	&#123;</span></span><br><span class="line">		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;</span><br><span class="line">		</span><br><span class="line">		PublicIncludePaths.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[] &#123;</span><br><span class="line">				<span class="comment">// ... add public include paths required here ...</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">				</span><br><span class="line">		</span><br><span class="line">		PrivateIncludePaths.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[] &#123;</span><br><span class="line">				<span class="comment">// ... add other private include paths required here ...</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">			</span><br><span class="line">		</span><br><span class="line">		PublicDependencyModuleNames.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[]</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="string">&quot;Core&quot;</span>,</span><br><span class="line">				<span class="comment">// ... add other public dependencies that you statically link with here ...</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">			</span><br><span class="line">		</span><br><span class="line">		PrivateDependencyModuleNames.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[]</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="string">&quot;CoreUObject&quot;</span>,</span><br><span class="line">				<span class="string">&quot;Engine&quot;</span>,</span><br><span class="line">				<span class="string">&quot;Slate&quot;</span>,</span><br><span class="line">				<span class="string">&quot;SlateCore&quot;</span>,</span><br><span class="line">				<span class="string">&quot;UMG&quot;</span>,</span><br><span class="line">				<span class="comment">// ... add private dependencies that you statically link with here ...	</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		DynamicallyLoadedModuleNames.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[]</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="comment">// ... add any modules that your module loads dynamically here ...</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="UI-GameSettingsAudio-h"><a href="#UI-GameSettingsAudio-h" class="headerlink" title="UI_GameSettingsAudio.h"></a>UI_GameSettingsAudio.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Blueprint\UserWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_GameSettingsAudio.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SIMPLEGAMESETTINGS_API</span> UUI_GameSettingsAudio : <span class="keyword">public</span> UUserWidget</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line">	</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="UI-GameSettingsAudio-cpp"><a href="#UI-GameSettingsAudio-cpp" class="headerlink" title="UI_GameSettingsAudio.cpp"></a>UI_GameSettingsAudio.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameSettings\UI_GameSettingsAudio.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="UI-GameSettingsGame-h"><a href="#UI-GameSettingsGame-h" class="headerlink" title="UI_GameSettingsGame.h"></a>UI_GameSettingsGame.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Blueprint\UserWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_GameSettingsGame.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SIMPLEGAMESETTINGS_API</span> UUI_GameSettingsGame : <span class="keyword">public</span> UUserWidget</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line">	</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="UI-GameSettingsGame-cpp"><a href="#UI-GameSettingsGame-cpp" class="headerlink" title="UI_GameSettingsGame.cpp"></a>UI_GameSettingsGame.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameSettings\UI_GameSettingsGame.h&quot;</span></span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="UI-GameSettingsOtherSettings-h"><a href="#UI-GameSettingsOtherSettings-h" class="headerlink" title="UI_GameSettingsOtherSettings.h"></a>UI_GameSettingsOtherSettings.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Blueprint\UserWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_GameSettingsOtherSettings.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SIMPLEGAMESETTINGS_API</span> UUI_GameSettingsOtherSettings : <span class="keyword">public</span> UUserWidget</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line">	</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="UI-GameSettingsOtherSettings-cpp"><a href="#UI-GameSettingsOtherSettings-cpp" class="headerlink" title="UI_GameSettingsOtherSettings.cpp"></a>UI_GameSettingsOtherSettings.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameSettings\UI_GameSettingsOtherSettings.h&quot;</span></span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="UI-GameSettingsVideo-h"><a href="#UI-GameSettingsVideo-h" class="headerlink" title="UI_GameSettingsVideo.h"></a>UI_GameSettingsVideo.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Blueprint\UserWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_GameSettingsVideo.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SIMPLEGAMESETTINGS_API</span> UUI_GameSettingsVideo : <span class="keyword">public</span> UUserWidget</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line">	</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="UI-GameSettingsVideo-cpp"><a href="#UI-GameSettingsVideo-cpp" class="headerlink" title="UI_GameSettingsVideo.cpp"></a>UI_GameSettingsVideo.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameSettings\UI_GameSettingsVideo.h&quot;</span></span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="UI-GameSettingsSystem-h"><a href="#UI-GameSettingsSystem-h" class="headerlink" title="UI_GameSettingsSystem.h"></a>UI_GameSettingsSystem.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Blueprint\UserWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_GameSettingsSystem.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SIMPLEGAMESETTINGS_API</span> UUI_GameSettingsSystem : <span class="keyword">public</span> UUserWidget</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line">	</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="UI-GameSettingsSystem-cpp"><a href="#UI-GameSettingsSystem-cpp" class="headerlink" title="UI_GameSettingsSystem.cpp"></a>UI_GameSettingsSystem.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_GameSettingsSystem.h&quot;</span></span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="封装SimpleArchives"><a href="#封装SimpleArchives" class="headerlink" title="封装SimpleArchives"></a>封装SimpleArchives</h1><h2 id="大致步骤-2"><a href="#大致步骤-2" class="headerlink" title="大致步骤"></a>大致步骤</h2><ol>
+<li><p>创建空白插件<code>SimpleArchives</code></p>
+</li>
+<li><p>在<code>SimpleArchives.Build.cs</code>添加<code>UMG</code>模块</p>
+</li>
+<li><p>移动之前的<code>SaveAndLoadSystem</code>以及<code>SaveAndLoadBar</code>到插件内，修改名称为<code>ArchivesSystem</code>以及<code>ArchivesBar</code>并且修改其</p>
+<ul>
+<li><p>继承自<code>UUserWidget</code></p>
+</li>
+<li><p>引入头文件<code>Blueprint/UserWidget.h</code></p>
+</li>
+<li><p>API修改为<code>插件名_API</code></p>
+</li>
+<li><p>修改API后名称为<code>UUI_ArchivesSystem</code>以及<code>UUI_ArchivesBar</code></p>
+</li>
+<li><p>修改映射名称为<code>文件名.generated.h</code></p>
+</li>
+<li><p>修改CPP文件的头文件引用.h文件路径</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="部分代码-2"><a href="#部分代码-2" class="headerlink" title="部分代码"></a>部分代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> UnrealBuildTool;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SimpleArchives</span> : ModuleRules</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">SimpleArchives</span><span class="params">(ReadOnlyTargetRules Target)</span> : base(Target)</span></span><br><span class="line"><span class="function">	&#123;</span></span><br><span class="line">		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;</span><br><span class="line">		</span><br><span class="line">		PublicIncludePaths.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[] &#123;</span><br><span class="line">				<span class="comment">// ... add public include paths required here ...</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">				</span><br><span class="line">		</span><br><span class="line">		PrivateIncludePaths.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[] &#123;</span><br><span class="line">				<span class="comment">// ... add other private include paths required here ...</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">			</span><br><span class="line">		</span><br><span class="line">		PublicDependencyModuleNames.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[]</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="string">&quot;Core&quot;</span>,</span><br><span class="line">				<span class="comment">// ... add other public dependencies that you statically link with here ...</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">			</span><br><span class="line">		</span><br><span class="line">		PrivateDependencyModuleNames.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[]</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="string">&quot;CoreUObject&quot;</span>,</span><br><span class="line">				<span class="string">&quot;Engine&quot;</span>,</span><br><span class="line">				<span class="string">&quot;Slate&quot;</span>,</span><br><span class="line">				<span class="string">&quot;SlateCore&quot;</span>,</span><br><span class="line">				<span class="string">&quot;UMG&quot;</span>,</span><br><span class="line">				<span class="comment">// ... add private dependencies that you statically link with here ...	</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		DynamicallyLoadedModuleNames.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[]</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="comment">// ... add any modules that your module loads dynamically here ...</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="UI-ArchivesSystem-h"><a href="#UI-ArchivesSystem-h" class="headerlink" title="UI_ArchivesSystem.h"></a>UI_ArchivesSystem.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Blueprint\UserWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_ArchivesSystem.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SIMPLEARCHIVES_API</span> UUI_ArchivesSystem : <span class="keyword">public</span> UUserWidget</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line">	</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="UI-ArchivesSystem-cpp"><a href="#UI-ArchivesSystem-cpp" class="headerlink" title="UI_ArchivesSystem.cpp"></a>UI_ArchivesSystem.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_ArchivesSystem.h&quot;</span></span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="UI-ArchivesBar-h"><a href="#UI-ArchivesBar-h" class="headerlink" title="UI_ArchivesBar.h"></a>UI_ArchivesBar.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Blueprint\UserWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_ArchivesBar.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SIMPLEARCHIVES_API</span> UUI_ArchivesBar : <span class="keyword">public</span> UUserWidget</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line">	</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="UI-ArchivesBar-cpp"><a href="#UI-ArchivesBar-cpp" class="headerlink" title="UI_ArchivesBar.cpp"></a>UI_ArchivesBar.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Histroy\UI_ArchivesBar.h&quot;</span></span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="修改主界面菜单"><a href="#修改主界面菜单" class="headerlink" title="修改主界面菜单"></a>修改主界面菜单</h1><h2 id="大致步骤-3"><a href="#大致步骤-3" class="headerlink" title="大致步骤"></a>大致步骤</h2><ol>
+<li><p><code>HallMenuSystem_BP</code>中添加两个按钮和文本框，分别为<code>Secret territiory</code>与<code>SpecialContent</code></p>
+</li>
+<li><p>在C++文件中添加按钮，点击按钮函数，并且动态多播绑定点击按钮函数</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -2603,174 +2839,6 @@
 <li><p>在角色的拾取系统的开启高亮显示的后面设置“拾取提示”的可视性为可视</p>
 </li>
 <li><p>在关闭高亮显示的遍历结束之后关闭拾取提示UI的可视性</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/17/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E7%AB%A0%E8%8A%82%E5%92%8C%E4%BB%BB%E5%8A%A1%E6%8F%90%E7%A4%BAUI/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/17/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E7%AB%A0%E8%8A%82%E5%92%8C%E4%BB%BB%E5%8A%A1%E6%8F%90%E7%A4%BAUI/" class="post-title-link" itemprop="url">UE4-项目-死寂-章节和任务提示UI</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-07-17 11:02:10" itemprop="dateCreated datePublished" datetime="2022-07-17T11:02:10+08:00">2022-07-17</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-07-18 10:45:54" itemprop="dateModified" datetime="2022-07-18T10:45:54+08:00">2022-07-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="章节提示动画制作"><a href="#章节提示动画制作" class="headerlink" title="章节提示动画制作"></a>章节提示动画制作</h1><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在“游戏中界面”控件蓝图中添加一个画布面板“章节提示”</p>
-</li>
-<li><p>在“章节提示”下面加入一个图片“章节提示背景”和文本“第一章：清道夫”，分别设置其位置。锚点，尺寸，纹理和字体</p>
-</li>
-<li><p>添加一个图像“警告提示logo”，设置其纹理，锚点，位置，尺寸</p>
-</li>
-<li><p>将以上三个组件的渲染不透明度均改为0</p>
-</li>
-<li><p>新增一个动画“章节提示动画”</p>
-<ul>
-<li><p>给“警告提示logo”设置缩放从5到1，设置渲染不透明度从0到1到0（中间添加一个关键帧，使得渲染不透明度在1停留0.15秒）</p>
-</li>
-<li><p>给“章节提示背景”添加轨道，设置其渲染不透明度变换（从无到有）和缩放变换（从小到大横向展开）</p>
-</li>
-<li><p>给“第一章：清道夫”添加轨道，设置其渲染不透明度和频移变换</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="任务提示UI动画制作"><a href="#任务提示UI动画制作" class="headerlink" title="任务提示UI动画制作"></a>任务提示UI动画制作</h1><h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>添加一个画布面板“任务提示”</p>
-</li>
-<li><p>添加“任务提示背景”图像，“任务提示logo”图像，“消灭你所看到的所有丧尸”文本</p>
-</li>
-<li><p>添加一个水平框“丧尸数量”，给其添加三个文本（一个显示当前数量，一个作为间隔的&#x2F;，一个作为丧尸总数量）</p>
-</li>
-<li><p>将四个组件的渲染不透明度均修改为0</p>
-</li>
-<li><p>新建一个名为“任务提示动画”的动画</p>
-<ul>
-<li>分别给四个组件添加轨道，设置其渲染不透明度变换</li>
-</ul>
-</li>
-</ol>
-<h1 id="将两个动画添加到场景中"><a href="#将两个动画添加到场景中" class="headerlink" title="将两个动画添加到场景中"></a>将两个动画添加到场景中</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="禁用输入"><a href="#禁用输入" class="headerlink" title="禁用输入"></a>禁用输入</h3><p>字面意思</p>
-<h2 id="启用输入"><a href="#启用输入" class="headerlink" title="启用输入"></a>启用输入</h2><p>字面意思</p>
-<h3 id="设置仅输入模式游戏"><a href="#设置仅输入模式游戏" class="headerlink" title="设置仅输入模式游戏"></a>设置仅输入模式游戏</h3><p>使得玩家游玩的时候不需要按住鼠标右键就可以直接操控角色</p>
-<h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在“游戏中界面”控件蓝图中的图表中创建自定义函数“播放章节提示动画”，“播放任务提示动画”，分别使用“播放动画”使得“章节提示动画”和“任务提示动画”被播放</p>
-</li>
-<li><p>打开游戏场景，放置一个摄像机在合理的位置，打开关卡蓝图</p>
-<ul>
-<li><p>事件开始运行时，获取摄像机实例，获取玩家控制器，“使用混合设置视图目标”将一开始的摄像机设置为刚刚放置的摄像机</p>
-</li>
-<li><p>获取玩家实例，“禁用输入”，延迟1s，通过“获取类的所有组件”和“游戏中界面”达成通信，播放“播放章节提示动画”，延迟4s</p>
-</li>
-<li><p>“使用混合设置视图目标”，将玩家控制器交给BP_Player，设置混合时间为8s，混合指数为3，混合函数为VT混合交叉缓动</p>
-</li>
-<li><p>延迟8s，和“游戏中界面”通信，播放“播放任务提示动画”</p>
-</li>
-<li><p>获取玩家控制器“设置仅输入模式游戏”，“启用输入”</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="优化-画面由黑色转变到正常可见"><a href="#优化-画面由黑色转变到正常可见" class="headerlink" title="优化-画面由黑色转变到正常可见"></a>优化-画面由黑色转变到正常可见</h1><p>在游戏刚开始的时候植被需要加载，为了玩家看不到这个加载过程，画面由黑色逐渐转变到正常可见</p>
-<h2 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h2><h3 id="开始摄像机淡化"><a href="#开始摄像机淡化" class="headerlink" title="开始摄像机淡化"></a>开始摄像机淡化</h3><p>是“获取玩家摄像机管理器”节点的引申节点</p>
-<p>Color引脚就是遮罩颜色</p>
-<p>From Alpha就是一开始的遮罩不透明度</p>
-<p>To Alpha就是最后的遮罩不透明度</p>
-<p>Duration就是变换时间</p>
-<h2 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>获取玩家摄像机管理器，引出“开始摄像机淡化”节点</p>
-</li>
-<li><p>在事件开始运行时最前面调用“开始摄像机淡化”</p>
-</li>
-</ol>
-<h1 id="丧尸数量与UI绑定"><a href="#丧尸数量与UI绑定" class="headerlink" title="丧尸数量与UI绑定"></a>丧尸数量与UI绑定</h1><h2 id="知识点-2"><a href="#知识点-2" class="headerlink" title="知识点"></a>知识点</h2><h3 id="设置文本"><a href="#设置文本" class="headerlink" title="设置文本"></a>设置文本</h3><p>字面意思</p>
-<h3 id="长度"><a href="#长度" class="headerlink" title="长度"></a>长度</h3><p>在达成蓝图通信的时候可以通过此节点获取场景中一共有该类的多少个实例</p>
-<h2 id="思路-4"><a href="#思路-4" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>将“游戏中界面”控件蓝图中的“丧尸总数量”公开到蓝图</p>
-</li>
-<li><p>事件构造后面，通过“获取类的所有Actor”和”BP_Zombie”达成通信，获取其“长度”</p>
-</li>
-<li><p>调用“丧尸总数量”，“设置文本”，将上一步获取的长度传入进来</p>
-</li>
-<li><p>创建int变量“丧尸当前数量”，并在末尾设置其值，将“长度（length）”传入进来（初始化丧尸数量）</p>
-</li>
-<li><p>在设计器中的“丧尸当前数量”文本控件中创建绑定，判断丧尸当前数量是否&lt;&#x3D;0，是则返回节点设置为“丧尸当前数量”</p>
-</li>
-<li><p>在丧尸蓝图类的“伤害检测和死亡系统”中通过“获取类的所有控件”和“游戏中界面”达成通信，在丧尸死亡之后将“丧尸当前数量自减”</p>
 </li>
 </ol>
 
