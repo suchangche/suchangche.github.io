@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">88</span>
+          <span class="site-state-item-count">89</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,276 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/20/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E5%AE%8C%E5%96%84UI%E5%8F%8A%E5%85%B6%E5%88%87%E6%8D%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/08/20/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E5%AE%8C%E5%96%84UI%E5%8F%8A%E5%85%B6%E5%88%87%E6%8D%A2/" class="post-title-link" itemprop="url">UE4-项目-TowerDefence-完善UI及其切换</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-08-20 15:31:43" itemprop="dateCreated datePublished" datetime="2022-08-20T15:31:43+08:00">2022-08-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-08-22 17:03:16" itemprop="dateModified" datetime="2022-08-22T17:03:16+08:00">2022-08-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="完善UI"><a href="#完善UI" class="headerlink" title="完善UI"></a>完善UI</h1><ol>
+<li><p>完善<code>GameSettingsSystem_BP</code>蓝图界面</p>
+</li>
+<li><p>完善<code>GameSettingsAudio_BP</code>蓝图界面</p>
+</li>
+<li><p>完善<code>GameSettingsGameSetting_BP</code>蓝图界面</p>
+</li>
+<li><p>完善<code>GameSettingsOtherSettings_BP</code>蓝图界面</p>
+</li>
+<li><p>完善<code>GameSettingsVideo_BP</code>蓝图界面</p>
+</li>
+<li><p>完善<code>TutoriaSystem_BP</code>蓝图界面（视频播放界面）</p>
+</li>
+<li><p>完善<code>TutoriaSlot_BP</code>蓝图界面（视频选择方框）</p>
+</li>
+</ol>
+<h1 id="使用模板函数实现切换UI界面"><a href="#使用模板函数实现切换UI界面" class="headerlink" title="使用模板函数实现切换UI界面"></a>使用模板函数实现切换UI界面</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="USizeBox"><a href="#USizeBox" class="headerlink" title="USizeBox"></a>USizeBox</h3><p>在蓝图中是一个尺寸框，当中可以存放其他组件，类似Border</p>
+<p>在C++中</p>
+<ol>
+<li><p>USizeBox*类型的参数可以通过<code>-&gt;GetChildAt(index)</code>判断当前<code>USizeBox</code>中的下标为<code>index</code>的位置是否含有元素，有，则返回当前元素，无则返回空指针</p>
+</li>
+<li><p>USizeBox*类型的参数可以通过<code>-&gt;GetChildAt(index)-&gt;IsA()</code>判断当前<code>USizeBox</code>中的下标为<code>index</code>的位置是否含有元素，且元素是否为<code>IsA()</code>中括号内的元素，是则返回true，否则返回false</p>
+</li>
+<li><p>USizeBox*类型的参数可以通过<code>-&gt;ClearChildren()</code>清除体内所有元素</p>
+</li>
+</ol>
+<h2 id="大致步骤"><a href="#大致步骤" class="headerlink" title="大致步骤"></a>大致步骤</h2><ol>
+<li><p>在<code>UI_MainHall.h</code>中</p>
+<ul>
+<li>添加在蓝图中已经存在的组件<code>class UBorder* MainBoard</code>以及<code>class USizeBox* BoxList</code></li>
+</ul>
+</li>
+<li><p><code>UI_MainHall.cpp</code>中</p>
+<ul>
+<li><p>创建一个模板函数，用于切换UI界面，在其他界面想要切换的时候调用此模板即可</p>
+<ul>
+<li><p>确定模板函数的两个类型参数<code>class T</code>，<code>class UserObject</code></p>
+</li>
+<li><p>确定模板函数的返回值<code>UserObject*</code></p>
+</li>
+<li><p>确定模板函数的函数名<code>CreateAssistWidget</code></p>
+</li>
+<li><p>确定模板函数的形参列表<code>(T* ThisClass, UClass* AssistClass, USizeBox* WidgetArray)</code></p>
+<ul>
+<li><p><code>T* ThisClass</code>代表当前类</p>
+</li>
+<li><p><code>UClass* AssistClass</code>代表创建面板的类</p>
+</li>
+<li><p><code>USizeBox* WidgetArray</code>代表创建到哪个位置</p>
+</li>
+</ul>
+</li>
+<li><p>函数体中</p>
+<ul>
+<li><p>创建一个<code>UserObject*</code>类型的变量<code>UserObjectElement</code>作为返回值，并且一开始赋值为<code>Nullptr</code>（返回的UI界面）</p>
+</li>
+<li><p>使用<code>if()</code>判断动画（此处先不写，if中为0即可）</p>
+</li>
+<li><p>再使用<code>if()</code>判断<code>WidgetArray</code>中是否存在元素</p>
+</li>
+<li><p>是，则判断当中的元素是否为<code>AssistClass</code></p>
+</li>
+<li><p>是，则返回当前UI界面<code>UserObjectElement</code></p>
+</li>
+<li><p>否：如果当前WidgetArray中的元素和传入进来的WidgetArray参数不同，则删除当前WidgetArray的元素</p>
+</li>
+<li><p>使用<code>CreateWidget&lt;&gt;()</code>创建当前UI界面<code>UserObjectElement</code></p>
+<ul>
+<li><code>UserObjectElement = CreateWidget&lt;UserObject&gt;(ThisClass-&gt;GetWorld(), AssistClass);</code></li>
+</ul>
+</li>
+<li><p>判断UI界面是否创建成功</p>
+</li>
+<li><p>是，则判断将<code>UserObjectElement</code>作为<code>WidgetArray</code>的子项添加进去是否成功</p>
+<ul>
+<li><code>if (WidgetArray-&gt;AddChild(UserObjectElement))</code></li>
+</ul>
+</li>
+<li><p>如果不成功，则移除<code>UserObjectElement</code></p>
+</li>
+<li><p>最后函数返回<code>UserObjectElement</code></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="调用模板函数实现UI切换"><a href="#调用模板函数实现UI切换" class="headerlink" title="调用模板函数实现UI切换"></a>调用模板函数实现UI切换</h1><h2 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h2><h3 id="FOnButtonClickedEvent"><a href="#FOnButtonClickedEvent" class="headerlink" title="FOnButtonClickedEvent"></a>FOnButtonClickedEvent</h3><p>是一个数据类型，字面意思，鼠标点击按钮事件</p>
+<h3 id="GameStartButton-gt-OnClicked"><a href="#GameStartButton-gt-OnClicked" class="headerlink" title="GameStartButton-&gt;OnClicked"></a>GameStartButton-&gt;OnClicked</h3><p>OnClicked是一个形参，通常传入FOnButtonClickedEvent类型的变量，打到使得某个按钮被点击之后实现的事件效果</p>
+<h3 id="退出游戏"><a href="#退出游戏" class="headerlink" title="退出游戏"></a>退出游戏</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Kismet\GameplayStatics.h&quot;</span></span></span><br><span class="line">UGameplayStatics::<span class="built_in">GetPlayerController</span>(GWorld, <span class="number">0</span>)-&gt;<span class="built_in">ConsoleCommand</span>(<span class="string">&quot;quit&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="大致步骤-1"><a href="#大致步骤-1" class="headerlink" title="大致步骤"></a>大致步骤</h2><ol>
+<li><p>首先明确一点：在<code>UI_MainHall</code>中调用了<code>UUI_HallMenuSystem</code>生成的实例</p>
+<ul>
+<li><p>看作<code>UUI_HallMenuSystem</code>是父类，<code>UI_MainHall</code>是子类</p>
+</li>
+<li><p>那些点击按钮的功能需要在子类中访问，但子类不可以访问父类</p>
+</li>
+<li><p>所以需要把功能主要写在子类中，父类里给一个框架即可</p>
+</li>
+</ul>
+</li>
+<li><p>在<code>UUI_HallMenuSystem.h</code>中</p>
+<ul>
+<li><p>将所有函数接口都移动到<code>UI_MainHall.h</code>中</p>
+</li>
+<li><p>创建诸如<code>void BindGameStart(FOnButtonClickedEvent ClickedEvent)</code>的接口</p>
+<ul>
+<li>形参是鼠标点击事件，这个点击的事件可以在子类中绑定代理，然后调用</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在<code>UUI_HallMenuSystem.cpp</code>中</p>
+<ul>
+<li>定义各函数<code>GameStartButton-&gt;OnClicked = ClickedEvent</code></li>
+</ul>
+</li>
+<li><p>在<code>UI_MainHall.h</code>中</p>
+<ul>
+<li><p>使用<code>TSubclassOf&lt;&gt;()</code>分别创建以<code>UUI_ArchivesSystem</code>,<code>UUI_GameSettingsSystem</code>,<code>UUI_TutoriaSystem</code>为父类的类<code>ArchivesSystemClass</code>，<code>GameSettingsClass</code>，<code>TutoriaSysetmClass</code></p>
+</li>
+<li><p>声明原本在<code>UUI_HallMenuSystem</code>中的函数</p>
+</li>
+</ul>
+</li>
+<li><p>在<code>UI_MainHall.cpp</code>中</p>
+<ul>
+<li><p>在<code>NativeConstruct()</code>函数内声明代理，并且将代理绑定到父类的<code>BindGameStart()</code>系列函数上</p>
+<ul>
+<li><p>声明<code>FOnButtonClickedEvent</code>类型的变量<code>Delegate</code></p>
+</li>
+<li><p><code>Delegate</code>使用<code>AddDynamic</code>绑定<code>UUI_MainHall</code>中的函数</p>
+</li>
+<li><p>调用<code>HallMenuSystem</code>中的<code>BindGameStart</code>系列的函数，将<code>Delegate</code>作为参数传入其中</p>
+</li>
+<li><p>注意：可以使用{}，使得同时可以存在多个名为<code>Delegate</code>的变量</p>
+</li>
+</ul>
+</li>
+<li><p>定义<code>void UUI_MainHall::GameStart()</code>函数</p>
+<ul>
+<li><code>UGameplayStatics::OpenLevel(GetWorld(), &quot;SelectLevel&quot;);</code></li>
+</ul>
+</li>
+<li><p>定义<code>void UUI_MainHall::History()</code>函数</p>
+<ul>
+<li><p>调用我们自定义的模板函数<code>CreateAssistWidget</code></p>
+</li>
+<li><p>类型参数分别为<code>UUI_MainHall</code>以及<code>UUI_ArchivesSystem</code></p>
+</li>
+<li><p>形参分别为<code>this</code>，<code>ArchivesSystemClass</code>，<code>BoxList</code></p>
+</li>
+</ul>
+</li>
+<li><p>其他函数亦然</p>
+</li>
+<li><p>定义<code>void UUI_MainHall::QuitGame()</code></p>
+<ul>
+<li><code>UGameplayStatics::GetPlayerController(GWorld, 0)-&gt;ConsoleCommand(&quot;quit&quot;);</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在<code>TowerDefence.Build.cs</code>添加各个插件的名称作为模块名</p>
+</li>
+</ol>
+<h1 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h1><h2 id="UI-MainHall-h"><a href="#UI-MainHall-h" class="headerlink" title="UI_MainHall.h"></a>UI_MainHall.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/Core/UI_RuleOfTheWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/Button.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UUI_HallMenuSystem.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_MainHall.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> UUI_MainHall : <span class="keyword">public</span> UUI_RuleOfTheWidget</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		<span class="keyword">class</span> <span class="title class_">UBorder</span>* MainBoard;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		<span class="keyword">class</span> <span class="title class_">USizeBox</span>* BoxList;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		 UUUI_HallMenuSystem* HallMenuSystem;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(EditDefaultsOnly,Category=UI)</span><br><span class="line">		TSubclassOf&lt;<span class="keyword">class</span> <span class="title class_">UUI_ArchivesSystem</span>&gt; ArchivesSystemClass;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(EditDefaultsOnly, Category = UI)</span><br><span class="line">		TSubclassOf&lt;<span class="keyword">class</span> <span class="title class_">UUI_GameSettingsSystem</span>&gt; GameSettingsClass;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(EditDefaultsOnly, Category = UI)</span><br><span class="line">		TSubclassOf&lt;<span class="keyword">class</span> <span class="title class_">UUI_TutoriaSystem</span>&gt; TutoriaSysetmClass;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">NativeConstruct</span><span class="params">()</span> <span class="keyword">override</span></span>;<span class="comment">//相当于UMG当中的BeginePlay</span></span><br><span class="line"></span><br><span class="line">	<span class="built_in">UFUNCTION</span>()</span><br><span class="line">		<span class="function"><span class="type">void</span> <span class="title">GameStart</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UFUNCTION</span>()</span><br><span class="line">		<span class="function"><span class="type">void</span> <span class="title">History</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UFUNCTION</span>()</span><br><span class="line">		<span class="function"><span class="type">void</span> <span class="title">GameSettings</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UFUNCTION</span>()</span><br><span class="line">		<span class="function"><span class="type">void</span> <span class="title">TutorialWebsite</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UFUNCTION</span>()</span><br><span class="line">		<span class="function"><span class="type">void</span> <span class="title">Browser</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UFUNCTION</span>()</span><br><span class="line">		<span class="function"><span class="type">void</span> <span class="title">QuitGame</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UFUNCTION</span>()</span><br><span class="line">		<span class="function"><span class="type">void</span> <span class="title">SecretTrrutiory</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UFUNCTION</span>()</span><br><span class="line">		<span class="function"><span class="type">void</span> <span class="title">SpecialContent</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="UI-MainHall-cpp"><a href="#UI-MainHall-cpp" class="headerlink" title="UI_MainHall.cpp"></a>UI_MainHall.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/HallUI/UMG/UI_MainHall.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Kismet\GameplayStatics.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components\SizeBox.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_ArchivesSystem.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_GameSettingsSystem.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_TutoriaSystem.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">class</span> T,<span class="keyword">class</span> UserObject&gt;</span></span><br><span class="line"><span class="function">UserObject* <span class="title">CreateAssistWidget</span><span class="params">(T* ThisClass, UClass* AssistClass, USizeBox* WidgetArray)</span> </span>&#123;</span><br><span class="line">	UserObject* UserObjectElement = <span class="literal">nullptr</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//播放动画的判断</span></span><br><span class="line">	<span class="keyword">if</span> (<span class="number">0</span>) &#123;</span><br><span class="line">		<span class="comment">//board播放淡出</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//先判断WidgetArray内元素是否需要更新，不需要则啥也不做，需要则清除WidgetArray内元素</span></span><br><span class="line">	<span class="keyword">if</span> (WidgetArray-&gt;<span class="built_in">GetChildAt</span>(<span class="number">0</span>)) &#123;</span><br><span class="line">		<span class="comment">//判断WidgetArray中是否存在元素</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">//判断WidgetArray存在元素之后，判断当中的元素是否为AssistClass</span></span><br><span class="line">		<span class="keyword">if</span> (WidgetArray-&gt;<span class="built_in">GetChildAt</span>(<span class="number">0</span>)-&gt;<span class="built_in">IsA</span>(AssistClass)) &#123;</span><br><span class="line"></span><br><span class="line">			<span class="comment">//返回当前界面（不需要更新界面）</span></span><br><span class="line">			<span class="keyword">return</span> UserObjectElement;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">			<span class="comment">//当前WidgetArray中的元素和传入进来的WidgetArray参数不同，则删除当前WidgetArray的元素</span></span><br><span class="line">			WidgetArray-&gt;<span class="built_in">ClearChildren</span>();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//如果需要更新界面</span></span><br><span class="line">	<span class="comment">//因为在上面使用ClearChildren之后WidgetArray已经为空的了</span></span><br><span class="line">	<span class="comment">//所以在这里创建新的UserObjectElement，作为WidgetArray的新元素添加进去</span></span><br><span class="line">	<span class="comment">//创建当前UI界面</span></span><br><span class="line">	UserObjectElement = <span class="built_in">CreateWidget</span>&lt;UserObject&gt;(ThisClass-&gt;<span class="built_in">GetWorld</span>(), AssistClass);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (UserObjectElement) &#123;<span class="comment">//判断UI界面是否创建成功</span></span><br><span class="line">		<span class="keyword">if</span> (WidgetArray-&gt;<span class="built_in">AddChild</span>(UserObjectElement)) &#123;<span class="comment">//判断将UserObjectElement作为WidgetArray的子项添加进去是否成功</span></span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			UserObjectElement-&gt;<span class="built_in">RemoveFromParent</span>();<span class="comment">//失败则移除UserObjectElement</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> UserObjectElement;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_MainHall::NativeConstruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">NativeConstruct</span>();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (HallMenuSystem) &#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//game start</span></span><br><span class="line">		<span class="comment">//使用作用域可以使得其他函数内也可以叫Delegate</span></span><br><span class="line">		&#123;</span><br><span class="line">			FOnButtonClickedEvent Delegate;</span><br><span class="line">			Delegate.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUI_MainHall::GameStart);</span><br><span class="line">			HallMenuSystem-&gt;<span class="built_in">BindGameStart</span>(Delegate);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//Secret Territory</span></span><br><span class="line">		&#123;</span><br><span class="line">			FOnButtonClickedEvent Delegate;</span><br><span class="line">			Delegate.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUI_MainHall::SecretTrrutiory);</span><br><span class="line">			HallMenuSystem-&gt;<span class="built_in">BindSecretTrritiory</span>(Delegate);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//game settings</span></span><br><span class="line">		&#123;</span><br><span class="line">			FOnButtonClickedEvent Delegate;</span><br><span class="line">			Delegate.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUI_MainHall::GameSettings);</span><br><span class="line">			HallMenuSystem-&gt;<span class="built_in">BindGameSettings</span>(Delegate);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//History</span></span><br><span class="line">		&#123;</span><br><span class="line">			FOnButtonClickedEvent Delegate;</span><br><span class="line">			Delegate.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUI_MainHall::History);</span><br><span class="line">			HallMenuSystem-&gt;<span class="built_in">BindHistory</span>(Delegate);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//TutorialWebsite </span></span><br><span class="line">		&#123;</span><br><span class="line">			FOnButtonClickedEvent Delegate;</span><br><span class="line">			Delegate.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUI_MainHall::TutorialWebsite);</span><br><span class="line">			HallMenuSystem-&gt;<span class="built_in">BindTutorialWebsite</span>(Delegate);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//Browser</span></span><br><span class="line">		&#123;</span><br><span class="line">			FOnButtonClickedEvent Delegate;</span><br><span class="line">			Delegate.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUI_MainHall::Browser);</span><br><span class="line">			HallMenuSystem-&gt;<span class="built_in">BindBrowser</span>(Delegate);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//Special Content</span></span><br><span class="line">		&#123;</span><br><span class="line">			FOnButtonClickedEvent Delegate;</span><br><span class="line">			Delegate.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUI_MainHall::SpecialContent);</span><br><span class="line">			HallMenuSystem-&gt;<span class="built_in">BindSpecialContent</span>(Delegate);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//Quit Game</span></span><br><span class="line">		&#123;</span><br><span class="line">			FOnButtonClickedEvent Delegate;</span><br><span class="line">			Delegate.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUI_MainHall::QuitGame);</span><br><span class="line">			HallMenuSystem-&gt;<span class="built_in">BindQuitGame</span>(Delegate);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_MainHall::GameStart</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UGameplayStatics::<span class="built_in">OpenLevel</span>(<span class="built_in">GetWorld</span>(), <span class="string">&quot;SelectLevel&quot;</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_MainHall::History</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">CreateAssistWidget</span>&lt;UUI_MainHall, UUI_ArchivesSystem&gt;(<span class="keyword">this</span>, ArchivesSystemClass,BoxList);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_MainHall::GameSettings</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">CreateAssistWidget</span>&lt;UUI_MainHall, UUI_GameSettingsSystem&gt;(<span class="keyword">this</span>, GameSettingsClass, BoxList);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_MainHall::TutorialWebsite</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">CreateAssistWidget</span>&lt;UUI_MainHall, UUI_TutoriaSystem&gt;(<span class="keyword">this</span>, TutoriaSysetmClass, BoxList);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_MainHall::Browser</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_MainHall::QuitGame</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UGameplayStatics::<span class="built_in">GetPlayerController</span>(GWorld, <span class="number">0</span>)-&gt;<span class="built_in">ConsoleCommand</span>(<span class="string">&quot;quit&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_MainHall::SecretTrrutiory</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_MainHall::SpecialContent</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="UUI-HallMenuSystem-h"><a href="#UUI-HallMenuSystem-h" class="headerlink" title="UUI_HallMenuSystem.h"></a>UUI_HallMenuSystem.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/Core/UI_RuleOfTheWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/Button.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UUI_HallMenuSystem.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UButton</span>;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> UUUI_HallMenuSystem : <span class="keyword">public</span> UUI_RuleOfTheWidget</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		UButton* GameStartButton;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		UButton* HistoryButton;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		UButton* GameSettingsButton;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		UButton* TutorialWebsiteButton;<span class="comment">//打开视频按钮</span></span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		UButton* BrowserButton;<span class="comment">//打开网页按钮（个人网站）</span></span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		UButton* QuitGameButton;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		UButton* SecretTrritioryButton;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		UButton* SpecialContentButton;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">	<span class="comment">//UMG里面的初始化/BeginePlay</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">NativeConstruct</span><span class="params">()</span><span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">BindGameStart</span><span class="params">(FOnButtonClickedEvent ClickedEvent)</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">BindHistory</span><span class="params">(FOnButtonClickedEvent ClickedEvent)</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">BindGameSettings</span><span class="params">(FOnButtonClickedEvent ClickedEvent)</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">BindTutorialWebsite</span><span class="params">(FOnButtonClickedEvent ClickedEvent)</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">BindBrowser</span><span class="params">(FOnButtonClickedEvent ClickedEvent)</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">BindQuitGame</span><span class="params">(FOnButtonClickedEvent ClickedEvent)</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">BindSecretTrritiory</span><span class="params">(FOnButtonClickedEvent ClickedEvent)</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">BindSpecialContent</span><span class="params">(FOnButtonClickedEvent ClickedEvent)</span></span>;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="UUI-HallMenuSystem-cpp"><a href="#UUI-HallMenuSystem-cpp" class="headerlink" title="UUI_HallMenuSystem.cpp"></a>UUI_HallMenuSystem.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/HallUI/UMG/UUI_HallMenuSystem.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;Runtime/Engine/Classes/Kismet/GameplayStatics.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUUI_HallMenuSystem::NativeConstruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">NativeConstruct</span>();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUUI_HallMenuSystem::BindGameStart</span><span class="params">(FOnButtonClickedEvent ClickedEvent)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	GameStartButton-&gt;OnClicked = ClickedEvent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUUI_HallMenuSystem::BindHistory</span><span class="params">(FOnButtonClickedEvent ClickedEvent)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	HistoryButton-&gt;OnClicked = ClickedEvent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUUI_HallMenuSystem::BindGameSettings</span><span class="params">(FOnButtonClickedEvent ClickedEvent)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	GameSettingsButton-&gt;OnClicked = ClickedEvent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUUI_HallMenuSystem::BindTutorialWebsite</span><span class="params">(FOnButtonClickedEvent ClickedEvent)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	TutorialWebsiteButton-&gt;OnClicked = ClickedEvent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUUI_HallMenuSystem::BindBrowser</span><span class="params">(FOnButtonClickedEvent ClickedEvent)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	BrowserButton-&gt;OnClicked = ClickedEvent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUUI_HallMenuSystem::BindQuitGame</span><span class="params">(FOnButtonClickedEvent ClickedEvent)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	QuitGameButton-&gt;OnClicked = ClickedEvent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUUI_HallMenuSystem::BindSecretTrritiory</span><span class="params">(FOnButtonClickedEvent ClickedEvent)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	SecretTrritioryButton-&gt;OnClicked = ClickedEvent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUUI_HallMenuSystem::BindSpecialContent</span><span class="params">(FOnButtonClickedEvent ClickedEvent)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	SpecialContentButton-&gt;OnClicked = ClickedEvent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="TowerDefence-Build-cs"><a href="#TowerDefence-Build-cs" class="headerlink" title="TowerDefence.Build.cs"></a>TowerDefence.Build.cs</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> UnrealBuildTool;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TowerDefence</span> : ModuleRules</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TowerDefence</span><span class="params">(ReadOnlyTargetRules Target)</span> : base(Target)</span></span><br><span class="line"><span class="function">	&#123;</span></span><br><span class="line">		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;</span><br><span class="line">	</span><br><span class="line">		PublicDependencyModuleNames.<span class="built_in">AddRange</span>(<span class="keyword">new</span> string[] &#123; </span><br><span class="line">            <span class="string">&quot;Core&quot;</span>,</span><br><span class="line">            <span class="string">&quot;CoreUObject&quot;</span>,</span><br><span class="line">            <span class="string">&quot;Engine&quot;</span>,</span><br><span class="line">            <span class="string">&quot;InputCore&quot;</span>, </span><br><span class="line">            <span class="string">&quot;StoneToolClass&quot;</span>,</span><br><span class="line">            <span class="string">&quot;SimpleScreenLoading&quot;</span> , </span><br><span class="line">            <span class="string">&quot;SimpleArchives&quot;</span>, </span><br><span class="line">            <span class="string">&quot;SimpleGameSettings&quot;</span> , </span><br><span class="line">            <span class="string">&quot;SimpleTutoria&quot;</span></span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">		PrivateDependencyModuleNames.<span class="built_in">AddRange</span>(<span class="keyword">new</span> string[] &#123;  &#125;);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Uncomment if you are using Slate UI</span></span><br><span class="line">		<span class="comment">// PrivateDependencyModuleNames.AddRange(new string[] &#123; &quot;Slate&quot;, &quot;SlateCore&quot; &#125;);</span></span><br><span class="line">		</span><br><span class="line">		<span class="comment">// Uncomment if you are using online features</span></span><br><span class="line">		<span class="comment">// PrivateDependencyModuleNames.Add(&quot;OnlineSubsystem&quot;);</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">// To include OnlineSubsystemSteam, add it to the plugins section in your uproject file with the Enabled attribute set to true</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -2537,9 +2807,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2022-07-18 16:25:21 / 修改时间：16:59:18" itemprop="dateCreated datePublished" datetime="2022-07-18T16:25:21+08:00">2022-07-18</time>
+      <time title="创建时间：2022-07-18 16:25:21" itemprop="dateCreated datePublished" datetime="2022-07-18T16:25:21+08:00">2022-07-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-08-20 15:37:41" itemprop="dateModified" datetime="2022-08-20T15:37:41+08:00">2022-08-20</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -2745,100 +3021,6 @@
 <li><p>最后在角色死亡弹簧臂拉长的时间轴结束之后（finish引脚）创建”失败“控件添加到视口</p>
 </li>
 <li><p>使用获取玩家控制器之后调用”show mouse cursor“为true，并且”设置输入模式游戏和UI“，将Hide Cursor During Capture取消勾选</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/18/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-F%E9%94%AE%E6%8B%BE%E5%8F%96%E7%89%A9%E5%93%81/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/18/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-F%E9%94%AE%E6%8B%BE%E5%8F%96%E7%89%A9%E5%93%81/" class="post-title-link" itemprop="url">UE4-项目-死寂-F键拾取物品</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-07-18 10:53:41 / 修改时间：11:10:24" itemprop="dateCreated datePublished" datetime="2022-07-18T10:53:41+08:00">2022-07-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="F键拾取物品"><a href="#F键拾取物品" class="headerlink" title="F键拾取物品"></a>F键拾取物品</h1><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>创建控件蓝图“拾取提示”</p>
-</li>
-<li><p>添加一个水平框，在其下分别添加一个覆层和一个文本“拾取物品”</p>
-</li>
-<li><p>设置覆层组件为填充（右边值为15），水平和垂直对其均为填充</p>
-</li>
-<li><p>在覆层下面添加一个图片和一个文本”F“，设置两者位置和填充</p>
-</li>
-<li><p>在角色蓝图类中的事件图表，事件开始运行时，通过“创建控件”将“拾取提示”创建出来，并且提升为变量“拾取提示”，“添加到视口”，并且”设置可视性“为“已折叠”</p>
-</li>
-<li><p>在角色的拾取系统的开启高亮显示的后面设置“拾取提示”的可视性为可视</p>
-</li>
-<li><p>在关闭高亮显示的遍历结束之后关闭拾取提示UI的可视性</p>
 </li>
 </ol>
 

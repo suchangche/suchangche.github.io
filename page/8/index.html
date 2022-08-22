@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">88</span>
+          <span class="site-state-item-count">89</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,461 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/29/UE4-%E7%AC%AC%E4%B8%80%E4%BA%BA%E7%A7%B0FPS-%E4%BB%A3%E7%A0%81%E8%AE%B2%E8%A7%A3%EF%BC%88%E4%B8%80%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/04/29/UE4-%E7%AC%AC%E4%B8%80%E4%BA%BA%E7%A7%B0FPS-%E4%BB%A3%E7%A0%81%E8%AE%B2%E8%A7%A3%EF%BC%88%E4%B8%80%EF%BC%89/" class="post-title-link" itemprop="url">UE4-第一人称FPS-代码讲解（一）</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-04-29 14:38:10" itemprop="dateCreated datePublished" datetime="2022-04-29T14:38:10+08:00">2022-04-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-05-02 14:07:27" itemprop="dateModified" datetime="2022-05-02T14:07:27+08:00">2022-05-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>案例是来自官方文档的<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.27/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/FirstPersonShooter/1/">第一人称射击游戏教程</a>，详细实施步骤可以看我之前的博客，或者直接取官网查看，此处仅仅讲解实现项目的代码</p>
+<h1 id="添加日志消息"><a href="#添加日志消息" class="headerlink" title="添加日志消息"></a>添加日志消息</h1><h2 id="FPSProjectGameMode-h"><a href="#FPSProjectGameMode-h" class="headerlink" title="FPSProjectGameMode.h"></a>FPSProjectGameMode.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/GameModeBase.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;FPSProjectGameModeBase.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FPSPROJECT_API</span> AFPSProjectGameModeBase : <span class="keyword">public</span> AGameModeBase</span><br><span class="line">&#123;</span><br><span class="line"><span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">//用于重载StartPlay()函数</span></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">StartPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这一段没啥好说的，唯一修改的地方就是在此声明StartPlay()函数，使我们可以将其重载</p>
+<h2 id="FPSProjectGameModeBase-cpp"><a href="#FPSProjectGameModeBase-cpp" class="headerlink" title="FPSProjectGameModeBase.cpp"></a>FPSProjectGameModeBase.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Epic Games, Inc版权所有。保留所有权利。</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;FPSProjectGameMode.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSProjectGameModeBase::StartPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">Super::<span class="built_in">StartPlay</span>();</span><br><span class="line"></span><br><span class="line"><span class="built_in">check</span>(GEngine != <span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 显示调试消息五秒。 </span></span><br><span class="line"><span class="comment">// -1&quot;键&quot;值参数防止该消息被更新或刷新。</span></span><br><span class="line">GEngine-&gt;<span class="built_in">AddOnScreenDebugMessage</span>(<span class="number">-1</span>, <span class="number">5.0f</span>, FColor::Yellow, <span class="built_in">TEXT</span>(<span class="string">&quot;Hello World, this is FPSGameModeBase!&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<h3 id="check"><a href="#check" class="headerlink" title="check()"></a><a target="_blank" rel="noopener" href="https://docs.unrealengine.com/5.0/zh-CN/asserts-in-unreal-engine/">check()</a></h3><p>check()为断言</p>
+<p>在C和C++编程中，<code>assert</code> 可在开发期间帮助检测和诊断不正常或无效的运行时条件。</p>
+<p>这些条件通常检查是否指针为非空、除数为非零、函数并非递归运行，或代码要求的其他重要假设。但每次检查会使得效率十分低下。某些情况下，<code>assert</code> 会在延迟崩溃发生之前发现导致该崩溃的bug，例如删除未来tick所需的对象，协助开发人员发现引起崩溃的根本原因。</p>
+<p><code>assert</code> 的关键特性之一是不存在于发布代码中，这意味着不但不会影响发布产品的性能，也没有任何副作用。对 <code>assert</code> 最简单的理解就是：**”断言”必须一律为true，否则程序会停止运行**。</p>
+<p>虚幻引擎4（UE4）提供 <code>assert</code> 等同项的三个不同族系：<code>check</code>、<code>verify</code> 和 <code>ensure</code>。各个功能的行为略有不同，但它们都是开发期间使用的诊断工具，目标大致相同。</p>
+<p>Check族系最接近基础 <code>assert</code>，因为当第一个参数得出的值为false时，此族系的成员会停止执行，且默认不会在发布版本中运行。以下Check宏可用：</p>
+<table>
+<thead>
+<tr>
+<th>宏</th>
+<th>参数</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>check</code> 或 <code>checkSlow</code></td>
+<td><code>Expression</code></td>
+<td>若 <code>Expression</code> 为false，停止执行</td>
+</tr>
+<tr>
+<td><code>checkf</code> 或 <code>checkfSlow</code></td>
+<td><code>Expression</code>、<code>FormattedText</code>、<code>...</code></td>
+<td>若 <code>Expression</code> 为false，则停止执行并将 <code>FormattedText</code> 输出到日志</td>
+</tr>
+<tr>
+<td><code>checkCode</code></td>
+<td><code>Code</code></td>
+<td>在运行一次的do-while循环结构中执行 <code>Code</code>；主要用于准备另一个Check所需的信息</td>
+</tr>
+<tr>
+<td><code>checkNoEntry</code></td>
+<td>（无）</td>
+<td>若此行被hit，则停止执行，类似于 <code>check(false)</code>，但主要用于应不可到达的代码路径</td>
+</tr>
+<tr>
+<td><code>checkNoReentry</code></td>
+<td>（无）</td>
+<td>若此行被hit超过一次，则停止执行</td>
+</tr>
+<tr>
+<td><code>checkNoRecursion</code></td>
+<td>（无）</td>
+<td>若此行被hit超过一次而未离开作用域，则停止执行</td>
+</tr>
+<tr>
+<td><code>unimplemented</code></td>
+<td>（无）</td>
+<td>若此行被hit，则停止执行，类似于 <code>check(false)</code>，但主要用于应被覆盖而不会被调用的虚拟函数</td>
+</tr>
+</tbody></table>
+<h3 id="GEngine"><a href="#GEngine" class="headerlink" title="GEngine"></a>GEngine</h3><p>看作一个全局指针，并且是只读的。</p>
+<p>其经常使用为拿到当前的World: </p>
+<ul>
+<li><p>使用的成员方法为:GetWorldFromContextObject</p>
+</li>
+<li><p>参数为World的一个Uobject</p>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!GEngine || !GEngine-&gt;<span class="built_in">UseSound</span>())</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">UWorld* ThisWorld = GEngine-&gt;<span class="built_in">GetWorldFromContextObject</span>(WorldContextObject, EGetWorldErrorMode::L</span><br></pre></td></tr></table></figure>
+
+<h2 id="AddOnScreenDebugMessage"><a href="#AddOnScreenDebugMessage" class="headerlink" title="AddOnScreenDebugMessage()"></a>AddOnScreenDebugMessage()</h2><p>在屏幕上打印试错信息</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GEngine-&gt;<span class="built_in">AddOnScreenDebugMessage</span>(<span class="number">-1</span>, <span class="number">5.0f</span>, FColor::Yellow, <span class="built_in">TEXT</span>(<span class="string">&quot;Hello World, this is FPSGameMode!&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<p><code>AddOnScreenDebugMessage(uint64 Key, float TimeToDisplay, FColor DisplayColor, const FString&amp; DebugMessage, bool bNewerOnTop, const FVector2D&amp; TextScale)</code></p>
+<ul>
+<li><p>第一个参数默认为-1</p>
+</li>
+<li><p>第二个参数是debug显示时间</p>
+</li>
+<li><p>第三个参数是显示颜色</p>
+</li>
+<li><p>第四个参数是显示信息</p>
+</li>
+<li><p>第五个参数是是否在上面显示更新的消息（可不填）</p>
+</li>
+<li><p>第六个是显示字体大小（可不填）</p>
+</li>
+</ul>
+<h1 id="实现角色移动"><a href="#实现角色移动" class="headerlink" title="实现角色移动"></a>实现角色移动</h1><h2 id="FPSCharacter-h"><a href="#FPSCharacter-h" class="headerlink" title="FPSCharacter.h"></a>FPSCharacter.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/Character.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;FPSCharacter.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FPSPROJECT_API</span> AFPSCharacter : <span class="keyword">public</span> ACharacter</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 为此角色的属性设置默认值</span></span><br><span class="line">    <span class="built_in">AFPSCharacter</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="comment">// 当游戏开始或重生（Spawn）时被调用</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 每一帧都被调用</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">( <span class="type">float</span> DeltaTime )</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 被调用，将功能与输入绑定</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">SetupPlayerInputComponent</span><span class="params">(<span class="keyword">class</span> UInputComponent* PlayerInputComponent)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 处理用于前后移动的输入。</span></span><br><span class="line">    <span class="built_in">UFUNCTION</span>()</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">MoveForward</span><span class="params">(<span class="type">float</span> Value)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 处理用于左右移动的输入。</span></span><br><span class="line">    <span class="built_in">UFUNCTION</span>()</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">MoveRight</span><span class="params">(<span class="type">float</span> Value)</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>声明前进和左右移动的函数，参数为Value，来自于在编辑界面中绑定的那个值</p>
+<h2 id="FPSCharacter-cpp"><a href="#FPSCharacter-cpp" class="headerlink" title="FPSCharacter.cpp"></a>FPSCharacter.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;FPSCharacter.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置默认值</span></span><br><span class="line">AFPSCharacter::<span class="built_in">AFPSCharacter</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 将此角色设置为每帧调用Tick()。  如果不需要此特性，可以关闭以提升性能。</span></span><br><span class="line">    PrimaryActorTick.bCanEverTick = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当游戏开始或重生（Spawn）时被调用</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">    <span class="built_in">check</span>(GEngine != <span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 显示调试消息五秒。 </span></span><br><span class="line">    <span class="comment">// -1&quot;键&quot;值参数可以防止更新或刷新消息。</span></span><br><span class="line">      GEngine-&gt;<span class="built_in">AddOnScreenDebugMessage</span>(<span class="number">-1</span>, <span class="number">5.0f</span>, FColor::Red, <span class="built_in">TEXT</span>(<span class="string">&quot;We are using FPSCharacter.&quot;</span>));</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 每一帧都被调用</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::Tick</span><span class="params">( <span class="type">float</span> DeltaTime )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">Tick</span>( DeltaTime );</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 被调用，将功能与输入绑定</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::SetupPlayerInputComponent</span><span class="params">(UInputComponent* PlayerInputComponent)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">SetupPlayerInputComponent</span>(PlayerInputComponent);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置&quot;移动&quot;绑定。</span></span><br><span class="line">    PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveForward&quot;</span>, <span class="keyword">this</span>, &amp;AFPSCharacter::MoveForward);</span><br><span class="line">    PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveRight&quot;</span>, <span class="keyword">this</span>, &amp;AFPSCharacter::MoveRight);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::MoveForward</span><span class="params">(<span class="type">float</span> Value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 找出&quot;前进&quot;方向，并记录玩家想向该方向移动。</span></span><br><span class="line">    FVector Direction = <span class="built_in">FRotationMatrix</span>(Controller-&gt;<span class="built_in">GetControlRotation</span>()).<span class="built_in">GetScaledAxis</span>(EAxis::X);</span><br><span class="line">    <span class="built_in">AddMovementInput</span>(Direction, Value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::MoveRight</span><span class="params">(<span class="type">float</span> Value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 找出&quot;右侧&quot;方向，并记录玩家想向该方向移动。</span></span><br><span class="line">    FVector Direction = <span class="built_in">FRotationMatrix</span>(Controller-&gt;<span class="built_in">GetControlRotation</span>()).<span class="built_in">GetScaledAxis</span>(EAxis::Y);</span><br><span class="line">    <span class="built_in">AddMovementInput</span>(Direction, Value);</span><br><span class="line">&#125;<span class="built_in">mponent</span>(PlayerInputComponent);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们看移动函数，功能和输入绑定那块我们一会儿回过头来再看！</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::MoveForward</span><span class="params">(<span class="type">float</span> Value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 找出&quot;前进&quot;方向，并记录玩家想向该方向移动。</span></span><br><span class="line">    FVector Direction = <span class="built_in">FRotationMatrix</span>(Controller-&gt;<span class="built_in">GetControlRotation</span>()).<span class="built_in">GetScaledAxis</span>(EAxis::X);</span><br><span class="line">    <span class="built_in">AddMovementInput</span>(Direction, Value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>本函数首先通过<code>GetScaledAxis(EAxis::X)</code>获取方向，比如此处是沿X轴（在编辑器中X轴代表前方，Y轴代表右方）</p>
+<p>再通过<code>Controller-&gt;GetControlRotation()</code>获取管理员的旋转方位作为<code>FRotationMatrix()</code>的值并记录在变量Direction中</p>
+<p>最后<code>AddMovementInput(Direction, Value)</code>函数实现向前移动</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 被调用，将功能与输入绑定</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::SetupPlayerInputComponent</span><span class="params">(UInputComponent* PlayerInputComponent)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">SetupPlayerInputComponent</span>(PlayerInputComponent);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置&quot;移动&quot;绑定。</span></span><br><span class="line">    PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveForward&quot;</span>, <span class="keyword">this</span>, &amp;AFPSCharacter::MoveForward);</span><br><span class="line">    PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveRight&quot;</span>, <span class="keyword">this</span>, &amp;AFPSCharacter::MoveRight);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再回过头来看绑定操作</p>
+<p>很眼熟是不是？和我之前那篇博客里面实现小球的移动的绑定方式一模一样</p>
+<p>在这里简述一下</p>
+<p><code>BindAxis</code>绑定轴映射，与编辑-&gt;项目设置-&gt;输入-&gt;轴映射里面的命名必须一致</p>
+<p>第一个参数为事件，此事件作用于第二个参数所指定的指针，由第三个参数（一个函数）来实现这个事件！</p>
+<h1 id="实现鼠标摄像机控制"><a href="#实现鼠标摄像机控制" class="headerlink" title="实现鼠标摄像机控制"></a>实现鼠标摄像机控制</h1><h2 id="FPSCharacter-cpp-1"><a href="#FPSCharacter-cpp-1" class="headerlink" title="FPSCharacter.cpp"></a>FPSCharacter.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 被调用，将功能与输入绑定</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::SetupPlayerInputComponent</span><span class="params">(UInputComponent* PlayerInputComponent)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">SetupPlayerInputComponent</span>(PlayerInputComponent);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置&quot;移动&quot;绑定。</span></span><br><span class="line">    PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveForward&quot;</span>, <span class="keyword">this</span>, &amp;AFPSCharacter::MoveForward);</span><br><span class="line">    PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveRight&quot;</span>, <span class="keyword">this</span>, &amp;AFPSCharacter::MoveRight);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置&quot;观看&quot;绑定。</span></span><br><span class="line">    PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;Turn&quot;</span>, <span class="keyword">this</span>, &amp;AFPSCharacter::AddControllerYawInput);</span><br><span class="line">    PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;LookUp&quot;</span>, <span class="keyword">this</span>, &amp;AFPSCharacter::AddControllerPitchInput);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这里只需要设置鼠标对应的轴映射即可，与上文的移动绑定并无太大区别</p>
+<h1 id="实现角色跳跃"><a href="#实现角色跳跃" class="headerlink" title="实现角色跳跃"></a>实现角色跳跃</h1><h2 id="FPSCharacter-h-1"><a href="#FPSCharacter-h-1" class="headerlink" title="FPSCharacter.h"></a>FPSCharacter.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/Character.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;FPSCharacter.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FPSPROJECT_API</span> AFPSCharacter : <span class="keyword">public</span> ACharacter</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 为此角色的属性设置默认值</span></span><br><span class="line">    <span class="built_in">AFPSCharacter</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="comment">// 当游戏开始或重生（Spawn）时被调用</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 每一帧都被调用</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">( <span class="type">float</span> DeltaTime )</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 被调用，将功能与输入绑定</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">SetupPlayerInputComponent</span><span class="params">(<span class="keyword">class</span> UInputComponent* PlayerInputComponent)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 处理用于前后移动的输入。</span></span><br><span class="line">    <span class="built_in">UFUNCTION</span>()</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">MoveForward</span><span class="params">(<span class="type">float</span> Value)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 处理用于左右移动的输入。</span></span><br><span class="line">    <span class="built_in">UFUNCTION</span>()</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">MoveRight</span><span class="params">(<span class="type">float</span> Value)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 按下键时，设置跳跃标记。</span></span><br><span class="line">    <span class="built_in">UFUNCTION</span>()</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">StartJump</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 释放键时，清除跳跃标记。</span></span><br><span class="line">    <span class="built_in">UFUNCTION</span>()</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">StopJump</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>在Acharacter基类接口文件中，已经有了支持跳跃的成员方法。</p>
+<p>角色跳跃与<code>bPressedJump</code>变量绑定，因此我们只需要在跳跃惭怍按下时将该布尔值设置为true，在跳跃操作释放时将该布尔值设置为false</p>
+<p>现在我们通过StartJump()和StopJump()两个函数来完成改变布尔值的操作</p>
+<p>于是我们首先在FPSCharacter.h中声明两个函数的声明</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 按下键时，设置跳跃标记。</span></span><br><span class="line"><span class="built_in">UFUNCTION</span>()</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">StartJump</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 释放键时，清除跳跃标记。</span></span><br><span class="line"><span class="built_in">UFUNCTION</span>()</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">StopJump</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>接来下，我们在FPSCharacter.cpp中将其定义</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::StartJump</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    bPressedJump = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::StopJump</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    bPressedJump = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后，我们对其进行按键绑定</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置&quot;操作&quot;绑定。</span></span><br><span class="line">PlayerInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Jump&quot;</span>, IE_Pressed, <span class="keyword">this</span>, &amp;AFPSCharacter::StartJump);</span><br><span class="line">PlayerInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Jump&quot;</span>, IE_Released, <span class="keyword">this</span>, &amp;AFPSCharacter::StopJump);</span><br></pre></td></tr></table></figure>
+
+<p>BindAction()函数在我的前一篇博客中也做了详细讲解</p>
+<p>这里提醒一下IE_Preesed和IE_Released分别代表了按压按键和松开按键的行为</p>
+<h1 id="更改摄像机视角"><a href="#更改摄像机视角" class="headerlink" title="更改摄像机视角"></a>更改摄像机视角</h1><p>在此步骤中，你将设置FPS摄像机，这样你可以调整摄像机的属性（例如位置和视野）</p>
+<p>在FPSCharacter.h中添加头文件</p>
+<p><code>Camera/CameraComponent.h</code>摄像机组件</p>
+<p><code>Components/CapsuleComonent.h</code> 胶囊体组件</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Camera/CameraComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/CapsuleComponent.h&quot;</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="FPSCharacter-h-2"><a href="#FPSCharacter-h-2" class="headerlink" title="FPSCharacter.h"></a>FPSCharacter.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// FPS摄像机。</span></span><br><span class="line"><span class="built_in">UPROPERTY</span>(VisibleAnywhere)</span><br><span class="line">UCameraComponent* FPSCameraComponent;</span><br></pre></td></tr></table></figure>
+
+<p>声明一个摄像机组件，并且使其可视化</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/Character.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Camera/CameraComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/CapsuleComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;FPSCharacter.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FPSPROJECT_API</span> AFPSCharacter : <span class="keyword">public</span> ACharacter</span><br><span class="line">&#123;</span><br><span class="line"><span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"><span class="comment">// 为此角色的属性设置默认值</span></span><br><span class="line"><span class="built_in">AFPSCharacter</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line"><span class="comment">// 当游戏开始或重生（Spawn）时被调用</span></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:     </span><br><span class="line"><span class="comment">// 每一帧都被调用</span></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">( <span class="type">float</span> DeltaTime )</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 被调用，将功能与输入绑定</span></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">SetupPlayerInputComponent</span><span class="params">(<span class="keyword">class</span> UInputComponent* PlayerInputComponent)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 处理用于前后移动的输入。</span></span><br><span class="line"><span class="built_in">UFUNCTION</span>()</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">MoveForward</span><span class="params">(<span class="type">float</span> Value)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 处理用于左右移动的输入。</span></span><br><span class="line"><span class="built_in">UFUNCTION</span>()</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">MoveRight</span><span class="params">(<span class="type">float</span> Value)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 按下键时，设置跳跃标记。</span></span><br><span class="line"><span class="built_in">UFUNCTION</span>()</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">StartJump</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 释放键时，清除跳跃标记。</span></span><br><span class="line"><span class="built_in">UFUNCTION</span>()</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">StopJump</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// FPS摄像机</span></span><br><span class="line"><span class="built_in">UPROPERTY</span>(VisibleAnywhere)</span><br><span class="line">UCameraComponent* FPSCameraComponent;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="FPSCharacter-cpp-2"><a href="#FPSCharacter-cpp-2" class="headerlink" title="FPSCharacter.cpp"></a>FPSCharacter.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建第一人称摄像机组件。</span></span><br><span class="line">FPSCameraComponent = <span class="built_in">CreateDefaultSubobject</span>&lt;UCameraComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;FirstPersonCamera&quot;</span>));</span><br><span class="line"><span class="built_in">check</span>(FPSCameraComponent != <span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将摄像机组件附加到我们的胶囊体组件。</span></span><br><span class="line">FPSCameraComponent-&gt;<span class="built_in">SetupAttachment</span>(<span class="built_in">CastChecked</span>&lt;USceneComponent, UCapsuleComponent&gt;(<span class="built_in">GetCapsuleComponent</span>()));</span><br></pre></td></tr></table></figure>
+
+<p>创建FPSCameraComponent组件</p>
+<p>加上一个断言，保证创建成功</p>
+<p>然后将摄像机组件附加到胶囊体，但这个时候会出现类型不匹配的问题</p>
+<p>SetupAttachment()函数里面的参数必须是一个场景类型的组件，而此时我们想要将摄像机组件附加到一个胶囊体类型的组件上面。</p>
+<p>所以我们需要将胶囊体类型组件进行强制转换。</p>
+<p>有两种方式</p>
+<p>方式一：</p>
+<p>直接进行强制转换</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FPSCameraComponent-&gt;<span class="built_in">SetupAttachment</span>((USceneComponent *)<span class="built_in">GetCapsuleComponent</span>());</span><br></pre></td></tr></table></figure>
+
+<p>方式二：</p>
+<p>通过<code>CastCheck&lt;目标类型,原类型&gt;(组件)</code>进行强制转换</p>
+<p>通过这个函数有什么好处呢？就是强制转换成功就照常进行，但如果强制转换失败，则会抛出异常</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FPSCameraComponent-&gt;<span class="built_in">SetupAttachment</span>(<span class="built_in">CastChecked</span>&lt;USceneComponent, UCapsuleComponent&gt;(<span class="built_in">GetCapsuleComponent</span>()));</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将摄像机置于略高于眼睛上方的位置。</span></span><br><span class="line">FPSCameraComponent-&gt;<span class="built_in">SetRelativeLocation</span>(<span class="built_in">FVector</span>(<span class="number">0.0f</span>, <span class="number">0.0f</span>, <span class="number">50.0f</span> + BaseEyeHeight));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 启用Pawn控制摄像机旋转。</span></span><br><span class="line">FPSCameraComponent-&gt;bUsePawnControlRotation = <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>SetRelativeLocation</code> 用于设置组件的默认值。不过，上一个值仍然会在设置在编辑器中。为纠正这点，请打开蓝图编辑器。点击 <code>FPSCameraComponent</code>，然后在 <strong>细节</strong> 面板中找到 <strong>变换 -&gt; 位置（Transform -&gt; Location）</strong> 数值。点击这个值旁边的 <strong>重置为默认（Reset to Default）</strong>。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;FPSCharacter.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置默认值</span></span><br><span class="line">AFPSCharacter::<span class="built_in">AFPSCharacter</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 将此角色设置为每帧调用Tick()。  如果不需要此特性，可以关闭以提升性能。</span></span><br><span class="line">    PrimaryActorTick.bCanEverTick = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建第一人称摄像机组件。</span></span><br><span class="line">    FPSCameraComponent = <span class="built_in">CreateDefaultSubobject</span>&lt;UCameraComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;FirstPersonCamera&quot;</span>));</span><br><span class="line">    <span class="built_in">check</span>(FPSCameraComponent != <span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将摄像机组件附加到我们的胶囊体组件。</span></span><br><span class="line">    FPSCameraComponent-&gt;<span class="built_in">SetupAttachment</span>(<span class="built_in">CastChecked</span>&lt;USceneComponent, UCapsuleComponent&gt;(<span class="built_in">GetCapsuleComponent</span>()));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将摄像机置于略高于眼睛上方的位置。</span></span><br><span class="line">    FPSCameraComponent-&gt;<span class="built_in">SetRelativeLocation</span>(<span class="built_in">FVector</span>(<span class="number">0.0f</span>, <span class="number">0.0f</span>, <span class="number">50.0f</span> + BaseEyeHeight));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 启用Pawn控制摄像机旋转。</span></span><br><span class="line">    FPSCameraComponent-&gt;bUsePawnControlRotation = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当游戏开始或重生（Spawn）时被调用</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">    <span class="built_in">check</span>(GEngine != <span class="literal">nullptr</span>)</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 显示调试消息五秒。 </span></span><br><span class="line">     <span class="comment">// -1&quot;键&quot;值（第一个参数）表示我们从不需要更新或刷新此消息。</span></span><br><span class="line">      GEngine-&gt;<span class="built_in">AddOnScreenDebugMessage</span>(<span class="number">-1</span>, <span class="number">5.0f</span>, FColor::Red, <span class="built_in">TEXT</span>(<span class="string">&quot;We are using FPSCharacter.&quot;</span>));</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 每一帧都被调用</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::Tick</span><span class="params">( <span class="type">float</span> DeltaTime )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">Tick</span>( DeltaTime );</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 被调用，将功能与输入绑定</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::SetupPlayerInputComponent</span><span class="params">(UInputComponent* PlayerInputComponent)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">SetupPlayerInputComponent</span>(PlayerInputComponent);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置&quot;移动&quot;绑定。</span></span><br><span class="line">    PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveForward&quot;</span>, <span class="keyword">this</span>, &amp;AFPSCharacter::MoveForward);</span><br><span class="line">    PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveRight&quot;</span>, <span class="keyword">this</span>, &amp;AFPSCharacter::MoveRight);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置&quot;观看&quot;绑定。</span></span><br><span class="line">    PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;Turn&quot;</span>, <span class="keyword">this</span>, &amp;AFPSCharacter::AddControllerYawInput);</span><br><span class="line">    PlayerInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;LookUp&quot;</span>, <span class="keyword">this</span>, &amp;AFPSCharacter::AddControllerPitchInput);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置&quot;操作&quot;绑定。</span></span><br><span class="line">    PlayerInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Jump&quot;</span>, IE_Pressed, <span class="keyword">this</span>, &amp;AFPSCharacter::StartJump);</span><br><span class="line">    PlayerInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Jump&quot;</span>, IE_Released, <span class="keyword">this</span>, &amp;AFPSCharacter::StopJump);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::MoveForward</span><span class="params">(<span class="type">float</span> Value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 找出&quot;前进&quot;方向，并记录玩家想向该方向移动。</span></span><br><span class="line">    FVector Direction = <span class="built_in">FRotationMatrix</span>(Controller-&gt;<span class="built_in">GetControlRotation</span>()).<span class="built_in">GetScaledAxis</span>(EAxis::X);</span><br><span class="line">    <span class="built_in">AddMovementInput</span>(Direction, Value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::MoveRight</span><span class="params">(<span class="type">float</span> Value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 找出&quot;右侧&quot;方向，并记录玩家想向该方向移动。</span></span><br><span class="line">    FVector Direction = <span class="built_in">FRotationMatrix</span>(Controller-&gt;<span class="built_in">GetControlRotation</span>()).<span class="built_in">GetScaledAxis</span>(EAxis::Y);</span><br><span class="line">    <span class="built_in">AddMovementInput</span>(Direction, Value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::StartJump</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    bPressedJump = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::StopJump</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    bPressedJump = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="将第一人称网格体添加到角色中"><a href="#将第一人称网格体添加到角色中" class="headerlink" title="将第一人称网格体添加到角色中"></a>将第一人称网格体添加到角色中</h1><h2 id="FPSCharacter-h-3"><a href="#FPSCharacter-h-3" class="headerlink" title="FPSCharacter.h"></a>FPSCharacter.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一人称网格体（手臂），仅对所属玩家可见。</span></span><br><span class="line"><span class="built_in">UPROPERTY</span>(VisibleDefaultsOnly, Category = Mesh)</span><br><span class="line">USkeletalMeshComponent* FPSMesh;</span><br></pre></td></tr></table></figure>
+
+<p>在头文件中声明第一人称网格体，将其命名为FPSMesh</p>
+<h2 id="FPSCharacter-cpp-3"><a href="#FPSCharacter-cpp-3" class="headerlink" title="FPSCharacter.cpp"></a>FPSCharacter.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 为所属玩家创建第一人称网格体组件。</span></span><br><span class="line">FPSMesh = <span class="built_in">CreateDefaultSubobject</span>&lt;USkeletalMeshComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;FirstPersonMesh&quot;</span>));</span><br><span class="line"><span class="built_in">check</span>(FPSMesh != <span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 仅所属玩家可以看见此网格体。</span></span><br><span class="line">FPSMesh-&gt;<span class="built_in">SetOnlyOwnerSee</span>(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将 FPS 网格体附加到 FPS 摄像机。</span></span><br><span class="line">FPSMesh-&gt;<span class="built_in">SetupAttachment</span>(FPSCameraComponent);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 禁用某些环境阴影以便实现只有单个网格体的感觉。</span></span><br><span class="line">FPSMesh-&gt;bCastDynamicShadow = <span class="literal">false</span>;</span><br><span class="line">FPSMesh-&gt;CastShadow = <span class="literal">false</span>;</span><br></pre></td></tr></table></figure>
+
+<p>定义第一人称网格体</p>
+<p>做一个断言</p>
+<p>将第一人称网格体设定为仅所属玩家可见</p>
+<p>将第一人称网格体附加到摄像机上</p>
+<p>将第一人称网格体（手臂）的阴影禁用掉，这样就不会在地面上看到一个人有四条手臂的情况了。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将第一人称网格体设置为仅所属玩家可见</span></span><br><span class="line"><span class="built_in">GetMesh</span>()-&gt;<span class="built_in">SetOwnerNoSee</span>(<span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
+
+<p>将手臂设置为仅自己可见，免得到时候其他玩家看到你一个人前面悬浮着一双手！</p>
+<p>这一处官网的解释是：所属玩家看不到常规（第三人称）全身网格体。</p>
+<p>我觉得是有问题的，像我这样理解的话更清楚直白</p>
+<h1 id="将发射物添加到游戏"><a href="#将发射物添加到游戏" class="headerlink" title="将发射物添加到游戏"></a>将发射物添加到游戏</h1><h2 id="FPSProjectile-h"><a href="#FPSProjectile-h" class="headerlink" title="FPSProjectile.h"></a>FPSProjectile.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/SphereComponent.h&quot;</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 球体碰撞组件。</span></span><br><span class="line"><span class="built_in">UPROPERTY</span>(VisibleDefaultsOnly, Category = Projectile)</span><br><span class="line">USphereComponent* CollisionComponent;</span><br></pre></td></tr></table></figure>
+
+<p>这就很常规，首先引入头文件，然后声明球体碰撞逐渐，并将其命名为CollisionComponent</p>
+<h2 id="FPSProjectile-cpp"><a href="#FPSProjectile-cpp" class="headerlink" title="FPSProjectile.cpp"></a>FPSProjectile.cpp</h2><p>在构造函数中添加</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!RootComponent)</span><br><span class="line">&#123;</span><br><span class="line">RootComponent = <span class="built_in">CreateDefaultSubobject</span>&lt;USceneComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;ProjectileSceneComponent&quot;</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(!CollisionComponent)</span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">// 用球体进行简单的碰撞展示。</span></span><br><span class="line">CollisionComponent = <span class="built_in">CreateDefaultSubobject</span>&lt;USphereComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;SphereComponent&quot;</span>));</span><br><span class="line"><span class="comment">// 设置球体的碰撞半径。</span></span><br><span class="line">CollisionComponent-&gt;<span class="built_in">InitSphereRadius</span>(<span class="number">15.0f</span>);</span><br><span class="line"><span class="comment">// 将根组件设置为碰撞组件。</span></span><br><span class="line">RootComponent = CollisionComponent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>把 <code>CollisionComponent</code> 设为 <code>RootComponent</code>，接下来的操作就都是对CollisionComponent直接进行的了。</p>
+<p>每一次都会生成一个新的CollisionComponent，然后根组件也随之更新到新的CollisionComponent上，这样我们每次进行的操作都是对新的CollisionComponent进行的。</p>
+<h1 id="添加发射物移动组件"><a href="#添加发射物移动组件" class="headerlink" title="添加发射物移动组件"></a>添加发射物移动组件</h1><h2 id="FPSProjectile-h-1"><a href="#FPSProjectile-h-1" class="headerlink" title="FPSProjectile.h"></a>FPSProjectile.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/ProjectileMovementComponent.h&quot;</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 发射物移动组件。</span></span><br><span class="line"><span class="built_in">UPROPERTY</span>(VisibleAnywhere, Category = Movement)</span><br><span class="line">UProjectileMovementComponent* ProjectileMovementComponent;</span><br></pre></td></tr></table></figure>
+
+<p>引入头文件，声明发射物移动组件并命名为ProjectileMovementCompone</p>
+<h2 id="FPSProjectile-cpp-1"><a href="#FPSProjectile-cpp-1" class="headerlink" title="FPSProjectile.cpp"></a>FPSProjectile.cpp</h2><p>在FPSProjectile.cpp的构造函数中添加</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!ProjectileMovementComponent)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 使用此组件驱动发射物的移动。</span></span><br><span class="line">    ProjectileMovementComponent = <span class="built_in">CreateDefaultSubobject</span>&lt;UProjectileMovementComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;ProjectileMovementComponent&quot;</span>));</span><br><span class="line">    ProjectileMovementComponent-&gt;<span class="built_in">SetUpdatedComponent</span>(CollisionComponent);</span><br><span class="line">    ProjectileMovementComponent-&gt;InitialSpeed = <span class="number">3000.0f</span>;</span><br><span class="line">    ProjectileMovementComponent-&gt;MaxSpeed = <span class="number">3000.0f</span>;</span><br><span class="line">    ProjectileMovementComponent-&gt;bRotationFollowsVelocity = <span class="literal">true</span>;</span><br><span class="line">    ProjectileMovementComponent-&gt;bShouldBounce = <span class="literal">true</span>;</span><br><span class="line">    ProjectileMovementComponent-&gt;Bounciness = <span class="number">0.3f</span>;</span><br><span class="line">    ProjectileMovementComponent-&gt;ProjectileGravityScale = <span class="number">0.0f</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>定义移动组件</p>
+</li>
+<li><p>将移动组件进行更新</p>
+</li>
+<li><p>InitialSpeed初始速度设置为3000.0f</p>
+</li>
+<li><p>MaxSpeed最大速度设置为3000.0f</p>
+</li>
+<li><p>bRotationFollowsVelocity是否沿某方向进行高速旋转</p>
+</li>
+<li><p>bShouldBounce能否被反弹</p>
+</li>
+<li><p>Bounciness受到阻碍之后的反弹力是多少</p>
+</li>
+<li><p>ProjectileGravityScale受到的重力大小（弹道抛物线）</p>
+</li>
+</ul>
+<h1 id="设置发射物的方向"><a href="#设置发射物的方向" class="headerlink" title="设置发射物的方向"></a>设置发射物的方向</h1><p>在官网上此标题为“设置发射物的初始速度”</p>
+<p>但是我觉得不妥，因为在上一小节中，我们已经在发射物的移动组件内设置了发射物的初始速度，在这一小节中，我们只需要定义一个函数，此函数为发射物提供一个方向，然后再根据已经初始化的速度，进行发射即可</p>
+<h2 id="FPSProjectile-h-2"><a href="#FPSProjectile-h-2" class="headerlink" title="FPSProjectile.h"></a>FPSProjectile.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化射击方向上发射物速度的函数。</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">FireInDirection</span><span class="params">(<span class="type">const</span> FVector&amp; ShootDirection)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>声明发射物方向函数，参数为设计方向（记住这里是引用传递）</p>
+<h2 id="FPSProjectile-cpp-2"><a href="#FPSProjectile-cpp-2" class="headerlink" title="FPSProjectile.cpp"></a>FPSProjectile.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化射击方向上发射物速度的函数。</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSProjectile::FireInDirection</span><span class="params">(<span class="type">const</span> FVector&amp; ShootDirection)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ProjectileMovementComponent-&gt;Velocity = ShootDirection * ProjectileMovementComponent-&gt;InitialSpeed;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Velocity的中文意思是沿某一方向的速度</p>
+<p>所以这个值是由两个参数共同决定的-&gt;方向和速度</p>
+<p>Velocity更像是一个向量，可以将其理解为一个合成力，它的两个子力为方向和速度</p>
+<p>于是我们直接调用射击方向*已在移动函数中设置好的速度</p>
+<h1 id="绑定发射输入操作"><a href="#绑定发射输入操作" class="headerlink" title="绑定发射输入操作"></a>绑定发射输入操作</h1><h2 id="FPSCharacter-h-4"><a href="#FPSCharacter-h-4" class="headerlink" title="FPSCharacter.h"></a>FPSCharacter.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 处理发射物射击的函数。</span></span><br><span class="line"><span class="built_in">UFUNCTION</span>()</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Fire</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>声明函数，没啥好多说的。</p>
+<h2 id="FPSCharacter-cpp-4"><a href="#FPSCharacter-cpp-4" class="headerlink" title="FPSCharacter.cpp"></a>FPSCharacter.cpp</h2><p>将其下内容添加到<code>SetupPlayerInputComponent</code>中</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PlayerInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Fire&quot;</span>, IE_Pressed, <span class="keyword">this</span>, &amp;AFPSCharacter::Fire);</span><br></pre></td></tr></table></figure>
+
+<p>绑定操作按键，也没啥好多说的</p>
+<p>先将fire()的定义添加到cpp文件中，后面咱再详细定义具体实现</p>
+<h1 id="定义发射物的生成位置"><a href="#定义发射物的生成位置" class="headerlink" title="定义发射物的生成位置"></a>定义发射物的生成位置</h1><ol>
+<li><p>生成 <code>FPSProjectile</code> actor并实现 <code>OnFire</code> 函数时需要考虑两点，即：</p>
+<ul>
+<li><p>发射物的生成位置。</p>
+</li>
+<li><p>发射物对应的类（让 <code>FPSCharacter</code> 及其派生蓝图知道要生成哪种发射物）。</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>你将使用一个摄像机空间中的偏移向量来确定发射物的生成位置。设置该参数为可编辑参数，这样你就可以在 <code>BP_FPSCharacter</code> 蓝图中对其进行设置和调整。最终，你可以基于这些数据计算发射物的初始位置。</p>
+<h2 id="FPSCharacter-h-5"><a href="#FPSCharacter-h-5" class="headerlink" title="FPSCharacter.h"></a>FPSCharacter.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 枪口相对于摄像机位置的偏移。</span></span><br><span class="line"><span class="built_in">UPROPERTY</span>(EditAnywhere, BlueprintReadWrite, Category = Gameplay)</span><br><span class="line">FVector MuzzleOffset;</span><br></pre></td></tr></table></figure>
+
+<p>MuzzleOffset是一个跟随着摄像机的中间量</p>
+<p>在后面我们会根据这个中间量定义枪口的世界位置</p>
+<p>将以下代码添加到protected:下</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 要生成的发射物类。</span></span><br><span class="line"><span class="built_in">UPROPERTY</span>(EditDefaultsOnly, Category = Projectile)</span><br><span class="line">TSubclassOf&lt;<span class="keyword">class</span> <span class="title class_">AFPSProjectile</span>&gt; ProjectileClass;</span><br></pre></td></tr></table></figure>
+
+<p><code>EditDefaultsOnly</code> 意味着你只能将发射物类设置为蓝图上的默认值，而不是每个蓝图实例上的默认值。</p>
+<p>在蓝图或C++层面调用SpawnActor创建一个actor对象，或者调用SpawnActorDeferred</p>
+<p>延迟创建一个actor对象时，都需要一个class类型的参数。</p>
+<p>如果在C++层面，对象类型是我们自己在蓝图里做的蓝图类</p>
+<p>那么C++层面需要得到蓝图类型</p>
+<p>做法如下：</p>
+<p>建立一个成员变量并暴露给蓝图</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UPROPERTY</span>(EditDefaultsOnly, Category = XXX)</span><br><span class="line"></span><br><span class="line">TSubclassOf&lt;<span class="keyword">class</span> 蓝图类的C++父类&gt; 变量名称</span><br></pre></td></tr></table></figure>
+
+<p>接下来就可以再蓝图里面给这个变量设置蓝图类型</p>
+<p>最后调用SpawnActor或SpawnActorDeferred将上面定义的变量传入给class参数即可生成对象</p>
+<p>简单来说，就是需要依托某个类（父类）生成一个Actor对象时，就可以使用TSubclassOf</p>
+<h1 id="实现射击"><a href="#实现射击" class="headerlink" title="实现射击"></a>实现射击</h1><h2 id="FPSCharacter-h-6"><a href="#FPSCharacter-h-6" class="headerlink" title="FPSCharacter.h"></a>FPSCharacter.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;FPSProjectile.h&quot;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>引入发射物的头文件</p>
+<h2 id="FPSCharacter-cpp-5"><a href="#FPSCharacter-cpp-5" class="headerlink" title="FPSCharacter.cpp"></a>FPSCharacter.cpp</h2><p>用以下代码段定义fire()函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (ProjectileClass)</span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">// 获取摄像机变换。</span></span><br><span class="line">FVector CameraLocation;</span><br><span class="line">FRotator CameraRotation;</span><br><span class="line"><span class="built_in">GetActorEyesViewPoint</span>(CameraLocation, CameraRotation);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置MuzzleOffset，在略靠近摄像机前生成发射物。</span></span><br><span class="line">MuzzleOffset.<span class="built_in">Set</span>(<span class="number">100.0f</span>, <span class="number">0.0f</span>, <span class="number">0.0f</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将MuzzleOffset从摄像机空间变换到世界空间。</span></span><br><span class="line">FVector MuzzleLocation = CameraLocation + <span class="built_in">FTransform</span>(CameraRotation).<span class="built_in">TransformVector</span>(MuzzleOffset);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使目标方向略向上倾斜。</span></span><br><span class="line">FRotator MuzzleRotation = CameraRotation;</span><br><span class="line">MuzzleRotation.Pitch += <span class="number">10.0f</span>;</span><br><span class="line"></span><br><span class="line">UWorld* World = <span class="built_in">GetWorld</span>();</span><br><span class="line"><span class="keyword">if</span> (World)</span><br><span class="line">&#123;</span><br><span class="line">    FActorSpawnParameters SpawnParams;</span><br><span class="line">    SpawnParams.Owner = <span class="keyword">this</span>;</span><br><span class="line">    SpawnParams.Instigator = <span class="built_in">GetInstigator</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 在枪口位置生成发射物。</span></span><br><span class="line">    AFPSProjectile* Projectile = World-&gt;<span class="built_in">SpawnActor</span>&lt;AFPSProjectile&gt;(ProjectileClass, MuzzleLocation, MuzzleRotation, SpawnParams);</span><br><span class="line">    <span class="keyword">if</span> (Projectile)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 设置发射物的初始轨迹。</span></span><br><span class="line">        FVector LaunchDirection = MuzzleRotation.<span class="built_in">Vector</span>();</span><br><span class="line">        Projectile-&gt;<span class="built_in">FireInDirection</span>(LaunchDirection);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="将枪口位置转换为世界坐标中的位置"><a href="#将枪口位置转换为世界坐标中的位置" class="headerlink" title="将枪口位置转换为世界坐标中的位置"></a>将枪口位置转换为世界坐标中的位置</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置MuzzleOffset，在略靠近摄像机前生成发射物。</span></span><br><span class="line">MuzzleOffset.<span class="built_in">Set</span>(<span class="number">100.0f</span>, <span class="number">0.0f</span>, <span class="number">0.0f</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将MuzzleOffset从摄像机空间变换到世界空间。</span></span><br><span class="line">FVector MuzzleLocation = CameraLocation + <span class="built_in">FTransform</span>(CameraRotation).<span class="built_in">TransformVector</span>(MuzzleOffset);</span><br></pre></td></tr></table></figure>
+
+<p>先设置枪口的位置，然后根据枪口位置和相机位置转换为世界坐标中的位置</p>
+<p><code>CameraLocation + FTransform(CameraRotation).TransformVector(MuzzleOffset);</code></p>
+<h3 id="模拟后坐力"><a href="#模拟后坐力" class="headerlink" title="模拟后坐力"></a>模拟后坐力</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使目标方向略向上倾斜。</span></span><br><span class="line">FRotator MuzzleRotation = CameraRotation;</span><br><span class="line">MuzzleRotation.Pitch += <span class="number">10.0f</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">UWorld* World = <span class="built_in">GetWorld</span>();</span><br><span class="line"><span class="keyword">if</span> (World)</span><br><span class="line"> &#123;</span><br><span class="line">FActorSpawnParameters SpawnParams;</span><br><span class="line">SpawnParams.Owner = <span class="keyword">this</span>;</span><br><span class="line">SpawnParams.Instigator = <span class="built_in">GetInstigator</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在枪口位置生成发射物。</span></span><br><span class="line">AFPSProjectile* Projectile = World-&gt;<span class="built_in">SpawnActor</span>&lt;AFPSProjectile&gt;(ProjectileClass, MuzzleLocation, MuzzleRotation, SpawnParams);</span><br><span class="line"><span class="keyword">if</span> (Projectile)&#123;<span class="comment">//如果生成成功</span></span><br><span class="line">     <span class="comment">// 设置发射物的初始轨迹。</span></span><br><span class="line">     FVector LaunchDirection = MuzzleRotation.<span class="built_in">Vector</span>();</span><br><span class="line">     Projectile-&gt;<span class="built_in">FireInDirection</span>(LaunchDirection);</span><br><span class="line">               &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="FActorSpwanParamenters"><a href="#FActorSpwanParamenters" class="headerlink" title="FActorSpwanParamenters"></a>FActorSpwanParamenters</h3><p>是一个传递给SpawnActor函数的可选参数的结构体</p>
+<p>它有很多的对象</p>
+<p>Name：衍生Actor的名称（不填写的话就会有一个默认值）</p>
+<p>Templat：将用模板值对新生成的Actor进行初始化</p>
+<p>Owner：衍生的Actor</p>
+<p>Instigator：敌方</p>
+<p>定义一个FPSProjectile类的对象（发射物），这个对象要在世界坐标内，所以就需要在世界坐标内生成发射物，所以此时我们需要调用world中的SpawnActor&lt;&gt;()函数</p>
+<h3 id="SpawnActor"><a href="#SpawnActor" class="headerlink" title="SpawnActor"></a>SpawnActor</h3><p>SpawnActor&lt;发射物的构造函数&gt;(要生成的发射物类，发射物位置，发射物角度，FActorSpawnParameters的对象)</p>
+<p>用来生成发射物</p>
+<p>最后是设置发射物的初始轨迹</p>
+<p>以枪口的角度定义一个FVector</p>
+<p>再将该FVector作为参数填入到FireInDirection()中（此函数再前文已经讲解过）</p>
+<h1 id="添加发射物网格体"><a href="#添加发射物网格体" class="headerlink" title="添加发射物网格体"></a>添加发射物网格体</h1><h2 id="FPSProjectile-h-3"><a href="#FPSProjectile-h-3" class="headerlink" title="FPSProjectile.h"></a>FPSProjectile.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 发射物网格体</span></span><br><span class="line"><span class="built_in">UPROPERTY</span>(VisibleDefaultsOnly, Category = Projectile)</span><br><span class="line">UStaticMeshComponent* ProjectileMeshComponent;</span><br></pre></td></tr></table></figure>
+
+<h2 id="FPSProjectile-cpp-3"><a href="#FPSProjectile-cpp-3" class="headerlink" title="FPSProjectile.cpp"></a>FPSProjectile.cpp</h2><p>构造函数中添加</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!ProjectileMeshComponent)</span><br><span class="line">&#123;</span><br><span class="line">    ProjectileMeshComponent = <span class="built_in">CreateDefaultSubobject</span>&lt;UStaticMeshComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;ProjectileMeshComponent&quot;</span>));</span><br><span class="line">    <span class="type">static</span> ConstructorHelpers::FObjectFinder&lt;UStaticMesh&gt;<span class="built_in">Mesh</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;&#x27;/Game/Sphere.Sphere&#x27;&quot;</span>));</span><br><span class="line">    <span class="keyword">if</span>(Mesh.<span class="built_in">Succeeded</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        ProjectileMeshComponent-&gt;<span class="built_in">SetStaticMesh</span>(Mesh.Object);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="添加发射物材质"><a href="#添加发射物材质" class="headerlink" title="添加发射物材质"></a>添加发射物材质</h1><h2 id="FPSProjectile-h-4"><a href="#FPSProjectile-h-4" class="headerlink" title="FPSProjectile.h"></a>FPSProjectile.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 发射物材质</span></span><br><span class="line"><span class="built_in">UPROPERTY</span>(VisibleDefaultsOnly, Category = Movement)</span><br><span class="line">UMaterialInstanceDynamic* ProjectileMaterialInstance;</span><br></pre></td></tr></table></figure>
+
+<h2 id="FPSProjectile-cpp-4"><a href="#FPSProjectile-cpp-4" class="headerlink" title="FPSProjectile.cpp"></a>FPSProjectile.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> ConstructorHelpers::FObjectFinder&lt;UMaterial&gt;<span class="built_in">Material</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;&#x27;/Game/SphereMaterial.SphereMaterial&#x27;&quot;</span>));</span><br><span class="line"><span class="keyword">if</span> (Material.<span class="built_in">Succeeded</span>())</span><br><span class="line">&#123;</span><br><span class="line">    ProjectileMaterialInstance = UMaterialInstanceDynamic::<span class="built_in">Create</span>(Material.Object, ProjectileMeshComponent);</span><br><span class="line">&#125;</span><br><span class="line">ProjectileMeshComponent-&gt;<span class="built_in">SetMaterial</span>(<span class="number">0</span>, ProjectileMaterialInstance);</span><br><span class="line">ProjectileMeshComponent-&gt;<span class="built_in">SetRelativeScale3D</span>(<span class="built_in">FVector</span>(<span class="number">0.09f</span>, <span class="number">0.09f</span>, <span class="number">0.09f</span>));</span><br><span class="line">ProjectileMeshComponent-&gt;<span class="built_in">SetupAttachment</span>(RootComponent);</span><br></pre></td></tr></table></figure>
+
+<p>SetMaterial()源文件</p>
+<ul>
+<li><p>第一个参数：必须大于等于0的，具体啥玩意，确实还没搞懂，等我以后搞懂了，再做补充说明</p>
+</li>
+<li><p>第二个参数：材质名称</p>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">SetMaterial</span>(int32 ElementIndex, UMaterialInterface* Material)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">check</span>(ElementIndex &gt;= <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (ElementIndex &gt;= BaseMaterials.<span class="built_in">Num</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        BaseMaterials.<span class="built_in">SetNum</span>(ElementIndex + <span class="number">1</span>, <span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    BaseMaterials[ElementIndex] = Material;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其他的就都没什么好讲解的了，如果看不懂的话，可以看看我之前的博客内容</p>
+<h1 id="限制发射物的生命周期"><a href="#限制发射物的生命周期" class="headerlink" title="限制发射物的生命周期"></a>限制发射物的生命周期</h1><h2 id="FPSProjectile-cpp-5"><a href="#FPSProjectile-cpp-5" class="headerlink" title="FPSProjectile.cpp"></a>FPSProjectile.cpp</h2><p>添加到构造函数中</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 3 秒后删除发射物。</span></span><br><span class="line">InitialLifeSpan = <span class="number">3.0f</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这玩意叫初始化声明周期</p>
+<h1 id="编辑发射物的碰撞设置"><a href="#编辑发射物的碰撞设置" class="headerlink" title="编辑发射物的碰撞设置"></a>编辑发射物的碰撞设置</h1><p>虚幻引擎自带了数个预设碰撞通道；不过，引擎也支持游戏项目使用自定义通道。</p>
+<ol>
+<li><p>要创建自定义碰撞通道，打开项目设置（Project Settings），在引擎（Engine） - 碰撞（Collision）中，展开预设（Preset）。</p>
+<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/FirstPersonShooter/3/SettingCollisionChannels.jpg" alt="SettingCollisionChannels.png"></p>
+</li>
+<li><p>在对象通道（Object Channels）中，选择 <strong>新建对象通道…（New Object Channel…）</strong>，创建新碰撞通道。将新碰撞通道命名为”Projectile”，确保将默认响应（Default Response）设置为阻止（Block），然后点击接受（Accept）。</p>
+<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/FirstPersonShooter/3/NewChannel.jpg" alt="NewChannel.png"></p>
+</li>
+<li><p>在预设（Preset）中选择 <strong>新建…（New…）</strong>，将新配置文件命名为”Projectile”。参考以下图片来设置你的碰撞预设。然后点击”接受（Accept）”。</p>
+<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/FirstPersonShooter/3/NewProfile.jpg" alt="NewProfile.png"></p>
+</li>
+</ol>
+<p>此碰撞配置文件将发射物设定为将被静态Actor、动态Actor、模拟物理Actor、载具和可破坏Actor阻挡。此外，此碰撞配置文件设定发射物与Pawn重叠。</p>
+<h1 id="使用新的发射物的碰撞设置"><a href="#使用新的发射物的碰撞设置" class="headerlink" title="使用新的发射物的碰撞设置"></a>使用新的发射物的碰撞设置</h1><h2 id="FPSProjectile-cpp-6"><a href="#FPSProjectile-cpp-6" class="headerlink" title="FPSProjectile.cpp"></a>FPSProjectile.cpp</h2><p>在FPSProjectile构造函数中，将以下代码行添加到CreateDefaultSubobject下方</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将球体的碰撞配置文件名称设置为&quot;Projectile&quot;。</span></span><br><span class="line">CollisionComponent-&gt;BodyInstance.<span class="built_in">SetCollisionProfileName</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;Projectile&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<p>这是在修改碰撞组件的形体实例的碰撞配置文件</p>
+<h1 id="使发射物对碰撞做出响应"><a href="#使发射物对碰撞做出响应" class="headerlink" title="使发射物对碰撞做出响应"></a>使发射物对碰撞做出响应</h1><h2 id="FPSProjectile-h-5"><a href="#FPSProjectile-h-5" class="headerlink" title="FPSProjectile.h"></a>FPSProjectile.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 当发射物击中物体时会调用的函数。</span></span><br><span class="line"><span class="built_in">UFUNCTION</span>()</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">OnHit</span><span class="params">(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, <span class="type">const</span> FHitResult&amp; Hit)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>声明击中物体时的函数</p>
+<h2 id="FPSProjectile-cpp-7"><a href="#FPSProjectile-cpp-7" class="headerlink" title="FPSProjectile.cpp"></a>FPSProjectile.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 当发射物击中物体时会调用的函数。</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSProjectile::OnHit</span><span class="params">(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, <span class="type">const</span> FHitResult&amp; Hit)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (OtherActor != <span class="keyword">this</span> &amp;&amp; OtherComponent-&gt;<span class="built_in">IsSimulatingPhysics</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        OtherComponent-&gt;<span class="built_in">AddImpulseAtLocation</span>(ProjectileMovementComponent-&gt;Velocity * <span class="number">100.0f</span>, Hit.ImpactPoint);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Destroy</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果另一个actor不是本actor，而且另一个actor的组件上使模拟物理状态的</p>
+<p>那么另一个组件就调用AddImpulseAtLocation()函数来模拟被击中的反馈</p>
+<p><code>AddImpulseAtLocation(ProjectileMovementComponent-&gt;Velocity * 100.0f, Hit.ImpactPoint);</code></p>
+<p>第一个参数为冲击力，第二个参数为冲击点。</p>
+<p>在 <code>FPSProjectile</code> 构造函数中，将以下代码行添加到 <code>BodyInstance.SetCollisionProfileName</code> 下方：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 组件击中某物时调用的事件。</span></span><br><span class="line">CollisionComponent-&gt;OnComponentHit.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;AFPSProjectile::OnHit);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>OnComponentHit：当组件（被）碰撞时调用的函数</p>
+</li>
+<li><p>AddDynamic( UserObject, FuncName )：给某物添加一个力</p>
+<ul>
+<li><p>第一个参数：调用的对象</p>
+</li>
+<li><p>第二个参数：调用的函数</p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="将十字准星导入到视口"><a href="#将十字准星导入到视口" class="headerlink" title="将十字准星导入到视口"></a>将十字准星导入到视口</h1><h2 id="FPSHUD-h"><a href="#FPSHUD-h" class="headerlink" title="FPSHUD.h"></a>FPSHUD.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line">   <span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line">   <span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/HUD.h&quot;</span></span></span><br><span class="line">   <span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Engine/Canvas.h&quot;</span></span></span><br><span class="line">   <span class="meta">#<span class="keyword">include</span> <span class="string">&quot;FPSHUD.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * </span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="built_in">UCLASS</span>()</span><br><span class="line">   <span class="keyword">class</span> <span class="title class_">FPSPROJECT_API</span> AFPSHUD : <span class="keyword">public</span> AHUD</span><br><span class="line">   &#123;</span><br><span class="line">       <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line">   <span class="keyword">public</span>:</span><br><span class="line">       <span class="comment">// HUD绘制的主要调用。</span></span><br><span class="line">       <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">DrawHUD</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">protected</span>:</span><br><span class="line">       <span class="comment">// 将被绘制在屏幕中心。</span></span><br><span class="line">       <span class="built_in">UPROPERTY</span>(EditDefaultsOnly)</span><br><span class="line">       UTexture2D* CrosshairTexture;</span><br><span class="line">   &#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="FPSHUD-cpp"><a href="#FPSHUD-cpp" class="headerlink" title="FPSHUD.cpp"></a>FPSHUD.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;FPSHUD.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">AFPSHUD::DrawHUD</span><span class="params">()</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">      Super::<span class="built_in">DrawHUD</span>();</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (CrosshairTexture)</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="comment">// 找出我们的画布的中心点。</span></span><br><span class="line">          <span class="function">FVector2D <span class="title">Center</span><span class="params">(Canvas-&gt;ClipX * <span class="number">0.5f</span>, Canvas-&gt;ClipY * <span class="number">0.5f</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">          <span class="comment">// 偏移纹理大小的一半，以便纹理中心与画布中心对齐。</span></span><br><span class="line">          <span class="function">FVector2D <span class="title">CrossHairDrawPosition</span><span class="params">(Center.X - (CrosshairTexture-&gt;GetSurfaceWidth() * <span class="number">0.5f</span>), Center.Y - (CrosshairTexture-&gt;GetSurfaceHeight() * <span class="number">0.5f</span>))</span></span>;</span><br><span class="line"></span><br><span class="line">          <span class="comment">// 在中心点绘制十字准星。</span></span><br><span class="line">          <span class="function">FCanvasTileItem <span class="title">TileItem</span><span class="params">(CrossHairDrawPosition, CrosshairTexture-&gt;Resource, FLinearColor::White)</span></span>;</span><br><span class="line">          TileItem.BlendMode = SE_BLEND_Translucent;</span><br><span class="line">          Canvas-&gt;<span class="built_in">DrawItem</span>(TileItem);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="FVector2D"><a href="#FVector2D" class="headerlink" title="FVector2D"></a>FVector2D</h3><p>2D类型的vector，定义方式是两条线确定的一个交点（更像是提供一个位置信息，而不是Vector2D本身）</p>
+<p><code>FVector2D Center(Canvas-&gt;ClipX * 0.5f, Canvas-&gt;ClipY * 0.5f);</code></p>
+<ul>
+<li><p>第一个参数：第一条线（x轴）</p>
+</li>
+<li><p>第二个参数：第二条线（Y轴）</p>
+</li>
+</ul>
+<h3 id="FCanvasTileItem"><a href="#FCanvasTileItem" class="headerlink" title="FCanvasTileItem"></a>FCanvasTileItem</h3><p>理解为画布基本色块，类似于，这玩意就是一个颜料，我们调用绘制函数就是画笔。</p>
+<p>只不过这个颜料可以直接添加位置信息，就不用在绘制的时候额外添加位置信息。</p>
+<p><code>FCanvasTileItem::FCanvasTileItem(const FVector2D&amp; InPosition, const FTexture* InTexture, const FLinearColor&amp; InColor)</code></p>
+<ul>
+<li><p>第一个参数：位置信息</p>
+</li>
+<li><p>第二个参数：资产</p>
+</li>
+<li><p>第三个参数：线性颜色</p>
+</li>
+</ul>
+<h3 id="BlendMode"><a href="#BlendMode" class="headerlink" title="BlendMode"></a>BlendMode</h3><p>用来设置材质颜色如何与背景混合</p>
+<p>SE_BLEND_Translucent-&gt;半透明模式</p>
+<h3 id="DrawItem"><a href="#DrawItem" class="headerlink" title="DrawItem()"></a>DrawItem()</h3><p><code>DrawItem(FCanvasItem&amp; Item, float PosX, float PosY)</code></p>
+<p>绘制函数（画笔），用于将第一个参数绘制进画布中</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -4112,129 +4567,6 @@
 <p>大家也可以发现，情况三，那块代码是可以删掉的，我是为了让代码表达清晰，所以没有精简。</p>
 <p><img src="https://code-thinking-1253855093.file.myqcloud.com/pics/%E8%B4%AA%E5%BF%83%E6%80%BB%E7%BB%93water.png"></p>
 <p>声明：本博客整理顺序参考《代码随想录》题目来源leetcode</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/08/%E5%8F%96%E6%82%A6%E8%87%AA%E5%B7%B1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/04/08/%E5%8F%96%E6%82%A6%E8%87%AA%E5%B7%B1/" class="post-title-link" itemprop="url">取悦自己</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-04-08 13:35:40 / 修改时间：14:10:13" itemprop="dateCreated datePublished" datetime="2022-04-08T13:35:40+08:00">2022-04-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%A2%A6%E6%B8%B8%E7%AC%94%E8%B0%88/" itemprop="url" rel="index"><span itemprop="name">梦游笔谈</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>        哪个正经人在网上写日记？</p>
-<p>        自上次念叨完之后，自己的状态确实好了一些，虽然有限，但是至少对我来说，偶尔自我满足的倾诉欲，对我的状态调整是有利的。所以我决定不再做正经人。</p>
-<p>        这几天食欲的问题得到了明显的改善。也和一些朋友交流了一阵，发现自己其实一直生活在焦虑中，学习和休息这两者之间并没有达到一个良好的平衡。</p>
-<p>        之前的状态是：每天都要学习，一旦停下来就会开始愧疚，所以就会不间断地进行学习，但是我明显忽略了一个问题——我一直以来都没有获得真正的休息。短期内可能并不会有什么问题，但是这样的状态我已经持续了一年有余了。一直生活在愧疚和疲惫当中。到了现在，问题已经不得不重视了。</p>
-<p>        加上现在的时间比较多——我拒绝了绝大部分的无效社交。基本上一直是独处的状态。</p>
-<p>        也许我可以用这些时间来做些什么。</p>
-<p>        梳理一下日程安排：</p>
-<table>
-<thead>
-<tr>
-<th>上午9：00-11：30</th>
-<th>算法</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>中午11：30-13：30</td>
-<td>午饭+休息</td>
-</tr>
-<tr>
-<td>下午13：30-17：00</td>
-<td>unreal engine</td>
-</tr>
-<tr>
-<td>下午17：00-18：30</td>
-<td>晚饭+休息</td>
-</tr>
-<tr>
-<td>晚上18：30-19：30</td>
-<td>算法</td>
-</tr>
-<tr>
-<td>晚上19：30-20：30</td>
-<td>keep</td>
-</tr>
-<tr>
-<td>晚上20：30-23：30</td>
-<td>洗漱+休息</td>
-</tr>
-</tbody></table>
-<p>        大概就是这样吧，每周六休息。偶尔周日也可以休息一次，但不能太多。</p>
-<p>        那么学习进度呢？</p>
-<p>        希望能在六月到来之前把代码随想录刷一遍，C语言中文网上剩下的图结构和剩下的几个章节看完。至于unreal engine的话，还不好说，等我再学一会儿才可以制定下进度目标了。理想的状态是六月底就可以新建独立游戏的文件夹。</p>
-<p>        </p>
-<p>        </p>
-<p>        好想快一些离开这里，我要逃离这座城市。我想要到烟雨的江南开始我的新生活。真希望保持这样的作息习惯可以让时间如同白驹过隙那般飞驰而去。</p>
 
       
     </div>
