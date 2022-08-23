@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">89</span>
+          <span class="site-state-item-count">91</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,333 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/26/UE4-UPROPERTY%E4%B8%8EUFUNCTION/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/26/UE4-UPROPERTY%E4%B8%8EUFUNCTION/" class="post-title-link" itemprop="url">UE4-UPROPERTY与UFUNCTION</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-05-26 10:27:52 / 修改时间：11:25:26" itemprop="dateCreated datePublished" datetime="2022-05-26T10:27:52+08:00">2022-05-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="UPROPERTY"><a href="#UPROPERTY" class="headerlink" title="UPROPERTY()"></a><a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.27/zh-CN/ProgrammingAndScripting/GameplayArchitecture/Properties/Specifiers/">UPROPERTY()</a></h1><p>用在变量前，使其能被编译器识别</p>
+<table>
+<thead>
+<tr>
+<th>属性标签</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>EditAnyWhere</td>
+<td>在编辑器中可见，可编辑</td>
+</tr>
+<tr>
+<td>VisibleAnywhere</td>
+<td>在编辑器中可见，不可编辑</td>
+</tr>
+<tr>
+<td>EditDefaultsOnly</td>
+<td>只在类的默认设置可见</td>
+</tr>
+<tr>
+<td>BluepritReadOnly</td>
+<td>蓝图只读</td>
+</tr>
+<tr>
+<td>BluepritReadWhrite</td>
+<td>蓝图可读可写</td>
+</tr>
+<tr>
+<td>EditlnstanceOnly</td>
+<td>可以通过属性窗口进行编辑，但只能对实例进行，原型不可以</td>
+</tr>
+</tbody></table>
+<h2 id="meta"><a href="#meta" class="headerlink" title="meta"></a>meta</h2><table>
+<thead>
+<tr>
+<th>属性元标签</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ExposeFunctionCategories&#x3D;”Category1, Category2, ..”</td>
+<td>在蓝图编辑器中编译一个函数列表时，指定其函数应被公开的类目的列表。</td>
+</tr>
+<tr>
+<td>ClampMin&#x3D;”N”</td>
+<td>用于浮点和整数属性。指定可在属性中输入的最小值 N。</td>
+</tr>
+<tr>
+<td>ClampMax&#x3D;”N”</td>
+<td>用于浮点和整数属性。指定可在属性中输入的最大值 N。</td>
+</tr>
+<tr>
+<td>AllowPrivateAccess&#x3D;true</td>
+<td>让一个<strong>private类型的变量</strong>可以在别处被访问，通常与EditAnyWhere一起使用</td>
+</tr>
+</tbody></table>
+<h2 id="Category-x3D-“-”"><a href="#Category-x3D-“-”" class="headerlink" title="Category&#x3D;“ ”"></a>Category&#x3D;“ ”</h2><p>给变量分类</p>
+<p>在编译器，蓝图内均可显示</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UPROPERTY</span>(EditAnyWhere,meta=(CampMix=<span class="string">&quot;5&quot;</span>,CampMax=<span class="string">&quot;10&quot;</span>))</span><br><span class="line"><span class="type">int</span> A;</span><br></pre></td></tr></table></figure>
+
+<p>限制变量A（整数或浮点数）的大小在5与10之间</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UPROPERTY</span>(EditAnyWhere,meta=(EditAnyWhere,BluepritReadWhrite,InstanceEditable=<span class="literal">true</span>,ExposeOnSpawn=<span class="literal">true</span>))</span><br><span class="line"><span class="type">int</span> A;</span><br></pre></td></tr></table></figure>
+
+<p>A变量在该类的蓝图节点中可以作为一个引脚</p>
+<h1 id="UFUNCTION"><a href="#UFUNCTION" class="headerlink" title="UFUNCTION()"></a>UFUNCTION()</h1><table>
+<thead>
+<tr>
+<th>属性标签</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>BlueprintCallable</td>
+<td>此函数可在蓝图或关卡蓝图图表中执行。</td>
+</tr>
+<tr>
+<td>BlueprintPure</td>
+<td>此函数不对拥有它的对象产生任何影响，可在蓝图或关卡蓝图图表中执行。<strong>也就是说只有返回值输出，无输入</strong></td>
+</tr>
+<tr>
+<td>BlueprintImplementableEvent</td>
+<td>【函数-&gt;重载】此函数可在蓝图或关卡蓝图图表中实现。C++内不可写出函数体</td>
+</tr>
+<tr>
+<td>BlueprintNativeEvent</td>
+<td>此函数旨在被蓝图覆盖掉，但是也具有默认原生实现。用于声明名称与主函数相同的附加函数，但是末尾添加了_Implementation，表现为【函数名_Implementation】<code>如果未找到任何蓝图覆盖，该自动生成的代码将调用 Implementation</code> 方法。</td>
+</tr>
+<tr>
+<td>CallInEditor</td>
+<td>可通过细节（Details）面板中的按钮在编辑器中的选定实例上调用此函数。</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/24/UE4-%E8%93%9D%E5%9B%BE-%E8%A7%92%E8%89%B2%E5%8A%A8%E7%94%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/24/UE4-%E8%93%9D%E5%9B%BE-%E8%A7%92%E8%89%B2%E5%8A%A8%E7%94%BB/" class="post-title-link" itemprop="url">UE4-蓝图-角色动画</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-05-24 16:03:59 / 修改时间：17:10:15" itemprop="dateCreated datePublished" datetime="2022-05-24T16:03:59+08:00">2022-05-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>本博客为<a target="_blank" rel="noopener" href="https://space.bilibili.com/31898841">谌嘉诚</a>的<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV164411Y732?p=60">蓝图教程</a>小结与反思</p>
+<h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><p>导入一个角色，用蓝图为其编写行走，上下左右看，跳舞的功能。并且把动画都绑定上去。</p>
+<h1 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h1><p>主要涉及到混合空间1D，动画蓝图，蒙太奇动画的内容</p>
+<h2 id="混合空间1D"><a href="#混合空间1D" class="headerlink" title="混合空间1D"></a>混合空间1D</h2><p>右键内容浏览器-&gt;动画-&gt;混合空间1D</p>
+<p>主要用于将若干个不同的动画之间进行切换时候的混合处理</p>
+<p>通俗来讲，就是从站立到奔跑这两个动作之间的过度！</p>
+<h3 id="插槽"><a href="#插槽" class="headerlink" title="插槽"></a>插槽</h3><p>用来标记，姑且理解为文件别名吧。</p>
+<p>窗口-&gt;动画插槽管理器-&gt;添加插槽</p>
+<h3 id="界面"><a href="#界面" class="headerlink" title="界面"></a>界面</h3><ol>
+<li><p>视图右边的“水平坐标”是一个变量，决定了视图下方播放器内的大小</p>
+</li>
+<li><p>将动画资产拖入播放条中相应的位置，虚幻引擎会自动计算混合结果</p>
+</li>
+</ol>
+<p><img src="D:\R_programme\Blog\source\images\BP_1D.png" alt="BP_1D.png"></p>
+<h2 id="动画蓝图"><a href="#动画蓝图" class="headerlink" title="动画蓝图"></a>动画蓝图</h2><p>右键内容管理器-&gt;动画-&gt;动画蓝图</p>
+<ol>
+<li><p>用于使用“状态机”来输出角色的动画表现效果</p>
+</li>
+<li><p>状态机内可以使用动画资源或者直接导入混合空间1D来编辑动画切换逻辑</p>
+<ul>
+<li><p>如果使用混合空间1D的话，需要对其进行编辑，通过原本混合空间1D设置好的“水平坐标”变量进行控制切换</p>
+</li>
+<li><p>如果使用动画资源编辑动画逻辑的话，请看我前面的博客“第一人称FPS”</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="蒙太奇动画"><a href="#蒙太奇动画" class="headerlink" title="蒙太奇动画"></a>蒙太奇动画</h2><p>右键一个动画序列-&gt;创建蒙太奇动画</p>
+<p>再蓝图内引用蒙太奇动画的时候需要</p>
+<ol>
+<li><p>由对应的网格体引出“获取动画实例”</p>
+</li>
+<li><p>引出“蒙太奇播放”，选择蒙太奇动画资源</p>
+</li>
+<li><p>或者引出“蒙太奇停止”，注意设置推出的时候的混合时间，这样可以让动画切换不那么生硬</p>
+</li>
+</ol>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><ol>
+<li><p>导入角色骨骼，然后再导入其动画，记得导入动画的时候绑定对应的骨骼</p>
+</li>
+<li><p>以Charactor为父类创建一个蓝图类，将骨骼网格体导入到“网格体”组件内</p>
+</li>
+<li><p>写好蓝图逻辑</p>
+<ul>
+<li><p>角色位移和蓝图旋转</p>
+</li>
+<li><p>奔跑</p>
+</li>
+<li><p>按下F跳舞（松开中断跳舞）</p>
+</li>
+<li><p>行走打断跳舞</p>
+</li>
+</ul>
+</li>
+<li><p>创建混合空间1D，将动画资源设置好，并且配置好插槽</p>
+</li>
+<li><p>创建蓝图动画</p>
+<ul>
+<li><p>在AnimGraph中添加状态机，插槽</p>
+</li>
+<li><p>编辑状态机，添加之前创建的混合空间1D</p>
+</li>
+<li><p>编辑混合空间1D，将其状态用它本身创建的“水平坐标”变量控制</p>
+</li>
+</ul>
+</li>
+<li><p>创建一个游戏模式，将默认的Pawn类修改好</p>
+</li>
+</ol>
+<h1 id="蓝图"><a href="#蓝图" class="headerlink" title="蓝图"></a>蓝图</h1><h2 id="BP-Charactor"><a href="#BP-Charactor" class="headerlink" title="BP_Charactor"></a>BP_Charactor</h2><p><img src="D:\R_programme\Blog\source\images\BP_Amination_Charator.png"></p>
+<p><img src="D:\R_programme\Blog\source\images\RUU7KVSI5[[VV{BDD{CSH6V.png"></p>
+<p><img src="D:\R_programme\Blog\source\images_UHMH0GVPGY@WBYKG3V_@Q3.png"></p>
+<h2 id="BP-Animation"><a href="#BP-Animation" class="headerlink" title="BP_Animation"></a>BP_Animation</h2><p><img src="D:\R_programme\Blog\source\images[TFNH3$A}J5IF}R8HTFXZ7F.png"></p>
+<p><img src="D:\R_programme\Blog\source\images\123123.png"></p>
+<p><img src="D:\R_programme\Blog\source\images\VN7}7G4H6]M3M$6F6VX~CP4.png"></p>
+<p><img src="D:\R_programme\Blog\source\images\3223523525.png"></p>
+<h2 id="混合空间1D-1"><a href="#混合空间1D-1" class="headerlink" title="混合空间1D"></a>混合空间1D</h2><p><img src="D:\R_programme\Blog\source\images\684864.png"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1881,338 +2208,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/12/UE4-%E5%8F%98%E9%87%8F%EF%BC%8C%E5%AE%9A%E6%97%B6%E5%99%A8%E5%92%8C%E4%BA%8B%E4%BB%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/05/12/UE4-%E5%8F%98%E9%87%8F%EF%BC%8C%E5%AE%9A%E6%97%B6%E5%99%A8%E5%92%8C%E4%BA%8B%E4%BB%B6/" class="post-title-link" itemprop="url">UE4-变量，定时器和事件</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-05-12 09:39:05 / 修改时间：11:26:39" itemprop="dateCreated datePublished" datetime="2022-05-12T09:39:05+08:00">2022-05-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.27/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/VariablesTimersEvents/">官方案例</a>的讲解与小结</p>
-<p>内容：向编辑器公开变量和函数，使用定时器，并以蓝图覆盖C++函数</p>
-<h1 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h1><p>创建一个Actor，它是一个倒计时，从X倒数到0，然后到0的时候显示的是“GO！”最后加上一个粒子特效啥的。</p>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><ol>
-<li><p>创建一个UTextRenderComponent类型的组件来显示倒计时，命名为CountdownText</p>
-</li>
-<li><p>设定一个倒计时的时长CountdownTime，并公开到编辑器</p>
-</li>
-<li><p>定义一个UpdateTimerDisplay()函数在游戏开始时显示CountdownText组件</p>
-</li>
-<li><p>定义CountdownHasFinished()函数来执行特殊操作”倒计时显示为GO！”</p>
-</li>
-<li><p>定义一个AdvanceTimer()更新CountdownTime，并调用UpdateTimerDisplay()在视口中显示倒计时，并在倒计时归零的时候停止运行定时器，且调用CountdownHasFinished()函数</p>
-</li>
-<li><p>在游戏开始时调用UpdateTimerDisplay()显示初始倒计时</p>
-</li>
-<li><p>通过GetWorldTimerManager().SetTimer()函数调用AdvanceTimer()函数更新倒计时</p>
-</li>
-</ol>
-<h1 id="创建使用定时器的Actor"><a href="#创建使用定时器的Actor" class="headerlink" title="创建使用定时器的Actor"></a>创建使用定时器的Actor</h1><p>创建一个以Actor为父类，名为Countdown的C++类</p>
-<h2 id="头文件！"><a href="#头文件！" class="headerlink" title="头文件！"></a>头文件！</h2><p>这个很重要，我们要使得Actor显示为一个文本，所以我们需要引入</p>
-<p><code>#include &quot;Components/TextRenderComponent.h&quot;</code></p>
-<h2 id="声明游戏中显示的倒数定时器"><a href="#声明游戏中显示的倒数定时器" class="headerlink" title="声明游戏中显示的倒数定时器"></a>声明游戏中显示的倒数定时器</h2><p>在Countdown.h中声明以下</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int32 CountdownTime;</span><br><span class="line">UTextRenderComponent* CountdownText;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UpdateTimerDisplay</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="定义倒数定时器"><a href="#定义倒数定时器" class="headerlink" title="定义倒数定时器"></a>定义倒数定时器</h2><p>Countdown.cpp-&gt;ACountdown::ACountdown</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ACountdown::<span class="built_in">ACountdown</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//将此Actor设为逐帧调用Tick()。如无需此功能，可关闭以提高性能。</span></span><br><span class="line">    PrimaryActorTick.bCanEverTick = <span class="literal">false</span>;</span><br><span class="line">    CountdownText = <span class="built_in">CreateDefaultSubobject</span>&lt;UTextRenderComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;CountdownNumber&quot;</span>));</span><br><span class="line">    CountdownText-&gt;<span class="built_in">SetHorizontalAlignment</span>(EHTA_Center);<span class="comment">//设置水平对其方式为居中对其</span></span><br><span class="line">    CountdownText-&gt;<span class="built_in">SetWorldSize</span>(<span class="number">150.0f</span>);</span><br><span class="line">    RootComponent = CountdownText;</span><br><span class="line">    CountdownTime = <span class="number">3</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="定义UpdateTimerDisplay-来更新文本显示"><a href="#定义UpdateTimerDisplay-来更新文本显示" class="headerlink" title="定义UpdateTimerDisplay()来更新文本显示"></a>定义UpdateTimerDisplay()来更新文本显示</h2><p>此代码应在游戏中首次生成 <code>ACountdown</code> 时运行，在 <code>CountdownTime</code> 变量为零前每秒运行一次。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACountdown::UpdateTimerDisplay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    CountdownText-&gt;<span class="built_in">SetText</span>(FString::<span class="built_in">FromInt</span>(FMath::<span class="built_in">Max</span>(CountdownTime, <span class="number">0</span>)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CountdownText-&gt;<span class="built_in">SetText</span>(FString::<span class="built_in">FromInt</span>(FMath::<span class="built_in">Max</span>(CountdownTime, <span class="number">0</span>)));</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>SetText()参数必须是一个FString类型的变量</p>
-</li>
-<li><p>但是我们需要显示的数字是Int类型的</p>
-</li>
-<li><p>所以我们需要用FString::FromInt来对其转换类型为FString</p>
-</li>
-<li><p>Max这个函数，在算法中很常见，就跟那一样的意思</p>
-</li>
-</ul>
-<h2 id="声明计时器函数，调用UpdateTimerDisplay"><a href="#声明计时器函数，调用UpdateTimerDisplay" class="headerlink" title="声明计时器函数，调用UpdateTimerDisplay()"></a>声明计时器函数，调用UpdateTimerDisplay()</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">AdvanceTimer</span><span class="params">()</span></span>;<span class="comment">//计时器，每秒调用一次UpdateTimerDisplay();</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">CountdownHasFinished</span><span class="params">()</span></span>;<span class="comment">//特殊输出</span></span><br><span class="line"></span><br><span class="line">FTimerHandle CountdownTimerHandle;<span class="comment">//定时器句柄</span></span><br></pre></td></tr></table></figure>
-
-<p>每次指定 <strong>定时器</strong> 运行函数时，都会得到 <strong>定时器句柄</strong>。利用此句柄，就可以在倒数结束时关闭定时器。</p>
-<ul>
-<li>句柄：用于识别的唯一ID，不能是常量。</li>
-</ul>
-<h2 id="定义计时器函数"><a href="#定义计时器函数" class="headerlink" title="定义计时器函数"></a>定义计时器函数</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACountdown::AdvanceTimer</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    --CountdownTime;</span><br><span class="line">    <span class="built_in">UpdateTimerDisplay</span>();</span><br><span class="line">    <span class="keyword">if</span> (CountdownTime &lt; <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//倒数完成，停止运行定时器。</span></span><br><span class="line">        <span class="built_in">GetWorldTimerManager</span>().<span class="built_in">ClearTimer</span>(CountdownTimerHandle);</span><br><span class="line">        <span class="built_in">CountdownHasFinished</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACountdown::CountdownHasFinished</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//改为特殊读出</span></span><br><span class="line">    CountdownText-&gt;<span class="built_in">SetText</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;GO!&quot;</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="初始化ACountdown-BeginPlay中的显示文本"><a href="#初始化ACountdown-BeginPlay中的显示文本" class="headerlink" title="初始化ACountdown::BeginPlay中的显示文本"></a>初始化ACountdown::BeginPlay中的显示文本</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UpdateTimerDisplay</span>();</span><br><span class="line"><span class="built_in">GetWorldTimerManager</span>().<span class="built_in">SetTimer</span>(CountdownTimerHandle, <span class="keyword">this</span>, &amp;ACountdown::AdvanceTimer, <span class="number">1.0f</span>, <span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">SetTimer</span>(FTimerHandle&amp; InOutHandle, UserClass* InObj, <span class="keyword">typename</span> FTimerDelegate::TUObjectMethodDelegate&lt; UserClass &gt;::FMethodPtr InTimerMethod, <span class="type">float</span> InRate, <span class="type">bool</span> InbLoop = <span class="literal">false</span>, <span class="type">float</span> InFirstDelay = <span class="number">-1.f</span>)</span><br></pre></td></tr></table></figure>
-
-<p>这几个参数的意义如下</p>
-<ul>
-<li><p>FTimerHandle &amp; InOutHandle : 计时器的句柄</p>
-</li>
-<li><p>UserClass* InObj : 执行此方法的类，一般为this</p>
-</li>
-<li><p>FTimerDelegate::TUObjectMethodDelegate&lt; UserClass &gt;::FMethodPtr InTimerMethod : 计数器每次结束后要执行的代理函数</p>
-</li>
-<li><p>float InRate : 每次计时器的时间长度</p>
-</li>
-<li><p>bool InbLoop : 是否循环</p>
-</li>
-<li><p>float InFirstDelay : 循环计时器第一次迭代的时间， 若小于0.f则使用inRate</p>
-</li>
-</ul>
-<h1 id="向编辑器公开变量和函数"><a href="#向编辑器公开变量和函数" class="headerlink" title="向编辑器公开变量和函数"></a>向编辑器公开变量和函数</h1><p>将.h文件中的</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int32 CountdownTime;</span><br></pre></td></tr></table></figure>
-
-<p>修改为</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//倒数的运行时长（以秒计）</span></span><br><span class="line"><span class="built_in">UPROPERTY</span>(EditAnywhere)</span><br><span class="line">int32 CountdownTime;;</span><br></pre></td></tr></table></figure>
-
-<p>将</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CountdownHasFinished</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>修改为</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UFUNCTION</span>(BlueprintNativeEvent)</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">CountdownHasFinished</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">CountdownHasFinished_Implementation</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>和 <code>UPROPERTY</code> 宏相同，需提供使用其进行操作的相关信息，以便非程序员开发者可使用更多功能和访问权。有三种选择可使用：</p>
-<ol>
-<li><p><code>BlueprintCallable</code> 函数以C++编写，可从 <strong>蓝图图表</strong> 中调用，但只能通过编辑C++代码进行修改或重写。以此类方式标记的函数通常具备供非程序员使用而编写的功能，但是不应对其进行修改，否则修改将毫无意义。数学函数便是此类函数的经典范例。</p>
-</li>
-<li><p>在C++ header (.h)文件中设置 <code>BlueprintImplementableEvent</code> 函数，但是函数的主体则在蓝图图表中完成编写，而非C++中。创建此类通常是为了使非程序员能够对无预期默认动作或标准行为的特殊情况创建自定义反应。在宇宙飞船游戏中，玩家飞船接触到能量升级时发生的事件便是这方面的范例。</p>
-</li>
-<li><p><code>BlueprintNativeEvent</code> 函数与 <code>BlueprintCallable</code> 和 <code>BlueprintImplementableEvent</code> 函数的组合类似。其具备用C++中编程的默认行为，但此类行为可通过在蓝图图表中覆盖进行补充或替换。对此类代码编程时，<strong>C++代码固定使用命名末尾添加了_Implementation的虚拟函数</strong></p>
-</li>
-</ol>
-<p>然后，在Countdown.cpp中，需对以下行进行修改：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACountdown::CountdownHasFinished</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
-
-<p>改为：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACountdown::CountdownHasFinished_Implementation</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>使用<code>BlueprintNativeEvent</code>类型公开函数后</p>
-<ol>
-<li><p>函数必须设为虚函数</p>
-</li>
-<li><p>函数命名需在末尾添加_Implementation</p>
-</li>
-</ol>
-<h1 id="用蓝图扩展和覆盖C"><a href="#用蓝图扩展和覆盖C" class="headerlink" title="用蓝图扩展和覆盖C++"></a>用蓝图扩展和覆盖C++</h1><p>以下内容和官网一致</p>
-<ol>
-<li><p>要在编辑器中改变名为Countdown1的ACountdown实例的行为，须首先创建其可编辑的蓝图版本。为此，可在 <strong>世界大纲视图（World Outliner）</strong> 中将其选中，然后点击 <strong>细节面板</strong> 中的 <strong>蓝图&#x2F;添加脚本（Blueprint&#x2F;Add Script）</strong> 按钮。</p>
-</li>
-<li><p>在 <strong>事件图表</strong> 选项卡中找到函数和事件，先将其选中。</p>
-</li>
-<li><p><strong>右键点击</strong> <strong>事件图表</strong> 窗口中的任意位置，便可添加 <strong>CountdownHasFinished</strong> 函数，将其作为事件节点以定义其行为。</p>
-</li>
-<li><p>通过点击左键并连出新节点右侧的白色（执行）引脚，添加需要的附加功能。释放鼠标左键时，系统将询问需要执行的功能或事件。本教程中将在倒数结束时生成 <strong>粒子系统</strong>。由于需要 <strong>Spawn Emitter At Location</strong>（在位置处生成发射器） 节点，因此在列表中选中。在搜索栏中输入如spawn loc的部分短语，即可节省时间。然后点击左键并拖动黄色的”Location”引脚，并将其附加到 <strong>Get Actor Location</strong> 函数上。</p>
-</li>
-<li><p>选择想要的效果。通过点击发射器模板下的”选择资源”，即可获得合适的效果资源列表。</p>
-</li>
-<li><p>但本教程中，倒数被设为结束时显示GO！，而非0。由于已使用 <strong>蓝图</strong> 可视化脚本完全取代了C++功能，因此不会发生此情况。此结果并非理想结果，因此需添加对该函数C++版本的调用，此操作可通过右键点击 <strong>Countdown Has Finished</strong> 节点，并在快捷菜单中选择 <strong>添加对父函数的调用（Add call to parent function）</strong> 来完成。</p>
-</li>
-<li><p>完成该步骤后，将创建一个名为 <strong>Parent: Countdown Has Finished</strong> 的节点</p>
-</li>
-</ol>
-<p>注意：</p>
-<ul>
-<li><p>粒子生成节点：在位置处生成发射器</p>
-</li>
-<li><p>调用父类：右键节点“将调用添加到父类函数”</p>
-</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/11/UE4-%E5%AE%9E%E7%8E%B0%E7%89%A9%E4%BD%93%E8%87%AA%E8%BD%AC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/05/11/UE4-%E5%AE%9E%E7%8E%B0%E7%89%A9%E4%BD%93%E8%87%AA%E8%BD%AC/" class="post-title-link" itemprop="url">UE4-实现物体自转</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-05-11 15:23:37 / 修改时间：15:47:51" itemprop="dateCreated datePublished" datetime="2022-05-11T15:23:37+08:00">2022-05-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>这一节是根据<a target="_blank" rel="noopener" href="https://space.bilibili.com/31898841">谌嘉诚</a>大佬的<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV164411Y732?p=41">蓝图教程</a>进行的小结</p>
-<p>主要知识点有：对象引用，变量有效性，自定义事件</p>
-<h1 id="对象引用"><a href="#对象引用" class="headerlink" title="对象引用"></a>对象引用</h1><p>可以看作是C++中的引用传递</p>
-<h1 id="变量有效性（Is-Valid）"><a href="#变量有效性（Is-Valid）" class="headerlink" title="变量有效性（Is Valid）"></a>变量有效性（Is Valid）</h1><p>保证某变量不为空</p>
-<h1 id="自定义事件-添加自定义事件"><a href="#自定义事件-添加自定义事件" class="headerlink" title="自定义事件(添加自定义事件)"></a>自定义事件(添加自定义事件)</h1><p>就可以看作是自定义函数</p>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>我们要实现按键盘1，就能让一个Actor自转</p>
-<h2 id="实现自转功能"><a href="#实现自转功能" class="headerlink" title="实现自转功能"></a>实现自转功能</h2><ol>
-<li><p>创建一个Actor蓝图类</p>
-</li>
-<li><p>创建一个bool值“能否旋转”，用“分支”节点使其值为true时连接到“添加本地旋转”节点上</p>
-</li>
-<li><p>为了能让Actor一直旋转，需要将“事件Tick”来实现帧更新</p>
-</li>
-<li><p>最后不要忘记将Actor本身添加到“添加本地旋转”节点的目标上！</p>
-</li>
-</ol>
-<h2 id="控制旋转事件"><a href="#控制旋转事件" class="headerlink" title="控制旋转事件"></a>控制旋转事件</h2><ol>
-<li><p>默认生成的“能否旋转”为false，现在我们创建一个自定义事件来使其能在true和false之间转换</p>
-</li>
-<li><p>创建“分支”节点-&gt;可以看作为if(能否旋转&#x3D;false){能否旋转&#x3D;true;}</p>
-</li>
-</ol>
-<h1 id="控制物体自转"><a href="#控制物体自转" class="headerlink" title="控制物体自转"></a>控制物体自转</h1><p>我们要明白，控制物体旋转，时根据小白人的操作来进行控制的，主要控制权还是在小白人身上，所以我们需要在小白人蓝图中添加一个新的图表（姑且看作时一个Class吧）来调用“控制旋转”这个自定义事件</p>
-<p>将小白人看作主函数，“控制旋转”时自定义函数，我们需要在主函数中调用“控制旋转”！</p>
-<ol>
-<li><p>创建新的图标，创建一个新的变量“自我旋转对象”</p>
-</li>
-<li><p>变量类型为我们之前创建的那个蓝图类（自我旋转的Actor）</p>
-</li>
-<li><p>将变量设置为公有，使其可在此蓝图的每个实例上进行编辑（变量右边的眼睛图标）</p>
-</li>
-<li><p>将变量拖入蓝图中，用”Is Valid”判断是否为空</p>
-</li>
-<li><p>从变量拖出引线，调用“控制旋转”事件</p>
-</li>
-<li><p>最后，返回虚幻编辑器，小白人的细节面板，找到“自我旋转对象”，点击吸管工具，在视口中选择要旋转的对象！</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>

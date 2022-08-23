@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">89</span>
+          <span class="site-state-item-count">91</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,276 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/18/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%89%93%E5%8C%85%E5%92%8C%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/18/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%89%93%E5%8C%85%E5%92%8C%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">UE4-项目-死寂-打包和优化</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-07-18 16:25:21" itemprop="dateCreated datePublished" datetime="2022-07-18T16:25:21+08:00">2022-07-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-08-20 15:37:41" itemprop="dateModified" datetime="2022-08-20T15:37:41+08:00">2022-08-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h1><h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
+<li><p>项目设置-&gt;加密-&gt;添加密钥</p>
+</li>
+<li><p>项目设置-&gt;地图和模式-&gt;默认地图和默认游戏模式</p>
+</li>
+<li><p>项目设置-&gt;项目-&gt;支持平台</p>
+</li>
+</ol>
+<h1 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h1><ol>
+<li><p>修改模型&#x2F;贴图&#x2F;地形的LOD</p>
+</li>
+<li><p>添加一个”剔除距离体积“，添加数组元素</p>
+<ul>
+<li><p>以下为官方推荐六个数组数值</p>
+</li>
+<li><p>0&#x2F;1000</p>
+</li>
+<li><p>128&#x2F;2048</p>
+</li>
+<li><p>256&#x2F;4096</p>
+</li>
+<li><p>512&#x2F;8096</p>
+</li>
+<li><p>1024&#x2F;16384</p>
+</li>
+<li><p>2048&#x2F;0</p>
+</li>
+</ul>
+</li>
+<li><p>降低模型面熟</p>
+</li>
+<li><p>降低贴图分辨率</p>
+</li>
+<li><p>灯光重叠面积减少</p>
+</li>
+<li><p>不要使用屏幕捕捉</p>
+</li>
+<li><p>光源能用静态就静态，最好用固态（看情况）</p>
+</li>
+<li><p>减少透明材质和例子特效的使用</p>
+</li>
+<li><p>更改引擎可拓展性</p>
+</li>
+<li><p>减少复杂碰撞的使用，尽量使用简单碰撞，关闭不需要碰撞的物体碰撞</p>
+</li>
+<li><p>减少蓝图AI数量</p>
+</li>
+</ol>
+<p><img src="D:\R_program\Blog\source_posts\UE4-项目-死寂-打包和优化\1.png"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/18/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%83%9C%E5%88%A9-%E5%A4%B1%E8%B4%A5%E5%8A%A8%E7%94%BB%E5%92%8C%E8%A7%A6%E5%8F%91%E6%9D%A1%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/18/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%83%9C%E5%88%A9-%E5%A4%B1%E8%B4%A5%E5%8A%A8%E7%94%BB%E5%92%8C%E8%A7%A6%E5%8F%91%E6%9D%A1%E4%BB%B6/" class="post-title-link" itemprop="url">UE4-项目-死寂-胜利/失败动画和触发条件</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-18 11:11:30 / 修改时间：16:24:44" itemprop="dateCreated datePublished" datetime="2022-07-18T11:11:30+08:00">2022-07-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="胜利动画和触发条件"><a href="#胜利动画和触发条件" class="headerlink" title="胜利动画和触发条件"></a>胜利动画和触发条件</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="从父项中移除"><a href="#从父项中移除" class="headerlink" title="从父项中移除"></a>从父项中移除</h3><p>可以关闭当前UI界面</p>
+<h3 id="获取当前关卡名"><a href="#获取当前关卡名" class="headerlink" title="获取当前关卡名"></a>获取当前关卡名</h3><p>字面意思</p>
+<h3 id="show-mouse-cursor"><a href="#show-mouse-cursor" class="headerlink" title="show mouse cursor"></a>show mouse cursor</h3><p>显示鼠标</p>
+<h3 id="设置输入模式游戏和UI"><a href="#设置输入模式游戏和UI" class="headerlink" title="设置输入模式游戏和UI"></a>设置输入模式游戏和UI</h3><p>设置游戏和UI的输入模式，可以使得”Hide Cursor During Capture“引脚变换</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li>创建控件蓝图“胜利”<ul>
+<li><p>添加“边界”，设置其锚点，颜色，透明度</p>
+</li>
+<li><p>添加图像，设置锚点，尺寸，位移</p>
+</li>
+<li><p>添加两个文本“成功”，“获得清道夫成就”，分别设置其锚点，位置，尺寸</p>
+</li>
+</ul>
+</li>
+<li>添加两个“按钮交互”分别命名为“重新开始”和“返回主界面”<ul>
+<li><p>添加动画“出现”</p>
+<ul>
+<li><p>添加边界轨道，设置其渲染不透明度</p>
+</li>
+<li><p>添加两个文本和图片轨道，设置渲染不透明度和平移</p>
+</li>
+<li><p>添加按钮轨道，添加渲染不透明度和平移</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>在图表中，事件构造之后直接播放动画“出现”<ul>
+<li><p>获取“返回主界面”按钮，获取其button，绑定事件到点击时，自定义事件“返回主界面事件”，然后“打开关卡（按名称）”，名称为主菜单关卡名称</p>
+</li>
+<li><p>获取“重新开始”按钮，获取其button，绑定事件到剪辑师，自定义事件“重新开始事件”，”获取当前关卡名“，创建控件，class选择“加载界面”，将其添加到视口，然后使用“从父项中移除”来关闭当前的胜利UI</p>
+</li>
+</ul>
+</li>
+<li>在关卡蓝图中创建自定义事件“胜利”<ul>
+<li><p>获取玩家控制器之后“使用混合设置视图目标”，切换一个摄像机，并且“禁用输入”，调用玩家角色蓝图，调用“停止射击”事件</p>
+</li>
+<li><p>通过“获取类的所有控件”获取“游戏中界面”，“从父项中移除”，并且延迟5s</p>
+</li>
+<li><p>使用“创建控件”，“添加到视口”将“胜利”控件UI添加到视口</p>
+</li>
+<li><p>最后 使用获取玩家控制器之后调用”show mouse cursor“为true，并且”设置输入模式游戏和UI“，将Hide Cursor During Capture取消勾选</p>
+</li>
+</ul>
+</li>
+<li>在”游戏中界面“的图表中的”当前丧尸数量“函数内，判断当前丧尸数量如果&lt;&#x3D;0则”Do once“，然后“执行控制台命令”：ce 胜利</li>
+</ol>
+<h1 id="失败动画和触发条件"><a href="#失败动画和触发条件" class="headerlink" title="失败动画和触发条件"></a>失败动画和触发条件</h1><h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>复制”胜利“控件蓝图，重命名为”失败“</p>
+</li>
+<li><p>修改其中的图片和文字</p>
+</li>
+<li><p>在角色死亡系统图表中，关闭角色碰撞后面，通过”获取类的所有控件“和”从父项中移除“来关闭”游戏中界面“</p>
+</li>
+<li><p>最后在角色死亡弹簧臂拉长的时间轴结束之后（finish引脚）创建”失败“控件添加到视口</p>
+</li>
+<li><p>使用获取玩家控制器之后调用”show mouse cursor“为true，并且”设置输入模式游戏和UI“，将Hide Cursor During Capture取消勾选</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1480,300 +1750,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/13/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9C%8D%E8%A3%85UI%E7%95%8C%E9%9D%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/13/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9C%8D%E8%A3%85UI%E7%95%8C%E9%9D%A2/" class="post-title-link" itemprop="url">UE4-项目-死寂-自定义服装UI界面</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-07-13 16:24:43" itemprop="dateCreated datePublished" datetime="2022-07-13T16:24:43+08:00">2022-07-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-07-14 16:14:32" itemprop="dateModified" datetime="2022-07-14T16:14:32+08:00">2022-07-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="自定义服装UI界面"><a href="#自定义服装UI界面" class="headerlink" title="自定义服装UI界面"></a>自定义服装UI界面</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="滚动框"><a href="#滚动框" class="headerlink" title="滚动框"></a>滚动框</h3><p>控件蓝图中的组件，一个框里面，物品过多的时候即可滚动物品选择</p>
-<h3 id="统一网格面板"><a href="#统一网格面板" class="headerlink" title="统一网格面板"></a>统一网格面板</h3><p>空间蓝图中的组件，放在滚动框中</p>
-<h3 id="设置骨骼网格体"><a href="#设置骨骼网格体" class="headerlink" title="设置骨骼网格体"></a>设置骨骼网格体</h3><p>可以设置骨骼网格体模型，也可以更新模型的时候重置其动画（Reinit Pose为true）</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在世界场景设置中的“游戏模式”，”默认Pawn类“中修改为Pawn</p>
-</li>
-<li><p>复制“按钮交互”空间蓝图为“自定义服装按钮”</p>
-</li>
-<li><p>删除其中的按钮和文本框，图表中除了播放动画逻辑之外全部删掉，变量“Name”也删掉</p>
-</li>
-<li><p>拖入“边界”，将其尺寸xy均修改为150，右上角的“自定义”修改为“所需”，将默认的“渲染不透明度”修改为0</p>
-</li>
-<li><p>拖入“按钮”，将其锚点修改为居中，位置均为0，尺寸均为140，对其均为0.5</p>
-</li>
-<li><p>添加一个“图像”到“按钮”下面，将水平和竖直对其均修改为填充，将填充的值修改为0</p>
-</li>
-<li><p>添加服饰的图像，并将其亮度修改为0.4（在选中的时候才为1）</p>
-</li>
-<li><p>将图像的“渲染变换”中的“缩放”均修改为1.1，将按钮的裁切修改为“裁切到边界-固定（高级）”</p>
-</li>
-<li><p>将“交互”动画中原本的删掉，添加“图像”的轨道，缩放从1.1到1.2，“颜色和不透明度”的RGBA均从0.4到1</p>
-</li>
-<li><p>添加“边界”的轨道，将“渲染不透明度”从0修改为1</p>
-</li>
-<li><p>设置按钮的音效</p>
-</li>
-<li><p>给按钮添加“悬停时”和“未悬停时”的事件，分别正反向播放“交互”动画</p>
-</li>
-<li><p>创建一个“纹理2D”类型的变量“服装图片”，在设计器中的图像组件和“服装图片”进行绑定</p>
-</li>
-<li><p>添加“骨骼网格体”类型的变量“服装模型”，勾选其“可编辑实例”和“生成时公开”</p>
-</li>
-<li><p>创建新的空间蓝图“自定义服装”</p>
-<ul>
-<li><p>将“游戏声明”控件蓝图中的文本控件和返回按钮复制到“自定义服装中”</p>
-</li>
-<li><p>添加图像组件，全屏，放置服装选择图片，将一个“滚动框”组件放入图片“服装”栏的下面</p>
-</li>
-<li><p>在滚动框下面放入一个“统一网格面板”</p>
-</li>
-<li><p>将“自定义服装按钮”拖入统一网格面板，设置其行列，输入其“服装图片”和“服装模型”</p>
-</li>
-</ul>
-</li>
-<li><p>将“自定义服装”拖入到主界面控件蓝图中</p>
-<ul>
-<li><p>修改其锚点，偏移，渲染不透明度</p>
-</li>
-<li><p>复制原本的动画，替换为“自定义服装界面”，命名为“点击自定义服装”</p>
-</li>
-<li><p>将主界面的图表中的“关闭所有UI交互”函数中添加“自定义服装界面”</p>
-</li>
-</ul>
-</li>
-<li><p>在关卡蓝图中添加自定义事件“切换到自定义服装”，使用“获取玩家控制器”，“使用混合设置视图目标”，以及选择一个摄像机的实例实现切换摄像机的效果</p>
-</li>
-<li><p>在“主界面”的图表中使用“播放动画”，“控制台命令”，“关闭所有UI交互”，“设置可视性”实现主界面切换到自定义服装界面，同理，也设置自定义界面返回到主界面</p>
-</li>
-<li><p>创建一个角色蓝图类“BP_MainMenu”用于选择服装之后展示服装模型</p>
-<ul>
-<li><p>给角色添加一个模型</p>
-</li>
-<li><p>设置其动画模式为“使用动画资产”，设置一个合适的“要播放的动画”</p>
-</li>
-</ul>
-</li>
-<li><p>将“BP_MainMenu”放入场景中，放在第三个摄像机能看到的位置（自定义服装位置）</p>
-</li>
-<li><p>在主界面选择了不同服装之后，角色模型的服装也需要发生相应变化</p>
-<ul>
-<li><p>在“BP_MainMenu”创建一个自定义事件“切换服装”，添加一个骨骼网格体类型的输入“选择的模型”，并提升为变量</p>
-</li>
-<li><p>使用“设置骨骼网格体”来重置“BP_MainMenu”的模型，并且将“Reinit Pose”为false</p>
-</li>
-<li><p>在自定义服装按钮控件蓝图中，给button添加一个点击时的事件，通过“获取类的所有actor”调用“BP_MainMenu”中的“切换服装”事件</p>
-</li>
-</ul>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/07/Socket%E7%BC%96%E7%A8%8B-Windows%E4%B8%8B%E7%9A%84%E6%BC%94%E7%A4%BA%E7%A8%8B%E5%BA%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/07/Socket%E7%BC%96%E7%A8%8B-Windows%E4%B8%8B%E7%9A%84%E6%BC%94%E7%A4%BA%E7%A8%8B%E5%BA%8F/" class="post-title-link" itemprop="url">Socket编程-Windows下的演示程序</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-07-07 11:11:56 / 修改时间：11:27:11" itemprop="dateCreated datePublished" datetime="2022-07-07T11:11:56+08:00">2022-07-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Socket/" itemprop="url" rel="index"><span itemprop="name">Socket</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>server.cpp 为服务器端代码，client 为客户端代码。 </p>
-<h1 id="服务器端代码-server-cpp："><a href="#服务器端代码-server-cpp：" class="headerlink" title="服务器端代码 server.cpp："></a>服务器端代码 server.cpp：</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;winsock2.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> comment (lib, <span class="string">&quot;ws2_32.lib&quot;</span>)  <span class="comment">//加载 ws2_32.dll</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//初始化 DLL</span></span><br><span class="line">    WSADATA wsaData;</span><br><span class="line">    <span class="built_in">WSAStartup</span>( <span class="built_in">MAKEWORD</span>(<span class="number">2</span>, <span class="number">2</span>), &amp;wsaData);</span><br><span class="line">    <span class="comment">//创建套接字</span></span><br><span class="line">    SOCKET servSock = <span class="built_in">socket</span>(PF_INET, SOCK_STREAM, IPPROTO_TCP);</span><br><span class="line">    <span class="comment">//绑定套接字</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> sockAddr;</span><br><span class="line">    <span class="built_in">memset</span>(&amp;sockAddr, <span class="number">0</span>, <span class="built_in">sizeof</span>(sockAddr));  <span class="comment">//每个字节都用0填充</span></span><br><span class="line">    sockAddr.sin_family = PF_INET;  <span class="comment">//使用IPv4地址</span></span><br><span class="line">    sockAddr.sin_addr.s_addr = <span class="built_in">inet_addr</span>(<span class="string">&quot;127.0.0.1&quot;</span>);  <span class="comment">//具体的IP地址</span></span><br><span class="line">    sockAddr.sin_port = <span class="built_in">htons</span>(<span class="number">1234</span>);  <span class="comment">//端口</span></span><br><span class="line">    <span class="built_in">bind</span>(servSock, (SOCKADDR*)&amp;sockAddr, <span class="built_in">sizeof</span>(SOCKADDR));</span><br><span class="line">    <span class="comment">//进入监听状态</span></span><br><span class="line">    <span class="built_in">listen</span>(servSock, <span class="number">20</span>);</span><br><span class="line">    <span class="comment">//接收客户端请求</span></span><br><span class="line">    SOCKADDR clntAddr;</span><br><span class="line">    <span class="type">int</span> nSize = <span class="built_in">sizeof</span>(SOCKADDR);</span><br><span class="line">    SOCKET clntSock = <span class="built_in">accept</span>(servSock, (SOCKADDR*)&amp;clntAddr, &amp;nSize);</span><br><span class="line">    <span class="comment">//向客户端发送数据</span></span><br><span class="line">    <span class="type">char</span> *str = <span class="string">&quot;Hello World!&quot;</span>;</span><br><span class="line">    <span class="built_in">send</span>(clntSock, str, <span class="built_in">strlen</span>(str)+<span class="built_in">sizeof</span>(<span class="type">char</span>), <span class="literal">NULL</span>);</span><br><span class="line">    <span class="comment">//关闭套接字</span></span><br><span class="line">    <span class="built_in">closesocket</span>(clntSock);</span><br><span class="line">    <span class="built_in">closesocket</span>(servSock);</span><br><span class="line">    <span class="comment">//终止 DLL 的使用</span></span><br><span class="line">    <span class="built_in">WSACleanup</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>初始化DLL</p>
-</li>
-<li><p>创建套接字</p>
-</li>
-<li><p>绑定套接字</p>
-</li>
-<li><p>进入监听状态</p>
-</li>
-<li><p>接收客户端请求</p>
-</li>
-<li><p>向客户端发送数据</p>
-</li>
-<li><p>关闭套接字</p>
-</li>
-<li><p>终止DLL</p>
-</li>
-</ol>
-<h1 id="客户端代码-client-cpp："><a href="#客户端代码-client-cpp：" class="headerlink" title="客户端代码 client.cpp："></a>客户端代码 client.cpp：</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;WinSock2.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> comment(lib, <span class="string">&quot;ws2_32.lib&quot;</span>)  <span class="comment">//加载 ws2_32.dll</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//初始化DLL</span></span><br><span class="line">    WSADATA wsaData;</span><br><span class="line">    <span class="built_in">WSAStartup</span>(<span class="built_in">MAKEWORD</span>(<span class="number">2</span>, <span class="number">2</span>), &amp;wsaData);</span><br><span class="line">    <span class="comment">//创建套接字</span></span><br><span class="line">    SOCKET sock = <span class="built_in">socket</span>(PF_INET, SOCK_STREAM, IPPROTO_TCP);</span><br><span class="line">    <span class="comment">//向服务器发起请求</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> sockAddr;</span><br><span class="line">    <span class="built_in">memset</span>(&amp;sockAddr, <span class="number">0</span>, <span class="built_in">sizeof</span>(sockAddr));  <span class="comment">//每个字节都用0填充</span></span><br><span class="line">    sockAddr.sin_family = PF_INET;</span><br><span class="line">    sockAddr.sin_addr.s_addr = <span class="built_in">inet_addr</span>(<span class="string">&quot;127.0.0.1&quot;</span>);</span><br><span class="line">    sockAddr.sin_port = <span class="built_in">htons</span>(<span class="number">1234</span>);</span><br><span class="line">    <span class="built_in">connect</span>(sock, (SOCKADDR*)&amp;sockAddr, <span class="built_in">sizeof</span>(SOCKADDR));</span><br><span class="line">    <span class="comment">//接收服务器传回的数据</span></span><br><span class="line">    <span class="type">char</span> szBuffer[MAXBYTE] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="built_in">recv</span>(sock, szBuffer, MAXBYTE, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="comment">//输出接收到的数据</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Message form server: %s\n&quot;</span>, szBuffer);</span><br><span class="line">    <span class="comment">//关闭套接字</span></span><br><span class="line">    <span class="built_in">closesocket</span>(sock);</span><br><span class="line">    <span class="comment">//终止使用 DLL</span></span><br><span class="line">    <span class="built_in">WSACleanup</span>();</span><br><span class="line">    <span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>初始化DLL</p>
-</li>
-<li><p>创建套接字</p>
-</li>
-<li><p>向服务器发送请求</p>
-</li>
-<li><p>接收服务器穿回的数据</p>
-</li>
-<li><p>输出接收到的数据</p>
-</li>
-<li><p>关闭套接字</p>
-</li>
-<li><p>终止DLL使用</p>
-</li>
-</ol>
-<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>将 server.cpp 和 client.cpp 分别编译为 server.exe 和 client.exe，先运行 server.exe，再运行 client.exe，输出结果为：<br>Message form server: Hello World!  </p>
-<p>Windows 下的 socket 程序和 Linux 思路相同，但细节有所差别：  </p>
-<ol>
-<li><p>Windows 下的 socket 程序依赖 Winsock.dll 或 ws2_32.dll，必须提前加载。DLL 有两种加载方式，请查看：<a target="_blank" rel="noopener" href="http://c.biancheng.net/cpp/html/2754.html">动态链接库DLL的加载</a>  </p>
-</li>
-<li><p>Linux 使用“文件描述符”的概念，而 Windows 使用“文件句柄”的概念；Linux 不区分 socket 文件和普通文件，而 Windows 区分；Linux 下 socket() 函数的返回值为 int 类型，而 Windows 下为 SOCKET 类型，也就是句柄。  </p>
-</li>
-<li><p>Linux 下使用 read() &#x2F; write() 函数读写，而 Windows 下使用 recv() &#x2F; send() 函数发送和接收。  </p>
-</li>
-<li><p>关闭 socket 时，Linux 使用 close() 函数，而 Windows 使用 closesocket() 函数。</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>
