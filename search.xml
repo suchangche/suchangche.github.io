@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>UE4-项目-TwoerDefence-炮塔材质</title>
+      <link href="/2022/08/28/UE4-%E9%A1%B9%E7%9B%AE-TwoerDefence-%E7%82%AE%E5%A1%94%E6%9D%90%E8%B4%A8/"/>
+      <url>/2022/08/28/UE4-%E9%A1%B9%E7%9B%AE-TwoerDefence-%E7%82%AE%E5%A1%94%E6%9D%90%E8%B4%A8/</url>
+      
+        <content type="html"><![CDATA[<h1 id="导入资源"><a href="#导入资源" class="headerlink" title="导入资源"></a>导入资源</h1><ol><li><p>在<code>TowerDefence/Content/Character/Towers/Cannon/Anim</code>导入动画资源</p></li><li><p>在<code>TowerDefence/Content/Character/Towers/Cannon/Mat</code>导入材质资源</p></li><li><p>在<code>TowerDefence/Content/Character/Towers/Cannon/Mesh</code>导入骨骼资源</p></li><li><p>在<code>TowerDefence/Content/Character/Towers/Cannon/Particle</code>导入例子特效资源</p></li><li><p>在<code>Content/Character/Monster/LittleMonster/LittleMonster1/Anim</code>导入动画</p></li><li><p>在<code>Content/Character/Monster/LittleMonster/LittleMonster1/Mat</code>导入材质</p></li><li><p>在<code>Content/Character/Monster/LittleMonster/LittleMonster1/Mesh</code>导入骨骼</p></li><li><p>在<code>Content/Character/Monster/LittleMonster/LittleMonster1/Particle</code>导入粒子特效资源</p></li><li><p>在<code>Content/Character/Monster/LittleMonster/LittleMonster1/Texture</code>导入贴图资源</p></li></ol><h1 id="编辑材质"><a href="#编辑材质" class="headerlink" title="编辑材质"></a>编辑材质</h1><ol><li><p>打开材质资源<code>CannonMat</code>，将贴图资源<code>1024Gun</code>以及<code>Light</code>导入其中</p></li><li><p>按鼠标左键加3键生成RGB面板，设置其为（0，0.5，1），使用<code>Multiply</code>节点（M+鼠标左键）和<code>Light</code>的R引脚连接，再使用<code>Multiply</code>节点，使得常量B引脚系数为5之后连接上CannonMat的<code>自发光颜色</code>引脚</p></li><li><p>按鼠标左键加3键生成RGB面板，设置其为（0，0，0.5），使用<code>Multiply</code>节点和<code>1024Gun</code>的G引脚连接，最后连接上CannonMat的<code>Normal</code>引脚</p></li><li><p>按鼠标左键加1生成<code>系数</code>节点，系数设置为1，连接上<code>Metallic</code>引脚</p></li><li><p>按鼠标左键加1生成<code>系数</code>节点，系数设置为0.3，连接上<code>粗糙度</code>引脚</p></li></ol><h1 id="生成蓝图"><a href="#生成蓝图" class="headerlink" title="生成蓝图"></a>生成蓝图</h1><ol><li><p>在<code>TowerDefence/Content/Character/Towers</code>位置创建继承自<code>Towers.cpp</code>的蓝图类<code>TowersBase_BP</code></p></li><li><p>在<code>TowerDefence/Content/Character/Towers/Cannon/BP</code>位置创建继承自<code>TowersBase_BP</code>的<code>Cannon_BP</code></p></li><li><p>在<code>Cannon_BP</code>中的网格体组件中添加塔的网格体，修改其大小</p></li><li><p>修改胶囊体组件大小</p></li><li><p>在塔的骨骼中找到合适位置添加插槽，命名为<code>OpenFire</code></p></li><li><p>在构造函数中添加节点<code>将组件附加到组件</code>，使得<code>Open Fire Point</code>组件附加到<code>网格体</code>上的<code>OpenFire</code>插槽上</p></li><li><p>在蓝图中将OpenFire组件旋转到合适的位置</p></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> unreal engine </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 项目 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>UE4-C++-WidgetComponent</title>
       <link href="/2022/08/23/UE4-C-WidgetComponent/"/>
       <url>/2022/08/23/UE4-C-WidgetComponent/</url>

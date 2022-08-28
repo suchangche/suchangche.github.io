@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-count">92</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,131 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/14/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%9C%AC%E5%9C%B0%E5%AD%98%E5%82%A8%E5%92%8C%E5%8A%A0%E8%BD%BD%E7%8E%A9%E5%AE%B6%E9%80%89%E6%8B%A9%E6%95%B0%E6%8D%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/14/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%9C%AC%E5%9C%B0%E5%AD%98%E5%82%A8%E5%92%8C%E5%8A%A0%E8%BD%BD%E7%8E%A9%E5%AE%B6%E9%80%89%E6%8B%A9%E6%95%B0%E6%8D%AE/" class="post-title-link" itemprop="url">UE4-项目-死寂-本地存储和加载玩家选择数据</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-14 16:16:28 / 修改时间：17:19:05" itemprop="dateCreated datePublished" datetime="2022-07-14T16:16:28+08:00">2022-07-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="本地存储与加载"><a href="#本地存储与加载" class="headerlink" title="本地存储与加载"></a>本地存储与加载</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="SaveGame"><a href="#SaveGame" class="headerlink" title="SaveGame"></a>SaveGame</h3><p>一个蓝图类，用于保存游戏数据</p>
+<h3 id="游戏存档存在"><a href="#游戏存档存在" class="headerlink" title="游戏存档存在"></a>游戏存档存在</h3><p>用于判断游戏的存档是否存在</p>
+<h3 id="创建游戏存档对象"><a href="#创建游戏存档对象" class="headerlink" title="创建游戏存档对象"></a>创建游戏存档对象</h3><p>字面意思</p>
+<h3 id="将游戏保存到插槽"><a href="#将游戏保存到插槽" class="headerlink" title="将游戏保存到插槽"></a>将游戏保存到插槽</h3><p>将游戏保存到一个已经创建好的SaveGame中</p>
+<h3 id="从插槽加载游戏"><a href="#从插槽加载游戏" class="headerlink" title="从插槽加载游戏"></a>从插槽加载游戏</h3><p>字面意思，插槽名称是“游戏存档存在”中插槽的名称</p>
+<h3 id="打开关卡（按名称）"><a href="#打开关卡（按名称）" class="headerlink" title="打开关卡（按名称）"></a>打开关卡（按名称）</h3><p>字面意思</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>将之前选择的服装创建一个存档，方便正式游戏中的角色模型读取其数据来更换模型</p>
+<ul>
+<li><p>创建一个SaveGame类型的蓝图类“BP_ClothSaveGame”</p>
+</li>
+<li><p>添加骨骼网格体类型的变量“ClothMesh”，为其设置一个默认值</p>
+</li>
+<li><p>在“BP_MainMenu”中的“切换服装”事件后面判断游戏存档是否存在，不存在则创建一个新的存档</p>
+<ul>
+<li><p>使用“游戏存档存在”判断是否存在（Slot Name设置为Cloth），使用一个分支节点，fasle的时候“创建游戏存档对象”，并将其返回值提升为变量“ClothSaveGame”</p>
+</li>
+<li><p>拖入ClothSaveGame，引出“set cloth mesh”，将“选择的模型”作为变量传入</p>
+</li>
+<li><p>调用“将游戏保存到插槽”节点，Object引脚引入“ClothSaveGame”，Slot Name引脚为Cloth</p>
+</li>
+<li><p>如果有存档，也就是分支节点返回为true，则使用“从插槽加载游戏”，类型转换为“BP_ClothSaveGame”，再设置“ClothSaveGame”，最后设置ClothMesh，然后“将游戏保存到插槽”</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在自定义服装界面添加一个“按钮交互”，文本内容为“完成”，作为选好服装之后进行下一步的操作按钮</p>
+</li>
+<li><p>将自定义服装界面选好的服装模型附加到正式游戏中的角色身上</p>
+<ul>
+<li><p>在角色蓝图的事件图表中的“事件开始运行时”开头，判断是或否有存档，有则“从插槽中加载游戏”，类型转换为“BP_ClothSaveGame”，获取其中的ClothMesh“设置骨骼网格体”</p>
+</li>
+<li><p>注意：无游戏存档的时候，以及转换为”BP_ClothSaveGame“失败时，也需要连接到转换到动画蓝图上去</p>
+</li>
+</ul>
+</li>
+<li><p>测试一下</p>
+<ul>
+<li>主界面控件蓝图，获取“自定义服装界面”的“按钮交互”，获取其button，“绑定事件到点击时”，创建自定义事件，“打开关卡（按名称）”</li>
+</ul>
+</li>
+</ol>
+<h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><p>第二次开启游戏的时候，服装选择界面需要是上一次选择的服装</p>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
+<li>在”BP_MainMenu“的事件开始运行时，判断是否有存档，有则“从插槽中加载游戏”，类型转换为“BP_ClothSaveGame”，获取其中的ClothMesh“设置骨骼网格体”</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1699,171 +1824,6 @@
 </li>
 </ol>
 <p><img src="D:\R_program\Blog\source_posts\计算机网络的定义和分类\1.png"></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E7%A7%8D%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E7%A7%8D%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%BC%8F/" class="post-title-link" itemprop="url">计算机网络-三种交换方式</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-07-06 09:45:36 / 修改时间：10:08:10" itemprop="dateCreated datePublished" datetime="2022-07-06T09:45:36+08:00">2022-07-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="电路交换"><a href="#电路交换" class="headerlink" title="电路交换"></a>电路交换</h1><p>电话交换机接通电话线的方式称为电路交换</p>
-<p>从通信资源的分配角度来看，交换就是按照某种方式动态地去分配传输线路的资源</p>
-<h2 id="电路交换的三个步骤"><a href="#电路交换的三个步骤" class="headerlink" title="电路交换的三个步骤"></a>电路交换的三个步骤</h2><ol>
-<li><p>建立连接（分配通信资源）</p>
-</li>
-<li><p>通话（一直占用通信资源）</p>
-</li>
-<li><p>释放连接（归还通信资源）</p>
-</li>
-</ol>
-<p>使用电路交换可以实现传输计算机数据，但是效率低下</p>
-<h1 id="分组交换"><a href="#分组交换" class="headerlink" title="分组交换"></a>分组交换</h1><p>计算机网络通常采用分组交换来实现通信</p>
-<p>即发送方将要发送的报文分成几组，并添加对应的首部报文，分组发送到接收方之后，接收方将报文首部去除，重新组合成完整报文</p>
-<h2 id="三方作用"><a href="#三方作用" class="headerlink" title="三方作用"></a>三方作用</h2><ol>
-<li><p>发送方：构造分组，发送分组</p>
-</li>
-<li><p>路由器：缓存分组，转发分组</p>
-</li>
-<li><p>接收方：接收分组，还原报文</p>
-</li>
-</ol>
-<h1 id="报文交换"><a href="#报文交换" class="headerlink" title="报文交换"></a>报文交换</h1><p>通常在早期的电文交换中使用，现已经被分组交换取代</p>
-<h1 id="三种交换方式的对比"><a href="#三种交换方式的对比" class="headerlink" title="三种交换方式的对比"></a>三种交换方式的对比</h1><p><img src="D:\R_program\Blog\source_posts\计算机网络-三种交换方式\1.png"></p>
-<h2 id="电路交换优缺点"><a href="#电路交换优缺点" class="headerlink" title="电路交换优缺点"></a>电路交换优缺点</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ol>
-<li><p>通信时延小</p>
-</li>
-<li><p>有序传输</p>
-</li>
-<li><p>没有冲突</p>
-</li>
-<li><p>适用范围广</p>
-</li>
-<li><p>实时性强</p>
-</li>
-<li><p>控制简单</p>
-</li>
-</ol>
-<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
-<li><p>建立连接时间长</p>
-</li>
-<li><p>线路独占，使用效率低</p>
-</li>
-<li><p>灵活性差</p>
-</li>
-<li><p>难以规格化</p>
-</li>
-</ol>
-<h2 id="报文交换-1"><a href="#报文交换-1" class="headerlink" title="报文交换"></a>报文交换</h2><h3 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h3><ol>
-<li><p>无需建立连接</p>
-</li>
-<li><p>动态分配路线</p>
-</li>
-<li><p>提高线路可靠性</p>
-</li>
-<li><p>提高线路利用率</p>
-</li>
-<li><p>提供多目标服务</p>
-</li>
-</ol>
-<h3 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h3><ol>
-<li><p>有转发时延</p>
-</li>
-<li><p>需要较大存储缓存空间</p>
-</li>
-<li><p>需要传输额外的信息量</p>
-</li>
-</ol>
-<h2 id="分组交换-1"><a href="#分组交换-1" class="headerlink" title="分组交换"></a>分组交换</h2><h3 id="优点-2"><a href="#优点-2" class="headerlink" title="优点"></a>优点</h3><ol>
-<li><p>无需建立连接</p>
-</li>
-<li><p>线路利用率高</p>
-</li>
-<li><p>简化了存储管理</p>
-</li>
-<li><p>加速传输</p>
-</li>
-<li><p>减少出错概率和重发数据量</p>
-</li>
-</ol>
-<h3 id="缺点-2"><a href="#缺点-2" class="headerlink" title="缺点"></a>缺点</h3><ol>
-<li><p>引起了转发时延</p>
-</li>
-<li><p>需要传输额外的信息量</p>
-</li>
-<li><p>对于数据报服务，存在失序，丢失或重复分组的问题；对于虚电路服务，存在呼叫建立，数据传输和虚电路释放三个过程</p>
-</li>
-</ol>
 
       
     </div>

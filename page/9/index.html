@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-count">92</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,176 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/19/UE4-C-%E9%BB%98%E8%AE%A4%E7%94%9F%E6%88%90%E4%BB%A3%E7%A0%81%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/04/19/UE4-C-%E9%BB%98%E8%AE%A4%E7%94%9F%E6%88%90%E4%BB%A3%E7%A0%81%E8%AF%A6%E8%A7%A3/" class="post-title-link" itemprop="url">UE4 C++ 默认生成代码详解</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-04-19 08:38:44 / 修改时间：15:56:43" itemprop="dateCreated datePublished" datetime="2022-04-19T08:38:44+08:00">2022-04-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>本系列算是学习笔记，我也是在边学边整理。</p>
+<p>如果有说的不对的地方，欢迎大佬指正，也欢迎友好讨论。</p>
+<p>有关unreal engine C++</p>
+<p>我愿称之为U++</p>
+<p>其在C++原本的基础上魔改了很多东西进去</p>
+<p>说实话门槛还是比较高的，在学习U++之前，我们必须掌握一些前置条件。</p>
+<h2 id="前置条件"><a href="#前置条件" class="headerlink" title="前置条件"></a>前置条件</h2><ol>
+<li><p><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/228.html">指针与函数指针</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://c.biancheng.net/cplus/polymorphism/">面向对象的特征与多态</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://c.biancheng.net/cplus/70/">模板函数和模板类</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://c.biancheng.net/stl/sequence_container/">容器</a></p>
+</li>
+</ol>
+<p>如果你已经掌握了以上知识，那么现在就可以开始U++的学习啦！</p>
+<p>如果没有，那可以点进以上的链接，可以到C语言中文网中学习（这个网站把很多知识点都讲得深入浅出！真的超棒！）</p>
+<h1 id="在unreal-engine中生成C-类"><a href="#在unreal-engine中生成C-类" class="headerlink" title="在unreal engine中生成C++类"></a>在unreal engine中生成C++类</h1><p>版本：4.27.2</p>
+<p>文件-&gt;新建C++类</p>
+<p><img src="D:\R_programme\Blog\source\images\CreatC++1.jpg"></p>
+<p>选择一个父类（我在这里选的是Actor）</p>
+<p><img src="D:\R_programme\Blog\source\images\CreatC++2.jpg"></p>
+<p>接下来一路下一步就ok了</p>
+<p>注意！在生成C++类的时候，<strong>路径中不能有中文字符</strong>，那样会导致创建失败</p>
+<p>所以最好连带项目名称和C++类名称均为符合C++文件命名标准的英文字符</p>
+<p>在此处，我的项目名称为TestOne，C++对象名称为Foating</p>
+<p>在创建完成后，将会自动打开vs2019</p>
+<p>此时我们看向资源管理器，在Game&#x2F;TestOne&#x2F;Source&#x2F;TestOne&#x2F;下我们会发现两个文件</p>
+<p>Foating.h以及Foating.cpp</p>
+<p><img src="D:\R_programme\Blog\source\images\CreatC++3.jpg"></p>
+<h1 id="默认生成代码讲解"><a href="#默认生成代码讲解" class="headerlink" title="默认生成代码讲解"></a>默认生成代码讲解</h1><p>我们先看Foating.h以及Foating.cpp，其他的以后再说（其实是我也暂时只理解了这两个）</p>
+<h2 id="Foating-h"><a href="#Foating-h" class="headerlink" title="Foating.h"></a>Foating.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.#pragma once</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/Actor.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Foating.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TESTONE_API</span><span class="comment">/*项目名*/</span> AFoating<span class="comment">/*生成的对象名*/</span> : <span class="keyword">public</span> AActor</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:    </span><br><span class="line">    <span class="comment">// Sets default values for this actor&#x27;s properties</span></span><br><span class="line">    <span class="comment">//默认构造函数</span></span><br><span class="line">    <span class="built_in">AFoating</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="comment">// Called when the game starts or when spawned</span></span><br><span class="line">    <span class="comment">//当游戏开始时就调用函数</span></span><br><span class="line">    <span class="keyword">virtual</span><span class="comment">/*虚函数*/</span> <span class="function"><span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span><span class="comment">/*表示覆盖一个函数并将其重写*/</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:    </span><br><span class="line">    <span class="comment">// Called every frame</span></span><br><span class="line">    <span class="comment">//逐帧调用函数</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">(<span class="type">float</span> DeltaTime)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="include-“CoreMinimal-h”"><a href="#include-“CoreMinimal-h”" class="headerlink" title="#include “CoreMinimal.h”"></a>#include “CoreMinimal.h”</h3><p>代表来自一套UE4核心变成环境的普遍存在类型</p>
+<p>我们可以简单地把它理解为类似<code>#include &lt;iostream&gt;</code>和<code>#include &lt;ostream&gt;</code>之间的关系。此头文件只包含一些核心重要的功能，如果需要其他的功能，还需要应用其他头文件。</p>
+<h3 id="include-“GameFramework-x2F-Actor-h”"><a href="#include-“GameFramework-x2F-Actor-h”" class="headerlink" title="#include “GameFramework&#x2F;Actor.h”"></a>#include “GameFramework&#x2F;Actor.h”</h3><p>表示包含了来自Actor的头文件——记得吗？我们创建的时候选择以Actor为父类</p>
+<h3 id="include-Foating-generated-h"><a href="#include-Foating-generated-h" class="headerlink" title="#include Foating.generated.h"></a>#include Foating.generated.h</h3><p>表示包含了UE4中<code>反射机制</code>所生成的代码，且此行代码必须为#include中的最后一行</p>
+<h4 id="反射机制"><a href="#反射机制" class="headerlink" title="反射机制"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/u012999985/article/details/52902065">反射机制</a></h4><p>所谓反射，是程序在运行时进行自检的一种能力，自检什么呢？就是检查自己的C++类，函数，成员变量，结构体等等（对应起来也就是大家在UE4能看到的UCLASS，UFUNCTON，UPROPERTY，USTRUCT后面还会提到）</p>
+<p>那检查这些东西做什么呢？最明显的就是支持蓝图和C++的交互功能，说的更通俗一点，就是可以更自由的控制这些结构，让他在我们想出现的地方出现，让他在我们想使用的地方使用。</p>
+<p>要知道我们在虚幻4中声明的任意一个类，都是继承于UObject类的，所以他远远不是我们所以为的那个普通的C++类。我们可以使用这个类进行网络复制，执行垃圾回收，让他和蓝图交互等等。而这一切原生的C++是并不支持的，也正是因此虚幻4才构建了一个这样的反射系统。</p>
+<p>在UE4里面， 基本上所有的游戏工程的类都需要用到。比如，你用编辑器新建一个类，类的前面会自动添加UCLASS()；新建一个结构体，需要使用USTRUCT()；新建一个枚举变量，需要在前面声明UENUM()；在类的里面，也必须要加上GENERATED_UCLASS_BODY()才行。</p>
+<p>如果你想让你的变量能显示在编辑器里面，想让你的函数可以被蓝图调用或者通过让这个函数实现RPC网络通信功能，或者你想让你的变量被系统自动的回收，这些都离不开反射系统以及这些宏定义。</p>
+<p>所以，我们这里起码能认识到，在网络通信，蓝图交互以及垃圾回收方面，这与反射系统是密不可分的。</p>
+<p>另外，如果要说引擎中哪部分使用到反射系统功能的话，那基本上整个引擎都脱不了干系了。</p>
+<h3 id="UCLASS"><a href="#UCLASS" class="headerlink" title="UCLASS()"></a>UCLASS()</h3><p>这个东西就和上面提到的反射机制有关了！</p>
+<p>在UE4里面，你无时无刻都会看到类似UFUNCTION（）这样的宏。官方文档告诉你，只要在一个函数的前面加上这个宏，然后在括号里面加上BlueprintCallable就可以在编辑器里面调用了。按照他的指示，我们就能让我们的函数实现各种各样特别的功能，那这个效果就是通过UE4的反射系统来实现的。</p>
+<h3 id="GENERATED-BODY"><a href="#GENERATED-BODY" class="headerlink" title="GENERATED_BODY()"></a>GENERATED_BODY()</h3><p>这是一个宏定义，表示在调用此宏的时候，会先调用上一层的父类中的函数</p>
+<p>UE4将这个标记替换为将为该类型生成的所有必要的样板代码</p>
+<p>也就是说U++在C++上包了伊恩，使其支持类似反射，序列化之类原本C++没有的功能</p>
+<h2 id="Foating-cpp"><a href="#Foating-cpp" class="headerlink" title="Foating.cpp"></a>Foating.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Foating.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Sets default values</span></span><br><span class="line">AFoating::<span class="built_in">AFoating</span>()</span><br><span class="line">&#123;</span><br><span class="line">     <span class="comment">// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don&#x27;t need it.</span></span><br><span class="line">    <span class="comment">//将actor设为逐帧调用Tick()，如果不需要，将其改为false可以提高性能</span></span><br><span class="line">    PrimaryActorTick.bCanEverTick = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Called when the game starts or when spawned</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFoating::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//super表示调用父类有参数的构造函数，也必须放在子类的构造函数里面（成员函数不行）</span></span><br><span class="line">    <span class="comment">//并且只能放在构造函数的首句，其中x,y,z是指的与父类此有参构造函数中参数数据类型相对应的子类中的参数</span></span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Called every frame</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFoating::Tick</span><span class="params">(<span class="type">float</span> DeltaTime)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">Tick</span>(DeltaTime);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里基本上就是注释的内容</p>
+<p>唯一需要注意的就是Super这个关键字，刚开始看的时候我也是懵圈的，这嘛玩意啊？</p>
+<p>后来才发现，原来这玩意是JAVA里面的内容</p>
+<h3 id="super在JAVA中的定义"><a href="#super在JAVA中的定义" class="headerlink" title="super在JAVA中的定义"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_63093628/article/details/122633358">super在JAVA中的定义</a></h3><p>1、当子类与父类有同名的属性时，可以通过super。属性的方式调用父类中生命的属性。</p>
+<p>2、当子类重写父类的方法后，在子类中若想调用父类中被重写的方法时，需用super.的方法</p>
+<p>3、super修饰构造器，通过在子类中使用super列表参数的形式调用父类中制定的构造器</p>
+<pre><code>    a、在构造器内部，super（参数列表）必须声明在首行
+
+    b、在构造器内部，this（参数列表）或super（参数列表）只能出现一个
+
+    c、当构造器中不显示的调用this（参数列表）或super（参数列表）默认调用父类中的空参                 构造器
+</code></pre>
+<h3 id="super在unreal-engine中的应用"><a href="#super在unreal-engine中的应用" class="headerlink" title="super在unreal engine中的应用"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43575837/article/details/103270755">super在unreal engine中的应用</a></h3><p>但当super放在unreal engine中的时候，它<strong>主要是用来重写父类虚函数</strong></p>
+<p>Super是父类的类型别名，其定义是：Typedef 父类名 子类名::Super</p>
+<p>在子类中使用Super，是对父类成员函数、成员变量的调用</p>
+<p>下面举例说明：<br>分别创建父类AMyActor、子类AMyMyActor</p>
+<p>在AMyActor中设置虚函数Content()和变量value：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//声明</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="keyword">virtual</span> <span class="title">Content</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="type">int</span> value;</span><br><span class="line"><span class="comment">//定义</span></span><br><span class="line">AMyActor::<span class="built_in">AMyActor</span>()</span><br><span class="line">&#123;</span><br><span class="line">    PrimaryActorTick.bCanEverTick = <span class="literal">true</span>;</span><br><span class="line">    value = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyActor::Content</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    GEngine-&gt;<span class="built_in">AddOnScreenDebugMessage</span>(<span class="number">-1</span>, <span class="number">5.0f</span>, FColor::Yellow, <span class="built_in">TEXT</span>(<span class="string">&quot;This is MyActor&quot;</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在子类中重写Content()函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//声明</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="keyword">virtual</span> <span class="title">Content</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"><span class="comment">//定义</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyMyActor::Content</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">Content</span>(); <span class="comment">//Typedef AMyActor Super::AMyMyActor</span></span><br><span class="line">    GEngine-&gt;<span class="built_in">AddOnScreenDebugMessage</span>(<span class="number">-1</span>, <span class="number">5.0f</span>, FColor::Yellow, <span class="built_in">TEXT</span>(<span class="string">&quot;This is MyMyActor&quot;</span>));</span><br><span class="line">    Super::value = <span class="number">2</span>;</span><br><span class="line">    GEngine-&gt;<span class="built_in">AddOnScreenDebugMessage</span>(<span class="number">-1</span>, <span class="number">5.0f</span>, FColor::Yellow, FString::<span class="built_in">Printf</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;value = %d&quot;</span>), value));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>有关super的注意事项</p>
+<ul>
+<li><p>只能放在子类的构造函数里面（成员函数不行）</p>
+</li>
+<li><p>只能放在构造函数的首句</p>
+</li>
+</ul>
+<p>版权声明：</p>
+<ul>
+<li><p>本博客根据哔哩哔哩up主<code>来自程序员的暴击</code>创作的<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV14K411J7v2?p=1">虚幻四C++入坑指南合集版</a>进行整理</p>
+</li>
+<li><p>反射机制的解释参考自CSDN博主「Jerish_C」</p>
+</li>
+<li><p>super内容参考自CSDN博主「虾仁不眨眼i」</p>
+</li>
+<li><p>super在unreal engine中的应用参考自CSDN博主「<a target="_blank" rel="noopener" href="http://www.www.www」/">www.www.www」</a></p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -2947,326 +3117,6 @@
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span>&amp; p2;        <span class="comment">//error</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span>&amp; p2=x;        <span class="comment">//ok</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> y=<span class="number">20</span>;</span><br><span class="line">p2=y;                <span class="comment">//error</span></span><br><span class="line">p2++;                <span class="comment">//error</span></span><br></pre></td></tr></table></figure>
 
 <p>int* const i:指向的内容可以改变，但是指向的地址不能改变</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/28/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E4%BD%8D%E8%BF%90%E7%AE%97/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/28/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E4%BD%8D%E8%BF%90%E7%AE%97/" class="post-title-link" itemprop="url">有关算法中的位运算</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-03-28 19:06:21" itemprop="dateCreated datePublished" datetime="2022-03-28T19:06:21+08:00">2022-03-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-06-09 09:13:16" itemprop="dateModified" datetime="2022-06-09T09:13:16+08:00">2022-06-09</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="一，位运算符"><a href="#一，位运算符" class="headerlink" title="一，位运算符"></a>一，位运算符</h1><table>
-<thead>
-<tr>
-<th>&amp;</th>
-<th>按位与</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>^</td>
-<td>按位异或</td>
-</tr>
-<tr>
-<td>~</td>
-<td>取反</td>
-</tr>
-<tr>
-<td>&lt;&lt;</td>
-<td>左移</td>
-</tr>
-<tr>
-<td>&gt;&gt;</td>
-<td>右移</td>
-</tr>
-</tbody></table>
-<h2 id="lt-lt-按位左移运算符"><a href="#lt-lt-按位左移运算符" class="headerlink" title="&lt;&lt;(按位左移运算符)"></a>&lt;&lt;(按位左移运算符)</h2><p>左移是基于一个数的二进制来说的，&lt;&lt;用来将一个数的二进制整体向位左移动若干位，移动的位数取决于其右操作数（右操作数必须是非负数），右边空出的位用0来补足。</p>
-<ul>
-<li><p>如果高位左移后出现溢出情况，则舍弃高位</p>
-</li>
-<li><p>若高位不为1，左移一位相当于原数据在十进制的情况下乘以2【2&lt;&lt;1&#x3D;&#x3D;4】</p>
-</li>
-</ul>
-<h2 id="gt-gt-按位右移运算符"><a href="#gt-gt-按位右移运算符" class="headerlink" title="&gt;&gt;(按位右移运算符)"></a>&gt;&gt;(按位右移运算符)</h2><p>右移也是基于数的二进制来说的，&gt;&gt;用来将一个属的二进制数整体向右移动若干位，移动的位数取决于其右操作数（必须为非负数），移到右端的数被舍弃。</p>
-<ul>
-<li><p>对于无符号数，高位补0</p>
-</li>
-<li><p>对于有符号数，有些计算机将左边空出的位数用符号位补足，而有些用0补足</p>
-</li>
-</ul>
-<h2 id="amp-按位与运算符"><a href="#amp-按位与运算符" class="headerlink" title="&amp;(按位与运算符)"></a>&amp;(按位与运算符)</h2><p>a&amp;b是指将参加运算的两个整数a与b的<strong>二进制位</strong>进行与运算</p>
-<p>运算规则：两者同时为1才为1，否则为0</p>
-<ul>
-<li><p>0&amp;0&#x3D;0</p>
-</li>
-<li><p>0&amp;1&#x3D;0</p>
-</li>
-<li><p>1&amp;1&#x3D;0</p>
-</li>
-</ul>
-<h2 id="按位或运算符"><a href="#按位或运算符" class="headerlink" title="|(按位或运算符)"></a>|(按位或运算符)</h2><p>a|b是指将参加运算的两个整数a与b的<strong>二进制位</strong>进行或运算</p>
-<p>运算规则：两者只要有一个为1，则结果为1</p>
-<ul>
-<li><p>0|0&#x3D;0</p>
-</li>
-<li><p>0|1&#x3D;1</p>
-</li>
-<li><p>1|1&#x3D;1</p>
-</li>
-</ul>
-<p>例如：3|5</p>
-<p>3|5 -&gt; 0000 0011|0000 0101&#x3D;0000 0111</p>
-<p>即结果为7</p>
-<p>另外，负数按照补码形式参加运算</p>
-<h2 id="按位异或运算符"><a href="#按位异或运算符" class="headerlink" title="^(按位异或运算符)"></a>^(按位异或运算符)</h2><p>a^b是指将a与b的二进制形式进行异或运算</p>
-<p>运算规则：参加运算的两个对象如果值不同，结果为1，否则为0</p>
-<ul>
-<li><p>0^0&#x3D;0</p>
-</li>
-<li><p>0^1&#x3D;1</p>
-</li>
-<li><p>1^1&#x3D;0</p>
-</li>
-</ul>
-<p>异或其实就是不进位的加法</p>
-<p>1+1&#x3D;0；0+0&#x3D;0；1+0&#x3D;1</p>
-<p>异或的性质</p>
-<ul>
-<li><p>交换律：a^b&#x3D;b^a</p>
-</li>
-<li><p>结合律：(a^b)^c&#x3D;a^(b^c)</p>
-</li>
-</ul>
-<p>异或运算的特殊作用</p>
-<ol>
-<li><p>使特定位翻转</p>
-<ul>
-<li>x&#x3D;1010 1110 我们要把<strong>后4位数反转</strong>，则可以使x^0000 1111&#x3D;1010 0001</li>
-</ul>
-</li>
-<li><p>与0相异或可保留原值</p>
-<ul>
-<li>1010 1110^0000 0000&#x3D;1010 1110</li>
-</ul>
-</li>
-<li><p>对于任何数x都有<strong>自反性</strong></p>
-<ul>
-<li>x^x&#x3D;0；x^0&#x3D;x    A^B^B&#x3D;A</li>
-</ul>
-</li>
-<li><p>交换两个数</p>
-<ul>
-<li>a&#x3D;a^b；b&#x3D;b^a；a&#x3D;a^b</li>
-</ul>
-</li>
-</ol>
-<h2 id="按位取反运算符"><a href="#按位取反运算符" class="headerlink" title="~(按位取反运算符)"></a>~(按位取反运算符)</h2><p>按位取反是指将a的二进制形式全都取反——1变为0，0变为1</p>
-<p>eg：~9</p>
-<p>9&#x3D;0000 1001-&gt;1111 0110</p>
-<p>1111 0110的最高位是1，即为补码</p>
-<p>补码还原成反码（补码减1）得1111 0101</p>
-<p>反码还原成原码（最高位不变，其他各位取反）得1000 1010</p>
-<p>则~9&#x3D;-10</p>
-<h1 id="二，不同长度进行位运算"><a href="#二，不同长度进行位运算" class="headerlink" title="二，不同长度进行位运算"></a>二，不同长度进行位运算</h1><p>如果两个不同长度的数据进行位运算，则将两者按右对其，然后进行位运算</p>
-<p>eg：若一个4字节的数据与一个2字节的数据进行与运算</p>
-<p>首先右端对齐，然后左边有以下三种情况</p>
-<ol>
-<li><p>如果数据为正数，则左边补16个0</p>
-</li>
-<li><p>如果数据为负数，则左边补16个1</p>
-</li>
-<li><p>如果数据为无符号数，则左边补16个0</p>
-</li>
-</ol>
-<h1 id="三，常见的二进制位变换操作"><a href="#三，常见的二进制位变换操作" class="headerlink" title="三，常见的二进制位变换操作"></a>三，常见的二进制位变换操作</h1><table>
-<thead>
-<tr>
-<th>x&gt;&gt;1</th>
-<th>去掉最后一位</th>
-<th>1011 01-&gt;1011 0</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>x&lt;&lt;1</td>
-<td>在最后加一个0</td>
-<td>1011 01-&gt;1011 010</td>
-</tr>
-<tr>
-<td>(x&lt;&lt;1)+1</td>
-<td>在最后加一个1</td>
-<td>1011 01-&gt;1011 011</td>
-</tr>
-<tr>
-<td>x|1</td>
-<td>把最后一位变为1</td>
-<td>1011 00-&gt;1011 01</td>
-</tr>
-<tr>
-<td>(x|1)-1</td>
-<td>把最后一位变为0</td>
-<td>1011 01-&gt;1011 00</td>
-</tr>
-<tr>
-<td>x^1</td>
-<td>最后一位取反</td>
-<td>101101-&gt;1011 00</td>
-</tr>
-<tr>
-<td>x|(1&lt;&lt;(k-1))，k&#x3D;3</td>
-<td>把右往左数第k位数变为1</td>
-<td>1010 01-&gt;1011 01</td>
-</tr>
-<tr>
-<td>x&amp;~(1&lt;&lt;(k-1))，k&#x3D;3</td>
-<td>把从右往左数第k位变为0</td>
-<td>1011 01-&gt;1011 01</td>
-</tr>
-<tr>
-<td>x ^ (1&lt;&lt;(k-1))，k&#x3D;3</td>
-<td>右数第k位取反</td>
-<td>1010 01-&gt;1011 01</td>
-</tr>
-<tr>
-<td>x &amp;7</td>
-<td>取末三位</td>
-<td>11011 01-&gt;101</td>
-</tr>
-<tr>
-<td>x &gt;&gt; (k-1)&amp;1，k&#x3D;4</td>
-<td>取右数第k位</td>
-<td>1101 101-&gt;1</td>
-</tr>
-<tr>
-<td>x|(1&lt;&lt;k-1)，k&#x3D;4</td>
-<td>把末k位变成1</td>
-<td>1010 01-&gt;1011 11</td>
-</tr>
-<tr>
-<td>x^(1&lt;&lt;k-1)，k&#x3D;4</td>
-<td>末k位取反</td>
-<td>101001-&gt;100110</td>
-</tr>
-<tr>
-<td>x&amp;(x+1)</td>
-<td>把右边连续的1变成0</td>
-<td>100101111-&gt;100100000</td>
-</tr>
-<tr>
-<td>x|(x-1)</td>
-<td>把右边连续的0变成1</td>
-<td>11011000-&gt;11011111</td>
-</tr>
-<tr>
-<td>x|(x+1)</td>
-<td>把右起第一个0变成1</td>
-<td>100101111-&gt;100111111</td>
-</tr>
-<tr>
-<td>(x^(x+1))&gt;&gt;1</td>
-<td>取右边连续的1</td>
-<td>100101111-&gt;1111</td>
-</tr>
-<tr>
-<td>x&amp;(x^(x-1))</td>
-<td>去掉右起第一个1的左边</td>
-<td>100101000-&gt;1000</td>
-</tr>
-</tbody></table>
-<h1 id="四，应用举例"><a href="#四，应用举例" class="headerlink" title="四，应用举例"></a>四，应用举例</h1><h2 id="一，按位与（-amp-）"><a href="#一，按位与（-amp-）" class="headerlink" title="一，按位与（&amp;）"></a>一，按位与（&amp;）</h2><p>eg1：判断一个数n是否为2的整数幂</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> n;</span><br><span class="line">cin&gt;&gt;n;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(n&amp;(n<span class="number">-1</span>))&#123;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;no&quot;</span>&lt;&lt;endl;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;yes&quot;</span>&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>eg2:编写一个函数，以二进制串的形式输入一个无符号整数，返回其二进制表达式中数字位数为 ‘1’ 的个数（也被称为汉明重量）。【leetcode.191.easy】</p>
-<p>思路：循环检查n的二进制每一位是否为1</p>
-<p>当检查第i位时，可以让n与2的i次方(<strong>1进行左移i位</strong>)进行与运算，当且仅当n的第i位为1时，运算结果不为0</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">hammingWeight</span><span class="params">(<span class="type">uint32_t</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> ret = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">32</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (n &amp; (<span class="number">1</span> &lt;&lt; i)) &#123;</span><br><span class="line">                ret++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h2 id="按位或（-）"><a href="#按位或（-）" class="headerlink" title="按位或（|）"></a>按位或（|）</h2><p>eg1:颠倒给定的 32 位无符号整数的二进制位。</p>
-<p>思路：将n视作一个长为32的二进制串，从低位往高位枚举n的每一位，将其倒序添加到反转结果rev中。</p>
-<p>每枚举一位就将n右移一位，这样当前n的最低位就是我们要枚举的那一位，当n为0时就可以结束循环。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">uint32_t</span> <span class="title">reverseBits</span><span class="params">(<span class="type">uint32_t</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="type">uint32_t</span> rev = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">//rev由32个0组成</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">32</span> &amp;&amp; n &gt; <span class="number">0</span>; ++i) &#123;</span><br><span class="line">            <span class="comment">//n&amp;1用来取n的最低位(1或者0)</span></span><br><span class="line">            <span class="comment">//rev | (n&amp;1)则是把rev的最后一位变为1或者不变（原本值为0）</span></span><br><span class="line">            rev |= (n &amp; <span class="number">1</span>) &lt;&lt; (<span class="number">31</span> - i);<span class="comment">//将rev |= (n &amp; 1)的结果左移31-i位</span></span><br><span class="line">            n &gt;&gt;= <span class="number">1</span>;<span class="comment">//n右移1位，保证当前最低位为我们要操作的那一位</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> rev;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h2 id="异或（-）"><a href="#异或（-）" class="headerlink" title="异或（^）"></a>异或（^）</h2><p>给定一个<strong>非空</strong>整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。</p>
-<p>异或运算有以下三个性质。</p>
-<p>任何数和 0 做异或运算，结果仍然是原来的数<br>任何数和其自身做异或运算，结果是 0<br>异或运算满足交换律和结合律</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">singleNumber</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> ret = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> e: nums) ret ^= e;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>未完待续……</p>
-<p>声明：此博客整理思路参考《代码随想录》题目摘自leetcode</p>
 
       
     </div>
