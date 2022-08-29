@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">92</span>
+          <span class="site-state-item-count">94</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,658 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/08/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E6%B5%81%E7%A8%8B%E5%85%B3%E5%8D%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/08/08/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E6%B5%81%E7%A8%8B%E5%85%B3%E5%8D%A1/" class="post-title-link" itemprop="url">UE4-项目-TowerDefence-流程关卡</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-08-08 14:14:08 / 修改时间：16:41:50" itemprop="dateCreated datePublished" datetime="2022-08-08T14:14:08+08:00">2022-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><ol>
+<li><p>创建新关卡，定义关卡游戏模式（绑定HUDClass）</p>
+</li>
+<li><p>在HUD.h文件中</p>
+<ul>
+<li><p>声明构造函数和重载<code>BeginPlay()</code></p>
+</li>
+<li><p>声明HUD中的HUD内容界面类（HUD内容界面中包含按钮之类的控件）</p>
+</li>
+<li><p>以HUD内容界面类为父类创建子类Class</p>
+</li>
+<li><p>声明HUD内容界面类的指针实例</p>
+</li>
+</ul>
+</li>
+<li><p>在HUD.cpp文件中</p>
+<ul>
+<li><p>使用<code>static ConstructorHelpers::FClassFinder&lt;HUD内容界面名&gt;类名(TEXT(&quot;路径/蓝图名&quot;)</code>获取蓝图类中的资源</p>
+</li>
+<li><p>将蓝图类中的资源<code>.Class</code>赋值给以主界面类为父类创建的子类Class</p>
+</li>
+<li><p><code>BeginPlay()</code>函数中继承父类并且使用<code>CreateWidget&lt;父类名&gt;(世界,以HUD内容界面类为父类创建的子类Class)</code></p>
+</li>
+<li><p>将其添加到视口</p>
+</li>
+</ul>
+</li>
+<li><p>按钮类.h</p>
+<ul>
+<li><p>声明在蓝图中出现的击中控件类</p>
+</li>
+<li><p>使用<code>UPROPERTY(meta = (BindWidget))</code>实例化控件类</p>
+</li>
+<li><p>重载函数<code>NativeConstruct()</code></p>
+</li>
+<li><p>声明函数<code>void SelectLevel()</code></p>
+</li>
+</ul>
+</li>
+<li><p>按钮类.cpp</p>
+<ul>
+<li><p><code>NativeConstruct()</code>中<code>Super::</code>继承父类</p>
+</li>
+<li><p>给各个按钮使用<code>OnClicked.AddDynamic</code>绑定绑定函数</p>
+</li>
+<li><p>定义函数</p>
+</li>
+</ul>
+</li>
+<li><p>HUD内容界面.h</p>
+<ul>
+<li><p>声明在主界面出现的控件蓝图中的控件类（按钮，自定义类，画布面板等）</p>
+</li>
+<li><p>使用<code>UPROPERTY(meta = (BindWidget))</code>创建控件类的实例（与蓝图中的同名）</p>
+</li>
+<li><p>重载<code>NativeConstruct()</code></p>
+</li>
+<li><p>声明函数<code>InitSelectLevelButton()</code>用于初始化选择关卡按钮</p>
+</li>
+<li><p>声明函数<code>ReturnMenu()</code>用于返回主菜单按钮</p>
+</li>
+<li><p>声明一个数组用于存储关卡按钮</p>
+</li>
+</ul>
+</li>
+<li><p>HUD内容界面.cpp</p>
+<ul>
+<li><p>定义<code>NativeConstruct()</code>调用<code>InitSelectLevelButton()</code>以及<code>ReturnMenu()</code></p>
+</li>
+<li><p>定义<code>InitSelectLevelButton()</code>函数</p>
+</li>
+<li><p>定义<code>ReturnMenu()</code>函数（打开某关卡）</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="添加新界面到视口"><a href="#添加新界面到视口" class="headerlink" title="添加新界面到视口"></a>添加新界面到视口</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="ConstructorHelpers-FClassFinder-lt-gt"><a href="#ConstructorHelpers-FClassFinder-lt-gt" class="headerlink" title="ConstructorHelpers::FClassFinder&lt;&gt;()"></a>ConstructorHelpers::FClassFinder&lt;&gt;()</h3><p>用于获取某个蓝图的类型class</p>
+<p>在使用它们的时候还得遵守如下规则：</p>
+<ul>
+<li><p>只能在类的构造函数中使用，如果在普通的逻辑代码中嵌套这份代码，会引起整个编译器的crash。（实际上里面代码就有检查是否在构造函数里，否则crash）</p>
+</li>
+<li><p>其次，FObjectFinder&#x2F;FClassFinder变量必须是static的，从而保证只有一份资源实例。</p>
+</li>
+</ul>
+<ol>
+<li>**FObjectFinder<T>**：一般用来加载非蓝图资源，比如StaticMesh、Material、SoundWave、ParticlesSystem、AnimSequence、SkeletalMesh等资源：</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">static</span> ConstructorHelpers::FObjectFinder&lt;UTexture2D&gt; <span class="title">ObjectFinder</span><span class="params">(TEXT(<span class="string">&quot;Texture2D&#x27;/Game/Textures/tex1.tex1&#x27;&quot;</span>))</span></span>;</span><br><span class="line">UTexture2D* Texture2D = ObjectFinder.Object;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>**FClassFinder<T>**：一般用来加载蓝图资源并获取蓝图Class。这是因为如果C++要用蓝图创建对象，必须先获取蓝图的Class，然后再通过Class生成蓝图对象：</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">static</span> ConstructorHelpers::FClassFinder&lt;AActor&gt; <span class="title">BPClassFinder</span><span class="params">(TEXT(<span class="string">&quot;/Game/Blueprints/MyBP&quot;</span>))</span></span>;</span><br><span class="line">TSubclassOf&lt;AActor&gt; BPClass = BPClassFinder.Class;</span><br><span class="line">...<span class="comment">//利用Class生成蓝图对象</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>FClassFinder的模版名不能直接写UBlueprint，例如：FClassFinder<UBlueprint>是错误的。创建蓝图时选择的是什么父类，则写对应的父类名，假如是Actor，那么要写成：FClassFinder<AActor>，否则无法加载成功。</li>
+<li>FClassFinder的模版名必须和TSubclassOf变量的模版名一致，当然也可使用UClass<em>代替TSubclassOf<T>。实际上TSubclassOf<T>也是UClass</em>，只是更加强调这个Class是从T派生出来的。</li>
+<li>在启动游戏时若报错提示找不到文件而崩溃（例如：Default property warnings and errors:Error: COD Constructor (MyGameMode): Failed to find &#x2F;Game&#x2F;MyProject&#x2F;MyBP.MyBP）<br>这是因为UE4资源路径的一个规范问题，解决办法有两种：<ol>
+<li>在copy reference出来的文件路径后面加_C，例如：”Blueprint’&#x2F;Game&#x2F;Blueprints&#x2F;MyBP.MyBP_C’”（_C可以理解为获取Class的意思）。</li>
+<li>去掉路径前缀，例如：”&#x2F;Game&#x2F;Blueprints&#x2F;MyBP”</li>
+</ol>
+</li>
+</ul>
+<h3 id="CreateWidget-lt-gt"><a href="#CreateWidget-lt-gt" class="headerlink" title="CreateWidget&lt;&gt;()"></a>CreateWidget&lt;&gt;()</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">CreateWidget</span>(OwnerT* OwningObject, TSubclassOf&lt;UUserWidget&gt; UserWidgetClass = WidgetT::<span class="built_in">StaticClass</span>(), FName WidgetName = NAME_None)</span><br></pre></td></tr></table></figure>
+
+<p>创建一个新的界面</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建新界面</span></span><br><span class="line">SelectLevelMain = <span class="built_in">CreateWidget</span>&lt;UUI_SelectLevelMain&gt;(<span class="built_in">GetWorld</span>(), SelectLevelMainClass);</span><br><span class="line"><span class="comment">//将新界面添加到视口</span></span><br><span class="line">SelectLevelMain-&gt;<span class="built_in">AddToViewport</span>();</span><br></pre></td></tr></table></figure>
+
+<h2 id="大致步骤"><a href="#大致步骤" class="headerlink" title="大致步骤"></a>大致步骤</h2><ol>
+<li><p>创建新关卡命名为<code>SelectLevel</code>，重载游戏模式为<code>TowersDefenceSelectLevelGameMode</code></p>
+</li>
+<li><p>在<code>TowersDefenceSelectLevelGameMode.h</code>中声明构造函数以及重载函数<code>BeginePlay()</code></p>
+</li>
+<li><p>在<code>TowersDefenceSelectLevelGameMode.cpp</code>中定义构造函数，绑定<code>HUDClass</code>为<code>ATowersDefenceSelectLevelHUD::StaticClass();</code>，并定义空的<code>BeginPlay()</code>函数（记得包含头文件<code>ATowersDefenceSelectLevelHUD</code>）</p>
+</li>
+<li><p>在<code>TowersDefenceSelectLevelHUD.h</code>中添加构造函数与重载<code>BeginPlay()</code>函数；在最前方声明类<code>UUI_SelectLevelMain</code>；使用<code>TSubclassOf</code>以<code>UUI_SelectLevelMain</code>为父类创建一个名为<code>SelectLevelMainClass</code>的类；声明一个<code>UUI_SelectLevelMain</code>的实例<code>SelectLevelMain</code></p>
+</li>
+<li><p>在<code>TowersDefenceSelectLevelHUD.cpp</code>中添加<code>UI_SelectLevelMain</code>的头文件，在构造函数中使用<code>ConstructorHelpers::FClassFinder</code>来获取<code>SelectMain_BP</code>蓝图类并且命名为<code>SelectMain_BPClass</code>，将<code>SelectMain_BPClass.Class</code>赋值给在.h文件中创建好的<code>SelectLevelMainClass</code></p>
+</li>
+<li><p>在<code>TowersDefenceSelectLevelHUD.cpp</code>中的<code>BeginPlay()</code>中添加使用<code>Super::</code>继承一下父类，并且添加头文件<code>#include &quot;Blueprint/UserWidget.h&quot;</code>，然后使用<code>CreateWidget&lt;&gt;()</code>创建<code>UUI_SelectLevelMain</code>类的界面<code>SelectLevelMain</code>，并且使用<code>AddToViewport()</code>将其添加到视口上</p>
+</li>
+<li><p>在<code>RuleofTheHUD.h</code>中同理，声明<code>Class UUI_MainScreen</code>，声明构造函数，声明重载<code>BeginPlay()</code>函数，以<code>UUI_MainScreen</code>为父类创建<code>MainScreenClass</code>，声明<code>UUI_MainScreen</code>类型的指针实例<code>*MainScreen</code></p>
+</li>
+<li><p>在<code>RuleofTheHUD.cpp</code>中同理，定义构造函数，使用<code>static ConstructorHelpers::FClassFinder</code>获取<code>MainScreen_BP</code>类，命名为<code>GameMain_BPClass</code>，并且将其<code>.Class</code>赋值给<code>MainScreenClass</code>；在<code>BeginPlay()</code>中使用<code>CreateWidget</code>创建新页面，并且使用<code>AddToViewport()</code>将其添加到视口</p>
+</li>
+</ol>
+<h2 id="部分代码"><a href="#部分代码" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="TowersDefenceSelectLevelGameMode-h"><a href="#TowersDefenceSelectLevelGameMode-h" class="headerlink" title="TowersDefenceSelectLevelGameMode.h"></a>TowersDefenceSelectLevelGameMode.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/GameMode.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowersDefenceSelectLevelGameMode.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> ATowersDefenceSelectLevelGameMode : <span class="keyword">public</span> AGameMode</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">ATowersDefenceSelectLevelGameMode</span>();</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line">	</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="TowersDefenceSelectLevelGameMode-cpp"><a href="#TowersDefenceSelectLevelGameMode-cpp" class="headerlink" title="TowersDefenceSelectLevelGameMode.cpp"></a>TowersDefenceSelectLevelGameMode.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core\SelectLevelCore\TowersDefenceSelectLevelGameMode.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI\SelectLevelUI\Core\TowersDefenceSelectLevelHUD.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">ATowersDefenceSelectLevelGameMode::<span class="built_in">ATowersDefenceSelectLevelGameMode</span>()</span><br><span class="line">&#123;</span><br><span class="line">	HUDClass = ATowersDefenceSelectLevelHUD::<span class="built_in">StaticClass</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ATowersDefenceSelectLevelGameMode::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="TowersDefenceSelectLevelHUD-h"><a href="#TowersDefenceSelectLevelHUD-h" class="headerlink" title="TowersDefenceSelectLevelHUD.h"></a>TowersDefenceSelectLevelHUD.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/HUD.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowersDefenceSelectLevelHUD.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UUI_SelectLevelMain</span>;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> ATowersDefenceSelectLevelHUD : <span class="keyword">public</span> AHUD</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line">	</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">ATowersDefenceSelectLevelHUD</span>();</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	TSubclassOf&lt;UUI_SelectLevelMain&gt;SelectLevelMainClass;</span><br><span class="line">	UUI_SelectLevelMain* SelectLevelMain;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="TowersDefenceSelectLevelHUD-cpp"><a href="#TowersDefenceSelectLevelHUD-cpp" class="headerlink" title="TowersDefenceSelectLevelHUD.cpp"></a>TowersDefenceSelectLevelHUD.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/SelectLevelUI/Core/TowersDefenceSelectLevelHUD.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Blueprint/UserWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/SelectLevelUI/UMG/UI_SelectLevelMain.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">ATowersDefenceSelectLevelHUD::<span class="built_in">ATowersDefenceSelectLevelHUD</span>()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">static</span> ConstructorHelpers::FClassFinder&lt;UUI_SelectLevelMain&gt;<span class="built_in">SelectMain_BPClass</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;/Game/UI/Select/SelectMain_BP&quot;</span>));</span><br><span class="line">	SelectLevelMainClass = SelectMain_BPClass.Class;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ATowersDefenceSelectLevelHUD::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">	SelectLevelMain = <span class="built_in">CreateWidget</span>&lt;UUI_SelectLevelMain&gt;(<span class="built_in">GetWorld</span>(), SelectLevelMainClass);</span><br><span class="line">	SelectLevelMain-&gt;<span class="built_in">AddToViewport</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="RuleofTheHUD-h"><a href="#RuleofTheHUD-h" class="headerlink" title="RuleofTheHUD.h"></a>RuleofTheHUD.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/HUD.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;RuleofTheHUD.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UUI_MainScreen</span>;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> ARuleofTheHUD : <span class="keyword">public</span> AHUD</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">ARuleofTheHUD</span>();</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	TSubclassOf&lt;UUI_MainScreen&gt;MainScreenClass;</span><br><span class="line">	UUI_MainScreen* MainScreen;</span><br><span class="line">	</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="RuleofTheHUD-cpp"><a href="#RuleofTheHUD-cpp" class="headerlink" title="RuleofTheHUD.cpp"></a>RuleofTheHUD.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/GameUI/Core/RuleofTheHUD.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Blueprint/UserWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/GameUI/UMG/UI_MainScreen.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">ARuleofTheHUD::<span class="built_in">ARuleofTheHUD</span>()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">static</span> ConstructorHelpers::FClassFinder&lt;UUI_MainScreen&gt;<span class="built_in">GameMain_BPClass</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;/Game/UI/Game/MainScreen_BP&quot;</span>));</span><br><span class="line">	MainScreenClass = GameMain_BPClass.Class;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ARuleofTheHUD::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">	MainScreen = <span class="built_in">CreateWidget</span>&lt;UUI_MainScreen&gt;(<span class="built_in">GetWorld</span>(), MainScreenClass);</span><br><span class="line">	MainScreen-&gt;<span class="built_in">AddToViewport</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="绑定蓝图资源到C"><a href="#绑定蓝图资源到C" class="headerlink" title="绑定蓝图资源到C++"></a>绑定蓝图资源到C++</h1><h2 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h2><h3 id="UPROPERTY-meta-x3D-BindWidget"><a href="#UPROPERTY-meta-x3D-BindWidget" class="headerlink" title="UPROPERTY(meta &#x3D; (BindWidget))"></a>UPROPERTY(meta &#x3D; (BindWidget))</h3><p>以此宏声明开头的实例，需要在对应的控件蓝图中存在同名称，同类型的实例</p>
+<p>例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">UButton* ReturnMenuButton;</span><br></pre></td></tr></table></figure>
+
+<p>则需要在以此C++类为父类的控件蓝图类中存在一个名为<code>ReturnMenuButton</code>的Button控件</p>
+<h3 id="UPanelSlot"><a href="#UPanelSlot" class="headerlink" title="UPanelSlot"></a>UPanelSlot</h3><p>指向UMG的排版样式</p>
+<p>其中存在一个<code>Content</code>指向将要被排版的UMG</p>
+<h3 id="UGameplayStatics-OpenLevel"><a href="#UGameplayStatics-OpenLevel" class="headerlink" title="UGameplayStatics::OpenLevel()"></a>UGameplayStatics::OpenLevel()</h3><p>打开关卡</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UGameplayStatics::<span class="built_in">OpenLevel</span>(<span class="built_in">GetWorld</span>(), <span class="string">&quot;HallMap&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="大致步骤-1"><a href="#大致步骤-1" class="headerlink" title="大致步骤"></a>大致步骤</h2><ol>
+<li><p>分别在在以下位置创建</p>
+<ul>
+<li><p><code>Content/UI/Select/SelectMain_BP</code></p>
+</li>
+<li><p><code>Content/UI/Game/MainScreen_BP</code></p>
+</li>
+<li><p><code>Content/UI/Select/ButtonLevel/LevelButton_BP</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>图表-&gt;类设置-&gt;类选项</code>中分别替换其父类为对应的C++类</p>
+</li>
+<li><p>在<code>UI_SelectLevelMain.h</code>文件中</p>
+<ul>
+<li><p>声明<code>class UUI_LevelButton</code>，<code>class UButton</code>，<code>class UCanvasPanel</code></p>
+</li>
+<li><p>以<code>UPROPERTY(meta = (BindWidget))</code>宏声明开头，声明<code>UButton* ReturnMenuButton</code>以及<code>UCanvasPanel* SelectMap</code>（画布面板）</p>
+</li>
+<li><p>声明重载<code>NativeConstruct()</code>函数（后面不需要Override）</p>
+</li>
+<li><p>声明函数<code>void InitSelectLevelButton();</code>（初始化选择按钮），<code>void ReturnMenu();</code>（返回菜单函数）</p>
+</li>
+<li><p>创建一个名为<code>AllLevelButton</code>的数组，存储<code>UUI_LevelButton*</code>类型的变量</p>
+</li>
+</ul>
+</li>
+<li><p>在<code>UI_SelectLevelMain.cpp</code>文件中</p>
+<ul>
+<li><p>定义<code>NativeConstruct()</code>函数</p>
+<ul>
+<li><p>使用<code>Super::</code>继承父类</p>
+</li>
+<li><p>调用<code>InitSelectLevelButton()</code></p>
+</li>
+<li><p>实例<code>ReturnMenuButton</code>调用成员函数<code>OnClicked</code>通过<code>AddDynamic()</code>进行代理绑定<code>UUI_SelectLevelMain</code>中的<code>ReturnMenu</code>函数</p>
+</li>
+</ul>
+</li>
+<li><p>定义<code>InitSelectLevelButton()</code>函数</p>
+<ul>
+<li><p>使用<code>if()</code>判断是否为<code>SelectMap</code>画布面板</p>
+</li>
+<li><p>是则创建一个<code>UPanelSlot*</code>类型的数组<code>PanelSlotArray</code>，其中存储<code>SelectMap-&gt;GetSlots()</code></p>
+</li>
+<li><p>使用<code>for (UPanelSlot* PanelSlotEle : PanelSlotArray)</code>遍历数组<code>PanelSlotArray</code></p>
+</li>
+<li><p>如果<code>PanelSlotEle-&gt;Content</code>转换为<code>UUI_LevelButton</code>等于<code>UUI_LevelButton* LevelButtonArp</code></p>
+</li>
+<li><p>则将<code>LevelButtonArp</code>使用<code>Add()</code>添加到<code>AllLevelButton</code>中去</p>
+</li>
+</ul>
+</li>
+<li><p>定义<code>ReturnMenu()</code>函数</p>
+<ul>
+<li>使用<code>UGameplayStatics::OpenLevel()</code>返回<code>HallMap</code>关卡</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="部分代码-1"><a href="#部分代码-1" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="UI-SelectLevelMain-h"><a href="#UI-SelectLevelMain-h" class="headerlink" title="UI_SelectLevelMain.h"></a>UI_SelectLevelMain.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/Core/UI_RuleOfTheWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_SelectLevelMain.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UUI_LevelButton</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UButton</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UCanvasPanel</span>;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> UUI_SelectLevelMain : <span class="keyword">public</span> UUI_RuleOfTheWidget</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line">		<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		UButton* ReturnMenuButton;</span><br><span class="line"></span><br><span class="line">		<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		UCanvasPanel* SelectMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">NativeConstruct</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">InitSelectLevelButton</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UFUNCTION</span>()</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">ReturnMenu</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	TArray&lt;UUI_LevelButton*&gt;AllLevelButton;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="UI-SelectLevelMain-cpp"><a href="#UI-SelectLevelMain-cpp" class="headerlink" title="UI_SelectLevelMain.cpp"></a>UI_SelectLevelMain.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/SelectLevelUI/UMG/UI_SelectLevelMain.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/CanvasPanel.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/Button.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Kismet/GameplayStatics.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI\SelectLevelUI\UMG\Button\UI_LevelButton.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_SelectLevelMain::NativeConstruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">NativeConstruct</span>();</span><br><span class="line"></span><br><span class="line">	<span class="built_in">InitSelectLevelButton</span>();</span><br><span class="line"></span><br><span class="line">	ReturnMenuButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUI_SelectLevelMain::ReturnMenu);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_SelectLevelMain::InitSelectLevelButton</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (SelectMap) &#123;</span><br><span class="line">		TArray&lt;UPanelSlot*&gt;PanelSlotArray = SelectMap-&gt;<span class="built_in">GetSlots</span>();</span><br><span class="line">		<span class="keyword">for</span> (UPanelSlot* PanelSlotEle : PanelSlotArray) &#123;</span><br><span class="line">			<span class="keyword">if</span> (UUI_LevelButton* LevelButtonArp = <span class="built_in">Cast</span>&lt;UUI_LevelButton&gt;(PanelSlotEle-&gt;Content)) &#123;</span><br><span class="line"></span><br><span class="line">				AllLevelButton.<span class="built_in">Add</span>(LevelButtonArp);</span><br><span class="line"></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_SelectLevelMain::ReturnMenu</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UGameplayStatics::<span class="built_in">OpenLevel</span>(<span class="built_in">GetWorld</span>(), <span class="string">&quot;HallMap&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="完善蓝图资源"><a href="#完善蓝图资源" class="headerlink" title="完善蓝图资源"></a>完善蓝图资源</h1><h2 id="LevelButton-BP"><a href="#LevelButton-BP" class="headerlink" title="LevelButton_BP"></a>LevelButton_BP</h2><ol>
+<li><p>删除画布面板</p>
+</li>
+<li><p>添加一个垂直框，修改宽度和高度均为100</p>
+<ul>
+<li><p>添加一个名为<code>NextLevelButton</code>的按钮，尺寸修改为填充</p>
+</li>
+<li><p>添加一个名为<code>LevelProBar</code>的进度条，尺寸默认为自动</p>
+</li>
+</ul>
+</li>
+<li><p>在<code>UI_LevelButton.h</code>中</p>
+<ul>
+<li><p>以宏声明<code>UPROPERTY(meta = (BindWidget))</code>分别定义</p>
+<ul>
+<li><p>class UBorder* LevelBorder;</p>
+</li>
+<li><p>class UProgressBar* LevelProBar;</p>
+</li>
+<li><p>class UButton* NextLevelButton;</p>
+</li>
+</ul>
+</li>
+<li><p>声明重载函数<code>NativeConstruct()</code></p>
+</li>
+<li><p>声明函数<code>void SelectLevel()</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>UI_LevelButton.cpp</code>中</p>
+<ul>
+<li><p>定义<code>NativeConstruct()</code>函数</p>
+<ul>
+<li><p>使用<code>Super::</code>继承父类</p>
+</li>
+<li><p>实例<code>NextLevelButton</code>调用函数<code>OnClicked</code>并且通过<code>AddDynamic</code>绑定函数<code>&amp;UUI_LevelButton::SelectLevel</code></p>
+</li>
+</ul>
+</li>
+<li><p>定义<code>SelectLevel()</code>函数</p>
+<ul>
+<li>使用<code>UGameplayStatics::OpenLevel</code>打开<code>&quot;TestMap&quot;</code>地图</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在<code>UUI_HallMenuSystem.cpp</code>中的<code>GameStart()</code>中同样使用<code>UGameplayStatics::OpenLevel</code>打开<code>&quot;SelectLevel&quot;</code>地图</p>
+</li>
+</ol>
+<h2 id="SelectMain-BP"><a href="#SelectMain-BP" class="headerlink" title="SelectMain_BP"></a>SelectMain_BP</h2><ol>
+<li><p>将画布面板重命名为<code>SelectMap</code></p>
+</li>
+<li><p>添加一个名为<code>ReturnMenuButton</code>的button</p>
+</li>
+<li><p>添加<code>LevelButton_BP</code>并复制若干个</p>
+</li>
+</ol>
+<h2 id="部分代码-2"><a href="#部分代码-2" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="UI-LevelButton-h"><a href="#UI-LevelButton-h" class="headerlink" title="UI_LevelButton.h"></a>UI_LevelButton.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/Core/UI_RuleOfTheWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_LevelButton.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> UUI_LevelButton : <span class="keyword">public</span> UUI_RuleOfTheWidget</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		<span class="keyword">class</span> <span class="title class_">UBorder</span>* LevelBorder;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		<span class="keyword">class</span> <span class="title class_">UProgressBar</span>* LevelProBar;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		<span class="keyword">class</span> <span class="title class_">UButton</span>* NextLevelButton;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">NativeConstruct</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UFUNCTION</span>()</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">SelectLevel</span><span class="params">()</span></span>;</span><br><span class="line">	</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="UI-LevelButton-cpp"><a href="#UI-LevelButton-cpp" class="headerlink" title="UI_LevelButton.cpp"></a>UI_LevelButton.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/SelectLevelUI/UMG/Button/UI_LevelButton.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/Button.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Kismet/GameplayStatics.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_LevelButton::NativeConstruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">NativeConstruct</span>();</span><br><span class="line"></span><br><span class="line">	NextLevelButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUI_LevelButton::SelectLevel);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_LevelButton::SelectLevel</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UGameplayStatics::<span class="built_in">OpenLevel</span>(<span class="built_in">GetWorld</span>(), <span class="string">&quot;TestMap&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="UUI-HallMenuSystem-cpp"><a href="#UUI-HallMenuSystem-cpp" class="headerlink" title="UUI_HallMenuSystem.cpp"></a>UUI_HallMenuSystem.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/HallUI/UMG/UUI_HallMenuSystem.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/Button.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;Runtime/Engine/Classes/Kismet/GameplayStatics.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUUI_HallMenuSystem::NativeConstruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">NativeConstruct</span>();</span><br><span class="line">	GameStartButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUUI_HallMenuSystem::GameStart);<span class="comment">//代理绑定：动态多播绑定</span></span><br><span class="line">	HistoryButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUUI_HallMenuSystem::History);</span><br><span class="line">	GameSettingsButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUUI_HallMenuSystem::GameSettings);</span><br><span class="line">	TutorialWebsiteButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUUI_HallMenuSystem::TutorialWebsite);</span><br><span class="line">	BrowserButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUUI_HallMenuSystem::Browser);</span><br><span class="line">	QuitGameButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUUI_HallMenuSystem::QuitGame);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUUI_HallMenuSystem::GameStart</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UGameplayStatics::<span class="built_in">OpenLevel</span>(<span class="built_in">GetWorld</span>(), <span class="string">&quot;SelectLevel&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUUI_HallMenuSystem::History</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUUI_HallMenuSystem::GameSettings</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUUI_HallMenuSystem::TutorialWebsite</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUUI_HallMenuSystem::Browser</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUUI_HallMenuSystem::QuitGame</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/26/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E6%90%AD%E5%BB%BAHall%E5%A4%A7%E5%8E%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/26/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E6%90%AD%E5%BB%BAHall%E5%A4%A7%E5%8E%85/" class="post-title-link" itemprop="url">UE4-项目-TowerDefence-搭建Hall大厅</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-07-26 16:49:50" itemprop="dateCreated datePublished" datetime="2022-07-26T16:49:50+08:00">2022-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-08-01 16:27:34" itemprop="dateModified" datetime="2022-08-01T16:27:34+08:00">2022-08-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h1><h2 id="Cast-lt-gt"><a href="#Cast-lt-gt" class="headerlink" title="Cast&lt;&gt;()"></a>Cast&lt;&gt;()</h2><p>用于类型安全的进行动态转换，确保目标指针类型指向一个有效且完整的对象</p>
+<h3 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Dynamically cast an object type-safely.</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> To, <span class="keyword">typename</span> From&gt;</span><br><span class="line"><span class="function">FORCEINLINE To* <span class="title">Cast</span><span class="params">(From* Src)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> TCastImpl&lt;From, To&gt;::<span class="built_in">DoCast</span>(Src);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> From, <span class="keyword">typename</span> To&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">TCastImpl</span>&lt;From, To, ECastType::UObjectToUObject&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function">FORCEINLINE <span class="type">static</span> To* <span class="title">DoCast</span><span class="params">( UObject* Src )</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Src &amp;&amp; Src-&gt;<span class="built_in">IsA</span>&lt;To&gt;() ? (To*)Src : <span class="literal">nullptr</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><p>模板定义了两个形参，To指定返回类型，From为需要转换的原类型，括号内调用To的成员函数</p>
+<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><p>在UE中经常会使用继承自SceneComponent的对象作为Actor的RootCompoent的情况，因此就需要使用Cast在使用时进行转换，大概的语法如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">UXXComponent</span> : <span class="keyword">public</span> USceneComponent</span><br><span class="line"></span><br><span class="line">UXXComponent* child = <span class="built_in">CreateDefaultSubobject</span>&lt;UXXComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;Root&quot;</span>));</span><br><span class="line">RootComponent = child;</span><br><span class="line">UXXComponent* root = <span class="built_in">Cast</span>&lt;UXXComponent&gt;(RootComponent);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (root != <span class="literal">nullptr</span>) root-&gt;<span class="built_in">SomeLogic</span>();</span><br></pre></td></tr></table></figure>
+
+<h1 id="修改BUG"><a href="#修改BUG" class="headerlink" title="修改BUG"></a>修改BUG</h1><ol>
+<li><p>将TowerDefenceGameModeBase.h中继承自<code>AGameModeBase</code>修改为继承自<code>AGameMode</code></p>
+</li>
+<li><p>修改相应头文件为<code>GameFramework/GameMode.h</code></p>
+</li>
+</ol>
+<h1 id="添加操作映射"><a href="#添加操作映射" class="headerlink" title="添加操作映射"></a>添加操作映射</h1><ol>
+<li><p>添加操作映射<code>MouseWheelUp</code>，为鼠标滚轮上滚</p>
+</li>
+<li><p>添加操作映射<code>MouseWheelDown</code>，为鼠标滚轮下滚</p>
+</li>
+<li><p>在<code>TowerDefencePlayerController.h</code>中声明函数<code>virtual void SetupInputComponent();</code></p>
+</li>
+<li><p>在<code>TowerDefencePlayerController.h</code>中声明函数<code>void MouseWheelUp();</code>和<code>void MouseWheelDown();</code></p>
+</li>
+</ol>
+<h2 id="部分代码"><a href="#部分代码" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="TowerDefencePlayerController-h"><a href="#TowerDefencePlayerController-h" class="headerlink" title="TowerDefencePlayerController.h"></a>TowerDefencePlayerController.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/PlayerController.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Tool/ScreenMove.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowerDefencePlayerController.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> ATowerDefencePlayerController : <span class="keyword">public</span> APlayerController</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//构造函数</span></span><br><span class="line">    <span class="built_in">ATowerDefencePlayerController</span>();</span><br><span class="line">    <span class="comment">//重载Tick()</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">(<span class="type">float</span> DeltaSeconds)</span><span class="keyword">override</span></span>;</span><br><span class="line">    <span class="comment">//重载BeginPlay()</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span><span class="keyword">override</span></span>;</span><br><span class="line">    <span class="comment">//锁定鼠标在视野范围内</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">SetInputModeGameAndUI</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="comment">//允许玩家自己更新自己的操作映射</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">SetupInputComponent</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="comment">//鼠标滚轮控制</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">MouseWheelUp</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">MouseWheelDown</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    FScreenMoveUnits ScreenMoveUnits;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="绑定操作映射"><a href="#绑定操作映射" class="headerlink" title="绑定操作映射"></a>绑定操作映射</h1><ol>
+<li><p>在<code>TowerDefencePlayerController.cpp</code>中的<code>SetupInputComponent()</code>函数中通过<code>Super::SetupInputComponent</code>调用其父类</p>
+</li>
+<li><p><code>InputComponent</code>调用<code>BindAction()</code>来绑定操作映射，调用MouseWheelUp&#x2F;doun函数</p>
+</li>
+<li><p>声明一个全局变量<code>static float WheelValue = 400.0f;</code>作为临时的测试数据使用</p>
+</li>
+</ol>
+<h2 id="部分代码-1"><a href="#部分代码-1" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="TowerDefencePlayerController-h-1"><a href="#TowerDefencePlayerController-h-1" class="headerlink" title="TowerDefencePlayerController.h"></a>TowerDefencePlayerController.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/PlayerController.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Tool/ScreenMove.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowerDefencePlayerController.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//E:\R_Project\TowerDefence1.4\Plugins\StoneToolClass\Source\StoneToolClass\Public\Tool\ScreenMove.h</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> ATowerDefencePlayerController : <span class="keyword">public</span> APlayerController</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//构造函数</span></span><br><span class="line">    <span class="built_in">ATowerDefencePlayerController</span>();</span><br><span class="line">    <span class="comment">//重载Tick()</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">(<span class="type">float</span> DeltaSeconds)</span><span class="keyword">override</span></span>;</span><br><span class="line">    <span class="comment">//重载BeginPlay()</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span><span class="keyword">override</span></span>;</span><br><span class="line">    <span class="comment">//锁定鼠标在视野范围内</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">SetInputModeGameAndUI</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="comment">//允许玩家自己更新自己的操作映射</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">SetupInputComponent</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="comment">//鼠标滚轮控制</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">MouseWheelUp</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">MouseWheelDown</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    FScreenMoveUnits ScreenMoveUnits;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefencePlayerController.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">ATowerDefencePlayerController::<span class="built_in">ATowerDefencePlayerController</span>()</span><br><span class="line">&#123;</span><br><span class="line">    bShowMouseCursor = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ATowerDefencePlayerController::Tick</span><span class="params">(<span class="type">float</span> DeltaSeconds)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">Tick</span>(DeltaSeconds);</span><br><span class="line"></span><br><span class="line">    <span class="type">float</span> ScreenMoveSpeed = <span class="number">20.0f</span>;</span><br><span class="line">    ScreenMoveUnits.<span class="built_in">ListenScreenMove</span>(<span class="keyword">this</span>, ScreenMoveSpeed);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ATowerDefencePlayerController::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//游戏开始时则直接锁定鼠标</span></span><br><span class="line">    <span class="built_in">SetInputModeGameAndUI</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ATowerDefencePlayerController::SetInputModeGameAndUI</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">    FInputModeGameAndUI InputMode;</span><br><span class="line">    <span class="comment">//设置鼠标一直锁定在视口范围内</span></span><br><span class="line">    InputMode.<span class="built_in">SetLockMouseToViewportBehavior</span>(EMouseLockMode::LockAlways);</span><br><span class="line">    <span class="comment">//关闭按下鼠标则鼠标隐藏功能</span></span><br><span class="line">    InputMode.<span class="built_in">SetHideCursorDuringCapture</span>(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="built_in">SetInputMode</span>(InputMode);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ATowerDefencePlayerController::SetupInputComponent</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::SetupInputComponent;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//鼠标滚轮绑定</span></span><br><span class="line">    InputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;MouseWheelUp&quot;</span>, IE_Pressed, <span class="keyword">this</span>, &amp;ATowerDefencePlayerController::MouseWheelUp);</span><br><span class="line">    InputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;MouseWheelDown&quot;</span>, IE_Pressed, <span class="keyword">this</span>, &amp;ATowerDefencePlayerController::MouseWheelDown);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//作为测试使用</span></span><br><span class="line"><span class="type">static</span> <span class="type">float</span> WheelValue = <span class="number">400.0f</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ATowerDefencePlayerController::MouseWheelUp</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ATowerDefencePlayerController::MouseWheelDown</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="添加函数实现视角变大变小"><a href="#添加函数实现视角变大变小" class="headerlink" title="添加函数实现视角变大变小"></a>添加函数实现视角变大变小</h1><ol>
+<li><p>在<code>TowerDefenceGameCamera.h</code>中声明函数<code>void Zoom(bool bDirection, float&amp; ZoomSpeed);</code></p>
+</li>
+<li><p>在cpp中定义</p>
+<ul>
+<li><p><code>bDirection</code>表示缩放方向，true则为缩小，false则为放大；所以先通过<code>if()</code>判断<code>bDirection</code>的值</p>
+</li>
+<li><p>为true则再判断弹簧臂的长度，<code>&gt;400</code>则<code>CameraBoom-&gt;TargetArmLength -= ZoomSpeed * 2;</code></p>
+</li>
+<li><p>为false则判断弹簧臂的长度，<code>&lt;800</code>则<code>CameraBoom-&gt;TargetArmLength += ZoomSpeed * 2;</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>TowerDefencePlayerController.h</code>中声明两个函数<code>void MouseWheelUp();</code>以及<code>void MouseWheelDown();</code></p>
+</li>
+<li><p>在cpp中定义</p>
+<ul>
+<li><p>声明一个<code>ATwoerDefenceGameCamera</code>类型的实例<code>zoomCamera</code>，并且通过<code>cate&lt;&gt;()</code>调用其中的成员函数<code>GetPawn()</code></p>
+</li>
+<li><p>判断<code>ZoomCamera</code>是否存在，然后调用其中刚写好的函数<code>Zoom()</code></p>
+</li>
+<li><p>UP时则为true，down时则为false</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h2><h3 id="TowerDefenceGameCamera-h"><a href="#TowerDefenceGameCamera-h" class="headerlink" title="TowerDefenceGameCamera.h"></a>TowerDefenceGameCamera.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/Pawn.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowerDefenceGameCamera.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> ATowerDefenceGameCamera : <span class="keyword">public</span> APawn</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//创建弹簧臂并且任何位置可读，蓝图只读</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(VisibleAnywhere, BluePrintReadOnly, Category = Camera, meta = (AllowPrivateAccess = <span class="string">&quot;true&quot;</span>))</span><br><span class="line">        <span class="keyword">class</span> <span class="title class_">USpringArmComponent</span>* CameraBoom;</span><br><span class="line">    <span class="comment">//创建摄像机并且任何位置可读，蓝图内只读</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(VisibleAnywhere, BluePrintReadOnly, Category = Camera, meta = (AllowPrivateAccess = <span class="string">&quot;true&quot;</span>))</span><br><span class="line">        <span class="keyword">class</span> <span class="title class_">UCameraComponent</span>* MianCamera;</span><br><span class="line">    <span class="comment">//摄像机碰撞标识</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(VisibleAnywhere, BluePrintReadOnly, Category = Camera, meta = (AllowPrivateAccess = <span class="string">&quot;true&quot;</span>))</span><br><span class="line">        <span class="keyword">class</span> <span class="title class_">UBoxComponent</span>* MarkBox;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// Sets default values for this pawn&#x27;s properties</span></span><br><span class="line">    <span class="built_in">ATowerDefenceGameCamera</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="comment">// Called when the game starts or when spawned</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Called to bind functionality to input</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">SetupPlayerInputComponent</span><span class="params">(<span class="keyword">class</span> UInputComponent* PlayerInputComponent)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Zoom</span><span class="params">(<span class="type">bool</span> bDirection, <span class="type">float</span>&amp; ZoomSpeed)</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="TowerDefenceGameCamera-cpp"><a href="#TowerDefenceGameCamera-cpp" class="headerlink" title="TowerDefenceGameCamera.cpp"></a>TowerDefenceGameCamera.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefenceGameCamera.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/SpringArmComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Camera/CameraComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/BoxComponent.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Sets default values</span></span><br><span class="line">ATowerDefenceGameCamera::<span class="built_in">ATowerDefenceGameCamera</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 关闭帧刷新</span></span><br><span class="line">    PrimaryActorTick.bCanEverTick = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建三个组件的实例</span></span><br><span class="line">    CameraBoom = <span class="built_in">CreateDefaultSubobject</span>&lt;USpringArmComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;Boom&quot;</span>));</span><br><span class="line">    MianCamera = <span class="built_in">CreateDefaultSubobject</span>&lt;UCameraComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;Mian_Camera&quot;</span>));</span><br><span class="line">    MarkBox = <span class="built_in">CreateDefaultSubobject</span>&lt;UBoxComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;Sign&quot;</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将三个组件绑定到根组件上</span></span><br><span class="line">    CameraBoom-&gt;<span class="built_in">AttachToComponent</span>(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);<span class="comment">//保持绑定的组件和被绑定的根组件相对位置不变</span></span><br><span class="line">    MianCamera-&gt;<span class="built_in">AttachToComponent</span>(CameraBoom, FAttachmentTransformRules::KeepRelativeTransform);</span><br><span class="line">    MarkBox-&gt;<span class="built_in">AttachToComponent</span>(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//设置弹簧臂长度</span></span><br><span class="line">    CameraBoom-&gt;TargetArmLength = <span class="number">800.f</span>;</span><br><span class="line">    CameraBoom-&gt;<span class="built_in">SetRelativeRotation</span>(<span class="built_in">FRotator</span>(<span class="number">-60.f</span>, <span class="number">0.f</span>, <span class="number">0.f</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Called when the game starts or when spawned</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ATowerDefenceGameCamera::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// Called to bind functionality to input</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ATowerDefenceGameCamera::SetupPlayerInputComponent</span><span class="params">(UInputComponent* PlayerInputComponent)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">SetupPlayerInputComponent</span>(PlayerInputComponent);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ATowerDefenceGameCamera::Zoom</span><span class="params">(<span class="type">bool</span> bDirection, <span class="type">float</span>&amp; ZoomSpeed)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (bDirection) &#123;</span><br><span class="line">        <span class="keyword">if</span> (CameraBoom-&gt;TargetArmLength &gt; <span class="number">400</span>) &#123;</span><br><span class="line">            CameraBoom-&gt;TargetArmLength -= ZoomSpeed * <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (CameraBoom-&gt;TargetArmLength &lt; <span class="number">800</span>) &#123;</span><br><span class="line">            CameraBoom-&gt;TargetArmLength += ZoomSpeed * <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="添加Hall关卡"><a href="#添加Hall关卡" class="headerlink" title="添加Hall关卡"></a>添加Hall关卡</h1><ol>
+<li><p>创建新关卡<code>HallMaps</code>，设置其游戏模式为<code>TowerDefenceHallGameMode</code></p>
+</li>
+<li><p>在<code>TowerDefenceHallGameMode.h</code>中声明构造函数<code>ATowerDefenceHallGameMode();</code></p>
+</li>
+<li><p>在<code>TowerDefenceHallGameMode.cpp</code>中定义构造函数</p>
+<ul>
+<li><p>设置<code>HUDClass</code>为<code>ATowerDefenceHallHUD::StaticClass();</code></p>
+</li>
+<li><p>设置<code>DefaultPawnClass</code>为<code>ATowerDefenceHallPawn::StaticClass();</code></p>
+</li>
+<li><p>设置<code>PlayerControllerClass</code>为<code>ATowerDefenceHallPlayerController::StaticClass();</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>内容-&gt;UI-&gt;Hall</code>文件夹中创建控件蓝图<code>HallMain_BP</code></p>
+<ul>
+<li>修改父类为<code>UI_MainHall</code></li>
+</ul>
+</li>
+<li><p>在<code>TowerDefenceHallHUD.h</code>文件中</p>
+<ul>
+<li><p>public下声明构造函数</p>
+</li>
+<li><p>声明重载函数<code>BeginPlay()</code></p>
+</li>
+<li><p>在private下使用<code>TSubclassOf&lt;&gt;</code>，以<code>UUI_MainHall</code>为父类创建一个子类<code>MainHallClass</code></p>
+</li>
+<li><p>获取<code>MainHallClass</code>的实例<code>MainHall</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>TowerDefenceHallHUD.cpp</code>文件中</p>
+<ul>
+<li><p>定义构造函数通过<code>static ConstructorHelpers::FClassFinder&lt;UUI_MainHall&gt;HallMain_BPClass(TEXT(&quot;/Game/UI/Hall/HallMain_BP&quot;));</code>获取<code>HallMain_BP</code>中的资源</p>
+</li>
+<li><p>将获取的<code>Class</code>资源赋值给<code>MainHallClass</code></p>
+</li>
+<li><p>在重载的<code>BeginPlay()</code>函数中</p>
+</li>
+<li><p>通过<code>MainHall</code>调用<code>CreateWidget&lt;&gt;(,)</code>创建一个widget</p>
+</li>
+<li><p>通过<code>AddToViewport()</code>将创建好的<code>MainHall</code>添加到视口</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="部分代码-2"><a href="#部分代码-2" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="TowerDefenceHallHUD-h"><a href="#TowerDefenceHallHUD-h" class="headerlink" title="TowerDefenceHallHUD.h"></a>TowerDefenceHallHUD.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/HUD.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowerDefenceHallHUD.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UUI_MainHall</span>;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> ATowerDefenceHallHUD : <span class="keyword">public</span> AHUD</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ATowerDefenceHallHUD</span>();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    TSubclassOf&lt;UUI_MainHall&gt;MainHallClass;</span><br><span class="line">    UUI_MainHall* MainHall;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="TowerDefenceHallHUD-cpp"><a href="#TowerDefenceHallHUD-cpp" class="headerlink" title="TowerDefenceHallHUD.cpp"></a>TowerDefenceHallHUD.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/HallUI/Core/TowerDefenceHallHUD.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Blueprint/UserWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI\HallUI\UMG\UI_MainHall.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">ATowerDefenceHallHUD::<span class="built_in">ATowerDefenceHallHUD</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">static</span> ConstructorHelpers::FClassFinder&lt;UUI_MainHall&gt;<span class="built_in">HallMain_BPClass</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;/Game/UI/Hall/HallMain_BP&quot;</span>));</span><br><span class="line">    MainHallClass = HallMain_BPClass.Class;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ATowerDefenceHallHUD::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">    MainHall = <span class="built_in">CreateWidget</span>&lt;UUI_MainHall&gt;(<span class="built_in">GetWorld</span>(), MainHallClass);<span class="comment">//创建一个widget，将HUD和UMG关联在一起</span></span><br><span class="line">    MainHall-&gt;<span class="built_in">AddToViewport</span>();<span class="comment">//将widget添加到视口</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="主大厅与大厅菜单系统"><a href="#主大厅与大厅菜单系统" class="headerlink" title="主大厅与大厅菜单系统"></a>主大厅与大厅菜单系统</h1><h2 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h2><h3 id="NativeConstruct"><a href="#NativeConstruct" class="headerlink" title="NativeConstruct()"></a>NativeConstruct()</h3><p>UMG界面中的初始化函数，类似于其他位置的BeginPlay()函数</p>
+<h3 id="UPROPERTY-meta-x3D-BindWidget"><a href="#UPROPERTY-meta-x3D-BindWidget" class="headerlink" title="UPROPERTY(meta&#x3D;(BindWidget))"></a>UPROPERTY(meta&#x3D;(BindWidget))</h3><p>代表以下C++控件和蓝图中的控件绑定</p>
+<p>注意：命名需要相同</p>
+<h2 id="大致步骤"><a href="#大致步骤" class="headerlink" title="大致步骤"></a>大致步骤</h2><ol>
+<li><p>创建以<code>RuleOfTheWidget</code>为父类的C++类<code>UUI_HallMenuSystem</code></p>
+</li>
+<li><p>在<code>UI_MainHall.h</code>中</p>
+<ul>
+<li><p>调用宏<code>UPROPERTY(meta = (BindWidget))</code>之后获取<code>UUI_HallMenuSystem</code>的实例<code>HallMenuSystem</code></p>
+</li>
+<li><p>在public后声明重载NativeConstruct()函数</p>
+</li>
+<li><p>在cpp文件中定义NativeConstruct()函数，添加上<code>Super::NativeConstruct()</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>UUI_HallMenuSystem.h</code>中</p>
+<ul>
+<li>声明一个类<code>UButton</code></li>
+<li>调用<code>UPROPERTY(meta = (BindWidget))</code>宏，分别声明<code>UButton</code>类型的实例<ul>
+<li>GameStartButton</li>
+<li>HistoryButton</li>
+<li>GameSettingsButton</li>
+<li>TutorialWebsiteButton</li>
+<li>BrowserButton</li>
+<li>QuitGameButton</li>
+</ul>
+</li>
+<li>在public下声明重载函数<code>NativeConstruct()</code></li>
+<li>分别声明函数<ul>
+<li>void GameStart();</li>
+<li>void History();</li>
+<li>void GameSettings();</li>
+<li>void TutorialWebsite();</li>
+<li>void Browser();</li>
+<li>void QuitGame();</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在<code>UUI_HallMenuSystem.cpp</code>中</p>
+<ul>
+<li><p>NativeConstruct()中使用<code>Super::</code>声明继承父类</p>
+</li>
+<li><p>使用<code>OnClicked.AddDynamic(this, &amp;UUUI_HallMenuSystem::GameStart)</code>绑定多播代理</p>
+</li>
+<li><p>分别将<code>GameStartButton</code>,<code>HistoryButton</code>,<code>GameSettingsButton</code>,<code>TutorialWebsiteButton</code>,<code>BrowserButton</code>,<code>QuitGameButton</code></p>
+</li>
+</ul>
+</li>
+<li><p>在Content&#x2F;UI&#x2F;Hall&#x2F;System路径下创建<code>HallMenuSystem_BP</code>控件蓝图</p>
+<ul>
+<li><p>修改父类为<code>UI_MainHall</code></p>
+</li>
+<li><p>设置大小为自定义，设置宽度和高度分别为401和501</p>
+</li>
+<li><p>添加一个边界</p>
+</li>
+<li><p>边界中添加六个按钮</p>
+</li>
+<li><p>每个按钮中添加一个文本</p>
+</li>
+<li><p>修改六个按钮名称，使其对应<code>UUI_HallMenuSystem.h</code>中声明的六个<code>UButton</code>类型实例名称</p>
+</li>
+<li><p>文本亦然</p>
+</li>
+<li><p>设置六个按钮之间的填充间距为10</p>
+</li>
+</ul>
+</li>
+<li><p>在<code>HallMain_BP</code>中添加自定义控件<code>HallMenuSystem_BP</code></p>
+<ul>
+<li>设置其锚点和位置在界面右下角</li>
+</ul>
+</li>
+<li><p>在HallMap地图中运行即可看见Hall大厅</p>
+</li>
+</ol>
+<h2 id="部分代码-3"><a href="#部分代码-3" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="UI-MainHall-h"><a href="#UI-MainHall-h" class="headerlink" title="UI_MainHall.h"></a>UI_MainHall.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/Core/UI_RuleOfTheWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UUI_HallMenuSystem.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_MainHall.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">UCLASS()</span></span><br><span class="line"><span class="comment">class UUI_HallMenuSystem :public UObject</span></span><br><span class="line"><span class="comment">&#123;</span></span><br><span class="line"><span class="comment">    GENERATED_BODY()</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    int32 a;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">&#125;;*/</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> UUI_MainHall : <span class="keyword">public</span> UUI_RuleOfTheWidget</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line">        <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">         UUUI_HallMenuSystem* HallMenuSystem;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">NativeConstruct</span><span class="params">()</span> <span class="keyword">override</span></span>;<span class="comment">//相当于UMG当中的BeginePlay</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="UUI-HallMenuSystem-h"><a href="#UUI-HallMenuSystem-h" class="headerlink" title="UUI_HallMenuSystem.h"></a>UUI_HallMenuSystem.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/Core/UI_RuleOfTheWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UUI_HallMenuSystem.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UButton</span>;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> UUUI_HallMenuSystem : <span class="keyword">public</span> UUI_RuleOfTheWidget</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">        UButton* GameStartButton;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">        UButton* HistoryButton;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">        UButton* GameSettingsButton;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">        UButton* TutorialWebsiteButton;<span class="comment">//打开视频按钮</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">        UButton* BrowserButton;<span class="comment">//打开网页按钮（个人网站）</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">        UButton* QuitGameButton;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">    <span class="comment">//UMG里面的初始化/BeginePlay</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">NativeConstruct</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="UUI-HallMenuSystem-cpp"><a href="#UUI-HallMenuSystem-cpp" class="headerlink" title="UUI_HallMenuSystem.cpp"></a>UUI_HallMenuSystem.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/HallUI/UMG/UUI_HallMenuSystem.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/Button.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUUI_HallMenuSystem::NativeConstruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">NativeConstruct</span>();</span><br><span class="line">    GameStartButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUUI_HallMenuSystem::GameStart);<span class="comment">//代理绑定：动态多播绑定</span></span><br><span class="line">    HistoryButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUUI_HallMenuSystem::History);</span><br><span class="line">    GameSettingsButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUUI_HallMenuSystem::GameSettings);</span><br><span class="line">    TutorialWebsiteButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUUI_HallMenuSystem::TutorialWebsite);</span><br><span class="line">    BrowserButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUUI_HallMenuSystem::Browser);</span><br><span class="line">    QuitGameButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUUI_HallMenuSystem::QuitGame);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUUI_HallMenuSystem::GameStart</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUUI_HallMenuSystem::History</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUUI_HallMenuSystem::GameSettings</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUUI_HallMenuSystem::TutorialWebsite</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUUI_HallMenuSystem::Browser</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUUI_HallMenuSystem::QuitGame</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1483,372 +2135,6 @@
 <li><p>在事件图表中的“事件开始运行时”最后面“创建控件”，class选择“游戏中界面”，将返回值提升为变量“游戏中界面”，将其“添加到视口”</p>
 </li>
 </ul>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/15/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%8A%A0%E8%BD%BD%E6%B8%B8%E6%88%8FUI%E7%95%8C%E9%9D%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/15/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%8A%A0%E8%BD%BD%E6%B8%B8%E6%88%8FUI%E7%95%8C%E9%9D%A2/" class="post-title-link" itemprop="url">UE4-项目-死寂-加载游戏UI界面</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-07-15 14:57:41 / 修改时间：16:49:05" itemprop="dateCreated datePublished" datetime="2022-07-15T14:57:41+08:00">2022-07-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="加载游戏UI界面"><a href="#加载游戏UI界面" class="headerlink" title="加载游戏UI界面"></a>加载游戏UI界面</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h3><p>通过Index引脚选择返回值</p>
-<h3 id="随机布尔"><a href="#随机布尔" class="headerlink" title="随机布尔"></a>随机布尔</h3><p>字面意思，用于“选择”节点的index引脚为布尔的时候随机输出返回值</p>
-<h3 id="使用纹理设置笔刷"><a href="#使用纹理设置笔刷" class="headerlink" title="使用纹理设置笔刷"></a>使用纹理设置笔刷</h3><p>可以直接将一个图片当作画刷用，但是通常用于覆盖当前图片</p>
-<h3 id="创建控件"><a href="#创建控件" class="headerlink" title="创建控件"></a>创建控件</h3><p>以一个类（控件蓝图）来创建新的控件界面</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>将玩家点击的地图选择按钮的名称传到“主界面”控件蓝图中</p>
-<ul>
-<li><p>在地图选择按钮控件蓝图中添加命名类型的变量“选择的游戏地图”，勾选其“可编辑实例”以及“生成时公开”</p>
-</li>
-<li><p>在“地图选择”控件蓝图中选择按钮后设置“选择的游戏地图”</p>
-</li>
-<li><p>在“主界面”控件蓝图中创建命名类型的变量“选中的地图”</p>
-</li>
-<li><p>在“地图选择按钮”中获取类的所有控件之后“设置选中的地图”，然后将地图选择按钮中的变量”选择的游戏地图“赋值给它（发生在关闭选中状态之后，开启选中状态之前）</p>
-</li>
-</ul>
-</li>
-<li><p>新建一个控件蓝图“加载界面”</p>
-<ul>
-<li><p>添加一个图像“加载图片组件”作为背景，修改其锚点和偏移</p>
-</li>
-<li><p>添加一个文本“载入关卡中”，修改其锚点和尺寸，字体，位置</p>
-</li>
-<li><p>添加一个图像作为加载时闪烁的logo，放在合适的位置</p>
-</li>
-<li><p>添加一个边界，用于做出游戏黑屏后慢慢显示加载界面的效果</p>
-</li>
-<li><p>添加一个进度条，设置其位置和尺寸大小，设置其样式中的着色和外观中的”填充颜色和不透明度“</p>
-</li>
-<li><p>添加动画“淡入”，给边界添加一个轨道，设置其渲染不透明度由1到0</p>
-</li>
-<li><p>添加动画“闪烁”，给logo添加一个轨道，设置其变换中的缩放从0.1到0.2到0.1；设置其渲染不透明度由0到1到0</p>
-</li>
-<li><p>添加一个命名类型的变量“选中的地图”，勾选可编辑实例和生成时公开；一个纹理2D类型的变量“加载图片”</p>
-</li>
-<li><p>在事件构造中判断“选中的地图”是否&#x3D;&#x3D;“地图名称”</p>
-</li>
-<li><p>分别通过“随机布尔”和“选择”节点来设置“加载图片”</p>
-</li>
-<li><p>使用“加载图片组件”调用“使用纹理设置笔刷”来使得“加载图片”覆盖“加载图片组件”</p>
-</li>
-<li><p>播放“闪烁”动画和“淡入”动画（注意：闪烁动画的循环次数为0：意味着无线循环）</p>
-</li>
-<li><p>实现进度条更新百分比</p>
-<ul>
-<li><p>首先明确一点，进度条的最大值为1！</p>
-</li>
-<li><p>创建一个浮点型变量“进度条加载时间”</p>
-</li>
-<li><p>以事件设置定时器，创建一个自定义事件“Loading”，使用一个分支判断，条件为“进度条加载时间”是否&gt;&#x3D;1</p>
-</li>
-<li><p>true则”Do Once”，按名称打开关卡，将“选中的地图”作为变量传入</p>
-</li>
-<li><p>false则将“进度条加载时间”+0.01后重新赋值给“进度条加载时间”</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>给地图选择界面添加开始游戏按钮及功能</p>
-<ul>
-<li><p>在地图选择控件蓝图中添加“按钮交互”控件蓝图，设置其位置和尺寸以及内容</p>
-</li>
-<li><p>在主界面拖入地图选择界面，获取“按钮交互”，获取button，绑定事件到点击时，创建自定义事件“游戏加载”</p>
-</li>
-<li><p>调用“关闭所有UI交互”函数，“创建控件”（类选择为“加载界面”），“添加到视口”，将“选中的地图”变量传入“创建控件”的“选中的地图”引脚中</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="添加背景音乐"><a href="#添加背景音乐" class="headerlink" title="添加背景音乐"></a>添加背景音乐</h1><ol>
-<li><p>选择一个背景音乐，点开，设置其“正在循环”为true</p>
-</li>
-<li><p>将背景音乐拖入场景中</p>
-</li>
-</ol>
-<h1 id="BUG-不选择地图直接开始游戏"><a href="#BUG-不选择地图直接开始游戏" class="headerlink" title="BUG-不选择地图直接开始游戏"></a>BUG-不选择地图直接开始游戏</h1><h2 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h2><p>在未选择地图的情况下不可以点击开始游戏按钮即可</p>
-<h2 id="解决步骤"><a href="#解决步骤" class="headerlink" title="解决步骤"></a>解决步骤</h2><ol>
-<li><p>在地图选择控件蓝图中选中“开始游戏”按钮交互-&gt;行为-&gt;已启用-&gt;false</p>
-</li>
-<li><p>在地图选择按钮控件蓝图中的“开启选中状态”函数中</p>
-<ul>
-<li><p>通过“获取类的所有控件”节点获取“主界面”，从而获取“地图选择界面”，获取“按钮交互”，“设置已启用”为true</p>
-</li>
-<li><p>关闭选中状态同理设置为false</p>
-</li>
-</ul>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/15/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%9C%B0%E5%9B%BE%E9%80%89%E6%8B%A9%E5%8A%9F%E8%83%BD/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/15/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%9C%B0%E5%9B%BE%E9%80%89%E6%8B%A9%E5%8A%9F%E8%83%BD/" class="post-title-link" itemprop="url">UE4-项目-死寂-地图选择功能</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-07-15 10:08:35 / 修改时间：15:15:35" itemprop="dateCreated datePublished" datetime="2022-07-15T10:08:35+08:00">2022-07-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="地图选择功能"><a href="#地图选择功能" class="headerlink" title="地图选择功能"></a>地图选择功能</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="设置笔刷颜色"><a href="#设置笔刷颜色" class="headerlink" title="设置笔刷颜色"></a>设置笔刷颜色</h3><p>可以用来设置控件蓝图中组件的颜色</p>
-<h3 id="设置渲染范围"><a href="#设置渲染范围" class="headerlink" title="设置渲染范围"></a>设置渲染范围</h3><p>用来设置控件蓝图中组件的缩放大小</p>
-<h3 id="设置颜色和不透明度"><a href="#设置颜色和不透明度" class="headerlink" title="设置颜色和不透明度"></a>设置颜色和不透明度</h3><p>字面意思，控件蓝图中使用</p>
-<h3 id="获取类的所有控件"><a href="#获取类的所有控件" class="headerlink" title="获取类的所有控件"></a>获取类的所有控件</h3><p>字面意思，可以获取控件蓝图中的组件</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>创建一个新的控件蓝图“地图选择按钮”</p>
-<ul>
-<li><p>设置为自定义大小：宽度:550，高度：650</p>
-</li>
-<li><p>添加一个边界，将其尺寸修改为550，650；渲染不透明度修改为0</p>
-</li>
-<li><p>添加一个按钮，设置其锚点，尺寸X：530，尺寸Y：630，对其均为0.5；裁切修改为：“剪切到边界-固定（高级）”，添加音效</p>
-</li>
-<li><p>给按钮下面添加一个图像，对其均为填充，间隙修改为0，渲染变换的缩放变为1.1</p>
-</li>
-<li><p>设置图像的texture，设置其颜色和不透明度（未选中的时候灰暗一点）</p>
-</li>
-<li><p>添加一个动画“互动”</p>
-<ul>
-<li><p>给边界添加一个轨道，设置其渲染不透明度从0到1（选中后有边框）</p>
-</li>
-<li><p>给图像添加一个轨道，设置其颜色和不透明度从0.4到1（选中后变量）</p>
-</li>
-<li><p>给图像添加一个轨道，设置其变换中的缩放从1.1到1.2（选中后变大）</p>
-</li>
-</ul>
-</li>
-<li><p>给按钮添加“悬停时”和“未悬停时”的事件，分别正向和反向播放“互动”动画</p>
-</li>
-</ul>
-</li>
-<li><p>在主界面控件蓝图中，从自定义服装界面中获取按钮交互，再获取其button，”绑定事件到点击时“，自定义事件“地图选择”</p>
-</li>
-<li><p>新建一个新的控件蓝图“地图选择”</p>
-<ul>
-<li><p>添加边界和背景模糊，锚点均为填充，添加一个文本“地图选择”，添加返回按钮</p>
-</li>
-<li><p>添加两个已经制作好的地图选择按钮</p>
-</li>
-</ul>
-</li>
-<li><p>在主界面中添加地图选择界面</p>
-<ul>
-<li><p>修改其锚点为填充，设置其偏移，设置其渲染不透明度为0</p>
-</li>
-<li><p>添加动画（自定义服装界面和地图选择界面的切换）</p>
-<ul>
-<li><p>复制“点击制作者”动画为“点击地图选择”</p>
-</li>
-<li><p>将动画中的“制作者界面”替换为“地图选择界面”</p>
-</li>
-<li><p>将动画中的“主界面”替换为“自定义服装界面”</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>切换到地图选择界面之后的摄像机切换</p>
-<ul>
-<li><p>在场景中找一个摄像机作为切换视角的机位</p>
-</li>
-<li><p>在关卡蓝图中为该摄像机添加一个引用，新建自定义事件“切换到地图选择界面”，使用“获取玩家控制器”和“使用混合设置视图目标”实现切换摄像机功能</p>
-</li>
-</ul>
-</li>
-<li><p>在主界面控件蓝图中调用在关卡蓝图中写好的“切换到地图选择界面”</p>
-<ul>
-<li><p>自定义服装界面中获取“按钮交互”，获取button，绑定事件到点击时，新建自定义事件“地图选择”</p>
-</li>
-<li><p>在“关闭所有UI交互”函数中添加“地图选择界面”</p>
-</li>
-<li><p>使用“播放动画”，“执行控制台命令”，“关闭所有UI交互”，“设置可视性”实现自定义服装界面切换到地图选择界面</p>
-</li>
-<li><p>同理设置地图选择界面返回自定义服装界面</p>
-</li>
-</ul>
-</li>
-<li><p>完善地图选择功能，让玩家选择地图之后，地图缩略图有描边效果，并且保持选中</p>
-<ul>
-<li><p>选中“地图选择按钮”控件蓝图将设计器中的边界组件公开到蓝图中</p>
-</li>
-<li><p>在图表中新建函数“开启选中状态”，拖入图表中，“设置渲染不透明度”，“设置笔刷颜色”</p>
-</li>
-<li><p>设置图像，“设置渲染范围”，“设置颜色和不透明度”</p>
-</li>
-<li><p>同理，制作一个“关闭选中状态”函数</p>
-</li>
-<li><p>添加bool类型变量“是否被选中”，在“开启选中状态”函数中将其设置为true，在“关闭选中状态”函数中设置为false</p>
-</li>
-<li><p>在事件图表中，添加一个分支判断“是否被选中”为false的时候才可以播放两个动画</p>
-</li>
-<li><p>在事件图表中给按钮添加一个点击事件</p>
-<ul>
-<li><p>在点击之后先取消其他被选中的按钮，然后开启当前选中的按钮</p>
-</li>
-<li><p>调用“获取类的所有控件”节点，class选择“主界面”，获取主界面中的“地图选择界面”，地图选择界面下面的两个“地图选择按钮”，同时调用“关闭选中状态”函数，最后调用“开启选中状态”函数，目标为self</p>
-</li>
-</ul>
-</li>
-<li><p>添加不同地图略缩图</p>
-<ul>
-<li><p>在地图选择按钮中添加一个纹理2D类型的变量“场景图片”</p>
-</li>
-<li><p>勾选“可编辑实例”和“生成时公开”</p>
-</li>
-<li><p>在图像组件中将“笔刷”和“场景图片”绑定</p>
-</li>
-<li><p>在”地图选择“控件蓝图中即可替换“地图选择按钮”中的“场景图片”了</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="优化-选中地图之后返回"><a href="#优化-选中地图之后返回" class="headerlink" title="优化-选中地图之后返回"></a>优化-选中地图之后返回</h1><p>选中地图之后返回，第二次进入之后无上次选中的痕迹</p>
-<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在主界面的地图选择界面返回自定义服装界面逻辑块的最后进行清除上一次的缓存</p>
-</li>
-<li><p>拖入“地图选择界面”获取其中的两个地图选择按钮，调用“关闭选中状态”函数</p>
 </li>
 </ol>
 

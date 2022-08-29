@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="创建动画Instance 在TowerDefence&#x2F;Source&#x2F;TowerDefence&#x2F;Public&#x2F;Character&#x2F;Anim位置创建RuleOfTheAnimInstance用于更新角色&#x2F;怪物的动画状态数据  创建怪物蓝图 创建TowerDefence&#x2F;Content&#x2F;Character&#x2F;Monster&#x2F;MonstersBase_BP  创建Character&#x2F;Monster">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE4-项目-TowerDefence-动画状态机">
+<meta property="og:url" content="http://example.com/2022/08/28/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E5%8A%A8%E7%94%BB%E7%8A%B6%E6%80%81%E6%9C%BA/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="创建动画Instance 在TowerDefence&#x2F;Source&#x2F;TowerDefence&#x2F;Public&#x2F;Character&#x2F;Anim位置创建RuleOfTheAnimInstance用于更新角色&#x2F;怪物的动画状态数据  创建怪物蓝图 创建TowerDefence&#x2F;Content&#x2F;Character&#x2F;Monster&#x2F;MonstersBase_BP  创建Character&#x2F;Monster">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-08-28T08:18:39.000Z">
+<meta property="article:modified_time" content="2022-08-29T07:53:48.043Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="项目">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/08/28/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E5%8A%A8%E7%94%BB%E7%8A%B6%E6%80%81%E6%9C%BA/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/08/28/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E5%8A%A8%E7%94%BB%E7%8A%B6%E6%80%81%E6%9C%BA/","path":"2022/08/28/UE4-项目-TowerDefence-动画状态机/","title":"UE4-项目-TowerDefence-动画状态机"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>UE4-项目-TowerDefence-动画状态机 | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%8A%A8%E7%94%BBInstance"><span class="nav-number">1.</span> <span class="nav-text">创建动画Instance</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%80%AA%E7%89%A9%E8%93%9D%E5%9B%BE"><span class="nav-number">2.</span> <span class="nav-text">创建怪物蓝图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BATower%E5%8A%A8%E7%94%BB%E8%93%9D%E5%9B%BE"><span class="nav-number">3.</span> <span class="nav-text">创建Tower动画蓝图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAMonster%E5%8A%A8%E7%94%BB"><span class="nav-number">4.</span> <span class="nav-text">创建Monster动画</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81"><span class="nav-number">5.</span> <span class="nav-text">完整代码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Towers-h"><span class="nav-number">5.1.</span> <span class="nav-text">Towers.h</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RuleOfTheCharacter-h"><span class="nav-number">5.2.</span> <span class="nav-text">RuleOfTheCharacter.h</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%8C%E5%96%84RuleOfTheCharacter"><span class="nav-number">6.</span> <span class="nav-text">完善RuleOfTheCharacter</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E5%88%86%E4%BB%A3%E7%A0%81"><span class="nav-number">6.1.</span> <span class="nav-text">部分代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RuleOfTheCharacter-h-1"><span class="nav-number">6.1.1.</span> <span class="nav-text">RuleOfTheCharacter.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RuleOfTheCharacter-cpp"><span class="nav-number">6.1.2.</span> <span class="nav-text">RuleOfTheCharacter.cpp</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%8A%A8%E7%94%BBRuleOfTheAnimInstance"><span class="nav-number">7.</span> <span class="nav-text">添加动画RuleOfTheAnimInstance</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E5%88%86%E4%BB%A3%E7%A0%81-1"><span class="nav-number">7.1.</span> <span class="nav-text">部分代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RuleOfTheAnimInstance-h"><span class="nav-number">7.1.1.</span> <span class="nav-text">RuleOfTheAnimInstance.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RuleOfTheAnimInstance-cpp"><span class="nav-number">7.1.2.</span> <span class="nav-text">RuleOfTheAnimInstance.cpp</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9B%BF%E6%8D%A2%E5%B0%86CPP%E5%8F%98%E9%87%8F%E6%9B%BF%E6%8D%A2%E5%8A%A8%E7%94%BB%E8%93%9D%E5%9B%BE%E4%B8%AD%E5%8F%98%E9%87%8F"><span class="nav-number">8.</span> <span class="nav-text">替换将CPP变量替换动画蓝图中变量</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/28/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E5%8A%A8%E7%94%BB%E7%8A%B6%E6%80%81%E6%9C%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="UE4-项目-TowerDefence-动画状态机 | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UE4-项目-TowerDefence-动画状态机
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-08-28 16:18:39" itemprop="dateCreated datePublished" datetime="2022-08-28T16:18:39+08:00">2022-08-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-08-29 15:53:48" itemprop="dateModified" datetime="2022-08-29T15:53:48+08:00">2022-08-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="创建动画Instance"><a href="#创建动画Instance" class="headerlink" title="创建动画Instance"></a>创建动画Instance</h1><ol>
+<li>在<code>TowerDefence/Source/TowerDefence/Public/Character/Anim</code>位置创建<code>RuleOfTheAnimInstance</code>用于更新角色&#x2F;怪物的动画状态数据</li>
+</ol>
+<h1 id="创建怪物蓝图"><a href="#创建怪物蓝图" class="headerlink" title="创建怪物蓝图"></a>创建怪物蓝图</h1><ol>
+<li><p>创建<code>TowerDefence/Content/Character/Monster/MonstersBase_BP</code></p>
+</li>
+<li><p>创建<code>Character/Monster/LittleMonster/LittleMonster1/BP/LittleMonster1_BP</code></p>
+</li>
+<li><p><code>LittleMonster1_BP</code>添加网格体，修改其位置，修改胶囊体大小</p>
+</li>
+</ol>
+<h1 id="创建Tower动画蓝图"><a href="#创建Tower动画蓝图" class="headerlink" title="创建Tower动画蓝图"></a>创建Tower动画蓝图</h1><ol>
+<li><p>在<code>TowerDefence/Content/Character/Towers/Cannon/Anim</code>位置创建动画蓝图<code>Cannon_AB</code></p>
+</li>
+<li><p>在<code>Towers.h</code>中添加<code>FRotator</code>类型变量<code>TowersRotator</code>用于实现塔面向敌人旋转</p>
+</li>
+<li><p>在<code>RuleOfTheCharacter.h</code>中添加函数<code>IsActive()</code>公开给蓝图，返回函数<code>IsDeath</code>判断是否死亡</p>
+</li>
+<li><p>在<code>Cannon_AB</code>的事件图表中</p>
+<ul>
+<li><p>添加bool型变量<code>IsDeath</code>和<code>IsAttack</code>以及<code>FRotator</code>类型变量<code>Rotator</code></p>
+</li>
+<li><p>类型转换为<code>Cannon_BP</code></p>
+<ul>
+<li><p>获取变量<code>TowersRotator</code>，赋值给<code>Rotator</code></p>
+</li>
+<li><p>获取函数<code>IsActive</code>，赋值给<code>IsDeath</code></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在<code>Cannon_AB</code>的<code>AnimGraph</code>中</p>
+<ul>
+<li><p>添加状态机</p>
+</li>
+<li><p>状态机中添加<code>Idle</code>，<code>Attack</code>，<code>die</code>三个状态</p>
+</li>
+<li><p>分别使用<code>IsDeath</code>和<code>IsAttack</code>作为状态见的转换条件</p>
+</li>
+</ul>
+</li>
+<li><p>在<code>Idle</code>状态中</p>
+<ul>
+<li><p>主要为了实现塔可以围绕某个骨骼进行旋转，即使用节点<code>变换(修改)骨骼</code>来实现</p>
+</li>
+<li><p>引入变量<code>Rotator</code>，分割结构体引脚，分别在<code>Roll</code>轴和<code>Yaw</code>轴创建旋转体</p>
+</li>
+<li><p>分别将旋转体返回值引入两个<code>变换（修改）骨骼</code>节点的<code>Rotation</code>引脚中</p>
+<ul>
+<li><p><code>变换（修改）骨骼</code>节点的<code>要修改的骨骼</code>选择<code>TurnAndTrun</code></p>
+</li>
+<li><p>将Yaw轴<code>变换（修改）骨骼</code>的返回值引入Roll轴<code>变换（修改）骨骼</code>的<code>Component Pose</code>引脚中，并将返回值连接<code>输出到动画姿势</code></p>
+</li>
+<li><p>引入<code>Idle</code>动画作为Yaw轴<code>变换（修改）骨骼</code>的<code>Component Pose</code>引脚变量</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Attack状态与Die状态与Idle同理</p>
+</li>
+<li><p>在<code>Cannon_BP</code>中的网格体中绑定动画类为<code>Cannon_AB</code></p>
+</li>
+</ol>
+<h1 id="创建Monster动画"><a href="#创建Monster动画" class="headerlink" title="创建Monster动画"></a>创建Monster动画</h1><ol>
+<li><p>与Tower动画类似，但不需要考虑怪物的旋转</p>
+</li>
+<li><p>但是需要创建一个混合控件1D来实现由速度控制的怪物行走动画的变换</p>
+</li>
+<li><p>这些操作在死寂项目中玩家的动画相同，此处便不再赘述</p>
+</li>
+</ol>
+<h1 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h1><h2 id="Towers-h"><a href="#Towers-h" class="headerlink" title="Towers.h"></a>Towers.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character/Core/RuleOfTheCharacter.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Towers.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> ATowers : <span class="keyword">public</span> ARuleOfTheCharacter</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//粒子特效组件（在这里就是塔模型）</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;BaseAttrubute&quot;</span>, meta = (AllowPrivateAccess = <span class="string">&quot;true&quot;</span>))</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">UParticleSystemComponent</span>* ParticleMesh;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//用于显示某处是否可建造（true则显示绿色，否则红色）</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;BaseAttrubute&quot;</span>, meta = (AllowPrivateAccess = <span class="string">&quot;true&quot;</span>))</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">UStaticMeshComponent</span>* StaticMeshBuilding;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//破碎效果组件（塔被摧毁之后切换为此）</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;BaseAttrubute&quot;</span>, meta = (AllowPrivateAccess = <span class="string">&quot;true&quot;</span>))</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">UDestructibleComponent</span>* DestructibleMeshBuilding;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;BaseAttrubute&quot;</span>)</span><br><span class="line">    FRotator TowersRotator;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ATowers</span>();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">float</span> <span class="title">TakeDamage</span><span class="params">(<span class="type">float</span> DamageAmount, <span class="keyword">struct</span> FDamageEvent <span class="type">const</span>&amp; DamageEvent, <span class="keyword">class</span> AController* EventInstigator, AActor* DamageCauser)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="RuleOfTheCharacter-h"><a href="#RuleOfTheCharacter-h" class="headerlink" title="RuleOfTheCharacter.h"></a>RuleOfTheCharacter.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/Character.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Interface\Character\IRuleCharacter.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefencePlayerController.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefenceGameState.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;RuleOfTheCharacter.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> ARuleOfTheCharacter : <span class="keyword">public</span> ACharacter,<span class="keyword">public</span> IRuleCharacter</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">//用于实现子弹跟踪效果的实现</span></span><br><span class="line">        <span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;BaseAttrbute&quot;</span>, meta = (AllowPrivateAccess=<span class="string">&quot;true&quot;</span>))</span><br><span class="line">        <span class="keyword">class</span> <span class="title class_">USceneComponent</span>* HomingPoint;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">//用于显示等级，生命值等信息</span></span><br><span class="line">        <span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;BaseAttrbute&quot;</span>, meta = (AllowPrivateAccess=<span class="string">&quot;true&quot;</span>))</span><br><span class="line">        <span class="keyword">class</span> <span class="title class_">UWidgetComponent</span>* Widget;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">//角色及怪物子弹生成位置</span></span><br><span class="line">        <span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;BaseAttrbute&quot;</span>, meta = (AllowPrivateAccess=<span class="string">&quot;true&quot;</span>))</span><br><span class="line">        <span class="keyword">class</span> <span class="title class_">UArrowComponent</span>* OpenFirePoint;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">//用于捕捉鼠标射线</span></span><br><span class="line">        <span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;BaseAttrbute&quot;</span>, meta = (AllowPrivateAccess=<span class="string">&quot;true&quot;</span>))</span><br><span class="line">        <span class="keyword">class</span> <span class="title class_">UBoxComponent</span>* TraceShowCharacterInformattion;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// Sets default values for this character&#x27;s properties</span></span><br><span class="line">    <span class="built_in">ARuleOfTheCharacter</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="comment">// Called when the game starts or when spawned</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:    </span><br><span class="line">    <span class="comment">// Called every frame</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">(<span class="type">float</span> DeltaTime)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="comment">//Damage为伤害值</span></span><br><span class="line">    <span class="comment">//DamageEvent为伤害类型</span></span><br><span class="line">    <span class="comment">//EventInstigator为伤害当前Controller的Actor（被伤害目标）</span></span><br><span class="line">    <span class="comment">//DamageCauser为施加伤害的Actor</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">float</span> <span class="title">TakeDamage</span><span class="params">(<span class="type">float</span> Damage, <span class="keyword">struct</span> FDamageEvent <span class="type">const</span>&amp; DamageEvent, AController* EventInstigator, AActor* DamageCauser)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//继承自IRuleCharacter中的函数</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">bool</span> <span class="title">IsDeath</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">float</span> <span class="title">GetHeath</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">float</span> <span class="title">GetMaxHeath</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">bool</span> <span class="title">IsTeam</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">UFUNCTION</span>(Blueprintable,BlueprintPure,Category=<span class="string">&quot;Tower|Attrubute&quot;</span>)</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">IsActive</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="built_in">IsDeath</span>(); &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//将TowerDefencePlayerController连接进来</span></span><br><span class="line">    <span class="comment">//FORCEINLINE：强制内联函数</span></span><br><span class="line">    <span class="function">FORCEINLINE ATowerDefencePlayerController* <span class="title">GetGameController</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">GetWorld</span>() ? <span class="built_in">GetWorld</span>()-&gt;<span class="built_in">GetFirstPlayerController</span>&lt;ATowerDefencePlayerController&gt;() : <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将TowerDefenceGameState连接进来</span></span><br><span class="line">    <span class="function">FORCEINLINE ATowerDefenceGameState* <span class="title">GetGameState</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">GetWorld</span>() ? <span class="built_in">GetWorld</span>()-&gt;<span class="built_in">GetGameState</span>&lt;ATowerDefenceGameState&gt;() : <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//跟踪点</span></span><br><span class="line">    <span class="function">FORCEINLINE USceneComponent* <span class="title">GetHomingPoint</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> HomingPoint; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//开火点</span></span><br><span class="line">    <span class="function">FORCEINLINE UArrowComponent* <span class="title">GetFirePoint</span><span class="params">()</span><span class="type">const</span> </span>&#123; <span class="keyword">return</span> OpenFirePoint; &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="完善RuleOfTheCharacter"><a href="#完善RuleOfTheCharacter" class="headerlink" title="完善RuleOfTheCharacter"></a>完善RuleOfTheCharacter</h1><ol>
+<li><p>在<code>RuleOfTheCharacter.h</code>中添加bool类型变量<code>bAttack</code></p>
+</li>
+<li><p>在<code>RuleOfTheCharacter.cpp</code>的构造函数开头设置<code>bAttack</code>为<code>false</code></p>
+<ul>
+<li><code>ARuleOfTheCharacter::ARuleOfTheCharacter() :bAttack(false)</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="部分代码"><a href="#部分代码" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="RuleOfTheCharacter-h-1"><a href="#RuleOfTheCharacter-h-1" class="headerlink" title="RuleOfTheCharacter.h"></a>RuleOfTheCharacter.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/Character.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Interface\Character\IRuleCharacter.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefencePlayerController.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefenceGameState.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;RuleOfTheCharacter.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> ARuleOfTheCharacter : <span class="keyword">public</span> ACharacter,<span class="keyword">public</span> IRuleCharacter</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		<span class="comment">//用于实现子弹跟踪效果的实现</span></span><br><span class="line">		<span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;BaseAttrbute&quot;</span>, meta = (AllowPrivateAccess=<span class="string">&quot;true&quot;</span>))</span><br><span class="line">		<span class="keyword">class</span> <span class="title class_">USceneComponent</span>* HomingPoint;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		<span class="comment">//用于显示等级，生命值等信息</span></span><br><span class="line">		<span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;BaseAttrbute&quot;</span>, meta = (AllowPrivateAccess=<span class="string">&quot;true&quot;</span>))</span><br><span class="line">		<span class="keyword">class</span> <span class="title class_">UWidgetComponent</span>* Widget;</span><br><span class="line"></span><br><span class="line">		</span><br><span class="line">		<span class="comment">//角色及怪物子弹生成位置</span></span><br><span class="line">		<span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;BaseAttrbute&quot;</span>, meta = (AllowPrivateAccess=<span class="string">&quot;true&quot;</span>))</span><br><span class="line">		<span class="keyword">class</span> <span class="title class_">UArrowComponent</span>* OpenFirePoint;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		<span class="comment">//用于捕捉鼠标射线</span></span><br><span class="line">		<span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;BaseAttrbute&quot;</span>, meta = (AllowPrivateAccess=<span class="string">&quot;true&quot;</span>))</span><br><span class="line">		<span class="keyword">class</span> <span class="title class_">UBoxComponent</span>* TraceShowCharacterInformattion;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="comment">// Sets default values for this character&#x27;s properties</span></span><br><span class="line">	<span class="built_in">ARuleOfTheCharacter</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="comment">// Called when the game starts or when spawned</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:	</span><br><span class="line">	<span class="comment">// Called every frame</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">(<span class="type">float</span> DeltaTime)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="comment">//Damage为伤害值</span></span><br><span class="line">	<span class="comment">//DamageEvent为伤害类型</span></span><br><span class="line">	<span class="comment">//EventInstigator为伤害当前Controller的Actor（被伤害目标）</span></span><br><span class="line">	<span class="comment">//DamageCauser为施加伤害的Actor</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">float</span> <span class="title">TakeDamage</span><span class="params">(<span class="type">float</span> Damage, <span class="keyword">struct</span> FDamageEvent <span class="type">const</span>&amp; DamageEvent, AController* EventInstigator, AActor* DamageCauser)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="comment">//继承自IRuleCharacter中的函数</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">bool</span> <span class="title">IsDeath</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">float</span> <span class="title">GetHeath</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">float</span> <span class="title">GetMaxHeath</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">bool</span> <span class="title">IsTeam</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">UFUNCTION</span>(Blueprintable,BlueprintPure,Category=<span class="string">&quot;Tower|Attrubute&quot;</span>)</span><br><span class="line">	<span class="function"><span class="type">bool</span> <span class="title">IsActive</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="built_in">IsDeath</span>(); &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="comment">//将TowerDefencePlayerController连接进来</span></span><br><span class="line">	<span class="comment">//FORCEINLINE：强制内联函数</span></span><br><span class="line">	<span class="function">FORCEINLINE ATowerDefencePlayerController* <span class="title">GetGameController</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">GetWorld</span>() ? <span class="built_in">GetWorld</span>()-&gt;<span class="built_in">GetFirstPlayerController</span>&lt;ATowerDefencePlayerController&gt;() : <span class="literal">NULL</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//将TowerDefenceGameState连接进来</span></span><br><span class="line">	<span class="function">FORCEINLINE ATowerDefenceGameState* <span class="title">GetGameState</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">GetWorld</span>() ? <span class="built_in">GetWorld</span>()-&gt;<span class="built_in">GetGameState</span>&lt;ATowerDefenceGameState&gt;() : <span class="literal">NULL</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//跟踪点</span></span><br><span class="line">	<span class="function">FORCEINLINE USceneComponent* <span class="title">GetHomingPoint</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> HomingPoint; &#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//开火点</span></span><br><span class="line">	<span class="function">FORCEINLINE UArrowComponent* <span class="title">GetFirePoint</span><span class="params">()</span><span class="type">const</span> </span>&#123; <span class="keyword">return</span> OpenFirePoint; &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="comment">//是否攻击</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;AnimAttrubute&quot;</span>)</span><br><span class="line">		<span class="type">bool</span> bAttack;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="RuleOfTheCharacter-cpp"><a href="#RuleOfTheCharacter-cpp" class="headerlink" title="RuleOfTheCharacter.cpp"></a>RuleOfTheCharacter.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character/Core/RuleOfTheCharacter.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components\ArrowComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/BoxComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/WidgetComponent.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// Sets default values</span></span><br><span class="line">ARuleOfTheCharacter::<span class="built_in">ARuleOfTheCharacter</span>()</span><br><span class="line">	:<span class="built_in">bAttack</span>(<span class="literal">false</span>)</span><br><span class="line">&#123;</span><br><span class="line"> 	<span class="comment">// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don&#x27;t need it.</span></span><br><span class="line">	PrimaryActorTick.bCanEverTick = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">	HomingPoint = <span class="built_in">CreateDefaultSubobject</span>&lt;USceneComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;HomingPoint&quot;</span>));</span><br><span class="line">	Widget = <span class="built_in">CreateDefaultSubobject</span>&lt;UWidgetComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;Widget&quot;</span>));</span><br><span class="line">	OpenFirePoint = <span class="built_in">CreateDefaultSubobject</span>&lt;UArrowComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;SpawnPoint&quot;</span>));</span><br><span class="line">	TraceShowCharacterInformattion = <span class="built_in">CreateDefaultSubobject</span>&lt;UBoxComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;TraceBox&quot;</span>));</span><br><span class="line"></span><br><span class="line">	HomingPoint-&gt;<span class="built_in">AttachToComponent</span>(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);</span><br><span class="line">	Widget-&gt;<span class="built_in">AttachToComponent</span>(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);</span><br><span class="line">	OpenFirePoint-&gt;<span class="built_in">AttachToComponent</span>(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);</span><br><span class="line">	TraceShowCharacterInformattion-&gt;<span class="built_in">AttachToComponent</span>(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//设置预设scanning碰撞通道</span></span><br><span class="line">	TraceShowCharacterInformattion-&gt;<span class="built_in">SetCollisionProfileName</span>(<span class="string">&quot;Scanning&quot;</span>);</span><br><span class="line">	<span class="comment">//设置碰撞检测盒子大小</span></span><br><span class="line">	TraceShowCharacterInformattion-&gt;<span class="built_in">SetBoxExtent</span>(<span class="built_in">FVector</span>(<span class="number">38</span>, <span class="number">38</span>, <span class="number">100</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Called when the game starts or when spawned</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ARuleOfTheCharacter::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Called every frame</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ARuleOfTheCharacter::Tick</span><span class="params">(<span class="type">float</span> DeltaTime)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">Tick</span>(DeltaTime);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">float</span> <span class="title">ARuleOfTheCharacter::TakeDamage</span><span class="params">(<span class="type">float</span> Damage, FDamageEvent <span class="type">const</span>&amp; DamageEvent, AController* EventInstigator, AActor* DamageCauser)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">TakeDamage</span>(Damage, DamageEvent, EventInstigator, DamageCauser);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0.0f</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">ARuleOfTheCharacter::IsDeath</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">float</span> <span class="title">ARuleOfTheCharacter::GetHeath</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0.0f</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">float</span> <span class="title">ARuleOfTheCharacter::GetMaxHeath</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0.0f</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">ARuleOfTheCharacter::IsTeam</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="添加动画RuleOfTheAnimInstance"><a href="#添加动画RuleOfTheAnimInstance" class="headerlink" title="添加动画RuleOfTheAnimInstance"></a>添加动画RuleOfTheAnimInstance</h1><ol>
+<li><p>在<code>Source\TowerDefence\Public\Character\Anim\RuleOfTheAnimInstance</code></p>
+</li>
+<li><p>在<code>RuleOfTheAnimInstance.h</code></p>
+<ul>
+<li><p>添加构造函数，重载<code>NativeInitializeAnimation()</code>函数与<code>NativeUpdateAnimation(float DetaSeconds)</code>函数</p>
+</li>
+<li><p>添加三个变量<code>bDeath</code>，<code>bAttack</code>，<code>Speed</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>RuleOfTheAnimInstance.cpp</code></p>
+<ul>
+<li><p>构造函数中设置变量<code>bDeath</code>，<code>bAttack</code>，<code>Speed</code>分别为false，false，0.0f</p>
+</li>
+<li><p>在<code>NativeUpdateAnimation(float DetaSeconds)</code>中</p>
+<ul>
+<li><p>使用<code>TryGetPawnOwner()</code>获取当前pawn，再通过<code>Cast&lt;&gt;()</code>函数将其转换为<code>ARuleOfTheCharacter</code>类型，最后将其赋值给<code>ARuleOfTheCharacter</code>类型的指针实例<code>RuleOfTheCharacter</code></p>
+</li>
+<li><p>使用<code>if()</code>判断<code>RuleOfTheCharacter</code>是否生成成功</p>
+</li>
+<li><p>如果成功则将<code>bDeath</code>，<code>bAttack</code>，<code>Speed</code>分别赋值为<code>RuleOfTheCharacter</code>中的<code>bAttack</code>，<code>GetVelocity().Size()</code>，<code>IsActive()</code></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="部分代码-1"><a href="#部分代码-1" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="RuleOfTheAnimInstance-h"><a href="#RuleOfTheAnimInstance-h" class="headerlink" title="RuleOfTheAnimInstance.h"></a>RuleOfTheAnimInstance.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Animation/AnimInstance.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;RuleOfTheAnimInstance.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> URuleOfTheAnimInstance : <span class="keyword">public</span> UAnimInstance</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line">	</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">URuleOfTheAnimInstance</span>();</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">NativeInitializeAnimation</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">NativeUpdateAnimation</span><span class="params">(<span class="type">float</span> DetaSeconds)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="comment">//是否死亡</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;AnimAttrubute&quot;</span>)</span><br><span class="line">		<span class="type">bool</span> bDeath;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//是否攻击</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;AnimAttrubute&quot;</span>)</span><br><span class="line">		<span class="type">bool</span> bAttack;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//速度</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;AnimAttrubute&quot;</span>)</span><br><span class="line">		<span class="type">float</span> Speed;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="RuleOfTheAnimInstance-cpp"><a href="#RuleOfTheAnimInstance-cpp" class="headerlink" title="RuleOfTheAnimInstance.cpp"></a>RuleOfTheAnimInstance.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character/Anim/RuleOfTheAnimInstance.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character\Core\RuleOfTheCharacter.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">URuleOfTheAnimInstance::<span class="built_in">URuleOfTheAnimInstance</span>()</span><br><span class="line">	:<span class="built_in">bDeath</span>(<span class="literal">false</span>)</span><br><span class="line">	,<span class="built_in">bAttack</span>(<span class="literal">false</span>)</span><br><span class="line">	,<span class="built_in">Speed</span>(<span class="number">0.0f</span>)</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">URuleOfTheAnimInstance::NativeInitializeAnimation</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">URuleOfTheAnimInstance::NativeUpdateAnimation</span><span class="params">(<span class="type">float</span> DetaSeconds)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	ARuleOfTheCharacter* RuleOfTheCharacter = <span class="built_in">Cast</span>&lt;ARuleOfTheCharacter&gt;(<span class="built_in">TryGetPawnOwner</span>());</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> (RuleOfTheCharacter) &#123;</span><br><span class="line">		bAttack = RuleOfTheCharacter-&gt;bAttack;</span><br><span class="line">		Speed = RuleOfTheCharacter-&gt;<span class="built_in">GetVelocity</span>().<span class="built_in">Size</span>();</span><br><span class="line">		bDeath = RuleOfTheCharacter-&gt;<span class="built_in">IsActive</span>();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="替换将CPP变量替换动画蓝图中变量"><a href="#替换将CPP变量替换动画蓝图中变量" class="headerlink" title="替换将CPP变量替换动画蓝图中变量"></a>替换将CPP变量替换动画蓝图中变量</h1><ol>
+<li><p>将master和tower的动画蓝图父类均替换为<code>RuleOfTheAnimInstance</code></p>
+</li>
+<li><p>将动画蓝图中的<code>IsDeath</code>以及<code>IsAttack</code>删除，判断条件直接使用cpp中的变量</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag"># 项目</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/08/28/UE4-%E9%A1%B9%E7%9B%AE-TwoerDefence-%E7%82%AE%E5%A1%94%E6%9D%90%E8%B4%A8/" rel="prev" title="UE4-项目-TwoerDefence-炮塔材质">
+                  <i class="fa fa-chevron-left"></i> UE4-项目-TwoerDefence-炮塔材质
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/08/29/UE4-%E9%A1%B9%E7%9B%AE-TwoerDefence-%E7%A2%B0%E6%92%9E%E9%80%9A%E9%81%93/" rel="next" title="UE4-项目-TwoerDefence-碰撞通道">
+                  UE4-项目-TwoerDefence-碰撞通道 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
