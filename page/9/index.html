@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">96</span>
+          <span class="site-state-item-count">97</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,200 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/27/UE4-API/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/04/27/UE4-API/" class="post-title-link" itemprop="url">UE4-API</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-04-27 09:06:23 / 修改时间：14:34:34" itemprop="dateCreated datePublished" datetime="2022-04-27T09:06:23+08:00">2022-04-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>在这里记录一些目前遇到的unreal engine中的API</p>
+<h1 id="组件与碰撞"><a href="#组件与碰撞" class="headerlink" title="组件与碰撞"></a>组件与碰撞</h1><p>在官方案例——<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.27/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/Components/">组件与碰撞</a>中的API</p>
+<h2 id="CreateDefaultSubject-lt-gt"><a href="#CreateDefaultSubject-lt-gt" class="headerlink" title="CreateDefaultSubject&lt;&gt;()"></a>CreateDefaultSubject&lt;&gt;()</h2><p>创建默认子网格体&lt;&gt;中是子网格体的类型</p>
+<p><code>USphereComponent* SphereComponent = CreateDefaultSubobject&lt;USphereComponent&gt;(TEXT(&quot;RootComponent&quot;))</code></p>
+<h2 id="InitSphereRadius"><a href="#InitSphereRadius" class="headerlink" title="InitSphereRadius()"></a>InitSphereRadius()</h2><p>初始化球体半径</p>
+<p><code>SphereComponent-&gt;InitSphereRadius(40.0f);</code></p>
+<h2 id="SetCollisionProfileName"><a href="#SetCollisionProfileName" class="headerlink" title="SetCollisionProfileName()"></a>SetCollisionProfileName()</h2><p>设置碰撞预设名称</p>
+<p><code>SphereComponent-&gt;SetCollisionProfileName(TEXT(&quot;Pawn&quot;));</code></p>
+<h2 id="SetupAttachment"><a href="#SetupAttachment" class="headerlink" title="SetupAttachment()"></a>SetupAttachment()</h2><p>将某组件添加到括号内的组件上</p>
+<p><code>SphereVisual-&gt;SetupAttachment(RootComponent);</code></p>
+<h2 id="static-ConstructorHelpers-FObjectFinder-lt-gt"><a href="#static-ConstructorHelpers-FObjectFinder-lt-gt" class="headerlink" title="static ConstructorHelpers::FObjectFinder&lt;&gt;"></a>static ConstructorHelpers::FObjectFinder&lt;&gt;</h2><p>直接在代码中设置静态网格体资源</p>
+<p><code>static ConstructorHelpers::FObjectFinder&lt;UStaticMesh&gt; SphereVisualAsset(TEXT(&quot;/Game/StarterContent/Shapes/Shape_Sphere.Shape_Sphere&quot;));</code></p>
+<h2 id="SetStaticMesh"><a href="#SetStaticMesh" class="headerlink" title="SetStaticMesh()"></a>SetStaticMesh()</h2><p>将找到的网格体附加到括号内的组件上</p>
+<p>SphereVisual-&gt;SetStaticMesh(SphereVisualAsset.Object);</p>
+<h2 id="SetRelativeLocation"><a href="#SetRelativeLocation" class="headerlink" title="SetRelativeLocation()"></a>SetRelativeLocation()</h2><p>设置相对位置</p>
+<p><code>SphereVisual-&gt;SetRelativeLocation(FVector(0.0f, 0.0f, -40.0f));</code></p>
+<h2 id="SetWorldScale3D"><a href="#SetWorldScale3D" class="headerlink" title="SetWorldScale3D()"></a>SetWorldScale3D()</h2><p>设置缩放大小</p>
+<p><code>SphereVisual-&gt;SetWorldScale3D(FVector(0.8f));</code></p>
+<h2 id="bAutoActivate"><a href="#bAutoActivate" class="headerlink" title="bAutoActivate"></a>bAutoActivate</h2><p>粒子效果开关</p>
+<p><code>OurParticleSystem-&gt;bAutoActivate = false;</code></p>
+<h2 id="SetTemplate"><a href="#SetTemplate" class="headerlink" title="SetTemplate"></a>SetTemplate</h2><p>给粒子系统设定模板</p>
+<p><code>OurParticleSystem-&gt;SetTemplate(ParticleAsset.Object);</code></p>
+<h2 id="TargetArmLength"><a href="#TargetArmLength" class="headerlink" title="TargetArmLength"></a>TargetArmLength</h2><p>弹簧臂长度</p>
+<p><code>SpringArm-&gt;TargetArmLength = 400.0f;</code></p>
+<h2 id="bEnableCameraLag"><a href="#bEnableCameraLag" class="headerlink" title="bEnableCameraLag"></a>bEnableCameraLag</h2><p>弹簧臂平滑效果开关</p>
+<p><code>SpringArm-&gt;bEnableCameraLag = true;</code></p>
+<h2 id="CameraLagSpeed"><a href="#CameraLagSpeed" class="headerlink" title="CameraLagSpeed"></a>CameraLagSpeed</h2><p>平滑效果切换速度</p>
+<p><code>SpringArm-&gt;CameraLagSpeed = 3.0f;</code></p>
+<h2 id="SocketName"><a href="#SocketName" class="headerlink" title="SocketName"></a>SocketName</h2><p>弹簧臂插槽</p>
+<p><code>Camera-&gt;SetupAttachment(SpringArm, USpringArmComponent::SocketName);</code></p>
+<h2 id="AutoPossessPlayer"><a href="#AutoPossessPlayer" class="headerlink" title="AutoPossessPlayer"></a>AutoPossessPlayer</h2><p>默认控制玩家</p>
+<p><code>AutoPossessPlayer = EAutoReceiveInput::Player0;</code></p>
+<h2 id="UpdatedComonent"><a href="#UpdatedComonent" class="headerlink" title="UpdatedComonent"></a>UpdatedComonent</h2><p>更新某组件</p>
+<p><code>OurMovementComponent-&gt;UpdatedComponent = RootComponent;</code></p>
+<h2 id="BindAxtion"><a href="#BindAxtion" class="headerlink" title="BindAxtion()"></a>BindAxtion()</h2><p>绑定输入映射</p>
+<p><code>InInputComponent-&gt;BindAction(&quot;ParticleToggle&quot;, IE_Pressed, this, &amp;ACollidingPawn::ParticleToggle);</code></p>
+<ul>
+<li><p>参数一：为 虚幻4-&gt;设置 -&gt;输入-&gt;按键绑定的名称</p>
+</li>
+<li><p>参数二：事件名称 IE_Pressed 按下 IE_Released松开 IE_DoubleClick双击</p>
+</li>
+<li><p>参数三：当前对象——this</p>
+</li>
+<li><p>参数四：事件方法的函数指针 例 &amp;类名::方法名的写法</p>
+</li>
+</ul>
+<h2 id="BindAxis"><a href="#BindAxis" class="headerlink" title="BindAxis()"></a>BindAxis()</h2><p>绑定轴映射</p>
+<p><code>InInputComponent-&gt;BindAxis(&quot;MoveForward&quot;, this, &amp;ACollidingPawn::MoveForward);</code></p>
+<ul>
+<li><p>参数一：为 虚幻4-&gt;设置 -&gt;输入-&gt;按键绑定的名称 一定要一样 重要！！！ </p>
+</li>
+<li><p>参数二 ：当前对象——this</p>
+</li>
+<li><p>参数三 事件方法的函数指针 例 &amp;类名::方法名 的写法</p>
+</li>
+</ul>
+<h2 id="AddInputVector"><a href="#AddInputVector" class="headerlink" title="AddInputVector()"></a>AddInputVector()</h2><p>根据输入更改Vector位置</p>
+<p><code>OurMovementComponent-&gt;AddInputVector(GetActorForwardVector() * AxisValue);</code></p>
+<h2 id="GetActorForwardVector"><a href="#GetActorForwardVector" class="headerlink" title="GetActorForwardVector()"></a>GetActorForwardVector()</h2><p>更新Actor向前运动的vector</p>
+<p><code>OurMovementComponent-&gt;AddInputVector(GetActorForwardVector() * AxisValue);</code></p>
+<h2 id="GetActorRightVector"><a href="#GetActorRightVector" class="headerlink" title="GetActorRightVector()"></a>GetActorRightVector()</h2><p>更新Actor向右运动的vector</p>
+<p><code>OurMovementComponent-&gt;AddInputVector(GetActorRightVector() * AxisValue);</code></p>
+<h2 id="GetActorRotation"><a href="#GetActorRotation" class="headerlink" title="GetActorRotation()"></a>GetActorRotation()</h2><p>获取Actor的旋转角度</p>
+<p><code>FRotator NewRotation = GetActorRotation();</code></p>
+<h2 id="SetActorRotation"><a href="#SetActorRotation" class="headerlink" title="SetActorRotation();"></a>SetActorRotation();</h2><p>设置Actor的新角度</p>
+<p><code>SetActorRotation(NewRotation);</code></p>
+<h2 id="ToggleActive"><a href="#ToggleActive" class="headerlink" title="ToggleActive()"></a>ToggleActive()</h2><p>转换粒子效果状态（开关）</p>
+<p><code>OurParticleSystem-&gt;ToggleActive();</code></p>
+<p>GetClampedToMaxSize()</p>
+<p>用于更新vector的位置</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FVector <span class="title">FVector::GetClampedToMaxSize</span><span class="params">(<span class="type">float</span> MaxSize)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>用于创建一个新的vector，方向与原本的方向一直，距离为MaxSize</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FVector <span class="title">FVector::GetClampedToSize</span><span class="params">(<span class="type">float</span> Min,<span class="type">float</span> Max)</span> </span></span><br></pre></td></tr></table></figure>
+
+<p>创建一个新的Vector，方向与原方向一致</p>
+<p>距离为</p>
+<ol>
+<li><p>若距离&lt;Min，则新的vector距离为Min</p>
+</li>
+<li><p>若距离&gt;Max，则新的vector距离为Max</p>
+</li>
+<li><p>若距离在Min和Max之间，则新的vector等于原本的vector</p>
+</li>
+</ol>
+<h2 id="ConsumeInputVector-1-0f"><a href="#ConsumeInputVector-1-0f" class="headerlink" title="ConsumeInputVector(1.0f)"></a>ConsumeInputVector(1.0f)</h2><p>报告并清空用于存储移动输入的内置变量值。</p>
+<h2 id="SafeMoveUpdatedComponent"><a href="#SafeMoveUpdatedComponent" class="headerlink" title="SafeMoveUpdatedComponent()"></a>SafeMoveUpdatedComponent()</h2><p><code>SafeMoveUpdatedComponent(const FVector&amp; Delta, const FRotator&amp; NewRotation, bool bSweep, FHitResult&amp; OutHit, ETeleportType Teleport)</code></p>
+<p><code>SafeMoveUpdatedComponent(DesiredMovementThisFrame, UpdatedComponent-&gt;GetComponentRotation(), true, Hit);</code></p>
+<p>利用虚幻引擎物理移动Pawn移动组件，同时考虑固体障碍。</p>
+<ul>
+<li><p>第一个参数：要移动的Vector</p>
+</li>
+<li><p>第二个参数：旋转参数</p>
+</li>
+<li><p>第三个参数：是否考虑物理障碍（如果为true，将在移动过程中扫描以阻止碰撞。如果为false，它将简单地传送到下一个位置并忽略碰撞。）</p>
+</li>
+<li><p>第四个参数：碰撞结果</p>
+</li>
+<li><p>第五个参数：可省略，远距离传送类型</p>
+</li>
+</ul>
+<h2 id="SlideAlongSurface"><a href="#SlideAlongSurface" class="headerlink" title="SlideAlongSurface()"></a>SlideAlongSurface()</h2><p><code>SlideAlongSurface(const FVector&amp; Delta, float Time, const FQuat Rotation, const FVector&amp; Normal, FHitResult&amp; Hit, bool bHandleImpact)</code></p>
+<ul>
+<li><p>第一个参数：要移动的vector</p>
+</li>
+<li><p>第二个参数：运动时间</p>
+</li>
+<li><p>第三个参数：旋转情况（可省略）</p>
+</li>
+<li><p>第四个参数：vector类型？（这个不太确定）</p>
+</li>
+<li><p>第五个参数：碰撞结果（必须为bBlockingHit）</p>
+</li>
+<li><p>第六个参数：手柄反馈？（这个扎找不到源文件）</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -3972,98 +4166,6 @@
 <p>图中我们对同一树层，前一位（也就是nums[i-1]）如果使用过，那么就进行去重。</p>
 <p><strong>一般来说：组合问题和排列问题是在树形结构的叶子节点上收集结果，而子集问题就是取树上所有节点的结果</strong>。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; result;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; path;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">backtracking</span> <span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, vector&lt;<span class="type">bool</span>&gt;&amp; used)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 此时说明找到了一组</span></span><br><span class="line">        <span class="keyword">if</span> (path.<span class="built_in">size</span>() == nums.<span class="built_in">size</span>()) &#123;</span><br><span class="line">            result.<span class="built_in">push_back</span>(path);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="comment">// used[i - 1] == true，说明同一树枝nums[i - 1]使用过</span></span><br><span class="line">            <span class="comment">// used[i - 1] == false，说明同一树层nums[i - 1]使用过</span></span><br><span class="line">            <span class="comment">// 如果同一树层nums[i - 1]使用过则直接跳过</span></span><br><span class="line">            <span class="keyword">if</span> (i &gt; <span class="number">0</span> &amp;&amp; nums[i] == nums[i - <span class="number">1</span>] &amp;&amp; used[i - <span class="number">1</span>] == <span class="literal">false</span>) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (used[i] == <span class="literal">false</span>) &#123;</span><br><span class="line">                used[i] = <span class="literal">true</span>;</span><br><span class="line">                path.<span class="built_in">push_back</span>(nums[i]);</span><br><span class="line">                <span class="built_in">backtracking</span>(nums, used);</span><br><span class="line">                path.<span class="built_in">pop_back</span>();</span><br><span class="line">                used[i] = <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">permuteUnique</span>(vector&lt;<span class="type">int</span>&gt;&amp; nums) &#123;</span><br><span class="line">        result.<span class="built_in">clear</span>();</span><br><span class="line">        path.<span class="built_in">clear</span>();</span><br><span class="line">        <span class="built_in">sort</span>(nums.<span class="built_in">begin</span>(), nums.<span class="built_in">end</span>()); <span class="comment">// 排序</span></span><br><span class="line">        <span class="function">vector&lt;<span class="type">bool</span>&gt; <span class="title">used</span><span class="params">(nums.size(), <span class="literal">false</span>)</span></span>;</span><br><span class="line">        <span class="built_in">backtracking</span>(nums, used);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/04/%E4%B8%80%E4%BA%9B%E7%A2%8E%E7%A2%8E%E5%BF%B5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/04/04/%E4%B8%80%E4%BA%9B%E7%A2%8E%E7%A2%8E%E5%BF%B5/" class="post-title-link" itemprop="url">一些碎碎念</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-04-04 16:26:13 / 修改时间：19:25:26" itemprop="dateCreated datePublished" datetime="2022-04-04T16:26:13+08:00">2022-04-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%A2%A6%E6%B8%B8%E7%AC%94%E8%B0%88/" itemprop="url" rel="index"><span itemprop="name">梦游笔谈</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>        这是一篇碎碎念的文字——有关我最近的精神状态。</p>
-<p>        我现在在尝试通过这篇文字调整自己。</p>
-<p>        自从跟前女友分手半个月以来，我的状态就不太对劲。</p>
-<p>        具体表现为：身体明明很饥饿，可是一点食欲都没有；脑海里经常会想起跟前女友有关的事情，一直在复盘我对她如何好，但是她对我如何坏；经常对很多事情提不起兴趣，即使事情可能已经迫在眉睫；没有想做的事，没有想见的人，失去了期待这种情绪；拒绝社交，把自己困在一个逼仄的角落；经常会莫名地感到一阵空虚。</p>
-<p>        首先，我要明确一点——跟前女友分手我一点也不后悔，这完全可以称得上是及时止损。</p>
-<p>        具体分手原因，此处便不再赘述，现在的主要目的是调整我自己的心态。</p>
-<p>        孤独才是人生的常态，虽然很多时候我们看似身边会有很多亲人朋友陪着自己，但是实际上，早晚有一天人会离开父母独自生活。到时候跑到很远的地方去也是说不定的；朋友不能一直陪伴着你，在人生迈入下一个阶段的时候，留在上一个章节的朋友们就该和你挥手道别了，也许不一定会再也不见，但起码会很少再见；再就是恋人，先不说这个恋人能不能走到最后，就算是幸运的遇见了能走到最后的那个人，两个人之间也不可能一直保持激情，一直有话题可以聊。</p>
-<p>        之前我一直天真地以为——不管是情亲，友情，爱情都应该是无时无刻在我周围环绕着我的。其实不是这样的，我们首先是自己本人，然后才是父母的子女，朋友的知音等等这些身份。也许在大多数时候，我们更多的应该学会自己独处，在重要的人需要我们的时候，我们再在此时出现，扮演那个该扮演的角色。</p>
-<p>        想来这不该算作是一件坏事，本就是及时止损的事情，加上接下来我会有很长一段时间是独处的，这些时间都可以用来找到自己想要做的事情。算法还有很多没有刷完，unreal engine也要尽早提上日程。也还有很多游戏买了但是还没有玩完。太多太多的事情等着我去做。我还有很多的提升空间。再者，迟早也要离开这座城市，与其在那时不知所措，还不如在此时就开始提前适应。</p>
-<p>        我承认，我是一个需要陪伴的人，我会忍受不了孤独。我害怕一个人，我会焦虑，无措，彷徨。但那又怎么样？除了我之外的千千万万人都会经历像这样的事情，凭什么我不能？我只是需要一点时间去适应，或者不需要很久，或者明天早上醒来我就会像以前那样充满朝气。</p>
-<p>        我应该期待，期待远方的山海，期待春与秋的朝朝暮暮，期待听涛打浪声，期待峭壁与沟壑，喧嚣与宁静。</p>
-<p>        写下这些话，就是把过往留在这里。从此刻往前，我的象牙之章就该落下帷幕了。</p>
-<p>        再见，旧时光。</p>
-<p>        你好，新世界！</p>
 
       
     </div>
