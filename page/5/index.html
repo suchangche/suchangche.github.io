@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">97</span>
+          <span class="site-state-item-count">99</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,260 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/05/Socket%E7%BC%96%E7%A8%8B-%E6%A6%82%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/05/Socket%E7%BC%96%E7%A8%8B-%E6%A6%82%E8%BF%B0/" class="post-title-link" itemprop="url">Socket编程-概述</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-05 11:31:59 / 修改时间：11:57:06" itemprop="dateCreated datePublished" datetime="2022-07-05T11:31:59+08:00">2022-07-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Socket/" itemprop="url" rel="index"><span itemprop="name">Socket</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>网络编程就是编写程序使两台联网的计算机相互交换数据。</p>
+<p>那么，这两台计算机之间用什么传输数据呢？</p>
+<p>首先需要物理连接。如今大部分计算机都已经连接到互联网，因此不用担心这一点。  </p>
+<p>在此基础上，只需要考虑如何编写数据传输程序。但实际上这点也不用愁，因为操作系统已经提供了 <a target="_blank" rel="noopener" href="http://c.biancheng.net/socket/">socket</a>。即使对网络数据传输的原理不太熟悉，我们也能通过 socket 来编程。</p>
+<h1 id="什么是-socket？"><a href="#什么是-socket？" class="headerlink" title="什么是 socket？"></a>什么是 socket？</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>在计算机通信领域，socket 被翻译为“套接字”，它是<strong>计算机之间进行通信的一种约定或一种方式</strong></p>
+<h2 id="Socket可以做到什么"><a href="#Socket可以做到什么" class="headerlink" title="Socket可以做到什么"></a>Socket可以做到什么</h2><p>通过 socket 这种约定，一台计算机可以接收其他计算机的数据，也可以向其他计算机发送数据</p>
+<p>我们把插头插到插座上就能从电网获得电力供应，同样，为了与远程计算机进行数据传输，需要连接到因特网，而 <strong>socket 就是用来连接到因特网的工具</strong>。</p>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p>socket 的典型应用就是 Web 服务器和浏览器：浏览器获取用户输入的 URL，向服务器发起请求，服务器分析接收到的 URL，将对应的网页内容返回给浏览器，浏览器再经过解析和渲染，就将文字、图片、视频等元素呈现给用户。  </p>
+<p>学习 socket，也就是<strong>学习计算机之间如何通信，并编写出实用的程序</strong>。</p>
+<h1 id="UNIX-x2F-Linux-中的-socket-是什么？"><a href="#UNIX-x2F-Linux-中的-socket-是什么？" class="headerlink" title="UNIX&#x2F;Linux 中的 socket 是什么？"></a>UNIX&#x2F;Linux 中的 socket 是什么？</h1><p>在 UNIX&#x2F;Linux 系统中，为了统一对各种硬件的操作，简化接口，不同的硬件设备也都被看成一个文件。对这些文件的操作，等同于对磁盘上普通文件的操作。  </p>
+<p>你也许听很多高手说过，UNIX&#x2F;Linux 中的一切都是文件！那个家伙说的没错。  </p>
+<p>为了表示和区分已经打开的文件，UNIX&#x2F;Linux 会给每个文件分配一个 ID，这个 ID 就是一个整数，被称为文件描述符（File Descriptor）。例如：</p>
+<ul>
+<li>通常用 0 来表示标准输入文件（stdin），它对应的硬件设备就是键盘；</li>
+<li>通常用 1 来表示标准输出文件（stdout），它对应的硬件设备就是显示器。</li>
+</ul>
+<p>UNIX&#x2F;Linux 程序在执行任何形式的 I&#x2F;O 操作时，都是在读取或者写入一个文件描述符。一个文件描述符只是一个和打开的文件相关联的整数，它的背后可能是一个硬盘上的普通文件、FIFO、管道、终端、键盘、显示器，甚至是一个网络连接。  </p>
+<p>请注意，<strong>网络连接也是一个文件，它也有文件描述符！</strong></p>
+<p>我们可以通过 socket() 函数来创建一个网络连接，或者说打开一个网络文件，socket() 的返回值就是文件描述符。有了文件描述符，我们就可以使用普通的文件操作函数来传输数据了，例如：</p>
+<ul>
+<li>用 read() 读取从远程计算机传来的数据；</li>
+<li>用 write() 向远程计算机写入数据。</li>
+</ul>
+<p>你看，只要用 socket() 创建了连接，剩下的就是文件操作了，网络编程原来就是如此简单！</p>
+<h1 id="Window-系统中的-socket-是什么？"><a href="#Window-系统中的-socket-是什么？" class="headerlink" title="Window 系统中的 socket 是什么？"></a>Window 系统中的 socket 是什么？</h1><p>Windows 也有类似“文件描述符”的概念，但通常被称为“文件句柄”。因此，本教程如果涉及 Windows 平台将使用“句柄”，如果涉及 Linux 平台则使用“描述符”。  </p>
+<p>与 UNIX&#x2F;Linux 不同的是，Windows 会区分 socket 和文件，Windows 就把 socket 当做一个网络连接来对待，因此需要调用专门针对 socket 而设计的数据传输函数，针对普通文件的输入输出函数就无效了。</p>
+<h1 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h1><p>Socket系列博文主要参考C语言中文网的<a target="_blank" rel="noopener" href="http://c.biancheng.net/socket/">socket编程入门：1天玩转socket通信技术（非常详细）</a>免费部分整理，付费部分不会引用原文内容，仅在原文内容的基础上进行总结，如果想要查看原文，请前往原网站付费！</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E5%9B%A0%E7%89%B9%E7%BD%91%E6%A6%82%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E5%9B%A0%E7%89%B9%E7%BD%91%E6%A6%82%E8%BF%B0/" class="post-title-link" itemprop="url">计算机网络-因特网概述</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-05 10:46:51 / 修改时间：11:19:25" itemprop="dateCreated datePublished" datetime="2022-07-05T10:46:51+08:00">2022-07-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="网络，互联网和因特网"><a href="#网络，互联网和因特网" class="headerlink" title="网络，互联网和因特网"></a>网络，互联网和因特网</h1><h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><ol>
+<li><p>网络由若干节点和链接这些节点的链路组成</p>
+</li>
+<li><p>多个网络还可以通过路由器互联起来，构成一个覆盖范围更大的网络，即互联网</p>
+</li>
+<li><p>因特网是世界上最大的互联网</p>
+<ul>
+<li><p>internet（互联网）是通用名词，泛指多个计算机网络互相链接成的网络，网络之间的通信协议是任意的</p>
+</li>
+<li><p>Internet（因特网）是专有名词，特指当前全球最大，最开放，由众多网络互相链接而成的特定计算机网络，采用TCP&#x2F;IP协议族作为通信规则</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>网络图示</p>
+<img title="" src="file:///D:/R_program/Blog/source/_posts/计算机网络-因特网概述/1.png" alt="" width="327" data-align="inline">
+
+<p>互联网图示</p>
+<img title="" src="file:///D:/R_program/Blog/source/_posts/计算机网络-因特网概述/2.png" alt="2.png" width="334">
+
+<h1 id="因特网发展的三个阶段"><a href="#因特网发展的三个阶段" class="headerlink" title="因特网发展的三个阶段"></a>因特网发展的三个阶段</h1><ol>
+<li><p>单个网络ARPANET向互联网发展</p>
+</li>
+<li><p>逐步建成三级结构的因特网</p>
+</li>
+<li><p>逐步形成了多层次ISP结构的因特网</p>
+</li>
+</ol>
+<h1 id="因特网服务提供者ISP"><a href="#因特网服务提供者ISP" class="headerlink" title="因特网服务提供者ISP"></a>因特网服务提供者ISP</h1><p>普通用户就是通过ISP接入因特网的</p>
+<p>ISP可以从因特网管理机构申请到成块的IP地址，同时拥有通信线路以及路由器等联网设备</p>
+<p>也就是移动，电信，联通这些</p>
+<h2 id="基于ISP的三层结构的因特网"><a href="#基于ISP的三层结构的因特网" class="headerlink" title="基于ISP的三层结构的因特网"></a>基于ISP的三层结构的因特网</h2><p><img src="D:\R_program\Blog\source_posts\计算机网络-因特网概述\3.png"></p>
+<h1 id="因特网的标准化工作"><a href="#因特网的标准化工作" class="headerlink" title="因特网的标准化工作"></a>因特网的标准化工作</h1><ol>
+<li><p>因特网制定标准上的一个很大特点是<strong>面向公众</strong></p>
+<ul>
+<li><p>所有RFC技术文档都可以从因特网上免费下载</p>
+</li>
+<li><p>任何人都可以随时用电子右键发表对某个文档的意见或建议</p>
+</li>
+</ul>
+</li>
+<li><p><strong>因特网协会ISOC</strong>负责对因特网的全面管理，以及在世界范围内促进去发展和使用</p>
+<ul>
+<li><p>下属部门因特网体系结构委员会IAB负责管理因特网有关协议的开发</p>
+</li>
+<li><p>再下属部门因特网工程部IETF负责研究中短期工程问题，主要针对协议的开发和标准化</p>
+</li>
+<li><p>因特网研究部IRTF从事理论方面研究和开发一些需要长期考虑的问题</p>
+</li>
+</ul>
+</li>
+<li><p>制定因特网正式标准的四个阶段</p>
+<ul>
+<li><p>因特网草案（还不是RFC文档）</p>
+</li>
+<li><p>建议标准（开始成为RFC文档）</p>
+</li>
+<li><p>草案标准</p>
+</li>
+<li><p>因特网标准</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="因特网的组成"><a href="#因特网的组成" class="headerlink" title="因特网的组成"></a>因特网的组成</h1><h2 id="边缘部分"><a href="#边缘部分" class="headerlink" title="边缘部分"></a>边缘部分</h2><p>由所有连接在因特网上的主机组成。这部分使用户直接使用的，用来进行通信（传送数据，音频或者视频）和资源共享</p>
+<p>接入的设备可以是手机，PC主机，移动笔记本电脑，智能穿戴设备等等</p>
+<h2 id="核心部分"><a href="#核心部分" class="headerlink" title="核心部分"></a>核心部分</h2><p>由大量<strong>网络</strong>和链接这些网络的<strong>路由器</strong>组成。这部分是<strong>为边缘部分提供服务</strong>的（连通性和交换）</p>
+<img src="file:///D:/R_program/Blog/source/_posts/计算机网络-因特网概述/4.png" title="" alt="" width="732">
+
+<p>声明：</p>
+<p>此系列博客参考自<a target="_blank" rel="noopener" href="https://space.bilibili.com/360996402">湖科大教书匠</a>的<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1c4411d7jb?p=3&spm_id_from=pageDriver&vd_source=9137865ff053fdf351bafa394853bb8d">计算机网络微课堂</a>，后面单独博文便不再赘述，如果还有其他参考文章，会在该博文中单独列出</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -3565,625 +3819,6 @@
 <li><p>调用出接口的节点之后，对其进行<mark>定义</mark></p>
 </li>
 </ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/31/UE4-%E8%93%9D%E5%9B%BE-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%BA%8B%E4%BB%B6%E6%8E%A5%E5%8F%A3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/05/31/UE4-%E8%93%9D%E5%9B%BE-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%BA%8B%E4%BB%B6%E6%8E%A5%E5%8F%A3/" class="post-title-link" itemprop="url">UE4-蓝图-服务端事件接口</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-05-31 09:09:09 / 修改时间：10:24:08" itemprop="dateCreated datePublished" datetime="2022-05-31T09:09:09+08:00">2022-05-31</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="服务端事件接口"><a href="#服务端事件接口" class="headerlink" title="服务端事件接口"></a>服务端事件接口</h1><p>也就是GameMode里面可在蓝图中重载的一些函数的意义与用法</p>
-<p>这些可重载的函数在C++中已经实现过了，一旦在蓝图中重载，则不再实现C++中已实现的功能！</p>
-<p><img src="D:\R_programme\Blog\source_posts\UE4-蓝图-服务端事件接口\1.png"></p>
-<h2 id="生成默认pawn，针对"><a href="#生成默认pawn，针对" class="headerlink" title="生成默认pawn，针对"></a>生成默认pawn，针对</h2><p>此函数意味着在游戏开始时生成一个玩家控制的pawn</p>
-<p><img src="D:\R_programme\Blog\source_posts\UE4-蓝图-服务端事件接口\2.png"></p>
-<p>重新实现之后的蓝图逻辑如下</p>
-<p><img src="D:\R_programme\Blog\source_posts\UE4-蓝图-服务端事件接口\3.png"></p>
-<h2 id="后台登陆时"><a href="#后台登陆时" class="headerlink" title="后台登陆时"></a>后台登陆时</h2><p>这个事件就是在玩家成功登录服务器的时候可进行的操作，可以连接一个打印字符串</p>
-<p>来进行提示“登录成功！”之类的操作</p>
-<p><img src="D:\R_programme\Blog\source_posts\UE4-蓝图-服务端事件接口\4.png"></p>
-<p><img src="D:\R_programme\Blog\source_posts\UE4-蓝图-服务端事件接口\5.png"></p>
-<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>感觉需要讲解的东西也不多</p>
-<p>大多都是需要我们重载“在进行某操作之后会发生的事情”</p>
-<p>只要大概了解一下这些东西吧，需要在蓝图中重载的时候就进行调用即可</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/30/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2%E7%A7%BB%E5%8A%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/05/30/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2%E7%A7%BB%E5%8A%A8/" class="post-title-link" itemprop="url">UE4-项目-死寂-角色移动</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-05-30 14:08:41" itemprop="dateCreated datePublished" datetime="2022-05-30T14:08:41+08:00">2022-05-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-06-02 09:18:23" itemprop="dateModified" datetime="2022-06-02T09:18:23+08:00">2022-06-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><h2 id="实现角色的基础移动效果"><a href="#实现角色的基础移动效果" class="headerlink" title="实现角色的基础移动效果"></a>实现角色的基础移动效果</h2><p>在本节，只需要实现基本的前后左右移动，鼠标控制视野即可</p>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
-<li><p>弹簧臂启用“使用pawn控制旋转”——能让弹簧臂跟着鼠标的移动进行旋转</p>
-</li>
-<li><p>角色蓝图类禁用“使用控制器旋转Yaw”，角色移动组件启用“将旋转朝向运动”——让角色不会始终背对我们</p>
-</li>
-</ol>
-<h3 id="大致实现步骤"><a href="#大致实现步骤" class="headerlink" title="大致实现步骤"></a>大致实现步骤</h3><ol>
-<li><p>设置映射</p>
-<ul>
-<li><p>轴映射-&gt;键盘的moveforword，moveright</p>
-</li>
-<li><p>轴映射-&gt;鼠标的mouseX，mouseY</p>
-</li>
-</ul>
-</li>
-<li><p>创建以Charactor为父类的蓝图</p>
-<ul>
-<li><p>添加弹簧臂组件和摄像机组件</p>
-</li>
-<li><p>添加角色模型</p>
-</li>
-</ul>
-</li>
-<li><p>编写弹簧臂控制器输入蓝图逻辑</p>
-<ul>
-<li><p>调用轴映射事件-&gt;添加控制Yaw（x）与pitch（y）输入</p>
-</li>
-<li><p>弹簧臂细节面板-&gt;摄像机设置-&gt;使用pawn控制旋转</p>
-</li>
-</ul>
-</li>
-<li><p>将玩家放入世界中</p>
-<ul>
-<li>细节面板-&gt;posses（自动控制玩家）-&gt;玩家0</li>
-</ul>
-</li>
-<li><p>编写角色基础移动蓝图逻辑</p>
-<ul>
-<li><p>获取控制旋转-&gt;z轴-&gt;创建旋转体-&gt;获取向前&#x2F;向右向量</p>
-</li>
-<li><p>调用moveforword&#x2F;moveright轴映射事件</p>
-</li>
-<li><p>添加移动输入-&gt;连接Scale Value以及World Direction引脚</p>
-</li>
-</ul>
-</li>
-<li><p>调整弹簧臂臂长，高度，偏角</p>
-</li>
-<li><p>调整角色移动朝向随着轴映射</p>
-<ul>
-<li><p>蓝图类-&gt;类默认设置-&gt;Pawn-&gt;使用控制器旋转Yaw取消勾选</p>
-</li>
-<li><p>角色移动组件 -&gt;细节面板-&gt;角色移动（设置旋转）-&gt;将旋转朝向运动勾选</p>
-</li>
-</ul>
-</li>
-</ol>
-<p><img src="D:\R_programme\Blog\source_posts\UE4-项目-第三人称-角色移动\1.png"></p>
-<p><img src="/UE4-%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0-%E8%A7%92%E8%89%B2%E7%A7%BB%E5%8A%A8%5C2.png"></p>
-<p><img src="/UE4-%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0-%E8%A7%92%E8%89%B2%E7%A7%BB%E5%8A%A8%5C3.png"></p>
-<img title="" src="UE4-项目-第三人称-角色移动/4.png" alt="" width="734">
-
-<h2 id="添加角色动画"><a href="#添加角色动画" class="headerlink" title="添加角色动画"></a>添加角色动画</h2><h3 id="实现大致步骤"><a href="#实现大致步骤" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h3><ol>
-<li><p>创建混合空间1D</p>
-<ul>
-<li><p>设置水平坐标（名称，最大最小值，网格分区数量）</p>
-</li>
-<li><p>设置采样插值</p>
-</li>
-<li><p>添加动画资产</p>
-</li>
-</ul>
-</li>
-<li><p>创建蓝图动画</p>
-<ul>
-<li><p>添加新状态机</p>
-</li>
-<li><p>添加新状态，并编辑</p>
-</li>
-<li><p>在资产管理器中将之前创建的混合空间1D拖入</p>
-</li>
-<li><p>将“速度”提升为变量</p>
-</li>
-<li><p>编辑事件图表</p>
-</li>
-<li><p>尝试获取Pawn拥有者-&gt;Is Valid&#x2F;获取速度</p>
-</li>
-<li><p>事件蓝图更新动画连接Is Valid-&gt;set 速度</p>
-</li>
-<li><p>尝试获取Pawn拥有者-&gt;获取速度-&gt;长度向量-&gt;set 速度</p>
-</li>
-</ul>
-</li>
-<li><p>角色蓝图-&gt;网格体组件-&gt;动画-&gt;动画类-&gt;选择刚刚设置好的动画蓝图</p>
-</li>
-</ol>
-<p><img src="/UE4-%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0-%E8%A7%92%E8%89%B2%E7%A7%BB%E5%8A%A8%5C5.png"></p>
-<p><img src="/UE4-%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0-%E8%A7%92%E8%89%B2%E7%A7%BB%E5%8A%A8%5C6.png"></p>
-<p><img src="/UE4-%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0-%E8%A7%92%E8%89%B2%E7%A7%BB%E5%8A%A8%5C7.png"></p>
-<p><img src="/UE4-%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0-%E8%A7%92%E8%89%B2%E7%A7%BB%E5%8A%A8%5C7.png"></p>
-<p><img src="/UE4-%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0-%E8%A7%92%E8%89%B2%E7%A7%BB%E5%8A%A8%5C8.png"></p>
-<p><img src="/UE4-%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0-%E8%A7%92%E8%89%B2%E7%A7%BB%E5%8A%A8%5C9.png"></p>
-<p><img src="/UE4-%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0-%E8%A7%92%E8%89%B2%E7%A7%BB%E5%8A%A8%5C10.png"></p>
-<h2 id="实现行走，慢跑（默认状态），冲刺的切换"><a href="#实现行走，慢跑（默认状态），冲刺的切换" class="headerlink" title="实现行走，慢跑（默认状态），冲刺的切换"></a>实现行走，慢跑（默认状态），冲刺的切换</h2><h3 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h3><ol>
-<li><p>行走，慢跑，冲刺是三种已经确定了的状态，这三种状态影响了角色的移动速度，所以我们需要写一个能设置角色速度的函数</p>
-</li>
-<li><p>将行走，慢跑，冲刺带入switch循环中，分别执行设置角色速度</p>
-<ul>
-<li><p>为了能更方便遍历这三种状态，我们可以将这三种状态创建为一个枚举</p>
-</li>
-<li><p>用switch来遍历此枚举</p>
-</li>
-<li><p>最后输出每个状态相应的速度</p>
-</li>
-</ul>
-</li>
-<li><p>我们需要用按键CTRL和shift来控制三个状态的切换，所以我们设置按键映射之后，调用CTRL和shift事件，并且根据pressed和released来设置枚举的状态</p>
-</li>
-<li><p>最后为了能实时切换三种状态，需要帧更新时调用“角色速度判断”函数，并将速度设置为角色的最大行走速度</p>
-</li>
-</ol>
-<h3 id="实现大致步骤-1"><a href="#实现大致步骤-1" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h3><ol>
-<li><p>添加一个枚举“Player_williny_state”</p>
-<ul>
-<li>显示命名为“慢跑”，“行走”，“切换”</li>
-</ul>
-</li>
-<li><p>在角色蓝图中添加一个“Player_williny_state”类型的变量</p>
-</li>
-<li><p>添加一个名为“角色速度判断”的函数，并编辑该函数</p>
-<ul>
-<li><p>Player_williny_state-&gt;switch（三个引脚）-&gt;set max walk speed（三个节点）-&gt;返回节点-&gt;添加一个引脚“输出速度”-&gt;获取角色速度</p>
-</li>
-<li><p>角色速度判断-&gt;Player_williny_state</p>
-</li>
-</ul>
-</li>
-<li><p>绑定按键映射“行走”-&gt;ctrl，“冲刺”-&gt;shift</p>
-</li>
-<li><p>添加一个名为“角色行走与冲刺”的事件图表</p>
-<ul>
-<li><p>行走事件pressed-&gt;设置Player_williny_state-&gt;行走</p>
-</li>
-<li><p>行走事件release-&gt;设置Player_williny_stete-&gt;慢跑</p>
-</li>
-<li><p>冲刺事件pressed-&gt;设置Player_williny_state-&gt;冲刺</p>
-</li>
-<li><p>冲刺事件release-&gt;设置Player_williny_state-&gt;慢跑</p>
-</li>
-</ul>
-</li>
-<li><p>回到初始事件图表</p>
-<ul>
-<li><p>角色移动组件-&gt;set max walk speed</p>
-</li>
-<li><p>事件Tick-&gt;角色速度判断-&gt;set max walk speed</p>
-</li>
-</ul>
-</li>
-</ol>
-<p><img src="/UE4-%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0-%E8%A7%92%E8%89%B2%E7%A7%BB%E5%8A%A8%5C11.png"></p>
-<p><img src="/UE4-%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0-%E8%A7%92%E8%89%B2%E7%A7%BB%E5%8A%A8%5C12.png"></p>
-<p><img src="/UE4-%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0-%E8%A7%92%E8%89%B2%E7%A7%BB%E5%8A%A8%5C13.png"></p>
-<p><img src="/UE4-%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0-%E8%A7%92%E8%89%B2%E7%A7%BB%E5%8A%A8%5C14.png"></p>
-<h2 id="实现角色的跳跃"><a href="#实现角色的跳跃" class="headerlink" title="实现角色的跳跃"></a>实现角色的跳跃</h2><p>实现角色的跳跃，大致思路在于写一个跳跃函数，在玩家按下“空格键”的时候就调用该函数</p>
-<h3 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h3><ol>
-<li><p>创建一个函数来控制跳跃高度和跳跃动画的切换</p>
-<ul>
-<li><p>该函数需要考虑到不同移动速度下的动画以及跳跃高度不同</p>
-</li>
-<li><p>为了提升该函数的复用性，可将动画资产提升为该函数的形参，在调用函数时传入</p>
-</li>
-</ul>
-</li>
-<li><p>在设置好跳跃高度之后，调用角色移动组件的“set Jump Z Velocity”，将跳跃高度传给该节点，再由这个高度引出蒙太奇动画的播放，最后调用虚幻引擎内置节点“跳跃”</p>
-</li>
-<li><p>在按下空格键时调用该函数，另外要注意调用函数最小时间间隔的设置（以防不停跳跃，导致不同重复播放跳跃动画）</p>
-<ul>
-<li>所以需要创建一个bool变量来判断“是否可以跳跃”</li>
-</ul>
-</li>
-</ol>
-<h3 id="实现跳跃需要注意事项"><a href="#实现跳跃需要注意事项" class="headerlink" title="实现跳跃需要注意事项"></a>实现跳跃需要注意事项</h3><ol>
-<li><p>跳跃动画的切换</p>
-</li>
-<li><p>跳跃高度</p>
-</li>
-<li><p>在行走，慢跑，冲刺状态下的跳跃动画有所不同</p>
-</li>
-<li><p>跳跃之后需要延迟0.5秒方可执行下一个跳跃，以防一直跳个不停（还挺鬼畜的）</p>
-</li>
-<li><p>动画的根节点运动</p>
-</li>
-<li><p>蒙太奇动画资产提升为变量，并且连接在函数输入节点上——是为了在函数外部给该变量赋不同的值，类似于将其变为C++函数中的形参</p>
-</li>
-<li><p>基础状态机连接插槽后再连接输出姿势</p>
-</li>
-</ol>
-<h3 id="实现大致步骤-2"><a href="#实现大致步骤-2" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h3><ol>
-<li><p>创建函数“跳跃的动画和高度设置”</p>
-</li>
-<li><p>创建一个浮点型变量“跳跃高度”</p>
-</li>
-<li><p>网格体组件-&gt;获取动画实例-&gt;蒙太奇播放-&gt;动画资产提升为变量“跳跃动画”</p>
-</li>
-<li><p>角色移动组件-&gt;set Jump Z Velocity     获取跳跃高度-&gt;set Jump Z Velocity</p>
-</li>
-<li><p>跳跃的动画和高度设置-&gt;switch慢跑&#x2F;行走&#x2F;冲刺-&gt;设置“跳跃高度”-&gt;set“跳跃动画”-&gt;set Jump Z Velocity-&gt;蒙太奇播放-&gt;跳跃</p>
-</li>
-<li><p>创建图表“角色跳跃”，绑定按键映射空格为“跳跃”</p>
-</li>
-<li><p>创建bool类型变量“是否可以跳跃”</p>
-</li>
-<li><p>跳跃-&gt;分支true-&gt;set 是否可以跳跃（false）-&gt;跳跃的动画和高度设置-&gt;延迟（0.5s）-&gt;set 是否可以跳跃（true）</p>
-</li>
-<li><p>获取是否可以跳跃-&gt;分支</p>
-</li>
-<li><p>将跳跃动画提升为蒙太奇动画之后，需要给他们添加插槽“跳跃”</p>
-</li>
-<li><p>在角色蓝图动画内，基础状态机连接插槽，插槽名称改为“跳跃”</p>
-</li>
-</ol>
-<p><img src="D:\R_programme\Blog\source_posts\UE4-项目-第三人称-角色移动\15.png"></p>
-<p><img src="D:\R_programme\Blog\source_posts\UE4-项目-第三人称-角色移动\16.png"></p>
-<h2 id="角色坠落效果"><a href="#角色坠落效果" class="headerlink" title="角色坠落效果"></a>角色坠落效果</h2><p>实现该效果，就是需要判断角色是否“在掉落”，如果在掉落的状态中，则播放坠落动画</p>
-<h3 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h3><ol>
-<li><p>判断角色是否在坠落中</p>
-</li>
-<li><p>如果角色在坠落中，还需要判断角色是否在跳跃中，以免跳跃动画和坠落动画相继播放</p>
-</li>
-<li><p>另外在此处还需要注意“延迟节点”的时长</p>
-</li>
-<li><p>涉及到蓝图之间的通信</p>
-<ul>
-<li><p>动画蓝图中需要两个bool值“是否在空中”以及“是否在跳跃”来判断能否播放坠落动画</p>
-</li>
-<li><p>而与此同时，在角色蓝图中，我们需要设置“是否在跳跃”在true和false之间切换</p>
-</li>
-<li><p>最后动画蓝图需要获取角色蓝图中切换过的“是否在跳跃”这个值，来进行动画的播放</p>
-</li>
-</ul>
-</li>
-</ol>
-<h3 id="实现大致步骤-3"><a href="#实现大致步骤-3" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h3><ol>
-<li><p>动画蓝图-&gt;基础状态机-&gt;添加状态“坠落”-&gt;“坠落”和“Walk_Jog_Run”之间双向连接</p>
-</li>
-<li><p>编辑“坠落”状态-&gt;在资产库中调用坠落动画-&gt;输出动画姿势</p>
-</li>
-<li><p>编辑“Walk_Jog_Run”到“坠落”规则</p>
-<ul>
-<li><p>添加bool变量“是否在空中”，“是否在跳跃”</p>
-</li>
-<li><p>是否在跳跃-&gt;not-&gt;and-&gt;结果</p>
-</li>
-<li><p>是否在空中-&gt;and-&gt;结果</p>
-</li>
-</ul>
-</li>
-<li><p>编辑“坠落”到“Walk_Jog_Run”规则</p>
-<ul>
-<li>是否在空中-&gt;not-&gt;结果</li>
-</ul>
-</li>
-<li><p>在上面，我们只是声明了两个bool，但是没有定义（赋予它们具体的意义），接下来，我们需要给这两个bool分别定义</p>
-<ol>
-<li><p>定义“是否在空中”</p>
-<ul>
-<li><p>动画蓝图-&gt;事件图表-&gt;尝试获取Pawn拥有者-&gt;获取移动组件-&gt;正在掉落-&gt;set 是否在空中</p>
-</li>
-<li><p>正在掉落节点：如果正在掉落，则返回true，否则返回false</p>
-</li>
-</ul>
-</li>
-<li><p>定义“是否在跳跃”</p>
-<ul>
-<li><p>需要进行蓝图通信</p>
-</li>
-<li><p>角色蓝图-&gt;事件图表-&gt;事件开始运行-&gt;类型转换为“动画蓝图名称”</p>
-</li>
-<li><p>网格体组件-&gt;获取动画实例-&gt;类型转换为“动画蓝图名称”-&gt;提升为变量”As BP Player Anim”</p>
-</li>
-</ul>
-</li>
-</ol>
-</li>
-<li><p>接下来，我们需要在角色跳跃的时候，来对”是否在跳跃“进行设置</p>
-<ul>
-<li><p>As BP Player Anim-&gt;set 是否在跳跃</p>
-</li>
-<li><p>角色跳跃事件图表-&gt;set 是否可以跳跃-&gt;set 是否在跳跃-&gt;跳跃的动画和高度设置</p>
-</li>
-<li><p>将As BP Player Anim-&gt;set 是否在跳跃添加到蓝图末尾</p>
-</li>
-</ul>
-</li>
-</ol>
-<h3 id="延迟时长的设置"><a href="#延迟时长的设置" class="headerlink" title="延迟时长的设置"></a>延迟时长的设置</h3><p>在”角色跳跃“事件中，我们需要把延迟设置为1s，否则会出现跳跃到一半，就开始播放坠落的蓝图动画！</p>
-<p>原因</p>
-<ol>
-<li><p>跳跃动作总共需要耗时1s，在这一秒内，我们需要一直播放跳跃动画，所以延迟得是1s</p>
-</li>
-<li><p>但如果延迟小于1s（假设为0.5s），则会出现在跳到一半的时候就设置”是否在跳跃“为false</p>
-</li>
-<li><p>那么状态机那边就会出现跳跃的前0.5秒在播放跳跃动画，还没落地的后0.5秒播放坠落动画的情况</p>
-</li>
-</ol>
-<p><img src="D:\R_programme\Blog\source_posts\UE4-项目-第三人称-角色移动\17.png"></p>
-<p><img src="D:\R_programme\Blog\source_posts\UE4-项目-第三人称-角色移动\18.png"></p>
-<p><img src="D:\R_programme\Blog\source_posts\UE4-项目-第三人称-角色移动\19.png"></p>
-<p><img src="D:\R_programme\Blog\source_posts\UE4-项目-第三人称-角色移动\20.png"></p>
-<p><img src="D:\R_programme\Blog\source_posts\UE4-项目-第三人称-角色移动\21.png"></p>
-<p><img src="D:\R_programme\Blog\source_posts\UE4-项目-第三人称-角色移动\22.png"></p>
-<p><img src="D:\R_programme\Blog\source_posts\UE4-项目-第三人称-角色移动\23.png"></p>
-<h2 id="角色的蹲伏"><a href="#角色的蹲伏" class="headerlink" title="角色的蹲伏"></a>角色的蹲伏</h2><h3 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h3><p>角色的动作变换需要运用到的知识点</p>
-<ol>
-<li><p>混合空间1D——设置角色动画</p>
-</li>
-<li><p>状态机调用混合空间1D</p>
-<ul>
-<li>通过“按布尔混合姿势”以及一个bool值在不同情况下调用混合空间1D</li>
-</ul>
-</li>
-<li><p>蓝图通信</p>
-<ul>
-<li>网格体的动画实例转换为动画蓝图的实例，再提升为变量</li>
-<li>再由此实例调用其中的函数或者访问其中的变量，实现蓝图间通信的效果</li>
-</ul>
-</li>
-<li><p>弹簧臂需要调用“As BP Player Anim”节点来进行修改Z轴的位置，来达到，蹲伏后高度变换的效果</p>
-</li>
-</ol>
-<h3 id="实现大致步骤-4"><a href="#实现大致步骤-4" class="headerlink" title="实现大致步骤"></a>实现大致步骤</h3><ol>
-<li><p>添加操作映射“按键C”</p>
-</li>
-<li><p>添加新的事件图表“角色蹲伏”</p>
-</li>
-<li><p>点击移动组件，设置”可蹲伏“”蹲伏半高“”最大蹲伏行走速度“”蹲伏后可走出平台true“</p>
-</li>
-<li><p>在角色蓝图中添加蓝图节点逻辑</p>
-</li>
-<li><p>创建蹲伏的混合空间1D“BS_NoWeaponCrouch”</p>
-</li>
-<li><p>在基础姿势中创建bool“是否蹲伏”用于判断输出哪个动画（切换时间要改成0.3）</p>
-<ul>
-<li><p>节点“按波尔混合姿势”</p>
-</li>
-<li><p>“是否蹲伏”为True时输出“BS_NoWeaponCrouch”</p>
-</li>
-<li><p>“是否蹲伏”为false时输出“BS_NoWeapon”</p>
-</li>
-<li><p>切换时间设置为0.3s</p>
-</li>
-</ul>
-</li>
-<li><p>前面声明了bool”是否蹲伏“，现在在角色蓝图类中定义它（赋予它真正的含义）</p>
-<ul>
-<li>在角色蓝图中获取”As BP Player Anim“引出”设置蹲伏“（蓝图通信）</li>
-</ul>
-</li>
-<li><p>修改蹲伏时的视角高度</p>
-<ul>
-<li><p>添加时间轴”蹲伏的高度变化“（时间长度为0.3s）</p>
-</li>
-<li><p>添加弹簧臂组件，引出”set Socket Offset“来使得弹簧臂相对于插槽的位置进行偏移</p>
-</li>
-</ul>
-</li>
-</ol>
-<p><img src="D:\R_programme\Blog\source_posts\UE4-项目-第三人称-角色移动\24.png"></p>
-<p><img src="D:\R_programme\Blog\source_posts\UE4-项目-第三人称-角色移动\25.png"></p>
-<p><img src="D:\R_programme\Blog\source_posts\UE4-项目-第三人称-角色移动\26.png"></p>
-<p><img src="D:\R_programme\Blog\source_posts\UE4-项目-第三人称-角色移动\27.png"></p>
-<h2 id="瞄准偏移"><a href="#瞄准偏移" class="headerlink" title="瞄准偏移"></a>瞄准偏移</h2><p>实现效果就是，角色的脸跟随摄像机的面向转动</p>
-<h3 id="附加动画"><a href="#附加动画" class="headerlink" title="附加动画"></a>附加动画</h3><p>就相当于一个插件，既可以让原动画继续播放，又可以在原动画的基础上实现拓展的功能</p>
-<ol>
-<li><p>全选所有单帧动画，右键-&gt;资产操作-&gt;通过矩阵进行批量编辑-&gt;选择基础姿势动画</p>
-</li>
-<li><p>创建瞄准偏移动画</p>
-<ul>
-<li><p>设置水平坐标（yaw，-90，90，2）围绕Z轴旋转</p>
-</li>
-<li><p>设置垂直坐标（pitch，-90，90，2）围绕Y轴旋转</p>
-</li>
-<li><p>在坐标轴内添加附加动画</p>
-</li>
-<li><p>附加设置-&gt;预览基础姿势-&gt;选择一个“被附加”的动作</p>
-</li>
-</ul>
-</li>
-<li><p>在状态机内添加此瞄准偏移动画</p>
-<ul>
-<li>需要注意蓝图动画的层级关系</li>
-</ul>
-</li>
-<li><p>蓝图动画内对旋转脑阔的逻辑进行编写</p>
-<ul>
-<li><p>明确思路：旋转的实现方式是：获取将要旋转到的偏转角度信息，减去原本的偏转角度信息，然后将其值带入到一个可以让其逐帧变换到的节点中</p>
-</li>
-<li><p>目标旋转信息-&gt;摄像机的旋转信息</p>
-</li>
-<li><p>原本旋转信息-&gt;Actor的旋转信息</p>
-</li>
-<li><p>两者求插值（旋转体）</p>
-</li>
-<li><p>然后将此旋转体拆分：因为在这个旋转中，只有pitch轴（y）和yaw轴（z）进行了旋转</p>
-</li>
-<li><p>另外，我们需要限制其旋转角度，不能让脑阔直接转到后脑勺的位置，所以要将pitch和yaw值进行“限制角度”，设置为（-75，75）即可</p>
-</li>
-<li><p>接下来根据pitch和yaw的旋转至信息“创建旋转体”</p>
-</li>
-<li><p>以上的步骤就达到了“获取目标旋转信息”的目的（还做了旋转角度的限制）</p>
-</li>
-<li><p>接下来以上面的旋转体返回值引入“R插值到”节点的“目标”引脚</p>
-</li>
-<li><p>而“当前引脚”，则用pitch和yaw创建一个旋转体，引入即可</p>
-</li>
-<li><p>为了pitch和yaw可以实时变化，将输出引脚引出分别set两个值</p>
-</li>
-<li><p>最后，需要解决的问题是，当我们想看看自己的脸的时候，不能让角色的脸不正对着我们（导致这个bug的原因是：相对于最初的角度，我们摄像机偏离角度过高，脑阔直接抵达了（-75，75）这个区间）</p>
-</li>
-<li><p>解决思路：当我们看自己的脸的时候，记住这个摄像机偏离角度，让脑阔偏离角度为零。</p>
-</li>
-<li><p>只涉及到yaw轴的偏转，所以需要对yaw的插值求绝对值在大于等于120的时候，将yaw轴的值设置为0</p>
-</li>
-<li><p>另外yaw的值设为0，也需要用到“F插值到”来进行计算，免得转得很僵硬</p>
-</li>
-</ul>
-</li>
-<li><p>有关蓝图动画状态机的层级关系：动画的附加关系，层级大的可以覆盖层级小的</p>
-<ul>
-<li><p>越往内，层级越小</p>
-</li>
-<li><p>越往右，层级越小</p>
-</li>
-</ul>
-</li>
-</ol>
-<p><img src="D:\R_programme\Blog\source_posts\UE4-项目-第三人称-角色移动\28.png"></p>
-<p><img src="D:\R_programme\Blog\source_posts\UE4-项目-第三人称-角色移动\29.png"></p>
-<p><img src="D:\R_programme\Blog\source_posts\UE4-项目-第三人称-角色移动\30.png"></p>
-<p><img src="D:\R_programme\Blog\source_posts\UE4-项目-第三人称-角色移动\31.png"></p>
-<p><img src="D:\R_programme\Blog\source_posts\UE4-项目-第三人称-角色移动\32.png"></p>
 
       
     </div>
