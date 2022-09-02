@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">99</span>
+          <span class="site-state-item-count">100</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,124 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/31/UE4-%E8%93%9D%E5%9B%BE-%E8%93%9D%E5%9B%BE%E9%80%9A%E4%BF%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/31/UE4-%E8%93%9D%E5%9B%BE-%E8%93%9D%E5%9B%BE%E9%80%9A%E4%BF%A1/" class="post-title-link" itemprop="url">UE4-蓝图-蓝图通信</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-05-31 10:35:46 / 修改时间：11:27:32" itemprop="dateCreated datePublished" datetime="2022-05-31T10:35:46+08:00">2022-05-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="蓝图之间的通信-x2F-访问"><a href="#蓝图之间的通信-x2F-访问" class="headerlink" title="蓝图之间的通信&#x2F;访问"></a>蓝图之间的通信&#x2F;访问</h1><h2 id="通过实例进行通信"><a href="#通过实例进行通信" class="headerlink" title="通过实例进行通信"></a>通过实例进行通信</h2><p>例如有两个蓝图类</p>
+<p>一个为A，另一个为B</p>
+<p>现在需要两者之间进行通信</p>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><ul>
+<li><p>在A蓝图中调用“Get All Actor Of Class”节点，选择B类</p>
+</li>
+<li><p>Out Actor引脚引出要访问的具体实例</p>
+<ul>
+<li>具体实例时存储在一个数组中的，在选择实例的时候，选择其在数组中的引脚即可</li>
+</ul>
+</li>
+<li><p>选择好实例之后，在由此实例引出事件（或者函数）来达到两者交互的效果</p>
+</li>
+</ul>
+<h3 id="通过管理模式进行访问"><a href="#通过管理模式进行访问" class="headerlink" title="通过管理模式进行访问"></a>通过管理模式进行访问</h3><p>通过蓝图类B的实例来生成一个蓝图类A的实例</p>
+<p>用这种方法生成的Actor，只能通过其父类来进行访问</p>
+<ol>
+<li><p>首先在蓝图类A内定义一个自定义事件”TTTT”打印字符串“hello”</p>
+</li>
+<li><p>在蓝图B类中调用“从类中生成Actor”，选择蓝图A类</p>
+</li>
+<li><p>设置缩放，旋转，位置信息</p>
+</li>
+<li><p>将返回值，也就是生成的Actor提升为变量（也可以不提升）</p>
+</li>
+<li><p>通过该变量调用类A中的TTTT事件</p>
+</li>
+</ol>
+<p><img src="D:\R_programme\Blog\source_posts\UE4-蓝图-蓝图通信\1.png"></p>
+<p><img src="D:\R_programme\Blog\source_posts\UE4-蓝图-蓝图通信\2.png"></p>
+<h2 id="蓝图接口访问"><a href="#蓝图接口访问" class="headerlink" title="蓝图接口访问"></a>蓝图接口访问</h2><p>蓝图接口就类似与C++中的代理？</p>
+<p>我们在父类中不知道子类中的情况，但是依旧可以直接调用子类中的函数</p>
+<ol>
+<li><p>在资源管理器中创建接口，但在接口内只需要<mark>声明</mark>函数名称</p>
+</li>
+<li><p>在蓝图-&gt;类设置-&gt;接口-&gt;添加接口</p>
+</li>
+<li><p>调用出接口的节点之后，对其进行<mark>定义</mark></p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -2640,162 +2758,6 @@
 <td>可通过细节（Details）面板中的按钮在编辑器中的选定实例上调用此函数。</td>
 </tr>
 </tbody></table>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/24/UE4-%E8%93%9D%E5%9B%BE-%E8%A7%92%E8%89%B2%E5%8A%A8%E7%94%BB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/05/24/UE4-%E8%93%9D%E5%9B%BE-%E8%A7%92%E8%89%B2%E5%8A%A8%E7%94%BB/" class="post-title-link" itemprop="url">UE4-蓝图-角色动画</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-05-24 16:03:59 / 修改时间：17:10:15" itemprop="dateCreated datePublished" datetime="2022-05-24T16:03:59+08:00">2022-05-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>本博客为<a target="_blank" rel="noopener" href="https://space.bilibili.com/31898841">谌嘉诚</a>的<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV164411Y732?p=60">蓝图教程</a>小结与反思</p>
-<h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><p>导入一个角色，用蓝图为其编写行走，上下左右看，跳舞的功能。并且把动画都绑定上去。</p>
-<h1 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h1><p>主要涉及到混合空间1D，动画蓝图，蒙太奇动画的内容</p>
-<h2 id="混合空间1D"><a href="#混合空间1D" class="headerlink" title="混合空间1D"></a>混合空间1D</h2><p>右键内容浏览器-&gt;动画-&gt;混合空间1D</p>
-<p>主要用于将若干个不同的动画之间进行切换时候的混合处理</p>
-<p>通俗来讲，就是从站立到奔跑这两个动作之间的过度！</p>
-<h3 id="插槽"><a href="#插槽" class="headerlink" title="插槽"></a>插槽</h3><p>用来标记，姑且理解为文件别名吧。</p>
-<p>窗口-&gt;动画插槽管理器-&gt;添加插槽</p>
-<h3 id="界面"><a href="#界面" class="headerlink" title="界面"></a>界面</h3><ol>
-<li><p>视图右边的“水平坐标”是一个变量，决定了视图下方播放器内的大小</p>
-</li>
-<li><p>将动画资产拖入播放条中相应的位置，虚幻引擎会自动计算混合结果</p>
-</li>
-</ol>
-<p><img src="D:\R_programme\Blog\source\images\BP_1D.png" alt="BP_1D.png"></p>
-<h2 id="动画蓝图"><a href="#动画蓝图" class="headerlink" title="动画蓝图"></a>动画蓝图</h2><p>右键内容管理器-&gt;动画-&gt;动画蓝图</p>
-<ol>
-<li><p>用于使用“状态机”来输出角色的动画表现效果</p>
-</li>
-<li><p>状态机内可以使用动画资源或者直接导入混合空间1D来编辑动画切换逻辑</p>
-<ul>
-<li><p>如果使用混合空间1D的话，需要对其进行编辑，通过原本混合空间1D设置好的“水平坐标”变量进行控制切换</p>
-</li>
-<li><p>如果使用动画资源编辑动画逻辑的话，请看我前面的博客“第一人称FPS”</p>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="蒙太奇动画"><a href="#蒙太奇动画" class="headerlink" title="蒙太奇动画"></a>蒙太奇动画</h2><p>右键一个动画序列-&gt;创建蒙太奇动画</p>
-<p>再蓝图内引用蒙太奇动画的时候需要</p>
-<ol>
-<li><p>由对应的网格体引出“获取动画实例”</p>
-</li>
-<li><p>引出“蒙太奇播放”，选择蒙太奇动画资源</p>
-</li>
-<li><p>或者引出“蒙太奇停止”，注意设置推出的时候的混合时间，这样可以让动画切换不那么生硬</p>
-</li>
-</ol>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><ol>
-<li><p>导入角色骨骼，然后再导入其动画，记得导入动画的时候绑定对应的骨骼</p>
-</li>
-<li><p>以Charactor为父类创建一个蓝图类，将骨骼网格体导入到“网格体”组件内</p>
-</li>
-<li><p>写好蓝图逻辑</p>
-<ul>
-<li><p>角色位移和蓝图旋转</p>
-</li>
-<li><p>奔跑</p>
-</li>
-<li><p>按下F跳舞（松开中断跳舞）</p>
-</li>
-<li><p>行走打断跳舞</p>
-</li>
-</ul>
-</li>
-<li><p>创建混合空间1D，将动画资源设置好，并且配置好插槽</p>
-</li>
-<li><p>创建蓝图动画</p>
-<ul>
-<li><p>在AnimGraph中添加状态机，插槽</p>
-</li>
-<li><p>编辑状态机，添加之前创建的混合空间1D</p>
-</li>
-<li><p>编辑混合空间1D，将其状态用它本身创建的“水平坐标”变量控制</p>
-</li>
-</ul>
-</li>
-<li><p>创建一个游戏模式，将默认的Pawn类修改好</p>
-</li>
-</ol>
-<h1 id="蓝图"><a href="#蓝图" class="headerlink" title="蓝图"></a>蓝图</h1><h2 id="BP-Charactor"><a href="#BP-Charactor" class="headerlink" title="BP_Charactor"></a>BP_Charactor</h2><p><img src="D:\R_programme\Blog\source\images\BP_Amination_Charator.png"></p>
-<p><img src="D:\R_programme\Blog\source\images\RUU7KVSI5[[VV{BDD{CSH6V.png"></p>
-<p><img src="D:\R_programme\Blog\source\images_UHMH0GVPGY@WBYKG3V_@Q3.png"></p>
-<h2 id="BP-Animation"><a href="#BP-Animation" class="headerlink" title="BP_Animation"></a>BP_Animation</h2><p><img src="D:\R_programme\Blog\source\images[TFNH3$A}J5IF}R8HTFXZ7F.png"></p>
-<p><img src="D:\R_programme\Blog\source\images\123123.png"></p>
-<p><img src="D:\R_programme\Blog\source\images\VN7}7G4H6]M3M$6F6VX~CP4.png"></p>
-<p><img src="D:\R_programme\Blog\source\images\3223523525.png"></p>
-<h2 id="混合空间1D-1"><a href="#混合空间1D-1" class="headerlink" title="混合空间1D"></a>混合空间1D</h2><p><img src="D:\R_programme\Blog\source\images\684864.png"></p>
 
       
     </div>

@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">99</span>
+          <span class="site-state-item-count">100</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,162 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/24/UE4-%E8%93%9D%E5%9B%BE-%E8%A7%92%E8%89%B2%E5%8A%A8%E7%94%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/24/UE4-%E8%93%9D%E5%9B%BE-%E8%A7%92%E8%89%B2%E5%8A%A8%E7%94%BB/" class="post-title-link" itemprop="url">UE4-蓝图-角色动画</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-05-24 16:03:59 / 修改时间：17:10:15" itemprop="dateCreated datePublished" datetime="2022-05-24T16:03:59+08:00">2022-05-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>本博客为<a target="_blank" rel="noopener" href="https://space.bilibili.com/31898841">谌嘉诚</a>的<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV164411Y732?p=60">蓝图教程</a>小结与反思</p>
+<h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><p>导入一个角色，用蓝图为其编写行走，上下左右看，跳舞的功能。并且把动画都绑定上去。</p>
+<h1 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h1><p>主要涉及到混合空间1D，动画蓝图，蒙太奇动画的内容</p>
+<h2 id="混合空间1D"><a href="#混合空间1D" class="headerlink" title="混合空间1D"></a>混合空间1D</h2><p>右键内容浏览器-&gt;动画-&gt;混合空间1D</p>
+<p>主要用于将若干个不同的动画之间进行切换时候的混合处理</p>
+<p>通俗来讲，就是从站立到奔跑这两个动作之间的过度！</p>
+<h3 id="插槽"><a href="#插槽" class="headerlink" title="插槽"></a>插槽</h3><p>用来标记，姑且理解为文件别名吧。</p>
+<p>窗口-&gt;动画插槽管理器-&gt;添加插槽</p>
+<h3 id="界面"><a href="#界面" class="headerlink" title="界面"></a>界面</h3><ol>
+<li><p>视图右边的“水平坐标”是一个变量，决定了视图下方播放器内的大小</p>
+</li>
+<li><p>将动画资产拖入播放条中相应的位置，虚幻引擎会自动计算混合结果</p>
+</li>
+</ol>
+<p><img src="D:\R_programme\Blog\source\images\BP_1D.png" alt="BP_1D.png"></p>
+<h2 id="动画蓝图"><a href="#动画蓝图" class="headerlink" title="动画蓝图"></a>动画蓝图</h2><p>右键内容管理器-&gt;动画-&gt;动画蓝图</p>
+<ol>
+<li><p>用于使用“状态机”来输出角色的动画表现效果</p>
+</li>
+<li><p>状态机内可以使用动画资源或者直接导入混合空间1D来编辑动画切换逻辑</p>
+<ul>
+<li><p>如果使用混合空间1D的话，需要对其进行编辑，通过原本混合空间1D设置好的“水平坐标”变量进行控制切换</p>
+</li>
+<li><p>如果使用动画资源编辑动画逻辑的话，请看我前面的博客“第一人称FPS”</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="蒙太奇动画"><a href="#蒙太奇动画" class="headerlink" title="蒙太奇动画"></a>蒙太奇动画</h2><p>右键一个动画序列-&gt;创建蒙太奇动画</p>
+<p>再蓝图内引用蒙太奇动画的时候需要</p>
+<ol>
+<li><p>由对应的网格体引出“获取动画实例”</p>
+</li>
+<li><p>引出“蒙太奇播放”，选择蒙太奇动画资源</p>
+</li>
+<li><p>或者引出“蒙太奇停止”，注意设置推出的时候的混合时间，这样可以让动画切换不那么生硬</p>
+</li>
+</ol>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><ol>
+<li><p>导入角色骨骼，然后再导入其动画，记得导入动画的时候绑定对应的骨骼</p>
+</li>
+<li><p>以Charactor为父类创建一个蓝图类，将骨骼网格体导入到“网格体”组件内</p>
+</li>
+<li><p>写好蓝图逻辑</p>
+<ul>
+<li><p>角色位移和蓝图旋转</p>
+</li>
+<li><p>奔跑</p>
+</li>
+<li><p>按下F跳舞（松开中断跳舞）</p>
+</li>
+<li><p>行走打断跳舞</p>
+</li>
+</ul>
+</li>
+<li><p>创建混合空间1D，将动画资源设置好，并且配置好插槽</p>
+</li>
+<li><p>创建蓝图动画</p>
+<ul>
+<li><p>在AnimGraph中添加状态机，插槽</p>
+</li>
+<li><p>编辑状态机，添加之前创建的混合空间1D</p>
+</li>
+<li><p>编辑混合空间1D，将其状态用它本身创建的“水平坐标”变量控制</p>
+</li>
+</ul>
+</li>
+<li><p>创建一个游戏模式，将默认的Pawn类修改好</p>
+</li>
+</ol>
+<h1 id="蓝图"><a href="#蓝图" class="headerlink" title="蓝图"></a>蓝图</h1><h2 id="BP-Charactor"><a href="#BP-Charactor" class="headerlink" title="BP_Charactor"></a>BP_Charactor</h2><p><img src="D:\R_programme\Blog\source\images\BP_Amination_Charator.png"></p>
+<p><img src="D:\R_programme\Blog\source\images\RUU7KVSI5[[VV{BDD{CSH6V.png"></p>
+<p><img src="D:\R_programme\Blog\source\images_UHMH0GVPGY@WBYKG3V_@Q3.png"></p>
+<h2 id="BP-Animation"><a href="#BP-Animation" class="headerlink" title="BP_Animation"></a>BP_Animation</h2><p><img src="D:\R_programme\Blog\source\images[TFNH3$A}J5IF}R8HTFXZ7F.png"></p>
+<p><img src="D:\R_programme\Blog\source\images\123123.png"></p>
+<p><img src="D:\R_programme\Blog\source\images\VN7}7G4H6]M3M$6F6VX~CP4.png"></p>
+<p><img src="D:\R_programme\Blog\source\images\3223523525.png"></p>
+<h2 id="混合空间1D-1"><a href="#混合空间1D-1" class="headerlink" title="混合空间1D"></a>混合空间1D</h2><p><img src="D:\R_programme\Blog\source\images\684864.png"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -2077,122 +2233,6 @@
 <li><p>调用父类：右键节点“将调用添加到父类函数”</p>
 </li>
 </ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/11/UE4-%E5%AE%9E%E7%8E%B0%E7%89%A9%E4%BD%93%E8%87%AA%E8%BD%AC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/05/11/UE4-%E5%AE%9E%E7%8E%B0%E7%89%A9%E4%BD%93%E8%87%AA%E8%BD%AC/" class="post-title-link" itemprop="url">UE4-实现物体自转</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-05-11 15:23:37 / 修改时间：15:47:51" itemprop="dateCreated datePublished" datetime="2022-05-11T15:23:37+08:00">2022-05-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>这一节是根据<a target="_blank" rel="noopener" href="https://space.bilibili.com/31898841">谌嘉诚</a>大佬的<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV164411Y732?p=41">蓝图教程</a>进行的小结</p>
-<p>主要知识点有：对象引用，变量有效性，自定义事件</p>
-<h1 id="对象引用"><a href="#对象引用" class="headerlink" title="对象引用"></a>对象引用</h1><p>可以看作是C++中的引用传递</p>
-<h1 id="变量有效性（Is-Valid）"><a href="#变量有效性（Is-Valid）" class="headerlink" title="变量有效性（Is Valid）"></a>变量有效性（Is Valid）</h1><p>保证某变量不为空</p>
-<h1 id="自定义事件-添加自定义事件"><a href="#自定义事件-添加自定义事件" class="headerlink" title="自定义事件(添加自定义事件)"></a>自定义事件(添加自定义事件)</h1><p>就可以看作是自定义函数</p>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>我们要实现按键盘1，就能让一个Actor自转</p>
-<h2 id="实现自转功能"><a href="#实现自转功能" class="headerlink" title="实现自转功能"></a>实现自转功能</h2><ol>
-<li><p>创建一个Actor蓝图类</p>
-</li>
-<li><p>创建一个bool值“能否旋转”，用“分支”节点使其值为true时连接到“添加本地旋转”节点上</p>
-</li>
-<li><p>为了能让Actor一直旋转，需要将“事件Tick”来实现帧更新</p>
-</li>
-<li><p>最后不要忘记将Actor本身添加到“添加本地旋转”节点的目标上！</p>
-</li>
-</ol>
-<h2 id="控制旋转事件"><a href="#控制旋转事件" class="headerlink" title="控制旋转事件"></a>控制旋转事件</h2><ol>
-<li><p>默认生成的“能否旋转”为false，现在我们创建一个自定义事件来使其能在true和false之间转换</p>
-</li>
-<li><p>创建“分支”节点-&gt;可以看作为if(能否旋转&#x3D;false){能否旋转&#x3D;true;}</p>
-</li>
-</ol>
-<h1 id="控制物体自转"><a href="#控制物体自转" class="headerlink" title="控制物体自转"></a>控制物体自转</h1><p>我们要明白，控制物体旋转，时根据小白人的操作来进行控制的，主要控制权还是在小白人身上，所以我们需要在小白人蓝图中添加一个新的图表（姑且看作时一个Class吧）来调用“控制旋转”这个自定义事件</p>
-<p>将小白人看作主函数，“控制旋转”时自定义函数，我们需要在主函数中调用“控制旋转”！</p>
-<ol>
-<li><p>创建新的图标，创建一个新的变量“自我旋转对象”</p>
-</li>
-<li><p>变量类型为我们之前创建的那个蓝图类（自我旋转的Actor）</p>
-</li>
-<li><p>将变量设置为公有，使其可在此蓝图的每个实例上进行编辑（变量右边的眼睛图标）</p>
-</li>
-<li><p>将变量拖入蓝图中，用”Is Valid”判断是否为空</p>
-</li>
-<li><p>从变量拖出引线，调用“控制旋转”事件</p>
-</li>
-<li><p>最后，返回虚幻编辑器，小白人的细节面板，找到“自我旋转对象”，点击吸管工具，在视口中选择要旋转的对象！</p>
-</li>
-</ol>
 
       
     </div>

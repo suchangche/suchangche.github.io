@@ -21,30 +21,31 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="上一章节我们把UI的框架再C++中搭建完成了 这一章节我们再控件蓝图中具体实现它们 创建对应的控件蓝图思路 在上一节，我们在MainScreen.h中声明了很多UI界面，并且各自实现了其部分功能  现在，需要我们创建与其一 一对应的控件蓝图，将控件蓝图的父类一 一修改为对应的C++文件，再将C++文件中定义好的组件一 一对应添加到其中，并且合理布局   大致步骤 在Content&#x2F;UI&#x2F;Game&#x2F;">
+    <meta name="description" content="应用场景总所周知，哈希表相当于一个键值对的集合，可以普遍理解为 把数组看作是一个哈希表，键为数组下标，值就是数组中的具体元素  有效的字母异位词给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的字母异位词。 示例 1: 输入: s &#x3D; “anagram”, t &#x3D; “nagaram” 输出: true 示例 2: 输入: s &#x3D; “rat”, t &amp;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="UE4-项目-TwoerDefence-布局UMG游戏UI">
-<meta property="og:url" content="http://example.com/2022/08/11/UE4-%E9%A1%B9%E7%9B%AE-TwoerDefence-%E5%B8%83%E5%B1%80UMG%E6%B8%B8%E6%88%8FUI/index.html">
+<meta property="og:title" content="算法-哈希表">
+<meta property="og:url" content="http://example.com/2022/09/02/%E7%AE%97%E6%B3%95-%E5%93%88%E5%B8%8C%E8%A1%A8/index.html">
 <meta property="og:site_name" content="Williny&#39;home">
-<meta property="og:description" content="上一章节我们把UI的框架再C++中搭建完成了 这一章节我们再控件蓝图中具体实现它们 创建对应的控件蓝图思路 在上一节，我们在MainScreen.h中声明了很多UI界面，并且各自实现了其部分功能  现在，需要我们创建与其一 一对应的控件蓝图，将控件蓝图的父类一 一修改为对应的C++文件，再将C++文件中定义好的组件一 一对应添加到其中，并且合理布局   大致步骤 在Content&#x2F;UI&#x2F;Game&#x2F;">
+<meta property="og:description" content="应用场景总所周知，哈希表相当于一个键值对的集合，可以普遍理解为 把数组看作是一个哈希表，键为数组下标，值就是数组中的具体元素  有效的字母异位词给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的字母异位词。 示例 1: 输入: s &#x3D; “anagram”, t &#x3D; “nagaram” 输出: true 示例 2: 输入: s &#x3D; “rat”, t &amp;">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/UE4-%E9%A1%B9%E7%9B%AE-TwoerDefence-%E5%B8%83%E5%B1%80UMG%E6%B8%B8%E6%88%8FUI%5C1.png">
-<meta property="article:published_time" content="2022-08-11T07:11:51.000Z">
-<meta property="article:modified_time" content="2022-08-11T07:42:37.689Z">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210104234805168.png">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008eGmZEly1govxyg83bng30ds09ob29.gif">
+<meta property="article:published_time" content="2022-09-02T02:37:19.000Z">
+<meta property="article:modified_time" content="2022-09-02T02:43:26.897Z">
 <meta property="article:author" content="williny">
-<meta property="article:tag" content="项目">
+<meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/UE4-%E9%A1%B9%E7%9B%AE-TwoerDefence-%E5%B8%83%E5%B1%80UMG%E6%B8%B8%E6%88%8FUI%5C1.png">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20210104234805168.png">
 
 
-<link rel="canonical" href="http://example.com/2022/08/11/UE4-%E9%A1%B9%E7%9B%AE-TwoerDefence-%E5%B8%83%E5%B1%80UMG%E6%B8%B8%E6%88%8FUI/">
+<link rel="canonical" href="http://example.com/2022/09/02/%E7%AE%97%E6%B3%95-%E5%93%88%E5%B8%8C%E8%A1%A8/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/08/11/UE4-%E9%A1%B9%E7%9B%AE-TwoerDefence-%E5%B8%83%E5%B1%80UMG%E6%B8%B8%E6%88%8FUI/","path":"2022/08/11/UE4-项目-TwoerDefence-布局UMG游戏UI/","title":"UE4-项目-TwoerDefence-布局UMG游戏UI"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/09/02/%E7%AE%97%E6%B3%95-%E5%93%88%E5%B8%8C%E8%A1%A8/","path":"2022/09/02/算法-哈希表/","title":"算法-哈希表"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>UE4-项目-TwoerDefence-布局UMG游戏UI | Williny'home</title>
+<title>算法-哈希表 | Williny'home</title>
   
 
 
@@ -150,7 +151,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AF%B9%E5%BA%94%E7%9A%84%E6%8E%A7%E4%BB%B6%E8%93%9D%E5%9B%BE"><span class="nav-number">1.</span> <span class="nav-text">创建对应的控件蓝图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">1.1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E8%87%B4%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.2.</span> <span class="nav-text">大致步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">1.3.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E7%BB%88%E6%95%88%E6%9E%9C"><span class="nav-number">1.4.</span> <span class="nav-text">最终效果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BUG"><span class="nav-number">2.</span> <span class="nav-text">BUG</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">应用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%89%E6%95%88%E7%9A%84%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D"><span class="nav-number">2.</span> <span class="nav-text">有效的字母异位词</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">2.1.</span> <span class="nav-text">思路</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -224,7 +225,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/11/UE4-%E9%A1%B9%E7%9B%AE-TwoerDefence-%E5%B8%83%E5%B1%80UMG%E6%B8%B8%E6%88%8FUI/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/02/%E7%AE%97%E6%B3%95-%E5%93%88%E5%B8%8C%E8%A1%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -237,12 +238,12 @@
     </span>
     
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="UE4-项目-TwoerDefence-布局UMG游戏UI | Williny'home">
+      <meta itemprop="name" content="算法-哈希表 | Williny'home">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          UE4-项目-TwoerDefence-布局UMG游戏UI
+          算法-哈希表
         </h1>
 
         <div class="post-meta-container">
@@ -254,7 +255,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2022-08-11 15:11:51 / 修改时间：15:42:37" itemprop="dateCreated datePublished" datetime="2022-08-11T15:11:51+08:00">2022-08-11</time>
+      <time title="创建时间：2022-09-02 10:37:19 / 修改时间：10:43:26" itemprop="dateCreated datePublished" datetime="2022-09-02T10:37:19+08:00">2022-09-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -262,7 +263,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
         </span>
     </span>
 
@@ -276,62 +277,27 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>上一章节我们把UI的框架再C++中搭建完成了</p>
-<p>这一章节我们再控件蓝图中具体实现它们</p>
-<h1 id="创建对应的控件蓝图"><a href="#创建对应的控件蓝图" class="headerlink" title="创建对应的控件蓝图"></a>创建对应的控件蓝图</h1><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在上一节，我们在<code>MainScreen.h</code>中声明了很多UI界面，并且各自实现了其部分功能</p>
-</li>
-<li><p>现在，需要我们创建与其一 一对应的控件蓝图，将控件蓝图的父类一 一修改为对应的C++文件，再将C++文件中定义好的组件一 一对应添加到其中，并且合理布局</p>
-</li>
-</ol>
-<h2 id="大致步骤"><a href="#大致步骤" class="headerlink" title="大致步骤"></a>大致步骤</h2><ol>
-<li><p>在<code>Content/UI/Game/System</code>路径下分别创建以下控件蓝图</p>
-<ul>
-<li><p><code>GameInfoPrintSystem_BP</code></p>
-</li>
-<li><p><code>GameMenuSystem_BP</code></p>
-</li>
-<li><p><code>MiniMapSystem_BP</code></p>
-</li>
-<li><p><code>MissionSystem_BP</code></p>
-</li>
-<li><p><code>PlayerSkillSystem_BP</code></p>
-</li>
-<li><p><code>RucksackSystem_BP</code></p>
-</li>
-<li><p><code>ToolBarSystem_BP</code></p>
-</li>
-</ul>
-</li>
-<li><p>在<code>Content/UI/Game/Inventory</code>路径下分别创建以下控件蓝图以作为<code>System</code>系列蓝图的补充组件</p>
-<ul>
-<li><p><code>Inventory_BP</code></p>
-</li>
-<li><p><code>InventorySlot_BP</code></p>
-</li>
-</ul>
-</li>
-<li><p>在<code>Content/UI/Game/Skill</code>路径下创建以下控件蓝图作为技能列表的小格子</p>
-<ul>
-<li><code>SkillSlot_bp</code></li>
-</ul>
-</li>
-<li><p>分别各控件蓝图的父类为对应的C++文件</p>
-</li>
-<li><p>分别在各蓝图控件中添加相应组件</p>
-</li>
-<li><p>控件蓝图中的布局</p>
-</li>
-<li><p>将创建的7个<code>System</code>系列蓝图添加到<code>MainScreen_BP</code>中，并且合理布局</p>
-</li>
-</ol>
-<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
-<li>善用<code>边界</code>，<code>垂直框</code>，<code>水平框</code>，<code>覆层</code>组件来整合组件</li>
-</ol>
-<h2 id="最终效果"><a href="#最终效果" class="headerlink" title="最终效果"></a>最终效果</h2><p><img src="/UE4-%E9%A1%B9%E7%9B%AE-TwoerDefence-%E5%B8%83%E5%B1%80UMG%E6%B8%B8%E6%88%8FUI%5C1.png"></p>
-<h1 id="BUG"><a href="#BUG" class="headerlink" title="BUG"></a>BUG</h1><p>现在发现运行之后存在背包系统不显示（格子不显示）</p>
-<p>使用<code>checkNoEntry()</code>测试之后发现是在<code>UI_Inventory.cpp</code>中，判断是否生成<code>InventorySlotClass</code>，时为<code>false</code>导致根本没有进入后面的格子生成代码</p>
-<p>但是排查了很就还是找不到为啥没有成功生成<code>InventorySlotClass</code>，今晚继续问问人宅大佬看看能不能救救我</p>
+        <h1 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h1><p>总所周知，哈希表相当于一个键值对的集合，可以普遍理解为</p>
+<p>把数组看作是一个哈希表，键为数组下标，值就是数组中的具体元素</p>
+<p><img src="https://img-blog.csdnimg.cn/20210104234805168.png" alt="哈希表1"></p>
+<h1 id="有效的字母异位词"><a href="#有效的字母异位词" class="headerlink" title="有效的字母异位词"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/valid-anagram/">有效的字母异位词</a></h1><p>给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的字母异位词。</p>
+<p>示例 1: 输入: s &#x3D; “anagram”, t &#x3D; “nagaram” 输出: true</p>
+<p>示例 2: 输入: s &#x3D; “rat”, t &#x3D; “car” 输出: false</p>
+<p><strong>说明:</strong> 你可以假设字符串只包含小写字母。</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p><strong>数组其实就是一个简单哈希表</strong>，而且这道题目中字符串只有小写字符，那么就可以定义一个数组，来记录字符串s里字符出现的次数。</p>
+<p>需要定义一个多大的数组呢，定一个数组叫做record，大小为26 就可以了，初始化为0，因为字符a到字符z的ASCII也是26个连续的数值。</p>
+<p>为了方便举例，判断一下字符串s&#x3D; “aee”, t &#x3D; “eae”。</p>
+<p>操作动画如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEly1govxyg83bng30ds09ob29.gif" alt="242.有效的字母异位词"></p>
+<p>定义一个数组叫做record用来上记录字符串s里字符出现的次数。</p>
+<p>需要把字符映射到数组也就是哈希表的索引下标上，<strong>因为字符a到字符z的ASCII是26个连续的数值，所以字符a映射为下标0，相应的字符z映射为下标25。</strong></p>
+<p>再遍历 字符串s的时候，<strong>只需要将 s[i] - ‘a’ 所在的元素做+1 操作即可，并不需要记住字符a的ASCII，只要求出一个相对数值就可以了。</strong> 这样就将字符串s中字符出现的次数，统计出来了。</p>
+<p>那看一下如何检查字符串t中是否出现了这些字符，同样在遍历字符串t的时候，对t中出现的字符映射哈希表索引上的数值再做-1的操作。</p>
+<p>那么最后检查一下，<strong>record数组如果有的元素不为零0，说明字符串s和t一定是谁多了字符或者谁少了字符，return false。</strong></p>
+<p>最后如果record数组所有元素都为零0，说明字符串s和t是字母异位词，return true。</p>
+<p>时间复杂度为O(n)，空间上因为定义是的一个常量大小的辅助数组，所以空间复杂度为O(1)。</p>
+<p>C++ 代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isAnagram</span><span class="params">(string s, string t)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> record[<span class="number">26</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; s.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="comment">// 并不需要记住字符a的ASCII，只要求出一个相对数值就可以了</span></span><br><span class="line">            record[s[i] - <span class="string">&#x27;a&#x27;</span>]++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; t.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            record[t[i] - <span class="string">&#x27;a&#x27;</span>]--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">26</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (record[i] != <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="comment">// record数组如果有的元素不为零0，说明字符串s和t 一定是谁多了字符或者谁少了字符。</span></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// record数组所有元素都为零0，说明字符串s和t是字母异位词</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -341,21 +307,18 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag"># 项目</a>
+              <a href="/tags/C/" rel="tag"># C++</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2022/08/10/UE4-%E9%A1%B9%E7%9B%AE-TwoerDefence-UI%E6%A1%86%E6%9E%B6%E6%90%AD%E5%BB%BA/" rel="prev" title="UE4-项目-TwoerDefence-UI框架搭建">
-                  <i class="fa fa-chevron-left"></i> UE4-项目-TwoerDefence-UI框架搭建
+                <a href="/2022/09/01/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E6%80%AA%E7%89%A9%E6%9F%A5%E8%AF%A2%E6%95%8C%E4%BA%BA%E7%AE%97%E6%B3%95/" rel="prev" title="UE4-项目-TowerDefence-怪物查询敌人算法">
+                  <i class="fa fa-chevron-left"></i> UE4-项目-TowerDefence-怪物查询敌人算法
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2022/08/11/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E7%BC%96%E5%86%99ScreenLoading/" rel="next" title="UE4-项目-TowerDefence-编写ScreenLoading">
-                  UE4-项目-TowerDefence-编写ScreenLoading <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>

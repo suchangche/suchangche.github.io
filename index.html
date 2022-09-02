@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">99</span>
+          <span class="site-state-item-count">100</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,105 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/02/%E7%AE%97%E6%B3%95-%E5%93%88%E5%B8%8C%E8%A1%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/09/02/%E7%AE%97%E6%B3%95-%E5%93%88%E5%B8%8C%E8%A1%A8/" class="post-title-link" itemprop="url">算法-哈希表</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-09-02 10:37:19 / 修改时间：10:43:26" itemprop="dateCreated datePublished" datetime="2022-09-02T10:37:19+08:00">2022-09-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h1><p>总所周知，哈希表相当于一个键值对的集合，可以普遍理解为</p>
+<p>把数组看作是一个哈希表，键为数组下标，值就是数组中的具体元素</p>
+<p><img src="https://img-blog.csdnimg.cn/20210104234805168.png" alt="哈希表1"></p>
+<h1 id="有效的字母异位词"><a href="#有效的字母异位词" class="headerlink" title="有效的字母异位词"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/valid-anagram/">有效的字母异位词</a></h1><p>给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的字母异位词。</p>
+<p>示例 1: 输入: s &#x3D; “anagram”, t &#x3D; “nagaram” 输出: true</p>
+<p>示例 2: 输入: s &#x3D; “rat”, t &#x3D; “car” 输出: false</p>
+<p><strong>说明:</strong> 你可以假设字符串只包含小写字母。</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p><strong>数组其实就是一个简单哈希表</strong>，而且这道题目中字符串只有小写字符，那么就可以定义一个数组，来记录字符串s里字符出现的次数。</p>
+<p>需要定义一个多大的数组呢，定一个数组叫做record，大小为26 就可以了，初始化为0，因为字符a到字符z的ASCII也是26个连续的数值。</p>
+<p>为了方便举例，判断一下字符串s&#x3D; “aee”, t &#x3D; “eae”。</p>
+<p>操作动画如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEly1govxyg83bng30ds09ob29.gif" alt="242.有效的字母异位词"></p>
+<p>定义一个数组叫做record用来上记录字符串s里字符出现的次数。</p>
+<p>需要把字符映射到数组也就是哈希表的索引下标上，<strong>因为字符a到字符z的ASCII是26个连续的数值，所以字符a映射为下标0，相应的字符z映射为下标25。</strong></p>
+<p>再遍历 字符串s的时候，<strong>只需要将 s[i] - ‘a’ 所在的元素做+1 操作即可，并不需要记住字符a的ASCII，只要求出一个相对数值就可以了。</strong> 这样就将字符串s中字符出现的次数，统计出来了。</p>
+<p>那看一下如何检查字符串t中是否出现了这些字符，同样在遍历字符串t的时候，对t中出现的字符映射哈希表索引上的数值再做-1的操作。</p>
+<p>那么最后检查一下，<strong>record数组如果有的元素不为零0，说明字符串s和t一定是谁多了字符或者谁少了字符，return false。</strong></p>
+<p>最后如果record数组所有元素都为零0，说明字符串s和t是字母异位词，return true。</p>
+<p>时间复杂度为O(n)，空间上因为定义是的一个常量大小的辅助数组，所以空间复杂度为O(1)。</p>
+<p>C++ 代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isAnagram</span><span class="params">(string s, string t)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> record[<span class="number">26</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; s.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="comment">// 并不需要记住字符a的ASCII，只要求出一个相对数值就可以了</span></span><br><span class="line">            record[s[i] - <span class="string">&#x27;a&#x27;</span>]++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; t.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            record[t[i] - <span class="string">&#x27;a&#x27;</span>]--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">26</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (record[i] != <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="comment">// record数组如果有的元素不为零0，说明字符串s和t 一定是谁多了字符或者谁少了字符。</span></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// record数组所有元素都为零0，说明字符串s和t是字母异位词</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -787,7 +886,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-09-01 11:22:24" itemprop="dateModified" datetime="2022-09-01T11:22:24+08:00">2022-09-01</time>
+      <time title="修改时间：2022-09-02 10:36:45" itemprop="dateModified" datetime="2022-09-02T10:36:45+08:00">2022-09-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -846,8 +945,6 @@
 
 <h3 id="设置一个虚拟头结点在进行移除节点操作"><a href="#设置一个虚拟头结点在进行移除节点操作" class="headerlink" title="设置一个虚拟头结点在进行移除节点操作"></a>设置一个虚拟头结点在进行移除节点操作</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">removeElements</span><span class="params">(ListNode* head, <span class="type">int</span> val)</span> </span>&#123;</span><br><span class="line">        ListNode* dummyHead = <span class="keyword">new</span> <span class="built_in">ListNode</span>(<span class="number">0</span>); <span class="comment">// 设置一个虚拟头结点</span></span><br><span class="line">        dummyHead-&gt;next = head; <span class="comment">// 将虚拟头结点指向head，这样方面后面做删除操作</span></span><br><span class="line">        ListNode* cur = dummyHead;</span><br><span class="line">        <span class="keyword">while</span> (cur-&gt;next != <span class="literal">NULL</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span>(cur-&gt;next-&gt;val == val) &#123;</span><br><span class="line">                ListNode* tmp = cur-&gt;next;</span><br><span class="line">                cur-&gt;next = cur-&gt;next-&gt;next;</span><br><span class="line">                <span class="keyword">delete</span> tmp;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                cur = cur-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        head = dummyHead-&gt;next;</span><br><span class="line">        <span class="keyword">delete</span> dummyHead;</span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-
-
 <h1 id="设计链表"><a href="#设计链表" class="headerlink" title="设计链表"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/design-linked-list/">设计链表</a></h1><p>设计链表的实现。您可以选择使用单链表或双链表。单链表中的节点应该具有两个属性：val 和 next。val 是当前节点的值，next 是指向下一个节点的指针&#x2F;引用。如果要使用双向链表，则还需要一个属性 prev 以指示链表中的上一个节点。假设链表中的所有节点都是 0-index 的。</p>
 <p>在链表类中实现这些功能：</p>
 <ul>
@@ -865,9 +962,6 @@
 <p>   </p>
 <p>示例：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">MyLinkedList linkedList = <span class="keyword">new</span> <span class="built_in">MyLinkedList</span>();</span><br><span class="line">linkedList.<span class="built_in">addAtHead</span>(<span class="number">1</span>);</span><br><span class="line">linkedList.<span class="built_in">addAtTail</span>(<span class="number">3</span>);</span><br><span class="line">linkedList.<span class="built_in">addAtIndex</span>(<span class="number">1</span>,<span class="number">2</span>); <span class="comment">//链表变为1-&gt; 2-&gt; 3</span></span><br><span class="line">linkedList.<span class="built_in">get</span>(<span class="number">1</span>); <span class="comment">//返回2</span></span><br><span class="line">linkedList.<span class="built_in">deleteAtIndex</span>(<span class="number">1</span>); <span class="comment">//现在链表是1-&gt; 3</span></span><br><span class="line">linkedList.<span class="built_in">get</span>(<span class="number">1</span>); <span class="comment">//返回3</span></span><br></pre></td></tr></table></figure>
-
-
-
 
 <p>提示：</p>
 <p>所有val值都在 [1, 1000] 之内。<br>操作次数将在  [1, 1000] 之内。<br>请不要使用内置的 LinkedList 库。</p>
@@ -889,8 +983,6 @@
 </ol>
 <p>下面采用的设置一个虚拟头结点</p>
 <h2 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyLinkedList</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 定义链表节点结构体</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">LinkedNode</span> &#123;</span><br><span class="line">        <span class="type">int</span> val;</span><br><span class="line">        LinkedNode* next;</span><br><span class="line">        <span class="built_in">LinkedNode</span>(<span class="type">int</span> val):<span class="built_in">val</span>(val), <span class="built_in">next</span>(<span class="literal">nullptr</span>)&#123;&#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化链表</span></span><br><span class="line">    <span class="built_in">MyLinkedList</span>() &#123;</span><br><span class="line">        _dummyHead = <span class="keyword">new</span> <span class="built_in">LinkedNode</span>(<span class="number">0</span>); <span class="comment">// 这里定义的头结点 是一个虚拟头结点，而不是真正的链表头结点</span></span><br><span class="line">        _size = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取到第index个节点数值，如果index是非法数值直接返回-1， 注意index是从0开始的，第0个节点就是头结点</span></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">get</span><span class="params">(<span class="type">int</span> index)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (index &gt; (_size - <span class="number">1</span>) || index &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        LinkedNode* cur = _dummyHead-&gt;next;</span><br><span class="line">        <span class="keyword">while</span>(index--)&#123; <span class="comment">// 如果--index 就会陷入死循环</span></span><br><span class="line">            cur = cur-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cur-&gt;val;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 在链表最前面插入一个节点，插入完成后，新插入的节点为链表的新的头结点</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">addAtHead</span><span class="params">(<span class="type">int</span> val)</span> </span>&#123;</span><br><span class="line">        LinkedNode* newNode = <span class="keyword">new</span> <span class="built_in">LinkedNode</span>(val);</span><br><span class="line">        newNode-&gt;next = _dummyHead-&gt;next;</span><br><span class="line">        _dummyHead-&gt;next = newNode;</span><br><span class="line">        _size++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 在链表最后面添加一个节点</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">addAtTail</span><span class="params">(<span class="type">int</span> val)</span> </span>&#123;</span><br><span class="line">        LinkedNode* newNode = <span class="keyword">new</span> <span class="built_in">LinkedNode</span>(val);</span><br><span class="line">        LinkedNode* cur = _dummyHead;</span><br><span class="line">        <span class="keyword">while</span>(cur-&gt;next != <span class="literal">nullptr</span>)&#123;</span><br><span class="line">            cur = cur-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        cur-&gt;next = newNode;</span><br><span class="line">        _size++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 在第index个节点之前插入一个新节点，例如index为0，那么新插入的节点为链表的新头节点。</span></span><br><span class="line">    <span class="comment">// 如果index 等于链表的长度，则说明是新插入的节点为链表的尾结点</span></span><br><span class="line">    <span class="comment">// 如果index大于链表的长度，则返回空</span></span><br><span class="line">    <span class="comment">// 如果index小于0，则置为0，作为链表的新头节点。</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">addAtIndex</span><span class="params">(<span class="type">int</span> index, <span class="type">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (index &gt; _size || index &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        LinkedNode* newNode = <span class="keyword">new</span> <span class="built_in">LinkedNode</span>(val);</span><br><span class="line">        LinkedNode* cur = _dummyHead;</span><br><span class="line">        <span class="keyword">while</span>(index--) &#123;</span><br><span class="line">            cur = cur-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        newNode-&gt;next = cur-&gt;next;</span><br><span class="line">        cur-&gt;next = newNode;</span><br><span class="line">        _size++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 删除第index个节点，如果index 大于等于链表的长度，直接return，注意index是从0开始的</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">deleteAtIndex</span><span class="params">(<span class="type">int</span> index)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (index &gt;= _size || index &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        LinkedNode* cur = _dummyHead;</span><br><span class="line">        <span class="keyword">while</span>(index--) &#123;</span><br><span class="line">            cur = cur -&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        LinkedNode* tmp = cur-&gt;next;</span><br><span class="line">        cur-&gt;next = cur-&gt;next-&gt;next;</span><br><span class="line">        <span class="keyword">delete</span> tmp;</span><br><span class="line">        _size--;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 打印链表</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">printLinkedList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        LinkedNode* cur = _dummyHead;</span><br><span class="line">        <span class="keyword">while</span> (cur-&gt;next != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            cout &lt;&lt; cur-&gt;next-&gt;val &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">            cur = cur-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        cout &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">int</span> _size;</span><br><span class="line">    LinkedNode* _dummyHead;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
 
 <h1 id="反转链表"><a href="#反转链表" class="headerlink" title="反转链表"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/reverse-linked-list/">反转链表</a></h1><p>给你单链表的头节点 head ，请你反转链表，并返回反转后的链表。
  </p>
@@ -919,8 +1011,6 @@
 <p>最后，cur 指针已经指向了null，循环结束，链表也反转完毕了。 此时我们return pre指针就可以了，pre指针就指向了新的头结点。</p>
 <h2 id="双指针法"><a href="#双指针法" class="headerlink" title="双指针法"></a>双指针法</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">reverseList</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        ListNode* temp; <span class="comment">// 保存cur的下一个节点</span></span><br><span class="line">        ListNode* cur = head;</span><br><span class="line">        ListNode* pre = <span class="literal">NULL</span>;</span><br><span class="line">        <span class="keyword">while</span>(cur) &#123;</span><br><span class="line">            temp = cur-&gt;next;  <span class="comment">// 保存一下 cur的下一个节点，因为接下来要改变cur-&gt;next</span></span><br><span class="line">            cur-&gt;next = pre; <span class="comment">// 翻转操作</span></span><br><span class="line">            <span class="comment">// 更新pre 和 cur指针</span></span><br><span class="line">            pre = cur;</span><br><span class="line">            cur = temp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> pre;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-
-
 <h2 id="递归法"><a href="#递归法" class="headerlink" title="递归法"></a>递归法</h2><p>递归法相对抽象一些，但是其实和双指针法是一样的逻辑，同样是当cur为空的时候循环结束，不断将cur指向pre的过程。</p>
 <p>关键是初始化的地方，可能有的同学会不理解， 可以看到双指针法中初始化 cur &#x3D; head，pre &#x3D; NULL，在递归法中可以从如下代码看出初始化的逻辑也是一样的，只不过写法变了。</p>
 <p>具体可以看代码（已经详细注释），<strong>双指针法写出来之后，理解如下递归写法就不难了，代码逻辑都是一样的。</strong></p>
@@ -941,8 +1031,6 @@
 <p><img src="https://code-thinking.cdn.bcebos.com/pics/24.%E4%B8%A4%E4%B8%A4%E4%BA%A4%E6%8D%A2%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B93.png" alt="24.两两交换链表中的节点3"></p>
 <p>对应的C++代码实现如下： （注释中详细和如上图中的三步做对应）</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">swapPairs</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        ListNode* dummyHead = <span class="keyword">new</span> <span class="built_in">ListNode</span>(<span class="number">0</span>); <span class="comment">// 设置一个虚拟头结点</span></span><br><span class="line">        dummyHead-&gt;next = head; <span class="comment">// 将虚拟头结点指向head，这样方面后面做删除操作</span></span><br><span class="line">        ListNode* cur = dummyHead;</span><br><span class="line">        <span class="keyword">while</span>(cur-&gt;next != <span class="literal">nullptr</span> &amp;&amp; cur-&gt;next-&gt;next != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            ListNode* tmp = cur-&gt;next; <span class="comment">// 记录临时节点</span></span><br><span class="line">            ListNode* tmp1 = cur-&gt;next-&gt;next-&gt;next; <span class="comment">// 记录临时节点</span></span><br><span class="line"></span><br><span class="line">            cur-&gt;next = cur-&gt;next-&gt;next;    <span class="comment">// 步骤一</span></span><br><span class="line">            cur-&gt;next-&gt;next = tmp;          <span class="comment">// 步骤二</span></span><br><span class="line">            cur-&gt;next-&gt;next-&gt;next = tmp1;   <span class="comment">// 步骤三</span></span><br><span class="line"></span><br><span class="line">            cur = cur-&gt;next-&gt;next; <span class="comment">// cur移动两位，准备下一轮交换</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dummyHead-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
 
 <h1 id="删除链表的倒数第N个节点"><a href="#删除链表的倒数第N个节点" class="headerlink" title="删除链表的倒数第N个节点"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/remove-nth-node-from-end-of-list/">删除链表的倒数第N个节点</a></h1><p>给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。</p>
 <p>进阶：你能尝试使用一趟扫描实现吗？</p>
@@ -994,6 +1082,65 @@
 <p>否则循环退出返回空指针。</p>
 <p>C++代码如下：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode *<span class="title">getIntersectionNode</span><span class="params">(ListNode *headA, ListNode *headB)</span> </span>&#123;</span><br><span class="line">        ListNode* curA = headA;</span><br><span class="line">        ListNode* curB = headB;</span><br><span class="line">        <span class="type">int</span> lenA = <span class="number">0</span>, lenB = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (curA != <span class="literal">NULL</span>) &#123; <span class="comment">// 求链表A的长度</span></span><br><span class="line">            lenA++;</span><br><span class="line">            curA = curA-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (curB != <span class="literal">NULL</span>) &#123; <span class="comment">// 求链表B的长度</span></span><br><span class="line">            lenB++;</span><br><span class="line">            curB = curB-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        curA = headA;</span><br><span class="line">        curB = headB;</span><br><span class="line">        <span class="comment">// 让curA为最长链表的头，lenA为其长度</span></span><br><span class="line">        <span class="keyword">if</span> (lenB &gt; lenA) &#123;</span><br><span class="line">            <span class="built_in">swap</span> (lenA, lenB);</span><br><span class="line">            <span class="built_in">swap</span> (curA, curB);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 求长度差</span></span><br><span class="line">        <span class="type">int</span> gap = lenA - lenB;</span><br><span class="line">        <span class="comment">// 让curA和curB在同一起点上（末尾位置对齐）</span></span><br><span class="line">        <span class="keyword">while</span> (gap--) &#123;</span><br><span class="line">            curA = curA-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 遍历curA 和 curB，遇到相同则直接返回</span></span><br><span class="line">        <span class="keyword">while</span> (curA != <span class="literal">NULL</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (curA == curB) &#123;</span><br><span class="line">                <span class="keyword">return</span> curA;</span><br><span class="line">            &#125;</span><br><span class="line">            curA = curA-&gt;next;</span><br><span class="line">            curB = curB-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="环形链表II"><a href="#环形链表II" class="headerlink" title="环形链表II"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/linked-list-cycle-ii/">环形链表II</a></h1><p>题意： 给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。</p>
+<p>为了表示给定链表中的环，使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。</p>
+<p><strong>说明</strong>：不允许修改给定的链表。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200816110112704.png" alt="循环链表"></p>
+<h2 id="思路-6"><a href="#思路-6" class="headerlink" title="思路"></a>思路</h2><p>主要考察两知识点：</p>
+<ul>
+<li>判断链表是否环</li>
+<li>如果有环，如何找到这个环的入口</li>
+</ul>
+<h3 id="判断链表是否有环"><a href="#判断链表是否有环" class="headerlink" title="判断链表是否有环"></a>判断链表是否有环</h3><p>可以使用快慢指针法，分别定义 fast 和 slow 指针，从头结点出发，fast指针每次移动两个节点，slow指针每次移动一个节点，如果 fast 和 slow指针在途中相遇 ，说明这个链表有环。</p>
+<p>为什么fast 走两个节点，slow走一个节点，有环的话，一定会在环内相遇呢，而不是永远的错开呢</p>
+<p>首先第一点：<strong>fast指针一定先进入环中，如果fast指针和slow指针相遇的话，一定是在环中相遇，这是毋庸置疑的。</strong></p>
+<p>那么来看一下，<strong>为什么fast指针和slow指针一定会相遇呢？</strong></p>
+<p>可以画一个环，然后让 fast指针在任意一个节点开始追赶slow指针。</p>
+<p>会发现最终都是这种情况， 如下图：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210318162236720.png" alt="142环形链表1"></p>
+<p>fast和slow各自再走一步， fast和slow就相遇了</p>
+<p>这是因为fast是走两步，slow是走一步，<strong>其实相对于slow来说，fast是一个节点一个节点的靠近slow的</strong>，所以fast一定可以和slow重合。</p>
+<p>动画如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEly1goo4xglk9yg30fs0b6u0x.gif" alt="141.环形链表"></p>
+<h3 id="如果有环，如何找到这个环的入口"><a href="#如果有环，如何找到这个环的入口" class="headerlink" title="如果有环，如何找到这个环的入口"></a>如果有环，如何找到这个环的入口</h3><p><strong>此时已经可以判断链表是否有环了，那么接下来要找这个环的入口了。</strong></p>
+<p>假设从头结点到环形入口节点 的节点数为x。 环形入口节点到 fast指针与slow指针相遇节点 节点数为y。 从相遇节点 再到环形入口节点节点数为 z。 如图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210318162938397.png" alt="142环形链表2"></p>
+<p>那么相遇时： slow指针走过的节点数为: <code>x + y</code>， fast指针走过的节点数：<code>x + y + n (y + z)</code>，n为fast指针在环内走了n圈才遇到slow指针， （y+z）为 一圈内节点的个数A。</p>
+<p>因为fast指针是一步走两个节点，slow指针一步走一个节点， 所以 fast指针走过的节点数 &#x3D; slow指针走过的节点数 * 2：</p>
+<p><code>(x + y) * 2 = x + y + n (y + z)</code></p>
+<p>两边消掉一个（x+y）: <code>x + y = n (y + z)</code></p>
+<p>因为要找环形的入口，那么要求的是x，因为x表示 头结点到 环形入口节点的的距离。</p>
+<p>所以要求x ，将x单独放在左面：<code>x = n (y + z) - y</code> ,</p>
+<p>再从n(y+z)中提出一个 （y+z）来，整理公式之后为如下公式：<code>x = (n - 1) (y + z) + z</code> 注意这里n一定是大于等于1的，因为 fast指针至少要多走一圈才能相遇slow指针。</p>
+<p>这个公式说明什么呢？</p>
+<p>先拿n为1的情况来举例，意味着fast指针在环形里转了一圈之后，就遇到了 slow指针了。</p>
+<p>当 n为1的时候，公式就化解为 <code>x = z</code>，</p>
+<p>这就意味着，<strong>从头结点出发一个指针，从相遇节点 也出发一个指针，这两个指针每次只走一个节点， 那么当这两个指针相遇的时候就是 环形入口的节点</strong>。</p>
+<p>也就是在相遇节点处，定义一个指针index1，在头结点处定一个指针index2。</p>
+<p>让index1和index2同时移动，每次移动一个节点， 那么他们相遇的地方就是 环形入口的节点。</p>
+<p>动画如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEly1goo58gauidg30fw0bi4qr.gif" alt="142.环形链表II（求入口）"></p>
+<p>那么 n如果大于1是什么情况呢，就是fast指针在环形转n圈之后才遇到 slow指针。</p>
+<p>其实这种情况和n为1的时候 效果是一样的，一样可以通过这个方法找到 环形的入口节点，只不过，index1 指针在环里 多转了(n-1)圈，然后再遇到index2，相遇点依然是环形的入口节点。</p>
+<p>代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** * Definition for singly-linked list. * struct ListNode &#123; *     int val; *     ListNode *next; *     ListNode(int x) : val(x), next(NULL) &#123;&#125; * &#125;; */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode *<span class="title">detectCycle</span><span class="params">(ListNode *head)</span> </span>&#123;</span><br><span class="line">        ListNode* fast = head;</span><br><span class="line">        ListNode* slow = head;</span><br><span class="line">        <span class="keyword">while</span>(fast != <span class="literal">NULL</span> &amp;&amp; fast-&gt;next != <span class="literal">NULL</span>) &#123;</span><br><span class="line">            slow = slow-&gt;next;</span><br><span class="line">            fast = fast-&gt;next-&gt;next;</span><br><span class="line">            <span class="comment">// 快慢指针相遇，此时从head 和 相遇点，同时查找直至相遇</span></span><br><span class="line">            <span class="keyword">if</span> (slow == fast) &#123;</span><br><span class="line">                ListNode* index1 = fast;</span><br><span class="line">                ListNode* index2 = head;</span><br><span class="line">                <span class="keyword">while</span> (index1 != index2) &#123;</span><br><span class="line">                    index1 = index1-&gt;next;</span><br><span class="line">                    index2 = index2-&gt;next;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> index2; <span class="comment">// 返回环的入口</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>在推理过程中，大家可能有一个疑问就是：<strong>为什么第一次在环中相遇，slow的 步数 是 x+y 而不是 x + 若干环的长度 + y 呢？</strong></p>
+<p>如下的地方：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210318165123581.png" alt="142环形链表5"></p>
+<p>首先slow进环的时候，fast一定是先进环来了。</p>
+<p>如果slow进环入口，fast也在环入口，那么把这个环展开成直线，就是如下图的样子：</p>
+<p><img src="https://img-blog.csdnimg.cn/2021031816503266.png" alt="142环形链表3"></p>
+<p>可以看出如果slow 和 fast同时在环入口开始走，一定会在环入口3相遇，slow走了一圈，fast走了两圈。</p>
+<p>重点来了，slow进环的时候，fast一定是在环的任意一个位置，如图：</p>
+<p><img src="https://img-blog.csdnimg.cn/2021031816515727.png" alt="142环形链表4"></p>
+<p>那么fast指针走到环入口3的时候，已经走了k + n 个节点，slow相应的应该走了(k + n) &#x2F; 2 个节点。</p>
+<p>因为k是小于n的（图中可以看出），所以(k + n) &#x2F; 2 一定小于n。</p>
+<p><strong>也就是说slow一定没有走到环入口3，而fast已经到环入口3了</strong>。</p>
+<p>这说明什么呢？</p>
+<p><strong>在slow开始走的那一环已经和fast相遇了</strong>。</p>
+<p>那有同学又说了，为什么fast不能跳过去呢？ 在刚刚已经说过一次了，<strong>fast相对于slow是一次移动一个节点，所以不可能跳过去</strong>。</p>
 
       
     </div>
@@ -1854,311 +2001,6 @@
 <p>这应该一开始就做好，测试用的血条，命名HpBar要和第4步中使用的名字一样</p>
 <p><img src="https://img-blog.csdnimg.cn/20200328131410672.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pfV2F5bmU=,size_16,color_FFFFFF,t_70" alt="给UI组件填入正确的WidgetClass"></p>
 <p>创建好了要填入WidgetComponent中，一切就跑通了。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/23/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E5%9F%BA%E7%A1%80%E8%A7%92%E8%89%B2%E6%8E%A5%E5%8F%A3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/08/23/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E5%9F%BA%E7%A1%80%E8%A7%92%E8%89%B2%E6%8E%A5%E5%8F%A3/" class="post-title-link" itemprop="url">UE4-项目-TowerDefence-基础角色接口</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-08-23 15:50:01 / 修改时间：17:42:34" itemprop="dateCreated datePublished" datetime="2022-08-23T15:50:01+08:00">2022-08-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="基础角色接口"><a href="#基础角色接口" class="headerlink" title="基础角色接口"></a>基础角色接口</h1><p>角色基类就是RuleOfTheCharacter，在这里定义了一切角色通用的基础信息（生命值&#x2F;攻击力&#x2F;碰撞&#x2F;模型等）</p>
-<h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="FORCEINLINE"><a href="#FORCEINLINE" class="headerlink" title="FORCEINLINE"></a>FORCEINLINE</h3><p>强制内联函数</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FORCEINLINE ATowerDefencePlayerController* <span class="title">GetGameController</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
-
-<h3 id="TakeDamage"><a href="#TakeDamage" class="headerlink" title="TakeDamage()"></a>TakeDamage()</h3><p>虚幻内置的伤害函数，可以自己重载</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="type">float</span> <span class="title">TakeDamage</span><span class="params">(<span class="type">float</span> Damage, <span class="keyword">struct</span> FDamageEvent <span class="type">const</span>&amp; DamageEvent, AController* EventInstigator, AActor* DamageCauser)</span> <span class="keyword">override</span></span>;</span><br></pre></td></tr></table></figure>
-
-<h3 id="SetCollisionProfileName"><a href="#SetCollisionProfileName" class="headerlink" title="SetCollisionProfileName()"></a>SetCollisionProfileName()</h3><p>设置碰撞检测通道</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">实例名-&gt;<span class="built_in">SetCollisionProfileName</span>(<span class="string">&quot;碰撞通道名称&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<h3 id="SetBoxExtent"><a href="#SetBoxExtent" class="headerlink" title="SetBoxExtent()"></a>SetBoxExtent()</h3><p>设置碰撞检测盒子大小</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">实例名-&gt;<span class="built_in">SetBoxExtent</span>(<span class="built_in">FVector</span>(<span class="number">38</span>, <span class="number">38</span>, <span class="number">100</span>));</span><br></pre></td></tr></table></figure>
-
-<h3 id="meta-x3D-AllowPrivateAccess-x3D-“true”"><a href="#meta-x3D-AllowPrivateAccess-x3D-“true”" class="headerlink" title="meta &#x3D; (AllowPrivateAccess &#x3D; “true”)"></a>meta &#x3D; (AllowPrivateAccess &#x3D; “true”)</h3><p>让一些组件的细节面板私有化，不和actor本身的堆在一起</p>
-<h2 id="大致步骤"><a href="#大致步骤" class="headerlink" title="大致步骤"></a>大致步骤</h2><ol>
-<li><p>在<code>TowerDefence\Public\Interface\Character</code>位置创建一个<code>IRuleCharacter.h</code>，用于写一些通用的接口</p>
-<ul>
-<li><p>引入虚幻宏与头文件<code>#pragma once</code>，<code>#include &quot;CoreMinimal.h&quot;</code></p>
-</li>
-<li><p>在<code>class IRuleCharacter</code>中</p>
-<ul>
-<li><p>public:声明以下函数</p>
-<ul>
-<li><p><code>virtual bool IsDeath() = 0;//=0意味着在子类中必须实现，否则报错</code></p>
-</li>
-<li><p><code>virtual float GetHeath() = 0;</code></p>
-</li>
-<li><p><code>virtual float GetMaxHeath() = 0;</code></p>
-</li>
-<li><p><code>virtual bool IsTeam() = 0;</code></p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>在<code>RuleOfTheCharacter.h</code>中，<code>Public:IRuleCharacter</code></p>
-<ul>
-<li><p>宏声明<code>UPROPERTY(VisibleAnyWhere, BlueprintReadOnly, Category = &quot;BaseAttrbute&quot;, meta = (AllowPrivateAccess=&quot;true&quot;))</code></p>
-<ul>
-<li><p>声明<code>class USceneComponent* HomingPoint;</code>，实现子弹跟踪效果（跟踪点）</p>
-</li>
-<li><p>声明<code>class UWidgetComponent* Widget;</code>，实现显示等级，生命值等信息</p>
-</li>
-<li><p>声明<code>class UArrowComponent* OpenFirePoint;</code>，实现角色及怪物子弹生成位置</p>
-</li>
-<li><p>声明<code>class UBoxComponent* TraceShowCharacterInformattion;</code>，用于捕捉鼠标射线</p>
-</li>
-</ul>
-</li>
-<li><p>protected:下声明重载<code>TakeDamage()</code>函数</p>
-<ul>
-<li><p><code>virtual float TakeDamage(float Damage, struct FDamageEvent const&amp; DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;</code></p>
-</li>
-<li><p><code>Damage</code>为伤害值</p>
-</li>
-<li><p><code>DamageEvent</code>为伤害类型</p>
-</li>
-<li><p><code>EventInstigator</code>为伤害当前Controller的Actor（被伤害目标）</p>
-</li>
-<li><p><code>DamageCauser</code>为施加伤害的Actor</p>
-</li>
-</ul>
-</li>
-<li><p>声明继承自<code>IRuleCharacter</code>的四个函数</p>
-<ul>
-<li><p><code>virtual bool IsDeath();</code></p>
-</li>
-<li><p><code>virtual float GetHeath();</code></p>
-</li>
-<li><p><code>virtual float GetMaxHeath();</code></p>
-</li>
-<li><p><code>virtual bool IsTeam();</code></p>
-</li>
-</ul>
-</li>
-<li><p>在public:下声明以下函数</p>
-<ul>
-<li><p><code>FORCEINLINE ATowerDefencePlayerController* GetGameController()</code></p>
-<ul>
-<li><p>直接定义</p>
-</li>
-<li><p><code>return GetWorld() ? GetWorld()-&gt;GetFirstPlayerController&lt;ATowerDefencePlayerController&gt;() : NULL;</code></p>
-</li>
-<li><p>获取当前world，成功则设置当前世界<code>GetFirstPlayerController</code>为<code>ATowerDefencePlayerController</code>，否则返回空指针</p>
-</li>
-</ul>
-</li>
-<li><p><code>FORCEINLINE ATowerDefenceGameState* GetGameState()</code></p>
-<ul>
-<li><p>直接定义</p>
-</li>
-<li><p><code>return GetWorld() ? GetWorld()-&gt;GetGameState&lt;ATowerDefenceGameState&gt;() : NULL;</code></p>
-</li>
-<li><p>获取当前world，成功则设置当前世界<code>GetGameState</code>为<code>ATowerDefenceGameState</code>，否则返回空指针</p>
-</li>
-</ul>
-</li>
-<li><p><code>FORCEINLINE USceneComponent* GetHomingPoint() const</code></p>
-<ul>
-<li><code>return HomingPoint;</code></li>
-</ul>
-</li>
-<li><p><code>FORCEINLINE UArrowComponent* GetFirePoint() const</code></p>
-<ul>
-<li><code>return OpenFirePoint;</code></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>在<code>RuleOfTheCharacter.cpp</code>中</p>
-<ul>
-<li><p><code>ARuleOfTheCharacter::ARuleOfTheCharacter()</code>中</p>
-<ul>
-<li><p>分别使用<code>CreateDefaultSubobject</code>创建<code>HomingPoint</code>，<code>Widget</code>，<code>OpenFirePoint</code>，<code>TraceShowCharacterInformattion</code></p>
-</li>
-<li><p>使用<code>AttachToComponent</code>将上面创建的四个实例绑定到根组件上</p>
-</li>
-<li><p>使用<code>SetCollisionProfileName()</code>设置<code>TraceShowCharacterInformattion</code>的碰撞通道为<code>Scanning</code></p>
-</li>
-<li><p>使用<code>SetBoxExtent</code>设置<code>TraceShowCharacterInformattion</code>的碰撞检测盒子大小为<code>FVector(38, 38, 100)</code></p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>在<code>Towers.h</code>中</p>
-<ul>
-<li><p>具体定义</p>
-</li>
-<li><p>宏声明<code>UPROPERTY(VisibleAnyWhere, BlueprintReadOnly, Category = &quot;BaseAttrubute&quot;, meta = (AllowPrivateAccess = &quot;true&quot;))</code></p>
-<ul>
-<li><p>声明<code>class UParticleSystemComponent* ParticleMesh;</code></p>
-<ul>
-<li>粒子特效组件（在这里就是塔模型）</li>
-</ul>
-</li>
-<li><p>声明<code>class UStaticMeshComponent* StaticMeshBuilding;</code></p>
-<ul>
-<li>用于显示某处是否可建造（true则显示绿色，否则红色）</li>
-</ul>
-</li>
-<li><p>声明<code>class UDestructibleComponent* DestructibleMeshBuilding;</code></p>
-<ul>
-<li>破碎效果组件（塔被摧毁之后切换为此）</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>public:声明构造函数</p>
-</li>
-<li><p>protected:声明重载<code>TakeDamage</code>函数</p>
-<ul>
-<li><code>virtual float TakeDamage(float DamageAmount, struct FDamageEvent const&amp; DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;</code></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>在<code>Towers.h</code>中</p>
-<ul>
-<li><p>构造函数中</p>
-<ul>
-<li><p>使用<code>CreateDefaultSubobject</code></p>
-<ul>
-<li><p>创建<code>ParticleMesh</code></p>
-</li>
-<li><p>创建<code>StaticMeshBuilding</code></p>
-</li>
-<li><p>创建<code>DestructibleMeshBuilding</code></p>
-</li>
-</ul>
-</li>
-<li><p>使用<code>AttachToComponent</code>将以上三个实例绑定到根组件组件</p>
-</li>
-</ul>
-</li>
-<li><p><code>ATowers::TakeDamage()</code></p>
-<ul>
-<li><p>继承父类</p>
-</li>
-<li><p>返回值暂定为0</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>在<code>Monsters.h</code>中</p>
-<ul>
-<li>声明重载函数<code>BeginPlay()</code>以及<code>Tick(float DeltaTime)</code></li>
-</ul>
-</li>
-<li><p>在<code>Monsters.cpp</code>中</p>
-<ul>
-<li>重载的函数继承父类</li>
-</ul>
-</li>
-<li><p>在<code>TowerDefence.Build.cs</code>中</p>
-<ul>
-<li>添加模块<code>&quot;ApexDestruction&quot;</code></li>
-</ul>
-</li>
-<li><p>在<code>TowerDefence.uproject</code>中</p>
-<ul>
-<li>添加插件模块<code>ApexDestruction</code>（或者直接在编辑器中启用ApexDestruction插件）</li>
-</ul>
-</li>
-</ol>
-<h1 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h1><h2 id="RuleOfTheCharacter-h"><a href="#RuleOfTheCharacter-h" class="headerlink" title="RuleOfTheCharacter.h"></a>RuleOfTheCharacter.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/Character.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Interface\Character\IRuleCharacter.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefencePlayerController.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefenceGameState.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;RuleOfTheCharacter.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> ARuleOfTheCharacter : <span class="keyword">public</span> ACharacter,<span class="keyword">public</span> IRuleCharacter</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">//用于实现子弹跟踪效果的实现</span></span><br><span class="line">        <span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;BaseAttrbute&quot;</span>, meta = (AllowPrivateAccess=<span class="string">&quot;true&quot;</span>))</span><br><span class="line">        <span class="keyword">class</span> <span class="title class_">USceneComponent</span>* HomingPoint;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">//用于显示等级，生命值等信息</span></span><br><span class="line">        <span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;BaseAttrbute&quot;</span>, meta = (AllowPrivateAccess=<span class="string">&quot;true&quot;</span>))</span><br><span class="line">        <span class="keyword">class</span> <span class="title class_">UWidgetComponent</span>* Widget;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">//角色及怪物子弹生成位置</span></span><br><span class="line">        <span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;BaseAttrbute&quot;</span>, meta = (AllowPrivateAccess=<span class="string">&quot;true&quot;</span>))</span><br><span class="line">        <span class="keyword">class</span> <span class="title class_">UArrowComponent</span>* OpenFirePoint;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">//用于捕捉鼠标射线</span></span><br><span class="line">        <span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;BaseAttrbute&quot;</span>, meta = (AllowPrivateAccess=<span class="string">&quot;true&quot;</span>))</span><br><span class="line">        <span class="keyword">class</span> <span class="title class_">UBoxComponent</span>* TraceShowCharacterInformattion;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// Sets default values for this character&#x27;s properties</span></span><br><span class="line">    <span class="built_in">ARuleOfTheCharacter</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="comment">// Called when the game starts or when spawned</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:    </span><br><span class="line">    <span class="comment">// Called every frame</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">(<span class="type">float</span> DeltaTime)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="comment">//Damage为伤害值</span></span><br><span class="line">    <span class="comment">//DamageEvent为伤害类型</span></span><br><span class="line">    <span class="comment">//EventInstigator为伤害当前Controller的Actor（被伤害目标）</span></span><br><span class="line">    <span class="comment">//DamageCauser为施加伤害的Actor</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">float</span> <span class="title">TakeDamage</span><span class="params">(<span class="type">float</span> Damage, <span class="keyword">struct</span> FDamageEvent <span class="type">const</span>&amp; DamageEvent, AController* EventInstigator, AActor* DamageCauser)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//继承自IRuleCharacter中的函数</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">bool</span> <span class="title">IsDeath</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">float</span> <span class="title">GetHeath</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">float</span> <span class="title">GetMaxHeath</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">bool</span> <span class="title">IsTeam</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//将TowerDefencePlayerController连接进来</span></span><br><span class="line">    <span class="comment">//FORCEINLINE：强制内联函数</span></span><br><span class="line">    <span class="function">FORCEINLINE ATowerDefencePlayerController* <span class="title">GetGameController</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">GetWorld</span>() ? <span class="built_in">GetWorld</span>()-&gt;<span class="built_in">GetFirstPlayerController</span>&lt;ATowerDefencePlayerController&gt;() : <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将TowerDefenceGameState连接进来</span></span><br><span class="line">    <span class="function">FORCEINLINE ATowerDefenceGameState* <span class="title">GetGameState</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">GetWorld</span>() ? <span class="built_in">GetWorld</span>()-&gt;<span class="built_in">GetGameState</span>&lt;ATowerDefenceGameState&gt;() : <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//跟踪点</span></span><br><span class="line">    <span class="function">FORCEINLINE USceneComponent* <span class="title">GetHomingPoint</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> HomingPoint; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//开火点</span></span><br><span class="line">    <span class="function">FORCEINLINE UArrowComponent* <span class="title">GetFirePoint</span><span class="params">()</span><span class="type">const</span> </span>&#123; <span class="keyword">return</span> OpenFirePoint; &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h2 id="RuleOfTheCharacter-cpp"><a href="#RuleOfTheCharacter-cpp" class="headerlink" title="RuleOfTheCharacter.cpp"></a>RuleOfTheCharacter.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character/Core/RuleOfTheCharacter.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components\ArrowComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/BoxComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/WidgetComponent.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// Sets default values</span></span><br><span class="line">ARuleOfTheCharacter::<span class="built_in">ARuleOfTheCharacter</span>()</span><br><span class="line">&#123;</span><br><span class="line">     <span class="comment">// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don&#x27;t need it.</span></span><br><span class="line">    PrimaryActorTick.bCanEverTick = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    HomingPoint = <span class="built_in">CreateDefaultSubobject</span>&lt;USceneComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;HomingPoint&quot;</span>));</span><br><span class="line">    Widget = <span class="built_in">CreateDefaultSubobject</span>&lt;UWidgetComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;Widget&quot;</span>));</span><br><span class="line">    OpenFirePoint = <span class="built_in">CreateDefaultSubobject</span>&lt;UArrowComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;SpawnPoint&quot;</span>));</span><br><span class="line">    TraceShowCharacterInformattion = <span class="built_in">CreateDefaultSubobject</span>&lt;UBoxComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;TraceBox&quot;</span>));</span><br><span class="line"></span><br><span class="line">    HomingPoint-&gt;<span class="built_in">AttachToComponent</span>(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);</span><br><span class="line">    Widget-&gt;<span class="built_in">AttachToComponent</span>(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);</span><br><span class="line">    OpenFirePoint-&gt;<span class="built_in">AttachToComponent</span>(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);</span><br><span class="line">    TraceShowCharacterInformattion-&gt;<span class="built_in">AttachToComponent</span>(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//设置预设scanning碰撞通道</span></span><br><span class="line">    TraceShowCharacterInformattion-&gt;<span class="built_in">SetCollisionProfileName</span>(<span class="string">&quot;Scanning&quot;</span>);</span><br><span class="line">    <span class="comment">//设置碰撞检测盒子大小</span></span><br><span class="line">    TraceShowCharacterInformattion-&gt;<span class="built_in">SetBoxExtent</span>(<span class="built_in">FVector</span>(<span class="number">38</span>, <span class="number">38</span>, <span class="number">100</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Called when the game starts or when spawned</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ARuleOfTheCharacter::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Called every frame</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ARuleOfTheCharacter::Tick</span><span class="params">(<span class="type">float</span> DeltaTime)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">Tick</span>(DeltaTime);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">float</span> <span class="title">ARuleOfTheCharacter::TakeDamage</span><span class="params">(<span class="type">float</span> Damage, FDamageEvent <span class="type">const</span>&amp; DamageEvent, AController* EventInstigator, AActor* DamageCauser)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">TakeDamage</span>(Damage, DamageEvent, EventInstigator, DamageCauser);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0.0f</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">ARuleOfTheCharacter::IsDeath</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">float</span> <span class="title">ARuleOfTheCharacter::GetHeath</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0.0f</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">float</span> <span class="title">ARuleOfTheCharacter::GetMaxHeath</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0.0f</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">ARuleOfTheCharacter::IsTeam</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="IRuleCharacter-h"><a href="#IRuleCharacter-h" class="headerlink" title="IRuleCharacter.h"></a>IRuleCharacter.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">IRuleCharacter</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">    <span class="comment">//写一些通用函数：类似于当前角色生命值，角色攻击力和防御力的多少之类的</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//是否死亡</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">bool</span> <span class="title">IsDeath</span><span class="params">()</span> </span>= <span class="number">0</span>;<span class="comment">//=0意味着在子类中必须实现，否则报错</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取当前生命值</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">float</span> <span class="title">GetHeath</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取最大生命值</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">float</span> <span class="title">GetMaxHeath</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//是否为一个队伍</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">bool</span> <span class="title">IsTeam</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h2 id="Towers-h"><a href="#Towers-h" class="headerlink" title="Towers.h"></a>Towers.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character/Core/RuleOfTheCharacter.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Towers.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> ATowers : <span class="keyword">public</span> ARuleOfTheCharacter</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//粒子特效组件（在这里就是塔模型）</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;BaseAttrubute&quot;</span>, meta = (AllowPrivateAccess = <span class="string">&quot;true&quot;</span>))</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">UParticleSystemComponent</span>* ParticleMesh;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//用于显示某处是否可建造（true则显示绿色，否则红色）</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;BaseAttrubute&quot;</span>, meta = (AllowPrivateAccess = <span class="string">&quot;true&quot;</span>))</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">UStaticMeshComponent</span>* StaticMeshBuilding;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//破碎效果组件（塔被摧毁之后切换为此）</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;BaseAttrubute&quot;</span>, meta = (AllowPrivateAccess = <span class="string">&quot;true&quot;</span>))</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">UDestructibleComponent</span>* DestructibleMeshBuilding;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ATowers</span>();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">float</span> <span class="title">TakeDamage</span><span class="params">(<span class="type">float</span> DamageAmount, <span class="keyword">struct</span> FDamageEvent <span class="type">const</span>&amp; DamageEvent, <span class="keyword">class</span> AController* EventInstigator, AActor* DamageCauser)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h2 id="Towers-cpp"><a href="#Towers-cpp" class="headerlink" title="Towers.cpp"></a>Towers.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character/CharacterCore/Towers.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Particles\ParticleSystemComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components\StaticMeshComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;DestructibleComponent.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">ATowers::<span class="built_in">ATowers</span>()</span><br><span class="line">&#123;</span><br><span class="line">    ParticleMesh = <span class="built_in">CreateDefaultSubobject</span>&lt;UParticleSystemComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;ParticleMesh&quot;</span>));</span><br><span class="line">    StaticMeshBuilding = <span class="built_in">CreateDefaultSubobject</span>&lt;UStaticMeshComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;RangeBuilding&quot;</span>));</span><br><span class="line">    DestructibleMeshBuilding = <span class="built_in">CreateDefaultSubobject</span>&lt;UDestructibleComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;Substityte&quot;</span>));</span><br><span class="line"></span><br><span class="line">    ParticleMesh-&gt;<span class="built_in">AttachToComponent</span>(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);</span><br><span class="line">    StaticMeshBuilding-&gt;<span class="built_in">AttachToComponent</span>(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);</span><br><span class="line">    DestructibleMeshBuilding-&gt;<span class="built_in">AttachToComponent</span>(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">float</span> <span class="title">ATowers::TakeDamage</span><span class="params">(<span class="type">float</span> DamageAmount, FDamageEvent <span class="type">const</span>&amp; DamageEvent, AController* EventInstigator, AActor* DamageCauser)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">TakeDamage</span>(DamageAmount, DamageEvent, EventInstigator, DamageCauser);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0.0f</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="Monsters-h"><a href="#Monsters-h" class="headerlink" title="Monsters.h"></a>Monsters.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character/Core/RuleOfTheCharacter.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Monsters.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> AMonsters : <span class="keyword">public</span> ARuleOfTheCharacter</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">(<span class="type">float</span> DeltaTime)</span> <span class="keyword">override</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h2 id="Monsters-cpp"><a href="#Monsters-cpp" class="headerlink" title="Monsters.cpp"></a>Monsters.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character/CharacterCore/Monsters.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMonsters::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMonsters::Tick</span><span class="params">(<span class="type">float</span> DeltaTime)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">Tick</span>(DeltaTime);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="TowerDefence-Build-cs"><a href="#TowerDefence-Build-cs" class="headerlink" title="TowerDefence.Build.cs"></a>TowerDefence.Build.cs</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> UnrealBuildTool;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TowerDefence</span> : ModuleRules</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TowerDefence</span><span class="params">(ReadOnlyTargetRules Target)</span> : base(Target)</span></span><br><span class="line"><span class="function">    &#123;</span></span><br><span class="line">        PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;</span><br><span class="line"></span><br><span class="line">        PublicDependencyModuleNames.<span class="built_in">AddRange</span>(<span class="keyword">new</span> string[] &#123; </span><br><span class="line">            <span class="string">&quot;Core&quot;</span>,</span><br><span class="line">            <span class="string">&quot;CoreUObject&quot;</span>,</span><br><span class="line">            <span class="string">&quot;Engine&quot;</span>,</span><br><span class="line">            <span class="string">&quot;InputCore&quot;</span>, </span><br><span class="line">            <span class="string">&quot;StoneToolClass&quot;</span>,</span><br><span class="line">            <span class="string">&quot;SimpleScreenLoading&quot;</span> , </span><br><span class="line">            <span class="string">&quot;SimpleArchives&quot;</span>, </span><br><span class="line">            <span class="string">&quot;SimpleGameSettings&quot;</span> , </span><br><span class="line">            <span class="string">&quot;SimpleTutoria&quot;</span>,</span><br><span class="line">            <span class="string">&quot;ApexDestruction&quot;</span>,</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        PrivateDependencyModuleNames.<span class="built_in">AddRange</span>(<span class="keyword">new</span> string[] &#123;  &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Uncomment if you are using Slate UI</span></span><br><span class="line">        <span class="comment">// PrivateDependencyModuleNames.AddRange(new string[] &#123; &quot;Slate&quot;, &quot;SlateCore&quot; &#125;);</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// Uncomment if you are using online features</span></span><br><span class="line">        <span class="comment">// PrivateDependencyModuleNames.Add(&quot;OnlineSubsystem&quot;);</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// To include OnlineSubsystemSteam, add it to the plugins section in your uproject file with the Enabled attribute set to true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="TowerDefence-uproject"><a href="#TowerDefence-uproject" class="headerlink" title="TowerDefence.uproject"></a>TowerDefence.uproject</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;FileVersion&quot;</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="string">&quot;EngineAssociation&quot;</span>: <span class="string">&quot;4.27&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Category&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Description&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Modules&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">&quot;Name&quot;</span>: <span class="string">&quot;TowerDefence&quot;</span>,</span><br><span class="line">            <span class="string">&quot;Type&quot;</span>: <span class="string">&quot;Runtime&quot;</span>,</span><br><span class="line">            <span class="string">&quot;LoadingPhase&quot;</span>: <span class="string">&quot;Default&quot;</span>,</span><br><span class="line">            <span class="string">&quot;AdditionalDependencies&quot;</span>: [</span><br><span class="line">                <span class="string">&quot;Engine&quot;</span>,</span><br><span class="line">                <span class="string">&quot;UMG&quot;</span>,</span><br><span class="line">                <span class="string">&quot;AIModule&quot;</span>,</span><br><span class="line">                <span class="string">&quot;CoreUObject&quot;</span></span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="string">&quot;Plugins&quot;</span>:[</span><br><span class="line">    &#123;</span><br><span class="line">    <span class="string">&quot;Name&quot;</span>:<span class="string">&quot;ApexDestruction&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Enabled&quot;</span>:<span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
