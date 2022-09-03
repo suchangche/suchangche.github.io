@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="查询敌人算法思路 在上一节中的怪物查询敌人算法里用到了，在这一节也需要用到  所以在TowerDefence\Source\TowerDefence位置创建StoneDefenceUtils.h以及StoneDefenceUtils.cpp  将MonsterAIController.cpp中的那个lambda函数的逻辑挪动到StoneDefenceUtils.cpp内  函数名称为FindTar">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ue4-项目-TowerDefence-Tower范围查询敌人算法">
+<meta property="og:url" content="http://example.com/2022/09/03/ue4-%E9%A1%B9%E7%9B%AE-TowerDefence-Tower%E8%8C%83%E5%9B%B4%E6%9F%A5%E8%AF%A2%E6%95%8C%E4%BA%BA%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="查询敌人算法思路 在上一节中的怪物查询敌人算法里用到了，在这一节也需要用到  所以在TowerDefence\Source\TowerDefence位置创建StoneDefenceUtils.h以及StoneDefenceUtils.cpp  将MonsterAIController.cpp中的那个lambda函数的逻辑挪动到StoneDefenceUtils.cpp内  函数名称为FindTar">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-09-03T07:52:12.000Z">
+<meta property="article:modified_time" content="2022-09-03T09:15:47.111Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="项目">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/09/03/ue4-%E9%A1%B9%E7%9B%AE-TowerDefence-Tower%E8%8C%83%E5%9B%B4%E6%9F%A5%E8%AF%A2%E6%95%8C%E4%BA%BA%E7%AE%97%E6%B3%95/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/09/03/ue4-%E9%A1%B9%E7%9B%AE-TowerDefence-Tower%E8%8C%83%E5%9B%B4%E6%9F%A5%E8%AF%A2%E6%95%8C%E4%BA%BA%E7%AE%97%E6%B3%95/","path":"2022/09/03/ue4-项目-TowerDefence-Tower范围查询敌人算法/","title":"ue4-项目-TowerDefence-Tower范围查询敌人算法"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>ue4-项目-TowerDefence-Tower范围查询敌人算法 | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E6%95%8C%E4%BA%BA%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">查询敌人算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">1.1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E5%88%86%E4%BB%A3%E7%A0%81"><span class="nav-number">1.2.</span> <span class="nav-text">部分代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#StoneDefenceUtils-h"><span class="nav-number">1.2.1.</span> <span class="nav-text">StoneDefenceUtils.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#StoneDefenceUtils-cpp"><span class="nav-number">1.2.2.</span> <span class="nav-text">StoneDefenceUtils.cpp</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Tower%E6%9F%A5%E8%AF%A2%E6%95%8C%E4%BA%BA"><span class="nav-number">2.</span> <span class="nav-text">Tower查询敌人</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-number">2.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TArray-empty"><span class="nav-number">2.1.1.</span> <span class="nav-text">TArray.empty()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GetPawn-lt-gt"><span class="nav-number">2.1.2.</span> <span class="nav-text">GetPawn&lt;&gt;()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-1"><span class="nav-number">2.2.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E5%88%86%E4%BB%A3%E7%A0%81-1"><span class="nav-number">2.3.</span> <span class="nav-text">部分代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TowersAIController-h"><span class="nav-number">2.3.1.</span> <span class="nav-text">TowersAIController.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TowersAIController-cpp"><span class="nav-number">2.3.2.</span> <span class="nav-text">TowersAIController.cpp</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">101</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/03/ue4-%E9%A1%B9%E7%9B%AE-TowerDefence-Tower%E8%8C%83%E5%9B%B4%E6%9F%A5%E8%AF%A2%E6%95%8C%E4%BA%BA%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="ue4-项目-TowerDefence-Tower范围查询敌人算法 | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ue4-项目-TowerDefence-Tower范围查询敌人算法
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-09-03 15:52:12 / 修改时间：17:15:47" itemprop="dateCreated datePublished" datetime="2022-09-03T15:52:12+08:00">2022-09-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="查询敌人算法"><a href="#查询敌人算法" class="headerlink" title="查询敌人算法"></a>查询敌人算法</h1><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>在上一节中的怪物查询敌人算法里用到了，在这一节也需要用到</p>
+</li>
+<li><p>所以在<code>TowerDefence\Source\TowerDefence</code>位置创建<code>StoneDefenceUtils.h</code>以及<code>StoneDefenceUtils.cpp</code></p>
+</li>
+<li><p>将<code>MonsterAIController.cpp</code>中的那个lambda函数的逻辑挪动到<code>StoneDefenceUtils.cpp</code>内</p>
+<ul>
+<li><p>函数名称为<code>FindTargetRecently</code></p>
+</li>
+<li><p>形参除了原本的数组之外，还需要添加一个<code>const FVector</code>类型的参数<code>Loc</code>用来表示自己的位置</p>
+</li>
+<li><p>之前形参中的数组，数据类型修改为基类<code>ARuleOfTheCharacter</code></p>
+</li>
+<li><p>修改一些变量的名称，使其更加合理</p>
+</li>
+</ul>
+</li>
+<li><p>之后要查询敌人，就直接调用<code>StoneDefenceUtils.cpp</code>中的函数<code>FindTargetRecently</code>即可</p>
+</li>
+</ol>
+<h2 id="部分代码"><a href="#部分代码" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="StoneDefenceUtils-h"><a href="#StoneDefenceUtils-h" class="headerlink" title="StoneDefenceUtils.h"></a>StoneDefenceUtils.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ARuleOfTheCharacter</span>;</span><br><span class="line"><span class="keyword">namespace</span> StoneDefenceUtils</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function">ARuleOfTheCharacter* <span class="title">FindTargetRecently</span><span class="params">(<span class="type">const</span> TArray&lt;ARuleOfTheCharacter*&gt;&amp; InCharacters, <span class="type">const</span> FVector&amp; Loc)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="StoneDefenceUtils-cpp"><a href="#StoneDefenceUtils-cpp" class="headerlink" title="StoneDefenceUtils.cpp"></a>StoneDefenceUtils.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;StoneDefenceUtils.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character\Core\RuleOfTheCharacter.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">ARuleOfTheCharacter* <span class="title">StoneDefenceUtils::FindTargetRecently</span><span class="params">(<span class="type">const</span> TArray&lt;ARuleOfTheCharacter*&gt;&amp; InCharacters, <span class="type">const</span> FVector&amp; Loc)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (InCharacters.<span class="built_in">Num</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">float</span> TargetDistance = <span class="number">99999999</span>;</span><br><span class="line">        int32 Index = INDEX_NONE;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (int32 i = <span class="number">0</span>; i &lt; InCharacters.<span class="built_in">Num</span>(); i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (ARuleOfTheCharacter* TargetCharacter = InCharacters[i])</span><br><span class="line">            &#123;</span><br><span class="line">                FVector Location = TargetCharacter-&gt;<span class="built_in">GetActorLocation</span>();</span><br><span class="line">                FVector TmpVector = Location - Loc;</span><br><span class="line">                <span class="type">float</span> Distance = TmpVector.<span class="built_in">Size</span>();</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (Distance &lt; TargetDistance &amp;&amp; TargetCharacter-&gt;<span class="built_in">IsActive</span>())</span><br><span class="line">                &#123;</span><br><span class="line">                    Index = i;</span><br><span class="line">                    TargetDistance = Distance;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (Index != INDEX_NONE)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> InCharacters[Index];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Tower查询敌人"><a href="#Tower查询敌人" class="headerlink" title="Tower查询敌人"></a>Tower查询敌人</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="TArray-empty"><a href="#TArray-empty" class="headerlink" title="TArray.empty()"></a>TArray.empty()</h3><p>在原生C++的Vector容器中<code>.empty()</code>判断容器是否为空</p>
+<p>但是在此处，是用于清空数组</p>
+<h3 id="GetPawn-lt-gt"><a href="#GetPawn-lt-gt" class="headerlink" title="GetPawn&lt;&gt;()"></a>GetPawn&lt;&gt;()</h3><p>没错，<code>GetPawn()</code>已经是一个模板函数了</p>
+<p>在&lt;&gt;中可以添加合适的类</p>
+<p>例如下面会用到的</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//说明：此cpp文件中的pawn不是ATowers</span></span><br><span class="line">ATowers* Towers = <span class="built_in">GetPawn</span>&lt;ATowers&gt;()</span><br></pre></td></tr></table></figure>
+
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>在<code>TowersAIController.h</code>中</p>
+<ul>
+<li><p>声明一个数组，用于存储怪物实例<code>TArray&lt;ARuleOfTheCharacter*&gt;TArrayMonsters;</code></p>
+<ul>
+<li><p>但是记得需要声明宏<code>UPROPERTY()</code></p>
+</li>
+<li><p>为啥元素类型是<code>ARuleOfTheCharacter*</code>呢？因为这是Monster的基类，并且在已经写好的<code>FindTargetRecently()</code>函数中，返回值是<code>ARuleOfTheCharacter*</code></p>
+</li>
+</ul>
+</li>
+<li><p>声明函数<code>virtual AActor* FindTarget();</code>专门用于查询敌人在哪</p>
+</li>
+<li><p>声明函数<code>void BTService_FindTarget();</code>用于更新黑板中的变量的值</p>
+</li>
+<li><p>声明构造函数</p>
+</li>
+<li><p>声明重载函数<code>virtual void Tick(float DeltaTime) override;</code></p>
+</li>
+<li><p>声明一个弱指针<code>TWeakObjectPtr&lt;class ARuleOfTheCharacter&gt;Target;</code></p>
+</li>
+<li><p>声明一个<code>float</code>类型变量<code>HeartbeatDiagnosis</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>TowersAIController.cpp</code>中</p>
+<ul>
+<li><p>定义函数<code>BTService_FindTarget()</code></p>
+<ul>
+<li><p>使用<code>.Empty()</code>函数清空<code>TArrayMonsters</code>数组</p>
+</li>
+<li><p>使用<code>GetPawn&lt;&gt;()</code>获取<code>ATowers</code>的<code>pawn</code>命名为<code>Towers</code>并且判断是否获取成功</p>
+</li>
+<li><p>再通过<code>IsActive()</code>判断<code>Towers</code>是否是活的</p>
+</li>
+<li><p>使用<code>TActorIterator</code>遍历此世界中的<code>AMonster</code></p>
+</li>
+<li><p>创建一个<code>AMonster</code>类型的指针<code>TheCharacter</code>存储遍历到的<code>AMonster</code></p>
+</li>
+<li><p>再通过<code>IsActive()</code>判断<code>TheMonster</code>是否是活的</p>
+</li>
+<li><p>创建一个<code>FVector</code>类型的变量<code>TDistance</code>存储<code>TheCharacter</code>和<code>TowersAIController</code>的<code>Pawn</code>之间的距离</p>
+</li>
+<li><p>判断<code>TDistance.Size() &lt;= 1600</code></p>
+</li>
+<li><p>将<code>TheCharacter</code>使用<code>Add()</code>函数添加到<code>TArrayMonsters</code>中</p>
+</li>
+<li><p>当<code>TArrayMonsters.Num() &gt; 0</code>，则设置<code>Towers-&gt;bAttack = true;</code>，否则为<code>false</code></p>
+</li>
+</ul>
+</li>
+<li><p>定义函数<code>virtual AActor* FindTarget()</code></p>
+<ul>
+<li><p>判断<code>TArrayMonsters</code>是否为空</p>
+</li>
+<li><p>如果不为空，则调用<code>StoneDefenceUtils::FindTargetRecently()</code>函数</p>
+</li>
+<li><p>如果为空，则返回空指针</p>
+</li>
+</ul>
+</li>
+<li><p>在构造函数中初始化<code>HeartbeatDiagnosis</code>为<code>0.0f</code></p>
+</li>
+<li><p>定义函数<code>Tick(float DeltaTime)</code></p>
+<ul>
+<li><p><code>Super</code>继承父类</p>
+</li>
+<li><p><code>HeartbeatDiagnosis += DeltaTime;</code></p>
+</li>
+<li><p>判断<code>HeartbeatDiagnosis &gt;= 0.5f</code></p>
+</li>
+<li><p>是则调用<code>BTService_FindTarget();</code>，并且将<code>HeartbeatDiagnosis</code>重置为<code>0.0f</code></p>
+</li>
+<li><p>判断<code>TArrayMonsters.Num()</code></p>
+</li>
+<li><p>不为空则再判断<code>ATowers* Towers = GetPawn&lt;ATowers&gt;()</code></p>
+</li>
+<li><p>创建成功则判断<code>!Target.IsValid() || !Target-&gt;IsActive()</code></p>
+<ul>
+<li><p>条件满足则调用函数<code>FindTarget()</code>给<code>Target</code>赋值为<code>Cast&lt;ARuleOfTheCharacter&gt;(FindTarget())</code></p>
+</li>
+<li><p>判断<code>Target.IsValid()</code>（实现塔的角度旋转）</p>
+</li>
+<li><p>则设置塔的角度为<code>FRotationMatrix::MakeFromX(Target-&gt;GetActorLocation() - GetPawn()-&gt;GetActorLocation()).Rotator();</code></p>
+</li>
+<li><p>判断塔的旋转角度是否为<code>FRotator::ZeroRotator</code></p>
+</li>
+<li><p>如果不是则使用<code>Towers-&gt;TowersRotator -= GetPawn()-&gt;GetActorRotation();</code>实现塔逐帧旋转到怪物位置</p>
+<ul>
+<li><code>Towers-&gt;TowersRotator</code>在<code>Tower.h</code>中声明的，在蓝图中更新</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="部分代码-1"><a href="#部分代码-1" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="TowersAIController-h"><a href="#TowersAIController-h" class="headerlink" title="TowersAIController.h"></a>TowersAIController.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character\CharacterCore\Monsters.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character\Core\RuleOfTheAIController.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowersAIController.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ARuleOfTheCharacter</span>;</span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> ATowersAIController : <span class="keyword">public</span> ARuleOfTheAIController</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">ATowersAIController</span>();</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">(<span class="type">float</span> DeltaTime)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> AActor* <span class="title">FindTarget</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">BTService_FindTarget</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">		TArray&lt;ARuleOfTheCharacter*&gt;TArrayMonsters;</span><br><span class="line"></span><br><span class="line">		TWeakObjectPtr&lt;<span class="keyword">class</span> <span class="title class_">ARuleOfTheCharacter</span>&gt;Target;</span><br><span class="line"></span><br><span class="line">	<span class="type">float</span> HeartbeatDiagnosis;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="TowersAIController-cpp"><a href="#TowersAIController-cpp" class="headerlink" title="TowersAIController.cpp"></a>TowersAIController.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character/AIController/TowersAIController.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character\CharacterCore\Towers.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowerDefence\StoneDefenceUtils.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;EngineUtils.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">ATowersAIController::<span class="built_in">ATowersAIController</span>()</span><br><span class="line">    :<span class="built_in">HeartbeatDiagnosis</span>(<span class="number">0.0f</span>)</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ATowersAIController::Tick</span><span class="params">(<span class="type">float</span> DeltaTime)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">Tick</span>(DeltaTime);</span><br><span class="line">    HeartbeatDiagnosis += DeltaTime;</span><br><span class="line">    <span class="keyword">if</span> (HeartbeatDiagnosis &gt;= <span class="number">0.5f</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">BTService_FindTarget</span>();</span><br><span class="line">        HeartbeatDiagnosis = <span class="number">0.0f</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (TArrayMonsters.<span class="built_in">Num</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (ATowers* Towers = <span class="built_in">GetPawn</span>&lt;ATowers&gt;())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (!Target.<span class="built_in">IsValid</span>() || !Target-&gt;<span class="built_in">IsActive</span>())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//调用FindTarget函数，给塔的Target赋值</span></span><br><span class="line">                Target = <span class="built_in">Cast</span>&lt;ARuleOfTheCharacter&gt;(<span class="built_in">FindTarget</span>());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//设置塔的旋转角度</span></span><br><span class="line">            <span class="keyword">if</span> (Target.<span class="built_in">IsValid</span>())</span><br><span class="line">            &#123;</span><br><span class="line">                Towers-&gt;TowersRotator = FRotationMatrix::<span class="built_in">MakeFromX</span>(Target-&gt;<span class="built_in">GetActorLocation</span>() - <span class="built_in">GetPawn</span>()-&gt;<span class="built_in">GetActorLocation</span>()).<span class="built_in">Rotator</span>();</span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">GetPawn</span>()-&gt;<span class="built_in">GetActorRotation</span>() != FRotator::ZeroRotator)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="comment">//ATowersAIController在GetPawn()之后的返回值具体是什么类型的呢？</span></span><br><span class="line">                    <span class="comment">//和GetPawn&lt;ATowers&gt;()之间的区别在哪呢？</span></span><br><span class="line">                    <span class="comment">//我自己的思考是Atower继承自ACharactor，ATowersAIController继承自AIController</span></span><br><span class="line">                    <span class="comment">//ACharactor和AIController均有各自的pawn</span></span><br><span class="line">                    <span class="comment">//两者的pawn不相同，不存在“因为ATowersAIController是Atower的AI控制器，所以两者共用一个pawn”</span></span><br><span class="line">                    Towers-&gt;TowersRotator -= <span class="built_in">GetPawn</span>()-&gt;<span class="built_in">GetActorRotation</span>();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">AActor* <span class="title">ATowersAIController::FindTarget</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (TArrayMonsters.<span class="built_in">Num</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//调用StoneDefenceUtils中的函数FindTargetRecently</span></span><br><span class="line">        <span class="keyword">return</span> StoneDefenceUtils::<span class="built_in">FindTargetRecently</span>(TArrayMonsters, <span class="built_in">GetPawn</span>()-&gt;<span class="built_in">GetActorLocation</span>());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ATowersAIController::BTService_FindTarget</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    TArrayMonsters.<span class="built_in">Empty</span>();</span><br><span class="line">    <span class="keyword">if</span> (ATowers* Towers = <span class="built_in">GetPawn</span>&lt;ATowers&gt;())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (Towers-&gt;<span class="built_in">IsActive</span>())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span> (TActorIterator&lt;AMonsters&gt;<span class="built_in">it</span>(<span class="built_in">GetWorld</span>(), AMonsters::<span class="built_in">StaticClass</span>()); it; ++it)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (AMonsters* TheCharacter = *it)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span> (TheCharacter-&gt;<span class="built_in">IsActive</span>())</span><br><span class="line">                    &#123;</span><br><span class="line">                        </span><br><span class="line">                        FVector TDistance = TheCharacter-&gt;<span class="built_in">GetActorLocation</span>() - <span class="built_in">GetPawn</span>()-&gt;<span class="built_in">GetActorLocation</span>();</span><br><span class="line">                        <span class="keyword">if</span> (TDistance.<span class="built_in">Size</span>() &lt;= <span class="number">1600</span>)</span><br><span class="line">                        &#123;</span><br><span class="line">                            <span class="comment">//给数组TArrayMonsters中添加元素TheCharacter</span></span><br><span class="line">                            TArrayMonsters.<span class="built_in">Add</span>(TheCharacter);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (TArrayMonsters.<span class="built_in">Num</span>() &gt; <span class="number">0</span>)</span><br><span class="line">            &#123;   <span class="comment">//更新bAttack</span></span><br><span class="line">                Towers-&gt;bAttack = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                Towers-&gt;bAttack = <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag"># 项目</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/09/02/%E7%AE%97%E6%B3%95-%E5%93%88%E5%B8%8C%E8%A1%A8/" rel="prev" title="算法-哈希表">
+                  <i class="fa fa-chevron-left"></i> 算法-哈希表
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

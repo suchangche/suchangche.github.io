@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">100</span>
+          <span class="site-state-item-count">101</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,169 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/13/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9C%8D%E8%A3%85UI%E7%95%8C%E9%9D%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/13/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9C%8D%E8%A3%85UI%E7%95%8C%E9%9D%A2/" class="post-title-link" itemprop="url">UE4-项目-死寂-自定义服装UI界面</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-07-13 16:24:43" itemprop="dateCreated datePublished" datetime="2022-07-13T16:24:43+08:00">2022-07-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-07-14 16:14:32" itemprop="dateModified" datetime="2022-07-14T16:14:32+08:00">2022-07-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="自定义服装UI界面"><a href="#自定义服装UI界面" class="headerlink" title="自定义服装UI界面"></a>自定义服装UI界面</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="滚动框"><a href="#滚动框" class="headerlink" title="滚动框"></a>滚动框</h3><p>控件蓝图中的组件，一个框里面，物品过多的时候即可滚动物品选择</p>
+<h3 id="统一网格面板"><a href="#统一网格面板" class="headerlink" title="统一网格面板"></a>统一网格面板</h3><p>空间蓝图中的组件，放在滚动框中</p>
+<h3 id="设置骨骼网格体"><a href="#设置骨骼网格体" class="headerlink" title="设置骨骼网格体"></a>设置骨骼网格体</h3><p>可以设置骨骼网格体模型，也可以更新模型的时候重置其动画（Reinit Pose为true）</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>在世界场景设置中的“游戏模式”，”默认Pawn类“中修改为Pawn</p>
+</li>
+<li><p>复制“按钮交互”空间蓝图为“自定义服装按钮”</p>
+</li>
+<li><p>删除其中的按钮和文本框，图表中除了播放动画逻辑之外全部删掉，变量“Name”也删掉</p>
+</li>
+<li><p>拖入“边界”，将其尺寸xy均修改为150，右上角的“自定义”修改为“所需”，将默认的“渲染不透明度”修改为0</p>
+</li>
+<li><p>拖入“按钮”，将其锚点修改为居中，位置均为0，尺寸均为140，对其均为0.5</p>
+</li>
+<li><p>添加一个“图像”到“按钮”下面，将水平和竖直对其均修改为填充，将填充的值修改为0</p>
+</li>
+<li><p>添加服饰的图像，并将其亮度修改为0.4（在选中的时候才为1）</p>
+</li>
+<li><p>将图像的“渲染变换”中的“缩放”均修改为1.1，将按钮的裁切修改为“裁切到边界-固定（高级）”</p>
+</li>
+<li><p>将“交互”动画中原本的删掉，添加“图像”的轨道，缩放从1.1到1.2，“颜色和不透明度”的RGBA均从0.4到1</p>
+</li>
+<li><p>添加“边界”的轨道，将“渲染不透明度”从0修改为1</p>
+</li>
+<li><p>设置按钮的音效</p>
+</li>
+<li><p>给按钮添加“悬停时”和“未悬停时”的事件，分别正反向播放“交互”动画</p>
+</li>
+<li><p>创建一个“纹理2D”类型的变量“服装图片”，在设计器中的图像组件和“服装图片”进行绑定</p>
+</li>
+<li><p>添加“骨骼网格体”类型的变量“服装模型”，勾选其“可编辑实例”和“生成时公开”</p>
+</li>
+<li><p>创建新的空间蓝图“自定义服装”</p>
+<ul>
+<li><p>将“游戏声明”控件蓝图中的文本控件和返回按钮复制到“自定义服装中”</p>
+</li>
+<li><p>添加图像组件，全屏，放置服装选择图片，将一个“滚动框”组件放入图片“服装”栏的下面</p>
+</li>
+<li><p>在滚动框下面放入一个“统一网格面板”</p>
+</li>
+<li><p>将“自定义服装按钮”拖入统一网格面板，设置其行列，输入其“服装图片”和“服装模型”</p>
+</li>
+</ul>
+</li>
+<li><p>将“自定义服装”拖入到主界面控件蓝图中</p>
+<ul>
+<li><p>修改其锚点，偏移，渲染不透明度</p>
+</li>
+<li><p>复制原本的动画，替换为“自定义服装界面”，命名为“点击自定义服装”</p>
+</li>
+<li><p>将主界面的图表中的“关闭所有UI交互”函数中添加“自定义服装界面”</p>
+</li>
+</ul>
+</li>
+<li><p>在关卡蓝图中添加自定义事件“切换到自定义服装”，使用“获取玩家控制器”，“使用混合设置视图目标”，以及选择一个摄像机的实例实现切换摄像机的效果</p>
+</li>
+<li><p>在“主界面”的图表中使用“播放动画”，“控制台命令”，“关闭所有UI交互”，“设置可视性”实现主界面切换到自定义服装界面，同理，也设置自定义界面返回到主界面</p>
+</li>
+<li><p>创建一个角色蓝图类“BP_MainMenu”用于选择服装之后展示服装模型</p>
+<ul>
+<li><p>给角色添加一个模型</p>
+</li>
+<li><p>设置其动画模式为“使用动画资产”，设置一个合适的“要播放的动画”</p>
+</li>
+</ul>
+</li>
+<li><p>将“BP_MainMenu”放入场景中，放在第三个摄像机能看到的位置（自定义服装位置）</p>
+</li>
+<li><p>在主界面选择了不同服装之后，角色模型的服装也需要发生相应变化</p>
+<ul>
+<li><p>在“BP_MainMenu”创建一个自定义事件“切换服装”，添加一个骨骼网格体类型的输入“选择的模型”，并提升为变量</p>
+</li>
+<li><p>使用“设置骨骼网格体”来重置“BP_MainMenu”的模型，并且将“Reinit Pose”为false</p>
+</li>
+<li><p>在自定义服装按钮控件蓝图中，给button添加一个点击时的事件，通过“获取类的所有actor”调用“BP_MainMenu”中的“切换服装”事件</p>
+</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1772,108 +1935,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/05/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%9C%BA%E6%99%AF%E4%B8%8EUI%E4%BB%A5%E5%8F%8A%E5%AD%98%E6%A1%A3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/05/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%9C%BA%E6%99%AF%E4%B8%8EUI%E4%BB%A5%E5%8F%8A%E5%AD%98%E6%A1%A3/" class="post-title-link" itemprop="url">UE4-项目-死寂-场景与UI以及存档</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-07-05 20:30:59 / 修改时间：22:42:05" itemprop="dateCreated datePublished" datetime="2022-07-05T20:30:59+08:00">2022-07-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="场景导入"><a href="#场景导入" class="headerlink" title="场景导入"></a>场景导入</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="RecastNavMesh"><a href="#RecastNavMesh" class="headerlink" title="RecastNavMesh"></a>RecastNavMesh</h3><p>导航网格体的具体参数</p>
-<p>可修改其中的生成-&gt;代理半径为5，使得导航精度更高（值越小精度越高）</p>
-<p>可修改其中的生成-&gt;代理最大斜面，使得AI能上到不同倾斜角度的斜面上</p>
-<h3 id="角色移动：物理交互-gt-推动力因子"><a href="#角色移动：物理交互-gt-推动力因子" class="headerlink" title="角色移动：物理交互-&gt;推动力因子"></a>角色移动：物理交互-&gt;推动力因子</h3><p>角色移动碰撞到其他物体之后给该物体施加的力的大小</p>
-<h3 id="碰撞-gt-是否能影响导航"><a href="#碰撞-gt-是否能影响导航" class="headerlink" title="碰撞-&gt;是否能影响导航"></a>碰撞-&gt;是否能影响导航</h3><p>位于静态网格体组件中的设置，字面意思</p>
-<h3 id="碰撞预设与射线检测"><a href="#碰撞预设与射线检测" class="headerlink" title="碰撞预设与射线检测"></a><mark>碰撞预设与射线检测</mark></h3><p>丧尸的感知组件是通过visibility来进行感知的，但有时候某些物体（枪械，碰撞盒子）的碰撞预设将visibility阻挡了，导致角色受这些影响（手持枪械，进入一个阻挡visibility的碰撞盒子）的时候会出现丧尸看不到玩家的情况</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>导入新场景，打开之后要添加一个后期盒子，让我们拾取物品的时候有描边效果（和之前在测试地图的操作相同）</p>
-</li>
-<li><p>导入导航网格体边界体积，并且设置其大小，修改RecastNavMesh-&gt;生成-&gt;代理半径为5，修改代理最大斜面为89</p>
-</li>
-<li><p>找到场景中门的父类蓝图，删掉其中破坏门的逻辑，并将其质量设置为800</p>
-</li>
-<li><p>编辑丧尸蓝图类和角色蓝图类中的移动组件中的“角色移动：物理交互-&gt;推动力因子”均为75000</p>
-</li>
-<li><p>将门父类的模型中的碰撞-&gt;是否能影响导航为false（使得丧尸可以撞开门向前移动）</p>
-</li>
-<li><p>将场景中的所有材质设置正确（工程浩大啊可恶！）</p>
-</li>
-<li><p>将建筑父类中的盒体碰撞的“碰撞已启用”关闭，并且删掉玩家在建筑内的检测逻辑</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>
