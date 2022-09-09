@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-count">106</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,543 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/06/%E7%AE%97%E6%B3%95-%E6%95%B0%E7%BB%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/06/%E7%AE%97%E6%B3%95-%E6%95%B0%E7%BB%84/" class="post-title-link" itemprop="url">算法-数组</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-07-06 11:13:40" itemprop="dateCreated datePublished" datetime="2022-07-06T11:13:40+08:00">2022-07-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-08-31 11:20:26" itemprop="dateModified" datetime="2022-08-31T11:20:26+08:00">2022-08-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>算法二刷来啦！！！</p>
+<p>依旧是跟着代码随想录学习，之前学的不少都忘得差不多了，现在巩固一下！虽然可能博文内容会重复，但这一次刷题尽量自己多写总结！</p>
+<p>这一次也会把之前跳过的拓展题目重新思考！</p>
+<h1 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/binary-search/">二分查找</a></h1><p>给定一个 n 个元素有序的（升序）整型数组 nums 和一个目标值 target  ，写一个函数搜索 nums 中的 target，如果目标值存在返回下标，否则返回 -1。</p>
+<p>示例 1:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: nums = [<span class="number">-1</span>,<span class="number">0</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">9</span>,<span class="number">12</span>], target = <span class="number">9</span>     </span><br><span class="line">输出: <span class="number">4</span>       </span><br><span class="line">解释: <span class="number">9</span> 出现在 nums 中并且下标为 <span class="number">4</span>     </span><br></pre></td></tr></table></figure>
+
+<p>示例 2:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: nums = [<span class="number">-1</span>,<span class="number">0</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">9</span>,<span class="number">12</span>], target = <span class="number">2</span>     </span><br><span class="line">输出: <span class="number">-1</span>        </span><br><span class="line">解释: <span class="number">2</span> 不存在 nums 中因此返回 <span class="number">-1</span>        </span><br></pre></td></tr></table></figure>
+
+<p>提示：</p>
+<ul>
+<li>你可以假设 nums 中的所有元素是不重复的。</li>
+<li>n 将在 [1, 10000]之间。</li>
+<li>nums 的每个元素都将在 [-9999, 9999]之间。</li>
+</ul>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><h3 id="二分查找的运用条件"><a href="#二分查找的运用条件" class="headerlink" title="二分查找的运用条件"></a>二分查找的运用条件</h3><ol>
+<li><p>数组必须为有序数组（如果无序，自己排列一下也不是不行）</p>
+</li>
+<li><p>数组中元素无重复</p>
+<ul>
+<li>因为一旦有重复元素，使用二分查找法返回的元素下标可能不是唯一的</li>
+</ul>
+</li>
+</ol>
+<h3 id="二分查找的逻辑思维"><a href="#二分查找的逻辑思维" class="headerlink" title="二分查找的逻辑思维"></a>二分查找的逻辑思维</h3><ol>
+<li><p>获取两个下标，一个代表最左边left，一个代表最右边right</p>
+</li>
+<li><p>通过两个下表获取一个中间值middle</p>
+</li>
+<li><p><code>arr[midlle]</code>和目标值target进行比较，因为数组有序，所以如果middle小于target，则将left更新到middle的位置，反之将right更新到middle</p>
+</li>
+<li><p>最后<code>arr[middle]</code>一定会等于target</p>
+</li>
+<li><p>middle就是值为target的数组元素的下标了！</p>
+</li>
+</ol>
+<p><img src="https://img-blog.csdnimg.cn/20210311153055723.jpg" alt="704.二分查找"></p>
+<h3 id="二分查找的边界条件"><a href="#二分查找的边界条件" class="headerlink" title="二分查找的边界条件"></a>二分查找的边界条件</h3><p>也就是区间问题，一般分为两种</p>
+<ol>
+<li><p>左闭右闭即[left, right]</p>
+<ul>
+<li><p><code>while(left&lt;=right)</code>，使用<code>&lt;=</code>是因为<code>left==right</code>有意义</p>
+</li>
+<li><p><code>if(nums[middle]&gt;target)</code>时right要赋值为<code>middle-1</code>，因为当前的<code>nums[middle]!=target</code>，所以接下来查找的左区间就为middle-1</p>
+</li>
+</ul>
+</li>
+<li><p>左闭右开即[left, right)</p>
+<ul>
+<li><p><code>while (left &lt; right)</code>，使用<code>&lt;</code>是因为<code>left==right</code>无意义</p>
+</li>
+<li><p><code>if(nums[middle]&gt;target)</code>时right要赋值为<code>middle</code>，因为当前<code>nums[middle]</code>不等于target，去左区间继续寻找，而寻找区间是左闭右开区间，所以right更新为middle，即：下一个查询区间不会去比较nums[middle]</p>
+</li>
+<li><p>注意：left依旧要赋值为middle+1，因为左边是闭区间！</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>确定是否符合运用条件（有序且无重复数组）</p>
+</li>
+<li><p>确定边界条件</p>
+</li>
+<li><p>定义left和right进行比较</p>
+</li>
+</ol>
+<h3 id="左闭右闭即-left-right"><a href="#左闭右闭即-left-right" class="headerlink" title="左闭右闭即[left, right]"></a>左闭右闭即[left, right]</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">search</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> left = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> right = nums.<span class="built_in">size</span>() - <span class="number">1</span>; <span class="comment">// 定义target在左闭右闭的区间里，[left, right]</span></span><br><span class="line">        <span class="keyword">while</span> (left &lt;= right) &#123; <span class="comment">// 当left==right，区间[left, right]依然有效，所以用 &lt;=</span></span><br><span class="line">            <span class="type">int</span> middle = left + ((right - left) / <span class="number">2</span>);<span class="comment">// 防止溢出 等同于(left + right)/2</span></span><br><span class="line">            <span class="keyword">if</span> (nums[middle] &gt; target) &#123;</span><br><span class="line">                right = middle - <span class="number">1</span>; <span class="comment">// target 在左区间，所以[left, middle - 1]</span></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[middle] &lt; target) &#123;</span><br><span class="line">                left = middle + <span class="number">1</span>; <span class="comment">// target 在右区间，所以[middle + 1, right]</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123; <span class="comment">// nums[middle] == target</span></span><br><span class="line">                <span class="keyword">return</span> middle; <span class="comment">// 数组中找到目标值，直接返回下标</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 未找到目标值</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="左闭右开即-left-right"><a href="#左闭右开即-left-right" class="headerlink" title="左闭右开即[left, right)"></a>左闭右开即[left, right)</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">search</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> left = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> right = nums.<span class="built_in">size</span>(); <span class="comment">// 定义target在左闭右开的区间里，即：[left, right)</span></span><br><span class="line">        <span class="keyword">while</span> (left &lt; right) &#123; <span class="comment">// 因为left == right的时候，在[left, right)是无效的空间，所以使用 &lt;</span></span><br><span class="line">            <span class="type">int</span> middle = left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">            <span class="keyword">if</span> (nums[middle] &gt; target) &#123;</span><br><span class="line">                right = middle; <span class="comment">// target 在左区间，在[left, middle)中</span></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[middle] &lt; target) &#123;</span><br><span class="line">                left = middle + <span class="number">1</span>; <span class="comment">// target 在右区间，在[middle + 1, right)中</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123; <span class="comment">// nums[middle] == target</span></span><br><span class="line">                <span class="keyword">return</span> middle; <span class="comment">// 数组中找到目标值，直接返回下标</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 未找到目标值</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="搜索插入位置"><a href="#搜索插入位置" class="headerlink" title="搜索插入位置"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/search-insert-position/">搜索插入位置</a></h1><p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。</p>
+<p>你可以假设数组中无重复元素。</p>
+<p>示例 1:</p>
+<ul>
+<li>输入: [1,3,5,6], 5</li>
+<li>输出: 2</li>
+</ul>
+<p>示例 2:</p>
+<ul>
+<li>输入: [1,3,5,6], 2</li>
+<li>输出: 1</li>
+</ul>
+<p>示例 3:</p>
+<ul>
+<li>输入: [1,3,5,6], 7</li>
+<li>输出: 4</li>
+</ul>
+<p>示例 4:</p>
+<ul>
+<li>输入: [1,3,5,6], 0</li>
+<li>输出: 0</li>
+</ul>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><p>直接上二分查找！</p>
+<ol>
+<li><p>确定数组有序且无重复元素</p>
+</li>
+<li><p>确定解法左闭右闭</p>
+</li>
+<li><p>最后想下“返回将会被插入位置的下标”</p>
+<ul>
+<li><p>二分查找最后的查找位置在整个数组中是按序的</p>
+</li>
+<li><p>要考虑的是最后插入位置和left，middle，right中的哪一个相关</p>
+<ul>
+<li><p>若在[left,right]范围内找不到，那意味着被反复二分查找的地方不存在此数</p>
+</li>
+<li><p>意味着该数字大于被反复二分查找的那些数</p>
+</li>
+<li><p>所以应该大于right</p>
+</li>
+</ul>
+</li>
+<li><p>最后插入位置应该是right+1</p>
+</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">searchInsert</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="type">int</span> left = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> right = n - <span class="number">1</span>; <span class="comment">// 定义target在左闭右闭的区间里，[left, right]</span></span><br><span class="line">        <span class="keyword">while</span> (left &lt;= right) &#123; <span class="comment">// 当left==right，区间[left, right]依然有效</span></span><br><span class="line">            <span class="type">int</span> middle = left + ((right - left) / <span class="number">2</span>);<span class="comment">// 防止溢出 等同于(left + right)/2</span></span><br><span class="line">            <span class="keyword">if</span> (nums[middle] &gt; target) &#123;</span><br><span class="line">                right = middle - <span class="number">1</span>; <span class="comment">// target 在左区间，所以[left, middle - 1]</span></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[middle] &lt; target) &#123;</span><br><span class="line">                left = middle + <span class="number">1</span>; <span class="comment">// target 在右区间，所以[middle + 1, right]</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123; <span class="comment">// nums[middle] == target</span></span><br><span class="line">                <span class="keyword">return</span> middle;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 分别处理如下四种情况</span></span><br><span class="line">        <span class="comment">// 目标值在数组所有元素之前  [0, -1]</span></span><br><span class="line">        <span class="comment">// 目标值等于数组中某一个元素  return middle;</span></span><br><span class="line">        <span class="comment">// 目标值插入数组中的位置 [left, right]，return  right + 1</span></span><br><span class="line">        <span class="comment">// 目标值在数组所有元素之后的情况 [left, right]， 因为是右闭区间，所以 return right + 1</span></span><br><span class="line">        <span class="keyword">return</span> right + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">searchInsert</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> left=<span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> right=nums.<span class="built_in">size</span>()<span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">while</span>(left&lt;=right)&#123;</span><br><span class="line">            <span class="type">int</span> middle=(left+right)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(nums[middle]&lt;target)&#123;</span><br><span class="line">                left=middle+<span class="number">1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(nums[middle]&gt;target)&#123;</span><br><span class="line">                right=middle<span class="number">-1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">return</span> middle;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> right+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="移除元素"><a href="#移除元素" class="headerlink" title="移除元素"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/remove-element/">移除元素</a></h1><p>给你一个数组 nums 和一个值 val，你需要 <code>原地</code> 移除所有数值等于 val 的元素，并返回移除后数组的新长度。</p>
+<p>不要使用额外的数组空间，你必须仅使用 O(1) 额外空间并<strong>原地</strong>修改输入数组。</p>
+<p>元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。</p>
+<p>示例 1: 给定 nums &#x3D; [3,2,2,3], val &#x3D; 3</p>
+<p>函数应该返回新的长度 2, 并且 nums 中的前两个元素均为 2。 </p>
+<p>你不需要考虑数组中超出新长度后面的元素</p>
+<p>示例 2: 给定 nums &#x3D; [0,1,2,2,3,0,4,2], val &#x3D; 2</p>
+<p>函数应该返回新的长度 5, 并且 nums 中的前五个元素为 0, 1, 3, 0, 4</p>
+<p>你不需要考虑数组中超出新长度后面的元素</p>
+<h2 id="双指针法"><a href="#双指针法" class="headerlink" title="双指针法"></a>双指针法</h2><p><strong>双指针法（快慢指针法）在数组和链表的操作中是非常常见的，很多考察数组、链表、字符串等操作的面试题，都使用双指针法。</strong></p>
+<p>在这里使用快慢指针法！</p>
+<h3 id="快慢指针法"><a href="#快慢指针法" class="headerlink" title="快慢指针法"></a>快慢指针法</h3><p><strong>通过一个快指针和慢指针在一个for循环下完成两个for循环的工作。</strong></p>
+<p>定义快慢指针</p>
+<ul>
+<li>快指针：寻找新数组的元素 ，新数组就是不含有目标元素的数组</li>
+<li>慢指针：指向更新 新数组下标的位置</li>
+</ul>
+<p><img src="D:\R_program\Blog\source_posts\算法-数组\1.gif"></p>
+<ol>
+<li><p>定义快慢两个指针，在一个for循环内</p>
+</li>
+<li><p>快指针每循环一次就会更新一次位置，并且每次更新都会将当前指向的值赋值给满指针</p>
+</li>
+<li><p>慢指针只有在目标值不等于快指针所指位置的值的时候才会更新</p>
+</li>
+<li><p>当快慢指针指向同一个位置的时候自然啥也不会发生，但如果快指针更新一次，慢指针不动，快指针则会将慢指针下一个位置的值赋值给慢指针，达到覆盖了目标值的效果</p>
+</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 时间复杂度：O(n)</span></span><br><span class="line"><span class="comment">// 空间复杂度：O(1)</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">removeElement</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> slowIndex = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> fastIndex = <span class="number">0</span>; fastIndex &lt; nums.<span class="built_in">size</span>(); fastIndex++) &#123;</span><br><span class="line">           <span class="comment">//当目标值不等于快指针时候，更新慢指针位置，并将快指针的值赋值给慢指针</span></span><br><span class="line">           <span class="comment">//当目标值等于快指针，则只有快指针移动，慢指针原地不动</span></span><br><span class="line">           <span class="comment">//下次快慢指针一同移动的时候，快指针的值会覆盖慢指针当前指向的目标值，达到删除的效果</span></span><br><span class="line">           <span class="keyword">if</span> (val != nums[fastIndex]) &#123;</span><br><span class="line">                nums[slowIndex++] = nums[fastIndex];<span class="comment">//更新慢指针并将快指针的值赋予</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> slowIndex;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 相向双指针方法，基于元素顺序可以改变的题目描述改变了元素相对位置，确保了移动最少元素</span></span><br><span class="line"><span class="comment">* 时间复杂度：O(n)</span></span><br><span class="line"><span class="comment">* 空间复杂度：O(1)</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">removeElement</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> leftIndex = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> rightIndex = nums.<span class="built_in">size</span>() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (leftIndex &lt;= rightIndex) &#123;</span><br><span class="line">            <span class="comment">// 找左边等于val的元素</span></span><br><span class="line">            <span class="keyword">while</span> (leftIndex &lt;= rightIndex &amp;&amp; nums[leftIndex] != val)&#123;</span><br><span class="line">                ++leftIndex;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 找右边不等于val的元素</span></span><br><span class="line">            <span class="keyword">while</span> (leftIndex &lt;= rightIndex &amp;&amp; nums[rightIndex] == val) &#123;</span><br><span class="line">                -- rightIndex;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 将右边不等于val的元素覆盖左边等于val的元素</span></span><br><span class="line">            <span class="keyword">if</span> (leftIndex &lt; rightIndex) &#123;</span><br><span class="line">                nums[leftIndex++] = nums[rightIndex--];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> leftIndex;   <span class="comment">// leftIndex一定指向了最终数组末尾的下一个元素</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="有序数组的平方"><a href="#有序数组的平方" class="headerlink" title="有序数组的平方"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/squares-of-a-sorted-array/">有序数组的平方</a></h1><p>给你一个按 非递减顺序 排序的整数数组 nums，返回 每个数字的平方 组成的新数组，要求也按 非递减顺序 排序。</p>
+<p>示例 1： </p>
+<p>输入：nums &#x3D; [-4,-1,0,3,10] </p>
+<p>输出：[0,1,9,16,100] </p>
+<p>解释：平方后，数组变为 [16,1,0,9,100]，排序后，数组变为 [0,1,9,16,100]</p>
+<p>示例 2： </p>
+<p>输入：nums &#x3D; [-7,-3,2,3,11] </p>
+<p>输出：[4,9,9,49,121]</p>
+<h2 id="双指针法-1"><a href="#双指针法-1" class="headerlink" title="双指针法"></a>双指针法</h2><p>数组其实是有序的， 只不过负数平方之后可能成为最大数了。</p>
+<p>那么数组平方的最大值就在数组的两端，不是最左边就是最右边，不可能是中间。</p>
+<p>此时可以考虑双指针法了，i指向起始位置，j指向终止位置。</p>
+<p>定义一个新数组result，和A数组一样的大小，让k指向result数组终止位置。</p>
+<p>如果<code>A[i] * A[i] &lt; A[j] * A[j]</code> 那么<code>result[k--] = A[j] * A[j];</code> 。</p>
+<p>如果<code>A[i] * A[i] &gt;= A[j] * A[j]</code> 那么<code>result[k--] = A[i] * A[i];</code> 。</p>
+<p><img src="D:\R_program\Blog\source_posts\算法-数组\2.gif"></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">sortedSquares</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; A)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> k = A.<span class="built_in">size</span>() - <span class="number">1</span>;</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">result</span><span class="params">(A.size(), <span class="number">0</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>, j = A.<span class="built_in">size</span>() - <span class="number">1</span>; i &lt;= j;) &#123; <span class="comment">// 注意这里要i &lt;= j，因为最后要处理两个元素</span></span><br><span class="line">            <span class="keyword">if</span> (A[i] * A[i] &lt; A[j] * A[j])  &#123;</span><br><span class="line">                result[k--] = A[j] * A[j];</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                result[k--] = A[i] * A[i];</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="长度最小的子数组"><a href="#长度最小的子数组" class="headerlink" title="长度最小的子数组"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/minimum-size-subarray-sum/">长度最小的子数组</a></h1><p>给定一个含有 n 个正整数的数组和一个正整数 s ，找出该数组中满足其和 ≥ s 的长度最小的 连续 子数组，并返回其长度。如果不存在符合条件的子数组，返回 0。</p>
+<p>示例：</p>
+<p>输入：s &#x3D; 7, nums &#x3D; [2,3,1,2,4,3] 输出：2 解释：子数组 [4,3] 是该条件下的长度最小的子数组。</p>
+<h2 id="滑动窗口算法"><a href="#滑动窗口算法" class="headerlink" title="滑动窗口算法"></a>滑动窗口算法</h2><p>所谓滑动窗口，<strong>就是不断的调节子序列的起始位置和终止位置，从而得出我们要想的结果</strong>。</p>
+<p>在暴力解法中，是一个for循环滑动窗口的起始位置，一个for循环为滑动窗口的终止位置，用两个for循环 完成了一个不断搜索区间的过程。</p>
+<p>那么滑动窗口如何用一个for循环来完成这个操作呢。</p>
+<p>首先要思考 如果用一个for循环，那么应该表示 滑动窗口的起始位置，还是终止位置。</p>
+<p>如果只用一个for循环来表示 滑动窗口的起始位置，那么如何遍历剩下的终止位置？</p>
+<p>此时难免再次陷入 暴力解法的怪圈。</p>
+<p>所以 只用一个for循环，那么这个循环的索引，一定是表示 滑动窗口的终止位置。</p>
+<p>那么问题来了， 滑动窗口的起始位置如何移动呢？</p>
+<p>这里还是以题目中的示例来举例，s&#x3D;7， 数组是 2，3，1，2，4，3，来看一下查找的过程：</p>
+<p><img src="https://code-thinking.cdn.bcebos.com/gifs/209.%E9%95%BF%E5%BA%A6%E6%9C%80%E5%B0%8F%E7%9A%84%E5%AD%90%E6%95%B0%E7%BB%84.gif" alt="209.长度最小的子数组"></p>
+<p>最后找到 4，3 是最短距离。</p>
+<p>其实从动画中可以发现滑动窗口也可以理解为双指针法的一种！只不过这种解法更像是一个窗口的移动，所以叫做滑动窗口更适合一些。</p>
+<p>在本题中实现滑动窗口，主要确定如下三点：</p>
+<ul>
+<li>窗口内是什么？</li>
+<li>如何移动窗口的起始位置？</li>
+<li>如何移动窗口的结束位置？</li>
+</ul>
+<p>窗口就是 满足其和 ≥ s 的长度最小的 连续 子数组。</p>
+<p>窗口的<strong>起始位置</strong>如何移动：如果当前窗口的值大于s了，窗口就要向前移动了（也就是该缩小了）。</p>
+<p>窗口的<strong>结束位置</strong>如何移动：窗口的结束位置就是遍历数组的指针，也就是for循环里的索引。</p>
+<p>解题的关键在于 窗口的起始位置如何移动，如图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210312160441942.png" alt="leetcode_209"></p>
+<p>可以发现<strong>滑动窗口的精妙之处在于根据当前子序列和大小的情况，不断调节子序列的起始位置。从而将O(n^2)暴力解法降为O(n)。</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">minSubArrayLen</span><span class="params">(<span class="type">int</span> s, vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> result = INT32_MAX;</span><br><span class="line">        <span class="type">int</span> sum = <span class="number">0</span>; <span class="comment">// 滑动窗口数值之和</span></span><br><span class="line">        <span class="type">int</span> i = <span class="number">0</span>; <span class="comment">// 滑动窗口起始位置</span></span><br><span class="line">        <span class="type">int</span> subLength = <span class="number">0</span>; <span class="comment">// 滑动窗口的长度</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; nums.<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">            sum += nums[j];</span><br><span class="line">            <span class="comment">// 注意这里使用while，每次更新 i（起始位置），并不断比较子序列是否符合条件</span></span><br><span class="line">            <span class="keyword">while</span> (sum &gt;= s) &#123;</span><br><span class="line">                subLength = (j - i + <span class="number">1</span>); <span class="comment">// 取子序列的长度</span></span><br><span class="line">                result = result &lt; subLength ? result : subLength;</span><br><span class="line">                sum -= nums[i++]; <span class="comment">// 这里体现出滑动窗口的精髓之处，不断变更i（子序列的起始位置）</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 如果result没有被赋值的话，就返回0，说明没有符合条件的子序列</span></span><br><span class="line">        <span class="keyword">return</span> result == INT32_MAX ? <span class="number">0</span> : result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="螺旋矩阵II"><a href="#螺旋矩阵II" class="headerlink" title="螺旋矩阵II"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/spiral-matrix-ii/">螺旋矩阵II</a></h1><p>给定一个正整数 n，生成一个包含 1 到 n^2 所有元素，且元素按顺时针顺序螺旋排列的正方形矩阵。</p>
+<p>示例:</p>
+<p>输入: 3 输出: [ [ 1, 2, 3 ], [ 8, 9, 4 ], [ 7, 6, 5 ] ]</p>
+<p><img src="https://assets.leetcode.com/uploads/2020/11/13/spiraln.jpg"></p>
+<h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><p>如果要写出正确的二分法一定要坚持<strong>循环不变量原则</strong>。</p>
+<p>而求解本题依然是要坚持循环不变量原则。</p>
+<p>模拟顺时针画矩阵的过程:</p>
+<ul>
+<li>填充上行从左到右</li>
+<li>填充右列从上到下</li>
+<li>填充下行从右到左</li>
+<li>填充左列从下到上</li>
+</ul>
+<p>由外向内一圈一圈这么画下去。</p>
+<p>可以发现这里的边界条件非常多，在一个循环中，如此多的边界条件，如果不按照固定规则来遍历，那就是<strong>一进循环深似海，从此offer是路人</strong>。</p>
+<p>这里一圈下来，我们要画每四条边，这四条边怎么画，每画一条边都要坚持一致的左闭右开，或者左开右闭的原则，这样这一圈才能按照统一的规则画下来。</p>
+<p>那么我按照左闭右开的原则，来画一圈，大家看一下：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020121623550681.png" alt="螺旋矩阵"></p>
+<p>这里每一种颜色，代表一条边，我们遍历的长度，可以看出每一个拐角处的处理规则，拐角处让给新的一条边来继续画。</p>
+<p>这也是坚持了每条边左闭右开的原则。</p>
+<p>一些同学做这道题目之所以一直写不好，代码越写越乱。</p>
+<p>就是因为在画每一条边的时候，一会左开右闭，一会左闭右闭，一会又来左闭右开，岂能不乱。</p>
+<p>代码如下，已经详细注释了每一步的目的，可以看出while循环里判断的情况是很多的，代码里处理的原则也是统一的左闭右开。</p>
+<p>整体C++代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">generateMatrix</span>(<span class="type">int</span> n) &#123;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">res</span>(n, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(n, <span class="number">0</span>)); <span class="comment">// 使用vector定义一个二维数组</span></span><br><span class="line">        <span class="type">int</span> startx = <span class="number">0</span>, starty = <span class="number">0</span>; <span class="comment">// 定义每循环一个圈的起始位置</span></span><br><span class="line">        <span class="type">int</span> loop = n / <span class="number">2</span>; <span class="comment">// 每个圈循环几次，例如n为奇数3，那么loop = 1 只是循环一圈，矩阵中间的值需要单独处理</span></span><br><span class="line">        <span class="type">int</span> mid = n / <span class="number">2</span>; <span class="comment">// 矩阵中间的位置，例如：n为3， 中间的位置就是(1，1)，n为5，中间位置为(2, 2)</span></span><br><span class="line">        <span class="type">int</span> count = <span class="number">1</span>; <span class="comment">// 用来给矩阵中每一个空格赋值</span></span><br><span class="line">        <span class="type">int</span> offset = <span class="number">1</span>; <span class="comment">// 需要控制每一条边遍历的长度，每次循环右边界收缩一位</span></span><br><span class="line">        <span class="type">int</span> i,j;</span><br><span class="line">        <span class="keyword">while</span> (loop --) &#123;</span><br><span class="line">            i = startx;</span><br><span class="line">            j = starty;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 下面开始的四个for就是模拟转了一圈</span></span><br><span class="line">            <span class="comment">// 模拟填充上行从左到右(左闭右开)</span></span><br><span class="line">            <span class="keyword">for</span> (j = starty; j &lt; n - offset; j++) &#123;</span><br><span class="line">                res[startx][j] = count++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 模拟填充右列从上到下(左闭右开)</span></span><br><span class="line">            <span class="keyword">for</span> (i = startx; i &lt; n - offset; i++) &#123;</span><br><span class="line">                res[i][j] = count++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 模拟填充下行从右到左(左闭右开)</span></span><br><span class="line">            <span class="keyword">for</span> (; j &gt; starty; j--) &#123;</span><br><span class="line">                res[i][j] = count++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 模拟填充左列从下到上(左闭右开)</span></span><br><span class="line">            <span class="keyword">for</span> (; i &gt; startx; i--) &#123;</span><br><span class="line">                res[i][j] = count++;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 第二圈开始的时候，起始位置要各自加1， 例如：第一圈起始位置是(0, 0)，第二圈起始位置是(1, 1)</span></span><br><span class="line">            startx++;</span><br><span class="line">            starty++;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// offset 控制每一圈里每一条边遍历的长度</span></span><br><span class="line">            offset += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 如果n为奇数的话，需要单独给矩阵最中间的位置赋值</span></span><br><span class="line">        <span class="keyword">if</span> (n % <span class="number">2</span>) &#123;</span><br><span class="line">            res[mid][mid] = count;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/06/Socket%E7%BC%96%E7%A8%8B-OSI%E7%BD%91%E7%BB%9C%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/06/Socket%E7%BC%96%E7%A8%8B-OSI%E7%BD%91%E7%BB%9C%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B/" class="post-title-link" itemprop="url">Socket编程-OSI网络七层模型与TCP/IP协议族</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-07-06 10:50:20" itemprop="dateCreated datePublished" datetime="2022-07-06T10:50:20+08:00">2022-07-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-07-07 11:12:32" itemprop="dateModified" datetime="2022-07-07T11:12:32+08:00">2022-07-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Socket/" itemprop="url" rel="index"><span itemprop="name">Socket</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>OSI 模型把网络通信的工作分为 7 层，从下到上分别是物理层、数据链路层、网络层、传输层、会话层、表示层和应用层。  </p>
+<p>OSI 只是存在于概念和理论上的一种模型，它的缺点是分层太多，增加了网络工作的复杂性，所以没有大规模应用。后来人们对 OSI 进行了简化，合并了一些层，最终只保留了 4 层，从下到上分别是接口层、网络层、传输层和应用层，这就是大名鼎鼎的 TCP&#x2F;IP 模型。</p>
+<h1 id="OSI模型与TCP-x2F-IP模型"><a href="#OSI模型与TCP-x2F-IP模型" class="headerlink" title="OSI模型与TCP&#x2F;IP模型"></a>OSI模型与TCP&#x2F;IP模型</h1><p><img src="D:\R_program\Blog\source_posts\Socket编程-OSI网络七层模型\1.jpg"></p>
+<h1 id="Socket编程位置"><a href="#Socket编程位置" class="headerlink" title="Socket编程位置"></a>Socket编程位置</h1><p> <a target="_blank" rel="noopener" href="http://c.biancheng.net/socket/">socket</a> 编程，是站在传输层的基础上，所以可以使用 TCP&#x2F;UDP 协议，但是不能干「访问网页」这样的事情，因为访问网页所需要的 http 协议位于应用层。</p>
+<p>两台计算机进行通信时，必须遵守以下原则：</p>
+<ul>
+<li>必须是同一层次进行通信，比如，A 计算机的应用层和 B 计算机的传输层就不能通信，因为它们不在一个层次，数据的拆包会遇到问题。</li>
+<li>每一层的功能都必须相同，也就是拥有完全相同的网络模型。如果网络模型都不同，那不就乱套了，谁都不认识谁。</li>
+<li>数据只能逐层传输，不能跃层。</li>
+<li>每一层可以使用下层提供的服务，并向上层提供服务。</li>
+</ul>
+<h1 id="TCP-x2F-IP协议族"><a href="#TCP-x2F-IP协议族" class="headerlink" title="TCP&#x2F;IP协议族"></a>TCP&#x2F;IP协议族</h1><p>目前实际使用的网络模型是 TCP&#x2F;IP 模型，它对 OSI 模型进行了简化，只包含了四层，从上到下分别是应用层、传输层、网络层和链路层（网络接口层），每一层都包含了若干协议。  </p>
+<p>协议（Protocol）就是网络通信过程中的约定或者合同，通信的双方必须都遵守才能正常收发数据。协议有很多种，例如 TCP、UDP、IP 等，通信的双方必须使用同一协议才能通信。协议是一种规范，由计算机组织制定，规定了很多细节，例如，如何建立连接，如何相互识别等。</p>
+<blockquote>
+<p>协议仅仅是一种规范，必须由计算机软件来实现。例如 IP 协议规定了如何找到目标计算机，那么各个开发商在开发自己的软件时就必须遵守该协议，不能另起炉灶。</p>
+</blockquote>
+<p>TCP&#x2F;IP 模型包含了 TCP、IP、UDP、Telnet、FTP、SMTP 等上百个互为关联的协议，其中 TCP 和 IP 是最常用的两种底层协议，所以把它们统称为“TCP&#x2F;IP 协议族”。</p>
+<p> <a target="_blank" rel="noopener" href="http://c.biancheng.net/socket/">socket</a> 编程是基于 TCP 和 UDP 协议的，它们的层级关系如下图所示：  </p>
+<p><img src="D:\R_program\Blog\source_posts\Socket编程-OSI网络七层模型\2.gif"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/06/Socket%E7%BC%96%E7%A8%8B-%E9%9D%A2%E5%90%91%E8%BF%9E%E6%8E%A5%E5%92%8C%E6%97%A0%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%A5%97%E6%8E%A5%E5%AD%97%E7%9A%84%E5%8C%BA%E5%88%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/06/Socket%E7%BC%96%E7%A8%8B-%E9%9D%A2%E5%90%91%E8%BF%9E%E6%8E%A5%E5%92%8C%E6%97%A0%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%A5%97%E6%8E%A5%E5%AD%97%E7%9A%84%E5%8C%BA%E5%88%AB/" class="post-title-link" itemprop="url">Socket编程-面向连接和无连接的套接字的区别</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-06 10:30:53 / 修改时间：10:48:20" itemprop="dateCreated datePublished" datetime="2022-07-06T10:30:53+08:00">2022-07-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Socket/" itemprop="url" rel="index"><span itemprop="name">Socket</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="套接字类型"><a href="#套接字类型" class="headerlink" title="套接字类型"></a>套接字类型</h1><ol>
+<li><p>流格式套接字：面向连接的套接字，基于TCP协议</p>
+</li>
+<li><p>数据报格式套接字：无连接的套接字，基于UDP协议</p>
+</li>
+</ol>
+<p>现在有一个互联网模型如下所示</p>
+<p><img src="D:\R_program\Blog\source_posts\Socket编程-面向连接和无连接的套接字的区别\1.gif"></p>
+<p>假设 H1 要发送若干个数据包给 H6，那么有多条路径可以选择，比如：</p>
+<pre><code>路径①：H1 --&gt; A --&gt; C --&gt; E --&gt; H6
+
+路径②：H1 --&gt; A --&gt; B --&gt; E --&gt; H6
+
+路径③：H1 --&gt; A --&gt; B --&gt; D --&gt; E --&gt; H6
+
+路径④：H1 --&gt; A --&gt; B --&gt; C --&gt; E --&gt; H6
+
+路径⑤：H1 --&gt; A --&gt; C --&gt; B --&gt; D --&gt; E --&gt; H6
+</code></pre>
+<h1 id="无连接的套接字"><a href="#无连接的套接字" class="headerlink" title="无连接的套接字"></a>无连接的套接字</h1><ol>
+<li><p>每个数据包可以<strong>选择不同的路径</strong>且<strong>到达的顺序是不确定的</strong></p>
+<ul>
+<li>比如第一个数据包选择路径1，第二个数据包选择路径4…</li>
+</ul>
+</li>
+<li><p>数据包在传输过程中会发生各种不测，也会发生各种奇迹</p>
+<ul>
+<li><p>比如传输的过程中网络波动，断网，断电等情况</p>
+</li>
+<li><p>而且也不管啥时候到达，也不管到达了几个，到达的顺序如何</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="面向连接的套接字"><a href="#面向连接的套接字" class="headerlink" title="面向连接的套接字"></a>面向连接的套接字</h1><ol>
+<li><p>面向连接的套接字在正式通信之前先确定一条路径，然后固定地使用这条路径来传递数据包，如果路径故障（某个路由器坏了，断电了）则重新建立路径</p>
+</li>
+<li><p>这条预先建立好的路径被称为“虚电路”，就是一条虚拟的通信电路</p>
+<ul>
+<li>建立虚电路</li>
+<li>数据传输</li>
+<li>虚电路释放</li>
+</ul>
+</li>
+<li><p>同TCP通信相同，在报文抵达目的地址之后，需要接收方发送回一个确认信息，如果长时间没有收到确认信息的话，则会再次发送该报文，并且是依次发送，意味着报文的抵达是按顺抵达的</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1280,936 +1817,6 @@
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>最后的架构如下</p>
 <p><img src="D:\R_program\Blog\source_posts\UE4-项目-TowerDefence-游戏架构搭建\1.png"></p>
 <p><img src="D:\R_program\Blog\source_posts\UE4-项目-TowerDefence-游戏架构搭建\2.png"></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/30/UE4-C-%E6%96%AD%E8%A8%80/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/06/30/UE4-C-%E6%96%AD%E8%A8%80/" class="post-title-link" itemprop="url">UE4-C++-断言</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-06-30 16:31:32 / 修改时间：17:01:48" itemprop="dateCreated datePublished" datetime="2022-06-30T16:31:32+08:00">2022-06-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>断言（assertion）是编程中的一种常用手段，在通常情况下，断言就是将一个返回值总是真（或者我们需要是真）的判别式放在语句中，用以排除在设计逻辑上不应该出现的情况。</p>
-<p>举个例子：我们都知道除数不能为0，那么就可以对除数使用断言，以使<strong>程序在除数为0的情况下产生异常退出</strong>。</p>
-<h1 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h1><h2 id="简单断言check"><a href="#简单断言check" class="headerlink" title="简单断言check()"></a>简单断言check()</h2><p>在传入值为空指针，0，false时都会触发断点进而崩溃</p>
-<h2 id="额外信息断言"><a href="#额外信息断言" class="headerlink" title="额外信息断言"></a>额外信息断言</h2><h3 id="verifyf"><a href="#verifyf" class="headerlink" title="verifyf()"></a>verifyf()</h3><p><code>verifyf(bool,TEXT(&quot;更多提示信息 verifyf&quot;))</code></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">verifyf</span>(<span class="literal">false</span>,<span class="built_in">TEXT</span>(<span class="string">&quot;ssss %s&quot;</span>),*<span class="keyword">this</span>-&gt;<span class="built_in">GetName</span>());</span><br></pre></td></tr></table></figure>
-
-<p>可将TEXT()中的内容打印在调试内容中，同时后面的this指针也会打印出此函数的类名称</p>
-<h3 id="checkf"><a href="#checkf" class="headerlink" title="checkf()"></a>checkf()</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">checkf</span>(<span class="literal">false</span>,<span class="built_in">TEXT</span>(<span class="string">&quot;ssss %s&quot;</span>),*<span class="keyword">this</span>-&gt;<span class="built_in">GetName</span>());</span><br></pre></td></tr></table></figure>
-
-<p>用法同verifyf</p>
-<h2 id="阻塞流程断言"><a href="#阻塞流程断言" class="headerlink" title="阻塞流程断言"></a>阻塞流程断言</h2><h3 id="checkNoEntry"><a href="#checkNoEntry" class="headerlink" title="checkNoEntry()"></a>checkNoEntry()</h3><p>在某函数内使用，检测程序是否进入到该函数内，如果进入到了则立刻触发断点</p>
-<h3 id="checkNoReentry"><a href="#checkNoReentry" class="headerlink" title="checkNoReentry()"></a>checkNoReentry()</h3><p>在某函数内使用，若该函数被执行两次，则立刻触发断点</p>
-<h3 id="checkNoRecursion"><a href="#checkNoRecursion" class="headerlink" title="checkNoRecursion()"></a>checkNoRecursion()</h3><p>如果某函数内存在递归，则会触发该断言</p>
-<h2 id="断点式断言"><a href="#断点式断言" class="headerlink" title="断点式断言"></a>断点式断言</h2><h3 id="ensure"><a href="#ensure" class="headerlink" title="ensure()"></a>ensure()</h3><p>类似于check()但是不同的是，该断言触发后不会导致程序崩溃，会给出断点信息</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ensure</span>(<span class="type">bool</span> &amp;&amp; <span class="string">&quot;提示信息&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="ensureMsgf（）"><a href="#ensureMsgf（）" class="headerlink" title="ensureMsgf（）"></a>ensureMsgf（）</h3><p>可以获取额外信息</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ensureMsgf</span>(<span class="number">0</span>,<span class="built_in">TEXT</span>(<span class="string">&quot;ssss %S&quot;</span>),*<span class="keyword">this</span>-&gt;<span class="built_in">GetName</span>());</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/27/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%95%8C%E4%BA%BAAI/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/06/27/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%95%8C%E4%BA%BAAI/" class="post-title-link" itemprop="url">UE4-项目-死寂-敌人AI与简单伤害系统</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-06-27 14:58:48" itemprop="dateCreated datePublished" datetime="2022-06-27T14:58:48+08:00">2022-06-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-07-03 11:12:54" itemprop="dateModified" datetime="2022-07-03T11:12:54+08:00">2022-07-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h1><p>前面的几个章节已经将角色的大部分功能完善了，关于玩家角色还剩下的功能，大概就是伤害系统，生命值系统这些有要用到UI界面的，这就放到后面的UI一起解决。</p>
-<p>接下来就是激动人心的敌人AI了！兄弟们，这个FPS项目进度正式过半，加油！！！</p>
-<h1 id="丧尸随机移动及追逐玩家"><a href="#丧尸随机移动及追逐玩家" class="headerlink" title="丧尸随机移动及追逐玩家"></a>丧尸随机移动及追逐玩家</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="获取黑板"><a href="#获取黑板" class="headerlink" title="获取黑板"></a>获取黑板</h3><p>在AI控制器中使用，字面意思</p>
-<h3 id="创建文字命名"><a href="#创建文字命名" class="headerlink" title="创建文字命名"></a>创建文字命名</h3><p>根据传入的值，返回变量名相同的变量</p>
-<h3 id="将值设为布尔"><a href="#将值设为布尔" class="headerlink" title="将值设为布尔"></a>将值设为布尔</h3><p>在AI控制器使用，字面意思</p>
-<p>将目标中的名为key name引脚传入的值的布尔变量进行设置</p>
-<h3 id="行为树中的Sequence"><a href="#行为树中的Sequence" class="headerlink" title="行为树中的Sequence"></a>行为树中的Sequence</h3><ol>
-<li><p>可添加装饰器backbroad</p>
-</li>
-<li><p>修改backbroad的黑板键，观察器中止</p>
-</li>
-</ol>
-<h3 id="Backbroad"><a href="#Backbroad" class="headerlink" title="Backbroad"></a>Backbroad</h3><ol>
-<li><p>观察器中止：再AI行为树的同一深度中，任一一个条件达成，就会中断同层的所有节点</p>
-</li>
-<li><p>黑板键：黑板中设置的值</p>
-</li>
-</ol>
-<h3 id="新建任务"><a href="#新建任务" class="headerlink" title="新建任务"></a>新建任务</h3><p>AI行为树中的左上角图表，点击之后为该行为树创建一个任务，用于在达成某条件之后AI需要执行的操作</p>
-<h3 id="事件接收执行AI"><a href="#事件接收执行AI" class="headerlink" title="事件接收执行AI"></a>事件接收执行AI</h3><p>在任务被触发的时候会执行的函数</p>
-<h3 id="完成执行"><a href="#完成执行" class="headerlink" title="完成执行"></a>完成执行</h3><p>AI行为树的任务中的节点，告诉系统此任务已经完成，可以执行下一个任务</p>
-<h3 id="AI-MoveTo"><a href="#AI-MoveTo" class="headerlink" title="AI MoveTo"></a>AI MoveTo</h3><p>AI行为树的任务中的节点：操控AI移动到具体位置或者跟随某Actor进行移动</p>
-<h3 id="控制时"><a href="#控制时" class="headerlink" title="控制时"></a>控制时</h3><p>AI控制器中的可重载函数：在AI被AI控制器控制的时候触发的事件</p>
-<h3 id="运行行为树"><a href="#运行行为树" class="headerlink" title="运行行为树"></a>运行行为树</h3><p>AI控制器中的节点：字面意思</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>创建丧尸蓝图类，动画蓝图，混合空间1D，AI行为树，黑板，AI控制器</p>
-</li>
-<li><p>在蓝图类中配置动画蓝图，AI控制器，移动组件的“将旋转朝向运动”为true，类默认值“使用控制器旋转yaw”为false</p>
-</li>
-<li><p>设置混合空间1D，设置根据速度变化的丧尸行走&#x2F;慢跑&#x2F;冲刺动画</p>
-</li>
-<li><p>配置动画蓝图</p>
-<ul>
-<li><p>创建基础状态机并缓存，输出为基础状态机的缓存</p>
-</li>
-<li><p>编辑基础状态机，添加状态“基础状态”</p>
-</li>
-<li><p>编辑基础状态，将创建的混合空间1D输出，并将其速度引脚提升为变量</p>
-</li>
-<li><p>编辑事件图表，判断尝试获取pawn拥有者是否有效，如果有效则获取其速度，再获取其向量长度，传给变量“速度”</p>
-</li>
-</ul>
-</li>
-<li><p>编辑黑板，添加变量“是否看到玩家”（布尔），“是否追逐玩家”（布尔），“要去的位置”（向量）</p>
-</li>
-<li><p>编辑AI控制器，添加组件“AI感知组件”</p>
-<ul>
-<li><p>编辑AI感知组件，添加AI视力配置并修改其属性</p>
-</li>
-<li><p>其中视力配置除了视线半径和角度之外，重要的还有按归属检测需要全部勾选</p>
-</li>
-<li><p>添加AI感知组件的事件“目标感知更新时”，中断其值并将类型转换为BP_Player</p>
-</li>
-<li><p>用“将值设置为布尔”节点，根据中断值中的“Successfully Sensed”节点修改黑板中的“是否看到玩家”（“获取黑板”节点和“创建文字命名”节点）</p>
-</li>
-</ul>
-</li>
-<li><p>配置行为树</p>
-<ul>
-<li><p>将行为树的黑板配置为刚创建的</p>
-</li>
-<li><p>跟节点引出一个Selector；Selector引出两个Sequence</p>
-</li>
-<li><p>给两个Sequence添加一个装饰器“backbroad”，将其黑板键设置为“是否看到玩家”（一个设置为已设置，另一个设置为未设置），观察器终止修改为Both</p>
-</li>
-<li><p>新建一个任务并编辑，重载函数“事件接收执行AI”</p>
-</li>
-<li><p>获取Actor位置，并获取可导航半径的随机点</p>
-</li>
-<li><p>新建黑板键选择器类型的变量“随机移动位置”，并将其设置为可编辑实例</p>
-</li>
-<li><p>将“随机移动位置”拖出，并将黑板值设为变量，将“获取可导航半径内的随机点”的输出引脚作为输入引入</p>
-</li>
-<li><p>添加“完成执行”节点</p>
-</li>
-<li><p>在行为树中调用刚创建的事件，并在其默认值中传入形参“随机移动位置”的实参</p>
-</li>
-<li><p>调用内置任务“Move To”和“Wait”（到这里才会移动，上一个任务是计算“要去的位置”，在Move To节点中调用其值才会具体行动）</p>
-</li>
-<li><p>新建任务“发现玩家”，重载“事件接收TickAI”函数，调用AI MoveTo节点，“获取玩家pawn”作为“Target Actor”引脚的输入值，最后“完成执行”</p>
-</li>
-<li><p>在行为树中调用该任务</p>
-</li>
-</ul>
-</li>
-<li><p>修改AI控制器</p>
-<ul>
-<li>重载函数“事件控制时”，并将其引脚提升为变量“控制的zombie”，“运行行为树”</li>
-</ul>
-</li>
-<li><p>在世界中放入“导航网格体边界体积”</p>
-</li>
-<li><p>优化丧尸行动速度</p>
-<ul>
-<li><p>在丧尸的角色蓝图中添加事件图表“随机移动”，添加自定义事件“随机找点移动”，调用角色移动组件并“set max walk speed”为20（此时为未发现玩家的速度）</p>
-</li>
-<li><p>添加事件图表“发现玩家”，添加自定义事件“发现玩家做的事”，调用角色移动组件并“set max walk speed”，传入速度用“范围内随机浮点”取值为400-500</p>
-</li>
-<li><p>在两个AI行为树的任务“随即移动”和“发现玩家”中分别用蓝图通信后调用“随即找点移动”以及“发现玩家做的事”</p>
-</li>
-<li><p>最后在丧尸的角色蓝图中设置其最大行走速度为20</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="丧尸看见玩家尖叫并追赶"><a href="#丧尸看见玩家尖叫并追赶" class="headerlink" title="丧尸看见玩家尖叫并追赶"></a>丧尸看见玩家尖叫并追赶</h1><h2 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h2><h3 id="生成音效已附加"><a href="#生成音效已附加" class="headerlink" title="生成音效已附加"></a>生成音效已附加</h3><p>生成一个音效并且附加到某个组件上，实现丧尸追逐玩家的同时会发出声音</p>
-<h3 id="销毁组件"><a href="#销毁组件" class="headerlink" title="销毁组件"></a>销毁组件</h3><p>某组件可引出的节点，字面意思</p>
-<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>打开丧尸的动画蓝图，添加两个变量“是否可以尖叫”，“是否死亡”，判断是否死亡后判断是否可以尖叫，然后播放尖叫的蒙太奇动画（在动画蓝图中需要添加其插槽），在丧尸尖叫的时候速度为0，动画播放完之后设置移动速度为400-500</p>
-</li>
-<li><p>添加一个变量“是否正在尖叫”，在开始尖叫是设置为true，结束播放尖叫动画的时候设置为false</p>
-</li>
-<li><p>使用“生成音效已附加”节点，创建一个丧尸追逐主角的音效，附加到丧尸身上，实现丧尸追逐主角的同时进行尖叫</p>
-</li>
-<li><p>在丧尸不能尖叫的时候判断丧尸是否在尖叫，如果不在尖叫，则判断丧尸的追逐音效是否有效，若无效，则将逻辑链接到后面的设置速度并且添加音效上</p>
-</li>
-<li><p>丧尸随机移动事件图表，首先判断是否死亡，然后设置行走速度，在之后需要用一个序列，判断丧尸追逐音效是否有效，有效则“销毁组件”（未看到玩家的时候随机移动但不发出尖叫）</p>
-</li>
-<li><p>序列的另一个引脚引出“Do Once”节点，并以函数名设置定时器，时间设置为15s</p>
-<ul>
-<li><p>新建自定义事件“重置尖叫”，并设置“是否可以尖叫”为true</p>
-</li>
-<li><p>新建自定义事件“reset”，链接到Do Once的Reset引脚上</p>
-</li>
-<li><p>将“以函数名设置定时器”的函数名修改为“重置尖叫”</p>
-</li>
-</ul>
-</li>
-<li><p>为了防止丧尸在发现玩家之后尖叫，并且在十五秒之后又尖叫，所以在“发现玩家”事件图表中的开头调用“reset”事件，并“以函数名清除定时器”</p>
-</li>
-<li><p>优化一下丧尸追逐玩家时候的音效，在“生成音效已附加”节点的“Start Time”引脚中引出节点“范围内随机浮点”，看下丧尸音效的时长，设置在范围内即可</p>
-</li>
-</ol>
-<h1 id="丧尸丢失目标后移动到目标最后位置"><a href="#丧尸丢失目标后移动到目标最后位置" class="headerlink" title="丧尸丢失目标后移动到目标最后位置"></a>丧尸丢失目标后移动到目标最后位置</h1><h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在丧尸的AI控制器中新建向量类型变量“最后看到玩家的位置”</p>
-</li>
-<li><p>获取BP_Player的位置后，获取可导航半径内的随机点，然后设置给“最后看到玩家的位置”</p>
-</li>
-<li><p>判断感知组件是否感知到玩家，false则链接Do Once节点，并且使用“将值设为布尔值”，key name为“是否追逐玩家”，目标为黑板</p>
-</li>
-<li><p>新建自定义事件“reset”连接到Do Once的reset节点上、</p>
-</li>
-<li><p>优化行为树，先“是否看到玩家”，在“未设置”分支中选择“是否追逐玩家”，未追逐则随即移动等，追逐则创建新的任务</p>
-<ul>
-<li><p>新建任务“追赶玩家到最后位置”，重载“事件接收执行AI”，类型转换为AI控制器，获取其中的“最后看到玩家位置”并且“AI MoveTo”</p>
-</li>
-<li><p>使用“将值设置为布尔”将黑板中的“是否追逐玩家”设置为false，再调用AI控制器中的reset事件，最后“完成执行”</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="丧尸攻击玩家动画"><a href="#丧尸攻击玩家动画" class="headerlink" title="丧尸攻击玩家动画"></a>丧尸攻击玩家动画</h1><h2 id="知识点-2"><a href="#知识点-2" class="headerlink" title="知识点"></a>知识点</h2><h3 id="随机序列播放器"><a href="#随机序列播放器" class="headerlink" title="随机序列播放器"></a>随机序列播放器</h3><p>动画蓝图中的节点：随机播放这个节点中的动画中的某一个</p>
-<h2 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在动画蓝图中创建变量“是否攻击”，并作为“按布尔混合姿势”的判断条件</p>
-</li>
-<li><p>添加节点“随机序列播放器”，在此节点中放入两个丧尸攻击的动画，勾选随机播放</p>
-</li>
-<li><p>使用“每个骨骼的分层混合”节点将基础状态和攻击动画进行上下半身混合。注意添加骨骼之后还需要勾选“网格体空间旋转混合”</p>
-</li>
-<li><p>最后基础状态作为“按布尔混合姿势”的false，上下半身混合之后的动画作为true</p>
-</li>
-<li><p>在丧尸的角色蓝图中创建新图表“攻击玩家”，由“事件Tick”先判断是否死亡，再以黑板中的“是否看到玩家”作为判断条件，true则创建射线检测（由通道检测球体）</p>
-</li>
-<li><p>“由通道检测球体”的起始位置是actor位置，终点位置是actor前方110cm的100cm半径的球体</p>
-<ul>
-<li><p>创建新的通道命名为“ZombieAttack”默认为忽略</p>
-</li>
-<li><p>在球形通道检测中使用该通道</p>
-</li>
-<li><p>在角色蓝图中的mesh组件中将碰撞预设的ZombieAttack修改为阻挡</p>
-</li>
-</ul>
-</li>
-<li><p>接下来判断球体检测是否碰撞到物体，若是，则中断其检测结果，判断是否为玩家actor（类型转换为玩家actor，如果成功，则是）</p>
-</li>
-<li><p>获取丧尸动画实例中的“是否攻击”，如果玩家未死亡，则设置为true，否则false</p>
-<ul>
-<li>与此同时，在类型转换为玩家失败的时候（检测物体不为玩家），以及丧尸未看到玩家的时候均将“是否攻击”设置为false</li>
-</ul>
-</li>
-</ol>
-<h1 id="优化-丧尸攻击角色时的面向及阻挡摄像机"><a href="#优化-丧尸攻击角色时的面向及阻挡摄像机" class="headerlink" title="优化-丧尸攻击角色时的面向及阻挡摄像机"></a>优化-丧尸攻击角色时的面向及阻挡摄像机</h1><p>如果不进行这个优化的话就会出现玩家一个绕背就能让丧尸丢失目标</p>
-<h2 id="知识点-3"><a href="#知识点-3" class="headerlink" title="知识点"></a>知识点</h2><h3 id="Orient-Roatation-to-Movement"><a href="#Orient-Roatation-to-Movement" class="headerlink" title="Orient Roatation to Movement"></a>Orient Roatation to Movement</h3><p>角色移动组件的属性：将旋转朝向运动</p>
-<h3 id="Use-Content-Rotation-Yaw"><a href="#Use-Content-Rotation-Yaw" class="headerlink" title="Use Content Rotation Yaw"></a>Use Content Rotation Yaw</h3><p>角色移动组件的属性：使用控制器旋转</p>
-<h3 id="设置焦距"><a href="#设置焦距" class="headerlink" title="设置焦距"></a>设置焦距</h3><p>AI控制器：脚焦距设置到指定的actor上</p>
-<h3 id="清除焦距"><a href="#清除焦距" class="headerlink" title="清除焦距"></a>清除焦距</h3><p>AI控制器：字面意思啦！</p>
-<h2 id="思路-4"><a href="#思路-4" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>丧尸蓝图中创建函数”更改控制旋转模式“</p>
-</li>
-<li><p>使用角色移动组件，分别调用”Orient Roatation to Movement“和”Use Content Rotation Yaw“节点并将其公开到函数参数</p>
-</li>
-<li><p>在丧尸攻击玩家时调用此函数，”使用控制器所需的旋转“勾选，否则勾选”将旋转朝向的运动“</p>
-</li>
-<li><p>获取AI控制器，然后”设置焦距“在玩家上，不攻击则”清除焦距“</p>
-</li>
-<li><p>点开丧尸的mesh，将碰撞中的摄像机忽略</p>
-</li>
-</ol>
-<h1 id="丧尸攻击音效"><a href="#丧尸攻击音效" class="headerlink" title="丧尸攻击音效"></a>丧尸攻击音效</h1><h2 id="思路-5"><a href="#思路-5" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>创建一个音效cue</p>
-</li>
-<li><p>找到丧尸攻击动画，在合适位置创建通知音效，将cue传入到通知中</p>
-</li>
-</ol>
-<h1 id="丧尸脚步声实现"><a href="#丧尸脚步声实现" class="headerlink" title="丧尸脚步声实现"></a>丧尸脚步声实现</h1><h2 id="思路-6"><a href="#思路-6" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>直接用玩家角色蓝图中的“脚步声判断”函数来实现脚步功能</p>
-</li>
-<li><p>丧尸角色蓝图的事件图表中，事件开始运行时，获取actor的所有类，提升为变量“玩家蓝图实例”</p>
-</li>
-<li><p>添加两个箭头组件分别将其插槽设置到丧尸的左右脚</p>
-</li>
-<li><p>创建新事件图表“脚步声”，新建自定义事件“左脚步声”，“右脚步声”，分别调用玩家蓝图实例中的“脚步声判断”，并且将两个箭头组件作为参数传入</p>
-</li>
-<li><p>复制之前玩家的动画通知“Notif_RightFoot”和“Notif_LeftFoot”到丧尸文件夹并改为“Notif_ZombieRightFoot”和“Notif_ZombieLeftFoot”</p>
-<ul>
-<li>修改动画通知，将类型转换为“BP_Zombie”并分别调用左右脚步声</li>
-</ul>
-</li>
-<li><p>将动画通知添加到动画的合适位置</p>
-</li>
-</ol>
-<h1 id="随机丧尸模型和朝向"><a href="#随机丧尸模型和朝向" class="headerlink" title="随机丧尸模型和朝向"></a>随机丧尸模型和朝向</h1><h2 id="思路-7"><a href="#思路-7" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在丧尸角色蓝图中创建新图表“随机丧尸模型”</p>
-</li>
-<li><p>创建一个元素为骨骼网格体的数组“丧尸模型”，并向其中添加丧尸骨骼网格体元素</p>
-</li>
-<li><p>新建自定义事件“随机Zombie模型”，由网格体组件引出“设置骨骼网格体”</p>
-</li>
-<li><p>将“丧尸模型”在“范围内随机整数”传入到“设置骨骼网格体”</p>
-</li>
-<li><p>在事件图表的开始运行处调用“随机Zombie模型”事件</p>
-</li>
-<li><p>最后设置actor旋转，传入“范围内随机浮点”</p>
-</li>
-</ol>
-<h1 id="丧尸被击中动画和死亡系统"><a href="#丧尸被击中动画和死亡系统" class="headerlink" title="丧尸被击中动画和死亡系统"></a>丧尸被击中动画和死亡系统</h1><h2 id="知识点-4"><a href="#知识点-4" class="headerlink" title="知识点"></a>知识点</h2><h3 id="应用伤害"><a href="#应用伤害" class="headerlink" title="应用伤害"></a>应用伤害</h3><p>将伤害施加给“Damaged Actor”引脚传入的Actor</p>
-<h3 id="获取相关剩余动画的时间"><a href="#获取相关剩余动画的时间" class="headerlink" title="获取相关剩余动画的时间"></a>获取相关剩余动画的时间</h3><p>在动画蓝图中使用：字面意思</p>
-<h3 id="事件任意伤害"><a href="#事件任意伤害" class="headerlink" title="事件任意伤害"></a>事件任意伤害</h3><p>会响应并输出对此蓝图类造成的任何伤害信息</p>
-<p>和“应用伤害”属于配套的接口</p>
-<h2 id="思路-8"><a href="#思路-8" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在子弹事件蓝图中判断击中的是否为丧尸（类型转换为丧尸蓝图类）</p>
-</li>
-<li><p>类型转换成功则在击中部位生成血液飞溅例子特效和血色烟雾例子特效（在位置处生成发射器）</p>
-</li>
-<li><p>根据子弹的命中结果判断击中的骨骼是否为头部骨骼，如果是，则使用“应用伤害”节点施加更多的伤害，如果不是，则施加适量伤害</p>
-</li>
-<li><p>在击中位置“播放位置处音效”，连接上之前蓝图逻辑的序列，判断击中物体是否模拟物理</p>
-</li>
-<li><p>因为子弹的碰撞对象类型对丧尸的类型“pawn”是重叠的，不能造成影响，所以要将丧尸模型的碰撞对象类型修改为“PhysicalBody”，将丧尸胶囊体的碰撞预设的子弹进行忽略</p>
-</li>
-<li><p>添加丧尸被击中动画，在丧尸动画蓝图中的基础状态机中新增状态“被击中”，添加新的变量“是否被击中”，被击中判断逻辑为“是否被击中”为true，被击中返回基础状态逻辑为“获取相关剩余动画的时间”&lt;0.1</p>
-</li>
-<li><p>在被击中状态中添加动画，使用上下半身混合（每个骨骼的分层混合）base为丧尸的混合空间动画，blend posed 0为丧尸被击中动画（取消勾选循环播放）</p>
-</li>
-<li><p>在丧尸蓝图类中新建事件图表“事件任意伤害”，新建浮点型变量“丧尸血量”，将“事件任意伤害”传出的Damage引脚与“丧尸血量”相减之后再赋值给“丧尸血量”</p>
-</li>
-<li><p>判断丧尸血量是否&lt;&#x3D;0，true则死亡，false则播放被击中动画</p>
-</li>
-<li><p>再播放被击中动画之前要先判断丧尸是否在播放攻击动画</p>
-</li>
-<li><p>新建一个函数“通信到动画蓝图”，获取角色mesh的动画实例，再类型转换为Anim_Zombie，添加一个返回节点，将类型转换返回值输出</p>
-</li>
-<li><p>在“伤害检测和死亡系统”事件图表中调用“通信到动画蓝图”函数，引出“是否攻击”作为判断依据，false时设置“是否被击中”为true，延迟0.1s之后设置“是否被击中”为false</p>
-</li>
-<li><p>判断丧尸为死亡的时候使用“Do Once”设置丧尸网格体模拟物理，将其角色移动最大速度设置为0，并且将碰撞预设碰撞启用修改为“已启用碰撞（查询和物理）”</p>
-</li>
-<li><p>将丧尸的胶囊体的碰撞预设中忽略PhyscialBody</p>
-</li>
-<li><p>将丧尸的“是否死亡”设置为true，关闭胶囊体的碰撞，调用通信到动画蓝图函数之后设置“是否攻击”为false，判断“丧尸追逐音效”是否有效，true则销毁组件，同时序列“延迟10s”之后销毁actor</p>
-</li>
-<li><p>最后在丧尸脚步声事件图表中先判断丧尸是否死亡，未死王才能生成脚步声</p>
-</li>
-</ol>
-<h1 id="丧尸攻击范围检测"><a href="#丧尸攻击范围检测" class="headerlink" title="丧尸攻击范围检测"></a>丧尸攻击范围检测</h1><h2 id="知识点-5"><a href="#知识点-5" class="headerlink" title="知识点"></a>知识点</h2><h3 id="获取插槽位置"><a href="#获取插槽位置" class="headerlink" title="获取插槽位置"></a>获取插槽位置</h3><p>获取骨骼插槽位置信息</p>
-<h2 id="思路-9"><a href="#思路-9" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>丧尸角色蓝图中新建事件图表“攻击范围检测”，新建自定义事件“攻击范围”，使用“由通道检测球体”来检测丧尸的攻击范围</p>
-</li>
-<li><p>创建两个命名类型的变量“攻击检测起始骨骼”和“攻击检测终点骨骼”，并且调用网格体“获取插槽位置”，并将两个变量作为引脚传入</p>
-</li>
-<li><p>创建新的Actor类型变量“HitPlayer”，判断是否击中物体，再判断击中物体是否与“HitPlayer”相同，不相同才可继续操作（为了防止一个动画造成N次伤害）</p>
-</li>
-<li><p>接下来类型转换为BP_Player，重新保存“HitPlyaer”</p>
-</li>
-<li><p>使用“应用伤害”节点，然后“在位置处生成发射器”</p>
-</li>
-<li><p>创建动画通知，在动画通知中调用此事件</p>
-</li>
-<li><p>创建三个动画通知“Notif_ZombieBoneSettings”，“Notif_ZombieEndOfAttack”，“Notif_ZombieStartAttack”</p>
-</li>
-<li><p>在“Notif_ZombieStartAttack”中“以函数名设置定时器”调用自定义事件“攻击范围”</p>
-</li>
-<li><p>在“Notif_ZombieEndOfAttack”中“以函数名清除定时器”清除“攻击范围”函数，并且将“HitPlayer”设置为空</p>
-</li>
-<li><p>在“Notif_ZombieBoneSettings”中设置“攻击检测起始骨骼”和“攻击检测终点骨骼”分别为右手手肘和右手中指（因为攻击动画中是用右手攻击的）</p>
-</li>
-<li><p>在丧尸死亡之后清除攻击范围检测并且将HitPlayer设置为空，攻击玩家事件图表的最后（停止播放攻击动画）亦然</p>
-</li>
-<li><p>在丧尸攻击动画中的合适位置添加三个动画通知</p>
-</li>
-</ol>
-<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><ol>
-<li>在动画通知中“以函数名设置定时器”节点的Time引脚和Looping引脚需要设置（每Time秒调用一次该函数）</li>
-</ol>
-<h1 id="角色死亡系统"><a href="#角色死亡系统" class="headerlink" title="角色死亡系统"></a>角色死亡系统</h1><h2 id="知识点-6"><a href="#知识点-6" class="headerlink" title="知识点"></a>知识点</h2><h3 id="设置激活"><a href="#设置激活" class="headerlink" title="设置激活"></a>设置激活</h3><p>可以激活或者关闭某个组件</p>
-<h3 id="禁用移动"><a href="#禁用移动" class="headerlink" title="禁用移动"></a>禁用移动</h3><p>使用此节点可以使得角色移动组件不可移动</p>
-<h3 id="设置碰撞已启用"><a href="#设置碰撞已启用" class="headerlink" title="设置碰撞已启用"></a>设置碰撞已启用</h3><p>可以设置某组件碰撞类型（关闭&#x2F;查询&#x2F;物理）</p>
-<h3 id="set-post-process-setting"><a href="#set-post-process-setting" class="headerlink" title="set post process setting"></a>set post process setting</h3><p>可以设置摄像机后期盒子的一些参数</p>
-<p>拉住唯一的引脚”创建PostProcessSettings“</p>
-<h3 id="思路-10"><a href="#思路-10" class="headerlink" title="思路"></a>思路</h3><ol>
-<li><p>新建事件图表“死亡系统”，调用“事件任意伤害”，新建float变量“当前血量”默认值为100和“目标血量”默认值为0</p>
-</li>
-<li><p>用受到伤害量与当前血量相减，然后传给“目标血量”，用一个序列节点，第一个引脚链接一个时间轴“血量平滑过渡”的“Playe from start”，设置时间轴时长为0.5s，值为1</p>
-</li>
-<li><p>用“插值”节点，将当前血量到目标血量进行过渡，最后传给“当前血量”</p>
-</li>
-<li><p>序列节点的第二个引脚判断目标血量是否小于等于0，如果是，则使用Do Once将角色状态设置为死亡（前面的角色状态枚举中添加一个死亡状态）</p>
-</li>
-<li><p>开启角色模型的碰撞预设中的启用碰撞（查询和物理）并且调用模型“设置模拟物理”为true，碰撞对象类型为PhycialBody，忽略bullit碰撞，胶囊体的碰撞对于PhycialBody进行忽略</p>
-</li>
-<li><p>添加新的摄像机视角，实现死亡之后的视角</p>
-<ul>
-<li><p>在胶囊体之下添加一个新的弹簧臂组件（关闭碰撞，摄像机设置全部关闭）和新的摄像机组件（默认值激活为false）</p>
-</li>
-<li><p>将原本的摄像机使用“设置激活”为false，将新的摄像机设置为true</p>
-</li>
-<li><p>调用角色移动组件并且“禁用移动”</p>
-</li>
-<li><p>调用胶囊体组件并“设置碰撞已启用”为无碰撞</p>
-</li>
-</ul>
-</li>
-<li><p>使得武器自动掉落到地上</p>
-<ul>
-<li><p>武器父类新建事件图表“开启模拟物理”，并自定义事件“开启物理模拟“，使得武器模型”设置物理模拟“为true</p>
-</li>
-<li><p>设置武器模型的碰撞预设为自定义，碰撞启用为查询和物理，对象类型为WorldDynamic，并将PhycialBody和Bullet进行忽略</p>
-</li>
-<li><p>在角色蓝图死亡系统最后使用一个序列节点，分别判断主武器和副武器是否有效，若有效则使用”从Actor分离“后开启模拟物理</p>
-</li>
-</ul>
-</li>
-<li><p>实现视角从彩色变为黑白效果</p>
-<ul>
-<li><p>在原本的序列节点上加一个引脚，引出一个时间轴”拉长弹簧臂长度“，新建轨道之后使用插值从默认长度300到2000update给死亡后弹簧臂长度</p>
-</li>
-<li><p>调用死亡后摄像机组件“set post process setting”并且”创建set post process setting“将Saturation（饱和度）和Contrast（对比度）以及Intensity（强度）公开为引脚</p>
-</li>
-<li><p>在世界中放入后期处理盒子并使其无线范围</p>
-</li>
-<li><p>使用”插值“和”创建向量4“分别设置饱和度，对比度，强度（只用插值即可）</p>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="注意-1"><a href="#注意-1" class="headerlink" title="注意"></a>注意</h2><ol>
-<li>任意伤害事件更新血量的时候，不要把伤害量和当前血量减法位置弄错</li>
-</ol>
-<h1 id="玩家被击中动画"><a href="#玩家被击中动画" class="headerlink" title="玩家被击中动画"></a>玩家被击中动画</h1><h2 id="知识点-7"><a href="#知识点-7" class="headerlink" title="知识点"></a>知识点</h2><h3 id="客户端开始摄像机晃动"><a href="#客户端开始摄像机晃动" class="headerlink" title="客户端开始摄像机晃动"></a>客户端开始摄像机晃动</h3><p>玩家控制器的内置函数：字面意思</p>
-<h2 id="思路-11"><a href="#思路-11" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>四个被击中动画批量编辑RoorMotion-&gt;启用跟运动true-&gt;强制根锁定</p>
-</li>
-<li><p>给四个被击中动画创建为蒙太奇，并且修改插槽为Hit</p>
-</li>
-<li><p>将四个蒙太奇动画的混入和混出时间均修改为0.35</p>
-</li>
-<li><p>在角色蓝图动画中最外层添加插槽Hit（这个被击中动画优先级最高）</p>
-</li>
-<li><p>在角色蓝图中的死亡系统中，未死亡的情况下，先播放被击中音效，然后获取玩家控制器“客户端开始摄像机晃动”，接下来遍历玩家功能状态枚举，在“空白”，“跳跃”，“拾取物品”的时候可以“蒙太奇播放”</p>
-</li>
-<li><p>将蒙太奇输入引脚提升为变量，变为数组类型，将四个蒙太奇动画输入其中，然后在“范围内随机整数”下get</p>
-</li>
-</ol>
-<h1 id="玩家死亡之后丧尸随机移动"><a href="#玩家死亡之后丧尸随机移动" class="headerlink" title="玩家死亡之后丧尸随机移动"></a>玩家死亡之后丧尸随机移动</h1><h2 id="思路-12"><a href="#思路-12" class="headerlink" title="思路"></a>思路</h2><p>之前玩家死亡之后丧尸没有随机移动是因为玩家死亡后虽然将状态修改为死亡，但是在其他的蓝图中有不少定时器，会在一定时间内将玩家状态修改为空白</p>
-<ol>
-<li><p>在修改玩家状态为死亡之前添加一个“以函数名设置定时器”节点，每0.1秒循环</p>
-</li>
-<li><p>创建一个自定义事件“强制开启死亡”，将状态修改为死亡</p>
-</li>
-<li><p>函数名设置定时器“强制开启死亡”。这样就保证了玩家死亡之后每0.1秒都会将状态重置为死亡</p>
-</li>
-<li><p>在丧尸AI控制器中，类型转换为玩家角色之后，判断玩家状态是否为死亡，true则将黑板中的“是否看到玩家”设置为false，false则走原本的逻辑路线</p>
-</li>
-<li><p>在丧尸角色蓝图中的“发现玩家”事件图表中也做相同的操作</p>
-</li>
-</ol>
-<h1 id="优化-丧尸阻挡摄像机与死亡后音效关闭"><a href="#优化-丧尸阻挡摄像机与死亡后音效关闭" class="headerlink" title="优化-丧尸阻挡摄像机与死亡后音效关闭"></a>优化-丧尸阻挡摄像机与死亡后音效关闭</h1><ol>
-<li><p>将丧尸的胶囊体和网格体组件中均忽略摄像机组件</p>
-</li>
-<li><p>在丧尸死亡系统中最后将“丧尸追逐音效”使用“设置激活”为false</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/23/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%8B%BE%E5%8F%96%E7%B3%BB%E7%BB%9F%E5%8F%8A%E6%AD%A6%E5%99%A8%E5%88%87%E6%8D%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/06/23/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%8B%BE%E5%8F%96%E7%B3%BB%E7%BB%9F%E5%8F%8A%E6%AD%A6%E5%99%A8%E5%88%87%E6%8D%A2/" class="post-title-link" itemprop="url">UE4-项目-死寂-拾取系统及武器切换</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-06-23 11:44:39" itemprop="dateCreated datePublished" datetime="2022-06-23T11:44:39+08:00">2022-06-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-06-25 17:26:10" itemprop="dateModified" datetime="2022-06-25T17:26:10+08:00">2022-06-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="拾取物品高亮显示"><a href="#拾取物品高亮显示" class="headerlink" title="拾取物品高亮显示"></a>拾取物品高亮显示</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="蓝图接口"><a href="#蓝图接口" class="headerlink" title="蓝图接口"></a>蓝图接口</h3><p>一个集成了很多功能的函数，可以通过蓝图接口实现蓝图之间的通信</p>
-<h3 id="获取玩家摄像机管理器"><a href="#获取玩家摄像机管理器" class="headerlink" title="获取玩家摄像机管理器"></a>获取玩家摄像机管理器</h3><p>无论在第一人称或者第三人称状态下都可以返回摄像机相关的信息</p>
-<h3 id="添加返回节点"><a href="#添加返回节点" class="headerlink" title="添加返回节点"></a>添加返回节点</h3><p>在函数内使用，添加函数的返回值</p>
-<h3 id="获取有接口的所有actor"><a href="#获取有接口的所有actor" class="headerlink" title="获取有接口的所有actor"></a>获取有接口的所有actor</h3><p>选择一个接口，然后获取拥有该接口的所有actor</p>
-<h3 id="设置渲染自定义深度"><a href="#设置渲染自定义深度" class="headerlink" title="设置渲染自定义深度"></a>设置渲染自定义深度</h3><p>能够产生物体的描边效果</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>创建一个拾取物品列表“BP_PickUpItemsBase”</p>
-</li>
-<li><p>创建一个拾取物品蓝图接口”PickUpSystem”</p>
-<ul>
-<li>新增三个函数“拾取物品”，“开启该光显示”，“关闭高光显示”</li>
-</ul>
-</li>
-<li><p>在“BP_PickUpItemsBase”中添加蓝图接口</p>
-</li>
-<li><p>在角色蓝图中添加函数“拾取范围检测”</p>
-<ul>
-<li><p>在一定范围内检测是否可以拾取</p>
-</li>
-<li><p>选择“由通道检测球体”来规定范围</p>
-</li>
-<li><p>起始点为摄像机位置</p>
-</li>
-<li><p>终点为摄像机往前（*向量）一定距离的位置（+向量）</p>
-</li>
-</ul>
-</li>
-<li><p>新增碰撞通道PickUp，默认设置为忽略（能拾取的物体再设置为阻挡）</p>
-</li>
-<li><p>设置“由通道检测球体”节点的检测通道</p>
-</li>
-<li><p>在“BP_PickUpItemsBase”的球体检测的碰撞属性中修改PickUp为阻挡</p>
-</li>
-<li><p>在角色蓝图中添加事件图表“拾取系统”</p>
-<ul>
-<li><p>添加actor类型的变量“检测到的物体”</p>
-</li>
-<li><p>调用“拾取范围检测”函数，判断是否检测到物体</p>
-</li>
-<li><p>判断检测到的物体是否为之前未检测到的物体（对同一个物体，高亮效果只执行一次）</p>
-</li>
-<li><p>判断检测到的物体是否有效（以免第一次使用的时候“检测到的物品”为空）</p>
-</li>
-<li><p>有效则关闭当前物体的高亮显示，将当前碰撞检测到的物体设置为“检测到的物品”，然后开启高亮显示</p>
-</li>
-<li><p>无效则将当前碰撞检测到的物体设置为“检测到的物品”，然后开启高亮显示</p>
-</li>
-<li><p>如果检测到物体不是可以拾取的，就要将之前识别到的高亮物体取消高亮</p>
-</li>
-<li><p>使用Do once节点关闭物体高亮（因为“拾取范围检测”是每帧都会执行一次的，我们不需要每帧都关闭，关闭一次即可）</p>
-</li>
-<li><p>当重新检测到能拾取的物体的时候重置do once（用序列节点实现）</p>
-</li>
-<li><p>关闭所有高亮显示使用“获取有接口的所有actor”</p>
-</li>
-<li><p>遍历获取到的actor，再调用“关闭高亮显示”节点，最后将“检测到的物品“重置为空</p>
-</li>
-</ul>
-</li>
-<li><p>在角色事件图表中每帧调用”拾取物品高亮显示“</p>
-</li>
-<li><p>在“BP_PickUpItemsBase”中定义蓝图接口中的三个函数</p>
-</li>
-<li><p>调用”设置渲染自定义深度“，并且在世界中放入”后期处理体积“来实现物体描边显示</p>
-<ul>
-<li><p>”后期处理体积“将无限范围为True</p>
-</li>
-<li><p>渲染功能的后期处理材质调用一个特定材质</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="拾取系统"><a href="#拾取系统" class="headerlink" title="拾取系统"></a>拾取系统</h1><h2 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h2><h3 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h3><p>和C++里面的没区别</p>
-<h3 id="固定在条目上重设"><a href="#固定在条目上重设" class="headerlink" title="固定在条目上重设"></a>固定在条目上重设</h3><p>状态机中状态的细节属性，勾选后可以使得每次播放动画都是从头开始播放（包括上一次动画如果被打断的话，下一次播放还是从头开始）</p>
-<h3 id="设置骨骼网格体"><a href="#设置骨骼网格体" class="headerlink" title="设置骨骼网格体"></a>设置骨骼网格体</h3><p>在”目标“的位置生成”new mesh“传入的骨骼网格体</p>
-<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>添加操作映射”拾取“，在角色蓝图中的”拾取系统“事件图表中调用</p>
-</li>
-<li><p>先判断角色状态是否为空白，或者是否瞄准（空白状态和瞄准状态均可拾取物品）</p>
-</li>
-<li><p>调用”拾取范围检测“节点，其返回值中的”Hit Actor“调用”拾取物品“</p>
-</li>
-<li><p>创建三个枚举”PickUpType“,”ClothType”,”WeaponType”来区分拾取到的物品类型，然后创建一个结构体，将其包含进去</p>
-</li>
-<li><p>结构体”Struct_PickUp“包含三个枚举之外，还包含骨骼网格体类型的”服饰模型“，Actor（类引用）类型的”拾取后生成的类“</p>
-</li>
-<li><p>将设置好的结构体作为变量添加到“BP_PickUpItemsBase”中</p>
-</li>
-<li><p>在角色蓝图的”拾取系统“事件图表中添加自定义事件”获取拾取信息并播放动画“,并且添加变量”拾取物品种类“，”武器种类“，”服饰种类“，”拾取后生成的类“，”服饰模型“</p>
-</li>
-<li><p>添加”获取拾取信息并播放动画“的输入”拾取物品信息“，类型为之前创建好的结构体</p>
-</li>
-<li><p>中断其命中结果，将五个引脚分别保存至刚创建的五个变量中</p>
-</li>
-<li><p>在“BP_PickUpItemsBase”中的事件图表实现和角色蓝图的通信，变量保存为”角色蓝图实例“</p>
-</li>
-<li><p>实现”拾取物品“事件：用角色蓝图实例调用”获取拾取信息并播放拾取动画“事件，传入PickUp变量，延迟0.4秒（播放完角色拾取动画）后销毁self</p>
-</li>
-<li><p>将角色功能状态枚举中新增一个”拾取物品“状态，在角色蓝图的”获取拾取信息并播放动画“事件中设置状态为”拾取物品“</p>
-</li>
-<li><p>在动画蓝图中添加新的变量”是否拾取“，在功能状态机中创建新的状态”拾取动画“，来去逻辑根据”是否拾取“决定</p>
-</li>
-<li><p>创建混合空间设置动画，水平坐标”站立蹲“，垂直坐标”持枪状态“</p>
-</li>
-<li><p>在”拾取动画“状态中调用混合空间，并且通过”每个骨骼的分层混合“节点进行混合</p>
-</li>
-<li><p>将”站立蹲“和”持枪状态“均提升为变量，然后在分别在动画蓝图的事件图表和角色蓝图类中的”装备武器“事件图表中设置</p>
-</li>
-<li><p>在角色蓝图中设置”是否拾取“为true，然后延迟0.4秒之后将其设置为false，并且将功能状态枚举修改为空白</p>
-</li>
-<li><p>在动画蓝图中的功能状态机中点击”拾取动画“，将其事件的”固定在条目上重设“</p>
-</li>
-<li><p>在角色蓝图类”拾取系统“中，延迟0.4秒之前用一个序列节点，同样延迟0.4秒，判断拾取物品种类-&gt;判断服饰种类&#x2F;判断武器种类</p>
-</li>
-<li><p>是背包的话，将角色模型中原本背包组件的位置作为目标，服饰模型作为参数”设置骨骼网格体“</p>
-</li>
-<li><p>在”BP_PickUp_BackBag”蓝图中设置变量”PickUp“，拾取种类设置为”服饰“，服饰模型设置为背包的模型</p>
-</li>
-<li><p>创建可以拾取的武器</p>
-<ul>
-<li><p>在角色蓝图的事件图表中将武器添加到角色身上的那一组逻辑剪切下来（角色一开始就没有武器在身上了）</p>
-</li>
-<li><p>创建一个新函数“生成主武器”，将之前剪切下来的粘贴进去</p>
-</li>
-<li><p>将从类生成actor的类传入之前定义的变量“拾取后生成的类”，将返回值转换为“BP_WeaponBase”，将武器实例的变量类型转换为“BP_WeaponBase”类型的</p>
-</li>
-<li><p>在拾取系统事件图表中调用“生成主武器”函数</p>
-</li>
-<li><p>以BP_PickUpItemsBase为父类生成子类“BP_PickUpAKM”，在其中设置其结构体的变量，特别是将拾取后生成的类修改为BP_Weapon_AKM</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="主副武器切换"><a href="#主副武器切换" class="headerlink" title="主副武器切换"></a>主副武器切换</h1><h2 id="知识点-2"><a href="#知识点-2" class="headerlink" title="知识点"></a>知识点</h2><h3 id="Blend"><a href="#Blend" class="headerlink" title="Blend"></a>Blend</h3><p>在动画蓝图中使用，和switch遍历方式一样，需要右键节点手动添加引脚</p>
-<p>可以根据遍历出的值的不同和输出不同的动画</p>
-<h3 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h3><p>一个选择节点，将下标改为bool类型之后即可根据引入判断值返回true引脚或者false引脚</p>
-<h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>修改之前与武器相关的变量名称，并添加一些变量名称，分别代表主副武器的实例，装备插槽，未装备插槽</p>
-</li>
-<li><p>在角色的骨骼中的合适位置添加虚拟骨骼插槽，并于角色蓝图中的新建变量和旧有变量进行绑定</p>
-</li>
-<li><p>复制“生成主武器”函数，并将其修改为“生成副武器”函数（需要修改其中的实例和插槽）</p>
-</li>
-<li><p>在拾取系统中分别调用“生成主武器”和“生成副武器”</p>
-<ul>
-<li><p>主武器实例无效时生成主武器，有效时生成副武器</p>
-</li>
-<li><p>副武器实例无效时生成副武器，有效时提醒“武器已满”</p>
-</li>
-</ul>
-</li>
-<li><p>在装备了背包之后需要修改主武器和副武器在背上的位置</p>
-<ul>
-<li><p>将主副武器未装备插槽的名称修改为虚拟骨骼对应的名称</p>
-</li>
-<li><p>判断是否拥有主副武器，判断是否装备了主副武器</p>
-</li>
-<li><p>未装备则使用“附加Actor到组件”节点，将主副武器实例附加到网格体的对应插槽位置上</p>
-</li>
-</ul>
-</li>
-<li><p>修改原本的装备武器动画通知为Notif_EquipMainWeaponAnimation和创建新的动画通知Notif_EquipSecondaryWeaponAnimation，并且将装备副武器动画通知中的主武器实例替换成副武器，主武器插槽也替换成副武器插槽</p>
-</li>
-<li><p>将之前装备武器的动画通知复制一下，在其中将装备主武器动画通知替换为装备副武器动画通知</p>
-</li>
-<li><p>在动画蓝图中新建WeaponType类型的变量“武器种类”，根据这个变量的值来播放不同的动画</p>
-</li>
-<li><p>在动画蓝图中的功能状态机的装备武器状态中调用Blend节点遍历“武器种类”，使得装备主武器动画和装备副武器动画进行选择输出</p>
-</li>
-<li><p>添加新的操作映射“主武器切换”1和“副武器切换”2</p>
-</li>
-<li><p>在“装备武器”事件图表中“判断是否持枪”的false之后需要修改“武器种类”为主武器</p>
-</li>
-<li><p>装备武器动画播放方向之后需要设置“是否装备主武器”为false和true</p>
-</li>
-<li><p>新建变量“是否可以主切换副”，“是否可以副切换主”</p>
-</li>
-<li><p>将主武器切换蓝图逻辑复制一下，替换为副武器切换，注意其中需要将武器种类修改为副武器，是否装备主武器修改为是否装备副武器，按键映射也需要修改，最后两者的时间轴用同一个即可，以免冲突</p>
-</li>
-<li><p>另外，在装备主武器之前还需要判断是否装备了副武器，如果未装备副武器，则可以直接装备主武器，如果已经装备了副武器，则需要将副武器收起来，然后再装备主武器</p>
-<ul>
-<li><p>创建一个自定义事件“收起副武器”链接到装备副武器的逻辑节点前</p>
-</li>
-<li><p>在主武器逻辑中“是否装备副武器”为true时调用“收起副武器”</p>
-</li>
-<li><p>于此同时需要创建一个自定义事件“副武器切换主武器”链接到主武器“是否持枪”之前</p>
-</li>
-<li><p>最后在副武器装备的蓝图逻辑中判断“是否可以副切换主”，为true时调用“副武器切换主武器”，并且延迟0.1秒之后将“是否可以副切换主”设置为false</p>
-</li>
-</ul>
-</li>
-<li><p>主武器切换为副武器同理创建“收起主武器”，“主武器切换副武器”事件即可</p>
-</li>
-<li><p>再切换主武器和副武器开头，还需要判断是否拥有主副武器，也就是判断主武器&#x2F;副武器实例是否有效，只有再拥有了武器的状态下才能切换武器</p>
-</li>
-<li><p>还需要做一个替换，在射击的时候，之前的蓝图节点中都写得是主武器的实例，如果不加上副武器，那么射击的时候，背在背上的主武器射击，手上的副武器就不动了</p>
-<ul>
-<li><p>在射击事件中，开始射击之前使用“选择”节点，将index修改为bool，以“是否装备主武器”为判断依据，分别返回主武器实例和副武器实例</p>
-</li>
-<li><p>根据查找引用，同样替换其他逻辑代码（射击，换弹，全自动半自动切换）</p>
-</li>
-</ul>
-</li>
-<li><p>新建枪械Scar的模型，子弹，弹匣，可拾取蓝图（复制AKM的之后修改细节，注意的是可拾取蓝图中生成的类需要替换成Scar的蓝图类）</p>
-</li>
-<li><p>将三个换弹的动画通知里面的主武器实例同上修改为以选择节点来判断的逻辑</p>
-</li>
-</ol>
-<h1 id="拾取多把武器替换功能"><a href="#拾取多把武器替换功能" class="headerlink" title="拾取多把武器替换功能"></a>拾取多把武器替换功能</h1><p>拾取第三把武器的时候将主武器丢弃，将新的武器安置在主武器的位置</p>
-<p>但是当手持主武器的时候，就替换副武器</p>
-<p>最后将替换下来的武器生成在脚下</p>
-<h2 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在拾取系统事件图表中创建自定义事件“替换武器”，在原本的“武器已满”位置调用“替换武器”事件图表</p>
-</li>
-<li><p>创建一个新函数“生成可拾取武器到地上”</p>
-<ul>
-<li><p>“由通道检测线条”，起始位置是actor位置，终点位置是actor往下500cm</p>
-</li>
-<li><p>用一个分支节点判断是否命中，中断检测结果，将其中的位置信息传入“由类生成actor”中</p>
-</li>
-<li><p>在武器父类中创建Actor类引用的变量“替换现有武器到地上”</p>
-</li>
-<li><p>在武器子类中分别设置“替换现有武器到地上”为对应武器的可拾取蓝图</p>
-</li>
-<li><p>以“是否装备副武器为判断依据”true输出主武器实例，false输出副武器实例，链接“替换现有武器到地上”，最后作为从类生成actor的类</p>
-</li>
-<li><p>在武器父类中创建新的事件图表“自己销毁”，创建新的自定义事件“自毁”，销毁武器，并且销毁弹匣</p>
-</li>
-<li><p>在角色蓝图的生成可拾取武器到地上函数中的选择输出的武器实例调用“自毁”事件</p>
-</li>
-<li><p>最后通过输出的武器实例来判断是主武器实例还是副武器实例，如果是主武器实例，则调用“生成主武器”；否则“生成副武器”</p>
-</li>
-</ul>
-</li>
-<li><p>在“替换武器”事件中调用“生成可拾取武器在地上”</p>
-</li>
-</ol>
-<h1 id="角色拾取服装系统"><a href="#角色拾取服装系统" class="headerlink" title="角色拾取服装系统"></a>角色拾取服装系统</h1><h2 id="思路-4"><a href="#思路-4" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在拾取系统内，判断服饰种类之后，添加背包之前，需要判断一下当前身上有没有背包</p>
-<ul>
-<li>将背包组件拖入，引出get skeletal mesh（获取骨骼网格体）判断是否为空（&#x3D;&#x3D;），如果为空，则可以直接生成背包，否则需要执行替换背包逻辑</li>
-</ul>
-</li>
-<li><p>创建一个Actor类引用类型的变量“生成可拾取的背包”，在上一节点为true时，set“生成可拾取的背包”，并将拾取物品信息中断，将拾取后生成的类引入</p>
-</li>
-<li><p>创建函数“生成可拾取服饰到地上”逻辑思路类似“生成可拾取武器到地上”，其中删除自毁逻辑和生成主副武器逻辑，将“从类生成actor”的class为函数的形式参数</p>
-</li>
-<li><p>在拾取系统中调用“生成可拾取服饰到地上”</p>
-<ul>
-<li><p>传入的参数为”生成可拾取的背包“，也就是之前旧的背包</p>
-</li>
-<li><p>下一个节点为”设置生成可拾取的背包“</p>
-</li>
-<li><p>也就是每次拾取到新背包之后，将旧背包生成到地上，在这之后，需要将现在背上的背包传入”生成可拾取的背包“变量里面</p>
-</li>
-</ul>
-</li>
-<li><p>在”BP_PickUp_Bag“里面的结构体中设置拾取后生成的类</p>
-</li>
-<li><p>创建一个透明的材质球，打开一个角色网格体将角色衣服之外的材质均替换为透明材质球，重命名为Cloth1</p>
-</li>
-<li><p>根据可拾取物品创建一个子类”BP_PickUpCloth1”设置其模型和类默认值中的”拾取后生成的类“等属性</p>
-</li>
-<li><p>在角色蓝图中新增骨骼网格体组件”衣服“，在其构造函数中将其传入到”设置总姿势组件“节点的“目标”引脚</p>
-</li>
-<li><p>在角色拾取系统中先判断角色是否穿衣服（和背包那边相同），然后设置角色网格体的材质（衣服材质）为透明【让这个角色看起来没有穿衣服】，后面的逻辑就和之前的背包逻辑一模一样了</p>
-</li>
-</ol>
-<h1 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h1><h2 id="切换全自动与半自动"><a href="#切换全自动与半自动" class="headerlink" title="切换全自动与半自动"></a>切换全自动与半自动</h2><p>在切换之前要判断是否装备武器，先判断主武器，再判断副武器，任意有一把就能切换，否则打印字符串“未装备武器，不能切换”</p>
-<h2 id="拾取系统中创建的变量"><a href="#拾取系统中创建的变量" class="headerlink" title="拾取系统中创建的变量"></a>拾取系统中创建的变量</h2><p>将之前创建了很多的变量全部用结构体代替</p>
-<p>将该事件的输入值“拾取物品信息”创建为一个变量，输入值传入变量中，在后面需要结构体中的变量的时候就将其调用</p>
-<h2 id="装备武器系统"><a href="#装备武器系统" class="headerlink" title="装备武器系统"></a>装备武器系统</h2><p>可以将相同的逻辑节点写到一个宏当中，根据情况的不同传入不同的参数即可</p>
-<h1 id="BUG小结"><a href="#BUG小结" class="headerlink" title="BUG小结"></a>BUG小结</h1><ol>
-<li>报错出现“无访问”的提示的时候就是引入的目标为空置，也就是没有赋值！此时就需要去检查一下引入的变量的赋值情况</li>
-</ol>
 
       
     </div>
