@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="动画通知知识点FTransform 存储Location信息以及Rotation信息  分别调用函数SetLocation(Loc)以及SetRotation(Rot.Quaternion())给Location以及Rotation赋值  注意：FTransform中的Rotation必须是四元数类型  需要将FRotator类型的数据调用函数Quaternion()转换为四元数之后才可传入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE4-项目-TowerDefence-发射子弹的动画通知">
+<meta property="og:url" content="http://example.com/2022/09/09/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E5%8F%91%E5%B0%84%E5%AD%90%E5%BC%B9%E7%9A%84%E5%8A%A8%E7%94%BB%E9%80%9A%E7%9F%A5/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="动画通知知识点FTransform 存储Location信息以及Rotation信息  分别调用函数SetLocation(Loc)以及SetRotation(Rot.Quaternion())给Location以及Rotation赋值  注意：FTransform中的Rotation必须是四元数类型  需要将FRotator类型的数据调用函数Quaternion()转换为四元数之后才可传入">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-09-09T06:52:03.000Z">
+<meta property="article:modified_time" content="2022-09-09T08:07:17.240Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="项目">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/09/09/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E5%8F%91%E5%B0%84%E5%AD%90%E5%BC%B9%E7%9A%84%E5%8A%A8%E7%94%BB%E9%80%9A%E7%9F%A5/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/09/09/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E5%8F%91%E5%B0%84%E5%AD%90%E5%BC%B9%E7%9A%84%E5%8A%A8%E7%94%BB%E9%80%9A%E7%9F%A5/","path":"2022/09/09/UE4-项目-TowerDefence-发射子弹的动画通知/","title":"UE4-项目-TowerDefence-发射子弹的动画通知"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>UE4-项目-TowerDefence-发射子弹的动画通知 | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A8%E7%94%BB%E9%80%9A%E7%9F%A5"><span class="nav-number">1.</span> <span class="nav-text">动画通知</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-number">1.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#FTransform"><span class="nav-number">1.1.1.</span> <span class="nav-text">FTransform</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FActorSpawnParameters"><span class="nav-number">1.1.2.</span> <span class="nav-text">FActorSpawnParameters</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SpawnActor-lt-gt"><span class="nav-number">1.1.3.</span> <span class="nav-text">SpawnActor&lt;&gt;()</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">源代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">1.2.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">1.3.</span> <span class="nav-text">代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#StoneDefenceUtils-h"><span class="nav-number">1.3.1.</span> <span class="nav-text">StoneDefenceUtils.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#StoneDefenceUtils-cpp"><span class="nav-number">1.3.2.</span> <span class="nav-text">StoneDefenceUtils.cpp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AnimNotify-SpawnBullet-h"><span class="nav-number">1.3.3.</span> <span class="nav-text">AnimNotify_SpawnBullet.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AnimNotify-SpawnBullet-cpp"><span class="nav-number">1.3.4.</span> <span class="nav-text">AnimNotify_SpawnBullet.cpp</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">113</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/09/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E5%8F%91%E5%B0%84%E5%AD%90%E5%BC%B9%E7%9A%84%E5%8A%A8%E7%94%BB%E9%80%9A%E7%9F%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="UE4-项目-TowerDefence-发射子弹的动画通知 | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UE4-项目-TowerDefence-发射子弹的动画通知
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-09-09 14:52:03 / 修改时间：16:07:17" itemprop="dateCreated datePublished" datetime="2022-09-09T14:52:03+08:00">2022-09-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="动画通知"><a href="#动画通知" class="headerlink" title="动画通知"></a>动画通知</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="FTransform"><a href="#FTransform" class="headerlink" title="FTransform"></a>FTransform</h3><ul>
+<li><p>存储<code>Location</code>信息以及<code>Rotation</code>信息</p>
+</li>
+<li><p>分别调用函数<code>SetLocation(Loc)</code>以及<code>SetRotation(Rot.Quaternion())</code>给<code>Location</code>以及<code>Rotation</code>赋值</p>
+</li>
+<li><p>注意：<code>FTransform</code>中的<code>Rotation</code>必须是四元数类型</p>
+</li>
+<li><p>需要将<code>FRotator</code>类型的数据调用函数<code>Quaternion()</code>转换为四元数之后才可传入</p>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FTransform Transform;</span><br><span class="line">Transform.<span class="built_in">SetLocation</span>(Loc);</span><br><span class="line">Transform.<span class="built_in">SetRotation</span>(Rot.<span class="built_in">Quaternion</span>());<span class="comment">//将旋转信息通过Quaternion()函数转换为四元数类型，才可以赋值给SetRotation()函数</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="FActorSpawnParameters"><a href="#FActorSpawnParameters" class="headerlink" title="FActorSpawnParameters"></a>FActorSpawnParameters</h3><p>传递给SpawnActor函数的可选参数的结构，有如下成员变量</p>
+<ul>
+<li><p>Name：要指定为正在生成的Actor的名称的名称。如果未指定值，则生成的参与者的名称将使用[Class]_[Number]形式自动生成。</p>
+</li>
+<li><p>Template：生成新参与者时用作模板的参与者。生成的Actor将使用模板Actor的属性值初始化。如果保留为空，则类默认对象（CDO）将用于初始化生成的参与者。</p>
+</li>
+<li><p>Owner：产生这个Actor的Actor。（可以保留为空）</p>
+</li>
+<li><p>OverrideLevel：生成演员的ULevel，即此对象所在的UObject。如果保留为空，则使用所有者的对象所在的UObject。如果所有者为空，则使用持久级别</p>
+</li>
+<li><p>Instigator:对所产生的Actor造成的伤害负责的APawn。（可以保留为空）&#x2F;也就是子弹的枪</p>
+</li>
+</ul>
+<h3 id="SpawnActor-lt-gt"><a href="#SpawnActor-lt-gt" class="headerlink" title="SpawnActor&lt;&gt;()"></a>SpawnActor&lt;&gt;()</h3><p>SpawnActor&lt;生成Actor的类&gt;(由谁生成Actor的类，位置旋转信息，ActorSpawnParameters信息)</p>
+<h4 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">SpawnActor</span>(UClass* Class, FTransform <span class="type">const</span>&amp; Transform,<span class="type">const</span> FActorSpawnParameters&amp; SpawnParameters = <span class="built_in">FActorSpawnParameters</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">CastChecked</span>&lt;T&gt;(<span class="built_in">SpawnActor</span>(Class, &amp;Transform, SpawnParameters), ECastCheckedType::NullAllowed);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>创建一个动画通知，调用攻击函数，在塔攻击动画的某一帧添加该通知，动画播放到该位置的时候就会发射子弹了</p>
+</li>
+<li><p>在<code>TowerDefence\Source\TowerDefence\Public\Character\Anim\AnimNotify\</code>位置创建<code>AnimNotif</code>类型的CPP文件<code>AnimNotify_SpawnBullet.h</code></p>
+</li>
+<li><p>在<code>StoneDefenceUtils.h</code>中</p>
+<ul>
+<li><p>声明一个函数<code>SpawnBullet()</code>专门用于生成子弹</p>
+<ul>
+<li><code>ARuleOfTheBullet* SpawnBullet(UWorld* World, APawn* NewPawn, UClass* InClass, const FVector&amp; Loc, const FRotator&amp; Rot);</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在<code>StoneDefenceUtils.cpp</code>中</p>
+<ul>
+<li><p>定义函数<code>SpawnBullet()</code></p>
+<ul>
+<li><p>判断关卡，发射子弹的pawn，子弹类是否有效</p>
+</li>
+<li><p>创建<code>FTransform</code>类型变量<code>Transform</code>，存储生成子弹的位置和旋转信息</p>
+</li>
+<li><p>将形式参数<code>Loc</code>使用函数<code>SetLocation()</code>传入<code>Transform</code>中</p>
+</li>
+<li><p>将形式参数<code>Rot</code>调用函数<code>Quaternion()</code>转换为四元数之后使用<code>SetRotation()</code>传递给<code>Transform</code></p>
+</li>
+<li><p>创建一个<code>FActorSpawnParameters</code>类型变量<code>ActorSpawnParameters</code>作为后面要用到的<code>SpawnActor&lt;&gt;()</code>的传入参数</p>
+</li>
+<li><p>使用<code>SpawnActor&lt;&gt;()</code>创建一个<code>ARuleOfTheBullet*</code>类型的变量<code>Bullet</code></p>
+</li>
+<li><p>创建成功之后返回<code>Bullet</code></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在<code>AnimNotify_SpawnBullet.h</code>中</p>
+<ul>
+<li><p>声明构造函数</p>
+</li>
+<li><p>声明重载函数<code>virtual FString GetNotifyName_Implementation() const override</code></p>
+</li>
+<li><p>声明重载函数<code>virtual void Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation) override;</code></p>
+</li>
+<li><p>声明<code>TSubclassOf&lt;ARuleOfTheBullet&gt; BulletClass;</code></p>
+</li>
+<li><p>声明<code>FName InSocketName;</code>作为骨骼名称</p>
+</li>
+</ul>
+</li>
+<li><p>在<code>AnimNotify_SpawnBullet.cpp</code>中</p>
+<ul>
+<li><p>构造函数中</p>
+<ul>
+<li><p>初始化继承父类</p>
+</li>
+<li><p><code>#if WITH_EDITORONLY_DATA</code>表明如果实在编辑器中</p>
+<ul>
+<li><p>赋值<code>InSocketName</code>为<code>OpenFire</code>——<code>InSocketName = TEXT(&quot;OpenFire&quot;);</code></p>
+</li>
+<li><p>给动画通知上个色<code>NotifyColor = FColor(196, 142, 255, 255);</code></p>
+</li>
+<li><p><code>#endif</code></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>GetNotifyName_Implementation()</code>函数中</p>
+<ul>
+<li><p>判断<code>BulletClass</code>是否生成成功</p>
+</li>
+<li><p>是则<code>return BulletClass-&gt;GetName()</code></p>
+</li>
+<li><p>否则<code>return Super::GetNotifyName_Implementation()</code></p>
+</li>
+</ul>
+</li>
+<li><p><code>Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation)</code>函数中</p>
+<ul>
+<li><p><code>#if WITH_EDITOR</code>表示在动画编辑器中</p>
+<ul>
+<li><p>创建<code>FVector</code>类型变量<code>ComponentLocation</code>赋值为<code>MeshComp</code>的名为<code>InSocketName</code>骨骼的位置信息</p>
+</li>
+<li><p>创建<code>FRotator</code>类型变量<code>ComponentRotation</code>赋值为<code>MeshComp</code>的名为<code>InSocketName</code>骨骼的旋转信息</p>
+</li>
+</ul>
+</li>
+<li><p><code>#else</code>表示在游戏中</p>
+<ul>
+<li><p><code>FVector ComponentLocation = Character-&gt;GetFirePoint()-&gt;GetComponentLocation();</code></p>
+</li>
+<li><p><code>FRotator ComponentRotation = Character-&gt;GetFirePoint()-&gt;GetComponentRotation();</code></p>
+</li>
+</ul>
+</li>
+<li><p><code>#endif</code></p>
+</li>
+<li><p>使用<code>GetOuter()</code>函数获取<code>MeshComp</code>的<code>UObject</code>，赋值给<code>AActor*</code>类型的变量<code>Character</code></p>
+</li>
+<li><p>调用<code>StoneDefenceUtils::SpawnBullet()</code>函数，生成<code>ARuleOfTheBullet* Bullet</code></p>
+</li>
+<li><p>参数分别为<code>Character-&gt;GetWorld()</code>，<code>Cast&lt;APawn&gt;(Character)</code>，<code>BulletClass</code>，<code>ComponentLocation</code>，<code>ComponentRotation</code></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>将塔的攻击动画中的合适位置添加此通知</p>
+</li>
+<li><p>调整好塔的骨骼<code>OpenFire</code>的位置和旋转信息</p>
+</li>
+</ol>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><h3 id="StoneDefenceUtils-h"><a href="#StoneDefenceUtils-h" class="headerlink" title="StoneDefenceUtils.h"></a>StoneDefenceUtils.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ARuleOfTheCharacter</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ARuleOfTheBullet</span>;</span><br><span class="line"><span class="keyword">namespace</span> StoneDefenceUtils</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function">ARuleOfTheCharacter* <span class="title">FindTargetRecently</span><span class="params">(<span class="type">const</span> TArray&lt;ARuleOfTheCharacter*&gt;&amp; InCharacters<span class="comment">/*目标数组*/</span>, <span class="type">const</span> FVector&amp; MyLoc<span class="comment">/*我方位置*/</span>)</span></span>;</span><br><span class="line">	<span class="comment">//ARuleOfTheBullet* SpawnBullet(UWorld* World, ARuleOfTheCharacter* Onwer, const int32 SkillID, const FVector&amp; Loc, const FRotator&amp; Rot);</span></span><br><span class="line">	<span class="comment">//ARuleOfTheBullet* SpawnBullet(UWorld* World, FGuid CharacterID, UClass* InClass);</span></span><br><span class="line">	<span class="function">ARuleOfTheBullet* <span class="title">SpawnBullet</span><span class="params">(UWorld* World<span class="comment">/*生成关卡*/</span>, APawn* NewPawn<span class="comment">/*生成子弹的pawn（谁生成子弹）*/</span>, UClass* InClass<span class="comment">/*生成子弹的类*/</span>, <span class="type">const</span> FVector&amp; Loc<span class="comment">/*位置*/</span>, <span class="type">const</span> FRotator&amp; Rot<span class="comment">/*旋转信息*/</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="StoneDefenceUtils-cpp"><a href="#StoneDefenceUtils-cpp" class="headerlink" title="StoneDefenceUtils.cpp"></a>StoneDefenceUtils.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;StoneDefenceUtils.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character\Bullet\RuleOfTheBullet.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character\Core\RuleOfTheCharacter.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">ARuleOfTheCharacter* <span class="title">StoneDefenceUtils::FindTargetRecently</span><span class="params">(<span class="type">const</span> TArray&lt;ARuleOfTheCharacter*&gt;&amp; InCharacters, <span class="type">const</span> FVector&amp; MyLoc)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//判断目标数组是否有效</span></span><br><span class="line">	<span class="keyword">if</span> (InCharacters.<span class="built_in">Num</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//定义一个目标距离，以及目标下标</span></span><br><span class="line">		<span class="type">float</span> TargetDistance = <span class="number">99999999</span>;</span><br><span class="line">		int32 Index = INDEX_NONE;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//遍历目标数组</span></span><br><span class="line">		<span class="keyword">for</span> (int32 i = <span class="number">0</span>; i &lt; InCharacters.<span class="built_in">Num</span>(); i++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//把遍历目标数组中的元素赋值给ARuleOfTheCharacter*类型的变量TargetCharacter</span></span><br><span class="line">			<span class="keyword">if</span> (ARuleOfTheCharacter* TargetCharacter = InCharacters[i])</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="comment">//存储目标位置</span></span><br><span class="line">				FVector TargetLocation = TargetCharacter-&gt;<span class="built_in">GetActorLocation</span>();</span><br><span class="line">				<span class="comment">//我方距离和目标距离相减</span></span><br><span class="line">				FVector TmpVector = TargetLocation - MyLoc;</span><br><span class="line">				<span class="comment">//将FVector类型转换为float类型，方便判断</span></span><br><span class="line">				<span class="type">float</span> Distance = TmpVector.<span class="built_in">Size</span>();</span><br><span class="line"></span><br><span class="line">				<span class="comment">//如果当前目标距离小于上一个目标距离且目标是活的</span></span><br><span class="line">				<span class="keyword">if</span> (Distance &lt; TargetDistance &amp;&amp; TargetCharacter-&gt;<span class="built_in">IsActive</span>())</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//更新目标下标和目标距离</span></span><br><span class="line">					Index = i;</span><br><span class="line">					TargetDistance = Distance;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//当目标下标不是INDEX_NONE时</span></span><br><span class="line">		<span class="keyword">if</span> (Index != INDEX_NONE)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//返回当前目标元素（距离最近的一个目标）</span></span><br><span class="line">			<span class="keyword">return</span> InCharacters[Index];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function">ARuleOfTheBullet* <span class="title">StoneDefenceUtils::SpawnBullet</span><span class="params">(UWorld* World, APawn* NewPawn, UClass* InClass, <span class="type">const</span> FVector&amp; Loc, <span class="type">const</span> FRotator&amp; Rot)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//判断关卡，发射子弹的pawn，子弹类是否有效</span></span><br><span class="line">	<span class="keyword">if</span> (World &amp;&amp; NewPawn &amp;&amp; InClass)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//创建FTransform类型变量Transform，存储生成子弹的位置和旋转信息</span></span><br><span class="line">		FTransform Transform;</span><br><span class="line">		Transform.<span class="built_in">SetLocation</span>(Loc);</span><br><span class="line">		Transform.<span class="built_in">SetRotation</span>(Rot.<span class="built_in">Quaternion</span>());<span class="comment">//将旋转信息通过Quaternion()函数转换为四元数类型，才可以赋值给SetRotation()函数</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">//FActorSpawnParameters:传递给SpawnActor函数的可选参数的结构，有如下成员变量</span></span><br><span class="line">		<span class="comment">//Name：要指定为正在生成的Actor的名称的名称。如果未指定值，则生成的参与者的名称将使用[Class]_[Number]形式自动生成。</span></span><br><span class="line">		<span class="comment">//Template：生成新参与者时用作模板的参与者。生成的Actor将使用模板Actor的属性值初始化。如果保留为空，则类默认对象（CDO）将用于初始化生成的参与者。</span></span><br><span class="line">		<span class="comment">//Owner：产生这个Actor的Actor。（可以保留为空）</span></span><br><span class="line">		<span class="comment">//OverrideLevel：生成演员的ULevel，即此对象所在的UObject。如果保留为空，则使用所有者的对象所在的UObject。如果所有者为空，则使用持久级别</span></span><br><span class="line">		<span class="comment">//Instigator:对所产生的Actor造成的伤害负责的APawn。（可以保留为空）/也就是子弹的枪</span></span><br><span class="line">		FActorSpawnParameters ActorSpawnParameters;</span><br><span class="line">		ActorSpawnParameters.Instigator = NewPawn;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (ARuleOfTheBullet* Bullet = World-&gt;<span class="built_in">SpawnActor</span>&lt;ARuleOfTheBullet&gt;(InClass, Transform, ActorSpawnParameters))</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> Bullet;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="AnimNotify-SpawnBullet-h"><a href="#AnimNotify-SpawnBullet-h" class="headerlink" title="AnimNotify_SpawnBullet.h"></a>AnimNotify_SpawnBullet.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Animation/AnimNotifies/AnimNotify.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;AnimNotify_SpawnBullet.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ARuleOfTheBullet</span>;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>(<span class="type">const</span>, hidecategories = Object, collapsecategories, meta = (DisplayName = <span class="string">&quot;Spawn Bullet&quot;</span>))</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> UAnimNotify_SpawnBullet : <span class="keyword">public</span> UAnimNotify</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">UAnimNotify_SpawnBullet</span>();</span><br><span class="line">	<span class="comment">// 启动UAnimNotify接口</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> FString <span class="title">GetNotifyName_Implementation</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">override</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Notify</span><span class="params">(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(EditAnywhere, BlueprintReadWrite, Category = <span class="string">&quot;AnimNotify&quot;</span>, meta = (ExposeOnSpawn = <span class="literal">true</span>))</span><br><span class="line">		TSubclassOf&lt;ARuleOfTheBullet&gt; BulletClass;</span><br><span class="line">	</span><br><span class="line"><span class="meta">#<span class="keyword">if</span> WITH_EDITOR</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(EditAnywhere, BlueprintReadWrite, Category = <span class="string">&quot;AnimNotify&quot;</span>, meta = (ExposeOnSpawn = <span class="literal">true</span>))</span><br><span class="line">		FName InSocketName;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="AnimNotify-SpawnBullet-cpp"><a href="#AnimNotify-SpawnBullet-cpp" class="headerlink" title="AnimNotify_SpawnBullet.cpp"></a>AnimNotify_SpawnBullet.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character/Anim/AnimNotify/AnimNotify_SpawnBullet.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character/Core/RuleOfTheCharacter.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character\Bullet\RuleOfTheBullet.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/SkeletalMeshComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/ArrowComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowerDefence\StoneDefenceUtils.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">UAnimNotify_SpawnBullet::<span class="built_in">UAnimNotify_SpawnBullet</span>()</span><br><span class="line">	:<span class="built_in">Super</span>()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> WITH_EDITORONLY_DATA</span></span><br><span class="line">	InSocketName = <span class="built_in">TEXT</span>(<span class="string">&quot;OpenFire&quot;</span>);</span><br><span class="line">	NotifyColor = <span class="built_in">FColor</span>(<span class="number">196</span>, <span class="number">142</span>, <span class="number">255</span>, <span class="number">255</span>);</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">// WITH_EDITORONLY_DATA</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">FString <span class="title">UAnimNotify_SpawnBullet::GetNotifyName_Implementation</span><span class="params">()</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (BulletClass)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> BulletClass-&gt;<span class="built_in">GetName</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> Super::<span class="built_in">GetNotifyName_Implementation</span>();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UAnimNotify_SpawnBullet::Notify</span><span class="params">(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="meta">#<span class="keyword">if</span> WITH_EDITOR</span></span><br><span class="line">	FVector ComponentLocation = MeshComp-&gt;<span class="built_in">GetSocketLocation</span>(InSocketName);</span><br><span class="line">	FRotator ComponentRotation = MeshComp-&gt;<span class="built_in">GetSocketRotation</span>(InSocketName);</span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">	FVector ComponentLocation = Character-&gt;<span class="built_in">GetFirePoint</span>()-&gt;<span class="built_in">GetComponentLocation</span>();</span><br><span class="line">	FRotator ComponentRotation = Character-&gt;<span class="built_in">GetFirePoint</span>()-&gt;<span class="built_in">GetComponentRotation</span>();</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">	<span class="keyword">if</span> (AActor* Character = <span class="built_in">Cast</span>&lt;AActor&gt;(MeshComp-&gt;<span class="built_in">GetOuter</span>()<span class="comment">/*返回此对象所在的UObject*/</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (ARuleOfTheBullet* Bullet = StoneDefenceUtils::<span class="built_in">SpawnBullet</span>(Character-&gt;<span class="built_in">GetWorld</span>(), <span class="built_in">Cast</span>&lt;APawn&gt;(Character), BulletClass, ComponentLocation, ComponentRotation))</span><br><span class="line">		&#123;</span><br><span class="line">			</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag"># 项目</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/09/09/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E5%AD%90%E5%BC%B9%E7%B1%BB%E8%AE%BE%E8%AE%A1/" rel="prev" title="UE4-项目-TowerDefence-子弹类设计">
+                  <i class="fa fa-chevron-left"></i> UE4-项目-TowerDefence-子弹类设计
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/09/12/%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%88%E4%BA%8C%EF%BC%89/" rel="next" title="算法-二叉树（二）">
+                  算法-二叉树（二） <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
