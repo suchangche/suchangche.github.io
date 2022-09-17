@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="实现效果说是子弹范围伤害，其实不然，应该说是以塔为圆心，设定一个半径，在这个圆之内存在范围伤害。 但也可以引申到范围伤害子弹上。 知识点UGameplayStatics::ApplyRadialDamageWithFalloff()带范围衰减的范围伤害，本质上是两个同心圆，内圆伤害高，外圆伤害递减 ApplyRadialDamageWithFalloff(生成关卡,最大伤害,最小伤害,伤害圆心点,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE4-项目-TowerDefence-子弹范围伤害">
+<meta property="og:url" content="http://example.com/2022/09/14/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E5%AD%90%E5%BC%B9%E8%8C%83%E5%9B%B4%E4%BC%A4%E5%AE%B3/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="实现效果说是子弹范围伤害，其实不然，应该说是以塔为圆心，设定一个半径，在这个圆之内存在范围伤害。 但也可以引申到范围伤害子弹上。 知识点UGameplayStatics::ApplyRadialDamageWithFalloff()带范围衰减的范围伤害，本质上是两个同心圆，内圆伤害高，外圆伤害递减 ApplyRadialDamageWithFalloff(生成关卡,最大伤害,最小伤害,伤害圆心点,">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-09-14T07:08:31.000Z">
+<meta property="article:modified_time" content="2022-09-14T08:00:12.181Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="项目">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/09/14/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E5%AD%90%E5%BC%B9%E8%8C%83%E5%9B%B4%E4%BC%A4%E5%AE%B3/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/09/14/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E5%AD%90%E5%BC%B9%E8%8C%83%E5%9B%B4%E4%BC%A4%E5%AE%B3/","path":"2022/09/14/UE4-项目-TowerDefence-子弹范围伤害/","title":"UE4-项目-TowerDefence-子弹范围伤害"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>UE4-项目-TowerDefence-子弹范围伤害 | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%95%88%E6%9E%9C"><span class="nav-number">1.</span> <span class="nav-text">实现效果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-number">2.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#UGameplayStatics-ApplyRadialDamageWithFalloff"><span class="nav-number">2.1.</span> <span class="nav-text">UGameplayStatics::ApplyRadialDamageWithFalloff()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81"><span class="nav-number">2.1.1.</span> <span class="nav-text">源代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF"><span class="nav-number">3.</span> <span class="nav-text">实现思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%83%A8%E5%88%86%E4%BB%A3%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">部分代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8C%83%E5%9B%B4%E4%BC%A4%E5%AE%B3%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.0.1.</span> <span class="nav-text">范围伤害代码实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E7%94%A8RadialDamage-%E5%87%BD%E6%95%B0"><span class="nav-number">4.0.2.</span> <span class="nav-text">调用RadialDamage()函数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD%E5%AD%90%E5%BC%B9"><span class="nav-number">5.</span> <span class="nav-text">加载子弹</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/14/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E5%AD%90%E5%BC%B9%E8%8C%83%E5%9B%B4%E4%BC%A4%E5%AE%B3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="UE4-项目-TowerDefence-子弹范围伤害 | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UE4-项目-TowerDefence-子弹范围伤害
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-09-14 15:08:31 / 修改时间：16:00:12" itemprop="dateCreated datePublished" datetime="2022-09-14T15:08:31+08:00">2022-09-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="实现效果"><a href="#实现效果" class="headerlink" title="实现效果"></a>实现效果</h1><p>说是子弹范围伤害，其实不然，应该说是以塔为圆心，设定一个半径，在这个圆之内存在范围伤害。</p>
+<p>但也可以引申到范围伤害子弹上。</p>
+<h1 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h1><h2 id="UGameplayStatics-ApplyRadialDamageWithFalloff"><a href="#UGameplayStatics-ApplyRadialDamageWithFalloff" class="headerlink" title="UGameplayStatics::ApplyRadialDamageWithFalloff()"></a>UGameplayStatics::ApplyRadialDamageWithFalloff()</h2><p>带范围衰减的范围伤害，本质上是两个同心圆，内圆伤害高，外圆伤害递减</p>
+<p><code>ApplyRadialDamageWithFalloff(生成关卡,最大伤害,最小伤害,伤害圆心点,内圆半径,外圆半径，伤害衰减系数，伤害类型，友方类，施法者)</code></p>
+<h3 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">UGameplayStatics::ApplyRadialDamageWithFalloff</span><span class="params">(<span class="type">const</span> UObject* WorldContextObject, <span class="type">float</span> BaseDamage, <span class="type">float</span> MinimumDamage, <span class="type">const</span> FVector&amp; Origin, <span class="type">float</span> DamageInnerRadius, <span class="type">float</span> DamageOuterRadius, <span class="type">float</span> DamageFalloff, TSubclassOf&lt;<span class="keyword">class</span> UDamageType&gt; DamageTypeClass, <span class="type">const</span> TArray&lt;AActor*&gt;&amp; IgnoreActors, AActor* DamageCauser, AController* InstigatedByController, ECollisionChannel DamagePreventionChannel)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">FCollisionQueryParams <span class="title">SphereParams</span><span class="params">(SCENE_QUERY_STAT(ApplyRadialDamage),  <span class="literal">false</span>, DamageCauser)</span></span>;</span><br><span class="line"></span><br><span class="line">    SphereParams.<span class="built_in">AddIgnoredActors</span>(IgnoreActors);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// query scene to see what we hit</span></span><br><span class="line">    TArray&lt;FOverlapResult&gt; Overlaps;</span><br><span class="line">    <span class="keyword">if</span> (UWorld* World = GEngine-&gt;<span class="built_in">GetWorldFromContextObject</span>(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))</span><br><span class="line">    &#123;</span><br><span class="line">        World-&gt;<span class="built_in">OverlapMultiByObjectType</span>(Overlaps, Origin, FQuat::Identity, <span class="built_in">FCollisionObjectQueryParams</span>(FCollisionObjectQueryParams::InitType::AllDynamicObjects), FCollisionShape::<span class="built_in">MakeSphere</span>(DamageOuterRadius), SphereParams);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// collate into per-actor list of hit components</span></span><br><span class="line">    TMap&lt;AActor*, TArray&lt;FHitResult&gt; &gt; OverlapComponentMap;</span><br><span class="line">    <span class="keyword">for</span> (int32 Idx = <span class="number">0</span>; Idx &lt; Overlaps.<span class="built_in">Num</span>(); ++Idx)</span><br><span class="line">    &#123;</span><br><span class="line">        FOverlapResult <span class="type">const</span>&amp; Overlap = Overlaps[Idx];</span><br><span class="line">        AActor* <span class="type">const</span> OverlapActor = Overlap.<span class="built_in">GetActor</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (OverlapActor &amp;&amp;</span><br><span class="line">            OverlapActor-&gt;<span class="built_in">CanBeDamaged</span>() &amp;&amp;</span><br><span class="line">            OverlapActor != DamageCauser &amp;&amp;</span><br><span class="line">            Overlap.Component.<span class="built_in">IsValid</span>())</span><br><span class="line">        &#123;</span><br><span class="line">            FHitResult Hit;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">ComponentIsDamageableFrom</span>(Overlap.Component.<span class="built_in">Get</span>(), Origin, DamageCauser, IgnoreActors, DamagePreventionChannel, Hit))</span><br><span class="line">            &#123;</span><br><span class="line">                TArray&lt;FHitResult&gt;&amp; HitList = OverlapComponentMap.<span class="built_in">FindOrAdd</span>(OverlapActor);</span><br><span class="line">                HitList.<span class="built_in">Add</span>(Hit);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">bool</span> bAppliedDamage = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (OverlapComponentMap.<span class="built_in">Num</span>() &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// make sure we have a good damage type</span></span><br><span class="line">        TSubclassOf&lt;UDamageType&gt; <span class="type">const</span> ValidDamageTypeClass = DamageTypeClass ? DamageTypeClass : <span class="built_in">TSubclassOf</span>&lt;UDamageType&gt;(UDamageType::<span class="built_in">StaticClass</span>());</span><br><span class="line"></span><br><span class="line">        FRadialDamageEvent DmgEvent;</span><br><span class="line">        DmgEvent.DamageTypeClass = ValidDamageTypeClass;</span><br><span class="line">        DmgEvent.Origin = Origin;</span><br><span class="line">        DmgEvent.Params = <span class="built_in">FRadialDamageParams</span>(BaseDamage, MinimumDamage, DamageInnerRadius, DamageOuterRadius, DamageFalloff);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// call damage function on each affected actors</span></span><br><span class="line">        <span class="keyword">for</span> (TMap&lt;AActor*, TArray&lt;FHitResult&gt; &gt;::TIterator <span class="built_in">It</span>(OverlapComponentMap); It; ++It)</span><br><span class="line">        &#123;</span><br><span class="line">            AActor* <span class="type">const</span> Victim = It.<span class="built_in">Key</span>();</span><br><span class="line">            TArray&lt;FHitResult&gt; <span class="type">const</span>&amp; ComponentHits = It.<span class="built_in">Value</span>();</span><br><span class="line">            DmgEvent.ComponentHits = ComponentHits;</span><br><span class="line"></span><br><span class="line">            Victim-&gt;<span class="built_in">TakeDamage</span>(BaseDamage, DmgEvent, InstigatedByController, DamageCauser);</span><br><span class="line"></span><br><span class="line">            bAppliedDamage = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> bAppliedDamage;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h1><ol>
+<li><p>取消子弹的初速度，碰撞也需要取消，写一个函数，专门实现范围伤害，在<code>BeginPlay()</code>时调用该函数</p>
+</li>
+<li><p>存在一个函数<code>UGameplayStatics::ApplyRadialDamageWithFalloff()</code>可以直接施加范围衰减伤害</p>
+</li>
+<li><p>范围伤害函数，计算施法者和敌方之间的距离，小于一定值时遍历关卡中所有<code>Character</code>，如果是友方，则添加到一个友方数组中，如果是敌方，则添加到敌方数组中</p>
+</li>
+<li><p>使用<code>UGameplayStatics::ApplyRadialDamageWithFalloff()</code>函数</p>
+</li>
+</ol>
+<h1 id="部分代码"><a href="#部分代码" class="headerlink" title="部分代码"></a>部分代码</h1><h3 id="范围伤害代码实现"><a href="#范围伤害代码实现" class="headerlink" title="范围伤害代码实现"></a>范围伤害代码实现</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在.h文件中需要声明该函数</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ARuleOfTheBullet::RadialDamage</span><span class="params">(<span class="type">const</span> FVector&amp; Origin<span class="comment">/*圆心点*/</span>, ARuleOfTheCharacter* InstigatorCharacter<span class="comment">/*施法者*/</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FActorSpawnParameters ActorSpawnParameters;</span><br><span class="line">	<span class="keyword">if</span> (InstigatorCharacter)<span class="comment">//判断施法者是否有效</span></span><br><span class="line">	&#123;</span><br><span class="line">		TArray&lt;AActor*&gt; IngoreActors;<span class="comment">//友方类数组，用于忽略伤害</span></span><br><span class="line">		TArray&lt;ARuleOfTheCharacter*&gt; TargetActors;<span class="comment">//目标类数组，施加伤害</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">//迭代器遍历关卡中的所有ARuleOfTheCharacter类</span></span><br><span class="line">		<span class="keyword">for</span> (TActorIterator&lt;ARuleOfTheCharacter&gt;<span class="built_in">it</span>(<span class="built_in">GetWorld</span>(), ARuleOfTheCharacter::<span class="built_in">StaticClass</span>()); it; ++it)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//TheCharacter用于存储敌方</span></span><br><span class="line">			<span class="keyword">if</span> (ARuleOfTheCharacter* TheCharacter = *it)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="comment">//计算施法者与敌方之间的距离</span></span><br><span class="line">				FVector VDistance = TheCharacter-&gt;<span class="built_in">GetActorLocation</span>() - InstigatorCharacter-&gt;<span class="built_in">GetActorLocation</span>();</span><br><span class="line"></span><br><span class="line">				<span class="comment">//如果距离不超过1400即可进攻</span></span><br><span class="line">				<span class="keyword">if</span> (VDistance.<span class="built_in">Size</span>() &lt;= <span class="number">1400</span>)</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//判断敌方是否为敌方</span></span><br><span class="line">					<span class="keyword">if</span> (TheCharacter-&gt;<span class="built_in">IsTeam</span>() == InstigatorCharacter-&gt;<span class="built_in">IsTeam</span>())</span><br><span class="line">					&#123;</span><br><span class="line">						<span class="comment">//不是敌方则添加进友方类数组</span></span><br><span class="line">						IngoreActors.<span class="built_in">Add</span>(TheCharacter);</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">else</span></span><br><span class="line">					&#123;</span><br><span class="line">						<span class="comment">//是敌方则添加进目标类数组</span></span><br><span class="line">						TargetActors.<span class="built_in">Add</span>(TheCharacter);</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//半径衰减范围伤害</span></span><br><span class="line">		UGameplayStatics::<span class="built_in">ApplyRadialDamageWithFalloff</span></span><br><span class="line">		(</span><br><span class="line">			<span class="built_in">GetWorld</span>()<span class="comment">/*关卡*/</span>,</span><br><span class="line">			<span class="number">100.f</span><span class="comment">/*最大伤害*/</span>,</span><br><span class="line">			<span class="number">10.f</span><span class="comment">/*最小伤害*/</span>,</span><br><span class="line">			Origin<span class="comment">/*伤害圆心点*/</span>,</span><br><span class="line">			<span class="number">400.f</span><span class="comment">/*内圆半径*/</span>,</span><br><span class="line">			<span class="number">1000.f</span><span class="comment">/*外圆半径*/</span>,</span><br><span class="line">			<span class="number">1.f</span><span class="comment">/*伤害衰减系数*/</span>,</span><br><span class="line">			UDamageType::<span class="built_in">StaticClass</span>()<span class="comment">/*伤害类型*/</span>,</span><br><span class="line">			IngoreActors<span class="comment">/*友方Actor*/</span>,</span><br><span class="line">			ActorSpawnParameters.Instigator<span class="comment">/*施法者*/</span></span><br><span class="line">		);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="调用RadialDamage-函数"><a href="#调用RadialDamage-函数" class="headerlink" title="调用RadialDamage()函数"></a>调用RadialDamage()函数</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> EBulletType::BULLET_RANGE:</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//停下子弹的移动</span></span><br><span class="line">	ProjectileMovement-&gt;<span class="built_in">StopMovementImmediately</span>();</span><br><span class="line">	<span class="comment">//设置碰撞为无</span></span><br><span class="line">	BoxDamage-&gt;<span class="built_in">SetCollisionEnabled</span>(ECollisionEnabled::NoCollision);</span><br><span class="line">	<span class="comment">//调用自定义函数RadialDamage(圆心位置，施法者)</span></span><br><span class="line">	<span class="built_in">RadialDamage</span>(<span class="built_in">GetActorLocation</span>(), <span class="built_in">Cast</span>&lt;ARuleOfTheCharacter&gt;(ActorSpawnParameters.Instigator));</span><br><span class="line">	<span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>完整的子弹代码放在写完几种子弹类型最后面，不然代码量实在是太大了</p>
+<h1 id="加载子弹"><a href="#加载子弹" class="headerlink" title="加载子弹"></a>加载子弹</h1><ol>
+<li><p>在子弹的蓝图类中修改子弹类型</p>
+</li>
+<li><p>在塔的攻击动画中，调用动画通知，指定生成类为该子弹蓝图类</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag"># 项目</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/09/12/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E5%AD%90%E5%BC%B9%E8%B7%9F%E8%B8%AA%E8%AE%BE%E8%AE%A1/" rel="prev" title="UE4-项目-TowerDefence-子弹跟踪设计">
+                  <i class="fa fa-chevron-left"></i> UE4-项目-TowerDefence-子弹跟踪设计
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/09/14/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E7%89%A9%E7%90%86%E5%AE%9E%E7%8E%B0%E4%B8%A2%E6%89%8B%E9%9B%B7%E6%95%88%E6%9E%9C/" rel="next" title="UE4-项目-TowerDefence-物理实现丢手雷效果">
+                  UE4-项目-TowerDefence-物理实现丢手雷效果 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

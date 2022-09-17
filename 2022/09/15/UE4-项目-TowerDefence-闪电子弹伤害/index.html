@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="实现效果塔发出一串雷电，一端在塔的位置上，另一端连接上敌方 知识点SpawnEmitterAttached()生成一个例子发射器（粒子特效系统）连接上另一个组件 简略使用方式SpawnEmitterAttached(要生成的粒子特效，要附加到的组件) 源代码12345678910111213141516171819202122232425262728293031323334353637383940">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE4-项目-TowerDefence-闪电子弹伤害">
+<meta property="og:url" content="http://example.com/2022/09/15/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E9%97%AA%E7%94%B5%E5%AD%90%E5%BC%B9%E4%BC%A4%E5%AE%B3/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="实现效果塔发出一串雷电，一端在塔的位置上，另一端连接上敌方 知识点SpawnEmitterAttached()生成一个例子发射器（粒子特效系统）连接上另一个组件 简略使用方式SpawnEmitterAttached(要生成的粒子特效，要附加到的组件) 源代码12345678910111213141516171819202122232425262728293031323334353637383940">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-09-15T06:03:10.000Z">
+<meta property="article:modified_time" content="2022-09-15T06:35:17.181Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="项目">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/09/15/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E9%97%AA%E7%94%B5%E5%AD%90%E5%BC%B9%E4%BC%A4%E5%AE%B3/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/09/15/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E9%97%AA%E7%94%B5%E5%AD%90%E5%BC%B9%E4%BC%A4%E5%AE%B3/","path":"2022/09/15/UE4-项目-TowerDefence-闪电子弹伤害/","title":"UE4-项目-TowerDefence-闪电子弹伤害"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>UE4-项目-TowerDefence-闪电子弹伤害 | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%95%88%E6%9E%9C"><span class="nav-number">1.</span> <span class="nav-text">实现效果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-number">2.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SpawnEmitterAttached"><span class="nav-number">2.1.</span> <span class="nav-text">SpawnEmitterAttached()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E7%95%A5%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="nav-number">2.2.</span> <span class="nav-text">简略使用方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81"><span class="nav-number">2.2.1.</span> <span class="nav-text">源代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GetChildrenComponents"><span class="nav-number">2.3.</span> <span class="nav-text">GetChildrenComponents()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81-1"><span class="nav-number">2.3.1.</span> <span class="nav-text">源代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ParticleSystem-gt-SetBeamSourcePoint"><span class="nav-number">2.4.</span> <span class="nav-text">ParticleSystem-&gt;SetBeamSourcePoint()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81-2"><span class="nav-number">2.4.1.</span> <span class="nav-text">源代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ParticleSystem-gt-SetBeamTargetPoint"><span class="nav-number">2.4.2.</span> <span class="nav-text">ParticleSystem-&gt;SetBeamTargetPoint()</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81-3"><span class="nav-number">2.4.2.1.</span> <span class="nav-text">源代码</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%A7%E8%87%B4%E6%80%9D%E8%B7%AF"><span class="nav-number">3.</span> <span class="nav-text">大致思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%83%A8%E5%88%86%E4%BB%A3%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">部分代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%AD%90%E5%BC%B9%EF%BC%88%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%86%85%EF%BC%89%E4%BB%A3%E7%A0%81"><span class="nav-number">4.0.1.</span> <span class="nav-text">初始化子弹（构造函数内）代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E9%97%AA%E7%94%B5%E7%89%B9%E6%95%88%EF%BC%88Tick%E5%87%BD%E6%95%B0%E5%86%85%EF%BC%89%E4%BB%A3%E7%A0%81"><span class="nav-number">4.1.</span> <span class="nav-text">更新闪电特效（Tick函数内）代码</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/15/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E9%97%AA%E7%94%B5%E5%AD%90%E5%BC%B9%E4%BC%A4%E5%AE%B3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="UE4-项目-TowerDefence-闪电子弹伤害 | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UE4-项目-TowerDefence-闪电子弹伤害
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-09-15 14:03:10 / 修改时间：14:35:17" itemprop="dateCreated datePublished" datetime="2022-09-15T14:03:10+08:00">2022-09-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="实现效果"><a href="#实现效果" class="headerlink" title="实现效果"></a>实现效果</h1><p>塔发出一串雷电，一端在塔的位置上，另一端连接上敌方</p>
+<h1 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h1><h2 id="SpawnEmitterAttached"><a href="#SpawnEmitterAttached" class="headerlink" title="SpawnEmitterAttached()"></a>SpawnEmitterAttached()</h2><p>生成一个例子发射器（粒子特效系统）连接上另一个组件</p>
+<h2 id="简略使用方式"><a href="#简略使用方式" class="headerlink" title="简略使用方式"></a>简略使用方式</h2><p><code>SpawnEmitterAttached(要生成的粒子特效，要附加到的组件)</code></p>
+<h3 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">UParticleSystemComponent* <span class="title">UGameplayStatics::SpawnEmitterAttached</span><span class="params">(UParticleSystem* EmitterTemplate, USceneComponent* AttachToComponent, FName AttachPointName, FVector Location, FRotator Rotation, FVector Scale, EAttachLocation::Type LocationType, <span class="type">bool</span> bAutoDestroy, EPSCPoolMethod PoolingMethod, <span class="type">bool</span> bAutoActivateSystem)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UParticleSystemComponent* PSC = <span class="literal">nullptr</span>;</span><br><span class="line">	<span class="keyword">if</span> (EmitterTemplate)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (AttachToComponent == <span class="literal">nullptr</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">UE_LOG</span>(LogScript, Warning, <span class="built_in">TEXT</span>(<span class="string">&quot;UGameplayStatics::SpawnEmitterAttached: NULL AttachComponent specified!&quot;</span>));</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			UWorld* <span class="type">const</span> World = AttachToComponent-&gt;<span class="built_in">GetWorld</span>();</span><br><span class="line">			<span class="keyword">if</span> (World &amp;&amp; !World-&gt;<span class="built_in">IsNetMode</span>(NM_DedicatedServer))</span><br><span class="line">			&#123;</span><br><span class="line">				PSC = <span class="built_in">CreateParticleSystem</span>(EmitterTemplate, World, AttachToComponent-&gt;<span class="built_in">GetOwner</span>(), bAutoDestroy, PoolingMethod);</span><br><span class="line"></span><br><span class="line">				<span class="keyword">if</span> (PSC != <span class="literal">nullptr</span>)</span><br><span class="line">				&#123;</span><br><span class="line">					PSC-&gt;<span class="built_in">SetupAttachment</span>(AttachToComponent, AttachPointName);</span><br><span class="line"></span><br><span class="line">					<span class="keyword">if</span> (LocationType == EAttachLocation::KeepWorldPosition)</span><br><span class="line">					&#123;</span><br><span class="line">						<span class="type">const</span> FTransform ParentToWorld = AttachToComponent-&gt;<span class="built_in">GetSocketTransform</span>(AttachPointName);</span><br><span class="line">						<span class="function"><span class="type">const</span> FTransform <span class="title">ComponentToWorld</span><span class="params">(Rotation, Location, Scale)</span></span>;</span><br><span class="line">						<span class="type">const</span> FTransform RelativeTM = ComponentToWorld.<span class="built_in">GetRelativeTransform</span>(ParentToWorld);</span><br><span class="line">						PSC-&gt;<span class="built_in">SetRelativeLocation_Direct</span>(RelativeTM.<span class="built_in">GetLocation</span>());</span><br><span class="line">						PSC-&gt;<span class="built_in">SetRelativeRotation_Direct</span>(RelativeTM.<span class="built_in">GetRotation</span>().<span class="built_in">Rotator</span>());</span><br><span class="line">						PSC-&gt;<span class="built_in">SetRelativeScale3D_Direct</span>(RelativeTM.<span class="built_in">GetScale3D</span>());</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">else</span></span><br><span class="line">					&#123;</span><br><span class="line">						PSC-&gt;<span class="built_in">SetRelativeLocation_Direct</span>(Location);</span><br><span class="line">						PSC-&gt;<span class="built_in">SetRelativeRotation_Direct</span>(Rotation);</span><br><span class="line"></span><br><span class="line">						<span class="keyword">if</span> (LocationType == EAttachLocation::SnapToTarget)</span><br><span class="line">						&#123;</span><br><span class="line">							<span class="comment">// SnapToTarget indicates we &quot;keep world scale&quot;, this indicates we we want the inverse of the parent-to-world scale </span></span><br><span class="line">							<span class="comment">// to calculate world scale at Scale 1, and then apply the passed in Scale</span></span><br><span class="line">							<span class="type">const</span> FTransform ParentToWorld = AttachToComponent-&gt;<span class="built_in">GetSocketTransform</span>(AttachPointName);</span><br><span class="line">							PSC-&gt;<span class="built_in">SetRelativeScale3D_Direct</span>(Scale * ParentToWorld.<span class="built_in">GetSafeScaleReciprocal</span>(ParentToWorld.<span class="built_in">GetScale3D</span>()));</span><br><span class="line">						&#125;</span><br><span class="line">						<span class="keyword">else</span></span><br><span class="line">						&#123;</span><br><span class="line">							PSC-&gt;<span class="built_in">SetRelativeScale3D_Direct</span>(Scale);</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line"></span><br><span class="line">					PSC-&gt;<span class="built_in">RegisterComponentWithWorld</span>(World);</span><br><span class="line">					<span class="keyword">if</span>(bAutoActivateSystem)</span><br><span class="line">					&#123;</span><br><span class="line">						PSC-&gt;<span class="built_in">ActivateSystem</span>(<span class="literal">true</span>);</span><br><span class="line">					&#125;</span><br><span class="line"></span><br><span class="line">					<span class="comment">// Notify the texture streamer so that PSC gets managed as a dynamic component.</span></span><br><span class="line">					IStreamingManager::<span class="built_in">Get</span>().<span class="built_in">NotifyPrimitiveUpdated</span>(PSC);</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> !(UE_BUILD_SHIPPING || UE_BUILD_TEST)</span></span><br><span class="line">					<span class="keyword">if</span> (PSC-&gt;Template &amp;&amp; PSC-&gt;Template-&gt;<span class="built_in">IsImmortal</span>())</span><br><span class="line">					&#123;</span><br><span class="line">						<span class="type">const</span> FString OnScreenMessage = FString::<span class="built_in">Printf</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;SpawnEmitterAttached spawned potentially immortal particle system! %s (%s) may stay in world despite never spawning particles after burst spawning is over.&quot;</span>), *(PSC-&gt;<span class="built_in">GetPathName</span>()), *(PSC-&gt;Template-&gt;<span class="built_in">GetName</span>()));</span><br><span class="line">						GEngine-&gt;<span class="built_in">AddOnScreenDebugMessage</span>((uint64)((PTRINT)AttachToComponent), <span class="number">3.f</span>, FColor::Red, OnScreenMessage);</span><br><span class="line">						<span class="built_in">UE_LOG</span>(LogParticles, Log, <span class="built_in">TEXT</span>(<span class="string">&quot;GameplayStatics::SpawnEmitterAttached spawned potentially immortal particle system! %s (%s) may stay in world despite never spawning particles after burst spawning is over.&quot;</span>),</span><br><span class="line">							*(PSC-&gt;<span class="built_in">GetPathName</span>()), *(PSC-&gt;Template-&gt;<span class="built_in">GetPathName</span>())</span><br><span class="line">						);</span><br><span class="line">					&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> PSC;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="GetChildrenComponents"><a href="#GetChildrenComponents" class="headerlink" title="GetChildrenComponents()"></a>GetChildrenComponents()</h2><p><code>GetChildrenComponents(是否包含所有子类,将子类添加进的数组)</code></p>
+<p>获取该组件的所有子组件，并添加到第二个参数中</p>
+<h3 id="源代码-1"><a href="#源代码-1" class="headerlink" title="源代码"></a>源代码</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">USceneComponent::GetChildrenComponents</span><span class="params">(<span class="type">bool</span> bIncludeAllDescendants, TArray&lt;USceneComponent*&gt;&amp; Children)</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Children.<span class="built_in">Reset</span>();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (bIncludeAllDescendants)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">AppendDescendants</span>(Children);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">const</span> TArray&lt;USceneComponent*&gt;&amp; AttachedChildren = <span class="built_in">GetAttachChildren</span>();</span><br><span class="line">		Children.<span class="built_in">Reserve</span>(AttachedChildren.<span class="built_in">Num</span>());</span><br><span class="line">		<span class="keyword">for</span> (USceneComponent* Child : AttachedChildren)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (Child)</span><br><span class="line">			&#123;</span><br><span class="line">				Children.<span class="built_in">Add</span>(Child);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="ParticleSystem-gt-SetBeamSourcePoint"><a href="#ParticleSystem-gt-SetBeamSourcePoint" class="headerlink" title="ParticleSystem-&gt;SetBeamSourcePoint()"></a>ParticleSystem-&gt;SetBeamSourcePoint()</h2><p>设置特效的出发点</p>
+<p><code>SetBeamSourcePoint(发射器index，出发点位置，特效index)</code></p>
+<h3 id="源代码-2"><a href="#源代码-2" class="headerlink" title="源代码"></a>源代码</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">UParticleSystemComponent::SetBeamSourcePoint</span><span class="params">(int32 EmitterIndex,FVector NewSourcePoint,int32 SourceIndex)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">ForceAsyncWorkCompletion</span>(STALL);</span><br><span class="line">	<span class="keyword">if</span> ((EmitterIndex &gt;= <span class="number">0</span>) &amp;&amp; (EmitterIndex &lt; EmitterInstances.<span class="built_in">Num</span>()))</span><br><span class="line">	&#123;</span><br><span class="line">		FParticleEmitterInstance* EmitterInst = EmitterInstances[EmitterIndex];</span><br><span class="line">		<span class="keyword">if</span> (EmitterInst)</span><br><span class="line">		&#123;</span><br><span class="line">			EmitterInst-&gt;<span class="built_in">SetBeamSourcePoint</span>(NewSourcePoint, SourceIndex);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ParticleSystem-gt-SetBeamTargetPoint"><a href="#ParticleSystem-gt-SetBeamTargetPoint" class="headerlink" title="ParticleSystem-&gt;SetBeamTargetPoint()"></a>ParticleSystem-&gt;SetBeamTargetPoint()</h3><p>设置粒子特效的终点</p>
+<p><code>SetBeamTargetPoint(发射器index，出发点位置，特效index)</code></p>
+<h4 id="源代码-3"><a href="#源代码-3" class="headerlink" title="源代码"></a>源代码</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">UParticleSystemComponent::SetBeamTargetPoint</span><span class="params">(int32 EmitterIndex,FVector NewTargetPoint,int32 TargetIndex)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">ForceAsyncWorkCompletion</span>(STALL);</span><br><span class="line">	<span class="keyword">if</span> ((EmitterIndex &gt;= <span class="number">0</span>) &amp;&amp; (EmitterIndex &lt; EmitterInstances.<span class="built_in">Num</span>()))</span><br><span class="line">	&#123;</span><br><span class="line">		FParticleEmitterInstance* EmitterInst = EmitterInstances[EmitterIndex];</span><br><span class="line">		<span class="keyword">if</span> (EmitterInst)</span><br><span class="line">		&#123;</span><br><span class="line">			EmitterInst-&gt;<span class="built_in">SetBeamTargetPoint</span>(NewTargetPoint, TargetIndex);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="大致思路"><a href="#大致思路" class="headerlink" title="大致思路"></a>大致思路</h1><ol>
+<li><p>初始化这个子弹</p>
+<ul>
+<li><p>同样，子弹发射之后停留在原地不动，所以需要停止其移动<code>StopMovementImmediately()</code></p>
+</li>
+<li><p>取消子弹的球形碰撞组件的碰撞</p>
+</li>
+<li><p>使用函数<code>SpawnEmitterAttached()</code>在子弹位置生成特效，并且另一端连接到目标的追踪点上</p>
+</li>
+</ul>
+</li>
+<li><p>因为闪电时动态特效，所以我们需要在<code>Tick</code>内刷新它的初始点和终点</p>
+<ul>
+<li><p>在<code>Tick</code>内遍历子弹的类型，如果是闪电类型</p>
+</li>
+<li><p>创建一个场景组件组成的数组<code>TArray&lt;USceneComponent*&gt; SceneComponent</code></p>
+</li>
+<li><p>获取根组件的所有孩子组件<code>GetChildrenComponents()</code>，将结果添加到<code>SceneComponent</code>中</p>
+</li>
+<li><p>遍历这个数组，如果<code>SceneComponent</code>中的元素是<code>UParticleSystemComponent</code>类型</p>
+</li>
+<li><p>则设置这个特效的出发点和终点</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="部分代码"><a href="#部分代码" class="headerlink" title="部分代码"></a>部分代码</h1><h3 id="初始化子弹（构造函数内）代码"><a href="#初始化子弹（构造函数内）代码" class="headerlink" title="初始化子弹（构造函数内）代码"></a>初始化子弹（构造函数内）代码</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> EBulletType::BULLET_CHAIN:</span><br><span class="line">&#123;	</span><br><span class="line">	ProjectileMovement-&gt;<span class="built_in">StopMovementImmediately</span>();</span><br><span class="line">	BoxDamage-&gt;<span class="built_in">SetCollisionEnabled</span>(ECollisionEnabled::NoCollision);</span><br><span class="line">	UGameplayStatics::<span class="built_in">SpawnEmitterAttached</span>(DamgageParticle, TargetCharacter-&gt;<span class="built_in">GetHomingPoint</span>());</span><br><span class="line">	<span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="更新闪电特效（Tick函数内）代码"><a href="#更新闪电特效（Tick函数内）代码" class="headerlink" title="更新闪电特效（Tick函数内）代码"></a>更新闪电特效（Tick函数内）代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> EBulletType::BULLET_CHAIN:</span><br><span class="line">&#123;</span><br><span class="line">	TArray&lt;USceneComponent*&gt; SceneComponent;</span><br><span class="line">	RootComponent-&gt;<span class="built_in">GetChildrenComponents</span>(<span class="literal">true</span><span class="comment">/*true包括所有子类*/</span>, SceneComponent);<span class="comment">//遍历附加在根组件的所有组件，将其中的组件添加到SceneComponent中</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">auto</span>&amp; Tmp : SceneComponent)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (UParticleSystemComponent* ParticleSystem = <span class="built_in">Cast</span>&lt;UParticleSystemComponent&gt;(Tmp))<span class="comment">//判断SceneComponent中是否存在UParticleSystemComponent类型</span></span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//设置特效的出发点</span></span><br><span class="line">					ParticleSystem-&gt;<span class="built_in">SetBeamSourcePoint</span>(<span class="number">0</span><span class="comment">/*发射器的index*/</span>, InstigatorCharacter-&gt;<span class="built_in">GetFirePoint</span>()-&gt;<span class="built_in">GetComponentLocation</span>(), <span class="number">0</span><span class="comment">/*光束index*/</span>);</span><br><span class="line">					<span class="comment">//设置特效的终点</span></span><br><span class="line">					ParticleSystem-&gt;<span class="built_in">SetBeamTargetPoint</span>(<span class="number">0</span>, TargetCharacter-&gt;<span class="built_in">GetHomingPoint</span>()-&gt;<span class="built_in">GetComponentLocation</span>(), <span class="number">0</span>);</span><br><span class="line">				&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag"># 项目</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/09/14/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E7%89%A9%E7%90%86%E5%AE%9E%E7%8E%B0%E4%B8%A2%E6%89%8B%E9%9B%B7%E6%95%88%E6%9E%9C/" rel="prev" title="UE4-项目-TowerDefence-物理实现丢手雷效果">
+                  <i class="fa fa-chevron-left"></i> UE4-项目-TowerDefence-物理实现丢手雷效果
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/09/15/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E6%A0%B7%E6%9D%A1%E7%BA%BF%E5%AE%9E%E7%8E%B0%E5%AD%90%E5%BC%B9%E8%B7%9F%E8%B8%AA/" rel="next" title="UE4-项目-TowerDefence-样条线实现子弹跟踪">
+                  UE4-项目-TowerDefence-样条线实现子弹跟踪 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
