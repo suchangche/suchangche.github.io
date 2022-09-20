@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-count">125</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -170,7 +170,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -208,6 +208,958 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/16/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2UI/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/16/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2UI/" class="post-title-link" itemprop="url">UE4-项目-死寂-角色UI</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-16 10:24:27 / 修改时间：11:33:53" itemprop="dateCreated datePublished" datetime="2022-07-16T10:24:27+08:00">2022-07-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="角色属性UI排版"><a href="#角色属性UI排版" class="headerlink" title="角色属性UI排版"></a>角色属性UI排版</h1><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>创建新的控件蓝图“游戏中界面”</p>
+<ul>
+<li><p>添加一个文本作为游戏声明，放在不起眼的位置，颜色调整为灰色</p>
+</li>
+<li><p>添加一个新的画布面板“子弹和生命值”</p>
+<ul>
+<li><p>添加一个图像放在右下角作为主武器还是副武器的背景图</p>
+</li>
+<li><p>添加一个文本放在图像上面用于显示当前弹匣数量</p>
+</li>
+<li><p>添加一个文本显示子弹数量放在图像的左边</p>
+</li>
+<li><p>添加一个图像，拉长成为细线，作为和下面血条的分割线</p>
+</li>
+<li><p>添加一个进度条作为血量条，设置其背景图，填充图</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="角色生命值绑定"><a href="#角色生命值绑定" class="headerlink" title="角色生命值绑定"></a>角色生命值绑定</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="获取玩家角色"><a href="#获取玩家角色" class="headerlink" title="获取玩家角色"></a>获取玩家角色</h3><p>字面意思，通常配合“类型转换为（角色蓝图）”</p>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>给血量条创建绑定</p>
+<ul>
+<li><p>点击血量条，百分比，创建绑定</p>
+</li>
+<li><p>获取玩家角色，类型转换为BP_Player</p>
+</li>
+<li><p>获取“当前血量”，“（浮点）&#x2F;（浮点）”，连接到返回值</p>
+<ul>
+<li>因为百分比最大是1，角色血量最大是100，要达到能和百分比搭配的地步</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>绑定血量条颜色（底血量的情况下颜色变红）</p>
+<ul>
+<li><p>进度条-&gt;外观-&gt;填充颜色和不透明度-&gt;绑定-&gt;创建绑定</p>
+</li>
+<li><p>大体逻辑和血量条数值绑定一样，只有最后的输出不一样</p>
+</li>
+<li><p>返回节点创建颜色，当前血量&#x2F;100之后连接到G,B引脚上,R引脚设置为1</p>
+<ul>
+<li>颜色是由R(红色),G(绿色),B(蓝色),A(透明度)组成的，取值范围是[0,1]，当全为1的时候则为白色，当一个值为1，其他值为0时，则显示为1的那个颜色</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="子弹数量绑定"><a href="#子弹数量绑定" class="headerlink" title="子弹数量绑定"></a>子弹数量绑定</h1><h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>点击“子弹剩余数量”这个文本-&gt;内容-&gt;文本-&gt;绑定-&gt;创建绑定</p>
+<ul>
+<li><p>获取玩家角色，类型转换为BP_Player</p>
+</li>
+<li><p>判断是否装备主武器</p>
+<ul>
+<li><p>true则获取主武器实例，获取子弹数量，输出</p>
+</li>
+<li><p>false则判断是否装备副武器</p>
+</li>
+</ul>
+</li>
+<li><p>是否装备副武器</p>
+<ul>
+<li><p>true则获取副武器实例，获取子弹数量，输出</p>
+</li>
+<li><p>false则输出0</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>绑定弹匣数量</p>
+<ul>
+<li><p>选中“弹匣数量”文本，创建绑定</p>
+</li>
+<li><p>思路和绑定子弹数量一样，只不过将子弹数量换成弹匣数量</p>
+</li>
+</ul>
+</li>
+<li><p>将角色UI添加到视口</p>
+<ul>
+<li><p>因为是有可操纵角色的时候才能有这个UI，所以打开“BP_Player”</p>
+</li>
+<li><p>在事件图表中的“事件开始运行时”最后面“创建控件”，class选择“游戏中界面”，将返回值提升为变量“游戏中界面”，将其“添加到视口”</p>
+</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/15/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%8A%A0%E8%BD%BD%E6%B8%B8%E6%88%8FUI%E7%95%8C%E9%9D%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/15/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%8A%A0%E8%BD%BD%E6%B8%B8%E6%88%8FUI%E7%95%8C%E9%9D%A2/" class="post-title-link" itemprop="url">UE4-项目-死寂-加载游戏UI界面</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-15 14:57:41 / 修改时间：16:49:05" itemprop="dateCreated datePublished" datetime="2022-07-15T14:57:41+08:00">2022-07-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="加载游戏UI界面"><a href="#加载游戏UI界面" class="headerlink" title="加载游戏UI界面"></a>加载游戏UI界面</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h3><p>通过Index引脚选择返回值</p>
+<h3 id="随机布尔"><a href="#随机布尔" class="headerlink" title="随机布尔"></a>随机布尔</h3><p>字面意思，用于“选择”节点的index引脚为布尔的时候随机输出返回值</p>
+<h3 id="使用纹理设置笔刷"><a href="#使用纹理设置笔刷" class="headerlink" title="使用纹理设置笔刷"></a>使用纹理设置笔刷</h3><p>可以直接将一个图片当作画刷用，但是通常用于覆盖当前图片</p>
+<h3 id="创建控件"><a href="#创建控件" class="headerlink" title="创建控件"></a>创建控件</h3><p>以一个类（控件蓝图）来创建新的控件界面</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>将玩家点击的地图选择按钮的名称传到“主界面”控件蓝图中</p>
+<ul>
+<li><p>在地图选择按钮控件蓝图中添加命名类型的变量“选择的游戏地图”，勾选其“可编辑实例”以及“生成时公开”</p>
+</li>
+<li><p>在“地图选择”控件蓝图中选择按钮后设置“选择的游戏地图”</p>
+</li>
+<li><p>在“主界面”控件蓝图中创建命名类型的变量“选中的地图”</p>
+</li>
+<li><p>在“地图选择按钮”中获取类的所有控件之后“设置选中的地图”，然后将地图选择按钮中的变量”选择的游戏地图“赋值给它（发生在关闭选中状态之后，开启选中状态之前）</p>
+</li>
+</ul>
+</li>
+<li><p>新建一个控件蓝图“加载界面”</p>
+<ul>
+<li><p>添加一个图像“加载图片组件”作为背景，修改其锚点和偏移</p>
+</li>
+<li><p>添加一个文本“载入关卡中”，修改其锚点和尺寸，字体，位置</p>
+</li>
+<li><p>添加一个图像作为加载时闪烁的logo，放在合适的位置</p>
+</li>
+<li><p>添加一个边界，用于做出游戏黑屏后慢慢显示加载界面的效果</p>
+</li>
+<li><p>添加一个进度条，设置其位置和尺寸大小，设置其样式中的着色和外观中的”填充颜色和不透明度“</p>
+</li>
+<li><p>添加动画“淡入”，给边界添加一个轨道，设置其渲染不透明度由1到0</p>
+</li>
+<li><p>添加动画“闪烁”，给logo添加一个轨道，设置其变换中的缩放从0.1到0.2到0.1；设置其渲染不透明度由0到1到0</p>
+</li>
+<li><p>添加一个命名类型的变量“选中的地图”，勾选可编辑实例和生成时公开；一个纹理2D类型的变量“加载图片”</p>
+</li>
+<li><p>在事件构造中判断“选中的地图”是否&#x3D;&#x3D;“地图名称”</p>
+</li>
+<li><p>分别通过“随机布尔”和“选择”节点来设置“加载图片”</p>
+</li>
+<li><p>使用“加载图片组件”调用“使用纹理设置笔刷”来使得“加载图片”覆盖“加载图片组件”</p>
+</li>
+<li><p>播放“闪烁”动画和“淡入”动画（注意：闪烁动画的循环次数为0：意味着无线循环）</p>
+</li>
+<li><p>实现进度条更新百分比</p>
+<ul>
+<li><p>首先明确一点，进度条的最大值为1！</p>
+</li>
+<li><p>创建一个浮点型变量“进度条加载时间”</p>
+</li>
+<li><p>以事件设置定时器，创建一个自定义事件“Loading”，使用一个分支判断，条件为“进度条加载时间”是否&gt;&#x3D;1</p>
+</li>
+<li><p>true则”Do Once”，按名称打开关卡，将“选中的地图”作为变量传入</p>
+</li>
+<li><p>false则将“进度条加载时间”+0.01后重新赋值给“进度条加载时间”</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>给地图选择界面添加开始游戏按钮及功能</p>
+<ul>
+<li><p>在地图选择控件蓝图中添加“按钮交互”控件蓝图，设置其位置和尺寸以及内容</p>
+</li>
+<li><p>在主界面拖入地图选择界面，获取“按钮交互”，获取button，绑定事件到点击时，创建自定义事件“游戏加载”</p>
+</li>
+<li><p>调用“关闭所有UI交互”函数，“创建控件”（类选择为“加载界面”），“添加到视口”，将“选中的地图”变量传入“创建控件”的“选中的地图”引脚中</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="添加背景音乐"><a href="#添加背景音乐" class="headerlink" title="添加背景音乐"></a>添加背景音乐</h1><ol>
+<li><p>选择一个背景音乐，点开，设置其“正在循环”为true</p>
+</li>
+<li><p>将背景音乐拖入场景中</p>
+</li>
+</ol>
+<h1 id="BUG-不选择地图直接开始游戏"><a href="#BUG-不选择地图直接开始游戏" class="headerlink" title="BUG-不选择地图直接开始游戏"></a>BUG-不选择地图直接开始游戏</h1><h2 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h2><p>在未选择地图的情况下不可以点击开始游戏按钮即可</p>
+<h2 id="解决步骤"><a href="#解决步骤" class="headerlink" title="解决步骤"></a>解决步骤</h2><ol>
+<li><p>在地图选择控件蓝图中选中“开始游戏”按钮交互-&gt;行为-&gt;已启用-&gt;false</p>
+</li>
+<li><p>在地图选择按钮控件蓝图中的“开启选中状态”函数中</p>
+<ul>
+<li><p>通过“获取类的所有控件”节点获取“主界面”，从而获取“地图选择界面”，获取“按钮交互”，“设置已启用”为true</p>
+</li>
+<li><p>关闭选中状态同理设置为false</p>
+</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/15/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%9C%B0%E5%9B%BE%E9%80%89%E6%8B%A9%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/15/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%9C%B0%E5%9B%BE%E9%80%89%E6%8B%A9%E5%8A%9F%E8%83%BD/" class="post-title-link" itemprop="url">UE4-项目-死寂-地图选择功能</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-15 10:08:35 / 修改时间：15:15:35" itemprop="dateCreated datePublished" datetime="2022-07-15T10:08:35+08:00">2022-07-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="地图选择功能"><a href="#地图选择功能" class="headerlink" title="地图选择功能"></a>地图选择功能</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="设置笔刷颜色"><a href="#设置笔刷颜色" class="headerlink" title="设置笔刷颜色"></a>设置笔刷颜色</h3><p>可以用来设置控件蓝图中组件的颜色</p>
+<h3 id="设置渲染范围"><a href="#设置渲染范围" class="headerlink" title="设置渲染范围"></a>设置渲染范围</h3><p>用来设置控件蓝图中组件的缩放大小</p>
+<h3 id="设置颜色和不透明度"><a href="#设置颜色和不透明度" class="headerlink" title="设置颜色和不透明度"></a>设置颜色和不透明度</h3><p>字面意思，控件蓝图中使用</p>
+<h3 id="获取类的所有控件"><a href="#获取类的所有控件" class="headerlink" title="获取类的所有控件"></a>获取类的所有控件</h3><p>字面意思，可以获取控件蓝图中的组件</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>创建一个新的控件蓝图“地图选择按钮”</p>
+<ul>
+<li><p>设置为自定义大小：宽度:550，高度：650</p>
+</li>
+<li><p>添加一个边界，将其尺寸修改为550，650；渲染不透明度修改为0</p>
+</li>
+<li><p>添加一个按钮，设置其锚点，尺寸X：530，尺寸Y：630，对其均为0.5；裁切修改为：“剪切到边界-固定（高级）”，添加音效</p>
+</li>
+<li><p>给按钮下面添加一个图像，对其均为填充，间隙修改为0，渲染变换的缩放变为1.1</p>
+</li>
+<li><p>设置图像的texture，设置其颜色和不透明度（未选中的时候灰暗一点）</p>
+</li>
+<li><p>添加一个动画“互动”</p>
+<ul>
+<li><p>给边界添加一个轨道，设置其渲染不透明度从0到1（选中后有边框）</p>
+</li>
+<li><p>给图像添加一个轨道，设置其颜色和不透明度从0.4到1（选中后变量）</p>
+</li>
+<li><p>给图像添加一个轨道，设置其变换中的缩放从1.1到1.2（选中后变大）</p>
+</li>
+</ul>
+</li>
+<li><p>给按钮添加“悬停时”和“未悬停时”的事件，分别正向和反向播放“互动”动画</p>
+</li>
+</ul>
+</li>
+<li><p>在主界面控件蓝图中，从自定义服装界面中获取按钮交互，再获取其button，”绑定事件到点击时“，自定义事件“地图选择”</p>
+</li>
+<li><p>新建一个新的控件蓝图“地图选择”</p>
+<ul>
+<li><p>添加边界和背景模糊，锚点均为填充，添加一个文本“地图选择”，添加返回按钮</p>
+</li>
+<li><p>添加两个已经制作好的地图选择按钮</p>
+</li>
+</ul>
+</li>
+<li><p>在主界面中添加地图选择界面</p>
+<ul>
+<li><p>修改其锚点为填充，设置其偏移，设置其渲染不透明度为0</p>
+</li>
+<li><p>添加动画（自定义服装界面和地图选择界面的切换）</p>
+<ul>
+<li><p>复制“点击制作者”动画为“点击地图选择”</p>
+</li>
+<li><p>将动画中的“制作者界面”替换为“地图选择界面”</p>
+</li>
+<li><p>将动画中的“主界面”替换为“自定义服装界面”</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>切换到地图选择界面之后的摄像机切换</p>
+<ul>
+<li><p>在场景中找一个摄像机作为切换视角的机位</p>
+</li>
+<li><p>在关卡蓝图中为该摄像机添加一个引用，新建自定义事件“切换到地图选择界面”，使用“获取玩家控制器”和“使用混合设置视图目标”实现切换摄像机功能</p>
+</li>
+</ul>
+</li>
+<li><p>在主界面控件蓝图中调用在关卡蓝图中写好的“切换到地图选择界面”</p>
+<ul>
+<li><p>自定义服装界面中获取“按钮交互”，获取button，绑定事件到点击时，新建自定义事件“地图选择”</p>
+</li>
+<li><p>在“关闭所有UI交互”函数中添加“地图选择界面”</p>
+</li>
+<li><p>使用“播放动画”，“执行控制台命令”，“关闭所有UI交互”，“设置可视性”实现自定义服装界面切换到地图选择界面</p>
+</li>
+<li><p>同理设置地图选择界面返回自定义服装界面</p>
+</li>
+</ul>
+</li>
+<li><p>完善地图选择功能，让玩家选择地图之后，地图缩略图有描边效果，并且保持选中</p>
+<ul>
+<li><p>选中“地图选择按钮”控件蓝图将设计器中的边界组件公开到蓝图中</p>
+</li>
+<li><p>在图表中新建函数“开启选中状态”，拖入图表中，“设置渲染不透明度”，“设置笔刷颜色”</p>
+</li>
+<li><p>设置图像，“设置渲染范围”，“设置颜色和不透明度”</p>
+</li>
+<li><p>同理，制作一个“关闭选中状态”函数</p>
+</li>
+<li><p>添加bool类型变量“是否被选中”，在“开启选中状态”函数中将其设置为true，在“关闭选中状态”函数中设置为false</p>
+</li>
+<li><p>在事件图表中，添加一个分支判断“是否被选中”为false的时候才可以播放两个动画</p>
+</li>
+<li><p>在事件图表中给按钮添加一个点击事件</p>
+<ul>
+<li><p>在点击之后先取消其他被选中的按钮，然后开启当前选中的按钮</p>
+</li>
+<li><p>调用“获取类的所有控件”节点，class选择“主界面”，获取主界面中的“地图选择界面”，地图选择界面下面的两个“地图选择按钮”，同时调用“关闭选中状态”函数，最后调用“开启选中状态”函数，目标为self</p>
+</li>
+</ul>
+</li>
+<li><p>添加不同地图略缩图</p>
+<ul>
+<li><p>在地图选择按钮中添加一个纹理2D类型的变量“场景图片”</p>
+</li>
+<li><p>勾选“可编辑实例”和“生成时公开”</p>
+</li>
+<li><p>在图像组件中将“笔刷”和“场景图片”绑定</p>
+</li>
+<li><p>在”地图选择“控件蓝图中即可替换“地图选择按钮”中的“场景图片”了</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="优化-选中地图之后返回"><a href="#优化-选中地图之后返回" class="headerlink" title="优化-选中地图之后返回"></a>优化-选中地图之后返回</h1><p>选中地图之后返回，第二次进入之后无上次选中的痕迹</p>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>在主界面的地图选择界面返回自定义服装界面逻辑块的最后进行清除上一次的缓存</p>
+</li>
+<li><p>拖入“地图选择界面”获取其中的两个地图选择按钮，调用“关闭选中状态”函数</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/14/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%9C%AC%E5%9C%B0%E5%AD%98%E5%82%A8%E5%92%8C%E5%8A%A0%E8%BD%BD%E7%8E%A9%E5%AE%B6%E9%80%89%E6%8B%A9%E6%95%B0%E6%8D%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/14/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%9C%AC%E5%9C%B0%E5%AD%98%E5%82%A8%E5%92%8C%E5%8A%A0%E8%BD%BD%E7%8E%A9%E5%AE%B6%E9%80%89%E6%8B%A9%E6%95%B0%E6%8D%AE/" class="post-title-link" itemprop="url">UE4-项目-死寂-本地存储和加载玩家选择数据</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-14 16:16:28 / 修改时间：17:19:05" itemprop="dateCreated datePublished" datetime="2022-07-14T16:16:28+08:00">2022-07-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="本地存储与加载"><a href="#本地存储与加载" class="headerlink" title="本地存储与加载"></a>本地存储与加载</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="SaveGame"><a href="#SaveGame" class="headerlink" title="SaveGame"></a>SaveGame</h3><p>一个蓝图类，用于保存游戏数据</p>
+<h3 id="游戏存档存在"><a href="#游戏存档存在" class="headerlink" title="游戏存档存在"></a>游戏存档存在</h3><p>用于判断游戏的存档是否存在</p>
+<h3 id="创建游戏存档对象"><a href="#创建游戏存档对象" class="headerlink" title="创建游戏存档对象"></a>创建游戏存档对象</h3><p>字面意思</p>
+<h3 id="将游戏保存到插槽"><a href="#将游戏保存到插槽" class="headerlink" title="将游戏保存到插槽"></a>将游戏保存到插槽</h3><p>将游戏保存到一个已经创建好的SaveGame中</p>
+<h3 id="从插槽加载游戏"><a href="#从插槽加载游戏" class="headerlink" title="从插槽加载游戏"></a>从插槽加载游戏</h3><p>字面意思，插槽名称是“游戏存档存在”中插槽的名称</p>
+<h3 id="打开关卡（按名称）"><a href="#打开关卡（按名称）" class="headerlink" title="打开关卡（按名称）"></a>打开关卡（按名称）</h3><p>字面意思</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>将之前选择的服装创建一个存档，方便正式游戏中的角色模型读取其数据来更换模型</p>
+<ul>
+<li><p>创建一个SaveGame类型的蓝图类“BP_ClothSaveGame”</p>
+</li>
+<li><p>添加骨骼网格体类型的变量“ClothMesh”，为其设置一个默认值</p>
+</li>
+<li><p>在“BP_MainMenu”中的“切换服装”事件后面判断游戏存档是否存在，不存在则创建一个新的存档</p>
+<ul>
+<li><p>使用“游戏存档存在”判断是否存在（Slot Name设置为Cloth），使用一个分支节点，fasle的时候“创建游戏存档对象”，并将其返回值提升为变量“ClothSaveGame”</p>
+</li>
+<li><p>拖入ClothSaveGame，引出“set cloth mesh”，将“选择的模型”作为变量传入</p>
+</li>
+<li><p>调用“将游戏保存到插槽”节点，Object引脚引入“ClothSaveGame”，Slot Name引脚为Cloth</p>
+</li>
+<li><p>如果有存档，也就是分支节点返回为true，则使用“从插槽加载游戏”，类型转换为“BP_ClothSaveGame”，再设置“ClothSaveGame”，最后设置ClothMesh，然后“将游戏保存到插槽”</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在自定义服装界面添加一个“按钮交互”，文本内容为“完成”，作为选好服装之后进行下一步的操作按钮</p>
+</li>
+<li><p>将自定义服装界面选好的服装模型附加到正式游戏中的角色身上</p>
+<ul>
+<li><p>在角色蓝图的事件图表中的“事件开始运行时”开头，判断是或否有存档，有则“从插槽中加载游戏”，类型转换为“BP_ClothSaveGame”，获取其中的ClothMesh“设置骨骼网格体”</p>
+</li>
+<li><p>注意：无游戏存档的时候，以及转换为”BP_ClothSaveGame“失败时，也需要连接到转换到动画蓝图上去</p>
+</li>
+</ul>
+</li>
+<li><p>测试一下</p>
+<ul>
+<li>主界面控件蓝图，获取“自定义服装界面”的“按钮交互”，获取其button，“绑定事件到点击时”，创建自定义事件，“打开关卡（按名称）”</li>
+</ul>
+</li>
+</ol>
+<h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><p>第二次开启游戏的时候，服装选择界面需要是上一次选择的服装</p>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
+<li>在”BP_MainMenu“的事件开始运行时，判断是否有存档，有则“从插槽中加载游戏”，类型转换为“BP_ClothSaveGame”，获取其中的ClothMesh“设置骨骼网格体”</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/13/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9C%8D%E8%A3%85UI%E7%95%8C%E9%9D%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/13/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9C%8D%E8%A3%85UI%E7%95%8C%E9%9D%A2/" class="post-title-link" itemprop="url">UE4-项目-死寂-自定义服装UI界面</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-07-13 16:24:43" itemprop="dateCreated datePublished" datetime="2022-07-13T16:24:43+08:00">2022-07-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-07-14 16:14:32" itemprop="dateModified" datetime="2022-07-14T16:14:32+08:00">2022-07-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="自定义服装UI界面"><a href="#自定义服装UI界面" class="headerlink" title="自定义服装UI界面"></a>自定义服装UI界面</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="滚动框"><a href="#滚动框" class="headerlink" title="滚动框"></a>滚动框</h3><p>控件蓝图中的组件，一个框里面，物品过多的时候即可滚动物品选择</p>
+<h3 id="统一网格面板"><a href="#统一网格面板" class="headerlink" title="统一网格面板"></a>统一网格面板</h3><p>空间蓝图中的组件，放在滚动框中</p>
+<h3 id="设置骨骼网格体"><a href="#设置骨骼网格体" class="headerlink" title="设置骨骼网格体"></a>设置骨骼网格体</h3><p>可以设置骨骼网格体模型，也可以更新模型的时候重置其动画（Reinit Pose为true）</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>在世界场景设置中的“游戏模式”，”默认Pawn类“中修改为Pawn</p>
+</li>
+<li><p>复制“按钮交互”空间蓝图为“自定义服装按钮”</p>
+</li>
+<li><p>删除其中的按钮和文本框，图表中除了播放动画逻辑之外全部删掉，变量“Name”也删掉</p>
+</li>
+<li><p>拖入“边界”，将其尺寸xy均修改为150，右上角的“自定义”修改为“所需”，将默认的“渲染不透明度”修改为0</p>
+</li>
+<li><p>拖入“按钮”，将其锚点修改为居中，位置均为0，尺寸均为140，对其均为0.5</p>
+</li>
+<li><p>添加一个“图像”到“按钮”下面，将水平和竖直对其均修改为填充，将填充的值修改为0</p>
+</li>
+<li><p>添加服饰的图像，并将其亮度修改为0.4（在选中的时候才为1）</p>
+</li>
+<li><p>将图像的“渲染变换”中的“缩放”均修改为1.1，将按钮的裁切修改为“裁切到边界-固定（高级）”</p>
+</li>
+<li><p>将“交互”动画中原本的删掉，添加“图像”的轨道，缩放从1.1到1.2，“颜色和不透明度”的RGBA均从0.4到1</p>
+</li>
+<li><p>添加“边界”的轨道，将“渲染不透明度”从0修改为1</p>
+</li>
+<li><p>设置按钮的音效</p>
+</li>
+<li><p>给按钮添加“悬停时”和“未悬停时”的事件，分别正反向播放“交互”动画</p>
+</li>
+<li><p>创建一个“纹理2D”类型的变量“服装图片”，在设计器中的图像组件和“服装图片”进行绑定</p>
+</li>
+<li><p>添加“骨骼网格体”类型的变量“服装模型”，勾选其“可编辑实例”和“生成时公开”</p>
+</li>
+<li><p>创建新的空间蓝图“自定义服装”</p>
+<ul>
+<li><p>将“游戏声明”控件蓝图中的文本控件和返回按钮复制到“自定义服装中”</p>
+</li>
+<li><p>添加图像组件，全屏，放置服装选择图片，将一个“滚动框”组件放入图片“服装”栏的下面</p>
+</li>
+<li><p>在滚动框下面放入一个“统一网格面板”</p>
+</li>
+<li><p>将“自定义服装按钮”拖入统一网格面板，设置其行列，输入其“服装图片”和“服装模型”</p>
+</li>
+</ul>
+</li>
+<li><p>将“自定义服装”拖入到主界面控件蓝图中</p>
+<ul>
+<li><p>修改其锚点，偏移，渲染不透明度</p>
+</li>
+<li><p>复制原本的动画，替换为“自定义服装界面”，命名为“点击自定义服装”</p>
+</li>
+<li><p>将主界面的图表中的“关闭所有UI交互”函数中添加“自定义服装界面”</p>
+</li>
+</ul>
+</li>
+<li><p>在关卡蓝图中添加自定义事件“切换到自定义服装”，使用“获取玩家控制器”，“使用混合设置视图目标”，以及选择一个摄像机的实例实现切换摄像机的效果</p>
+</li>
+<li><p>在“主界面”的图表中使用“播放动画”，“控制台命令”，“关闭所有UI交互”，“设置可视性”实现主界面切换到自定义服装界面，同理，也设置自定义界面返回到主界面</p>
+</li>
+<li><p>创建一个角色蓝图类“BP_MainMenu”用于选择服装之后展示服装模型</p>
+<ul>
+<li><p>给角色添加一个模型</p>
+</li>
+<li><p>设置其动画模式为“使用动画资产”，设置一个合适的“要播放的动画”</p>
+</li>
+</ul>
+</li>
+<li><p>将“BP_MainMenu”放入场景中，放在第三个摄像机能看到的位置（自定义服装位置）</p>
+</li>
+<li><p>在主界面选择了不同服装之后，角色模型的服装也需要发生相应变化</p>
+<ul>
+<li><p>在“BP_MainMenu”创建一个自定义事件“切换服装”，添加一个骨骼网格体类型的输入“选择的模型”，并提升为变量</p>
+</li>
+<li><p>使用“设置骨骼网格体”来重置“BP_MainMenu”的模型，并且将“Reinit Pose”为false</p>
+</li>
+<li><p>在自定义服装按钮控件蓝图中，给button添加一个点击时的事件，通过“获取类的所有actor”调用“BP_MainMenu”中的“切换服装”事件</p>
+</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/07/Socket%E7%BC%96%E7%A8%8B-Windows%E4%B8%8B%E7%9A%84%E6%BC%94%E7%A4%BA%E7%A8%8B%E5%BA%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/07/Socket%E7%BC%96%E7%A8%8B-Windows%E4%B8%8B%E7%9A%84%E6%BC%94%E7%A4%BA%E7%A8%8B%E5%BA%8F/" class="post-title-link" itemprop="url">Socket编程-Windows下的演示程序</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-07 11:11:56 / 修改时间：11:27:11" itemprop="dateCreated datePublished" datetime="2022-07-07T11:11:56+08:00">2022-07-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Socket/" itemprop="url" rel="index"><span itemprop="name">Socket</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>server.cpp 为服务器端代码，client 为客户端代码。 </p>
+<h1 id="服务器端代码-server-cpp："><a href="#服务器端代码-server-cpp：" class="headerlink" title="服务器端代码 server.cpp："></a>服务器端代码 server.cpp：</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;winsock2.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> comment (lib, <span class="string">&quot;ws2_32.lib&quot;</span>)  <span class="comment">//加载 ws2_32.dll</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//初始化 DLL</span></span><br><span class="line">    WSADATA wsaData;</span><br><span class="line">    <span class="built_in">WSAStartup</span>( <span class="built_in">MAKEWORD</span>(<span class="number">2</span>, <span class="number">2</span>), &amp;wsaData);</span><br><span class="line">    <span class="comment">//创建套接字</span></span><br><span class="line">    SOCKET servSock = <span class="built_in">socket</span>(PF_INET, SOCK_STREAM, IPPROTO_TCP);</span><br><span class="line">    <span class="comment">//绑定套接字</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> sockAddr;</span><br><span class="line">    <span class="built_in">memset</span>(&amp;sockAddr, <span class="number">0</span>, <span class="built_in">sizeof</span>(sockAddr));  <span class="comment">//每个字节都用0填充</span></span><br><span class="line">    sockAddr.sin_family = PF_INET;  <span class="comment">//使用IPv4地址</span></span><br><span class="line">    sockAddr.sin_addr.s_addr = <span class="built_in">inet_addr</span>(<span class="string">&quot;127.0.0.1&quot;</span>);  <span class="comment">//具体的IP地址</span></span><br><span class="line">    sockAddr.sin_port = <span class="built_in">htons</span>(<span class="number">1234</span>);  <span class="comment">//端口</span></span><br><span class="line">    <span class="built_in">bind</span>(servSock, (SOCKADDR*)&amp;sockAddr, <span class="built_in">sizeof</span>(SOCKADDR));</span><br><span class="line">    <span class="comment">//进入监听状态</span></span><br><span class="line">    <span class="built_in">listen</span>(servSock, <span class="number">20</span>);</span><br><span class="line">    <span class="comment">//接收客户端请求</span></span><br><span class="line">    SOCKADDR clntAddr;</span><br><span class="line">    <span class="type">int</span> nSize = <span class="built_in">sizeof</span>(SOCKADDR);</span><br><span class="line">    SOCKET clntSock = <span class="built_in">accept</span>(servSock, (SOCKADDR*)&amp;clntAddr, &amp;nSize);</span><br><span class="line">    <span class="comment">//向客户端发送数据</span></span><br><span class="line">    <span class="type">char</span> *str = <span class="string">&quot;Hello World!&quot;</span>;</span><br><span class="line">    <span class="built_in">send</span>(clntSock, str, <span class="built_in">strlen</span>(str)+<span class="built_in">sizeof</span>(<span class="type">char</span>), <span class="literal">NULL</span>);</span><br><span class="line">    <span class="comment">//关闭套接字</span></span><br><span class="line">    <span class="built_in">closesocket</span>(clntSock);</span><br><span class="line">    <span class="built_in">closesocket</span>(servSock);</span><br><span class="line">    <span class="comment">//终止 DLL 的使用</span></span><br><span class="line">    <span class="built_in">WSACleanup</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>初始化DLL</p>
+</li>
+<li><p>创建套接字</p>
+</li>
+<li><p>绑定套接字</p>
+</li>
+<li><p>进入监听状态</p>
+</li>
+<li><p>接收客户端请求</p>
+</li>
+<li><p>向客户端发送数据</p>
+</li>
+<li><p>关闭套接字</p>
+</li>
+<li><p>终止DLL</p>
+</li>
+</ol>
+<h1 id="客户端代码-client-cpp："><a href="#客户端代码-client-cpp：" class="headerlink" title="客户端代码 client.cpp："></a>客户端代码 client.cpp：</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;WinSock2.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> comment(lib, <span class="string">&quot;ws2_32.lib&quot;</span>)  <span class="comment">//加载 ws2_32.dll</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//初始化DLL</span></span><br><span class="line">    WSADATA wsaData;</span><br><span class="line">    <span class="built_in">WSAStartup</span>(<span class="built_in">MAKEWORD</span>(<span class="number">2</span>, <span class="number">2</span>), &amp;wsaData);</span><br><span class="line">    <span class="comment">//创建套接字</span></span><br><span class="line">    SOCKET sock = <span class="built_in">socket</span>(PF_INET, SOCK_STREAM, IPPROTO_TCP);</span><br><span class="line">    <span class="comment">//向服务器发起请求</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> sockAddr;</span><br><span class="line">    <span class="built_in">memset</span>(&amp;sockAddr, <span class="number">0</span>, <span class="built_in">sizeof</span>(sockAddr));  <span class="comment">//每个字节都用0填充</span></span><br><span class="line">    sockAddr.sin_family = PF_INET;</span><br><span class="line">    sockAddr.sin_addr.s_addr = <span class="built_in">inet_addr</span>(<span class="string">&quot;127.0.0.1&quot;</span>);</span><br><span class="line">    sockAddr.sin_port = <span class="built_in">htons</span>(<span class="number">1234</span>);</span><br><span class="line">    <span class="built_in">connect</span>(sock, (SOCKADDR*)&amp;sockAddr, <span class="built_in">sizeof</span>(SOCKADDR));</span><br><span class="line">    <span class="comment">//接收服务器传回的数据</span></span><br><span class="line">    <span class="type">char</span> szBuffer[MAXBYTE] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="built_in">recv</span>(sock, szBuffer, MAXBYTE, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="comment">//输出接收到的数据</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Message form server: %s\n&quot;</span>, szBuffer);</span><br><span class="line">    <span class="comment">//关闭套接字</span></span><br><span class="line">    <span class="built_in">closesocket</span>(sock);</span><br><span class="line">    <span class="comment">//终止使用 DLL</span></span><br><span class="line">    <span class="built_in">WSACleanup</span>();</span><br><span class="line">    <span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>初始化DLL</p>
+</li>
+<li><p>创建套接字</p>
+</li>
+<li><p>向服务器发送请求</p>
+</li>
+<li><p>接收服务器穿回的数据</p>
+</li>
+<li><p>输出接收到的数据</p>
+</li>
+<li><p>关闭套接字</p>
+</li>
+<li><p>终止DLL使用</p>
+</li>
+</ol>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>将 server.cpp 和 client.cpp 分别编译为 server.exe 和 client.exe，先运行 server.exe，再运行 client.exe，输出结果为：<br>Message form server: Hello World!  </p>
+<p>Windows 下的 socket 程序和 Linux 思路相同，但细节有所差别：  </p>
+<ol>
+<li><p>Windows 下的 socket 程序依赖 Winsock.dll 或 ws2_32.dll，必须提前加载。DLL 有两种加载方式，请查看：<a target="_blank" rel="noopener" href="http://c.biancheng.net/cpp/html/2754.html">动态链接库DLL的加载</a>  </p>
+</li>
+<li><p>Linux 使用“文件描述符”的概念，而 Windows 使用“文件句柄”的概念；Linux 不区分 socket 文件和普通文件，而 Windows 区分；Linux 下 socket() 函数的返回值为 int 类型，而 Windows 下为 SOCKET 类型，也就是句柄。  </p>
+</li>
+<li><p>Linux 下使用 read() &#x2F; write() 函数读写，而 Windows 下使用 recv() &#x2F; send() 函数发送和接收。  </p>
+</li>
+<li><p>关闭 socket 时，Linux 使用 close() 函数，而 Windows 使用 closesocket() 函数。</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1100,766 +2052,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/06/Socket%E7%BC%96%E7%A8%8B-OSI%E7%BD%91%E7%BB%9C%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/06/Socket%E7%BC%96%E7%A8%8B-OSI%E7%BD%91%E7%BB%9C%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B/" class="post-title-link" itemprop="url">Socket编程-OSI网络七层模型与TCP/IP协议族</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-07-06 10:50:20" itemprop="dateCreated datePublished" datetime="2022-07-06T10:50:20+08:00">2022-07-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-07-07 11:12:32" itemprop="dateModified" datetime="2022-07-07T11:12:32+08:00">2022-07-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Socket/" itemprop="url" rel="index"><span itemprop="name">Socket</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>OSI 模型把网络通信的工作分为 7 层，从下到上分别是物理层、数据链路层、网络层、传输层、会话层、表示层和应用层。  </p>
-<p>OSI 只是存在于概念和理论上的一种模型，它的缺点是分层太多，增加了网络工作的复杂性，所以没有大规模应用。后来人们对 OSI 进行了简化，合并了一些层，最终只保留了 4 层，从下到上分别是接口层、网络层、传输层和应用层，这就是大名鼎鼎的 TCP&#x2F;IP 模型。</p>
-<h1 id="OSI模型与TCP-x2F-IP模型"><a href="#OSI模型与TCP-x2F-IP模型" class="headerlink" title="OSI模型与TCP&#x2F;IP模型"></a>OSI模型与TCP&#x2F;IP模型</h1><p><img src="D:\R_program\Blog\source_posts\Socket编程-OSI网络七层模型\1.jpg"></p>
-<h1 id="Socket编程位置"><a href="#Socket编程位置" class="headerlink" title="Socket编程位置"></a>Socket编程位置</h1><p> <a target="_blank" rel="noopener" href="http://c.biancheng.net/socket/">socket</a> 编程，是站在传输层的基础上，所以可以使用 TCP&#x2F;UDP 协议，但是不能干「访问网页」这样的事情，因为访问网页所需要的 http 协议位于应用层。</p>
-<p>两台计算机进行通信时，必须遵守以下原则：</p>
-<ul>
-<li>必须是同一层次进行通信，比如，A 计算机的应用层和 B 计算机的传输层就不能通信，因为它们不在一个层次，数据的拆包会遇到问题。</li>
-<li>每一层的功能都必须相同，也就是拥有完全相同的网络模型。如果网络模型都不同，那不就乱套了，谁都不认识谁。</li>
-<li>数据只能逐层传输，不能跃层。</li>
-<li>每一层可以使用下层提供的服务，并向上层提供服务。</li>
-</ul>
-<h1 id="TCP-x2F-IP协议族"><a href="#TCP-x2F-IP协议族" class="headerlink" title="TCP&#x2F;IP协议族"></a>TCP&#x2F;IP协议族</h1><p>目前实际使用的网络模型是 TCP&#x2F;IP 模型，它对 OSI 模型进行了简化，只包含了四层，从上到下分别是应用层、传输层、网络层和链路层（网络接口层），每一层都包含了若干协议。  </p>
-<p>协议（Protocol）就是网络通信过程中的约定或者合同，通信的双方必须都遵守才能正常收发数据。协议有很多种，例如 TCP、UDP、IP 等，通信的双方必须使用同一协议才能通信。协议是一种规范，由计算机组织制定，规定了很多细节，例如，如何建立连接，如何相互识别等。</p>
-<blockquote>
-<p>协议仅仅是一种规范，必须由计算机软件来实现。例如 IP 协议规定了如何找到目标计算机，那么各个开发商在开发自己的软件时就必须遵守该协议，不能另起炉灶。</p>
-</blockquote>
-<p>TCP&#x2F;IP 模型包含了 TCP、IP、UDP、Telnet、FTP、SMTP 等上百个互为关联的协议，其中 TCP 和 IP 是最常用的两种底层协议，所以把它们统称为“TCP&#x2F;IP 协议族”。</p>
-<p> <a target="_blank" rel="noopener" href="http://c.biancheng.net/socket/">socket</a> 编程是基于 TCP 和 UDP 协议的，它们的层级关系如下图所示：  </p>
-<p><img src="D:\R_program\Blog\source_posts\Socket编程-OSI网络七层模型\2.gif"></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/06/Socket%E7%BC%96%E7%A8%8B-%E9%9D%A2%E5%90%91%E8%BF%9E%E6%8E%A5%E5%92%8C%E6%97%A0%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%A5%97%E6%8E%A5%E5%AD%97%E7%9A%84%E5%8C%BA%E5%88%AB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/06/Socket%E7%BC%96%E7%A8%8B-%E9%9D%A2%E5%90%91%E8%BF%9E%E6%8E%A5%E5%92%8C%E6%97%A0%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%A5%97%E6%8E%A5%E5%AD%97%E7%9A%84%E5%8C%BA%E5%88%AB/" class="post-title-link" itemprop="url">Socket编程-面向连接和无连接的套接字的区别</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-07-06 10:30:53 / 修改时间：10:48:20" itemprop="dateCreated datePublished" datetime="2022-07-06T10:30:53+08:00">2022-07-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Socket/" itemprop="url" rel="index"><span itemprop="name">Socket</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="套接字类型"><a href="#套接字类型" class="headerlink" title="套接字类型"></a>套接字类型</h1><ol>
-<li><p>流格式套接字：面向连接的套接字，基于TCP协议</p>
-</li>
-<li><p>数据报格式套接字：无连接的套接字，基于UDP协议</p>
-</li>
-</ol>
-<p>现在有一个互联网模型如下所示</p>
-<p><img src="D:\R_program\Blog\source_posts\Socket编程-面向连接和无连接的套接字的区别\1.gif"></p>
-<p>假设 H1 要发送若干个数据包给 H6，那么有多条路径可以选择，比如：</p>
-<pre><code>路径①：H1 --&gt; A --&gt; C --&gt; E --&gt; H6
-
-路径②：H1 --&gt; A --&gt; B --&gt; E --&gt; H6
-
-路径③：H1 --&gt; A --&gt; B --&gt; D --&gt; E --&gt; H6
-
-路径④：H1 --&gt; A --&gt; B --&gt; C --&gt; E --&gt; H6
-
-路径⑤：H1 --&gt; A --&gt; C --&gt; B --&gt; D --&gt; E --&gt; H6
-</code></pre>
-<h1 id="无连接的套接字"><a href="#无连接的套接字" class="headerlink" title="无连接的套接字"></a>无连接的套接字</h1><ol>
-<li><p>每个数据包可以<strong>选择不同的路径</strong>且<strong>到达的顺序是不确定的</strong></p>
-<ul>
-<li>比如第一个数据包选择路径1，第二个数据包选择路径4…</li>
-</ul>
-</li>
-<li><p>数据包在传输过程中会发生各种不测，也会发生各种奇迹</p>
-<ul>
-<li><p>比如传输的过程中网络波动，断网，断电等情况</p>
-</li>
-<li><p>而且也不管啥时候到达，也不管到达了几个，到达的顺序如何</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="面向连接的套接字"><a href="#面向连接的套接字" class="headerlink" title="面向连接的套接字"></a>面向连接的套接字</h1><ol>
-<li><p>面向连接的套接字在正式通信之前先确定一条路径，然后固定地使用这条路径来传递数据包，如果路径故障（某个路由器坏了，断电了）则重新建立路径</p>
-</li>
-<li><p>这条预先建立好的路径被称为“虚电路”，就是一条虚拟的通信电路</p>
-<ul>
-<li>建立虚电路</li>
-<li>数据传输</li>
-<li>虚电路释放</li>
-</ul>
-</li>
-<li><p>同TCP通信相同，在报文抵达目的地址之后，需要接收方发送回一个确认信息，如果长时间没有收到确认信息的话，则会再次发送该报文，并且是依次发送，意味着报文的抵达是按顺抵达的</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E5%AE%9A%E4%B9%89%E5%92%8C%E5%88%86%E7%B1%BB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E5%AE%9A%E4%B9%89%E5%92%8C%E5%88%86%E7%B1%BB/" class="post-title-link" itemprop="url">计算机网络-定义和分类</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-07-06 10:11:14 / 修改时间：10:28:50" itemprop="dateCreated datePublished" datetime="2022-07-06T10:11:14+08:00">2022-07-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="计算机网络的定义"><a href="#计算机网络的定义" class="headerlink" title="计算机网络的定义"></a>计算机网络的定义</h1><h2 id="简单定义"><a href="#简单定义" class="headerlink" title="简单定义"></a>简单定义</h2><p>一些互相连接的，自治的计算机的集合</p>
-<ul>
-<li><p>互连：计算机之间可以通过有线或无线的方式进行数据通信</p>
-</li>
-<li><p>自治：是指独立的计算机，有自己的硬件和软件，可以单独运行和使用</p>
-</li>
-<li><p>集合：至少需要两台计算机</p>
-</li>
-</ul>
-<h2 id="完整定义"><a href="#完整定义" class="headerlink" title="完整定义"></a>完整定义</h2><p>计算机网络主要由一些通用的，可编程的硬件互连而成的，而这些硬件并非专门用来实现某一特定目的的（例如，传送数据或视频信号）。而这些可编程的硬件能用来传送多种不同类型的数据，并能支持广泛的和日益增长的应用。</p>
-<ul>
-<li><p>连接的硬件不只是计算机，而包括了只能手机等智能硬件</p>
-</li>
-<li><p>计算机网络并非专门用于传送数据，而是能支持很多种应用（包括今后可能出现的各自应用）</p>
-</li>
-</ul>
-<h1 id="计算机网络的分类"><a href="#计算机网络的分类" class="headerlink" title="计算机网络的分类"></a>计算机网络的分类</h1><h2 id="按交换技术分类"><a href="#按交换技术分类" class="headerlink" title="按交换技术分类"></a>按交换技术分类</h2><ol>
-<li><p>电路交换网络</p>
-</li>
-<li><p>报文交换网络</p>
-</li>
-<li><p>分组交换网络</p>
-</li>
-</ol>
-<h2 id="按使用者分类"><a href="#按使用者分类" class="headerlink" title="按使用者分类"></a>按使用者分类</h2><ol>
-<li><p>公用网</p>
-</li>
-<li><p>专用网</p>
-</li>
-</ol>
-<h2 id="按传输介质分类"><a href="#按传输介质分类" class="headerlink" title="按传输介质分类"></a>按传输介质分类</h2><ol>
-<li><p>有线网络</p>
-</li>
-<li><p>无线网络</p>
-</li>
-</ol>
-<h2 id="按覆盖范围分类"><a href="#按覆盖范围分类" class="headerlink" title="按覆盖范围分类"></a>按覆盖范围分类</h2><ol>
-<li><p>广域网WAN（国家，地区，洲）</p>
-</li>
-<li><p>城域网MAN（城市）</p>
-</li>
-<li><p>局域网LAN（街区，学校）</p>
-</li>
-<li><p>个域网PAN（个人热点）</p>
-</li>
-</ol>
-<h2 id="按拓扑结构分类"><a href="#按拓扑结构分类" class="headerlink" title="按拓扑结构分类"></a>按拓扑结构分类</h2><ol>
-<li><p>总线型网络</p>
-<ul>
-<li>一条线，一点出故障，全网瘫痪</li>
-</ul>
-</li>
-<li><p>星型网络</p>
-<ul>
-<li>每个计算机以单独的线路与中央设备（集线器&#x2F;交换机&#x2F;路由器）连接</li>
-</ul>
-</li>
-<li><p>环型网络</p>
-<ul>
-<li>连接成一个环，信号单向传输</li>
-</ul>
-</li>
-<li><p>网状型网络</p>
-<ul>
-<li><p>每个节点至少由两条路径与其他节点相连</p>
-</li>
-<li><p>可靠性高，线路复杂，成本高</p>
-</li>
-</ul>
-</li>
-</ol>
-<p><img src="D:\R_program\Blog\source_posts\计算机网络的定义和分类\1.png"></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E7%A7%8D%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E7%A7%8D%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%BC%8F/" class="post-title-link" itemprop="url">计算机网络-三种交换方式</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-07-06 09:45:36 / 修改时间：10:08:10" itemprop="dateCreated datePublished" datetime="2022-07-06T09:45:36+08:00">2022-07-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="电路交换"><a href="#电路交换" class="headerlink" title="电路交换"></a>电路交换</h1><p>电话交换机接通电话线的方式称为电路交换</p>
-<p>从通信资源的分配角度来看，交换就是按照某种方式动态地去分配传输线路的资源</p>
-<h2 id="电路交换的三个步骤"><a href="#电路交换的三个步骤" class="headerlink" title="电路交换的三个步骤"></a>电路交换的三个步骤</h2><ol>
-<li><p>建立连接（分配通信资源）</p>
-</li>
-<li><p>通话（一直占用通信资源）</p>
-</li>
-<li><p>释放连接（归还通信资源）</p>
-</li>
-</ol>
-<p>使用电路交换可以实现传输计算机数据，但是效率低下</p>
-<h1 id="分组交换"><a href="#分组交换" class="headerlink" title="分组交换"></a>分组交换</h1><p>计算机网络通常采用分组交换来实现通信</p>
-<p>即发送方将要发送的报文分成几组，并添加对应的首部报文，分组发送到接收方之后，接收方将报文首部去除，重新组合成完整报文</p>
-<h2 id="三方作用"><a href="#三方作用" class="headerlink" title="三方作用"></a>三方作用</h2><ol>
-<li><p>发送方：构造分组，发送分组</p>
-</li>
-<li><p>路由器：缓存分组，转发分组</p>
-</li>
-<li><p>接收方：接收分组，还原报文</p>
-</li>
-</ol>
-<h1 id="报文交换"><a href="#报文交换" class="headerlink" title="报文交换"></a>报文交换</h1><p>通常在早期的电文交换中使用，现已经被分组交换取代</p>
-<h1 id="三种交换方式的对比"><a href="#三种交换方式的对比" class="headerlink" title="三种交换方式的对比"></a>三种交换方式的对比</h1><p><img src="D:\R_program\Blog\source_posts\计算机网络-三种交换方式\1.png"></p>
-<h2 id="电路交换优缺点"><a href="#电路交换优缺点" class="headerlink" title="电路交换优缺点"></a>电路交换优缺点</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ol>
-<li><p>通信时延小</p>
-</li>
-<li><p>有序传输</p>
-</li>
-<li><p>没有冲突</p>
-</li>
-<li><p>适用范围广</p>
-</li>
-<li><p>实时性强</p>
-</li>
-<li><p>控制简单</p>
-</li>
-</ol>
-<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
-<li><p>建立连接时间长</p>
-</li>
-<li><p>线路独占，使用效率低</p>
-</li>
-<li><p>灵活性差</p>
-</li>
-<li><p>难以规格化</p>
-</li>
-</ol>
-<h2 id="报文交换-1"><a href="#报文交换-1" class="headerlink" title="报文交换"></a>报文交换</h2><h3 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h3><ol>
-<li><p>无需建立连接</p>
-</li>
-<li><p>动态分配路线</p>
-</li>
-<li><p>提高线路可靠性</p>
-</li>
-<li><p>提高线路利用率</p>
-</li>
-<li><p>提供多目标服务</p>
-</li>
-</ol>
-<h3 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h3><ol>
-<li><p>有转发时延</p>
-</li>
-<li><p>需要较大存储缓存空间</p>
-</li>
-<li><p>需要传输额外的信息量</p>
-</li>
-</ol>
-<h2 id="分组交换-1"><a href="#分组交换-1" class="headerlink" title="分组交换"></a>分组交换</h2><h3 id="优点-2"><a href="#优点-2" class="headerlink" title="优点"></a>优点</h3><ol>
-<li><p>无需建立连接</p>
-</li>
-<li><p>线路利用率高</p>
-</li>
-<li><p>简化了存储管理</p>
-</li>
-<li><p>加速传输</p>
-</li>
-<li><p>减少出错概率和重发数据量</p>
-</li>
-</ol>
-<h3 id="缺点-2"><a href="#缺点-2" class="headerlink" title="缺点"></a>缺点</h3><ol>
-<li><p>引起了转发时延</p>
-</li>
-<li><p>需要传输额外的信息量</p>
-</li>
-<li><p>对于数据报服务，存在失序，丢失或重复分组的问题；对于虚电路服务，存在呼叫建立，数据传输和虚电路释放三个过程</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/05/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%9C%BA%E6%99%AF%E4%B8%8EUI%E4%BB%A5%E5%8F%8A%E5%AD%98%E6%A1%A3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/05/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%9C%BA%E6%99%AF%E4%B8%8EUI%E4%BB%A5%E5%8F%8A%E5%AD%98%E6%A1%A3/" class="post-title-link" itemprop="url">UE4-项目-死寂-场景与UI以及存档</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-07-05 20:30:59 / 修改时间：22:42:05" itemprop="dateCreated datePublished" datetime="2022-07-05T20:30:59+08:00">2022-07-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="场景导入"><a href="#场景导入" class="headerlink" title="场景导入"></a>场景导入</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="RecastNavMesh"><a href="#RecastNavMesh" class="headerlink" title="RecastNavMesh"></a>RecastNavMesh</h3><p>导航网格体的具体参数</p>
-<p>可修改其中的生成-&gt;代理半径为5，使得导航精度更高（值越小精度越高）</p>
-<p>可修改其中的生成-&gt;代理最大斜面，使得AI能上到不同倾斜角度的斜面上</p>
-<h3 id="角色移动：物理交互-gt-推动力因子"><a href="#角色移动：物理交互-gt-推动力因子" class="headerlink" title="角色移动：物理交互-&gt;推动力因子"></a>角色移动：物理交互-&gt;推动力因子</h3><p>角色移动碰撞到其他物体之后给该物体施加的力的大小</p>
-<h3 id="碰撞-gt-是否能影响导航"><a href="#碰撞-gt-是否能影响导航" class="headerlink" title="碰撞-&gt;是否能影响导航"></a>碰撞-&gt;是否能影响导航</h3><p>位于静态网格体组件中的设置，字面意思</p>
-<h3 id="碰撞预设与射线检测"><a href="#碰撞预设与射线检测" class="headerlink" title="碰撞预设与射线检测"></a><mark>碰撞预设与射线检测</mark></h3><p>丧尸的感知组件是通过visibility来进行感知的，但有时候某些物体（枪械，碰撞盒子）的碰撞预设将visibility阻挡了，导致角色受这些影响（手持枪械，进入一个阻挡visibility的碰撞盒子）的时候会出现丧尸看不到玩家的情况</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>导入新场景，打开之后要添加一个后期盒子，让我们拾取物品的时候有描边效果（和之前在测试地图的操作相同）</p>
-</li>
-<li><p>导入导航网格体边界体积，并且设置其大小，修改RecastNavMesh-&gt;生成-&gt;代理半径为5，修改代理最大斜面为89</p>
-</li>
-<li><p>找到场景中门的父类蓝图，删掉其中破坏门的逻辑，并将其质量设置为800</p>
-</li>
-<li><p>编辑丧尸蓝图类和角色蓝图类中的移动组件中的“角色移动：物理交互-&gt;推动力因子”均为75000</p>
-</li>
-<li><p>将门父类的模型中的碰撞-&gt;是否能影响导航为false（使得丧尸可以撞开门向前移动）</p>
-</li>
-<li><p>将场景中的所有材质设置正确（工程浩大啊可恶！）</p>
-</li>
-<li><p>将建筑父类中的盒体碰撞的“碰撞已启用”关闭，并且删掉玩家在建筑内的检测逻辑</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/05/Socket%E7%BC%96%E7%A8%8B-Socket%E7%B1%BB%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/05/Socket%E7%BC%96%E7%A8%8B-Socket%E7%B1%BB%E5%9E%8B/" class="post-title-link" itemprop="url">Socket编程-Socket类型</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-07-05 11:45:34 / 修改时间：11:57:11" itemprop="dateCreated datePublished" datetime="2022-07-05T11:45:34+08:00">2022-07-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Socket/" itemprop="url" rel="index"><span itemprop="name">Socket</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>这个世界上有很多种套接字（<a target="_blank" rel="noopener" href="http://c.biancheng.net/socket/">socket</a>），比如 DARPA Internet 地址（Internet 套接字）、本地节点的路径名（Unix套接字）、CCITT X.25地址（X.25 套接字）等。但本教程只讲第一种套接字——Internet 套接字，它是最具代表性的，也是最经典最常用的。以后我们提及套接字，指的都是 Internet 套接字。  </p>
-<p>根据数据的传输方式，可以将 Internet 套接字分成两种类型。</p>
-<p>通过 socket() 函数创建连接时，必须告诉它使用哪种数据传输方式。</p>
-<h1 id="流格式套接字（SOCK-STREAM）"><a href="#流格式套接字（SOCK-STREAM）" class="headerlink" title="流格式套接字（SOCK_STREAM）"></a>流格式套接字（SOCK_STREAM）</h1><p>流格式套接字（Stream Sockets）也叫“面向连接的套接字”，在代码中使用 SOCK_STREAM 表示。  </p>
-<p>SOCK_STREAM 是一种可靠的、双向的通信数据流，数据可以准确无误地到达另一台计算机，<strong>如果损坏或丢失，可以重新发送</strong>。</p>
-<h2 id="SOCK-STREAM-有以下几个特征："><a href="#SOCK-STREAM-有以下几个特征：" class="headerlink" title="SOCK_STREAM 有以下几个特征："></a>SOCK_STREAM 有以下几个特征：</h2><ul>
-<li>数据在传输过程中不会消失；</li>
-<li>数据是按照顺序传输的；</li>
-<li>数据的发送和接收不是同步的（有的教程也称“不存在数据边界”）。</li>
-</ul>
-<p>可以将 SOCK_STREAM 比喻成一条<strong>传送带</strong>，只要传送带本身没有问题（不会断网），就能保证数据不丢失；同时，较晚传送的数据不会先到达，较早传送的数据不会晚到达，这就保证了数据是按照顺序传递的。</p>
-<h2 id="实现高质量传输的原理"><a href="#实现高质量传输的原理" class="headerlink" title="实现高质量传输的原理"></a>实现高质量传输的原理</h2><p>为什么流格式套接字可以达到高质量的数据传输呢？这是因为它使用了 TCP 协议（The Transmission Control Protocol，传输控制协议），TCP 协议会控制你的数据按照顺序到达并且没有错误。  </p>
-<p>你也许见过 TCP，是因为你经常听说“TCP&#x2F;IP”。</p>
-<p>TCP 用来确保数据的正确性，IP（Internet Protocol，网络协议）用来控制数据如何从源头到达目的地，也就是常说的“路由”。  </p>
-<h2 id="“数据的发送和接收不同步”该如何理解呢？"><a href="#“数据的发送和接收不同步”该如何理解呢？" class="headerlink" title="“数据的发送和接收不同步”该如何理解呢？"></a>“数据的发送和接收不同步”该如何理解呢？</h2><p>假设传送带传送的是水果，接收者需要凑齐 100 个后才能装袋，但是传送带可能把这 100 个水果分批传送，比如第一批传送 20 个，第二批传送 50 个，第三批传送 30 个。接收者不需要和传送带保持同步，只要根据自己的节奏来装袋即可，不用管传送带传送了几批，也不用每到一批就装袋一次，可以等到凑够了 100 个水果再装袋。  </p>
-<p>流格式套接字的内部有一个缓冲区（也就是字符数组），通过 socket 传输的数据将保存到这个缓冲区。接收端在收到数据后并不一定立即读取，只要数据不超过缓冲区的容量，接收端有可能在缓冲区被填满以后一次性地读取，也可能分成好几次读取。  </p>
-<p>也就是说，不管数据分几次传送过来，<strong>接收端只需要根据自己的要求读取，不用非得在数据到达时立即读取</strong>。传送端有自己的节奏，接收端也有自己的节奏，它们是不一致的。 </p>
-<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>流格式套接字有什么实际的应用场景吗？浏览器所使用的 http 协议就基于面向连接的套接字，因为必须要确保数据准确无误，否则加载的 HTML 将无法解析。</p>
-<h1 id="数据报格式套接字（SOCK-DGRAM）"><a href="#数据报格式套接字（SOCK-DGRAM）" class="headerlink" title="数据报格式套接字（SOCK_DGRAM）"></a>数据报格式套接字（SOCK_DGRAM）</h1><p>数据报格式套接字（Datagram Sockets）也叫“无连接的套接字”，在代码中使用 SOCK_DGRAM 表示。  </p>
-<p>计算机只管传输数据，不作数据校验，如果数据在传输中损坏，或者没有到达另一台计算机，是没有办法补救的。也就是说，数据错了就错了，无法重传。  </p>
-<p>因为数据报套接字所做的校验工作少，所以在传输效率方面比流格式套接字要高。  </p>
-<h2 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h2><p>可以将 SOCK_DGRAM 比喻成高速移动的摩托车快递，它有以下特征：</p>
-<ul>
-<li>强调快速传输而非传输顺序；</li>
-<li>传输的数据可能丢失也可能损毁；</li>
-<li>限制每次传输的数据大小；</li>
-<li>数据的发送和接收是同步的（有的教程也称“存在数据边界”）。</li>
-</ul>
-<p>众所周知，速度是快递行业的生命。用摩托车发往同一地点的两件包裹无需保证顺序，只要以最快的速度交给客户就行。这种方式存在损坏或丢失的风险，而且包裹大小有一定限制。因此，想要传递大量包裹，就得分配发送。</p>
-<p>另外，用两辆摩托车分别发送两件包裹，那么接收者也需要分两次接收，所以“数据的发送和接收是同步的”；换句话说，接收次数应该和发送次数相同。  </p>
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>总之，数据报套接字是一种不可靠的、不按顺序传递的、以追求速度为目的的套接字。  </p>
-<h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h2><p>数据报套接字也使用 IP 协议作路由，但是它不使用 TCP 协议，而是使用 UDP 协议（User Datagram Protocol，用户数据报协议）。  </p>
-<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p>QQ 视频聊天和语音聊天就使用 SOCK_DGRAM 来传输数据，因为首先要保证通信的效率，尽量减小延迟，而数据的正确性是次要的，即使丢失很小的一部分数据，视频和音频也可以正常解析，最多出现噪点或杂音，不会对通信质量有实质的影响。</p>
-<blockquote>
-<p>注意：SOCK_DGRAM 没有想象中的糟糕，不会频繁的丢失数据，数据错误只是小概率事件。</p>
-</blockquote>
-<h1 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h1><p>Socket系列博文主要参考C语言中文网的<a target="_blank" rel="noopener" href="http://c.biancheng.net/socket/">socket编程入门：1天玩转socket通信技术（非常详细）</a>免费部分整理，付费部分不会引用原文内容，仅在原文内容的基础上进行总结，如果想要查看原文，请前往原网站付费！</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>

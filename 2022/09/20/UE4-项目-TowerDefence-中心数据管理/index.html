@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="GameState用处用于存储游戏场景中的数据，类似有多少塔，有多少怪物，像数据库一样，主要操作包括对数据的增删改查 如果是网络游戏，GameState在服务端和客户端均会存在 创建角色数据表知识点MyMap.Contains(Key)Contains用于检查MyMap中是否含有键为Key的值 思路 选择TMap类型变量CharacterDatas来存储角色数据，键为FString类型，值为上一节">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE4-项目-TowerDefence-中心数据管理">
+<meta property="og:url" content="http://example.com/2022/09/20/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E4%B8%AD%E5%BF%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="GameState用处用于存储游戏场景中的数据，类似有多少塔，有多少怪物，像数据库一样，主要操作包括对数据的增删改查 如果是网络游戏，GameState在服务端和客户端均会存在 创建角色数据表知识点MyMap.Contains(Key)Contains用于检查MyMap中是否含有键为Key的值 思路 选择TMap类型变量CharacterDatas来存储角色数据，键为FString类型，值为上一节">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-09-20T06:17:32.000Z">
+<meta property="article:modified_time" content="2022-09-20T07:46:07.892Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="项目">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/09/20/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E4%B8%AD%E5%BF%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/09/20/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E4%B8%AD%E5%BF%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/","path":"2022/09/20/UE4-项目-TowerDefence-中心数据管理/","title":"UE4-项目-TowerDefence-中心数据管理"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>UE4-项目-TowerDefence-中心数据管理 | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#GameState%E7%94%A8%E5%A4%84"><span class="nav-number">1.</span> <span class="nav-text">GameState用处</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%A7%92%E8%89%B2%E6%95%B0%E6%8D%AE%E8%A1%A8"><span class="nav-number">2.</span> <span class="nav-text">创建角色数据表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-number">2.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MyMap-Contains-Key"><span class="nav-number">2.1.1.</span> <span class="nav-text">MyMap.Contains(Key)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">2.2.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">3.</span> <span class="nav-text">代码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TowerDefenceGameState-h"><span class="nav-number">3.1.</span> <span class="nav-text">TowerDefenceGameState.h</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TowerDefenceGameState-cpp"><span class="nav-number">3.1.1.</span> <span class="nav-text">TowerDefenceGameState.cpp</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">125</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/20/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E4%B8%AD%E5%BF%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="UE4-项目-TowerDefence-中心数据管理 | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UE4-项目-TowerDefence-中心数据管理
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-09-20 14:17:32 / 修改时间：15:46:07" itemprop="dateCreated datePublished" datetime="2022-09-20T14:17:32+08:00">2022-09-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="GameState用处"><a href="#GameState用处" class="headerlink" title="GameState用处"></a>GameState用处</h1><p>用于存储游戏场景中的数据，类似有多少塔，有多少怪物，像数据库一样，主要操作包括对数据的<code>增删改查</code></p>
+<p>如果是网络游戏，<code>GameState</code>在服务端和客户端均会存在</p>
+<h1 id="创建角色数据表"><a href="#创建角色数据表" class="headerlink" title="创建角色数据表"></a>创建角色数据表</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="MyMap-Contains-Key"><a href="#MyMap-Contains-Key" class="headerlink" title="MyMap.Contains(Key)"></a>MyMap.Contains(Key)</h3><p><code>Contains</code>用于检查<code>MyMap</code>中是否含有键为<code>Key</code>的值</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>选择<code>TMap</code>类型变量<code>CharacterDatas</code>来存储角色数据，键为<code>FString</code>类型，值为上一节完善的<code>FCharacterData</code>类型，只要通过键即可提取<code>FCharacterData</code>，简直是完美！</p>
+</li>
+<li><p>声明三个函数<code>AddCharacterData()</code>，<code>RemoveCharacterData</code>，<code>GetCharacterData</code>，分别实现对<code>CharacterDatas</code>的增，删，查</p>
+<ul>
+<li><p><code>AddCharacterData()</code>返回值是<code>const FCharacterData&amp;</code>，参数是<code>(const FGuid&amp; Hash, const FCharacterData&amp; Data)</code></p>
+</li>
+<li><p><code>RemoveCharacterData</code>返回值是<code>bool</code>，参数是<code>const FGuid&amp; Hash</code></p>
+</li>
+<li><p><code>GetCharacterData</code>返回值是<code>FCharacterData&amp;</code>，参数是<code>const FGuid&amp; Hash</code></p>
+</li>
+<li><p>注意：参数和返回值均为引用传递，这样在<code>GameState</code>中修改或者添加数据之后，在<code>FCharacterData</code>中也会改变</p>
+</li>
+</ul>
+</li>
+<li><p>在cpp中定义三个函数</p>
+<ul>
+<li><p><code>AddCharacterData</code></p>
+<ul>
+<li><code>return CharacterDatas.Add(Hash.ToString(), Data);</code></li>
+</ul>
+</li>
+<li><p><code>RemoveCharacterData</code></p>
+<ul>
+<li><code>return CharacterDatas.Remove(Hash.ToString()) &gt;= 0;</code></li>
+</ul>
+</li>
+<li><p><code>GetCharacterData</code></p>
+<ul>
+<li><p>在全局定义一个<code>FCharacterData</code>类型的变量<code>CharacterDataNULL</code>，保持为空</p>
+</li>
+<li><p>先通过<code>Contains()</code>判断<code>CharacterDatas</code>中是否含有传入参数的键</p>
+</li>
+<li><p>如果有，则直接返回该键值对</p>
+</li>
+<li><p>如果没有则返回<code>CharacterDataNULL</code>，并且打印错误信息</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><h2 id="TowerDefenceGameState-h"><a href="#TowerDefenceGameState-h" class="headerlink" title="TowerDefenceGameState.h"></a>TowerDefenceGameState.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/GameState.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Data\Core\CharacterData.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Data\Save\GameSaveData.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowerDefenceGameState.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> FCharacterData CharacterDataNULL;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ARuleOfTheCharacter</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UDataTable</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AMonsters</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ATowers</span>;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> ATowerDefenceGameState : <span class="keyword">public</span> AGameState</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">const</span> FCharacterData&amp; <span class="title">AddCharacterData</span><span class="params">(<span class="type">const</span> FGuid&amp; Hash, <span class="type">const</span> FCharacterData&amp; Data)</span></span>;</span><br><span class="line">	<span class="function"><span class="type">bool</span> <span class="title">RemoveCharacterData</span><span class="params">(<span class="type">const</span> FGuid&amp; Hash)</span></span>;</span><br><span class="line">	<span class="function">FCharacterData&amp; <span class="title">GetCharacterData</span><span class="params">(<span class="type">const</span> FGuid&amp; Hash)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">		TMap&lt;FString,FCharacterData&gt;CharacterDatas;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="TowerDefenceGameState-cpp"><a href="#TowerDefenceGameState-cpp" class="headerlink" title="TowerDefenceGameState.cpp"></a>TowerDefenceGameState.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefenceGameState.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character\Core\RuleOfTheCharacter.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UObject\ConstructorHelpers.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Engine\DataTable.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UObject\SoftObjectPtr.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Data\Core\CharacterData.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character\CharacterCore\Towers.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character\CharacterCore\Monsters.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowerDefence\StoneDefenceMacro.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//以下的Hash均需要通过ToString()进行强制转换，但原视频中只转换了SD_print_r()函数中的</span></span><br><span class="line"><span class="function">FCacterDataharacterData</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="type">const</span> FCharacterData&amp; <span class="title">ATowerDefenceGameState::AddCharacterData</span><span class="params">(<span class="type">const</span> FGuid&amp; Hash, <span class="type">const</span> FCharacterData&amp; Data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> CharacterDatas.<span class="built_in">Add</span>(Hash.<span class="built_in">ToString</span>(), Data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">ATowerDefenceGameState::RemoveCharacterData</span><span class="params">(<span class="type">const</span> FGuid&amp; Hash)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> CharacterDatas.<span class="built_in">Remove</span>(Hash.<span class="built_in">ToString</span>()) &gt;= <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">FCharacterData&amp; <span class="title">ATowerDefenceGameState::GetCharacterData</span><span class="params">(<span class="type">const</span> FGuid&amp; Hash)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (CharacterDatas.<span class="built_in">Contains</span>(Hash.<span class="built_in">ToString</span>()))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> CharacterDatas[Hash.<span class="built_in">ToString</span>()];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">SD_print_r</span>(Error, <span class="string">&quot;The Current [%s] is invalid&quot;</span>, *Hash.<span class="built_in">ToString</span>());</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> CharacterDataNULL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%A1%B9%E7%9B%AE/" rel="tag"># 项目</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/09/20/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E8%A7%92%E8%89%B2%E6%95%B0%E6%8D%AE/" rel="prev" title="UE4-项目-TowerDefence-角色数据">
+                  <i class="fa fa-chevron-left"></i> UE4-项目-TowerDefence-角色数据
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/09/20/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E6%95%B0%E6%8D%AE%E9%A9%B1%E5%8A%A8%E8%A7%92%E8%89%B2/" rel="next" title="UE4-项目-TowerDefence-数据驱动角色">
+                  UE4-项目-TowerDefence-数据驱动角色 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
