@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">125</span>
+          <span class="site-state-item-count">127</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,252 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/09/UE4-HowTo-PlayerInput/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/09/UE4-HowTo-PlayerInput/" class="post-title-link" itemprop="url">UE4-HowTo_PlayerInput</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-05-09 16:35:26 / 修改时间：17:23:28" itemprop="dateCreated datePublished" datetime="2022-05-09T16:35:26+08:00">2022-05-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Fu-k-you-unreal-engine-filer"><a href="#Fu-k-you-unreal-engine-filer" class="headerlink" title="Fu*k you unreal engine filer!!!"></a>Fu*k you unreal engine filer!!!</h1><p>气死了兄弟们，官方案例《玩家输入和Pawn》里面的第一段——自定义Pawn</p>
+<p>我真的是服了，上一章节是头文件名写错了，这一节干脆不写头文件名了，无语。</p>
+<p>报错还奇奇怪怪的，虽然也猜到了是头文件的问题，我一开始还以为又是头文件名写错了，结果排查了半天，发现是这家伙根本没写，也是我学艺不精，竟然没有第一时间找到问题所在，总之是花费了大量时间在这个无聊的问题上！中途UE4还崩了一次！可恶啊！</p>
+<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>首先这个功能其实并不难，在之前的第一人称FPS中我们已经实现了移动等功能，在此处新增的放大缩小功能，类比跳跃功能也非常好理解！</p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>创建一个Actor为父类的C++类</p>
+<ol>
+<li><p>我们要控制这个Actor，所以我们需要将玩家默认控制设置一下</p>
+</li>
+<li><p>我们创建一个根组件，用来更新</p>
+</li>
+<li><p>然后需要创建一个可见的对象和一个摄像机</p>
+</li>
+<li><p>摄像机和可见组件都附加到根组件上</p>
+</li>
+<li><p>配置游戏输入</p>
+</li>
+<li><p>声明和定义游戏操作</p>
+</li>
+</ol>
+<p>看起来一点也不难，如果理解了前面章节的内容的话，实际上也是如此。</p>
+<h1 id="自定义Actor"><a href="#自定义Actor" class="headerlink" title="自定义Actor"></a>自定义Actor</h1><p>首先，最重要的是，我们在创建一个组件之前，一定要考虑清楚，需不需要额外引入头文件！比如说Camera组件！</p>
+<p>官方代码运行不起来，不用管。在这里我就直接放修改好的代码了！</p>
+<h2 id="MyPawn-h"><a href="#MyPawn-h" class="headerlink" title="MyPawn.h"></a>MyPawn.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/Pawn.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Camera/CameraComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;MyPawn.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HOWTO_PLAYERINPUT_API</span> AMyPawn : <span class="keyword">public</span> APawn</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="comment">// Sets default values for this pawn&#x27;s properties</span></span><br><span class="line">	<span class="built_in">AMyPawn</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="comment">// Called when the game starts or when spawned</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:	</span><br><span class="line">	<span class="comment">// Called every frame</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">(<span class="type">float</span> DeltaTime)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Called to bind functionality to input</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">SetupPlayerInputComponent</span><span class="params">(<span class="keyword">class</span> UInputComponent* PlayerInputComponent)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(EditAnywhere)</span><br><span class="line">		USceneComponent* OurVisibleComponent;</span><br><span class="line">	<span class="built_in">UPROPERTY</span>(EditAnywhere)</span><br><span class="line">		UCameraComponent* OurCamera;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>.h部分主要注意的是头文件的引用</p>
+<p>还有就是，声明部分一定要放在.h文件中，别学官方案例放在.cpp里面，到时候纠错都不好找地儿！</p>
+<h2 id="MyPawn-cpp"><a href="#MyPawn-cpp" class="headerlink" title="MyPawn.cpp"></a>MyPawn.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;MyPawn.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Sets default values</span></span><br><span class="line">AMyPawn::<span class="built_in">AMyPawn</span>()</span><br><span class="line">&#123;</span><br><span class="line"> 	<span class="comment">// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don&#x27;t need it.</span></span><br><span class="line">	PrimaryActorTick.bCanEverTick = <span class="literal">true</span>;</span><br><span class="line">	<span class="comment">// 将该Pawn设为由最小编号玩家控制</span></span><br><span class="line">	AutoPossessPlayer = EAutoReceiveInput::Player0;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 创建可附加内容的虚拟根组件。</span></span><br><span class="line">	RootComponent = <span class="built_in">CreateDefaultSubobject</span>&lt;USceneComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;RootComponent&quot;</span>));</span><br><span class="line">	<span class="comment">// 创建相机和可见对象</span></span><br><span class="line">	OurCamera = <span class="built_in">CreateDefaultSubobject</span>&lt;UCameraComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;OurCamera&quot;</span>));</span><br><span class="line">	OurVisibleComponent = <span class="built_in">CreateDefaultSubobject</span>&lt;UStaticMeshComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;OurVisibleComponent&quot;</span>));</span><br><span class="line">	<span class="comment">// 将相机和可见对象附加到根组件。偏移并旋转相机。</span></span><br><span class="line">	OurCamera-&gt;<span class="built_in">SetupAttachment</span>(RootComponent);</span><br><span class="line">	OurCamera-&gt;<span class="built_in">SetRelativeLocation</span>(<span class="built_in">FVector</span>(<span class="number">-250.0f</span>, <span class="number">0.0f</span>, <span class="number">250.0f</span>));</span><br><span class="line">	OurCamera-&gt;<span class="built_in">SetRelativeRotation</span>(<span class="built_in">FRotator</span>(<span class="number">-45.0f</span>, <span class="number">0.0f</span>, <span class="number">0.0f</span>));</span><br><span class="line">	OurVisibleComponent-&gt;<span class="built_in">SetupAttachment</span>(RootComponent);</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Called when the game starts or when spawned</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyPawn::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Called every frame</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyPawn::Tick</span><span class="params">(<span class="type">float</span> DeltaTime)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">Tick</span>(DeltaTime);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Called to bind functionality to input</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyPawn::SetupPlayerInputComponent</span><span class="params">(UInputComponent* PlayerInputComponent)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">SetupPlayerInputComponent</span>(PlayerInputComponent);</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里很简单，和前面章节的操作基本一致，根官方案例对比起来。</p>
+<p>其实就是我把OurCamera的声明放进.h文件中去了，结构看起来更清晰。</p>
+<h1 id="配置游戏输入"><a href="#配置游戏输入" class="headerlink" title="配置游戏输入"></a>配置游戏输入</h1><p>这个就按照官网的来吧，没啥太多需要注意的</p>
+<p>唯一注意的是，映射名称一定要能望文生义，与后面声明定义的移动，放大函数名相同。</p>
+<h1 id="编写和绑定游戏操作"><a href="#编写和绑定游戏操作" class="headerlink" title="编写和绑定游戏操作"></a>编写和绑定游戏操作</h1><p>这个步骤无非就是，先声明及定义函数，然后再将函数在<code>AMyPawn::SetupPlayerInputComponent</code>中用<code>BindAction</code>和<code>BindAxis</code>进行绑定</p>
+<p>最后在<code>AMyPawn::Tick</code>实时更新放大缩小的效果以及移动</p>
+<h2 id="编写函数"><a href="#编写函数" class="headerlink" title="编写函数"></a>编写函数</h2><p>首先在.h文件中声明函数和变量</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//输入函数</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Move_XAxis</span><span class="params">(<span class="type">float</span> AxisValue)</span></span>;<span class="comment">//前进后退</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Move_YAxis</span><span class="params">(<span class="type">float</span> AxisValue)</span></span>;<span class="comment">//左右移动</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">StartGrowing</span><span class="params">()</span></span>;<span class="comment">//开始变大</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">StopGrowing</span><span class="params">()</span></span>;<span class="comment">//停止变大</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//输入变量</span></span><br><span class="line">    FVector CurrentVelocity;<span class="comment">//当前速度</span></span><br><span class="line">    <span class="type">bool</span> bGrowing;<span class="comment">//是否变大</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>然后在.cpp文件中定义函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyPawn::Move_XAxis</span><span class="params">(<span class="type">float</span> AxisValue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 以100单位/秒的速度向前或向后移动</span></span><br><span class="line">    CurrentVelocity.X = FMath::<span class="built_in">Clamp</span>(AxisValue, <span class="number">-1.0f</span>, <span class="number">1.0f</span>) * <span class="number">100.0f</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyPawn::Move_YAxis</span><span class="params">(<span class="type">float</span> AxisValue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 以100单位/秒的速度向右或向左移动</span></span><br><span class="line">    CurrentVelocity.Y = FMath::<span class="built_in">Clamp</span>(AxisValue, <span class="number">-1.0f</span>, <span class="number">1.0f</span>) * <span class="number">100.0f</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyPawn::StartGrowing</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    bGrowing = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyPawn::StopGrowing</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    bGrowing = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这里实现Actor移动的方式还挺别致的，是创建一个FVector来实现移动的，同时我们也可以采取另一种思路来实现移动</p>
+<p>以下是第一人称FPS案例中实现移动的方法：</p>
+<ul>
+<li><p>首先获取玩家方向</p>
+</li>
+<li><p>然后调用AddMovementInput来进行移动</p>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::MoveForward</span><span class="params">(<span class="type">float</span> Value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 找出&quot;前进&quot;方向，并记录玩家想向该方向移动。</span></span><br><span class="line">    FVector Direction = <span class="built_in">FRotationMatrix</span>(Controller-&gt;<span class="built_in">GetControlRotation</span>()).<span class="built_in">GetScaledAxis</span>(EAxis::X);</span><br><span class="line">    <span class="built_in">AddMovementInput</span>(Direction, Value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFPSCharacter::MoveRight</span><span class="params">(<span class="type">float</span> Value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 找出&quot;右侧&quot;方向，并记录玩家想向该方向移动。</span></span><br><span class="line">    FVector Direction = <span class="built_in">FRotationMatrix</span>(Controller-&gt;<span class="built_in">GetControlRotation</span>()).<span class="built_in">GetScaledAxis</span>(EAxis::Y);</span><br><span class="line">    <span class="built_in">AddMovementInput</span>(Direction, Value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>接下来在<strong>AMyPawn::SetupPlayerInputComponent</strong> 中绑定映射</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在按下或松开&quot;Grow&quot;键时做出响应。</span></span><br><span class="line">InputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Grow&quot;</span>, IE_Pressed, <span class="keyword">this</span>, &amp;AMyPawn::StartGrowing);</span><br><span class="line">InputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;Grow&quot;</span>, IE_Released, <span class="keyword">this</span>, &amp;AMyPawn::StopGrowing);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 对两个移动轴&quot;MoveX&quot;和&quot;MoveY&quot;的值逐帧反应。</span></span><br><span class="line">InputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveX&quot;</span>, <span class="keyword">this</span>, &amp;AMyPawn::Move_XAxis);</span><br><span class="line">InputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveY&quot;</span>, <span class="keyword">this</span>, &amp;AMyPawn::Move_YAxis);</span><br></pre></td></tr></table></figure>
+
+<p>最后在<strong>AMyPawn::Tick</strong>中实时更新Actor的大小和移动</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 根据&quot;Grow&quot;操作处理增长和缩减</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">float</span> CurrentScale = OurVisibleComponent-&gt;<span class="built_in">GetComponentScale</span>().X;</span><br><span class="line">    <span class="keyword">if</span> (bGrowing)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 一秒内增长到两倍大小</span></span><br><span class="line">        CurrentScale += DeltaTime;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 以增长速度缩减一半</span></span><br><span class="line">        CurrentScale -= (DeltaTime * <span class="number">0.5f</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 确保不会降至初始大小以下，或者增至两倍大小以上。</span></span><br><span class="line">    CurrentScale = FMath::<span class="built_in">Clamp</span>(CurrentScale, <span class="number">1.0f</span>, <span class="number">2.0f</span>);</span><br><span class="line">    OurVisibleComponent-&gt;<span class="built_in">SetWorldScale3D</span>(<span class="built_in">FVector</span>(CurrentScale));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 根据&quot;MoveX&quot;和&quot;MoveY&quot;轴处理移动</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (!CurrentVelocity.<span class="built_in">IsZero</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        FVector NewLocation = <span class="built_in">GetActorLocation</span>() + (CurrentVelocity * DeltaTime);</span><br><span class="line">        <span class="built_in">SetActorLocation</span>(NewLocation);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/06/UE4-%E8%93%9D%E5%9B%BE-%E9%92%A5%E5%8C%99%E5%BC%80%E9%97%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/06/UE4-%E8%93%9D%E5%9B%BE-%E9%92%A5%E5%8C%99%E5%BC%80%E9%97%A8/" class="post-title-link" itemprop="url">UE4-蓝图-钥匙开门</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-05-06 14:20:27 / 修改时间：15:16:59" itemprop="dateCreated datePublished" datetime="2022-05-06T14:20:27+08:00">2022-05-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>这一节是根据<a target="_blank" rel="noopener" href="https://space.bilibili.com/31898841">谌嘉诚</a>的蓝图教程进行整理的！</p>
+<p>在前面我们制作了自动门，按键开门这两种门，其实还有升降电梯等案例，但是其实与开门的蓝图类差不太多，顶多就是修改一下更新的不是按轴旋转，而是直接更改相对位置了。</p>
+<p>接下来的是拾取钥匙开门，这涉及到了蓝图Actor之间的通信</p>
+<h1 id="门蓝图"><a href="#门蓝图" class="headerlink" title="门蓝图"></a>门蓝图</h1><p>主体蓝图部分和开门没有区别，唯一需要修改的地方是</p>
+<ul>
+<li><p>创建一个bool类型变量，命名为IsKey，默认设置为false</p>
+</li>
+<li><p>沿着IsKey拖出一条引线，创建一个名为”分支”的结点</p>
+</li>
+<li><p>将键盘E拖出一个结点，连接上分支结点</p>
+</li>
+<li><p>True输出链接Gate的Open</p>
+</li>
+<li><p>False输出链接一个“打印字符串”节点</p>
+</li>
+</ul>
+<h1 id="钥匙蓝图"><a href="#钥匙蓝图" class="headerlink" title="钥匙蓝图"></a>钥匙蓝图</h1><p>前部分的蓝图与普通门蓝图一致，需要注意的是Gate之后的节点</p>
+<ul>
+<li><p>Gate输出创建一个“获取类的所有Actor”节点，顾名思义，可以选择一个类，获取其下所有的actor</p>
+</li>
+<li><p>在Actor Class选项中选择BP_KeyDoor（门的类名）</p>
+</li>
+<li><p>Out Actor输出创建一个Get（复制）节点【获取数组中下标为i的元素】</p>
+</li>
+<li><p>接着从Get节点输出一个Set IsKey节点，在这个节点内就可改变IsKey的值</p>
+</li>
+<li><p>将获取类的所有actor输出与set节点的输入连接上</p>
+</li>
+<li><p>最后我们需要销毁钥匙，于是在set输出链接一个“销毁Actor”节点</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -3001,448 +3247,6 @@
 <li><p>按 <strong>退出（Escape）</strong> 键或在关卡编辑器中点击 <strong>停止（Stop）</strong> 按钮，退出在编辑器中运行（Play in Editor）（PIE）模式。</p>
 </li>
 </ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/27/UE4-API/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/04/27/UE4-API/" class="post-title-link" itemprop="url">UE4-API</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-04-27 09:06:23 / 修改时间：14:34:34" itemprop="dateCreated datePublished" datetime="2022-04-27T09:06:23+08:00">2022-04-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>在这里记录一些目前遇到的unreal engine中的API</p>
-<h1 id="组件与碰撞"><a href="#组件与碰撞" class="headerlink" title="组件与碰撞"></a>组件与碰撞</h1><p>在官方案例——<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.27/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/Components/">组件与碰撞</a>中的API</p>
-<h2 id="CreateDefaultSubject-lt-gt"><a href="#CreateDefaultSubject-lt-gt" class="headerlink" title="CreateDefaultSubject&lt;&gt;()"></a>CreateDefaultSubject&lt;&gt;()</h2><p>创建默认子网格体&lt;&gt;中是子网格体的类型</p>
-<p><code>USphereComponent* SphereComponent = CreateDefaultSubobject&lt;USphereComponent&gt;(TEXT(&quot;RootComponent&quot;))</code></p>
-<h2 id="InitSphereRadius"><a href="#InitSphereRadius" class="headerlink" title="InitSphereRadius()"></a>InitSphereRadius()</h2><p>初始化球体半径</p>
-<p><code>SphereComponent-&gt;InitSphereRadius(40.0f);</code></p>
-<h2 id="SetCollisionProfileName"><a href="#SetCollisionProfileName" class="headerlink" title="SetCollisionProfileName()"></a>SetCollisionProfileName()</h2><p>设置碰撞预设名称</p>
-<p><code>SphereComponent-&gt;SetCollisionProfileName(TEXT(&quot;Pawn&quot;));</code></p>
-<h2 id="SetupAttachment"><a href="#SetupAttachment" class="headerlink" title="SetupAttachment()"></a>SetupAttachment()</h2><p>将某组件添加到括号内的组件上</p>
-<p><code>SphereVisual-&gt;SetupAttachment(RootComponent);</code></p>
-<h2 id="static-ConstructorHelpers-FObjectFinder-lt-gt"><a href="#static-ConstructorHelpers-FObjectFinder-lt-gt" class="headerlink" title="static ConstructorHelpers::FObjectFinder&lt;&gt;"></a>static ConstructorHelpers::FObjectFinder&lt;&gt;</h2><p>直接在代码中设置静态网格体资源</p>
-<p><code>static ConstructorHelpers::FObjectFinder&lt;UStaticMesh&gt; SphereVisualAsset(TEXT(&quot;/Game/StarterContent/Shapes/Shape_Sphere.Shape_Sphere&quot;));</code></p>
-<h2 id="SetStaticMesh"><a href="#SetStaticMesh" class="headerlink" title="SetStaticMesh()"></a>SetStaticMesh()</h2><p>将找到的网格体附加到括号内的组件上</p>
-<p>SphereVisual-&gt;SetStaticMesh(SphereVisualAsset.Object);</p>
-<h2 id="SetRelativeLocation"><a href="#SetRelativeLocation" class="headerlink" title="SetRelativeLocation()"></a>SetRelativeLocation()</h2><p>设置相对位置</p>
-<p><code>SphereVisual-&gt;SetRelativeLocation(FVector(0.0f, 0.0f, -40.0f));</code></p>
-<h2 id="SetWorldScale3D"><a href="#SetWorldScale3D" class="headerlink" title="SetWorldScale3D()"></a>SetWorldScale3D()</h2><p>设置缩放大小</p>
-<p><code>SphereVisual-&gt;SetWorldScale3D(FVector(0.8f));</code></p>
-<h2 id="bAutoActivate"><a href="#bAutoActivate" class="headerlink" title="bAutoActivate"></a>bAutoActivate</h2><p>粒子效果开关</p>
-<p><code>OurParticleSystem-&gt;bAutoActivate = false;</code></p>
-<h2 id="SetTemplate"><a href="#SetTemplate" class="headerlink" title="SetTemplate"></a>SetTemplate</h2><p>给粒子系统设定模板</p>
-<p><code>OurParticleSystem-&gt;SetTemplate(ParticleAsset.Object);</code></p>
-<h2 id="TargetArmLength"><a href="#TargetArmLength" class="headerlink" title="TargetArmLength"></a>TargetArmLength</h2><p>弹簧臂长度</p>
-<p><code>SpringArm-&gt;TargetArmLength = 400.0f;</code></p>
-<h2 id="bEnableCameraLag"><a href="#bEnableCameraLag" class="headerlink" title="bEnableCameraLag"></a>bEnableCameraLag</h2><p>弹簧臂平滑效果开关</p>
-<p><code>SpringArm-&gt;bEnableCameraLag = true;</code></p>
-<h2 id="CameraLagSpeed"><a href="#CameraLagSpeed" class="headerlink" title="CameraLagSpeed"></a>CameraLagSpeed</h2><p>平滑效果切换速度</p>
-<p><code>SpringArm-&gt;CameraLagSpeed = 3.0f;</code></p>
-<h2 id="SocketName"><a href="#SocketName" class="headerlink" title="SocketName"></a>SocketName</h2><p>弹簧臂插槽</p>
-<p><code>Camera-&gt;SetupAttachment(SpringArm, USpringArmComponent::SocketName);</code></p>
-<h2 id="AutoPossessPlayer"><a href="#AutoPossessPlayer" class="headerlink" title="AutoPossessPlayer"></a>AutoPossessPlayer</h2><p>默认控制玩家</p>
-<p><code>AutoPossessPlayer = EAutoReceiveInput::Player0;</code></p>
-<h2 id="UpdatedComonent"><a href="#UpdatedComonent" class="headerlink" title="UpdatedComonent"></a>UpdatedComonent</h2><p>更新某组件</p>
-<p><code>OurMovementComponent-&gt;UpdatedComponent = RootComponent;</code></p>
-<h2 id="BindAxtion"><a href="#BindAxtion" class="headerlink" title="BindAxtion()"></a>BindAxtion()</h2><p>绑定输入映射</p>
-<p><code>InInputComponent-&gt;BindAction(&quot;ParticleToggle&quot;, IE_Pressed, this, &amp;ACollidingPawn::ParticleToggle);</code></p>
-<ul>
-<li><p>参数一：为 虚幻4-&gt;设置 -&gt;输入-&gt;按键绑定的名称</p>
-</li>
-<li><p>参数二：事件名称 IE_Pressed 按下 IE_Released松开 IE_DoubleClick双击</p>
-</li>
-<li><p>参数三：当前对象——this</p>
-</li>
-<li><p>参数四：事件方法的函数指针 例 &amp;类名::方法名的写法</p>
-</li>
-</ul>
-<h2 id="BindAxis"><a href="#BindAxis" class="headerlink" title="BindAxis()"></a>BindAxis()</h2><p>绑定轴映射</p>
-<p><code>InInputComponent-&gt;BindAxis(&quot;MoveForward&quot;, this, &amp;ACollidingPawn::MoveForward);</code></p>
-<ul>
-<li><p>参数一：为 虚幻4-&gt;设置 -&gt;输入-&gt;按键绑定的名称 一定要一样 重要！！！ </p>
-</li>
-<li><p>参数二 ：当前对象——this</p>
-</li>
-<li><p>参数三 事件方法的函数指针 例 &amp;类名::方法名 的写法</p>
-</li>
-</ul>
-<h2 id="AddInputVector"><a href="#AddInputVector" class="headerlink" title="AddInputVector()"></a>AddInputVector()</h2><p>根据输入更改Vector位置</p>
-<p><code>OurMovementComponent-&gt;AddInputVector(GetActorForwardVector() * AxisValue);</code></p>
-<h2 id="GetActorForwardVector"><a href="#GetActorForwardVector" class="headerlink" title="GetActorForwardVector()"></a>GetActorForwardVector()</h2><p>更新Actor向前运动的vector</p>
-<p><code>OurMovementComponent-&gt;AddInputVector(GetActorForwardVector() * AxisValue);</code></p>
-<h2 id="GetActorRightVector"><a href="#GetActorRightVector" class="headerlink" title="GetActorRightVector()"></a>GetActorRightVector()</h2><p>更新Actor向右运动的vector</p>
-<p><code>OurMovementComponent-&gt;AddInputVector(GetActorRightVector() * AxisValue);</code></p>
-<h2 id="GetActorRotation"><a href="#GetActorRotation" class="headerlink" title="GetActorRotation()"></a>GetActorRotation()</h2><p>获取Actor的旋转角度</p>
-<p><code>FRotator NewRotation = GetActorRotation();</code></p>
-<h2 id="SetActorRotation"><a href="#SetActorRotation" class="headerlink" title="SetActorRotation();"></a>SetActorRotation();</h2><p>设置Actor的新角度</p>
-<p><code>SetActorRotation(NewRotation);</code></p>
-<h2 id="ToggleActive"><a href="#ToggleActive" class="headerlink" title="ToggleActive()"></a>ToggleActive()</h2><p>转换粒子效果状态（开关）</p>
-<p><code>OurParticleSystem-&gt;ToggleActive();</code></p>
-<p>GetClampedToMaxSize()</p>
-<p>用于更新vector的位置</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FVector <span class="title">FVector::GetClampedToMaxSize</span><span class="params">(<span class="type">float</span> MaxSize)</span></span></span><br></pre></td></tr></table></figure>
-
-<p>用于创建一个新的vector，方向与原本的方向一直，距离为MaxSize</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FVector <span class="title">FVector::GetClampedToSize</span><span class="params">(<span class="type">float</span> Min,<span class="type">float</span> Max)</span> </span></span><br></pre></td></tr></table></figure>
-
-<p>创建一个新的Vector，方向与原方向一致</p>
-<p>距离为</p>
-<ol>
-<li><p>若距离&lt;Min，则新的vector距离为Min</p>
-</li>
-<li><p>若距离&gt;Max，则新的vector距离为Max</p>
-</li>
-<li><p>若距离在Min和Max之间，则新的vector等于原本的vector</p>
-</li>
-</ol>
-<h2 id="ConsumeInputVector-1-0f"><a href="#ConsumeInputVector-1-0f" class="headerlink" title="ConsumeInputVector(1.0f)"></a>ConsumeInputVector(1.0f)</h2><p>报告并清空用于存储移动输入的内置变量值。</p>
-<h2 id="SafeMoveUpdatedComponent"><a href="#SafeMoveUpdatedComponent" class="headerlink" title="SafeMoveUpdatedComponent()"></a>SafeMoveUpdatedComponent()</h2><p><code>SafeMoveUpdatedComponent(const FVector&amp; Delta, const FRotator&amp; NewRotation, bool bSweep, FHitResult&amp; OutHit, ETeleportType Teleport)</code></p>
-<p><code>SafeMoveUpdatedComponent(DesiredMovementThisFrame, UpdatedComponent-&gt;GetComponentRotation(), true, Hit);</code></p>
-<p>利用虚幻引擎物理移动Pawn移动组件，同时考虑固体障碍。</p>
-<ul>
-<li><p>第一个参数：要移动的Vector</p>
-</li>
-<li><p>第二个参数：旋转参数</p>
-</li>
-<li><p>第三个参数：是否考虑物理障碍（如果为true，将在移动过程中扫描以阻止碰撞。如果为false，它将简单地传送到下一个位置并忽略碰撞。）</p>
-</li>
-<li><p>第四个参数：碰撞结果</p>
-</li>
-<li><p>第五个参数：可省略，远距离传送类型</p>
-</li>
-</ul>
-<h2 id="SlideAlongSurface"><a href="#SlideAlongSurface" class="headerlink" title="SlideAlongSurface()"></a>SlideAlongSurface()</h2><p><code>SlideAlongSurface(const FVector&amp; Delta, float Time, const FQuat Rotation, const FVector&amp; Normal, FHitResult&amp; Hit, bool bHandleImpact)</code></p>
-<ul>
-<li><p>第一个参数：要移动的vector</p>
-</li>
-<li><p>第二个参数：运动时间</p>
-</li>
-<li><p>第三个参数：旋转情况（可省略）</p>
-</li>
-<li><p>第四个参数：vector类型？（这个不太确定）</p>
-</li>
-<li><p>第五个参数：碰撞结果（必须为bBlockingHit）</p>
-</li>
-<li><p>第六个参数：手柄反馈？（这个扎找不到源文件）</p>
-</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/25/UE4-HowTo-Components/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/04/25/UE4-HowTo-Components/" class="post-title-link" itemprop="url">UE4-HowTo_Components</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-04-25 17:08:45" itemprop="dateCreated datePublished" datetime="2022-04-25T17:08:45+08:00">2022-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-04-27 09:11:14" itemprop="dateModified" datetime="2022-04-27T09:11:14+08:00">2022-04-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>官方案例——<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.27/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/Components/">解组件和碰撞</a></p>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><ol>
-<li><p>明确目标：创建一个有物理性质的球体，能和其他物体碰撞，并且拥有火焰粒子效果</p>
-</li>
-<li><p>创建CollidingPawn</p>
-</li>
-<li><p>创建这个球体本身需要什么头文件</p>
-</li>
-<li><p>修改根组件为对物理反应的球体</p>
-</li>
-<li><p>创建球体并附加到根组件上</p>
-</li>
-<li><p>将粒子系统直接附加到球体上（不是根组件）</p>
-</li>
-<li><p>添加弹簧臂组件，并在其上插槽内添加摄像机组件</p>
-</li>
-<li><p>将此Pawn设为受默认玩家控制</p>
-</li>
-<li><p>配置输入：编辑-&gt;设置项目-&gt;输入-&gt;操作映射（粒子系统）-&gt;轴映射(移动和转动)</p>
-</li>
-<li><p>创建Pawn移动组件类（PawnMovementComponent）CollidingPawnMovementComponent</p>
-</li>
-<li><p>定义TickComonent函数，告知逐帧移动方式</p>
-</li>
-<li><p>将Pawn移动组件添加到Pawn内</p>
-</li>
-<li><p>创建Pawn移动组件并将其与Pawn关联，使其更新根组件</p>
-</li>
-<li><p>声明并定义一些函数处理Pawn会接收的输入</p>
-</li>
-<li><p>将函数绑定到输入事件</p>
-</li>
-</ol>
-<h1 id="CollidingPawn-h"><a href="#CollidingPawn-h" class="headerlink" title="CollidingPawn.h"></a>CollidingPawn.h</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/Pawn.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CollidingPawn.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HOWTO_COMPONENTS_API</span> ACollidingPawn : <span class="keyword">public</span> APawn</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 设置此Pawn属性的默认值</span></span><br><span class="line">    <span class="built_in">ACollidingPawn</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="comment">// 游戏开始或生成时调用</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 逐帧调用</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">( <span class="type">float</span> DeltaSeconds )</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 调用以将功能与输入绑定（也就是将要设定的wasd和空格的输入功能）</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">SetupPlayerInputComponent</span><span class="params">(<span class="keyword">class</span> UInputComponent* InInputComponent)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//声明粒子系统（火焰燃烧效果等）</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>()</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">UParticleSystemComponent</span>* OurParticleSystem;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//声明移动组件，使其可以追踪变量</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>()</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">UCollidingPawnMovementComponent</span>* OurMovementComponent;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Pawn拥有名为 GetMovementComponent 的函数，用于提供引擎中其他类访问该Pawn当前所用Pawn移动组件的权限。需覆盖该函数，使其返回自定义Pawn移动组件</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> UPawnMovementComponent* <span class="title">GetMovementComponent</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建代码处理pawn接受过来的输入</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">MoveForward</span><span class="params">(<span class="type">float</span> AxisValue)</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">MoveRight</span><span class="params">(<span class="type">float</span> AxisValue)</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Turn</span><span class="params">(<span class="type">float</span> AxisValue)</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">ParticleToggle</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h1 id="CollidingPawn-cpp"><a href="#CollidingPawn-cpp" class="headerlink" title="CollidingPawn.cpp"></a>CollidingPawn.cpp</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CollidingPawn.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CollidingPawnMovementComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UObject/ConstructorHelpers.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Particles/ParticleSystemComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/SphereComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Camera/CameraComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/SpringArmComponent.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置默认值</span></span><br><span class="line">ACollidingPawn::<span class="built_in">ACollidingPawn</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 设置该Pawn以逐帧调用Tick()。如无需此功能，可关闭以提高性能。</span></span><br><span class="line">    PrimaryActorTick.bCanEverTick = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 根组件将成为对物理反应的球体</span></span><br><span class="line">    USphereComponent* SphereComponent = <span class="built_in">CreateDefaultSubobject</span>&lt;USphereComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;RootComponent&quot;</span>));</span><br><span class="line">    RootComponent = SphereComponent;</span><br><span class="line">    SphereComponent-&gt;<span class="built_in">InitSphereRadius</span>(<span class="number">40.0f</span>);<span class="comment">//初始化球的半径</span></span><br><span class="line">    SphereComponent-&gt;<span class="built_in">SetCollisionProfileName</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;Pawn&quot;</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建并放置网格体组件，以便查看球体位置</span></span><br><span class="line">    UStaticMeshComponent* SphereVisual = <span class="built_in">CreateDefaultSubobject</span>&lt;UStaticMeshComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;VisualRepresentation&quot;</span>));</span><br><span class="line">    SphereVisual-&gt;<span class="built_in">SetupAttachment</span>(RootComponent);</span><br><span class="line">    <span class="function"><span class="type">static</span> ConstructorHelpers::FObjectFinder&lt;UStaticMesh&gt; <span class="title">SphereVisualAsset</span><span class="params">(TEXT(<span class="string">&quot;/Game/StarterContent/Shapes/Shape_Sphere.Shape_Sphere&quot;</span>))</span></span>;</span><br><span class="line">    <span class="keyword">if</span> (SphereVisualAsset.<span class="built_in">Succeeded</span>())<span class="comment">//如果找到了绑定的网格体</span></span><br><span class="line">    &#123;</span><br><span class="line">        SphereVisual-&gt;<span class="built_in">SetStaticMesh</span>(SphereVisualAsset.Object);<span class="comment">//则将找到的网格体附加到SphereVisual上！</span></span><br><span class="line">        SphereVisual-&gt;<span class="built_in">SetRelativeLocation</span>(<span class="built_in">FVector</span>(<span class="number">0.0f</span>, <span class="number">0.0f</span>, <span class="number">-40.0f</span>));<span class="comment">//设置相对位置</span></span><br><span class="line">        SphereVisual-&gt;<span class="built_in">SetWorldScale3D</span>(<span class="built_in">FVector</span>(<span class="number">0.8f</span>));<span class="comment">//缩放为80%</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建可激活或停止的粒子系统</span></span><br><span class="line">    <span class="comment">// 粒子系统组件直接附加到静态网格体组件，而非附加到根。其同时略微偏离网格体底部中心，以便在运行时清晰显示。</span></span><br><span class="line">    OurParticleSystem = <span class="built_in">CreateDefaultSubobject</span>&lt;UParticleSystemComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;MovementParticles&quot;</span>));</span><br><span class="line">    OurParticleSystem-&gt;<span class="built_in">SetupAttachment</span>(SphereVisual);<span class="comment">//将粒子效果组件添加到SphereVisual上！</span></span><br><span class="line">    OurParticleSystem-&gt;bAutoActivate = <span class="literal">false</span>;<span class="comment">//关闭激活粒子效果</span></span><br><span class="line">    OurParticleSystem-&gt;<span class="built_in">SetRelativeLocation</span>(<span class="built_in">FVector</span>(<span class="number">-20.0f</span>, <span class="number">0.0f</span>, <span class="number">20.0f</span>));<span class="comment">//设定粒子效果在网格体上的相对位置</span></span><br><span class="line">    <span class="function"><span class="type">static</span> ConstructorHelpers::FObjectFinder&lt;UParticleSystem&gt; <span class="title">ParticleAsset</span><span class="params">(TEXT(<span class="string">&quot;/Game/StarterContent/Particles/P_Fire.P_Fire&quot;</span>))</span></span>;</span><br><span class="line">    <span class="keyword">if</span> (ParticleAsset.<span class="built_in">Succeeded</span>())<span class="comment">//如果在资源中找到指定的粒子效果</span></span><br><span class="line">    &#123;</span><br><span class="line">        OurParticleSystem-&gt;<span class="built_in">SetTemplate</span>(ParticleAsset.Object);<span class="comment">//将找到的粒子效果附加到PartcleAsset上！</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用弹簧臂给予摄像机平滑自然的运动感。</span></span><br><span class="line">    USpringArmComponent* SpringArm = <span class="built_in">CreateDefaultSubobject</span>&lt;USpringArmComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;CameraAttachmentArm&quot;</span>));</span><br><span class="line">    SpringArm-&gt;<span class="built_in">SetupAttachment</span>(RootComponent);<span class="comment">//将弹簧臂附加到根组件上</span></span><br><span class="line">    SpringArm-&gt;<span class="built_in">SetRelativeRotation</span>(<span class="built_in">FRotator</span>(<span class="number">-45.f</span>, <span class="number">0.f</span>, <span class="number">0.f</span>));<span class="comment">//设定弹簧臂相对于转子的位置</span></span><br><span class="line">    SpringArm-&gt;TargetArmLength = <span class="number">400.0f</span>;<span class="comment">//弹簧臂长度</span></span><br><span class="line">    SpringArm-&gt;bEnableCameraLag = <span class="literal">true</span>;<span class="comment">//打开平滑效果</span></span><br><span class="line">    SpringArm-&gt;CameraLagSpeed = <span class="number">3.0f</span>;<span class="comment">//设置平滑效果时间</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建摄像机并附加到弹簧臂</span></span><br><span class="line">    <span class="comment">// 弹簧臂内置一个特殊的插槽，可供我们添加对象，这样就不必将对象直接添加到组件的根节点上。</span></span><br><span class="line">    UCameraComponent* Camera = <span class="built_in">CreateDefaultSubobject</span>&lt;UCameraComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;ActualCamera&quot;</span>));</span><br><span class="line">    Camera-&gt;<span class="built_in">SetupAttachment</span>(SpringArm, USpringArmComponent::SocketName);<span class="comment">//将摄像机添加到弹簧臂的插槽上！</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 控制默认玩家</span></span><br><span class="line">    AutoPossessPlayer = EAutoReceiveInput::Player0;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建移动组件的实例，并要求其更新根组件。</span></span><br><span class="line">    OurMovementComponent = <span class="built_in">CreateDefaultSubobject</span>&lt;UCollidingPawnMovementComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;CustomMovementComponent&quot;</span>));</span><br><span class="line">    OurMovementComponent-&gt;UpdatedComponent = RootComponent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 游戏开始或生成时调用</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACollidingPawn::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 逐帧调用</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACollidingPawn::Tick</span><span class="params">( <span class="type">float</span> DeltaTime )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">Tick</span>( DeltaTime );</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置键盘输入将会发生的事件，其中前进左右转弯等等函数将在下文定义</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACollidingPawn::SetupPlayerInputComponent</span><span class="params">(<span class="keyword">class</span> UInputComponent* InInputComponent)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">SetupPlayerInputComponent</span>(InInputComponent);</span><br><span class="line"></span><br><span class="line">    InInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;ParticleToggle&quot;</span>, IE_Pressed, <span class="keyword">this</span>, &amp;ACollidingPawn::ParticleToggle);</span><br><span class="line"></span><br><span class="line">    InInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveForward&quot;</span>, <span class="keyword">this</span>, &amp;ACollidingPawn::MoveForward);</span><br><span class="line">    InInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveRight&quot;</span>, <span class="keyword">this</span>, &amp;ACollidingPawn::MoveRight);</span><br><span class="line">    InInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;Turn&quot;</span>, <span class="keyword">this</span>, &amp;ACollidingPawn::Turn);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//用于提供引擎中其他类访问该Pawn当前所用Pawn移动组件的权限。</span></span><br><span class="line"><span class="function">UPawnMovementComponent* <span class="title">ACollidingPawn::GetMovementComponent</span><span class="params">()</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> OurMovementComponent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义前后移动的函数代码</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACollidingPawn::MoveForward</span><span class="params">(<span class="type">float</span> AxisValue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//保证移动组件存在并且移动组件用来更新根组件</span></span><br><span class="line">    <span class="keyword">if</span> (OurMovementComponent &amp;&amp; (OurMovementComponent-&gt;UpdatedComponent == RootComponent))</span><br><span class="line">    &#123;</span><br><span class="line">        OurMovementComponent-&gt;<span class="built_in">AddInputVector</span>(<span class="built_in">GetActorForwardVector</span>() * AxisValue);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义左右转动的函数代码</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACollidingPawn::MoveRight</span><span class="params">(<span class="type">float</span> AxisValue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (OurMovementComponent &amp;&amp; (OurMovementComponent-&gt;UpdatedComponent == RootComponent))</span><br><span class="line">    &#123;</span><br><span class="line">        OurMovementComponent-&gt;<span class="built_in">AddInputVector</span>(<span class="built_in">GetActorRightVector</span>() * AxisValue);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义转向代码</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACollidingPawn::Turn</span><span class="params">(<span class="type">float</span> AxisValue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    FRotator NewRotation = <span class="built_in">GetActorRotation</span>();<span class="comment">//获取actor当前位置</span></span><br><span class="line">    NewRotation.Yaw += AxisValue;<span class="comment">//围绕Z轴旋转更新actor</span></span><br><span class="line">    <span class="built_in">SetActorRotation</span>(NewRotation);<span class="comment">//更新actor的旋转角度</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义粒子效果开关代码</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACollidingPawn::ParticleToggle</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//保证粒子效果存在且已经设定好了模板</span></span><br><span class="line">    <span class="keyword">if</span> (OurParticleSystem &amp;&amp; OurParticleSystem-&gt;Template)</span><br><span class="line">    &#123;</span><br><span class="line">        OurParticleSystem-&gt;<span class="built_in">ToggleActive</span>();<span class="comment">//ToggleActor的意思是切换状态</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="有关BindAction-与BindAction"><a href="#有关BindAction-与BindAction" class="headerlink" title="有关BindAction()与BindAction()"></a>有关BindAction()与BindAction()</h2><p><code>BindAction(&quot;ZoomIn&quot;, IE_Pressed, this, &amp;APawnWithCamera::ZoomIn);</code></p>
-<ul>
-<li><p>参数一：为 虚幻4-&gt;设置 -&gt;输入-&gt;按键绑定的名称 </p>
-</li>
-<li><p>参数二：事件名称 IE_Pressed 按下 IE_Released松开 IE_DoubleClick双击 </p>
-</li>
-<li><p>参数三：当前对象——this</p>
-</li>
-<li><p>参数四：事件方法的函数指针 例 &amp;类名::方法名的写法</p>
-</li>
-</ul>
-<p><code>BindAxis(&quot;MoveForward&quot;, this, &amp;ACollidingPawn::MoveForward);</code></p>
-<p>参数一：为 虚幻4-&gt;设置 -&gt;输入-&gt;按键绑定的名称 一定要一样 重要！！！<br>参数二 ：当前对象——this<br>参数三 事件方法的函数指针 例 &amp;类名::方法名 的写法</p>
-<h1 id="CollidingPawnMovementComponent-h"><a href="#CollidingPawnMovementComponent-h" class="headerlink" title="CollidingPawnMovementComponent.h"></a>CollidingPawnMovementComponent.h</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/PawnMovementComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CollidingPawnMovementComponent.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* </span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HOWTO_COMPONENTS_API</span> UCollidingPawnMovementComponent : <span class="keyword">public</span> UPawnMovementComponent</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">//TickComponent函数类似于Tick，意思是逐帧刷新</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">TickComponent</span><span class="params">(<span class="type">float</span> DeltaTime, <span class="keyword">enum</span> ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)</span> <span class="keyword">override</span></span>;  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h1 id="CollidingPawnMovementComponent-cpp"><a href="#CollidingPawnMovementComponent-cpp" class="headerlink" title="CollidingPawnMovementComponent.cpp"></a>CollidingPawnMovementComponent.cpp</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CollidingPawnMovementComponent.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UCollidingPawnMovementComponent::TickComponent</span><span class="params">(<span class="type">float</span> DeltaTime, <span class="keyword">enum</span> ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">TickComponent</span>(DeltaTime, TickType, ThisTickFunction);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 确保所有事物持续有效，以便进行移动。</span></span><br><span class="line">    <span class="keyword">if</span> (!PawnOwner || !UpdatedComponent || <span class="built_in">ShouldSkipUpdate</span>(DeltaTime))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取（然后清除）ACollidingPawn::Tick中设置的移动向量</span></span><br><span class="line">    <span class="comment">// 设定一个变量来存储移动输入的变量值（ConsumeInputVector()），然后通过运行时间来设置运动速度</span></span><br><span class="line">    FVector DesiredMovementThisFrame = <span class="built_in">ConsumeInputVector</span>().<span class="built_in">GetClampedToMaxSize</span>(<span class="number">1.0f</span>) * DeltaTime * <span class="number">150.0f</span>;</span><br><span class="line">    <span class="keyword">if</span> (!DesiredMovementThisFrame.<span class="built_in">IsNearlyZero</span>())</span><br><span class="line">    &#123;    </span><br><span class="line">        <span class="comment">//Hit变量来记录碰撞结果</span></span><br><span class="line">        FHitResult Hit;</span><br><span class="line">        <span class="comment">//用虚幻引擎物理移动pawn移动组件，同时会考虑到固体障碍物</span></span><br><span class="line">        <span class="built_in">SafeMoveUpdatedComponent</span>(DesiredMovementThisFrame, UpdatedComponent-&gt;<span class="built_in">GetComponentRotation</span>(), <span class="literal">true</span>, Hit);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 若发生碰撞，尝试滑过去</span></span><br><span class="line">        <span class="keyword">if</span> (Hit.<span class="built_in">IsValidBlockingHit</span>())</span><br><span class="line">        &#123;    </span><br><span class="line">            <span class="comment">//移动导致碰撞时， SlideAlongSurface 会处理沿墙壁和斜坡等碰撞表面平滑滑动所涉及的计算和物理，而非直接停留原地，粘在墙壁或斜坡上。</span></span><br><span class="line">            <span class="built_in">SlideAlongSurface</span>(DesiredMovementThisFrame, <span class="number">1.f</span> - Hit.Time, Hit.Normal, Hit);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h2 id="GetClampedToMaxSize"><a href="#GetClampedToMaxSize" class="headerlink" title="GetClampedToMaxSize()"></a>GetClampedToMaxSize()</h2><p>用于更新vector的位置</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FVector <span class="title">FVector::GetClampedToMaxSize</span><span class="params">(<span class="type">float</span> MaxSize)</span></span></span><br></pre></td></tr></table></figure>
-
-<p>用于创建一个新的vector，方向与原本的方向一直，距离为MaxSize</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FVector <span class="title">FVector::GetClampedToSize</span><span class="params">(<span class="type">float</span> Min,<span class="type">float</span> Max)</span> </span></span><br></pre></td></tr></table></figure>
-
-<p>创建一个新的Vector，方向与原方向一致</p>
-<p>距离为</p>
-<ol>
-<li><p>若距离&lt;Min，则新的vector距离为Min</p>
-</li>
-<li><p>若距离&gt;Max，则新的vector距离为Max</p>
-</li>
-<li><p>若距离在Min和Max之间，则新的vector等于原本的vector</p>
-</li>
-</ol>
-<h2 id="ConsumeInputVector-1-0f"><a href="#ConsumeInputVector-1-0f" class="headerlink" title="ConsumeInputVector(1.0f)"></a>ConsumeInputVector(1.0f)</h2><p>报告并清空用于存储移动输入的内置变量值。</p>
-<h2 id="SafeMoveUpdatedComponent"><a href="#SafeMoveUpdatedComponent" class="headerlink" title="SafeMoveUpdatedComponent()"></a>SafeMoveUpdatedComponent()</h2><p><code>SafeMoveUpdatedComponent(const FVector&amp; Delta, const FRotator&amp; NewRotation, bool bSweep, FHitResult&amp; OutHit, ETeleportType Teleport)</code></p>
-<p><code>SafeMoveUpdatedComponent(DesiredMovementThisFrame, UpdatedComponent-&gt;GetComponentRotation(), true, Hit);</code></p>
-<p>利用虚幻引擎物理移动Pawn移动组件，同时考虑固体障碍。</p>
-<ul>
-<li><p>第一个参数：要移动的Vector</p>
-</li>
-<li><p>第二个参数：旋转参数</p>
-</li>
-<li><p>第三个参数：是否考虑物理障碍（如果为true，将在移动过程中扫描以阻止碰撞。如果为false，它将简单地传送到下一个位置并忽略碰撞。）</p>
-</li>
-<li><p>第四个参数：碰撞结果</p>
-</li>
-<li><p>第五个参数：可省略，远距离传送类型</p>
-</li>
-</ul>
-<h2 id="SlideAlongSurface"><a href="#SlideAlongSurface" class="headerlink" title="SlideAlongSurface()"></a>SlideAlongSurface()</h2><p><code>SlideAlongSurface(const FVector&amp; Delta, float Time, const FQuat Rotation, const FVector&amp; Normal, FHitResult&amp; Hit, bool bHandleImpact)</code></p>
-<ul>
-<li><p>第一个参数：要移动的vector</p>
-</li>
-<li><p>第二个参数：运动时间</p>
-</li>
-<li><p>第三个参数：旋转情况（可省略）</p>
-</li>
-<li><p>第四个参数：vector类型？（这个不太确定）</p>
-</li>
-<li><p>第五个参数：碰撞结果（必须为bBlockingHit）</p>
-</li>
-<li><p>第六个参数：手柄反馈？（这个扎找不到源文件）</p>
-</li>
-</ul>
-<h1 id="配置项目输入设置"><a href="#配置项目输入设置" class="headerlink" title="配置项目输入设置"></a>配置项目输入设置</h1><p>这里要注意的一点是，在给动作映射和轴映射命名的时候一定要和代码中定义的函数名相同否则无效。</p>
-<ol>
-<li><p>回到 <strong>虚幻编辑器</strong>，开始配置项目输入设置。可在 <strong>编辑</strong> 下拉菜单中的 <strong>项目设置</strong> 下找到相关设置。</p>
-<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/Components/EditProjectSettings.jpg" alt="EditProjectSettings.png"></p>
-<p>进入该菜单后，可在左侧面板中的 <strong>引擎</strong> 部分中选择 <strong>输入</strong>。同时需要设置粒子系统切换的 <strong>操作映射</strong> 、移动 <strong>Pawn</strong> 的两个 <strong>轴映射</strong>，和转动 <strong>Pawn</strong> 的一个 <strong>轴映射</strong>。</p>
-<table>
-<thead>
-<tr>
-<th>操作映射</th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>ParticleToggle</td>
-<td>空格</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>轴映射</th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>MoveForward</td>
-<td>W</td>
-<td>1.0</td>
-</tr>
-<tr>
-<td></td>
-<td>S</td>
-<td>-1.0</td>
-</tr>
-<tr>
-<td>MoveRight</td>
-<td>A</td>
-<td>-1.0</td>
-</tr>
-<tr>
-<td></td>
-<td>D</td>
-<td>1.0</td>
-</tr>
-<tr>
-<td>Turn</td>
-<td>Mouse X</td>
-<td>1.0</td>
-</tr>
-</tbody></table>
-<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/Components/InputSettings.jpg" alt="InputSettings.png"></p>
-</li>
-</ol>
-<p>将创建 <strong>移动组件</strong> 管理移动，而非直接在Pawn类中处理所有移动。本教程中将扩展 <strong>Pawn移动组件</strong> 类。首先在 <strong>文件</strong> 下拉菜单中选择 <strong>将代码添加到项目（Add Code to Project）</strong> 命令。</p>
-<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/Components/AddCPPCode.jpg" alt="AddCPPCode.png"></p>
-<p>与Pawn类不同的，Pawn移动组件类默认为不可见。要找到该组件，需选中 <strong>显示所有类（Show All Classes）</strong> 选项。</p>
-<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/Components/ShowAllClasses.jpg" alt="ShowAllClasses.png"></p>
-<p>在搜索栏中输入”movement”，以便快速缩小列表范围。</p>
-<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/Components/ChooseParentClass2.jpg" alt="ChooseParentClass2.png"></p>
-<p>Pawn移动组件拥有部分强大内置功能，以便使用常见物理功能，同时便于在大量Pawn类型间共享移动代码。使用组件分隔不同功能是上佳方法，可在项目增大、Pawn越加复杂时减少杂乱。</p>
-<p>这里放一个来自于的<a target="_blank" rel="noopener" href="https://blog.csdn.net/heneyT" title="heneyT">heneyT</a>移动组件的继承树</p>
-<p><img src="https://img-blog.csdn.net/20171130205337919?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjk5OTk4NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
 
       
     </div>

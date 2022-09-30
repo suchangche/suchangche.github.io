@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">125</span>
+          <span class="site-state-item-count">127</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,478 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/31/UE4-C-%E8%A1%8C%E4%B8%BA%E6%8E%A7%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/08/31/UE4-C-%E8%A1%8C%E4%B8%BA%E6%8E%A7%E5%88%B6/" class="post-title-link" itemprop="url">UE4-C++-AI行为控制</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-08-31 14:50:50 / 修改时间：15:32:19" itemprop="dateCreated datePublished" datetime="2022-08-31T14:50:50+08:00">2022-08-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>虚幻4AI行为控制采用<strong>事件驱动</strong>模式，需由<strong>行为树</strong>和<strong>黑板</strong>配合使用。</p>
+<h2 id="行为树"><a href="#行为树" class="headerlink" title="行为树"></a>行为树</h2><p>执行AI逻辑</p>
+<h2 id="黑板"><a href="#黑板" class="headerlink" title="黑板"></a>黑板</h2><p>通过黑板变量来存储AI数据，<br>黑板变量的改变事件驱动AI行为树的逻辑执行。</p>
+<h1 id="控制器-行为树关联"><a href="#控制器-行为树关联" class="headerlink" title="控制器-行为树关联"></a>控制器-行为树关联</h1><p>每个AI都有自己的控制器（AIController）</p>
+<p>AI控制器上有两个组件负责其行为：</p>
+<ul>
+<li><p>行为树组件BehaviorTreeComponent</p>
+</li>
+<li><p>黑板组件BlackboardComponent</p>
+</li>
+</ul>
+<p>当AI生成时，会在Controller上初始化这两个组件，执行AI行为树。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190221195732156.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2d6eTI1MjA1MDk2OA==,size_16,color_FFFFFF,t_70"></p>
+<p>另外，当前世界所有AI的行为树都由世界的AI系统里的BehaviorTreeManager来管理，BehaviorTreeManager有一个数组ActiveComponents存放世界中所有激活的行为树。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190221195807804.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2d6eTI1MjA1MDk2OA==,size_16,color_FFFFFF,t_70"></p>
+<p>AI人物出生时会生成controller，在controller中初始化黑板和行为树(AAIController::RunBehaviorTree())</p>
+<p>当BehaviorTreeComponent执行StartTree()方法时，会将此行为树添加到BehaviorTreeManager的行为树数组里：<br><img src="https://img-blog.csdnimg.cn/20190221195853389.png" alt="BehaviorTreeComponent::ProcessPendingInitialize()："></p>
+<p>行为树在被添加到Manager的数组中后，BehaviorTreeManager会从根节点按递归方式深度优先遍历整个行为树，初始化该行为树的所有node节点（BehaviorTreeManager::LoadTree），Manager对行为树节点的初始化工作主要为：<br>1）设置每个节点的父节点；<br>2）设置每个节点的执行顺序索引；<br>3）设置每个节点的下一执行节点；<br>4）设置每个节点在行为树中的深度；<br>5）设置每个节点数据所占的内存大小。</p>
+<p>这样每个节点初始化并互相关联后，整个行为树也完成了初始化。</p>
+<h1 id="行为树节点设计"><a href="#行为树节点设计" class="headerlink" title="行为树节点设计"></a>行为树节点设计</h1><p>下图为虚幻4行为树节点的UML图：</p>
+<p><img src="https://img-blog.csdnimg.cn/20190221200143112.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2d6eTI1MjA1MDk2OA==,size_16,color_FFFFFF,t_70"></p>
+<h2 id="BTNode"><a href="#BTNode" class="headerlink" title="BTNode:"></a>BTNode:</h2><p>UBTNode类是抽象类，为所有行为节点类的基类，主要有以下属性：<br>1）ParentNode–父节点；<br>2）NextExecutionNode–该节点在行为树中的下一执行节点；<br>3）ExecutionIndex –执行序号（深度优先）；<br>4）TreeDepth–节点在行为树中的深度；<br>5）MemoryOffset– 内存偏移。</p>
+<p>这些节点的基本属性会在行为树初始化时由BehaviorTreeManager初始化。</p>
+<h2 id="BTCompositeNode"><a href="#BTCompositeNode" class="headerlink" title="BTCompositeNode:"></a>BTCompositeNode:</h2><p>BTCompositeNode即复合节点，复合节点分为3类：Selector、Sequence、SimplepParallel</p>
+<h3 id="Selector"><a href="#Selector" class="headerlink" title="Selector :"></a>Selector :</h3><p>从左向右依次执行其子节点，当其任意子节点执行成功时停止继续执行。</p>
+<ul>
+<li><p>如果任意子节点执行成功，Selector节点返回成功</p>
+</li>
+<li><p>如果所有子节点都执行失败，Selector节点返回失败</p>
+</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20190221200239902.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2d6eTI1MjA1MDk2OA==,size_16,color_FFFFFF,t_70"></p>
+<h3 id="Sequence"><a href="#Sequence" class="headerlink" title="Sequence:"></a>Sequence:</h3><p>从左向右依次执行其子节点，当其<mark>任意子节点执行失败时停止继续执行</mark>。  </p>
+<ul>
+<li><p>如果任意子节点执行失败，Sequence节点返回失败</p>
+</li>
+<li><p>如果所有子节点都执行成功，Sequence节点返回成功。</p>
+</li>
+</ul>
+<p>简单来说，Selector节点即选择器节点，为了选择执行一系列子任务中的某一个而使用，故有一个子节点执行成功即可</p>
+<p>Sequence节点为序列节点，是为了执行一个序列任务而使用的，所以需要序列中所有任务都执行成功，有一个执行失败都不行。</p>
+<h3 id="SimplepParallel"><a href="#SimplepParallel" class="headerlink" title="SimplepParallel:"></a>SimplepParallel:</h3><p>为简单并行节点，通常用来处理并发行为。运行执行两个子节点：一个必须为task节点A，另一个为一个分支树B。可以理解为，如果执行A任务，那么B也会执行，A是首要任务，B是次要任务。<br><img src="https://img-blog.csdnimg.cn/20190221200331819.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2d6eTI1MjA1MDk2OA==,size_16,color_FFFFFF,t_70"></p>
+<h2 id="BTTaskNode"><a href="#BTTaskNode" class="headerlink" title="BTTaskNode:"></a>BTTaskNode:</h2><p>TaskNode节点是行为树的叶子节点，用于执行具体的实际行为。主要提供以下接口：</p>
+<p>1）ExecuteTask（）：执行该任务，返回Succeeded, Failed 或者 InProgress，<br>如果返回的是InProgress，使用FinishLatentTask()方法。</p>
+<p>2）AbortTask（）：中断任务，返回值为Aborted或InProgress，<br>如果返回的是InProgress，使用FinishLatentAbort()方法。</p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>在创建BTService类型的文件时，需要在.h文件中补充内容</p>
+<p>声明其自带的三个方法，否则会报错<code>error LNK2001: 无法解析的外部符号</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** Notify called after GameplayTask finishes initialization (not active yet) */</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">OnGameplayTaskInitialized</span><span class="params">(UGameplayTask&amp; Task)</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Notify called after GameplayTask changes state to Active (initial activation or resuming) */</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">OnGameplayTaskActivated</span><span class="params">(UGameplayTask&amp; Task)</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Notify called after GameplayTask changes state from Active (finishing or pausing) */</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">OnGameplayTaskDeactivated</span><span class="params">(UGameplayTask&amp; Task)</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="AuxiliaryNode"><a href="#AuxiliaryNode" class="headerlink" title="AuxiliaryNode:"></a>AuxiliaryNode:</h2><p>AuxiliaryNode即辅助节点，主要分为Service（服务）和Decorator（装饰器）。<br>辅助节点提供了TickNode方法，也就是说这类节点是可以每帧（或一定时间间隔）都执行的。</p>
+<h3 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h3><p>Service即服务，当流程控制节点的分支节点被执行，该节点上的Service节点就将按所定义的频率执行，它们常用于<strong>检查和更新黑板</strong><br>Service可以附着在复合节点或者task节点上，当Service节点下面的分支被激活时Service节点会被执行。<br>但与task节点不同，Service节点不会有任何返回值，也不会直接影响执行流程。<br>通常，它们通过Tice定期检查并向黑板中存储结果。</p>
+<p>主要属性：<br>1）Interval Tick时间间隔；<br>2）RandomDeviation Interval的随机偏差；<br>3）bCallTickOnSearchStart控制初始时调用TickNode。</p>
+<h3 id="Decorate的中断方式"><a href="#Decorate的中断方式" class="headerlink" title="Decorate的中断方式:"></a>Decorate的中断方式:</h3><p>Decorate即装饰器，可以附着在复合节点或者Task节点上：</p>
+<p>附着于<strong>Composite</strong>(流程控制节点)或<strong>Task</strong>(执行节点)，决定着树中的一个分支，甚至单个节点是否能被执行</p>
+<p><img src="https://img-blog.csdnimg.cn/20190221200505509.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2d6eTI1MjA1MDk2OA==,size_16,color_FFFFFF,t_70"></p>
+<p>行为树中装饰器主要有2个作用：<br>1）用作条件判断；<br>2）控制行为树执行流的打断和跳转。</p>
+<p>Decorator的ObserverAborts选项值控制其所发挥的作用，</p>
+<h4 id="当用作条件判断时"><a href="#当用作条件判断时" class="headerlink" title="当用作条件判断时"></a>当用作条件判断时</h4><p>ObserverAborts值为None。此时若Decorator节点的判断条件满足，则会执行其所附着的复合节点或Task节点,反正则不执行。</p>
+<p>另外，Decorator节点还有一个InverseCondition选项，其作用是另判断条件反转。<br>当我们需要自定义装饰器节点时，需要在节点的CalculateRawConditionValue()里编写条件判断逻辑。<br><img src="https://img-blog.csdnimg.cn/20190221200556411.png"></p>
+<p>ObserverAborts值不为None时，可实现中断正在执行的任务：<br>1）值为Self时，当条件不满足时，可以中断所在节点的任务和子任务，执行比所在节点优先级更低的任务和子任务；<br>2）值为LowPriority时，当条件满足时，可以中断比所在节点优先级更低的任务和子任务，执行所在节点的任务和子任务；<br>3）值为Both时所在节点和低优先级节点都会被中断。</p>
+<p>需要注意，Decorator节点的中断模式受其父节点CompositeNode影响，CompositeNode包括Selector、Sequence、SimplepParallel,这些节点里提供了接口为Decorator返回中断模式：<br><img src="https://img-blog.csdnimg.cn/20190221200635591.png"></p>
+<p>CanAbortLowerPriority() 默认true<br>CanAbortSelf() 默认true</p>
+<p>子类中重写了该方法：</p>
+<p>Selector:  CanAbortLowerPriority() true   CanAbortSelf() true</p>
+<p>Sequence:  CanAbortLowerPriority() false   CanAbortSelf() true</p>
+<p>SimpleParallel:  CanAbortLowerPriority() false   CanAbortSelf() false</p>
+<p>1）当父节点为Selector节点时，既能中断自己（Self），也能中断优先级更低的任务（LowPriority）；<br>2）当父节点为Sequence节点时,只能中断自己（Self），不能中断优先级更低的任务（LowPriority）。</p>
+<p>之所以不让Sequence中断优先级更低的任务，我的理解是因为如果从后面节点跳转到前面节点这样就破坏了sequence的执行顺序，违背了Sequence的设计初衷。</p>
+<h4 id="父节点为Selector的装饰节点的中断方式"><a href="#父节点为Selector的装饰节点的中断方式" class="headerlink" title="父节点为Selector的装饰节点的中断方式"></a>父节点为Selector的装饰节点的中断方式</h4><p><img src="https://img-blog.csdnimg.cn/20190221200741656.png"></p>
+<h4 id="父节点为Sequence的装饰节点的中断方式"><a href="#父节点为Sequence的装饰节点的中断方式" class="headerlink" title="父节点为Sequence的装饰节点的中断方式"></a>父节点为Sequence的装饰节点的中断方式</h4><p><img src="https://img-blog.csdnimg.cn/20190221200805170.png"></p>
+<h4 id="父节点为Sequence，中断方式为Self时，若条件不满足，会从Task1跳出"><a href="#父节点为Sequence，中断方式为Self时，若条件不满足，会从Task1跳出" class="headerlink" title="父节点为Sequence，中断方式为Self时，若条件不满足，会从Task1跳出"></a>父节点为Sequence，中断方式为Self时，若条件不满足，会从Task1跳出</h4><p><img src="https://img-blog.csdnimg.cn/20190221200833217.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2d6eTI1MjA1MDk2OA==,size_16,color_FFFFFF,t_70"></p>
+<h4 id="父节点为Selector，中断方式为Self时，若条件不满足，会从Task1跳出"><a href="#父节点为Selector，中断方式为Self时，若条件不满足，会从Task1跳出" class="headerlink" title="父节点为Selector，中断方式为Self时，若条件不满足，会从Task1跳出"></a>父节点为Selector，中断方式为Self时，若条件不满足，会从Task1跳出</h4><p><img src="https://img-blog.csdnimg.cn/20190221200849961.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2d6eTI1MjA1MDk2OA==,size_16,color_FFFFFF,t_70"></p>
+<h4 id="父节点为Selector，中断方式为LowPriority时，若条件满足，会从其他节点跳转到Task1"><a href="#父节点为Selector，中断方式为LowPriority时，若条件满足，会从其他节点跳转到Task1" class="headerlink" title="父节点为Selector，中断方式为LowPriority时，若条件满足，会从其他节点跳转到Task1"></a>父节点为Selector，中断方式为LowPriority时，若条件满足，会从其他节点跳转到Task1</h4><p><img src="https://img-blog.csdnimg.cn/20190221200909912.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2d6eTI1MjA1MDk2OA==,size_16,color_FFFFFF,t_70"></p>
+<h4 id="父节点为Selector，中断方式为Both时，若条件不满足，会从Task1跳出；若条件满足，会从其他节点跳转到Task1"><a href="#父节点为Selector，中断方式为Both时，若条件不满足，会从Task1跳出；若条件满足，会从其他节点跳转到Task1" class="headerlink" title="父节点为Selector，中断方式为Both时，若条件不满足，会从Task1跳出；若条件满足，会从其他节点跳转到Task1"></a>父节点为Selector，中断方式为Both时，若条件不满足，会从Task1跳出；若条件满足，会从其他节点跳转到Task1</h4><p><img src="https://img-blog.csdnimg.cn/20190221200927717.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2d6eTI1MjA1MDk2OA==,size_16,color_FFFFFF,t_70"></p>
+<h1 id="小结："><a href="#小结：" class="headerlink" title="小结："></a>小结：</h1><p>1）AI控制器拥有行为树和黑板组件，行为树和黑板配合使用；<br>2）BehaviorTreeManager统一管理世界所有AI的行为树；<br>3）行为树初始化按递归方式深度优先遍历整棵树；<br>4）Selector从左往右执行其子节点，直到一个达成，则 Select 达成并返回上层，否则失败并返回上层；<br>5）Sequence从左往右执行其子节点，直到一个失败，则 Sequence 失败并返回上层，否则达成并返回上层；<br>6）SimplepParallel通常用来处理并发行为，运行执行两个子节点：一个首要任务，一个次要任务；<br>7）Service和Decorator都可以附着在复合节点或者Task节点上；<br>8）Service节点不会有任何返回值，也不会直接影响执行流程；<br>9）Decorator节点可用于条件判断或者控制行为树执行流的打断和跳转；<br>10）ObserverAborts值为Self时，当条件不满足时，可以中断所在节点的任务和子任务，执行比所在节点优先级更低的任务和子任务；<br>11）ObserverAborts值为LowPriority时，当条件满足时，可以中断比所在节点优先级更低的任务和子任务，执行所在节点的任务和子任务；<br>12）ObserverAborts值为Both时所在节点和低优先级节点都会被中断；<br>13）当父节点为Selector节点时，Decorator既能中断自己（Self），也能中断优先级更低的任务（LowPriority）；<br>14）当父节点为Sequence节点时，Decorator只能中断自己（Self），不能中断优先级更低的任务（LowPriority）；<br>15）BTCompositeNode保存了身上所有的Service节点，以及所有的Children节点，Children节点包含CompositeNode\TaskNode\Decorate；<br>16）TaskNode必为叶子节点。<br>————————————————</p>
+<p>参考自：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/gzy252050968/article/details/87275524">UE4学习笔记–AI行为树架构_RapdoZoro的博客-CSDN博客_ue4行为树</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/31/%E7%AE%97%E6%B3%95-%E9%93%BE%E8%A1%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/08/31/%E7%AE%97%E6%B3%95-%E9%93%BE%E8%A1%A8/" class="post-title-link" itemprop="url">算法-链表</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-08-31 11:20:05" itemprop="dateCreated datePublished" datetime="2022-08-31T11:20:05+08:00">2022-08-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-09-02 10:36:45" itemprop="dateModified" datetime="2022-09-02T10:36:45+08:00">2022-09-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>依旧是跟着代码随想录学习！</p>
+<h1 id="203-移除链表元素"><a href="#203-移除链表元素" class="headerlink" title="203.移除链表元素"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/remove-linked-list-elements/">203.移除链表元素</a></h1><p>题意：删除链表中等于给定值 val 的所有节点。</p>
+<p>示例 1：<br>输入：head &#x3D; [1,2,6,3,4,5,6], val &#x3D; 6<br>输出：[1,2,3,4,5]</p>
+<p>示例 2：<br>输入：head &#x3D; [], val &#x3D; 1<br>输出：[]</p>
+<p>示例 3：<br>输入：head &#x3D; [7,7,7,7], val &#x3D; 7<br>输出：[]</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>这里以链表 1 4 2 4 来举例，移除元素4。</p>
+<p><img src="https://img-blog.csdnimg.cn/20210316095351161.png" alt="203_链表删除元素1"></p>
+<p>如果使用C，C++编程语言的话，不要忘了还要从内存中删除这两个移除的节点， 清理节点内存之后如图：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210316095418280.png" alt="203_链表删除元素2"></p>
+<p><strong>当然如果使用java ，python的话就不用手动管理内存了。</strong></p>
+<p>还要说明一下，就算使用C++来做leetcode，如果移除一个节点之后，没有手动在内存中删除这个节点，leetcode依然也是可以通过的，只不过，内存使用的空间大一些而已，但建议依然要养成手动清理内存的习惯。</p>
+<p>这种情况下的移除操作，就是让节点next指针直接指向下下一个节点就可以了，</p>
+<p>那么因为单链表的特殊性，只能指向下一个节点，刚刚删除的是链表的中第二个，和第四个节点，那么如果删除的是头结点又该怎么办呢？</p>
+<p>这里就涉及如下链表操作的两种方式：</p>
+<ul>
+<li><strong>直接使用原来的链表来进行删除操作。</strong></li>
+<li><strong>设置一个虚拟头结点在进行删除操作。</strong></li>
+</ul>
+<p>来看第一种操作：直接使用原来的链表来进行移除。</p>
+<p><img src="https://img-blog.csdnimg.cn/2021031609544922.png" alt="203_链表删除元素3"></p>
+<p>移除头结点和移除其他节点的操作是不一样的，因为链表的其他节点都是通过前一个节点来移除当前节点，而头结点没有前一个节点。</p>
+<p>所以头结点如何移除呢，其实只要将头结点向后移动一位就可以，这样就从链表中移除了一个头结点。</p>
+<p><img src="https://img-blog.csdnimg.cn/20210316095512470.png" alt="203_链表删除元素4"></p>
+<p>依然别忘将原头结点从内存中删掉。 <img src="https://img-blog.csdnimg.cn/20210316095543775.png" alt="203_链表删除元素5"></p>
+<p>这样移除了一个头结点，是不是发现，在单链表中移除头结点 和 移除其他节点的操作方式是不一样，其实在写代码的时候也会发现，需要单独写一段逻辑来处理移除头结点的情况。</p>
+<p>那么可不可以 以一种统一的逻辑来移除 链表的节点呢。</p>
+<p>其实<strong>可以设置一个虚拟头结点</strong>，这样原链表的所有节点就都可以按照统一的方式进行移除了。</p>
+<p>来看看如何设置一个虚拟头。依然还是在这个链表中，移除元素1。</p>
+<p><img src="https://img-blog.csdnimg.cn/20210316095619221.png" alt="203_链表删除元素6"></p>
+<p>这里来给链表添加一个虚拟头结点为新的头结点，此时要移除这个旧头结点元素1。</p>
+<p>这样是不是就可以使用和移除链表其他节点的方式统一了呢？</p>
+<p>来看一下，如何移除元素1 呢，还是熟悉的方式，然后从内存中删除元素1。</p>
+<p>最后呢在题目中，return 头结点的时候，别忘了 <code>return dummyNode-&gt;next;</code>， 这才是新的头结点</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><h3 id="使用原来的链表来进行移除节点操作"><a href="#使用原来的链表来进行移除节点操作" class="headerlink" title="使用原来的链表来进行移除节点操作"></a>使用原来的链表来进行移除节点操作</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">removeElements</span><span class="params">(ListNode* head, <span class="type">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 删除头结点</span></span><br><span class="line">        <span class="keyword">while</span> (head != <span class="literal">NULL</span> &amp;&amp; head-&gt;val == val) &#123; <span class="comment">// 注意这里不是if</span></span><br><span class="line">            ListNode* tmp = head;</span><br><span class="line">            head = head-&gt;next;</span><br><span class="line">            <span class="keyword">delete</span> tmp;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 删除非头结点</span></span><br><span class="line">        ListNode* cur = head;</span><br><span class="line">        <span class="keyword">while</span> (cur != <span class="literal">NULL</span> &amp;&amp; cur-&gt;next!= <span class="literal">NULL</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (cur-&gt;next-&gt;val == val) &#123;</span><br><span class="line">                ListNode* tmp = cur-&gt;next;</span><br><span class="line">                cur-&gt;next = cur-&gt;next-&gt;next;</span><br><span class="line">                <span class="keyword">delete</span> tmp;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                cur = cur-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置一个虚拟头结点在进行移除节点操作"><a href="#设置一个虚拟头结点在进行移除节点操作" class="headerlink" title="设置一个虚拟头结点在进行移除节点操作"></a>设置一个虚拟头结点在进行移除节点操作</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">removeElements</span><span class="params">(ListNode* head, <span class="type">int</span> val)</span> </span>&#123;</span><br><span class="line">        ListNode* dummyHead = <span class="keyword">new</span> <span class="built_in">ListNode</span>(<span class="number">0</span>); <span class="comment">// 设置一个虚拟头结点</span></span><br><span class="line">        dummyHead-&gt;next = head; <span class="comment">// 将虚拟头结点指向head，这样方面后面做删除操作</span></span><br><span class="line">        ListNode* cur = dummyHead;</span><br><span class="line">        <span class="keyword">while</span> (cur-&gt;next != <span class="literal">NULL</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span>(cur-&gt;next-&gt;val == val) &#123;</span><br><span class="line">                ListNode* tmp = cur-&gt;next;</span><br><span class="line">                cur-&gt;next = cur-&gt;next-&gt;next;</span><br><span class="line">                <span class="keyword">delete</span> tmp;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                cur = cur-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        head = dummyHead-&gt;next;</span><br><span class="line">        <span class="keyword">delete</span> dummyHead;</span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="设计链表"><a href="#设计链表" class="headerlink" title="设计链表"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/design-linked-list/">设计链表</a></h1><p>设计链表的实现。您可以选择使用单链表或双链表。单链表中的节点应该具有两个属性：val 和 next。val 是当前节点的值，next 是指向下一个节点的指针&#x2F;引用。如果要使用双向链表，则还需要一个属性 prev 以指示链表中的上一个节点。假设链表中的所有节点都是 0-index 的。</p>
+<p>在链表类中实现这些功能：</p>
+<ul>
+<li><p>get(index)：获取链表中第 index 个节点的值。如果索引无效，则返回-1</p>
+</li>
+<li><p>addAtHead(val)：在链表的第一个元素之前添加一个值为 val 的节点。插入后，新节点将成为链表的第一个节点</p>
+</li>
+<li><p>addAtTail(val)：将值为 val 的节点追加到链表的最后一个元素</p>
+</li>
+<li><p>addAtIndex(index,val)：在链表中的第 index 个节点之前添加值为 val  的节点。如果 index 等于链表的长度，则该节点将附加到链表的末尾。如果 index 大于链表长度，则不会插入节点。如果index小于0，则在头部插入节点。</p>
+</li>
+<li><p>deleteAtIndex(index)：如果索引 index 有效，则删除链表中的第 index 个节点。</p>
+</li>
+</ul>
+<p>   </p>
+<p>示例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">MyLinkedList linkedList = <span class="keyword">new</span> <span class="built_in">MyLinkedList</span>();</span><br><span class="line">linkedList.<span class="built_in">addAtHead</span>(<span class="number">1</span>);</span><br><span class="line">linkedList.<span class="built_in">addAtTail</span>(<span class="number">3</span>);</span><br><span class="line">linkedList.<span class="built_in">addAtIndex</span>(<span class="number">1</span>,<span class="number">2</span>); <span class="comment">//链表变为1-&gt; 2-&gt; 3</span></span><br><span class="line">linkedList.<span class="built_in">get</span>(<span class="number">1</span>); <span class="comment">//返回2</span></span><br><span class="line">linkedList.<span class="built_in">deleteAtIndex</span>(<span class="number">1</span>); <span class="comment">//现在链表是1-&gt; 3</span></span><br><span class="line">linkedList.<span class="built_in">get</span>(<span class="number">1</span>); <span class="comment">//返回3</span></span><br></pre></td></tr></table></figure>
+
+<p>提示：</p>
+<p>所有val值都在 [1, 1000] 之内。<br>操作次数将在  [1, 1000] 之内。<br>请不要使用内置的 LinkedList 库。</p>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><p>删除链表节点： <img src="https://img-blog.csdnimg.cn/20200806195114541.png" alt="链表-删除节点"></p>
+<p>添加链表节点： <img src="https://img-blog.csdnimg.cn/20200806195134331.png" alt="链表-添加节点"></p>
+<p>这道题目设计链表的五个接口：</p>
+<ul>
+<li>获取链表第index个节点的数值</li>
+<li>在链表的最前面插入一个节点</li>
+<li>在链表的最后面插入一个节点</li>
+<li>在链表第index个节点前面插入一个节点</li>
+<li>删除链表的第index个节点</li>
+</ul>
+<p>可以说这五个接口，已经覆盖了链表的常见操作，是练习链表操作非常好的一道题目</p>
+<p><strong>链表操作的两种方式：</strong></p>
+<ol>
+<li>直接使用原来的链表来进行操作。</li>
+<li>设置一个虚拟头结点在进行操作。</li>
+</ol>
+<p>下面采用的设置一个虚拟头结点</p>
+<h2 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyLinkedList</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 定义链表节点结构体</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">LinkedNode</span> &#123;</span><br><span class="line">        <span class="type">int</span> val;</span><br><span class="line">        LinkedNode* next;</span><br><span class="line">        <span class="built_in">LinkedNode</span>(<span class="type">int</span> val):<span class="built_in">val</span>(val), <span class="built_in">next</span>(<span class="literal">nullptr</span>)&#123;&#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化链表</span></span><br><span class="line">    <span class="built_in">MyLinkedList</span>() &#123;</span><br><span class="line">        _dummyHead = <span class="keyword">new</span> <span class="built_in">LinkedNode</span>(<span class="number">0</span>); <span class="comment">// 这里定义的头结点 是一个虚拟头结点，而不是真正的链表头结点</span></span><br><span class="line">        _size = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取到第index个节点数值，如果index是非法数值直接返回-1， 注意index是从0开始的，第0个节点就是头结点</span></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">get</span><span class="params">(<span class="type">int</span> index)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (index &gt; (_size - <span class="number">1</span>) || index &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        LinkedNode* cur = _dummyHead-&gt;next;</span><br><span class="line">        <span class="keyword">while</span>(index--)&#123; <span class="comment">// 如果--index 就会陷入死循环</span></span><br><span class="line">            cur = cur-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cur-&gt;val;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 在链表最前面插入一个节点，插入完成后，新插入的节点为链表的新的头结点</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">addAtHead</span><span class="params">(<span class="type">int</span> val)</span> </span>&#123;</span><br><span class="line">        LinkedNode* newNode = <span class="keyword">new</span> <span class="built_in">LinkedNode</span>(val);</span><br><span class="line">        newNode-&gt;next = _dummyHead-&gt;next;</span><br><span class="line">        _dummyHead-&gt;next = newNode;</span><br><span class="line">        _size++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 在链表最后面添加一个节点</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">addAtTail</span><span class="params">(<span class="type">int</span> val)</span> </span>&#123;</span><br><span class="line">        LinkedNode* newNode = <span class="keyword">new</span> <span class="built_in">LinkedNode</span>(val);</span><br><span class="line">        LinkedNode* cur = _dummyHead;</span><br><span class="line">        <span class="keyword">while</span>(cur-&gt;next != <span class="literal">nullptr</span>)&#123;</span><br><span class="line">            cur = cur-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        cur-&gt;next = newNode;</span><br><span class="line">        _size++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 在第index个节点之前插入一个新节点，例如index为0，那么新插入的节点为链表的新头节点。</span></span><br><span class="line">    <span class="comment">// 如果index 等于链表的长度，则说明是新插入的节点为链表的尾结点</span></span><br><span class="line">    <span class="comment">// 如果index大于链表的长度，则返回空</span></span><br><span class="line">    <span class="comment">// 如果index小于0，则置为0，作为链表的新头节点。</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">addAtIndex</span><span class="params">(<span class="type">int</span> index, <span class="type">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (index &gt; _size || index &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        LinkedNode* newNode = <span class="keyword">new</span> <span class="built_in">LinkedNode</span>(val);</span><br><span class="line">        LinkedNode* cur = _dummyHead;</span><br><span class="line">        <span class="keyword">while</span>(index--) &#123;</span><br><span class="line">            cur = cur-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        newNode-&gt;next = cur-&gt;next;</span><br><span class="line">        cur-&gt;next = newNode;</span><br><span class="line">        _size++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 删除第index个节点，如果index 大于等于链表的长度，直接return，注意index是从0开始的</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">deleteAtIndex</span><span class="params">(<span class="type">int</span> index)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (index &gt;= _size || index &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        LinkedNode* cur = _dummyHead;</span><br><span class="line">        <span class="keyword">while</span>(index--) &#123;</span><br><span class="line">            cur = cur -&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        LinkedNode* tmp = cur-&gt;next;</span><br><span class="line">        cur-&gt;next = cur-&gt;next-&gt;next;</span><br><span class="line">        <span class="keyword">delete</span> tmp;</span><br><span class="line">        _size--;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 打印链表</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">printLinkedList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        LinkedNode* cur = _dummyHead;</span><br><span class="line">        <span class="keyword">while</span> (cur-&gt;next != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            cout &lt;&lt; cur-&gt;next-&gt;val &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">            cur = cur-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        cout &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">int</span> _size;</span><br><span class="line">    LinkedNode* _dummyHead;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="反转链表"><a href="#反转链表" class="headerlink" title="反转链表"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/reverse-linked-list/">反转链表</a></h1><p>给你单链表的头节点 head ，请你反转链表，并返回反转后的链表。
+ </p>
+<p>示例 1：</p>
+<p><img src="https://assets.leetcode.com/uploads/2021/02/19/rev1ex1.jpg"></p>
+<p>输入：head &#x3D; [1,2,3,4,5]<br>输出：[5,4,3,2,1]</p>
+<p>示例 2：</p>
+<p><img src="https://assets.leetcode.com/uploads/2021/02/19/rev1ex2.jpg"></p>
+<p>输入：head &#x3D; [1,2]<br>输出：[2,1]</p>
+<p>示例 3：</p>
+<p>输入：head &#x3D; []<br>输出：[]
+ </p>
+<p>提示：</p>
+<p>链表中节点的数目范围是 [0, 5000]<br>-5000 &lt;&#x3D; Node.val &lt;&#x3D; 5000</p>
+<h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><p>如果再定义一个新的链表，实现链表元素的反转，其实这是对内存空间的浪费。</p>
+<p>其实只需要改变链表的next指针的指向，直接将链表反转 ，而不用重新定义一个新的链表，如图所示:</p>
+<p><img src="https://img-blog.csdnimg.cn/20210218090901207.png" alt="206_反转链表"></p>
+<p>之前链表的头节点是元素1， 反转之后头结点就是元素5 ，这里并没有添加或者删除节点，仅仅是改变next指针的方向。</p>
+<p>那么接下来看一看是如何反转的呢？</p>
+<p>我们拿有示例中的链表来举例，如动画所示：（纠正：动画应该是先移动pre，在移动cur）</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEly1gnrf1oboupg30gy0c44qp.gif"></p>
+<p>首先定义一个cur指针，指向头结点，再定义一个pre指针，初始化为null。</p>
+<p>然后就要开始反转了，首先要把 cur-&gt;next 节点用tmp指针保存一下，也就是保存一下这个节点。</p>
+<p>为什么要保存一下这个节点呢，因为接下来要改变 cur-&gt;next 的指向了，将cur-&gt;next 指向pre ，此时已经反转了第一个节点了。</p>
+<p>接下来，就是循环走如下代码逻辑了，继续移动pre和cur指针。</p>
+<p>最后，cur 指针已经指向了null，循环结束，链表也反转完毕了。 此时我们return pre指针就可以了，pre指针就指向了新的头结点。</p>
+<h2 id="双指针法"><a href="#双指针法" class="headerlink" title="双指针法"></a>双指针法</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">reverseList</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        ListNode* temp; <span class="comment">// 保存cur的下一个节点</span></span><br><span class="line">        ListNode* cur = head;</span><br><span class="line">        ListNode* pre = <span class="literal">NULL</span>;</span><br><span class="line">        <span class="keyword">while</span>(cur) &#123;</span><br><span class="line">            temp = cur-&gt;next;  <span class="comment">// 保存一下 cur的下一个节点，因为接下来要改变cur-&gt;next</span></span><br><span class="line">            cur-&gt;next = pre; <span class="comment">// 翻转操作</span></span><br><span class="line">            <span class="comment">// 更新pre 和 cur指针</span></span><br><span class="line">            pre = cur;</span><br><span class="line">            cur = temp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> pre;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="递归法"><a href="#递归法" class="headerlink" title="递归法"></a>递归法</h2><p>递归法相对抽象一些，但是其实和双指针法是一样的逻辑，同样是当cur为空的时候循环结束，不断将cur指向pre的过程。</p>
+<p>关键是初始化的地方，可能有的同学会不理解， 可以看到双指针法中初始化 cur &#x3D; head，pre &#x3D; NULL，在递归法中可以从如下代码看出初始化的逻辑也是一样的，只不过写法变了。</p>
+<p>具体可以看代码（已经详细注释），<strong>双指针法写出来之后，理解如下递归写法就不难了，代码逻辑都是一样的。</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">reverse</span><span class="params">(ListNode* pre,ListNode* cur)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(cur == <span class="literal">NULL</span>) <span class="keyword">return</span> pre;</span><br><span class="line">        ListNode* temp = cur-&gt;next;</span><br><span class="line">        cur-&gt;next = pre;</span><br><span class="line">        <span class="comment">// 可以和双指针法的代码进行对比，如下递归的写法，其实就是做了这两步</span></span><br><span class="line">        <span class="comment">// pre = cur;</span></span><br><span class="line">        <span class="comment">// cur = temp;</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">reverse</span>(cur,temp);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">ListNode* <span class="title">reverseList</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 和双指针法初始化是一样的逻辑</span></span><br><span class="line">        <span class="comment">// ListNode* cur = head;</span></span><br><span class="line">        <span class="comment">// ListNode* pre = NULL;</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">reverse</span>(<span class="literal">NULL</span>, head);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="两两交换链表中的节点"><a href="#两两交换链表中的节点" class="headerlink" title="两两交换链表中的节点"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/swap-nodes-in-pairs/">两两交换链表中的节点</a></h1><p>给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。</p>
+<p>你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。</p>
+<p><img src="https://code-thinking.cdn.bcebos.com/pics/24.%E4%B8%A4%E4%B8%A4%E4%BA%A4%E6%8D%A2%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B9-%E9%A2%98%E6%84%8F.jpg" alt="24.两两交换链表中的节点-题意"></p>
+<h2 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h2><p>这道题目正常模拟就可以了。</p>
+<p>建议使用虚拟头结点，这样会方便很多，要不然每次针对头结点（没有前一个指针指向头结点），还要单独处理。</p>
+<p>对虚拟头结点的操作，还不熟悉的话，可以看这篇<a target="_blank" rel="noopener" href="https://programmercarl.com/0203.%E7%A7%BB%E9%99%A4%E9%93%BE%E8%A1%A8%E5%85%83%E7%B4%A0.html">链表：听说用虚拟头节点会方便很多？</a>。</p>
+<p>接下来就是交换相邻两个元素了，<strong>此时一定要画图，不画图，操作多个指针很容易乱，而且要操作的先后顺序</strong></p>
+<p>初始时，cur指向虚拟头结点，然后进行如下三步：</p>
+<p><img src="https://code-thinking.cdn.bcebos.com/pics/24.%E4%B8%A4%E4%B8%A4%E4%BA%A4%E6%8D%A2%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B91.png" alt="24.两两交换链表中的节点1"></p>
+<p>操作之后，链表如下：</p>
+<p><img src="https://code-thinking.cdn.bcebos.com/pics/24.%E4%B8%A4%E4%B8%A4%E4%BA%A4%E6%8D%A2%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B92.png" alt="24.两两交换链表中的节点2"></p>
+<p>看这个可能就更直观一些了：</p>
+<p><img src="https://code-thinking.cdn.bcebos.com/pics/24.%E4%B8%A4%E4%B8%A4%E4%BA%A4%E6%8D%A2%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B93.png" alt="24.两两交换链表中的节点3"></p>
+<p>对应的C++代码实现如下： （注释中详细和如上图中的三步做对应）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">swapPairs</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        ListNode* dummyHead = <span class="keyword">new</span> <span class="built_in">ListNode</span>(<span class="number">0</span>); <span class="comment">// 设置一个虚拟头结点</span></span><br><span class="line">        dummyHead-&gt;next = head; <span class="comment">// 将虚拟头结点指向head，这样方面后面做删除操作</span></span><br><span class="line">        ListNode* cur = dummyHead;</span><br><span class="line">        <span class="keyword">while</span>(cur-&gt;next != <span class="literal">nullptr</span> &amp;&amp; cur-&gt;next-&gt;next != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            ListNode* tmp = cur-&gt;next; <span class="comment">// 记录临时节点</span></span><br><span class="line">            ListNode* tmp1 = cur-&gt;next-&gt;next-&gt;next; <span class="comment">// 记录临时节点</span></span><br><span class="line"></span><br><span class="line">            cur-&gt;next = cur-&gt;next-&gt;next;    <span class="comment">// 步骤一</span></span><br><span class="line">            cur-&gt;next-&gt;next = tmp;          <span class="comment">// 步骤二</span></span><br><span class="line">            cur-&gt;next-&gt;next-&gt;next = tmp1;   <span class="comment">// 步骤三</span></span><br><span class="line"></span><br><span class="line">            cur = cur-&gt;next-&gt;next; <span class="comment">// cur移动两位，准备下一轮交换</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dummyHead-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="删除链表的倒数第N个节点"><a href="#删除链表的倒数第N个节点" class="headerlink" title="删除链表的倒数第N个节点"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/remove-nth-node-from-end-of-list/">删除链表的倒数第N个节点</a></h1><p>给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。</p>
+<p>进阶：你能尝试使用一趟扫描实现吗？</p>
+<p>示例 1：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210510085957392.png" alt="19.删除链表的倒数第N个节点"></p>
+<p>输入：head &#x3D; [1,2,3,4,5], n &#x3D; 2 输出：[1,2,3,5] 示例 2：</p>
+<p>输入：head &#x3D; [1], n &#x3D; 1 输出：[] 示例 3：</p>
+<p>输入：head &#x3D; [1,2], n &#x3D; 1 输出：[1]</p>
+<h2 id="思路-4"><a href="#思路-4" class="headerlink" title="思路"></a>思路</h2><p>双指针的经典应用，如果要删除倒数第n个节点，让fast移动n步，然后让fast和slow同时移动，直到fast指向链表末尾。删掉slow所指向的节点就可以了。</p>
+<p>思路是这样的，但要注意一些细节。</p>
+<p>分为如下几步：</p>
+<ul>
+<li>使用虚拟头结点</li>
+<li>定义fast指针和slow指针，初始值为虚拟头结点，如图：</li>
+</ul>
+<p><img src="https://code-thinking.cdn.bcebos.com/pics/19.%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%ACN%E4%B8%AA%E8%8A%82%E7%82%B9.png"></p>
+<ul>
+<li>fast首先走n + 1步 ，为什么是n+1呢，因为只有这样同时移动的时候slow才能指向删除节点的上一个节点（方便做删除操作），如图：</li>
+</ul>
+<p><img src="https://code-thinking.cdn.bcebos.com/pics/19.%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%ACN%E4%B8%AA%E8%8A%82%E7%82%B91.png"></p>
+<ul>
+<li>fast和slow同时移动，直到fast指向末尾，如图：</li>
+</ul>
+<p><img src="https://code-thinking.cdn.bcebos.com/pics/19.%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%ACN%E4%B8%AA%E8%8A%82%E7%82%B92.png"></p>
+<ul>
+<li>删除slow指向的下一个节点，如图：</li>
+</ul>
+<p><img src="https://code-thinking.cdn.bcebos.com/pics/19.%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%ACN%E4%B8%AA%E8%8A%82%E7%82%B93.png"></p>
+<h2 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">removeNthFromEnd</span><span class="params">(ListNode* head, <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">        ListNode* dummyHead = <span class="keyword">new</span> <span class="built_in">ListNode</span>(<span class="number">0</span>);</span><br><span class="line">        dummyHead-&gt;next = head;</span><br><span class="line">        ListNode* slow = dummyHead;</span><br><span class="line">        ListNode* fast = dummyHead;</span><br><span class="line">        <span class="keyword">while</span>(n-- &amp;&amp; fast != <span class="literal">NULL</span>) &#123;</span><br><span class="line">            fast = fast-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        fast = fast-&gt;next; <span class="comment">// fast再提前走一步，因为需要让slow指向删除节点的上一个节点</span></span><br><span class="line">        <span class="keyword">while</span> (fast != <span class="literal">NULL</span>) &#123;</span><br><span class="line">            fast = fast-&gt;next;</span><br><span class="line">            slow = slow-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        slow-&gt;next = slow-&gt;next-&gt;next;</span><br><span class="line">        <span class="keyword">return</span> dummyHead-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="链表相交"><a href="#链表相交" class="headerlink" title="链表相交"></a>链表相交</h1><p>给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表没有交点，返回 null 。</p>
+<p>图示两个链表在节点 c1 开始相交：</p>
+<p><img src="https://code-thinking-1253855093.file.myqcloud.com/pics/20211219221657.png"></p>
+<p>题目数据 保证 整个链式结构中不存在环。</p>
+<p>注意，函数返回结果后，链表必须 保持其原始结构 。</p>
+<p>示例 1：</p>
+<p><img src="https://code-thinking-1253855093.file.myqcloud.com/pics/20211219221723.png"></p>
+<p>示例 2：</p>
+<p><img src="https://code-thinking-1253855093.file.myqcloud.com/pics/20211219221749.png"></p>
+<p>示例 3：</p>
+<p><img src="https://code-thinking-1253855093.file.myqcloud.com/pics/20211219221812.png"></p>
+<h2 id="思路-5"><a href="#思路-5" class="headerlink" title="思路"></a>思路</h2><p>简单来说，就是求两个链表交点节点的<strong>指针</strong>。 这里同学们要注意，交点不是数值相等，而是指针相等。</p>
+<p>为了方便举例，假设节点元素数值相等，则节点指针相等。</p>
+<p>看如下两个链表，目前curA指向链表A的头结点，curB指向链表B的头结点：</p>
+<p><img src="https://code-thinking.cdn.bcebos.com/pics/%E9%9D%A2%E8%AF%95%E9%A2%9802.07.%E9%93%BE%E8%A1%A8%E7%9B%B8%E4%BA%A4_1.png" alt="面试题02.07.链表相交_1"></p>
+<p>我们求出两个链表的长度，并求出两个链表长度的差值，然后让curA移动到，和curB 末尾对齐的位置，如图：</p>
+<p><img src="https://code-thinking.cdn.bcebos.com/pics/%E9%9D%A2%E8%AF%95%E9%A2%9802.07.%E9%93%BE%E8%A1%A8%E7%9B%B8%E4%BA%A4_2.png" alt="面试题02.07.链表相交_2"></p>
+<p>此时我们就可以比较curA和curB是否相同，如果不相同，同时向后移动curA和curB，如果遇到curA &#x3D;&#x3D; curB，则找到交点。</p>
+<p>否则循环退出返回空指针。</p>
+<p>C++代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode *<span class="title">getIntersectionNode</span><span class="params">(ListNode *headA, ListNode *headB)</span> </span>&#123;</span><br><span class="line">        ListNode* curA = headA;</span><br><span class="line">        ListNode* curB = headB;</span><br><span class="line">        <span class="type">int</span> lenA = <span class="number">0</span>, lenB = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (curA != <span class="literal">NULL</span>) &#123; <span class="comment">// 求链表A的长度</span></span><br><span class="line">            lenA++;</span><br><span class="line">            curA = curA-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (curB != <span class="literal">NULL</span>) &#123; <span class="comment">// 求链表B的长度</span></span><br><span class="line">            lenB++;</span><br><span class="line">            curB = curB-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        curA = headA;</span><br><span class="line">        curB = headB;</span><br><span class="line">        <span class="comment">// 让curA为最长链表的头，lenA为其长度</span></span><br><span class="line">        <span class="keyword">if</span> (lenB &gt; lenA) &#123;</span><br><span class="line">            <span class="built_in">swap</span> (lenA, lenB);</span><br><span class="line">            <span class="built_in">swap</span> (curA, curB);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 求长度差</span></span><br><span class="line">        <span class="type">int</span> gap = lenA - lenB;</span><br><span class="line">        <span class="comment">// 让curA和curB在同一起点上（末尾位置对齐）</span></span><br><span class="line">        <span class="keyword">while</span> (gap--) &#123;</span><br><span class="line">            curA = curA-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 遍历curA 和 curB，遇到相同则直接返回</span></span><br><span class="line">        <span class="keyword">while</span> (curA != <span class="literal">NULL</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (curA == curB) &#123;</span><br><span class="line">                <span class="keyword">return</span> curA;</span><br><span class="line">            &#125;</span><br><span class="line">            curA = curA-&gt;next;</span><br><span class="line">            curB = curB-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="环形链表II"><a href="#环形链表II" class="headerlink" title="环形链表II"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/linked-list-cycle-ii/">环形链表II</a></h1><p>题意： 给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。</p>
+<p>为了表示给定链表中的环，使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。</p>
+<p><strong>说明</strong>：不允许修改给定的链表。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200816110112704.png" alt="循环链表"></p>
+<h2 id="思路-6"><a href="#思路-6" class="headerlink" title="思路"></a>思路</h2><p>主要考察两知识点：</p>
+<ul>
+<li>判断链表是否环</li>
+<li>如果有环，如何找到这个环的入口</li>
+</ul>
+<h3 id="判断链表是否有环"><a href="#判断链表是否有环" class="headerlink" title="判断链表是否有环"></a>判断链表是否有环</h3><p>可以使用快慢指针法，分别定义 fast 和 slow 指针，从头结点出发，fast指针每次移动两个节点，slow指针每次移动一个节点，如果 fast 和 slow指针在途中相遇 ，说明这个链表有环。</p>
+<p>为什么fast 走两个节点，slow走一个节点，有环的话，一定会在环内相遇呢，而不是永远的错开呢</p>
+<p>首先第一点：<strong>fast指针一定先进入环中，如果fast指针和slow指针相遇的话，一定是在环中相遇，这是毋庸置疑的。</strong></p>
+<p>那么来看一下，<strong>为什么fast指针和slow指针一定会相遇呢？</strong></p>
+<p>可以画一个环，然后让 fast指针在任意一个节点开始追赶slow指针。</p>
+<p>会发现最终都是这种情况， 如下图：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210318162236720.png" alt="142环形链表1"></p>
+<p>fast和slow各自再走一步， fast和slow就相遇了</p>
+<p>这是因为fast是走两步，slow是走一步，<strong>其实相对于slow来说，fast是一个节点一个节点的靠近slow的</strong>，所以fast一定可以和slow重合。</p>
+<p>动画如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEly1goo4xglk9yg30fs0b6u0x.gif" alt="141.环形链表"></p>
+<h3 id="如果有环，如何找到这个环的入口"><a href="#如果有环，如何找到这个环的入口" class="headerlink" title="如果有环，如何找到这个环的入口"></a>如果有环，如何找到这个环的入口</h3><p><strong>此时已经可以判断链表是否有环了，那么接下来要找这个环的入口了。</strong></p>
+<p>假设从头结点到环形入口节点 的节点数为x。 环形入口节点到 fast指针与slow指针相遇节点 节点数为y。 从相遇节点 再到环形入口节点节点数为 z。 如图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210318162938397.png" alt="142环形链表2"></p>
+<p>那么相遇时： slow指针走过的节点数为: <code>x + y</code>， fast指针走过的节点数：<code>x + y + n (y + z)</code>，n为fast指针在环内走了n圈才遇到slow指针， （y+z）为 一圈内节点的个数A。</p>
+<p>因为fast指针是一步走两个节点，slow指针一步走一个节点， 所以 fast指针走过的节点数 &#x3D; slow指针走过的节点数 * 2：</p>
+<p><code>(x + y) * 2 = x + y + n (y + z)</code></p>
+<p>两边消掉一个（x+y）: <code>x + y = n (y + z)</code></p>
+<p>因为要找环形的入口，那么要求的是x，因为x表示 头结点到 环形入口节点的的距离。</p>
+<p>所以要求x ，将x单独放在左面：<code>x = n (y + z) - y</code> ,</p>
+<p>再从n(y+z)中提出一个 （y+z）来，整理公式之后为如下公式：<code>x = (n - 1) (y + z) + z</code> 注意这里n一定是大于等于1的，因为 fast指针至少要多走一圈才能相遇slow指针。</p>
+<p>这个公式说明什么呢？</p>
+<p>先拿n为1的情况来举例，意味着fast指针在环形里转了一圈之后，就遇到了 slow指针了。</p>
+<p>当 n为1的时候，公式就化解为 <code>x = z</code>，</p>
+<p>这就意味着，<strong>从头结点出发一个指针，从相遇节点 也出发一个指针，这两个指针每次只走一个节点， 那么当这两个指针相遇的时候就是 环形入口的节点</strong>。</p>
+<p>也就是在相遇节点处，定义一个指针index1，在头结点处定一个指针index2。</p>
+<p>让index1和index2同时移动，每次移动一个节点， 那么他们相遇的地方就是 环形入口的节点。</p>
+<p>动画如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEly1goo58gauidg30fw0bi4qr.gif" alt="142.环形链表II（求入口）"></p>
+<p>那么 n如果大于1是什么情况呢，就是fast指针在环形转n圈之后才遇到 slow指针。</p>
+<p>其实这种情况和n为1的时候 效果是一样的，一样可以通过这个方法找到 环形的入口节点，只不过，index1 指针在环里 多转了(n-1)圈，然后再遇到index2，相遇点依然是环形的入口节点。</p>
+<p>代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** * Definition for singly-linked list. * struct ListNode &#123; *     int val; *     ListNode *next; *     ListNode(int x) : val(x), next(NULL) &#123;&#125; * &#125;; */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode *<span class="title">detectCycle</span><span class="params">(ListNode *head)</span> </span>&#123;</span><br><span class="line">        ListNode* fast = head;</span><br><span class="line">        ListNode* slow = head;</span><br><span class="line">        <span class="keyword">while</span>(fast != <span class="literal">NULL</span> &amp;&amp; fast-&gt;next != <span class="literal">NULL</span>) &#123;</span><br><span class="line">            slow = slow-&gt;next;</span><br><span class="line">            fast = fast-&gt;next-&gt;next;</span><br><span class="line">            <span class="comment">// 快慢指针相遇，此时从head 和 相遇点，同时查找直至相遇</span></span><br><span class="line">            <span class="keyword">if</span> (slow == fast) &#123;</span><br><span class="line">                ListNode* index1 = fast;</span><br><span class="line">                ListNode* index2 = head;</span><br><span class="line">                <span class="keyword">while</span> (index1 != index2) &#123;</span><br><span class="line">                    index1 = index1-&gt;next;</span><br><span class="line">                    index2 = index2-&gt;next;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> index2; <span class="comment">// 返回环的入口</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>在推理过程中，大家可能有一个疑问就是：<strong>为什么第一次在环中相遇，slow的 步数 是 x+y 而不是 x + 若干环的长度 + y 呢？</strong></p>
+<p>如下的地方：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210318165123581.png" alt="142环形链表5"></p>
+<p>首先slow进环的时候，fast一定是先进环来了。</p>
+<p>如果slow进环入口，fast也在环入口，那么把这个环展开成直线，就是如下图的样子：</p>
+<p><img src="https://img-blog.csdnimg.cn/2021031816503266.png" alt="142环形链表3"></p>
+<p>可以看出如果slow 和 fast同时在环入口开始走，一定会在环入口3相遇，slow走了一圈，fast走了两圈。</p>
+<p>重点来了，slow进环的时候，fast一定是在环的任意一个位置，如图：</p>
+<p><img src="https://img-blog.csdnimg.cn/2021031816515727.png" alt="142环形链表4"></p>
+<p>那么fast指针走到环入口3的时候，已经走了k + n 个节点，slow相应的应该走了(k + n) &#x2F; 2 个节点。</p>
+<p>因为k是小于n的（图中可以看出），所以(k + n) &#x2F; 2 一定小于n。</p>
+<p><strong>也就是说slow一定没有走到环入口3，而fast已经到环入口3了</strong>。</p>
+<p>这说明什么呢？</p>
+<p><strong>在slow开始走的那一环已经和fast相遇了</strong>。</p>
+<p>那有同学又说了，为什么fast不能跳过去呢？ 在刚刚已经说过一次了，<strong>fast相对于slow是一次移动一个节点，所以不可能跳过去</strong>。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1862,536 +2334,6 @@
 <li><p>在C++文件中添加按钮，点击按钮函数，并且动态多播绑定点击按钮函数</p>
 </li>
 </ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/11/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E7%BC%96%E5%86%99ScreenLoading/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/08/11/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E7%BC%96%E5%86%99ScreenLoading/" class="post-title-link" itemprop="url">UE4-项目-TowerDefence-编写ScreenLoading</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-08-11 15:43:54" itemprop="dateCreated datePublished" datetime="2022-08-11T15:43:54+08:00">2022-08-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-08-18 15:43:06" itemprop="dateModified" datetime="2022-08-18T15:43:06+08:00">2022-08-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>这就是登录游戏的时候的加载界面</p>
-<p>为了保证这个Loading可以被反复使用（其他项目也可以用），所以通过写插件的方式实现</p>
-<h1 id="Slate简单讲解"><a href="#Slate简单讲解" class="headerlink" title="Slate简单讲解"></a><a target="_blank" rel="noopener" href="http://students.ceid.upatras.gr/~vpapadatos/UE4cpp_slate_1.html">Slate简单讲解</a></h1><h2 id="Slate是什么？"><a href="#Slate是什么？" class="headerlink" title="Slate是什么？"></a>Slate是什么？</h2><p>Slate是UE4的底层UI框架。我们经常使用的UMG和UE4编辑器的各个界面底层都是Slate。</p>
-<h2 id="SWidget类"><a href="#SWidget类" class="headerlink" title="SWidget类"></a>SWidget类</h2><p>SWidget是所有Slate控件的基类</p>
-<p><img src="D:\R_program\Blog\source_posts\UE4-项目-编写ScreenLoading\1.png"></p>
-<ul>
-<li><strong>SCompoundWidget可以放一个子控件</strong></li>
-<li><strong>SLeafWidget不能放子控件</strong></li>
-<li><strong>SPanel可以放多个子控件</strong></li>
-</ul>
-<h2 id="Slate的组成"><a href="#Slate的组成" class="headerlink" title="Slate的组成"></a>Slate的组成</h2><h3 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h3><p><strong>宏 SLATE_BEGIN_ARGS</strong> 和 <strong>宏 SLATE_END_ARGS</strong> </p>
-<p>在以上两者之间的声明参数，常用的参数类型有 </p>
-<ul>
-<li><p>SLATE_ATTRIBUTE(属性)</p>
-</li>
-<li><p>SLATE_EVENT(事件)</p>
-</li>
-<li><p>SLATE_ARGUMENT(参数)</p>
-</li>
-<li><p>SLATE_NAMED_SLOT(插槽) 和 SLATE_DEFAULT_SLOT</p>
-</li>
-</ul>
-<p>例子：</p>
-<ul>
-<li>例如：SLATE_ATTRIBUTE(属性)   <ul>
-<li>声明格式：SLATE_ATTRIBUTE（变量类型，变量名）</li>
-</ul>
-</li>
-<li>例如：SLATE_EVENT(事件)           <ul>
-<li>声明格式：SLATE_EVENT（变量类型，变量名）</li>
-</ul>
-</li>
-<li>注意：这里的变量类型为 UE4 的委托类型</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">DECLARE_DELEGATE_OneParam</span>(FMyEvent, FString);</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">EXSLATEWIDGET_API</span> SMyCompoundWidget : <span class="keyword">public</span> SCompoundWidget</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">        <span class="built_in">SLATE_BEGIN_ARGS</span>( SSubMenuButton )</span><br><span class="line">            : _ShouldAppearHovered( <span class="literal">false</span> )</span><br><span class="line">            &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="built_in">SLATE_ATTRIBUTE</span>( <span class="type">bool</span>, ShouldAppearHovered )</span><br><span class="line"></span><br><span class="line">            <span class="built_in">SLATE_ATTRIBUTE</span>( FString, Label )</span><br><span class="line"></span><br><span class="line">            <span class="built_in">SLATE_EVENT</span>( FOnClicked, OnClicked )</span><br><span class="line"></span><br><span class="line">            <span class="built_in">SLATE_NAMED_SLOT</span>( FArguments, FSimpleSlot, Content )</span><br><span class="line"></span><br><span class="line">            <span class="built_in">SLATE_EVENT</span>(FMyEvent, MyEvent)       </span><br><span class="line">        <span class="built_in">SLATE_END_ARGS</span>()</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>按上面用相应的宏声明之后，实际上参数名变为 <strong>“_”</strong> + **”宏里面的变量名”**，如上面 “ShouldAppearHovered ” 参数名为“_ShouldAppearHovered ”. 声明参数初始化和C++类成员变量差不多，如同下面：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">SLATE_BEGIN_ARGS</span>(SSubMenuButton )</span><br><span class="line">&#123;</span><br><span class="line">    _ShouldAppearHovered = <span class="literal">false</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>或</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">SLATE_BEGIN_ARGS</span>(SSubMenuButton ):</span><br><span class="line">        _ShouldAppearHovered ( <span class="literal">false</span> )</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>而在 上述的实例中采用了<strong>第二种初始化</strong>的方式。</p>
-<h3 id="构建对象"><a href="#构建对象" class="headerlink" title="构建对象"></a>构建对象</h3><h4 id="通过-宏声明-的参数与-类成员变量-之间的转移（参数-与-变量的区别）"><a href="#通过-宏声明-的参数与-类成员变量-之间的转移（参数-与-变量的区别）" class="headerlink" title="通过  宏声明  的参数与  类成员变量  之间的转移（参数 与 变量的区别）"></a>通过  宏声明  的参数与  类成员变量  之间的转移（参数 与 变量的区别）</h4><p>在构建 Slate 对象的时候，传入的参数，并不是直接通过 上面我们通过宏去定义的那些参数去直接执行的，上面定义的那些参数 仅仅是为了 <strong>方便传递</strong>，所以还需要在 定义类的 <strong>成员变量（或委托变量）</strong> 上面实例中的类，重新定义为：</p>
-<p>以 Label 这个声明参数为例，在类中增加了 这个<strong>声明参数</strong> 对应的 <strong>成员变量</strong></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">DECLARE_DELEGATE_OneParam</span>(FMyEvent, FString);</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">EXSLATEWIDGET_API</span> SMyCompoundWidget : <span class="keyword">public</span> SCompoundWidget</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">        <span class="built_in">SLATE_BEGIN_ARGS</span>( SSubMenuButton )</span><br><span class="line">            : _ShouldAppearHovered( <span class="literal">false</span> )</span><br><span class="line">            &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="built_in">SLATE_ATTRIBUTE</span>( <span class="type">bool</span>, ShouldAppearHovered )</span><br><span class="line"></span><br><span class="line">            <span class="built_in">SLATE_ATTRIBUTE</span>( FString, Label )</span><br><span class="line"></span><br><span class="line">            <span class="built_in">SLATE_EVENT</span>( FOnClicked, OnClicked )</span><br><span class="line"></span><br><span class="line">            <span class="built_in">SLATE_NAMED_SLOT</span>( FArguments, FSimpleSlot, Content )</span><br><span class="line"></span><br><span class="line">            <span class="built_in">SLATE_EVENT</span>(FMyEvent, MyEvent)       </span><br><span class="line">        <span class="built_in">SLATE_END_ARGS</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">        <span class="function"><span class="type">void</span> <span class="title">Construct</span><span class="params">(<span class="type">const</span> FArguments&amp; InArgs)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">        FString Label ;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/////////////////////////////////////////////////////////</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SMyCompoundWidget::Construct</span><span class="params">(<span class="type">const</span> FArguments&amp; InArgs)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">        Label = InArgs._Label ;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        ChildSlot</span></span><br><span class="line"><span class="comment">        [</span></span><br><span class="line"><span class="comment">            // Populate the widget</span></span><br><span class="line"><span class="comment">        ];</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>实际构建的代码写法</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">ContextualEditingWidget-&gt;<span class="built_in">AddSlot</span>()</span><br><span class="line">.<span class="built_in">Padding</span>( <span class="number">2.0f</span> )</span><br><span class="line">[</span><br><span class="line">    <span class="built_in">SNew</span>( SDetailSection )</span><br><span class="line">    .<span class="built_in">SectionName</span>(<span class="string">&quot;StaticMeshSection&quot;</span>)</span><br><span class="line">    .<span class="built_in">SectionTitle</span>( <span class="built_in">LOCTEXT</span>(<span class="string">&quot;StaticMeshSection&quot;</span>, <span class="string">&quot;Static Mesh&quot;</span>).<span class="built_in">ToString</span>() )</span><br><span class="line">    .<span class="built_in">Content</span>()</span><br><span class="line">    [</span><br><span class="line">        <span class="built_in">SNew</span>( SVerticalBox )</span><br><span class="line">        + SVerticalBox::<span class="built_in">Slot</span>()</span><br><span class="line">        .<span class="built_in">Padding</span>( <span class="number">3.0f</span>, <span class="number">1.0f</span> )</span><br><span class="line">        [</span><br><span class="line">            <span class="built_in">SNew</span>( SHorizontalBox )</span><br><span class="line">            + SHorizontalBox::<span class="built_in">Slot</span>()</span><br><span class="line">            .<span class="built_in">Padding</span>( <span class="number">2.0f</span> )</span><br><span class="line">            [</span><br><span class="line">                <span class="built_in">SNew</span>( SComboButton )</span><br><span class="line">                .<span class="built_in">ButtonContent</span>()</span><br><span class="line">                [</span><br><span class="line">                    <span class="built_in">SNew</span>( STextBlock )</span><br><span class="line">                    .<span class="built_in">Text</span>( <span class="built_in">LOCTEXT</span>(<span class="string">&quot;BlockingVolumeMenu&quot;</span>, <span class="string">&quot;Create Blocking Volume&quot;</span>) ) </span><br><span class="line">                    .<span class="built_in">Font</span>( FontInfo )</span><br><span class="line">                ]</span><br><span class="line">                .<span class="built_in">MenuContent</span>()</span><br><span class="line">                [</span><br><span class="line">                    BlockingVolumeBuilder.<span class="built_in">MakeWidget</span>()</span><br><span class="line">                ]</span><br><span class="line">            ]</span><br><span class="line">        ]</span><br><span class="line"></span><br><span class="line">    ]</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
-
-<h2 id="Construct函数"><a href="#Construct函数" class="headerlink" title="Construct函数"></a>Construct函数</h2><p>构造SWidget时会调用的函数。里面只有一个参数FArguments。我们可以这么写来拿到我们刚才用宏定义的值。<strong>加下划线_的原因看一眼SLATE_ARGUMENT的定义就能明白</strong>。</p>
-<h2 id="Slate语法"><a href="#Slate语法" class="headerlink" title="Slate语法"></a>Slate语法</h2><p>Slate的语法比较特殊，不过可读性很强，注意它的特殊缩进格式，如果使用vs的格式化快捷键会破坏掉缩进格式要小心</p>
-<p><strong>SNew(WidgetType)</strong> 作用是创建一个SWidget。<strong>STextBlock、SButton、SVerticalBox</strong>的功能和我们经常使用的UMG里的控件差不多。<strong>Slot</strong>直译为插槽，通过增加插槽我们可以嵌套其他SWidget。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
-<li><p>HUD类：以前的UI解决方案，现在很少用了。</p>
-</li>
-<li><p>SWidget类图：三大类，SCompoundWidget能放一个子Widget，SLeafWidget不能放子Widget，SPanelWidget能放很多个。</p>
-</li>
-<li><p>Slate特殊写法：SNew新建，加点设置参数，加Slot设置子Widget。</p>
-</li>
-<li><p>TSharePtr和TShareRef智能指针：TSharefPtr可以为空，可以在头文件定义。</p>
-</li>
-</ul>
-<h1 id="创建插件"><a href="#创建插件" class="headerlink" title="创建插件"></a>创建插件</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="FLoadingScreenAttributes"><a href="#FLoadingScreenAttributes" class="headerlink" title="FLoadingScreenAttributes"></a>FLoadingScreenAttributes</h3><p>一种数据类型，Loading界面的所有属性值都放在这里面了，声明一个此类型的变量，设置其中具体值，再赋值给<code>SetupLoadingScreen()</code>函数即可</p>
-<ol>
-<li><p><code>bAutoCompleteWhenLoadingCompletes</code></p>
-<ul>
-<li>如果为真，则在播放所有电影并完成加载后，加载屏幕将立即消失,此时进入游戏</li>
-</ul>
-</li>
-<li><p><code>bMoviesAreSkippable</code></p>
-<ul>
-<li>如果为true，则只要加载完成，就可以通过单击加载屏幕跳过电影</li>
-</ul>
-</li>
-<li><p><code>bWaitForManualStop</code></p>
-<ul>
-<li>如果为true，播放的动画（幻灯片）会一直循环，直到关卡加载好</li>
-</ul>
-</li>
-<li><p><code>PlaybackType</code></p>
-<ul>
-<li>播放类型，表示我们是否应该循环播放等</li>
-</ul>
-</li>
-<li><p><code>WidgetLoadingScreen</code></p>
-<ul>
-<li><p>要显示在电影顶部的小部件，如果没有电影，则只需单独显示</p>
-</li>
-<li><p>使用<code>SNew</code>传入一个<code>slate</code>并且赋值给<code>WidgetLoadingScreen</code></p>
-</li>
-</ul>
-</li>
-</ol>
-<h3 id="EMoviePlaybackType"><a href="#EMoviePlaybackType" class="headerlink" title="EMoviePlaybackType"></a>EMoviePlaybackType</h3><p>定义了动画渲染模式，是循环播放，还是仅仅播放一次</p>
-<ol>
-<li><p><code>MT_Normal</code></p>
-<ul>
-<li>正常播放模式。播放播放列表中的每部电影一次</li>
-</ul>
-</li>
-<li><p><code>MT_Looped</code></p>
-<ul>
-<li>循环播放模式。按顺序播放播放列表中的所有电影，然后重新开始，直到手动取消</li>
-</ul>
-</li>
-<li><p><code>MT_LoadingLoop</code></p>
-<ul>
-<li>交替循环模式。播放播放列表中的所有电影，并循环播放最后一部电影，直到加载完成</li>
-</ul>
-</li>
-</ol>
-<h3 id="GetMoviePlayer"><a href="#GetMoviePlayer" class="headerlink" title="GetMoviePlayer()"></a>GetMoviePlayer()</h3><p>获取动画播放器</p>
-<ol>
-<li><p><code>GetMoviePlayer()-&gt;SetupLoadingScreen()</code></p>
-<ul>
-<li>设置加载界面，传入<code>FLoadingScreenAttributes</code>类型的参数</li>
-</ul>
-</li>
-<li><p><code>GetMoviePlayer()-&gt;PlayMovie()</code></p>
-<ul>
-<li>开始播放动画</li>
-</ul>
-</li>
-</ol>
-<h3 id="FCoreUObjectDelegates"><a href="#FCoreUObjectDelegates" class="headerlink" title="FCoreUObjectDelegates"></a>FCoreUObjectDelegates</h3><p>全局CoreUObject委托</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FCoreUObjectDelegates::PreLoadMap.<span class="built_in">AddRaw</span>(<span class="keyword">this</span>, &amp;文件名::函数名);</span><br></pre></td></tr></table></figure>
-
-<h4 id="PreLoadMap"><a href="#PreLoadMap" class="headerlink" title="PreLoadMap"></a>PreLoadMap</h4><p>预加载文件夹</p>
-<h4 id="AddRaw"><a href="#AddRaw" class="headerlink" title="AddRaw"></a>AddRaw</h4><p>添加原始C++指针委托</p>
-<h2 id="大致步骤"><a href="#大致步骤" class="headerlink" title="大致步骤"></a>大致步骤</h2><ol>
-<li><p>编辑-&gt;插件-&gt;新插件-&gt;空插件-&gt;<code>SimpleScreenLoading</code></p>
-</li>
-<li><p><code>TowerDefence\Plugins\SimpleScreenLoading\Source\SimpleScreenLoading\Public</code>路径下创建文件<code>SScreenLoading.h</code>，<code>SScreenLoading.h</code></p>
-</li>
-<li><p><code>TowerDefence\Plugins\SimpleScreenLoading\Source\SimpleScreenLoading\Private</code>路径下创建文件<code>SScreenLoading.cpp</code>，<code>SScreenLoading.CPP</code></p>
-</li>
-<li><p>在<code>SScreenLoading.h</code>中</p>
-<ul>
-<li><p><code>class SScreenLoading</code>继承自<code>SCompoundWidget</code>基类</p>
-</li>
-<li><p>添加slate的标准三件套：<code>SLATE_BEGIN_ARGS()&#123;&#125;</code>，<code>SLATE_END_ARGS()</code>，<code>void Construct()</code></p>
-<ul>
-<li><p><code>SLATE_BEGIN_ARGS(SScreenLoading)</code></p>
-</li>
-<li><p>构造函数传入参数<code>void Construct(const FArguments&amp; InArgs,const FString &amp;InMapName)</code></p>
-</li>
-</ul>
-</li>
-<li><p>创建一个函数<code>GetProgress()</code>用于获取进度条的进度</p>
-<ul>
-<li><p>返回值类型为<code>TOptional&lt;float&gt;</code></p>
-<ul>
-<li><p>当我们有一个可选值时， <a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.27/en-US/API/Runtime/Core/Misc/TOptional/IsSet/index.html">IsSet()</a>返回 true，而<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.27/en-US/API/Runtime/Core/Misc/TOptional/GetValue/2/index.html">GetValue()</a>是有意义的。否则<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.27/en-US/API/Runtime/Core/Misc/TOptional/GetValue/2/index.html">GetValue()</a>没有意义。</p>
-</li>
-<li><p>当返回值是一个有效的float的时候，则返回值有意义，否则无意义</p>
-</li>
-</ul>
-</li>
-<li><p>是一个<code>const</code>函数</p>
-</li>
-</ul>
-</li>
-<li><p>定义一个<code>STring</code>类型的变量<code>MapName</code></p>
-</li>
-</ul>
-</li>
-<li><p>在<code>SScreenLoading.cpp</code>中</p>
-<ul>
-<li><p><code>Construct()</code>中</p>
-<ul>
-<li><p>将参数<code>InMapName</code>赋值给<code>MapName</code></p>
-</li>
-<li><p>使用<code>ChildSlot[]</code>创建一个子插件</p>
-<ul>
-<li><p>使用<code>SNew</code>创建一个类型为<code>SProgressBar</code>的组件</p>
-</li>
-<li><p>使用<code>.percent()</code>进行代理绑定函数<code>GetProgress</code></p>
-<ul>
-<li><code>SNew(SProgressBar).Percent(this,&amp;SScreenLoading::GetProgress)</code></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>定义函数<code>GetProgress()</code></p>
-</li>
-<li><p>异步获取加载地图的进度百分比，并且使用一个float类型的变量<code>LoadPrecentage</code>保存起来</p>
-<ul>
-<li><code>float LoadPrecentage = GetAsyncLoadPercentage(*MapName);</code></li>
-</ul>
-</li>
-<li><p>返回<code>LoadPrecentage* 0.01</code></p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>在<code>SimpleScreenLoading.h</code>中（调用模块，在模块中实现具体功能）</p>
-<ul>
-<li><p>在private:下声明函数</p>
-<ul>
-<li><p><code>void BeginLoadingScreen(const FString&amp; MapName)</code></p>
-</li>
-<li><p><code>void EndLoadingScreen(UWorld* World);</code></p>
-</li>
-</ul>
-</li>
-<li><p>在public:下声明函数</p>
-<ul>
-<li><p><code>SIMPLESCREENLOADING_API void SetupScreenLoading();</code></p>
-<ul>
-<li>前面添加的<code>SIMPLESCREENLOADING_API</code>（文件名_API）是导出宏，生成一个DLL文件，方便在其他位置（工程文件中&#x2F;非插件文件位置）调用该函数</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>在<code>SimpleScreenLoading.cpp</code>中</p>
-<ul>
-<li><p>在<code>BeginLoadingScreen(const FString&amp; MapName)</code>函数中</p>
-<ul>
-<li><p>定义一个<code>FLoadingScreenAttributes</code>类型的参数<code>LoadingScreenArg</code></p>
-</li>
-<li><p>设置其<code>bAutoCompleteWhenLoadingCompletes</code>为false</p>
-</li>
-<li><p>设置其<code>bMoviesAreSkippable</code>为true</p>
-</li>
-<li><p>设置其<code>bWaitForManualStop</code>为false</p>
-</li>
-<li><p>设置其<code>PlaybackType</code>为<code>EMoviePlaybackType::MT_LoadingLoop</code></p>
-</li>
-<li><p>设置其<code>WidgetLoadingScreen</code>为<code>SNew(SScreenLoading,MapName)</code></p>
-</li>
-<li><p>调用函数<code>GetMoviePlayer()</code>，以此函数调用函数<code>SetupLoadingScreen()</code>并且将<code>LoadingScreenArg</code>作为参数传入</p>
-</li>
-<li><p>调用函数<code>GetMoviePlayer()</code>，以此函数调用函数<code>PlayMovie()</code></p>
-</li>
-</ul>
-</li>
-<li><p><code>SetupScreenLoading()</code>函数中</p>
-<ul>
-<li><p>设置全局CoreUObject委托，<code>PreLoadMap</code>预加载地图使用<code>AddRaw</code>添加代理，绑定<code>BeginLoadingScreen</code></p>
-</li>
-<li><p>设置全局CoreUObject委托，<code>PostLoadMapWithWorld</code>使用<code>AddRaw</code>添加代理，绑定<code>EndLoadingScreen</code></p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>在<code>SimpleScreenLoading.Build.cs</code>文件中</p>
-<ul>
-<li>添加模块<code> &quot;MoviePlayer&quot;</code></li>
-</ul>
-</li>
-<li><p>在<code>TowerDefenceGameInstance.h</code>文件中</p>
-<ul>
-<li>重载函数<code>Init()</code></li>
-</ul>
-</li>
-<li><p>在<code>TowerDefenceGameInstance.cpp</code>文件中</p>
-<ul>
-<li><p>定义函数<code>Init()</code></p>
-<ul>
-<li><p><code>Super::</code>继承父类</p>
-</li>
-<li><p>创建一个<code>FSimpleScreenLoadingModule</code>类型的变量<code>SimpleScreenLoadingModule</code></p>
-<ul>
-<li><code>FSimpleScreenLoadingModule</code>类型就是插件模块类型</li>
-</ul>
-</li>
-<li><p>使用<code>FModuleManager</code>，并且使用<code>LoadModuleChecked</code>加载一个<code>FSimpleScreenLoadingModule</code>类型的模块<code>SimpleScreenLoading</code>（也就是刚刚写好的插件）</p>
-</li>
-<li><p>通过<code>SimpleScreenLoadingModule</code>调用函数<code>SetupScreenLoading()</code></p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>在<code>TowerDefence.Build.cs</code>中</p>
-<ul>
-<li>添加模块<code>&quot;SimpleScreenLoading&quot;</code></li>
-</ul>
-</li>
-</ol>
-<h1 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h1><h2 id="SScreenLoading-h"><a href="#SScreenLoading-h" class="headerlink" title="SScreenLoading.h"></a>SScreenLoading.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Widgets/SCompoundWidget.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SScreenLoading</span> :<span class="keyword">public</span> SCompoundWidget &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="comment">//slate框架，必须携带的两个宏格式，括号内是传入的WidgetType</span></span><br><span class="line">	<span class="built_in">SLATE_BEGIN_ARGS</span>(SScreenLoading)</span><br><span class="line">	&#123;&#125;</span><br><span class="line">	<span class="built_in">SLATE_END_ARGS</span>();</span><br><span class="line"></span><br><span class="line">	<span class="comment">//slate的构造函数，括号内是传入的参数</span></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">Construct</span><span class="params">(<span class="type">const</span> FArguments&amp; InArgs,<span class="type">const</span> FString &amp;InMapName)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="function">TOptional&lt;<span class="type">float</span>&gt; <span class="title">GetProgress</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"></span><br><span class="line">	FString MapName;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h2 id="SScreenLoading-cpp"><a href="#SScreenLoading-cpp" class="headerlink" title="SScreenLoading.cpp"></a>SScreenLoading.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;SScreenLoading.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Widgets\Images\SImage.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Widgets\Input\SButton.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Widgets\Notifications\SProgressBar.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SScreenLoading::Construct</span><span class="params">(<span class="type">const</span> FArguments&amp; InArgs, <span class="type">const</span> FString &amp;InMapName)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	MapName = InMapName;</span><br><span class="line">	ChildSlot[</span><br><span class="line">		<span class="built_in">SNew</span>(SProgressBar)</span><br><span class="line">		.<span class="built_in">Percent</span>(<span class="keyword">this</span>,&amp;SScreenLoading::GetProgress)</span><br><span class="line">	];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">TOptional&lt;<span class="type">float</span>&gt; <span class="title">SScreenLoading::GetProgress</span><span class="params">()</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">float</span> LoadPrecentage = <span class="built_in">GetAsyncLoadPercentage</span>(*MapName);<span class="comment">//获取异步加载百分比</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> LoadPrecentage* <span class="number">0.01</span>;</span><br><span class="line">	<span class="comment">//return TOptional&lt;float&gt;();</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="SimpleScreenLoading-h"><a href="#SimpleScreenLoading-h" class="headerlink" title="SimpleScreenLoading.h"></a>SimpleScreenLoading.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Modules/ModuleManager.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FSimpleScreenLoadingModule</span> : <span class="keyword">public</span> IModuleInterface</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** IModuleInterface implementation IModule接口实现*/</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">StartupModule</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">ShutdownModule</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line">	<span class="function">SIMPLESCREENLOADING_API <span class="type">void</span> <span class="title">SetupScreenLoading</span><span class="params">()</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">BeginLoadingScreen</span><span class="params">(<span class="type">const</span> FString&amp; MapName)</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">EndLoadingScreen</span><span class="params">(UWorld* World)</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="SimpleScreenLoading-cpp"><a href="#SimpleScreenLoading-cpp" class="headerlink" title="SimpleScreenLoading.cpp"></a>SimpleScreenLoading.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;SimpleScreenLoading.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;SScreenLoading.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;MoviePlayer\Public\MoviePlayer.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> LOCTEXT_NAMESPACE <span class="string">&quot;FSimpleScreenLoadingModule&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">FSimpleScreenLoadingModule::StartupModule</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module</span></span><br><span class="line">	<span class="comment">//此代码将在模块加载到内存后执行；确切的定时在每个模块的.uplugin文件中指定</span></span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">FSimpleScreenLoadingModule::ShutdownModule</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// This function may be called during shutdown to clean up your module.  For modules that support dynamic reloading,</span></span><br><span class="line">	<span class="comment">// 在关机期间可以调用此函数来清理模块。对于支持动态重新加载的模块，</span></span><br><span class="line">	<span class="comment">// we call this function before unloading the module.</span></span><br><span class="line">	<span class="comment">//我们在卸载模块之前调用此函数。</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">FSimpleScreenLoadingModule::SetupScreenLoading</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//FCoreUObjectDelegates：全局CoreUObject委托</span></span><br><span class="line">	<span class="comment">//PreLoadMap：预加载文件夹</span></span><br><span class="line">	<span class="comment">//AddRaw：添加原始C++指针委托</span></span><br><span class="line">	FCoreUObjectDelegates::PreLoadMap.<span class="built_in">AddRaw</span>(<span class="keyword">this</span>, &amp;FSimpleScreenLoadingModule::BeginLoadingScreen);</span><br><span class="line">	FCoreUObjectDelegates::PostLoadMapWithWorld.<span class="built_in">AddRaw</span>(<span class="keyword">this</span>, &amp;FSimpleScreenLoadingModule::EndLoadingScreen);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">FSimpleScreenLoadingModule::BeginLoadingScreen</span><span class="params">(<span class="type">const</span> FString&amp; MapName)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FLoadingScreenAttributes LoadingScreenArg;</span><br><span class="line">	LoadingScreenArg.bAutoCompleteWhenLoadingCompletes = <span class="literal">false</span>;<span class="comment">//如果为真，则在播放所有电影并完成加载后，加载屏幕将立即消失,此时进入游戏</span></span><br><span class="line">	LoadingScreenArg.bMoviesAreSkippable = <span class="literal">true</span>;<span class="comment">//如果为true，则只要加载完成，就可以通过单击加载屏幕跳过电影</span></span><br><span class="line">	LoadingScreenArg.bWaitForManualStop = <span class="literal">false</span>;<span class="comment">//如果为true，播放的动画（幻灯片）会一直循环，直到关卡加载好</span></span><br><span class="line">	<span class="comment">//PlaybackType:我们是否应该播放、循环等。注意：如果播放类型为MT_LoopLast，则当播放最后一部电影时，将打开bAutoCompleteWhenLoadingCompletes</span></span><br><span class="line">	<span class="comment">//EMoviePlaybackType:为了使平台支持早期电影播放，平台必须支持渲染线程,很早开始，并在启动后立即支持渲染，并且包含平台电影流的模块必须已经加载</span></span><br><span class="line">	<span class="comment">//MT_LoadingLoop:交替循环模式。播放播放列表中的所有电影，并循环播放最后一部电影，直到加载完成</span></span><br><span class="line">	LoadingScreenArg.PlaybackType = EMoviePlaybackType::MT_LoadingLoop;<span class="comment">//</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//WidgetLoadingScreen:要显示在电影顶部的小部件，如果没有电影，则只需单独显示</span></span><br><span class="line">	LoadingScreenArg.WidgetLoadingScreen = <span class="built_in">SNew</span>(SScreenLoading,MapName);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">GetMoviePlayer</span>()-&gt;<span class="built_in">SetupLoadingScreen</span>(LoadingScreenArg);</span><br><span class="line">	<span class="built_in">GetMoviePlayer</span>()-&gt;<span class="built_in">PlayMovie</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">FSimpleScreenLoadingModule::EndLoadingScreen</span><span class="params">(UWorld* World)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">undef</span> LOCTEXT_NAMESPACE</span></span><br><span class="line">	</span><br><span class="line"><span class="built_in">IMPLEMENT_MODULE</span>(FSimpleScreenLoadingModule, SimpleScreenLoading)</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="TowerDefenceGameInstance-h"><a href="#TowerDefenceGameInstance-h" class="headerlink" title="TowerDefenceGameInstance.h"></a>TowerDefenceGameInstance.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Engine/GameInstance.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowerDefenceGameInstance.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> UTowerDefenceGameInstance : <span class="keyword">public</span> UGameInstance</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line">	</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Init</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="TowerDefenceGameInstance-cpp"><a href="#TowerDefenceGameInstance-cpp" class="headerlink" title="TowerDefenceGameInstance.cpp"></a>TowerDefenceGameInstance.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefenceGameInstance.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;SimpleScreenLoading.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UTowerDefenceGameInstance::Init</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">Init</span>();</span><br><span class="line"></span><br><span class="line">	<span class="comment">//LoadModuleChecked：加载模块，如果失败，则会产生一个断言提示</span></span><br><span class="line">	<span class="comment">//FModuleManager：用于加载和卸载模块，以及跟踪当前加载的所有模块。您可以使用FModuleManager：：Get（）访问此单例</span></span><br><span class="line">	FSimpleScreenLoadingModule&amp; SimpleScreenLoadingModule=FModuleManager::<span class="built_in">LoadModuleChecked</span>&lt;FSimpleScreenLoadingModule&gt;(<span class="string">&quot;SimpleScreenLoading&quot;</span>);</span><br><span class="line">	SimpleScreenLoadingModule.<span class="built_in">SetupScreenLoading</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="SimpleScreenLoading-Build-cs"><a href="#SimpleScreenLoading-Build-cs" class="headerlink" title="SimpleScreenLoading.Build.cs"></a>SimpleScreenLoading.Build.cs</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> UnrealBuildTool;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SimpleScreenLoading</span> : ModuleRules</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">SimpleScreenLoading</span><span class="params">(ReadOnlyTargetRules Target)</span> : base(Target)</span></span><br><span class="line"><span class="function">	&#123;</span></span><br><span class="line">		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;</span><br><span class="line">		</span><br><span class="line">		PublicIncludePaths.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[] &#123;</span><br><span class="line">				<span class="comment">// ... add public include paths required here ...</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">				</span><br><span class="line">		</span><br><span class="line">		PrivateIncludePaths.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[] &#123;</span><br><span class="line">				<span class="comment">// ... add other private include paths required here ...</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">			</span><br><span class="line">		</span><br><span class="line">		PublicDependencyModuleNames.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[]</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="string">&quot;Core&quot;</span>,</span><br><span class="line">				<span class="comment">// ... add other public dependencies that you statically link with here ...</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">			</span><br><span class="line">		</span><br><span class="line">		PrivateDependencyModuleNames.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[]</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="string">&quot;CoreUObject&quot;</span>,</span><br><span class="line">				<span class="string">&quot;Engine&quot;</span>,</span><br><span class="line">				<span class="string">&quot;Slate&quot;</span>,</span><br><span class="line">				<span class="string">&quot;SlateCore&quot;</span>,</span><br><span class="line">                <span class="string">&quot;MoviePlayer&quot;</span>,</span><br><span class="line">				<span class="comment">// ... add private dependencies that you statically link with here ...	</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		DynamicallyLoadedModuleNames.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[]</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="comment">// ... add any modules that your module loads dynamically here ...</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="TowerDefence-Build-cs"><a href="#TowerDefence-Build-cs" class="headerlink" title="TowerDefence.Build.cs"></a>TowerDefence.Build.cs</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/11/UE4-%E9%A1%B9%E7%9B%AE-TwoerDefence-%E5%B8%83%E5%B1%80UMG%E6%B8%B8%E6%88%8FUI/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/08/11/UE4-%E9%A1%B9%E7%9B%AE-TwoerDefence-%E5%B8%83%E5%B1%80UMG%E6%B8%B8%E6%88%8FUI/" class="post-title-link" itemprop="url">UE4-项目-TwoerDefence-布局UMG游戏UI</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-08-11 15:11:51 / 修改时间：15:42:37" itemprop="dateCreated datePublished" datetime="2022-08-11T15:11:51+08:00">2022-08-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>上一章节我们把UI的框架再C++中搭建完成了</p>
-<p>这一章节我们再控件蓝图中具体实现它们</p>
-<h1 id="创建对应的控件蓝图"><a href="#创建对应的控件蓝图" class="headerlink" title="创建对应的控件蓝图"></a>创建对应的控件蓝图</h1><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在上一节，我们在<code>MainScreen.h</code>中声明了很多UI界面，并且各自实现了其部分功能</p>
-</li>
-<li><p>现在，需要我们创建与其一 一对应的控件蓝图，将控件蓝图的父类一 一修改为对应的C++文件，再将C++文件中定义好的组件一 一对应添加到其中，并且合理布局</p>
-</li>
-</ol>
-<h2 id="大致步骤"><a href="#大致步骤" class="headerlink" title="大致步骤"></a>大致步骤</h2><ol>
-<li><p>在<code>Content/UI/Game/System</code>路径下分别创建以下控件蓝图</p>
-<ul>
-<li><p><code>GameInfoPrintSystem_BP</code></p>
-</li>
-<li><p><code>GameMenuSystem_BP</code></p>
-</li>
-<li><p><code>MiniMapSystem_BP</code></p>
-</li>
-<li><p><code>MissionSystem_BP</code></p>
-</li>
-<li><p><code>PlayerSkillSystem_BP</code></p>
-</li>
-<li><p><code>RucksackSystem_BP</code></p>
-</li>
-<li><p><code>ToolBarSystem_BP</code></p>
-</li>
-</ul>
-</li>
-<li><p>在<code>Content/UI/Game/Inventory</code>路径下分别创建以下控件蓝图以作为<code>System</code>系列蓝图的补充组件</p>
-<ul>
-<li><p><code>Inventory_BP</code></p>
-</li>
-<li><p><code>InventorySlot_BP</code></p>
-</li>
-</ul>
-</li>
-<li><p>在<code>Content/UI/Game/Skill</code>路径下创建以下控件蓝图作为技能列表的小格子</p>
-<ul>
-<li><code>SkillSlot_bp</code></li>
-</ul>
-</li>
-<li><p>分别各控件蓝图的父类为对应的C++文件</p>
-</li>
-<li><p>分别在各蓝图控件中添加相应组件</p>
-</li>
-<li><p>控件蓝图中的布局</p>
-</li>
-<li><p>将创建的7个<code>System</code>系列蓝图添加到<code>MainScreen_BP</code>中，并且合理布局</p>
-</li>
-</ol>
-<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
-<li>善用<code>边界</code>，<code>垂直框</code>，<code>水平框</code>，<code>覆层</code>组件来整合组件</li>
-</ol>
-<h2 id="最终效果"><a href="#最终效果" class="headerlink" title="最终效果"></a>最终效果</h2><p><img src="/UE4-%E9%A1%B9%E7%9B%AE-TwoerDefence-%E5%B8%83%E5%B1%80UMG%E6%B8%B8%E6%88%8FUI%5C1.png"></p>
-<h1 id="BUG"><a href="#BUG" class="headerlink" title="BUG"></a>BUG</h1><p>现在发现运行之后存在背包系统不显示（格子不显示）</p>
-<p>使用<code>checkNoEntry()</code>测试之后发现是在<code>UI_Inventory.cpp</code>中，判断是否生成<code>InventorySlotClass</code>，时为<code>false</code>导致根本没有进入后面的格子生成代码</p>
-<p>但是排查了很就还是找不到为啥没有成功生成<code>InventorySlotClass</code>，今晚继续问问人宅大佬看看能不能救救我</p>
 
       
     </div>
