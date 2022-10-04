@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">127</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,782 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/20/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E5%B0%81%E8%A3%85%E5%B1%8F%E5%B9%95%E7%A7%BB%E5%8A%A8%E5%8A%9F%E8%83%BD%E5%88%B0%E6%8F%92%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/20/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E5%B0%81%E8%A3%85%E5%B1%8F%E5%B9%95%E7%A7%BB%E5%8A%A8%E5%8A%9F%E8%83%BD%E5%88%B0%E6%8F%92%E4%BB%B6/" class="post-title-link" itemprop="url">UE4-项目-TowerDefence-封装屏幕移动功能到插件</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-07-20 16:58:49" itemprop="dateCreated datePublished" datetime="2022-07-20T16:58:49+08:00">2022-07-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-07-26 16:43:13" itemprop="dateModified" datetime="2022-07-26T16:43:13+08:00">2022-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="封装屏幕移动功能到插件"><a href="#封装屏幕移动功能到插件" class="headerlink" title="封装屏幕移动功能到插件"></a>封装屏幕移动功能到插件</h1><p>效果：鼠标移动到屏幕边缘就可以造成屏幕相应方向的移动</p>
+<h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="UE的屏幕坐标"><a href="#UE的屏幕坐标" class="headerlink" title="UE的屏幕坐标"></a>UE的屏幕坐标</h3><p>UE4的屏幕默认左上角为(0,0)</p>
+<h3 id="IsNearlyEqual"><a href="#IsNearlyEqual" class="headerlink" title="IsNearlyEqual()"></a>IsNearlyEqual()</h3><h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><p><code>bool IsNearlyEqual(float A, float B, float ErrorTolerance = SMALL_NUMBER)</code></p>
+<h4 id="含义"><a href="#含义" class="headerlink" title="含义"></a>含义</h4><p>A-B，如果值在ErrorTolerance之间，则返回true</p>
+<h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><p>处于FMath命名空间中，在之前需要先<code>FMath::</code></p>
+<p>例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (FMath::<span class="built_in">IsNearlyEqual</span>(MousePostionX, <span class="number">0.0f</span>, <span class="number">5.f</span>))&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="PlayerController-gt-GetViewportSize"><a href="#PlayerController-gt-GetViewportSize" class="headerlink" title="PlayerController-&gt;GetViewportSize()"></a>PlayerController-&gt;GetViewportSize()</h3><h4 id="源码-1"><a href="#源码-1" class="headerlink" title="源码"></a>源码</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">APlayerController::GetViewportSize</span><span class="params">(int32&amp; SizeX, int32&amp; SizeY)</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    SizeX = <span class="number">0</span>;</span><br><span class="line">    SizeY = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    ULocalPlayer* LocPlayer = <span class="built_in">Cast</span>&lt;ULocalPlayer&gt;(Player);</span><br><span class="line">    <span class="keyword">if</span>( LocPlayer &amp;&amp; LocPlayer-&gt;ViewportClient )</span><br><span class="line">    &#123;</span><br><span class="line">        FVector2D ViewportSize;</span><br><span class="line">        LocPlayer-&gt;ViewportClient-&gt;<span class="built_in">GetViewportSize</span>(ViewportSize);</span><br><span class="line"></span><br><span class="line">        SizeX = ViewportSize.X;</span><br><span class="line">        SizeY = ViewportSize.Y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="含义-1"><a href="#含义-1" class="headerlink" title="含义"></a>含义</h4><p>获取屏幕大小，并将其X，Y值传给<code>SizeX</code>和<code>SizeX</code></p>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><p>必须由<code>PlayerController-&gt;</code>调用</p>
+<h3 id="PlayerController-gt-GetMousePosition"><a href="#PlayerController-gt-GetMousePosition" class="headerlink" title="PlayerController-&gt;GetMousePosition()"></a>PlayerController-&gt;GetMousePosition()</h3><h4 id="源码-2"><a href="#源码-2" class="headerlink" title="源码"></a>源码</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">APlayerController::GetMousePosition</span><span class="params">(<span class="type">float</span>&amp; LocationX, <span class="type">float</span>&amp; LocationY)</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">bool</span> bGotMousePosition = <span class="literal">false</span>;</span><br><span class="line">    ULocalPlayer* LocalPlayer = <span class="built_in">Cast</span>&lt;ULocalPlayer&gt;(Player);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (LocalPlayer &amp;&amp; LocalPlayer-&gt;ViewportClient)</span><br><span class="line">    &#123;</span><br><span class="line">        FVector2D MousePosition;</span><br><span class="line"></span><br><span class="line">        bGotMousePosition = LocalPlayer-&gt;ViewportClient-&gt;<span class="built_in">GetMousePosition</span>(MousePosition);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (bGotMousePosition)</span><br><span class="line">        &#123;</span><br><span class="line">            LocationX = MousePosition.X;</span><br><span class="line">            LocationY = MousePosition.Y;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> bGotMousePosition;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="含义-2"><a href="#含义-2" class="headerlink" title="含义"></a>含义</h4><p>获取鼠标位置并将其传给参数<code>LocationX</code>和<code>LocationY</code></p>
+<h4 id="注意-1"><a href="#注意-1" class="headerlink" title="注意"></a>注意</h4><p>依旧需要<code>PlayerController-&gt;</code>调用</p>
+<h3 id="bShowMouseCursor"><a href="#bShowMouseCursor" class="headerlink" title="bShowMouseCursor"></a>bShowMouseCursor</h3><h4 id="含义-3"><a href="#含义-3" class="headerlink" title="含义"></a>含义</h4><p>为true则显示鼠标；为false则不显示鼠标</p>
+<h3 id="AddActorWorldOffset"><a href="#AddActorWorldOffset" class="headerlink" title="AddActorWorldOffset()"></a>AddActorWorldOffset()</h3><h4 id="源码-3"><a href="#源码-3" class="headerlink" title="源码"></a>源码</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">AActor::AddActorWorldOffset</span><span class="params">(FVector DeltaLocation, <span class="type">bool</span> bSweep, FHitResult* OutSweepHitResult, ETeleportType Teleport)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (RootComponent)</span><br><span class="line">	&#123;</span><br><span class="line">		RootComponent-&gt;<span class="built_in">AddWorldOffset</span>(DeltaLocation, bSweep, OutSweepHitResult, Teleport);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (OutSweepHitResult)</span><br><span class="line">	&#123;</span><br><span class="line">		*OutSweepHitResult = <span class="built_in">FHitResult</span>();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="含义-4"><a href="#含义-4" class="headerlink" title="含义"></a>含义</h4><p>根据输入的偏移值（FVector类型）来使得物体进行位置偏移</p>
+<h3 id="FInputModeGameAndUI"><a href="#FInputModeGameAndUI" class="headerlink" title="FInputModeGameAndUI"></a>FInputModeGameAndUI</h3><p>一种数据结构，可以设置游戏和UI的输入模式</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FInputModeGameAndUI InputMode;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//设置鼠标一直锁定在视口范围内</span></span><br><span class="line">	InputMode.<span class="built_in">SetLockMouseToViewportBehavior</span>(EMouseLockMode::LockAlways);</span><br><span class="line">	<span class="comment">//关闭按下鼠标则鼠标隐藏功能</span></span><br><span class="line">	InputMode.<span class="built_in">SetHideCursorDuringCapture</span>(<span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="SetInputMode"><a href="#SetInputMode" class="headerlink" title="SetInputMode()"></a>SetInputMode()</h3><p>设置输入模式，其参数可以为<code>FInputModeGameAndUI</code>类型的变量</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li>在屏幕设置一个长方形的边界，在此长方形之内，鼠标随意移动，一旦超出边界，则屏幕往相应位置移动</li>
+</ol>
+<p><img src="D:\R_program\Blog\source_posts\UE4-项目-TowerDefence-封装屏幕移动功能到插件\1.png"></p>
+<ol start="2">
+<li><p>打开TowerDefence\Plugins\StoneToolClass\Source\StoneToolClass\Public\Tool\文件夹，创建<code>ScreenMove.h</code>,并且在相应的Private\Tool\文件夹下面创建<code>ScreenMove.cpp</code>文件</p>
+</li>
+<li><p>在<code>ScreenMove.h</code>引入必要的头文件</p>
+<ul>
+<li><p>添加一个枚举<code>EScreenMoveUnits</code>，用于标记鼠标的位置状态</p>
+</li>
+<li><p>声明<code>APlayerController</code>类</p>
+</li>
+<li><p>创建一个结构体<code>FScreenMoveUnits</code>,在其中声明一个以<code>EScreenMoveUnits</code>为返回值的函数<code>CursorMove</code>，形参是<code>APlayerController</code>的实例，并且在.CPP文件中创建该函数的定义</p>
+</li>
+</ul>
+</li>
+<li><p>在<code>ScreenMove.cpp</code>中定义<code>CursorMove</code>函数</p>
+<ul>
+<li><p>判断<code>PlayerController</code>是否有效，如果为true，则</p>
+</li>
+<li><p>定义屏幕尺寸<code>SizeX</code>和<code>SizeY</code>，初始值赋值为<code>INDEX_NONE</code></p>
+</li>
+<li><p>定义鼠标位置<code>MousePostionX</code>和<code>MousePostionY</code>，赋值为<code>-107374176.f</code></p>
+</li>
+<li><p>通过<code>APlayerController-&gt;GetViewportSize()</code>获取屏幕尺寸并且传参给<code>SizeX</code>和<code>SizeY</code></p>
+</li>
+<li><p>通过<code>PlayerController-&gt;GetMousePosition()</code>获取鼠标位置并且传参给<code>MousePostionX</code>，<code>MousePostionY</code></p>
+</li>
+<li><p>用<code>if()</code>来限定<code>MousePostionX</code>，<code>MousePostionX</code>的取值范围（&lt;&#x3D;SizeX和SizeY&amp;&amp;&gt;&#x3D;0）</p>
+</li>
+<li><p>通过<code>FMath::IsNearlyEqual()</code>来修改<code>EScreenMoveUnits</code>的状态，分别修改为上下左右，左上左下，右上右下；如果以上状态均不是，则返回为<code>Screen_None</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>ScreenMove.h</code>中声明<code>MoveDirection</code>函数实现目标的移动</p>
+<ul>
+<li><p>返回值为<code>bool</code></p>
+</li>
+<li><p>形参为<code>APlayerController* PlayerController</code>和<code>EScreenMoveState ScreenMoveState</code>以及<code>const float &amp;ScreenMoveSpeed = 100.f</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>ScreenMove.cpp</code>中定义<code>MoveDirection</code>函数</p>
+<ul>
+<li><p>声明<code>FVector</code>类型的变量<code>OffsetValue</code>，赋值为<code>FVector::ZeroVector</code></p>
+</li>
+<li><p>判断<code>PlayerController</code>是否存在且<code>PlayerController-&gt;GetPawn()</code></p>
+</li>
+<li><p>通过<code>switch()</code>遍历<code>ScreenMoveState</code></p>
+</li>
+<li><p>通过<code>PlayerController</code>调用<code>GetPawn()</code>再调用<code>AddActorWorldOffset()</code>将偏移值<code>OffsetValue</code>传入其中</p>
+</li>
+<li><p>返回值则直接为<code>return OffsetValue!=FVector::ZeroVector;</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>ScreenMove.h</code>中声明<code>ListenScreenMove</code>函数实现监听屏幕是否移动成功</p>
+<ul>
+<li><p>返回值为<code>bool</code></p>
+</li>
+<li><p>形参为<code>APlayerController* PlayerController</code>和<code>const float &amp;ScreenMoveSpeed=100.f</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>ScreenMove.cpp</code>中定义<code>ListenScreenMove</code>函数</p>
+<ul>
+<li>直接返回函数<code>MoveDirection</code></li>
+</ul>
+</li>
+<li><p>在<code>TowerDefence.build.cs</code>文件中添加<code>StoneToolClass</code>模块</p>
+<ul>
+<li>打开<code>TowerDefence.build.cs</code>，在<code>PublicDependencyModuleNames.AddRange(new string[] &#123; &quot;Core&quot;, &quot;CoreUObject&quot;, &quot;Engine&quot;, &quot;InputCore&quot; &#125;);</code>的最后，添加<code>,&quot;StoneToolClass&quot;</code></li>
+</ul>
+</li>
+<li><p>在<code>TowerDefencePlayerController.h</code>文件中添加<code>#include &quot;Tool/ScreenMove.h&quot;</code></p>
+<ul>
+<li>并且在<code>protect</code>下创建一个<code>FScreenMoveUnits</code>结构体的实例<code>ScreenMoveUnits</code></li>
+</ul>
+</li>
+<li><p>在<code>TowerDefencePlayerController.cpp</code>文件中调用</p>
+<ul>
+<li><p>在Tick时间中声明<code>float</code>类型的变量<code>ScreenMoveSpeed</code>并且赋值为100.f</p>
+</li>
+<li><p>调用<code>ScreenMoveUnits</code>实例中的函数<code>ListenScreenMove()</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>ScreenMove.h</code>中的结构体<code>FScreenMoveUnits</code>前面添加一个导出宏<code>STONETOOLCLASS_API</code></p>
+</li>
+<li><p>在<code>ScreenMove.cpp</code>文件中的<code>MoveDirection()</code>函数中使用<code>switch()</code>遍<code>历ScreenMoveState</code></p>
+<ul>
+<li><p>每遍历到一个状态值的时候使用<code>OffsetValue=FVector(ScreenMoveSpeed,0.0f,0.0f)</code>来给<code>OffsetValue</code>赋值</p>
+</li>
+<li><p>在遍历完之后使用<code>PlayerController-&gt;GetPawn()-&gt;AddActorWorldOffset(OffsetValue);</code>使得玩家控制器偏移</p>
+</li>
+</ul>
+</li>
+<li><p>在<code>TowerDefencePlayerController.cpp</code>中</p>
+<ul>
+<li><p>将<code>ScreenMoveSpeed</code>的值修改为20.0f</p>
+</li>
+<li><p>在构造函数中设置显示鼠标<code>bShowMouseCursor=true;</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>TowerDefencePlayerController.h</code>中添加函数<code>SetInputModeGameAndUI()</code></p>
+<ul>
+<li><p>在cpp文件中定义</p>
+</li>
+<li><p>添加一个<code>FInputModeGameAndUI</code>类型的变量<code>InputMode</code></p>
+</li>
+<li><p>设置鼠标一直锁定在视口范围内<code>InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::LockAlways)</code></p>
+</li>
+<li><p>关闭按下鼠标则鼠标隐藏功能<code>InputMode.SetHideCursorDuringCapture(false);</code></p>
+</li>
+<li><p>将<code>InputMode</code>添加到<code>SetInputMode()</code>函数中作为参数</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h1><h2 id="TowerDefencePlayerController-h"><a href="#TowerDefencePlayerController-h" class="headerlink" title="TowerDefencePlayerController.h"></a>TowerDefencePlayerController.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/PlayerController.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Tool/ScreenMove.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowerDefencePlayerController.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> ATowerDefencePlayerController : <span class="keyword">public</span> APlayerController</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line">	</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="comment">//构造函数</span></span><br><span class="line">	<span class="built_in">ATowerDefencePlayerController</span>();</span><br><span class="line">	<span class="comment">//重载Tick()</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">(<span class="type">float</span> DeltaSeconds)</span><span class="keyword">override</span></span>;</span><br><span class="line">	<span class="comment">//重载BeginPlay()</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span><span class="keyword">override</span></span>;</span><br><span class="line">	<span class="comment">//锁定鼠标在视野范围内</span></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">SetInputModeGameAndUI</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	FScreenMoveUnits ScreenMoveUnits;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="TowerDefencePlayerController-cpp"><a href="#TowerDefencePlayerController-cpp" class="headerlink" title="TowerDefencePlayerController.cpp"></a>TowerDefencePlayerController.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefencePlayerController.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">ATowerDefencePlayerController::<span class="built_in">ATowerDefencePlayerController</span>()</span><br><span class="line">&#123;</span><br><span class="line">	bShowMouseCursor = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ATowerDefencePlayerController::Tick</span><span class="params">(<span class="type">float</span> DeltaSeconds)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">Tick</span>(DeltaSeconds);</span><br><span class="line"></span><br><span class="line">	<span class="type">float</span> ScreenMoveSpeed = <span class="number">20.0f</span>;</span><br><span class="line">	ScreenMoveUnits.<span class="built_in">ListenScreenMove</span>(<span class="keyword">this</span>, ScreenMoveSpeed);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ATowerDefencePlayerController::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">	<span class="comment">//游戏开始时则直接锁定鼠标</span></span><br><span class="line">	<span class="built_in">SetInputModeGameAndUI</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ATowerDefencePlayerController::SetInputModeGameAndUI</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">	FInputModeGameAndUI InputMode;</span><br><span class="line">	<span class="comment">//设置鼠标一直锁定在视口范围内</span></span><br><span class="line">	InputMode.<span class="built_in">SetLockMouseToViewportBehavior</span>(EMouseLockMode::LockAlways);</span><br><span class="line">	<span class="comment">//关闭按下鼠标则鼠标隐藏功能</span></span><br><span class="line">	InputMode.<span class="built_in">SetHideCursorDuringCapture</span>(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="built_in">SetInputMode</span>(InputMode);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="ScreenMove-h"><a href="#ScreenMove-h" class="headerlink" title="ScreenMove.h"></a>ScreenMove.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">EScreenMoveState</span> &#123;</span><br><span class="line">	<span class="comment">//屏幕移动状态</span></span><br><span class="line">	Screen_None,			</span><br><span class="line">	Screen_UP,</span><br><span class="line">	Screen_Down,</span><br><span class="line">	Screen_Right,</span><br><span class="line">	Screen_Left,</span><br><span class="line">	Screen_RightAndUP,</span><br><span class="line">	Screen_RightAndDown,</span><br><span class="line">	Screen_LeftAndUP,</span><br><span class="line">	Screen_LeftAndDown,</span><br><span class="line">	Screen_Max</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">APlayerController</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">STONETOOLCLASS_API</span> FScreenMoveUnits &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//监听屏幕移动，返回当前移动是否成功</span></span><br><span class="line">	<span class="function"><span class="type">bool</span> <span class="title">ListenScreenMove</span><span class="params">(APlayerController* PlayerController,<span class="type">const</span> <span class="type">float</span> &amp;ScreenMoveSpeed = <span class="number">100.f</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//获取当前的移动状态，并且返回当前状态</span></span><br><span class="line">	<span class="function">EScreenMoveState <span class="title">CursorMove</span><span class="params">(<span class="type">const</span> APlayerController* PlayerController)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//获取当前的移动状态，并且返回当前是否移动，并且给屏幕移动速度赋值</span></span><br><span class="line">	<span class="function"><span class="type">bool</span> <span class="title">MoveDirection</span><span class="params">(APlayerController* PlayerController, EScreenMoveState ScreenMoveState, <span class="type">const</span> <span class="type">float</span> &amp;ScreenMoveSpeed = <span class="number">100.f</span>)</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="ScreenMove-cpp"><a href="#ScreenMove-cpp" class="headerlink" title="ScreenMove.cpp"></a>ScreenMove.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Tool/ScreenMove.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/PlayerController.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/pawn.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">FScreenMoveUnits::ListenScreenMove</span><span class="params">(APlayerController* PlayerController,<span class="type">const</span> <span class="type">float</span> &amp;ScreenMoveSpeed)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">MoveDirection</span>(PlayerController, <span class="built_in">CursorMove</span>(PlayerController), ScreenMoveSpeed);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">EScreenMoveState <span class="title">FScreenMoveUnits::CursorMove</span><span class="params">(<span class="type">const</span> APlayerController* PlayerController)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (PlayerController) &#123;</span><br><span class="line">        <span class="comment">//屏幕尺寸</span></span><br><span class="line">        int32 SizeX = INDEX_NONE;</span><br><span class="line">        int32 SizeY = INDEX_NONE;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//鼠标位置</span></span><br><span class="line">        <span class="type">float</span> MousePostionX = <span class="number">-107374176.f</span>;</span><br><span class="line">        <span class="type">float</span> MousePostionY = <span class="number">-107374176.f</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//获取尺寸</span></span><br><span class="line">        PlayerController-&gt;<span class="built_in">GetViewportSize</span>(SizeX, SizeY);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//获取鼠标位置</span></span><br><span class="line">        PlayerController-&gt;<span class="built_in">GetMousePosition</span>(MousePostionX, MousePostionY);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (MousePostionX &gt;= <span class="number">0</span> &amp;&amp; MousePostionX &lt;= SizeX &amp;&amp;<span class="comment">//鼠标X轴的取值范围</span></span><br><span class="line">            MousePostionY &gt;= <span class="number">0</span> &amp;&amp; MousePostionY &lt;= SizeY) &#123;<span class="comment">//鼠标Y轴的取值范围</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">//使用IsNearlyEqual()函数，如果鼠标X轴减去0.0f，其值范围在5.f之内，则返回true</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">//状态修改为左移</span></span><br><span class="line">            <span class="keyword">if</span> (FMath::<span class="built_in">IsNearlyEqual</span>(MousePostionX, <span class="number">0.0f</span>, <span class="number">5.f</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> EScreenMoveState::Screen_Left;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//状态修改为右移</span></span><br><span class="line">            <span class="keyword">if</span> (FMath::<span class="built_in">IsNearlyEqual</span>(MousePostionX, SizeX, <span class="number">5.f</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> EScreenMoveState::Screen_Right;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//状态修改为上移</span></span><br><span class="line">            <span class="keyword">if</span> (FMath::<span class="built_in">IsNearlyEqual</span>(MousePostionY, <span class="number">0.0f</span>, <span class="number">5.f</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> EScreenMoveState::Screen_UP;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//状态修改为下移</span></span><br><span class="line">            <span class="keyword">if</span> (FMath::<span class="built_in">IsNearlyEqual</span>(MousePostionY, SizeY, <span class="number">5.f</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> EScreenMoveState::Screen_Down;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//状态修改为左上</span></span><br><span class="line">            <span class="keyword">if</span> (FMath::<span class="built_in">IsNearlyEqual</span>(MousePostionX, <span class="number">0.0f</span>, <span class="number">5.f</span>)&amp;&amp;FMath::<span class="built_in">IsNearlyEqual</span>(MousePostionY,<span class="number">0.0f</span>,<span class="number">5.f</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> EScreenMoveState::Screen_LeftAndUP;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//状态修改为左下</span></span><br><span class="line">            <span class="keyword">if</span> (FMath::<span class="built_in">IsNearlyEqual</span>(MousePostionX, <span class="number">0.0f</span>, <span class="number">5.f</span>) &amp;&amp; FMath::<span class="built_in">IsNearlyEqual</span>(MousePostionY, SizeY, <span class="number">5.f</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> EScreenMoveState::Screen_LeftAndDown;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//状态修改为右上</span></span><br><span class="line">            <span class="keyword">if</span> (FMath::<span class="built_in">IsNearlyEqual</span>(MousePostionX, SizeX, <span class="number">5.f</span>) &amp;&amp; FMath::<span class="built_in">IsNearlyEqual</span>(MousePostionY, <span class="number">0.0f</span>, <span class="number">5.f</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> EScreenMoveState::Screen_RightAndUP;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//状态修改为右下</span></span><br><span class="line">            <span class="keyword">if</span> (FMath::<span class="built_in">IsNearlyEqual</span>(MousePostionX, SizeX, <span class="number">5.f</span>) &amp;&amp; FMath::<span class="built_in">IsNearlyEqual</span>(MousePostionY, SizeY, <span class="number">5.f</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> EScreenMoveState::Screen_RightAndDown;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line">    <span class="keyword">return</span> EScreenMoveState::Screen_None;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">FScreenMoveUnits::MoveDirection</span><span class="params">(APlayerController* PlayerController, EScreenMoveState ScreenMoveState, <span class="type">const</span> <span class="type">float</span> &amp;ScreenMoveSpeed)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    FVector OffsetValue = FVector::ZeroVector;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (PlayerController &amp;&amp; PlayerController-&gt;<span class="built_in">GetPawn</span>()) &#123;</span><br><span class="line">        <span class="keyword">switch</span> (ScreenMoveState) &#123;</span><br><span class="line">        <span class="keyword">case</span> Screen_UP:</span><br><span class="line">            OffsetValue = <span class="built_in">FVector</span>(ScreenMoveSpeed, <span class="number">0.0f</span>, <span class="number">0.0f</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> Screen_Down:</span><br><span class="line">            OffsetValue = <span class="built_in">FVector</span>(-ScreenMoveSpeed, <span class="number">0.0f</span>, <span class="number">0.0f</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> Screen_Right:</span><br><span class="line">            OffsetValue = <span class="built_in">FVector</span>(<span class="number">0.0f</span>, ScreenMoveSpeed, <span class="number">0.0f</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> Screen_Left:</span><br><span class="line">            OffsetValue = <span class="built_in">FVector</span>(<span class="number">0.0f</span>, -ScreenMoveSpeed, <span class="number">0.0f</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> Screen_LeftAndDown:</span><br><span class="line">            OffsetValue = <span class="built_in">FVector</span>(-ScreenMoveSpeed, -ScreenMoveSpeed, <span class="number">0.0f</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> Screen_LeftAndUP:</span><br><span class="line">            OffsetValue = <span class="built_in">FVector</span>(ScreenMoveSpeed, -ScreenMoveSpeed, <span class="number">0.0f</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> Screen_RightAndDown:</span><br><span class="line">            OffsetValue = <span class="built_in">FVector</span>(-ScreenMoveSpeed, ScreenMoveSpeed, <span class="number">0.0f</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> Screen_RightAndUP:</span><br><span class="line">            OffsetValue = <span class="built_in">FVector</span>(ScreenMoveSpeed, ScreenMoveSpeed, <span class="number">0.0f</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        PlayerController-&gt;<span class="built_in">GetPawn</span>()-&gt;<span class="built_in">AddActorWorldOffset</span>(OffsetValue);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> OffsetValue != FVector::ZeroVector;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="TowerDefenceGameModeBase-h"><a href="#TowerDefenceGameModeBase-h" class="headerlink" title="TowerDefenceGameModeBase.h"></a>TowerDefenceGameModeBase.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Copyright Epic Games, Inc. All Rights Reserved.</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/GameModeBase.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowerDefenceGameModeBase.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> ATowerDefenceGameModeBase : <span class="keyword">public</span> AGameModeBase</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line">	</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">ATowerDefenceGameModeBase</span>();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="TowerDefenceGameModeBase-cpp"><a href="#TowerDefenceGameModeBase-cpp" class="headerlink" title="TowerDefenceGameModeBase.cpp"></a>TowerDefenceGameModeBase.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Copyright Epic Games, Inc. All Rights Reserved.</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowerDefenceGameModeBase.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefenceGameState.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefencePlayerController.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefenceGameCamera.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefenceGameInstance.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefencePlayerState.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/GameUI/Core/RuleOfTheHUD.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ATowerDefenceGameModeBase::<span class="built_in">ATowerDefenceGameModeBase</span>()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//加载GameState</span></span><br><span class="line">	GameStateClass = ATowerDefenceGameState::<span class="built_in">StaticClass</span>();</span><br><span class="line">	<span class="comment">//加载Controller</span></span><br><span class="line">	PlayerControllerClass = ATowerDefencePlayerController::<span class="built_in">StaticClass</span>();</span><br><span class="line">	<span class="comment">//加载ControllerPawn</span></span><br><span class="line">	DefaultPawnClass = ATowerDefenceGameCamera::<span class="built_in">StaticClass</span>();</span><br><span class="line">	<span class="comment">//加载PlayerState</span></span><br><span class="line">	PlayerStateClass = APlayerState::<span class="built_in">StaticClass</span>();</span><br><span class="line">	<span class="comment">//加载HUD</span></span><br><span class="line">	HUDClass = ARuleofTheHUD::<span class="built_in">StaticClass</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="TowerDefence-build-cs"><a href="#TowerDefence-build-cs" class="headerlink" title="TowerDefence.build.cs"></a>TowerDefence.build.cs</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Copyright Epic Games, Inc. All Rights Reserved.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> UnrealBuildTool;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TowerDefence</span> : ModuleRules</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TowerDefence</span><span class="params">(ReadOnlyTargetRules Target)</span> : base(Target)</span></span><br><span class="line"><span class="function">	&#123;</span></span><br><span class="line">		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;</span><br><span class="line">	</span><br><span class="line">		PublicDependencyModuleNames.<span class="built_in">AddRange</span>(<span class="keyword">new</span> string[] &#123; <span class="string">&quot;Core&quot;</span>, <span class="string">&quot;CoreUObject&quot;</span>, <span class="string">&quot;Engine&quot;</span>, <span class="string">&quot;InputCore&quot;</span>, <span class="string">&quot;StoneToolClass&quot;</span> &#125;);</span><br><span class="line"></span><br><span class="line">		PrivateDependencyModuleNames.<span class="built_in">AddRange</span>(<span class="keyword">new</span> string[] &#123;  &#125;);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Uncomment if you are using Slate UI</span></span><br><span class="line">		<span class="comment">// PrivateDependencyModuleNames.AddRange(new string[] &#123; &quot;Slate&quot;, &quot;SlateCore&quot; &#125;);</span></span><br><span class="line">		</span><br><span class="line">		<span class="comment">// Uncomment if you are using online features</span></span><br><span class="line">		<span class="comment">// PrivateDependencyModuleNames.Add(&quot;OnlineSubsystem&quot;);</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">// To include OnlineSubsystemSteam, add it to the plugins section in your uproject file with the Enabled attribute set to true</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/18/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%89%93%E5%8C%85%E5%92%8C%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/18/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%89%93%E5%8C%85%E5%92%8C%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">UE4-项目-死寂-打包和优化</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-07-18 16:25:21" itemprop="dateCreated datePublished" datetime="2022-07-18T16:25:21+08:00">2022-07-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-08-20 15:37:41" itemprop="dateModified" datetime="2022-08-20T15:37:41+08:00">2022-08-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h1><h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
+<li><p>项目设置-&gt;加密-&gt;添加密钥</p>
+</li>
+<li><p>项目设置-&gt;地图和模式-&gt;默认地图和默认游戏模式</p>
+</li>
+<li><p>项目设置-&gt;项目-&gt;支持平台</p>
+</li>
+</ol>
+<h1 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h1><ol>
+<li><p>修改模型&#x2F;贴图&#x2F;地形的LOD</p>
+</li>
+<li><p>添加一个”剔除距离体积“，添加数组元素</p>
+<ul>
+<li><p>以下为官方推荐六个数组数值</p>
+</li>
+<li><p>0&#x2F;1000</p>
+</li>
+<li><p>128&#x2F;2048</p>
+</li>
+<li><p>256&#x2F;4096</p>
+</li>
+<li><p>512&#x2F;8096</p>
+</li>
+<li><p>1024&#x2F;16384</p>
+</li>
+<li><p>2048&#x2F;0</p>
+</li>
+</ul>
+</li>
+<li><p>降低模型面熟</p>
+</li>
+<li><p>降低贴图分辨率</p>
+</li>
+<li><p>灯光重叠面积减少</p>
+</li>
+<li><p>不要使用屏幕捕捉</p>
+</li>
+<li><p>光源能用静态就静态，最好用固态（看情况）</p>
+</li>
+<li><p>减少透明材质和例子特效的使用</p>
+</li>
+<li><p>更改引擎可拓展性</p>
+</li>
+<li><p>减少复杂碰撞的使用，尽量使用简单碰撞，关闭不需要碰撞的物体碰撞</p>
+</li>
+<li><p>减少蓝图AI数量</p>
+</li>
+</ol>
+<p><img src="D:\R_program\Blog\source_posts\UE4-项目-死寂-打包和优化\1.png"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/18/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%83%9C%E5%88%A9-%E5%A4%B1%E8%B4%A5%E5%8A%A8%E7%94%BB%E5%92%8C%E8%A7%A6%E5%8F%91%E6%9D%A1%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/18/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%83%9C%E5%88%A9-%E5%A4%B1%E8%B4%A5%E5%8A%A8%E7%94%BB%E5%92%8C%E8%A7%A6%E5%8F%91%E6%9D%A1%E4%BB%B6/" class="post-title-link" itemprop="url">UE4-项目-死寂-胜利/失败动画和触发条件</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-18 11:11:30 / 修改时间：16:24:44" itemprop="dateCreated datePublished" datetime="2022-07-18T11:11:30+08:00">2022-07-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="胜利动画和触发条件"><a href="#胜利动画和触发条件" class="headerlink" title="胜利动画和触发条件"></a>胜利动画和触发条件</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="从父项中移除"><a href="#从父项中移除" class="headerlink" title="从父项中移除"></a>从父项中移除</h3><p>可以关闭当前UI界面</p>
+<h3 id="获取当前关卡名"><a href="#获取当前关卡名" class="headerlink" title="获取当前关卡名"></a>获取当前关卡名</h3><p>字面意思</p>
+<h3 id="show-mouse-cursor"><a href="#show-mouse-cursor" class="headerlink" title="show mouse cursor"></a>show mouse cursor</h3><p>显示鼠标</p>
+<h3 id="设置输入模式游戏和UI"><a href="#设置输入模式游戏和UI" class="headerlink" title="设置输入模式游戏和UI"></a>设置输入模式游戏和UI</h3><p>设置游戏和UI的输入模式，可以使得”Hide Cursor During Capture“引脚变换</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li>创建控件蓝图“胜利”<ul>
+<li><p>添加“边界”，设置其锚点，颜色，透明度</p>
+</li>
+<li><p>添加图像，设置锚点，尺寸，位移</p>
+</li>
+<li><p>添加两个文本“成功”，“获得清道夫成就”，分别设置其锚点，位置，尺寸</p>
+</li>
+</ul>
+</li>
+<li>添加两个“按钮交互”分别命名为“重新开始”和“返回主界面”<ul>
+<li><p>添加动画“出现”</p>
+<ul>
+<li><p>添加边界轨道，设置其渲染不透明度</p>
+</li>
+<li><p>添加两个文本和图片轨道，设置渲染不透明度和平移</p>
+</li>
+<li><p>添加按钮轨道，添加渲染不透明度和平移</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>在图表中，事件构造之后直接播放动画“出现”<ul>
+<li><p>获取“返回主界面”按钮，获取其button，绑定事件到点击时，自定义事件“返回主界面事件”，然后“打开关卡（按名称）”，名称为主菜单关卡名称</p>
+</li>
+<li><p>获取“重新开始”按钮，获取其button，绑定事件到剪辑师，自定义事件“重新开始事件”，”获取当前关卡名“，创建控件，class选择“加载界面”，将其添加到视口，然后使用“从父项中移除”来关闭当前的胜利UI</p>
+</li>
+</ul>
+</li>
+<li>在关卡蓝图中创建自定义事件“胜利”<ul>
+<li><p>获取玩家控制器之后“使用混合设置视图目标”，切换一个摄像机，并且“禁用输入”，调用玩家角色蓝图，调用“停止射击”事件</p>
+</li>
+<li><p>通过“获取类的所有控件”获取“游戏中界面”，“从父项中移除”，并且延迟5s</p>
+</li>
+<li><p>使用“创建控件”，“添加到视口”将“胜利”控件UI添加到视口</p>
+</li>
+<li><p>最后 使用获取玩家控制器之后调用”show mouse cursor“为true，并且”设置输入模式游戏和UI“，将Hide Cursor During Capture取消勾选</p>
+</li>
+</ul>
+</li>
+<li>在”游戏中界面“的图表中的”当前丧尸数量“函数内，判断当前丧尸数量如果&lt;&#x3D;0则”Do once“，然后“执行控制台命令”：ce 胜利</li>
+</ol>
+<h1 id="失败动画和触发条件"><a href="#失败动画和触发条件" class="headerlink" title="失败动画和触发条件"></a>失败动画和触发条件</h1><h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>复制”胜利“控件蓝图，重命名为”失败“</p>
+</li>
+<li><p>修改其中的图片和文字</p>
+</li>
+<li><p>在角色死亡系统图表中，关闭角色碰撞后面，通过”获取类的所有控件“和”从父项中移除“来关闭”游戏中界面“</p>
+</li>
+<li><p>最后在角色死亡弹簧臂拉长的时间轴结束之后（finish引脚）创建”失败“控件添加到视口</p>
+</li>
+<li><p>使用获取玩家控制器之后调用”show mouse cursor“为true，并且”设置输入模式游戏和UI“，将Hide Cursor During Capture取消勾选</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/18/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-F%E9%94%AE%E6%8B%BE%E5%8F%96%E7%89%A9%E5%93%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/18/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-F%E9%94%AE%E6%8B%BE%E5%8F%96%E7%89%A9%E5%93%81/" class="post-title-link" itemprop="url">UE4-项目-死寂-F键拾取物品</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-18 10:53:41 / 修改时间：11:10:24" itemprop="dateCreated datePublished" datetime="2022-07-18T10:53:41+08:00">2022-07-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="F键拾取物品"><a href="#F键拾取物品" class="headerlink" title="F键拾取物品"></a>F键拾取物品</h1><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>创建控件蓝图“拾取提示”</p>
+</li>
+<li><p>添加一个水平框，在其下分别添加一个覆层和一个文本“拾取物品”</p>
+</li>
+<li><p>设置覆层组件为填充（右边值为15），水平和垂直对其均为填充</p>
+</li>
+<li><p>在覆层下面添加一个图片和一个文本”F“，设置两者位置和填充</p>
+</li>
+<li><p>在角色蓝图类中的事件图表，事件开始运行时，通过“创建控件”将“拾取提示”创建出来，并且提升为变量“拾取提示”，“添加到视口”，并且”设置可视性“为“已折叠”</p>
+</li>
+<li><p>在角色的拾取系统的开启高亮显示的后面设置“拾取提示”的可视性为可视</p>
+</li>
+<li><p>在关闭高亮显示的遍历结束之后关闭拾取提示UI的可视性</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/17/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E7%AB%A0%E8%8A%82%E5%92%8C%E4%BB%BB%E5%8A%A1%E6%8F%90%E7%A4%BAUI/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/17/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E7%AB%A0%E8%8A%82%E5%92%8C%E4%BB%BB%E5%8A%A1%E6%8F%90%E7%A4%BAUI/" class="post-title-link" itemprop="url">UE4-项目-死寂-章节和任务提示UI</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-07-17 11:02:10" itemprop="dateCreated datePublished" datetime="2022-07-17T11:02:10+08:00">2022-07-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-07-18 10:45:54" itemprop="dateModified" datetime="2022-07-18T10:45:54+08:00">2022-07-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="章节提示动画制作"><a href="#章节提示动画制作" class="headerlink" title="章节提示动画制作"></a>章节提示动画制作</h1><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>在“游戏中界面”控件蓝图中添加一个画布面板“章节提示”</p>
+</li>
+<li><p>在“章节提示”下面加入一个图片“章节提示背景”和文本“第一章：清道夫”，分别设置其位置。锚点，尺寸，纹理和字体</p>
+</li>
+<li><p>添加一个图像“警告提示logo”，设置其纹理，锚点，位置，尺寸</p>
+</li>
+<li><p>将以上三个组件的渲染不透明度均改为0</p>
+</li>
+<li><p>新增一个动画“章节提示动画”</p>
+<ul>
+<li><p>给“警告提示logo”设置缩放从5到1，设置渲染不透明度从0到1到0（中间添加一个关键帧，使得渲染不透明度在1停留0.15秒）</p>
+</li>
+<li><p>给“章节提示背景”添加轨道，设置其渲染不透明度变换（从无到有）和缩放变换（从小到大横向展开）</p>
+</li>
+<li><p>给“第一章：清道夫”添加轨道，设置其渲染不透明度和频移变换</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="任务提示UI动画制作"><a href="#任务提示UI动画制作" class="headerlink" title="任务提示UI动画制作"></a>任务提示UI动画制作</h1><h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>添加一个画布面板“任务提示”</p>
+</li>
+<li><p>添加“任务提示背景”图像，“任务提示logo”图像，“消灭你所看到的所有丧尸”文本</p>
+</li>
+<li><p>添加一个水平框“丧尸数量”，给其添加三个文本（一个显示当前数量，一个作为间隔的&#x2F;，一个作为丧尸总数量）</p>
+</li>
+<li><p>将四个组件的渲染不透明度均修改为0</p>
+</li>
+<li><p>新建一个名为“任务提示动画”的动画</p>
+<ul>
+<li>分别给四个组件添加轨道，设置其渲染不透明度变换</li>
+</ul>
+</li>
+</ol>
+<h1 id="将两个动画添加到场景中"><a href="#将两个动画添加到场景中" class="headerlink" title="将两个动画添加到场景中"></a>将两个动画添加到场景中</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="禁用输入"><a href="#禁用输入" class="headerlink" title="禁用输入"></a>禁用输入</h3><p>字面意思</p>
+<h2 id="启用输入"><a href="#启用输入" class="headerlink" title="启用输入"></a>启用输入</h2><p>字面意思</p>
+<h3 id="设置仅输入模式游戏"><a href="#设置仅输入模式游戏" class="headerlink" title="设置仅输入模式游戏"></a>设置仅输入模式游戏</h3><p>使得玩家游玩的时候不需要按住鼠标右键就可以直接操控角色</p>
+<h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>在“游戏中界面”控件蓝图中的图表中创建自定义函数“播放章节提示动画”，“播放任务提示动画”，分别使用“播放动画”使得“章节提示动画”和“任务提示动画”被播放</p>
+</li>
+<li><p>打开游戏场景，放置一个摄像机在合理的位置，打开关卡蓝图</p>
+<ul>
+<li><p>事件开始运行时，获取摄像机实例，获取玩家控制器，“使用混合设置视图目标”将一开始的摄像机设置为刚刚放置的摄像机</p>
+</li>
+<li><p>获取玩家实例，“禁用输入”，延迟1s，通过“获取类的所有组件”和“游戏中界面”达成通信，播放“播放章节提示动画”，延迟4s</p>
+</li>
+<li><p>“使用混合设置视图目标”，将玩家控制器交给BP_Player，设置混合时间为8s，混合指数为3，混合函数为VT混合交叉缓动</p>
+</li>
+<li><p>延迟8s，和“游戏中界面”通信，播放“播放任务提示动画”</p>
+</li>
+<li><p>获取玩家控制器“设置仅输入模式游戏”，“启用输入”</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="优化-画面由黑色转变到正常可见"><a href="#优化-画面由黑色转变到正常可见" class="headerlink" title="优化-画面由黑色转变到正常可见"></a>优化-画面由黑色转变到正常可见</h1><p>在游戏刚开始的时候植被需要加载，为了玩家看不到这个加载过程，画面由黑色逐渐转变到正常可见</p>
+<h2 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h2><h3 id="开始摄像机淡化"><a href="#开始摄像机淡化" class="headerlink" title="开始摄像机淡化"></a>开始摄像机淡化</h3><p>是“获取玩家摄像机管理器”节点的引申节点</p>
+<p>Color引脚就是遮罩颜色</p>
+<p>From Alpha就是一开始的遮罩不透明度</p>
+<p>To Alpha就是最后的遮罩不透明度</p>
+<p>Duration就是变换时间</p>
+<h2 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>获取玩家摄像机管理器，引出“开始摄像机淡化”节点</p>
+</li>
+<li><p>在事件开始运行时最前面调用“开始摄像机淡化”</p>
+</li>
+</ol>
+<h1 id="丧尸数量与UI绑定"><a href="#丧尸数量与UI绑定" class="headerlink" title="丧尸数量与UI绑定"></a>丧尸数量与UI绑定</h1><h2 id="知识点-2"><a href="#知识点-2" class="headerlink" title="知识点"></a>知识点</h2><h3 id="设置文本"><a href="#设置文本" class="headerlink" title="设置文本"></a>设置文本</h3><p>字面意思</p>
+<h3 id="长度"><a href="#长度" class="headerlink" title="长度"></a>长度</h3><p>在达成蓝图通信的时候可以通过此节点获取场景中一共有该类的多少个实例</p>
+<h2 id="思路-4"><a href="#思路-4" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>将“游戏中界面”控件蓝图中的“丧尸总数量”公开到蓝图</p>
+</li>
+<li><p>事件构造后面，通过“获取类的所有Actor”和”BP_Zombie”达成通信，获取其“长度”</p>
+</li>
+<li><p>调用“丧尸总数量”，“设置文本”，将上一步获取的长度传入进来</p>
+</li>
+<li><p>创建int变量“丧尸当前数量”，并在末尾设置其值，将“长度（length）”传入进来（初始化丧尸数量）</p>
+</li>
+<li><p>在设计器中的“丧尸当前数量”文本控件中创建绑定，判断丧尸当前数量是否&lt;&#x3D;0，是则返回节点设置为“丧尸当前数量”</p>
+</li>
+<li><p>在丧尸蓝图类的“伤害检测和死亡系统”中通过“获取类的所有控件”和“游戏中界面”达成通信，在丧尸死亡之后将“丧尸当前数量自减”</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1093,858 +1869,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/14/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%9C%AC%E5%9C%B0%E5%AD%98%E5%82%A8%E5%92%8C%E5%8A%A0%E8%BD%BD%E7%8E%A9%E5%AE%B6%E9%80%89%E6%8B%A9%E6%95%B0%E6%8D%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/14/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E6%9C%AC%E5%9C%B0%E5%AD%98%E5%82%A8%E5%92%8C%E5%8A%A0%E8%BD%BD%E7%8E%A9%E5%AE%B6%E9%80%89%E6%8B%A9%E6%95%B0%E6%8D%AE/" class="post-title-link" itemprop="url">UE4-项目-死寂-本地存储和加载玩家选择数据</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-07-14 16:16:28 / 修改时间：17:19:05" itemprop="dateCreated datePublished" datetime="2022-07-14T16:16:28+08:00">2022-07-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="本地存储与加载"><a href="#本地存储与加载" class="headerlink" title="本地存储与加载"></a>本地存储与加载</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="SaveGame"><a href="#SaveGame" class="headerlink" title="SaveGame"></a>SaveGame</h3><p>一个蓝图类，用于保存游戏数据</p>
-<h3 id="游戏存档存在"><a href="#游戏存档存在" class="headerlink" title="游戏存档存在"></a>游戏存档存在</h3><p>用于判断游戏的存档是否存在</p>
-<h3 id="创建游戏存档对象"><a href="#创建游戏存档对象" class="headerlink" title="创建游戏存档对象"></a>创建游戏存档对象</h3><p>字面意思</p>
-<h3 id="将游戏保存到插槽"><a href="#将游戏保存到插槽" class="headerlink" title="将游戏保存到插槽"></a>将游戏保存到插槽</h3><p>将游戏保存到一个已经创建好的SaveGame中</p>
-<h3 id="从插槽加载游戏"><a href="#从插槽加载游戏" class="headerlink" title="从插槽加载游戏"></a>从插槽加载游戏</h3><p>字面意思，插槽名称是“游戏存档存在”中插槽的名称</p>
-<h3 id="打开关卡（按名称）"><a href="#打开关卡（按名称）" class="headerlink" title="打开关卡（按名称）"></a>打开关卡（按名称）</h3><p>字面意思</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>将之前选择的服装创建一个存档，方便正式游戏中的角色模型读取其数据来更换模型</p>
-<ul>
-<li><p>创建一个SaveGame类型的蓝图类“BP_ClothSaveGame”</p>
-</li>
-<li><p>添加骨骼网格体类型的变量“ClothMesh”，为其设置一个默认值</p>
-</li>
-<li><p>在“BP_MainMenu”中的“切换服装”事件后面判断游戏存档是否存在，不存在则创建一个新的存档</p>
-<ul>
-<li><p>使用“游戏存档存在”判断是否存在（Slot Name设置为Cloth），使用一个分支节点，fasle的时候“创建游戏存档对象”，并将其返回值提升为变量“ClothSaveGame”</p>
-</li>
-<li><p>拖入ClothSaveGame，引出“set cloth mesh”，将“选择的模型”作为变量传入</p>
-</li>
-<li><p>调用“将游戏保存到插槽”节点，Object引脚引入“ClothSaveGame”，Slot Name引脚为Cloth</p>
-</li>
-<li><p>如果有存档，也就是分支节点返回为true，则使用“从插槽加载游戏”，类型转换为“BP_ClothSaveGame”，再设置“ClothSaveGame”，最后设置ClothMesh，然后“将游戏保存到插槽”</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>在自定义服装界面添加一个“按钮交互”，文本内容为“完成”，作为选好服装之后进行下一步的操作按钮</p>
-</li>
-<li><p>将自定义服装界面选好的服装模型附加到正式游戏中的角色身上</p>
-<ul>
-<li><p>在角色蓝图的事件图表中的“事件开始运行时”开头，判断是或否有存档，有则“从插槽中加载游戏”，类型转换为“BP_ClothSaveGame”，获取其中的ClothMesh“设置骨骼网格体”</p>
-</li>
-<li><p>注意：无游戏存档的时候，以及转换为”BP_ClothSaveGame“失败时，也需要连接到转换到动画蓝图上去</p>
-</li>
-</ul>
-</li>
-<li><p>测试一下</p>
-<ul>
-<li>主界面控件蓝图，获取“自定义服装界面”的“按钮交互”，获取其button，“绑定事件到点击时”，创建自定义事件，“打开关卡（按名称）”</li>
-</ul>
-</li>
-</ol>
-<h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><p>第二次开启游戏的时候，服装选择界面需要是上一次选择的服装</p>
-<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
-<li>在”BP_MainMenu“的事件开始运行时，判断是否有存档，有则“从插槽中加载游戏”，类型转换为“BP_ClothSaveGame”，获取其中的ClothMesh“设置骨骼网格体”</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/13/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9C%8D%E8%A3%85UI%E7%95%8C%E9%9D%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/13/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9C%8D%E8%A3%85UI%E7%95%8C%E9%9D%A2/" class="post-title-link" itemprop="url">UE4-项目-死寂-自定义服装UI界面</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-07-13 16:24:43" itemprop="dateCreated datePublished" datetime="2022-07-13T16:24:43+08:00">2022-07-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-07-14 16:14:32" itemprop="dateModified" datetime="2022-07-14T16:14:32+08:00">2022-07-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="自定义服装UI界面"><a href="#自定义服装UI界面" class="headerlink" title="自定义服装UI界面"></a>自定义服装UI界面</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="滚动框"><a href="#滚动框" class="headerlink" title="滚动框"></a>滚动框</h3><p>控件蓝图中的组件，一个框里面，物品过多的时候即可滚动物品选择</p>
-<h3 id="统一网格面板"><a href="#统一网格面板" class="headerlink" title="统一网格面板"></a>统一网格面板</h3><p>空间蓝图中的组件，放在滚动框中</p>
-<h3 id="设置骨骼网格体"><a href="#设置骨骼网格体" class="headerlink" title="设置骨骼网格体"></a>设置骨骼网格体</h3><p>可以设置骨骼网格体模型，也可以更新模型的时候重置其动画（Reinit Pose为true）</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在世界场景设置中的“游戏模式”，”默认Pawn类“中修改为Pawn</p>
-</li>
-<li><p>复制“按钮交互”空间蓝图为“自定义服装按钮”</p>
-</li>
-<li><p>删除其中的按钮和文本框，图表中除了播放动画逻辑之外全部删掉，变量“Name”也删掉</p>
-</li>
-<li><p>拖入“边界”，将其尺寸xy均修改为150，右上角的“自定义”修改为“所需”，将默认的“渲染不透明度”修改为0</p>
-</li>
-<li><p>拖入“按钮”，将其锚点修改为居中，位置均为0，尺寸均为140，对其均为0.5</p>
-</li>
-<li><p>添加一个“图像”到“按钮”下面，将水平和竖直对其均修改为填充，将填充的值修改为0</p>
-</li>
-<li><p>添加服饰的图像，并将其亮度修改为0.4（在选中的时候才为1）</p>
-</li>
-<li><p>将图像的“渲染变换”中的“缩放”均修改为1.1，将按钮的裁切修改为“裁切到边界-固定（高级）”</p>
-</li>
-<li><p>将“交互”动画中原本的删掉，添加“图像”的轨道，缩放从1.1到1.2，“颜色和不透明度”的RGBA均从0.4到1</p>
-</li>
-<li><p>添加“边界”的轨道，将“渲染不透明度”从0修改为1</p>
-</li>
-<li><p>设置按钮的音效</p>
-</li>
-<li><p>给按钮添加“悬停时”和“未悬停时”的事件，分别正反向播放“交互”动画</p>
-</li>
-<li><p>创建一个“纹理2D”类型的变量“服装图片”，在设计器中的图像组件和“服装图片”进行绑定</p>
-</li>
-<li><p>添加“骨骼网格体”类型的变量“服装模型”，勾选其“可编辑实例”和“生成时公开”</p>
-</li>
-<li><p>创建新的空间蓝图“自定义服装”</p>
-<ul>
-<li><p>将“游戏声明”控件蓝图中的文本控件和返回按钮复制到“自定义服装中”</p>
-</li>
-<li><p>添加图像组件，全屏，放置服装选择图片，将一个“滚动框”组件放入图片“服装”栏的下面</p>
-</li>
-<li><p>在滚动框下面放入一个“统一网格面板”</p>
-</li>
-<li><p>将“自定义服装按钮”拖入统一网格面板，设置其行列，输入其“服装图片”和“服装模型”</p>
-</li>
-</ul>
-</li>
-<li><p>将“自定义服装”拖入到主界面控件蓝图中</p>
-<ul>
-<li><p>修改其锚点，偏移，渲染不透明度</p>
-</li>
-<li><p>复制原本的动画，替换为“自定义服装界面”，命名为“点击自定义服装”</p>
-</li>
-<li><p>将主界面的图表中的“关闭所有UI交互”函数中添加“自定义服装界面”</p>
-</li>
-</ul>
-</li>
-<li><p>在关卡蓝图中添加自定义事件“切换到自定义服装”，使用“获取玩家控制器”，“使用混合设置视图目标”，以及选择一个摄像机的实例实现切换摄像机的效果</p>
-</li>
-<li><p>在“主界面”的图表中使用“播放动画”，“控制台命令”，“关闭所有UI交互”，“设置可视性”实现主界面切换到自定义服装界面，同理，也设置自定义界面返回到主界面</p>
-</li>
-<li><p>创建一个角色蓝图类“BP_MainMenu”用于选择服装之后展示服装模型</p>
-<ul>
-<li><p>给角色添加一个模型</p>
-</li>
-<li><p>设置其动画模式为“使用动画资产”，设置一个合适的“要播放的动画”</p>
-</li>
-</ul>
-</li>
-<li><p>将“BP_MainMenu”放入场景中，放在第三个摄像机能看到的位置（自定义服装位置）</p>
-</li>
-<li><p>在主界面选择了不同服装之后，角色模型的服装也需要发生相应变化</p>
-<ul>
-<li><p>在“BP_MainMenu”创建一个自定义事件“切换服装”，添加一个骨骼网格体类型的输入“选择的模型”，并提升为变量</p>
-</li>
-<li><p>使用“设置骨骼网格体”来重置“BP_MainMenu”的模型，并且将“Reinit Pose”为false</p>
-</li>
-<li><p>在自定义服装按钮控件蓝图中，给button添加一个点击时的事件，通过“获取类的所有actor”调用“BP_MainMenu”中的“切换服装”事件</p>
-</li>
-</ul>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/07/Socket%E7%BC%96%E7%A8%8B-Windows%E4%B8%8B%E7%9A%84%E6%BC%94%E7%A4%BA%E7%A8%8B%E5%BA%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/07/Socket%E7%BC%96%E7%A8%8B-Windows%E4%B8%8B%E7%9A%84%E6%BC%94%E7%A4%BA%E7%A8%8B%E5%BA%8F/" class="post-title-link" itemprop="url">Socket编程-Windows下的演示程序</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-07-07 11:11:56 / 修改时间：11:27:11" itemprop="dateCreated datePublished" datetime="2022-07-07T11:11:56+08:00">2022-07-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Socket/" itemprop="url" rel="index"><span itemprop="name">Socket</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>server.cpp 为服务器端代码，client 为客户端代码。 </p>
-<h1 id="服务器端代码-server-cpp："><a href="#服务器端代码-server-cpp：" class="headerlink" title="服务器端代码 server.cpp："></a>服务器端代码 server.cpp：</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;winsock2.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> comment (lib, <span class="string">&quot;ws2_32.lib&quot;</span>)  <span class="comment">//加载 ws2_32.dll</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//初始化 DLL</span></span><br><span class="line">    WSADATA wsaData;</span><br><span class="line">    <span class="built_in">WSAStartup</span>( <span class="built_in">MAKEWORD</span>(<span class="number">2</span>, <span class="number">2</span>), &amp;wsaData);</span><br><span class="line">    <span class="comment">//创建套接字</span></span><br><span class="line">    SOCKET servSock = <span class="built_in">socket</span>(PF_INET, SOCK_STREAM, IPPROTO_TCP);</span><br><span class="line">    <span class="comment">//绑定套接字</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> sockAddr;</span><br><span class="line">    <span class="built_in">memset</span>(&amp;sockAddr, <span class="number">0</span>, <span class="built_in">sizeof</span>(sockAddr));  <span class="comment">//每个字节都用0填充</span></span><br><span class="line">    sockAddr.sin_family = PF_INET;  <span class="comment">//使用IPv4地址</span></span><br><span class="line">    sockAddr.sin_addr.s_addr = <span class="built_in">inet_addr</span>(<span class="string">&quot;127.0.0.1&quot;</span>);  <span class="comment">//具体的IP地址</span></span><br><span class="line">    sockAddr.sin_port = <span class="built_in">htons</span>(<span class="number">1234</span>);  <span class="comment">//端口</span></span><br><span class="line">    <span class="built_in">bind</span>(servSock, (SOCKADDR*)&amp;sockAddr, <span class="built_in">sizeof</span>(SOCKADDR));</span><br><span class="line">    <span class="comment">//进入监听状态</span></span><br><span class="line">    <span class="built_in">listen</span>(servSock, <span class="number">20</span>);</span><br><span class="line">    <span class="comment">//接收客户端请求</span></span><br><span class="line">    SOCKADDR clntAddr;</span><br><span class="line">    <span class="type">int</span> nSize = <span class="built_in">sizeof</span>(SOCKADDR);</span><br><span class="line">    SOCKET clntSock = <span class="built_in">accept</span>(servSock, (SOCKADDR*)&amp;clntAddr, &amp;nSize);</span><br><span class="line">    <span class="comment">//向客户端发送数据</span></span><br><span class="line">    <span class="type">char</span> *str = <span class="string">&quot;Hello World!&quot;</span>;</span><br><span class="line">    <span class="built_in">send</span>(clntSock, str, <span class="built_in">strlen</span>(str)+<span class="built_in">sizeof</span>(<span class="type">char</span>), <span class="literal">NULL</span>);</span><br><span class="line">    <span class="comment">//关闭套接字</span></span><br><span class="line">    <span class="built_in">closesocket</span>(clntSock);</span><br><span class="line">    <span class="built_in">closesocket</span>(servSock);</span><br><span class="line">    <span class="comment">//终止 DLL 的使用</span></span><br><span class="line">    <span class="built_in">WSACleanup</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>初始化DLL</p>
-</li>
-<li><p>创建套接字</p>
-</li>
-<li><p>绑定套接字</p>
-</li>
-<li><p>进入监听状态</p>
-</li>
-<li><p>接收客户端请求</p>
-</li>
-<li><p>向客户端发送数据</p>
-</li>
-<li><p>关闭套接字</p>
-</li>
-<li><p>终止DLL</p>
-</li>
-</ol>
-<h1 id="客户端代码-client-cpp："><a href="#客户端代码-client-cpp：" class="headerlink" title="客户端代码 client.cpp："></a>客户端代码 client.cpp：</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;WinSock2.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> comment(lib, <span class="string">&quot;ws2_32.lib&quot;</span>)  <span class="comment">//加载 ws2_32.dll</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//初始化DLL</span></span><br><span class="line">    WSADATA wsaData;</span><br><span class="line">    <span class="built_in">WSAStartup</span>(<span class="built_in">MAKEWORD</span>(<span class="number">2</span>, <span class="number">2</span>), &amp;wsaData);</span><br><span class="line">    <span class="comment">//创建套接字</span></span><br><span class="line">    SOCKET sock = <span class="built_in">socket</span>(PF_INET, SOCK_STREAM, IPPROTO_TCP);</span><br><span class="line">    <span class="comment">//向服务器发起请求</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> sockAddr;</span><br><span class="line">    <span class="built_in">memset</span>(&amp;sockAddr, <span class="number">0</span>, <span class="built_in">sizeof</span>(sockAddr));  <span class="comment">//每个字节都用0填充</span></span><br><span class="line">    sockAddr.sin_family = PF_INET;</span><br><span class="line">    sockAddr.sin_addr.s_addr = <span class="built_in">inet_addr</span>(<span class="string">&quot;127.0.0.1&quot;</span>);</span><br><span class="line">    sockAddr.sin_port = <span class="built_in">htons</span>(<span class="number">1234</span>);</span><br><span class="line">    <span class="built_in">connect</span>(sock, (SOCKADDR*)&amp;sockAddr, <span class="built_in">sizeof</span>(SOCKADDR));</span><br><span class="line">    <span class="comment">//接收服务器传回的数据</span></span><br><span class="line">    <span class="type">char</span> szBuffer[MAXBYTE] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="built_in">recv</span>(sock, szBuffer, MAXBYTE, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="comment">//输出接收到的数据</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Message form server: %s\n&quot;</span>, szBuffer);</span><br><span class="line">    <span class="comment">//关闭套接字</span></span><br><span class="line">    <span class="built_in">closesocket</span>(sock);</span><br><span class="line">    <span class="comment">//终止使用 DLL</span></span><br><span class="line">    <span class="built_in">WSACleanup</span>();</span><br><span class="line">    <span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>初始化DLL</p>
-</li>
-<li><p>创建套接字</p>
-</li>
-<li><p>向服务器发送请求</p>
-</li>
-<li><p>接收服务器穿回的数据</p>
-</li>
-<li><p>输出接收到的数据</p>
-</li>
-<li><p>关闭套接字</p>
-</li>
-<li><p>终止DLL使用</p>
-</li>
-</ol>
-<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>将 server.cpp 和 client.cpp 分别编译为 server.exe 和 client.exe，先运行 server.exe，再运行 client.exe，输出结果为：<br>Message form server: Hello World!  </p>
-<p>Windows 下的 socket 程序和 Linux 思路相同，但细节有所差别：  </p>
-<ol>
-<li><p>Windows 下的 socket 程序依赖 Winsock.dll 或 ws2_32.dll，必须提前加载。DLL 有两种加载方式，请查看：<a target="_blank" rel="noopener" href="http://c.biancheng.net/cpp/html/2754.html">动态链接库DLL的加载</a>  </p>
-</li>
-<li><p>Linux 使用“文件描述符”的概念，而 Windows 使用“文件句柄”的概念；Linux 不区分 socket 文件和普通文件，而 Windows 区分；Linux 下 socket() 函数的返回值为 int 类型，而 Windows 下为 SOCKET 类型，也就是句柄。  </p>
-</li>
-<li><p>Linux 下使用 read() &#x2F; write() 函数读写，而 Windows 下使用 recv() &#x2F; send() 函数发送和接收。  </p>
-</li>
-<li><p>关闭 socket 时，Linux 使用 close() 函数，而 Windows 使用 closesocket() 函数。</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/07/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/07/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87/" class="post-title-link" itemprop="url">计算机网络-性能指标</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-07-07 09:18:11 / 修改时间：10:02:38" itemprop="dateCreated datePublished" datetime="2022-07-07T09:18:11+08:00">2022-07-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="常用性能指标"><a href="#常用性能指标" class="headerlink" title="常用性能指标"></a>常用性能指标</h1><ol>
-<li><p>速率</p>
-</li>
-<li><p>带宽</p>
-</li>
-<li><p>吞吐量</p>
-</li>
-<li><p>时延</p>
-</li>
-<li><p>时延带宽积</p>
-</li>
-<li><p>往返时间</p>
-</li>
-<li><p>利用率</p>
-</li>
-<li><p>丢包率</p>
-</li>
-</ol>
-<h1 id="比特"><a href="#比特" class="headerlink" title="比特"></a>比特</h1><p>计算机中数据量单位，也是信息论中信息量的单位，一个比特就是二进制数字的1或者0</p>
-<p><code>8bit=1Byte</code></p>
-<p>固态硬盘厂家和系统的大小不符合是因为厂家的计量单位与系统的不同</p>
-<h1 id="速率"><a href="#速率" class="headerlink" title="速率"></a>速率</h1><p>连接在计算机网络上的主机在数字信道上传送比特的速率，也成为比特率或数据率</p>
-<p><code>b/s</code>或<code>kb/s</code></p>
-<img src="file:///D:/R_program/Blog/source/_posts/计算机网络-性能指标/1.png" title="" alt="" width="735">
-
-<h1 id="带宽"><a href="#带宽" class="headerlink" title="带宽"></a>带宽</h1><h2 id="模拟信号系统中的意义"><a href="#模拟信号系统中的意义" class="headerlink" title="模拟信号系统中的意义"></a>模拟信号系统中的意义</h2><p>信号所包含的各自不同频率成分所占据的频率范围</p>
-<p>单位：<code>HZ</code></p>
-<h2 id="在计算机网络中的意义"><a href="#在计算机网络中的意义" class="headerlink" title="在计算机网络中的意义"></a>在计算机网络中的意义</h2><p>用来表示网络的通信线路所能传送数据的能力，因此网络带宽表示在单位时间内从网络中的某一点到另一点所能通过的“最高数据率”</p>
-<p>单位：<code>b/s(kb/s,Mb/s,Gb/s,Tb/s)</code></p>
-<p>一条通信线路的“频带宽度”越宽，其所传输数据的“最高数据率”也越高</p>
-<h1 id="吞吐量"><a href="#吞吐量" class="headerlink" title="吞吐量"></a>吞吐量</h1><ul>
-<li><p>表示在单位时间内通过某个网络（或信道，接口）的数据量</p>
-</li>
-<li><p>吞吐量经常用于对现实世界中网络的一种测量，以便知道实际上到底右多少数据量能通过网络</p>
-</li>
-<li><p>吞吐量受网络的带宽或额定速率的限制</p>
-</li>
-</ul>
-<h1 id="时延"><a href="#时延" class="headerlink" title="时延"></a>时延</h1><p>由四部分构成</p>
-<ol>
-<li><p>发送时延&#x3D;<code>分组长度（b）/发送速率（b/s）</code></p>
-</li>
-<li><p>传播时延&#x3D;<code>信道长度（m）/电磁波传播速率（m/s）</code></p>
-</li>
-<li><p>处理时延（不方便计算）</p>
-</li>
-<li><p>排队时延</p>
-</li>
-</ol>
-<h2 id="电磁波传播速率"><a href="#电磁波传播速率" class="headerlink" title="电磁波传播速率"></a>电磁波传播速率</h2><ol>
-<li><p>自由空间：3*10的8次方m&#x2F;s</p>
-</li>
-<li><p>铜线：2.3*10的8次方m&#x2F;s</p>
-</li>
-<li><p>光纤：2*10的8次方m&#x2F;s</p>
-</li>
-</ol>
-<p><img src="D:\R_program\Blog\source_posts\计算机网络-性能指标\2.png"></p>
-<h1 id="时延带宽积"><a href="#时延带宽积" class="headerlink" title="时延带宽积"></a>时延带宽积</h1><p>传播时延和带宽的乘积</p>
-<h1 id="往返时间（RTT）"><a href="#往返时间（RTT）" class="headerlink" title="往返时间（RTT）"></a>往返时间（RTT）</h1><ul>
-<li>因特网上的信息不仅是单项传输，而是双向交互</li>
-</ul>
-<h1 id="利用率"><a href="#利用率" class="headerlink" title="利用率"></a>利用率</h1><h2 id="信道利用率"><a href="#信道利用率" class="headerlink" title="信道利用率"></a>信道利用率</h2><ul>
-<li><p>用来表示信道有百分之几的时间是被利用的（有数据通过）</p>
-</li>
-<li><p>根据排队论，当某信道的利用率增大时，该信道引起的时延也会迅速增加(车速太快，遇到红绿灯的时候堵车)</p>
-</li>
-<li><p>所以，<code>信道利用率不是越大越好</code></p>
-</li>
-</ul>
-<h2 id="网络利用率"><a href="#网络利用率" class="headerlink" title="网络利用率"></a>网络利用率</h2><p>全网络的信道利用率的加权平均</p>
-<h1 id="丢包率"><a href="#丢包率" class="headerlink" title="丢包率"></a>丢包率</h1><p>分组丢失率，在一定时间范围内，传输过程中丢失的分组数量与总分组数量的比率</p>
-<h2 id="分组丢失的两种情况"><a href="#分组丢失的两种情况" class="headerlink" title="分组丢失的两种情况"></a>分组丢失的两种情况</h2><ol>
-<li><p>分组在传输中出现误码，被节点丢弃</p>
-</li>
-<li><p>分组到达一台队列已满的分组交换机时被丢弃；在通信量较大时就可能造成<code>网络拥塞</code></p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/06/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E4%B8%BB%E7%95%8C%E9%9D%A2%E5%88%B6%E4%BD%9C%E5%92%8C%E6%8C%89%E9%92%AE%E5%8A%A8%E6%80%81%E6%95%88%E6%9E%9C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/06/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E4%B8%BB%E7%95%8C%E9%9D%A2%E5%88%B6%E4%BD%9C%E5%92%8C%E6%8C%89%E9%92%AE%E5%8A%A8%E6%80%81%E6%95%88%E6%9E%9C/" class="post-title-link" itemprop="url">UE4-项目-死寂-主界面制作和按钮动态效果</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-07-06 22:18:38" itemprop="dateCreated datePublished" datetime="2022-07-06T22:18:38+08:00">2022-07-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-07-13 16:22:08" itemprop="dateModified" datetime="2022-07-13T16:22:08+08:00">2022-07-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="依托UMG创建UI界面"><a href="#依托UMG创建UI界面" class="headerlink" title="依托UMG创建UI界面"></a>依托UMG创建UI界面</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="控件蓝图"><a href="#控件蓝图" class="headerlink" title="控件蓝图"></a>控件蓝图</h3><p>分为设计器和图表</p>
-<ol>
-<li><p>设计器专门用于UI的布局和排版</p>
-</li>
-<li><p>图表用于UI的蓝图通信和互动逻辑</p>
-</li>
-</ol>
-<h3 id="控件蓝图中的锚点"><a href="#控件蓝图中的锚点" class="headerlink" title="控件蓝图中的锚点"></a>控件蓝图中的锚点</h3><p>设置了在屏幕缩小或者放大的时候组件靠拢的位置（就是放大缩小游戏界面的时候）</p>
-<h3 id="绑定按钮"><a href="#绑定按钮" class="headerlink" title="绑定按钮"></a>绑定按钮</h3><p>在主界面设置了一个按钮之后，在图表中拖出，还需要”获取 Button“到其父类</p>
-<h3 id="绑定事件到点击时"><a href="#绑定事件到点击时" class="headerlink" title="绑定事件到点击时"></a>绑定事件到点击时</h3><p>字面意思</p>
-<h3 id="退出游戏"><a href="#退出游戏" class="headerlink" title="退出游戏"></a>退出游戏</h3><p>顾名思义</p>
-<h3 id="创建控件"><a href="#创建控件" class="headerlink" title="创建控件"></a>创建控件</h3><p>在关卡蓝图中使用，可以在该节点中选择具体的控件蓝图</p>
-<h3 id="添加到视口"><a href="#添加到视口" class="headerlink" title="添加到视口"></a>添加到视口</h3><p>将控件蓝图添加到视口</p>
-<h3 id="使用混合设置视图目标"><a href="#使用混合设置视图目标" class="headerlink" title="使用混合设置视图目标"></a>使用混合设置视图目标</h3><p>将画面从目标引脚切换到new View Target引脚</p>
-<h3 id="设置输入模式游戏和UI"><a href="#设置输入模式游戏和UI" class="headerlink" title="设置输入模式游戏和UI"></a>设置输入模式游戏和UI</h3><p>玩家控制器引出节点：玩家直接可以与UI进行交互，否则需要点击屏幕之后才能交互</p>
-<h3 id="覆层组件"><a href="#覆层组件" class="headerlink" title="覆层组件"></a>覆层组件</h3><p>控件蓝图中的组件，两个覆层组件可以叠加显示</p>
-<h3 id="设置可视性"><a href="#设置可视性" class="headerlink" title="设置可视性"></a>设置可视性</h3><p>字面意思</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>创建一个用户界面-&gt;控件蓝图取名为“主界面”</p>
-</li>
-<li><p>拖入UI纹理，修改其锚点，图像大小，大小到内容true</p>
-</li>
-<li><p>将其行为-&gt;可视性修改为“非命中测试(仅自身)”</p>
-</li>
-<li><p>创建控件蓝图“按钮交互”</p>
-<ul>
-<li><p>将右上角的填充屏幕修改为自定义（X：170，Y：100）</p>
-</li>
-<li><p>添加按钮和文本</p>
-</li>
-<li><p>修改按钮的插槽为填充到屏幕，将偏移全部修改为0</p>
-</li>
-<li><p>将按钮的外观-&gt;普通-&gt;着色-&gt;A（透明度）修改为0</p>
-</li>
-<li><p>按钮设置纹理到外观栏的<strong>普通状态</strong>和<strong>已悬停</strong>状态图像</p>
-</li>
-<li><p>设置按钮的悬停和按压音效</p>
-</li>
-<li><p>给文本设置字体和字体大小，并且在界面左下角为其添加动画“交互”</p>
-</li>
-<li><p>选择文本，在时间轴上添加轨道，并且给轨道添加一个变换</p>
-</li>
-<li><p>选择“缩放”，在时间轴运行到0.3秒的时候将缩放xy修改为1.1</p>
-</li>
-<li><p>接下来将这个动画在鼠标悬停在按钮上时调用，所以选择按钮组件，添加内置事件“悬停时”和“未悬停时”</p>
-</li>
-<li><p>脱出变量中Animation分类中的动画“交互”，然后使用“播放动画”节点，悬停和未悬停分别将其引脚设置为”快进“和”翻转“</p>
-</li>
-<li><p>接下来是文本悬停时变色，选择文本，勾选细节面板中的<code>is Variable</code>为true，使其公开到图表中</p>
-</li>
-<li><p>在图表中调用文本并且拖出节点”设置影音颜色和不透明度“</p>
-</li>
-<li><p>创建文本类型的变量”Name“将”可编辑实例“和”生成时公开“设置为true</p>
-</li>
-<li><p>在设计器的文本组件细节面板-&gt;内容-&gt;绑定中选择Name（这样做是为了在设计器中修改了文本内容之后可以直接传入到图表中）</p>
-</li>
-</ul>
-</li>
-<li><p>在”主界面“控件蓝图中的面板添加”垂直框“，设置其锚点为居中，设置好其相对位置</p>
-<ul>
-<li><p>在垂直框中添加4个用户创建-&gt;按钮交互，分别为”开始游戏“，”游戏声明“，”制作者“，”退出游戏“（注意同时要给其Name变量赋值为相应值）</p>
-</li>
-<li><p>将最后一个”退出游戏“的”填充“的顶部修改为50，使其与其他按钮有所区分</p>
-</li>
-<li><p>在图表中拖出”退出游戏“按钮，获取button（与button绑定），”绑定事件到点击时“，为其添加一个自定义事件”立刻退出“，调用内置节点”退出游戏“</p>
-</li>
-</ul>
-</li>
-<li><p>打开关卡蓝图</p>
-<ul>
-<li><p>“时间开始运行”-&gt;”创建控件“，将其返回值提升为变量“主界面”</p>
-</li>
-<li><p>“添加到视口”，再获取玩家控制器-&gt;“使用混合设置视图目标”，new View Target引脚选择一个关卡中的摄像机</p>
-</li>
-<li><p>由玩家控制器引出“设置输入模式游戏和UI”，将in Widget to Focus引脚连接上“主界面”</p>
-</li>
-</ul>
-</li>
-<li><p>在世界场景设置中新增游戏模式，新增玩家控制器，并且将玩家控制器的细节面板中的“显示鼠标光标”设置为true</p>
-</li>
-</ol>
-<h1 id="多个UI界面的动态切换"><a href="#多个UI界面的动态切换" class="headerlink" title="多个UI界面的动态切换"></a>多个UI界面的动态切换</h1><h2 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h2><h3 id="执行控制台命令"><a href="#执行控制台命令" class="headerlink" title="执行控制台命令"></a>执行控制台命令</h3><p>调用当前关卡蓝图中的事件</p>
-<p>Command引脚中可填入”ce 事件名称“</p>
-<h3 id="设置可视性-1"><a href="#设置可视性-1" class="headerlink" title="设置可视性"></a>设置可视性</h3><p>字面意思，关闭UI交互可用</p>
-<h3 id="启动URL"><a href="#启动URL" class="headerlink" title="启动URL"></a>启动URL</h3><p>相当于一个超链接，在点击按钮的时候调用此函数，可以直接超链接跳转到网址</p>
-<h3 id="设置颜色和不透明度"><a href="#设置颜色和不透明度" class="headerlink" title="设置颜色和不透明度"></a>设置颜色和不透明度</h3><p>字面意思，可以设置控件的颜色和不透明度</p>
-<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>创建新的控件蓝图“制作者”</p>
-</li>
-<li><p>填写好制作者中的信息（大概就是用图片和文字表示了！）</p>
-</li>
-<li><p>创建一个控件蓝图“返回按钮”，专门用来制作各个二级菜单返回一级菜单的按钮</p>
-<ul>
-<li><p>自定义其大小“宽度“为135，”高度“为45</p>
-</li>
-<li><p>添加一个按钮组件，将锚点设置为填充整个屏幕，偏移全部修改为0</p>
-</li>
-<li><p>设置其普通状态&#x2F;已悬停&#x2F;按压下的样式，边缘设置为0</p>
-</li>
-<li><p>在按钮组件下添加”水平框“组件和”文本“组件</p>
-</li>
-<li><p>在水平框组件下添加”覆层“组件</p>
-</li>
-<li><p>在覆层组件下添加两个图像组件</p>
-</li>
-<li><p>分别设置几个组件</p>
-</li>
-<li><p>给返回按钮添加动画”交互“，添加轨道之后给文本添加缩放效果</p>
-</li>
-<li><p>给Button添加”悬停时“和”未悬停时“事件，分别正向播放”交互“动画和反向播放，并且设置其颜色和不透明度，并且给按钮组件添加音效</p>
-</li>
-<li><p>返回按钮的背景图片公开到图表之后，悬停时”设置可视性“为折叠，未悬停时为可视</p>
-</li>
-</ul>
-</li>
-<li><p>将返回按钮添加到”制作者“界面中</p>
-</li>
-<li><p>在世界大纲中选择一个摄像机，在关卡蓝图中创建自定义事件”切换到制作者“，创建该摄像机实例，使用”使用混合设置视图目标“节点进行相机切换</p>
-</li>
-<li><p>将”制作者“界面添加到主界面，修改其锚点和偏移，注意：将渲染不透明度改为0</p>
-</li>
-<li><p>添加一个新的画布面板”主界面“，将主界面相关的控件全部挪进去</p>
-</li>
-<li><p>添加新的动画”点击制作者“，并给”主界面“画布，”制作者“控件添加轨道</p>
-<ul>
-<li><p>给制作者轨道添加”变换“和”渲染不透明度“</p>
-</li>
-<li><p>缩放效果：0秒的时候xy均为0，0.5秒的时候均为1</p>
-</li>
-<li><p>渲染不透明度：0秒为0，0.5秒为1</p>
-</li>
-<li><p>主界面类似，只不过反过来而已</p>
-</li>
-</ul>
-</li>
-<li><p>在图表中添加切换到”制作者界面“的蓝图逻辑</p>
-<ul>
-<li><p>将”制作者按钮“拖入其中，绑定按钮之后”绑定事件到点击时“</p>
-</li>
-<li><p>自定义事件”切换到制作者界面“，播放之前做好的动画”点击制作者“</p>
-</li>
-<li><p>”执行控制台命令“调用关卡蓝图中的”切换到制作者“（ce 切换到制作者）</p>
-</li>
-</ul>
-</li>
-<li><p>添加”从制作者界面切换到主界面“蓝图逻辑</p>
-<ul>
-<li><p>获取制作做控件，获取其中的返回按钮，绑定button，绑定事件到点击时</p>
-</li>
-<li><p>自定义事件”制作者返回主界面“，反向播放动画”点击制作者“</p>
-</li>
-<li><p>将不需要交互的组件的可视性全部修改为”非可命中测试（仅自身）“</p>
-</li>
-</ul>
-</li>
-<li><p>在主界面控件蓝图中新建函数”关闭所有UI交互“</p>
-<ul>
-<li>使用”设置可视性“节点，目标为”制作者界面“和”主界面“</li>
-</ul>
-</li>
-<li><p>调用”关闭所有UI交互“</p>
-</li>
-<li><p>创建新的控件蓝图“游戏声明”</p>
-<ul>
-<li><p>添加游戏声明（注意锚点不要设置为全屏，大部分的锚点居中即可）</p>
-</li>
-<li><p>创建一个按钮，上面附加一个文本框，可以点击按钮跳转个人博客</p>
-</li>
-<li><p>按钮默认透明度修改为0（这样一开始就看不到了）</p>
-</li>
-<li><p>注意设置悬停时候的音效和图像</p>
-</li>
-<li><p>添加返回按钮，选择一个场景中的摄像机作为目标摄像机，在关卡蓝图中创建该摄像机的引用，创建一个自定义事件“切换到游戏声明”，使用“使用混合设置视图目标”节点和“获取玩家控制器”达到切换视角的效果</p>
-</li>
-<li><p>将“游戏声明”控件蓝图添加到主界面中，锚点填充整个屏幕，渲染不透明度改为0</p>
-</li>
-<li><p>在“主界面”控件蓝图中，将“声明按钮”拖入，获取button，然后绑定事件到点击时，创建自定义事件“游戏声明”作为其“事件引脚”，接下来要在设计器中创建一个切换动画“点击游戏声明”，在轨道中添加游戏声明界面和主界面的轨道，设置其渲染不透明度和缩放</p>
-</li>
-<li><p>在主界面的图表中的“游戏声明”事件中播放其动画，调用“执行控制台命令”节点输入“ce 切换到游戏声明”（也就是关卡蓝图中的自定义事件）</p>
-</li>
-<li><p>在“关闭所有UI界面”函数中添加“游戏声明界面”</p>
-</li>
-<li><p>在事件中调用“关闭所有UI界面”，然后拖入“游戏声明界面”使用“设置可视性”为可视</p>
-</li>
-<li><p>同样的方法实现从游戏声明界面返回主界面：调用“游戏声明界面”获取“返回按钮”，获取button，“绑定事件到点击时”，自定义事件“从游戏界面返回主界面”，反向播放“点击游戏声明”动画，调用“执行控制台命令”（ce 切换到主界面），关闭所有UI交互之后打开主界面的UI交互</p>
-</li>
-<li><p>在“游戏声明”控件蓝图中的按钮添加“点击时”事件，添加节点“启动URL”</p>
-</li>
-<li><p>在“游戏声明”控件蓝图中的按钮添加“悬停时”和“未悬停时”事件，分别拖出文本控件，并且“设置颜色和不透明度”</p>
-</li>
-</ul>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>
