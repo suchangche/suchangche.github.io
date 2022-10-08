@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="UE 网络同步和框架 为一个UE引擎的初学者基于现有知识储备和见识的限制下，对UE网络和游戏框架的粗鄙之见，文中多有错误敬请指出以较后文。 1.网络复制​ 不论是服务端还是客户端，代码都是一样的，客户端和服务端拥有相同的变量和函数，只是有的函数可能只在服务端执行，有的变量可能只在某个客户端发生变化。 ​ 在多人网络游戏中，可以看到来自不同的玩家在同一个场UE 网络同步和框架 为一个UE引擎的初学者">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE4-C++-框架梳理">
+<meta property="og:url" content="http://example.com/2022/10/06/UE4-C-%E6%A1%86%E6%9E%B6%E6%A2%B3%E7%90%86/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="UE 网络同步和框架 为一个UE引擎的初学者基于现有知识储备和见识的限制下，对UE网络和游戏框架的粗鄙之见，文中多有错误敬请指出以较后文。 1.网络复制​ 不论是服务端还是客户端，代码都是一样的，客户端和服务端拥有相同的变量和函数，只是有的函数可能只在服务端执行，有的变量可能只在某个客户端发生变化。 ​ 在多人网络游戏中，可以看到来自不同的玩家在同一个场UE 网络同步和框架 为一个UE引擎的初学者">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/UE4-C-%E6%A1%86%E6%9E%B6%E6%A2%B3%E7%90%86%5Cimage-20221004175454361.png">
+<meta property="og:image" content="http://example.com/UE4-C-%E6%A1%86%E6%9E%B6%E6%A2%B3%E7%90%86%5Cimage-20221004210425968.png">
+<meta property="og:image" content="http://example.com/UE4-C-%E6%A1%86%E6%9E%B6%E6%A2%B3%E7%90%86%5C%E8%87%AA%E4%B8%BB%E6%9D%83%E5%A8%81%E6%A8%A1%E6%8B%9F.png">
+<meta property="og:image" content="http://example.com/UE4-C-%E6%A1%86%E6%9E%B6%E6%A2%B3%E7%90%86%5Cimage-20221005133737857.png">
+<meta property="og:image" content="http://example.com/UE4-C-%E6%A1%86%E6%9E%B6%E6%A2%B3%E7%90%86%5C%E6%B8%B8%E6%88%8F%E6%A8%A1%E5%BC%8F%E6%B8%B8%E6%88%8F%E7%8A%B6%E6%80%81%E7%8E%A9%E5%AE%B6%E7%8A%B6%E6%80%81.png">
+<meta property="og:image" content="http://example.com/UE4-C-%E6%A1%86%E6%9E%B6%E6%A2%B3%E7%90%86%5Cimage-20221004141737070.png">
+<meta property="og:image" content="http://example.com/UE4-C-%E6%A1%86%E6%9E%B6%E6%A2%B3%E7%90%86%5CGameMode%E9%83%A8%E5%88%86%E6%BA%90%E7%A0%81.png">
+<meta property="og:image" content="http://example.com/UE4-C-%E6%A1%86%E6%9E%B6%E6%A2%B3%E7%90%86%5C%E6%95%B0%E9%87%8F%E7%90%86%E8%A7%A3.png">
+<meta property="og:image" content="http://example.com/UE4-C-%E6%A1%86%E6%9E%B6%E6%A2%B3%E7%90%86%5C%E7%B1%BB%E5%9C%A8%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%92%8C%E5%AE%A2%E6%88%B7%E7%AB%AF.png">
+<meta property="article:published_time" content="2022-10-06T06:30:44.000Z">
+<meta property="article:modified_time" content="2022-10-06T06:41:59.899Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/UE4-C-%E6%A1%86%E6%9E%B6%E6%A2%B3%E7%90%86%5Cimage-20221004175454361.png">
+
+
+<link rel="canonical" href="http://example.com/2022/10/06/UE4-C-%E6%A1%86%E6%9E%B6%E6%A2%B3%E7%90%86/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/10/06/UE4-C-%E6%A1%86%E6%9E%B6%E6%A2%B3%E7%90%86/","path":"2022/10/06/UE4-C-框架梳理/","title":"UE4-C++-框架梳理"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>UE4-C++-框架梳理 | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%BD%91%E7%BB%9C%E5%A4%8D%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">1.网络复制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%BD%91%E7%BB%9C%E5%A4%8D%E5%88%B6-1"><span class="nav-number">2.</span> <span class="nav-text">1.网络复制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Replication%EF%BC%88%E5%A4%8D%E5%88%B6%EF%BC%89"><span class="nav-number">2.1.</span> <span class="nav-text">1.Replication（复制）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-Actor-Replication-Actor%E5%A4%8D%E5%88%B6"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.Actor Replication(Actor复制)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-Property-Replication-%E5%B1%9E%E6%80%A7%E5%A4%8D%E5%88%B6"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.Property Replication(属性复制)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-RepNotify-%E5%A4%8D%E5%88%B6%E9%80%9A%E7%9F%A5"><span class="nav-number">2.1.3.</span> <span class="nav-text">3.RepNotify(复制通知)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-OnwerShip-%E6%89%80%E6%9C%89%E6%9D%83"><span class="nav-number">2.2.</span> <span class="nav-text">2.OnwerShip(所有权)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Actor-Role"><span class="nav-number">2.3.</span> <span class="nav-text">3.Actor Role</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-RPC%E8%BF%9C%E7%A8%8B%E8%BF%87%E7%A8%8B%E8%B0%83%E7%94%A8-Remote-Progress-Call"><span class="nav-number">2.4.</span> <span class="nav-text">4.RPC远程过程调用(Remote Progress Call)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%9B%91%E5%90%AC%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%A8%A1%E5%BC%8F%E4%B8%8B%E7%9A%84%E7%8A%B6%E6%80%81%E5%85%B3%E7%B3%BB"><span class="nav-number">3.</span> <span class="nav-text">2.监听服务器模式下的状态关系</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%90%84%E4%B8%AA%E5%A4%A7%E7%B1%BB%E7%9A%84%E5%8A%9F%E7%94%A8%E4%BB%8B%E7%BB%8D"><span class="nav-number">3.1.</span> <span class="nav-text">1.各个大类的功用介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-GameMode"><span class="nav-number">3.1.1.</span> <span class="nav-text">1.GameMode</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-GameState"><span class="nav-number">3.1.2.</span> <span class="nav-text">2.GameState</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-PlayerController"><span class="nav-number">3.1.3.</span> <span class="nav-text">3.PlayerController</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-AIController"><span class="nav-number">3.1.4.</span> <span class="nav-text">4.AIController</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-Actor"><span class="nav-number">3.1.5.</span> <span class="nav-text">5.Actor</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-ActorComponent"><span class="nav-number">3.1.6.</span> <span class="nav-text">5.ActorComponent</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-PlayerState"><span class="nav-number">3.1.7.</span> <span class="nav-text">6.PlayerState</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-GameInstance"><span class="nav-number">3.1.8.</span> <span class="nav-text">7.GameInstance</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#8-Pawn-x2F-Character"><span class="nav-number">3.1.9.</span> <span class="nav-text">8.Pawn&#x2F;Character</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1-AGameModeBase"><span class="nav-number">3.1.9.1.</span> <span class="nav-text">1.AGameModeBase</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-AGameMode"><span class="nav-number">3.1.9.2.</span> <span class="nav-text">2.AGameMode</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-Game-State"><span class="nav-number">3.1.9.3.</span> <span class="nav-text">3.Game State</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">137</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/06/UE4-C-%E6%A1%86%E6%9E%B6%E6%A2%B3%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="UE4-C++-框架梳理 | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UE4-C++-框架梳理
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-10-06 14:30:44 / 修改时间：14:41:59" itemprop="dateCreated datePublished" datetime="2022-10-06T14:30:44+08:00">2022-10-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>UE 网络同步和框架</p>
+<p>为一个UE引擎的初学者基于现有知识储备和见识的限制下，对UE网络和游戏框架的粗鄙之见，文中多有错误敬请指出以较后文。</p>
+<h3 id="1-网络复制"><a href="#1-网络复制" class="headerlink" title="1.网络复制"></a>1.网络复制</h3><p>​ <strong>不论是服务端还是客户端，代码都是一样的，客户端和服务端拥有相同的变量和函数，只是有的函数可能只在服务端执行，有的变量可能只在某个客户端发生变化。</strong></p>
+<p>​ 在多人网络游戏中，可以看到来自不同的玩家在同一个场UE 网络同步和框架</p>
+<p>为一个UE引擎的初学者基于现有知识储备和见识的限制下，对UE网络和游戏框架的粗鄙之见，文中多有错误敬请指出以较后文。</p>
+<h3 id="1-网络复制-1"><a href="#1-网络复制-1" class="headerlink" title="1.网络复制"></a>1.网络复制</h3><p>​ <strong>不论是服务端还是客户端，代码都是一样的，客户端和服务端拥有相同的变量和函数，只是有的函数可能只在服务端执行，有的变量可能只在某个客户端发生变化。</strong></p>
+<p>​ 在多人网络游戏中，可以看到来自不同的玩家在同一个场景中，操作各自的武器或者道具，在游戏场景中进行各种交互。那么这里产生了一个问题，举例即，玩家A对玩家B使用了一个增益道具，玩家B是怎么知道自己获得了增益，并且让所有的玩家都知道自己获得了增益效果。这个问题的答案即在UE中非常重要的概念，网络复制。</p>
+<h4 id="1-Replication（复制）"><a href="#1-Replication（复制）" class="headerlink" title="1.Replication（复制）"></a>1.Replication（复制）</h4><p>笼统的说，表示信息从服务端同步到客户端(单向),<strong>Actor及其派生类才有Replication的能力。</strong>一般分三种</p>
+<h5 id="1-Actor-Replication-Actor复制"><a href="#1-Actor-Replication-Actor复制" class="headerlink" title="1.Actor Replication(Actor复制)"></a>1.Actor Replication(Actor复制)</h5><p>服务端生成，客户端也会跟着生成（在服务端生成一个Replicate对象）</p>
+<p><strong>是当前Actor的所有属性复制，组件复制,RPC的总开关</strong></p>
+<p>举上面的例子来说，如果在服务端生成了一个道具，但是这个道具并未开启或标记为Replication，那么这个道具只会出现在服务端的游戏场景里，而不会在客户端的游戏场景里生成，</p>
+<p>具体用法：</p>
+<p>蓝图：Actor细节面板中寻找复制相关的选项并勾选<strong>复制</strong>(Replicate)这一个选项即可，其他选项按需勾选</p>
+<p><img src="/UE4-C-%E6%A1%86%E6%9E%B6%E6%A2%B3%E7%90%86%5Cimage-20221004175454361.png" alt="image20221004175454361"></p>
+<p>C++：在类的<strong>构造函数</strong>中添加</p>
+<p><code>bReplicates = true;//开启网络复制</code></p>
+<p>注意编译后若<strong>没有达到预期效果可以回到蓝图检查</strong>一下，C++中的设置仅相当于设置了默认项，有时候蓝图不一定使用C++中的默认值，需要查看并手动设置</p>
+<p>需要<strong>注意</strong>的是：</p>
+<p>若一个Actor没开启网络复制，那么物体只会在服务端生成，不会在客户端生成，此时客户端的角色或其他物体，如果企图穿越该Actor的位置(尽管在客户端上看不到也真的压根不存在这个东西)，则会发现移动被阻挡并发生鬼畜效果。这是因为在联机游戏中，物体的<strong>移动是在服务端上计算的</strong>，这是为了防止客户端作弊。试想，若是客户端有权限决定游戏的每一个属性值，那么只需要一个简单的CE修改器就能修改游戏内存，并称霸整个游戏服务器。因此，需要一个权威服务器(Authority)进行所有敏感信息的计算和验证,此时客户端上不存在该物体，而服务端上认为有，因此客户端上的角色在穿越该区域的时候，服务端认为客户端正在穿越一个被阻挡的区域，从而不断发出信息纠正客户端角色的位置，这时客户端上的角色，就会发现自己前进一小段距离后，立马瞬移一小段距离回去，一直按前进键就会导致鬼畜，这是被服务端的纠错影响的结果。</p>
+<p>参考视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Up4y1x7KU">https://www.bilibili.com/video/BV1Up4y1x7KU</a></p>
+<h5 id="2-Property-Replication-属性复制"><a href="#2-Property-Replication-属性复制" class="headerlink" title="2.Property Replication(属性复制)"></a>2.Property Replication(属性复制)</h5><p>某个具体属性的网络复制，比如玩家的血量，某个道具的数量等。举一个例子，服务端和客户端A上的玩家初始生命值都是100，这时服务端玩家拾取到了一个群体增益效果所有人加生命值100，若此时未开启生命值的属性复制，产生的结果是，仅服务端玩家的生命值增加了100，而客户端玩家的生命值未发生变化，这是因为服务端没能向客户端同步这个属性的信息。</p>
+<p>这里产生一个问题，前面提到过可以将类作为一个整体进行网络复制，为什么还要单独设置属性赋值呢，直接将整个类复制岂不是更方便。这是因为在多人游戏中，<strong>网络传输信息会产生延迟</strong>，大量的信息传输容易更导致网络拥堵，同时在虚幻中<strong>网络信息传输拥有优先级</strong>，像被标记为<strong>Reliable的函数</strong>传输的优先级就会比被标记为<strong>Unreliable的函数</strong>更高(后面会说)，在网络状况不好的情况下，服务端会确保更重要的信息率先发出，不那么重要的信息丢了就丢了，比如子弹的命中通知就比特效的播放通知更重要优先级更高。因此属性复制时经常使用并且重要的。</p>
+<p>具体用法：</p>
+<p>蓝图：</p>
+<p>在蓝图中选择一个属性变量并寻找replication并选择为Replicated</p>
+<p><img src="/UE4-C-%E6%A1%86%E6%9E%B6%E6%A2%B3%E7%90%86%5Cimage-20221004210425968.png" alt="image20221004210425968"></p>
+<p>C++：</p>
+<p>记得先在类的构造里面把bReplicate&#x3D;true这个总开关开了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UPROPERTY</span>(Replicated)<span class="comment">//使用属性网络复制，需要使用GetLifetimeReplicatedProps进行注册</span></span><br><span class="line"><span class="type">bool</span> bAiming;<span class="comment">//武器是否要瞄准</span></span><br></pre></td></tr></table></figure>
+
+<p>首先在头文件中声明要使用网络复制的变量，比如这里设置一个武器是否瞄准的变量，并在上面添加UPROPERTY(Replicated)宏。随后在cpp文件中重写GetLifetimeReplicatedProps函数进行属性注册，函数格式如下。</p>
+<p>.h文件中</p>
+<p><code>virtual void GetLifetimeReplicatedProps(TArray&lt;FLifetimeProperty&gt;&amp; OutLifetimeProps) const override;</code></p>
+<p><code>//使用属性网络复制，需要使用此函数进行注册</code></p>
+<p>.cpp文件中需要添加头文件#include”Net&#x2F;UnrealNetwork.h”</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">UCombatComponent::GetLifetimeReplicatedProps</span><span class="params">(TArray&lt;FLifetimeProperty&gt;&amp; OutLifetimeProps)</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span>&#123;    </span><br><span class="line">    Super::<span class="built_in">GetLifetimeReplicatedProps</span>(OutLifetimeProps);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">DOREPLIFETIME</span>(UCombatComponent, bAiming);<span class="comment">//注册CombatComponent类中声明的bool类型的bAiming变量，即类名称和变量名</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样来设置属性复制</p>
+<p>参考视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1tf4y1k7xc/">https://www.bilibili.com/video/BV1tf4y1k7xc/</a></p>
+<h5 id="3-RepNotify-复制通知"><a href="#3-RepNotify-复制通知" class="headerlink" title="3.RepNotify(复制通知)"></a>3.RepNotify(复制通知)</h5><p>如果一个变量被设置为Rep_Notify，当改变量发生改变时自动响应，这时服务端和收到该值的客户端都可以自动触发一个自定义的函数，用于通知某个事件的发生。C++的版本略有区别，仅在客户端调用函数，服务端的通知需要手动写一个函数来通知。</p>
+<p>蓝图不会没用过</p>
+<p>C++：</p>
+<p>记得先在类的构造里面把bReplicate&#x3D;true这个总开关开了</p>
+<p>.h中声明</p>
+<p><code>UPROPERTY(Replicated, ReplicatedUsing = OnRep_EquippedWeapon)//使用属性网络复制，需要使用GetLifetimeReplicatedProps进行注册</code></p>
+<p>ReplicatedUsing后面跟要调用的自定义函数，一般用OnRep_作为格式的开头，而后书写自定义函数的声明</p>
+<p><code>UFUNCTION() void OnRep_EquippedWeapon();//装备武器的Rep_Notify</code></p>
+<p>同时.cpp中也要加入GetLifetimeReplicatedProps()</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">void UCombatComponent::GetLifetimeReplicatedProps(TArray&lt;FLifetimeProperty&gt;&amp; OutLifetimeProps) const</span><br><span class="line">&#123;</span><br><span class="line">Super::GetLifetimeReplicatedProps(OutLifetimeProps);</span><br><span class="line">DOREPLIFETIME(UCombatComponent, EquippedWeapon);//注册</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>视频参考：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ht4y1z79w">https://www.bilibili.com/video/BV1ht4y1z79w</a></p>
+<h4 id="2-OnwerShip-所有权"><a href="#2-OnwerShip-所有权" class="headerlink" title="2.OnwerShip(所有权)"></a>2.OnwerShip(所有权)</h4><p>理论概念，就是说很多类或者Actor在游戏中会伴随拥有者的改变而改变自己的所有权，比如在地上的枪，纵使被设置为Replicate，无人拾取的话，那么其所有权属于世界，而不是玩家，因此这把武器的信息不会被同步到任何一个玩家身上，但是当一名玩家拾取这把武器的时候，所有权被更改到这个玩家身上，这时这把枪的信息被添加到了玩家身上，玩家多出了一把武器，这把属于这名玩家的武器在击杀敌人后，因为枪的所有权是属于玩家的，所以分数算在了玩家身上。我的枪杀了你，不是我杀了你。</p>
+<p>因此玩家死亡后，武器掉落，这把武器的所有权重新回归世界，而不是任一一名玩家，直到下一个玩家的到来。</p>
+<p>视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1T44y1k72n">https://www.bilibili.com/video/BV1T44y1k72n</a></p>
+<h4 id="3-Actor-Role"><a href="#3-Actor-Role" class="headerlink" title="3.Actor Role"></a>3.Actor Role</h4><p><img src="/UE4-C-%E6%A1%86%E6%9E%B6%E6%A2%B3%E7%90%86%5C%E8%87%AA%E4%B8%BB%E6%9D%83%E5%A8%81%E6%A8%A1%E6%8B%9F.png" alt="自主权威模拟"></p>
+<p>服务端拥有所有玩家的权威实例，所有的信息必须经过服务器的确认才能生效。称为Authority；</p>
+<p>客户端拥有自己的自主代理和所有其他玩家的模拟代理，自主代理就是本机控制的玩家，模拟代理就是画面上其他的玩家。区别如下：</p>
+<p>Autonomous Proxy自主代理拥有此玩家的控制权，键盘键盘输入的信息直接操作自主代理，之所以称作代理，是因为虽然能控制你的角色，但实际上你角色的所有信息和操作必须经过服务端的计算和确认，才能真正的生效。此处产生一个问题，经过服务端的计算和确认再生效的话，来回会使得延迟很高，为了解决这个问题，自主代理会直接根据你的输入在本地进行计算并输调用事件和产生对应的画面，而信息则发到服务端进行确认，若是结果不一致，则服务端发回信息进行纠正，若一致，自主代理这边已经执行好了，最大幅度提升了玩家的体验感。这涉及到复杂的确认关系，不在讨论范围内。<strong>客户端内除了自己剩下所有玩家的Character都是模拟代理的，所以网络不好的时候，会发现自己经常瞬移。你按下前进键的时候，服务端发送回来的位置信息没有被接收到，你向前位移了一点，这是本地自主代理做出的，但是很快本地意识到，没有接收到服务端发送回来的确认位置的信息，于是本地判断你还在原地，因此你的画面卡在了原地。注意此时服务端已经因为你之前按下的前进键而更新了你的位置信息，此时若网络恢复正常，服务端再次发送回的位置信息就和本地的不一致，因为服务端的信息具有权威性，本地的角色信息被强制更新改变，然后就发生了瞬移，不过更多的情况是闪现移坟(在你掉线的时候你已经被其他玩家杀了)，换了个躺尸体的地方而已。</strong></p>
+<p>Simulated Proxy模拟代理是客户端根据服务端发送来的信息，在客户端上模拟出来的除自己外的所有玩家，你所有对其他玩家的操作，都是在对从服务端发来的信息进行的操作。即，服务器认为其他的玩家在哪在干什么，你的客户端上模拟出来的玩家就在哪在干什么。客户端内除了自己剩下所有玩家的Character都是模拟代理的。</p>
+<p>Authority权威，在监听服务器模式下，服务端就是权威，服务端拥有所有玩家的权威信息，包括自己，其他客户端上所有的信息都是从权威服务端复制出去的，<strong>权威服务端上拥有所有真正的玩家实例，因此在服务端上的操作拥有最低的延迟</strong>，因为不需要找服务端确认计算是否正确是否被篡改了，所有信息以服务端为准。</p>
+<h4 id="4-RPC远程过程调用-Remote-Progress-Call"><a href="#4-RPC远程过程调用-Remote-Progress-Call" class="headerlink" title="4.RPC远程过程调用(Remote Progress Call)"></a>4.RPC远程过程调用(Remote Progress Call)</h4><p>可以实现客户端调用服务端执行，也可以实现服务端调用客户端执行。因为异步，所以不可以有返回值，默认是不可靠的，若要设置为可靠，UPROPERTY里设置为Reliable，RPC一共有四种状态，<strong>未复制、NetMultiCast、Server、Client</strong></p>
+<p>参考图：</p>
+<p><img src="/UE4-C-%E6%A1%86%E6%9E%B6%E6%A2%B3%E7%90%86%5Cimage-20221005133737857.png" alt="image20221005133737857"></p>
+<p><strong>图片解释：</strong></p>
+<p>如果是从服务端调用了RPC，<strong>一般情况下</strong>，对于UPRPERTY标记为NetMulticast的，即网络多播，这个函数会在<strong>服务端和所有的客户端上都执行一次</strong>。标记为Server的，那么这个函数<strong>仅在服务端上执行</strong>。标记为Client的，则<strong>在所有的客户端上执行，但是服务端不执行</strong>。<strong>特殊情况是Actor的所有权不属于客户端，而属于服务端或者谁也不属于</strong>，这种情况结果参照上图。</p>
+<p>如果是从客户端调用了RPC，<strong>所有情况下</strong>，对UPRPERTY标记为NetMulticast的，仅在本地执行。标记为Server的，会在服务器上运行，这也是唯一一种客户端调用服务端的函数的方式。标记为Client的，仅在本地执行。<strong>特殊情况是若函数要操作的Actor所有权不属于本地客户端，此时函数UPROPERTY若被标记为Server，即请求服务端执行函数调用，那么服务端会丢弃这样的请求不做处理</strong>，可参照上图。</p>
+<p>实现方式：</p>
+<p>蓝图：</p>
+<p>CustomEvent事件的Replicates选项设置有Run On Server，Run On Owing Client，Net MultiCast中的一个。</p>
+<p>C++：</p>
+<p>在函数生命中添加Server、Client、Net MultiCast关键字添加到UFUNCTION声明中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">UFUNCTION(Server, Reliable)                                                                                                     void ServerFire();//仅在服务器开火 </span><br><span class="line"></span><br><span class="line">UFUNCTION(NetMulticast,  Reliable)</span><br><span class="line">void MultiCastFire();//从服务器发起的通知所有客户端开火</span><br><span class="line"></span><br><span class="line">UFUNCTION(Client,  Reliable)</span><br><span class="line">void ClientFire();//服务器发起的向客户端的多播开火</span><br></pre></td></tr></table></figure>
+
+<p>视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1R34y1Q7b6">https://www.bilibili.com/video/BV1R34y1Q7b6</a></p>
+<h3 id="2-监听服务器模式下的状态关系"><a href="#2-监听服务器模式下的状态关系" class="headerlink" title="2.监听服务器模式下的状态关系"></a>2.监听服务器模式下的状态关系</h3><h4 id="1-各个大类的功用介绍"><a href="#1-各个大类的功用介绍" class="headerlink" title="1.各个大类的功用介绍"></a>1.各个大类的功用介绍</h4><p>至于这些状态的功能有个举例图：</p>
+<p><img src="/UE4-C-%E6%A1%86%E6%9E%B6%E6%A2%B3%E7%90%86%5C%E6%B8%B8%E6%88%8F%E6%A8%A1%E5%BC%8F%E6%B8%B8%E6%88%8F%E7%8A%B6%E6%80%81%E7%8E%A9%E5%AE%B6%E7%8A%B6%E6%80%81.png" alt="游戏模式游戏状态玩家状态"></p>
+<p>还有个玩家控制器就不单独放图了。玩家控制器可以设置用户控件，比如播放比赛的消息，更新玩家血量条，更新分数，更新击杀死亡数量信息，以及更新弹药。</p>
+<p>看出游戏模式类中包括了玩家控制器和用户界面类，以及游戏的具体规则和匹配状态。</p>
+<h5 id="1-GameMode"><a href="#1-GameMode" class="headerlink" title="1.GameMode"></a>1.GameMode</h5><p>两个主要类负责处理进行中游戏的相关信息：<strong>Game Mode</strong> 和 <strong>Game State</strong>。游戏模式是针对当前关卡的设定，里面<strong>存储了当前关卡的规则和玩法</strong>，即使最开放的游戏也拥有基础规则，而这些规则构成了 <strong>Game Mode</strong>。比如得分达到一定数目后某方获胜，然后播放什么样的动画，调用什么样的函数进行结算，再跳转到什么地图。诸如此类。在游戏模式中设置pawn类，HUD类，玩家控制器，游戏状态和玩家状态。</p>
+<h5 id="2-GameState"><a href="#2-GameState" class="headerlink" title="2.GameState"></a>2.GameState</h5><p>游戏状态类主要是<strong>当前对局的具体信息</strong>，基于规则的事件在游戏中发生，需要进行追踪并和所有玩家共享时，信息将通过 <strong>Game State</strong> 进行存储和同步。例如</p>
+<ul>
+<li><p>游戏已运行的时间（包括本地玩家加入前的运行时间）。</p>
+</li>
+<li><p>每个个体玩家加入游戏的时间和玩家的当前状态，MVP玩家的信息等</p>
+</li>
+<li><p>当前 Game Mode 的基类。</p>
+</li>
+<li><p>游戏是否已开始，正在匹配中，游戏正在结算，游戏正在热身时间等</p>
+</li>
+<li><p>分数领先的队伍信息，队伍的分数信息以及玩家所属的队伍信息。</p>
+</li>
+</ul>
+<h5 id="3-PlayerController"><a href="#3-PlayerController" class="headerlink" title="3.PlayerController"></a>3.PlayerController</h5><p>玩家控制器是Actor的一种子类型，其负责控制玩家所使用的的Pawn&#x2F;Character。<strong>控制器（Controller）</strong> 是一种可以控制Pawn（或Pawn的派生类，例如角色（Character）），从而控制其动作的非实体Actor。人类玩家使用PlayerController控制Pawn，而AIController则对它们控制的Pawn实加人工智能效果。控制器用Possess函数控制Pawn，用Unpossess函数放弃控制Pawn。</p>
+<p><strong>控制器会接收其控制的Pawn所发生诸多事件的通知。因此控制器可借机实现 响应此事件的行为，拦截事件并接替Pawn的默认行为。 可以让控制器在给定的Pawn之前运行， 从而从而最大限度减少输入处理与Pawn移动之间的延迟。比如把响应事件写在按键的响应上而不是用具体Pawn类去响应事件。</strong></p>
+<p>默认情况下，控制器与Pawn之间存在一对一的关系；也就是说，每个控制器在任何给定的时间只控制一个Pawn。这对于大多数 类型的游戏都是可以接受的，但对于某些类型的游戏可能需要进行调整，因为实时策略可能需要能够同时控制多个实体。</p>
+<h5 id="4-AIController"><a href="#4-AIController" class="headerlink" title="4.AIController"></a>4.AIController</h5><p><strong>玩家控制器（PlayerController）</strong> 主要依靠人类玩家来制定决策，而 <strong>AI控制器（AIController）</strong> 则侧重通过场景中的信息来做出响应。AI控制器的任务<strong>是观察周遭的世界，相应作出决策，无需人类玩家的控制。</strong></p>
+<h5 id="5-Actor"><a href="#5-Actor" class="headerlink" title="5.Actor"></a>5.Actor</h5><p>Actor是一种可以在世界中放置的的对象，可静态可动态，比如到处走动的玩家，巡逻的敌人，可拾取的道具和金币，可移动的场景电梯、轮船，<strong>一切实物都是Actor。</strong></p>
+<h5 id="5-ActorComponent"><a href="#5-ActorComponent" class="headerlink" title="5.ActorComponent"></a>5.ActorComponent</h5><p>ActorComponent是一种可复用的组件，能被附加到任意的Actor上，Actor可以将组件作为子对象附加到自身。组件适用于共享相同的行为，例如显示视觉表现、播放声音。它们还可以表示项目特有的概念，例如载具解译输入和改变其速度与方向的方式。<strong>举例而言，某个项目拥有用户可控制车辆、飞机和船只。可以通过更改载具Actor所使用的组件，来实现载具控制和移动的差异。</strong></p>
+<h5 id="6-PlayerState"><a href="#6-PlayerState" class="headerlink" title="6.PlayerState"></a>6.PlayerState</h5><p>玩家状态类则是包含了<strong>具体玩家的各种信息</strong>，不仅限于分数，击杀数，弹药量和所属队伍，也可以包括技能冷却信息，天赋激活信息和道具使用信息。</p>
+<h5 id="7-GameInstance"><a href="#7-GameInstance" class="headerlink" title="7.GameInstance"></a>7.GameInstance</h5><p><strong>游戏实例中存储了当前对局中的所有变量，游戏实例随游戏的打开而创建，随游戏的关闭而销毁，</strong>例如游戏中切换了地图，那么游戏实例之前保存的是上一张地图的信息，现在则变成成了最新的地图信息，起到一个临时的保存和效果。</p>
+<h5 id="8-Pawn-x2F-Character"><a href="#8-Pawn-x2F-Character" class="headerlink" title="8.Pawn&#x2F;Character"></a>8.Pawn&#x2F;Character</h5><p>Character角色类一般用于<strong>人形目标</strong>的实现，比如玩家类，人形的敌人类，人形NPC或者BOSS此种，类中<strong>内设了Character Movement角色移动类组件</strong>，可以让用户快速的设置人形目标的各种移动效果，诸如下蹲移动速度，奔跑速度，奔跑最大速度，奔跑加速度甚至游泳状态，反正就是一切人形目标的移动属性都几乎内设在这个类中供用户设置。需要注意的是，Character是Pawn的一种类型，即<strong>是Pawn的一种继承</strong>，增加了可四处走动的功能。</p>
+<p>Pawn和Character类很像，区别在于<strong>Pawn类一般用于非人形目标</strong>，比如你操控的是一台机关，放置在墙壁上或者高台上，这个机关不具有人形，但是却有和Character类差不多的操作和功能，比如射击，使用道具和获取奖励等，那么这个时候一般选用Pawn类，比如你操控的是一台靠轮子走的坦克，汽车，甚至飞机，机甲，哥斯拉和恐龙，这些单位从功能上来说和Character角色类很像，但是可能有不一样的移动方式，比如飞行或者爬墙，这个时候其<strong>移动组件通常需要玩家自己编写</strong>，当然如果是放置类的单位就不需要，比如一个具有加工功能的桌子，放那能用能加工不就行了，谁写移动功能啊，觉得碍眼的时候销毁一下就行；那么这些情况下我们通常使用Pawn类作为基类进行编写。</p>
+<p>放一张小关系图</p>
+<p><img src="/UE4-C-%E6%A1%86%E6%9E%B6%E6%A2%B3%E7%90%86%5Cimage-20221004141737070.png" alt="image20221004141737070"></p>
+<p>2.GameMode实现(<strong>重要</strong>)</p>
+<p>进行游戏所需要的玩家数量，或玩家加入游戏的方法，在多种类型的游戏中具有共通性。无论规则如何，Game Modes 的任务都是定义和实现规则。Game Modes 当前常用的基类有两个。</p>
+<p>4.14 版本中加入了 <code>AGameModeBase</code>，这是所有 Game Mode 的基类，是经典的 <code>AGameMode</code> 简化版本。<code>AGameMode</code> 是 4.14 版本之前的基类，仍然保留，功能 如旧，但现在是 <code>AGameModeBase</code> 的子类。由于其比赛状态概念的实现，**<code>AGameMode</code> 更适用于标准游戏类型（如多人射击游戏）**。<code>AGameModeBase</code> 简洁高效，是新代码项目中包含的全新默认游戏模式。</p>
+<h6 id="1-AGameModeBase"><a href="#1-AGameModeBase" class="headerlink" title="1.AGameModeBase"></a>1.AGameModeBase</h6><p>所有 Game Mode 均为 <code>AGameModeBase</code> 的子类。而 <code>AGameModeBase</code> 包含大量可覆盖的基础功能。部分常见函数包括：</p>
+<table>
+<thead>
+<tr>
+<th>函数&#x2F;事件</th>
+<th>目的</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>InitGame</code>初始化游戏</td>
+<td><code>InitGame</code> 事件在其他脚本之前调用（包括 <code>PreInitializeComponents</code>），<code>AGameModeBase::PreInitializeComponents</code>预初始化控件</td>
+</tr>
+<tr>
+<td><code>PreLogin</code>准备加入</td>
+<td>接受或拒绝尝试加入服务器的玩家。如它将 <code>ErrorMessage</code> 设为一个非空字符串，会导致 <code>Login</code> 函数失败。<code>PreLogin</code> 在 <code>Login</code> 前调用，Login 调用前可能需要大量时间，加入的玩家需要下载游戏内容时尤其如此。</td>
+</tr>
+<tr>
+<td><code>PostLogin</code>请求加入</td>
+<td>成功登录后调用。在 <code>PlayerController</code> 上调用可网络复制函数是安全的。<code>OnPostLogin</code> 可在蓝图中实现，以添加额外的逻辑。</td>
+</tr>
+<tr>
+<td><code>HandleStartingNewPlayer</code>新玩家生成</td>
+<td>在 <code>PostLogin</code> 后或无缝游历后调用，可在蓝图中覆盖，修改新玩家身上发生的事件。它将默认创建一个玩家 pawn。</td>
+</tr>
+<tr>
+<td><code>RestartPlayer</code>重启&#x2F;复活玩家</td>
+<td>调用开始生成一个玩家 pawn。如需要指定 Pawn 生成的地点，还可使用 <code>RestartPlayerAtPlayerStart</code> 和 <code>RestartPlayerAtTransform</code> 函数。<code>OnRestartPlayer</code> 可在蓝图中实现，在此函数完成后添加逻辑。</td>
+</tr>
+<tr>
+<td><code>SpawnDefaultPawnAtTransform</code>在指定位置生成Pawn</td>
+<td>这实际生成玩家 Pawn，可在蓝图中覆盖。</td>
+</tr>
+<tr>
+<td><code>Logout</code>退出游戏</td>
+<td>玩家离开游戏或被摧毁时调用。可实现 <code>OnLogout</code> 执行蓝图逻辑。</td>
+</tr>
+</tbody></table>
+<p>可针对游戏提供的每个比赛格式、任务类型或特殊区域创建 <code>AGameModeBase</code> 的子类。一款游戏可拥有任意数量的 Game Mode，因此也可拥有任意数量的 <code>AGameModeBase</code> 类子类；然而，给定时间上只能使用一个 Game Mode。每次关卡进行游戏实例化时 Game Mode Actor 将通过 <code>UGameEngine::LoadMap()</code> 函数进行实例化。</p>
+<p>Game Mode 不会复制到加入多人游戏的远程客户端；它只存在于服务器上，因此本地客户端可看到之前使用过的留存 Game Mode 类（或蓝图）；但无法访问实际的实例并检查其变量，确定游戏进程中已发生哪些变化。如玩家确实需要更新与当前 Game Mode 相关的信息，可将信息保存在一个 <code>AGameStateBase</code> Actor 上，轻松保持同步。<code>AGameStateBase</code> Actor 随 Game Mode 而创建，之后被复制到所有远程客户端。注意，<strong>GameStateBase由GameModeBase生成。</strong></p>
+<h6 id="2-AGameMode"><a href="#2-AGameMode" class="headerlink" title="2.AGameMode"></a>2.AGameMode</h6><p><code>AGameMode</code> 是 <code>AGameModeBase</code> 的子类，拥有一些额外的功能支持多人游戏和旧行为。所有新建项目默认使用 <code>AGameModeBase</code>。如果需要此额外行为，可切换到从 <code>AGameMode</code> 进行继承。如从 <code>AGameMode</code> 进行继承，也可从 <code>AGameState</code> 继承游戏状态（其支持比赛状态机）。</p>
+<p><code>AGameMode</code> 包含一个跟踪比赛状态或整体游戏流程的状态机。可使用 <code>GetMatchState</code> 或 <code>HasMatchStarted</code>、<code>IsMatchInProgress</code> 和 <code>HasMatchEnded</code> 之类的封装器查询当前的状态。以下是可能的比赛状态：</p>
+<ul>
+<li><code>EnteringMap</code> 是<strong>初始状态</strong>。Actor 尚未进行 tick，世界场景尚未完整初始化。内容完整加载后将过渡到下个状态。</li>
+<li><code>WaitingToStart</code> 是下个状态，进入时将调用 <code>HandleMatchIsWaitingToStart</code>。Actor 正在进行 tick，但玩家尚未生成。如 <code>ReadyToStartMatch</code> 返回 <em>true</em> 或 <code>StartMatch</code> 被调用，它将过渡到下个状态。</li>
+<li><code>InProgress</code> 是游戏主体所发生的状态。进入此状态时将调用 <code>HandleMatchHasStarted</code>，然后在所有 Actor 上调用 <code>BeginPlay</code>。此时，正常游戏进程已在进行中。<code>ReadyToEndMatch</code> 返回 <em>true</em> 或调用 <code>EndMatch</code> 时比赛将过渡到下个状态。</li>
+<li><code>WaitingPostMatch</code> 是倒数第二个状态，进入时将调用 <code>HandleMatchHasEnded</code>。Actor 仍在 tick，但新玩家无法加入。地图转换开始时它将过渡到下个状态。</li>
+<li><code>LeavingMap</code> 是正常流程中的最后一个状态，进入时将调用 <code>HandleLeavingMap</code>。转换到新地图时比赛将保持在此状态中，进入新地图时将过渡回到 <code>EnteringMap</code>。</li>
+<li><code>Aborted</code> 是失败状态，调用 <code>AbortMatch</code> 可开始此状态。出现无法恢复的错误时将进行此设置。</li>
+</ul>
+<p>游戏状态将固定为 <code>InProgress</code>，因为这是调用 <code>BeginPlay</code>、actor 开始 tick 的状态。然而，<strong>个体游戏可能覆盖这些状态</strong>的行为，用更复杂的规则构建一个多人游戏，如在一款多人射击游戏中等待其他玩家加入时允许玩家在关卡中自由飞行。</p>
+<h6 id="3-Game-State"><a href="#3-Game-State" class="headerlink" title="3.Game State"></a>3.Game State</h6><p><strong>Game State</strong> 负责启用客户端监控游戏状态。从概念上而言，Game State 应该管理所有已连接客户端已知的信息（特定于 Game Mode 但不特定于任何个体玩家）。它能够追踪游戏层面的属性，如已连接玩家的列表、夺旗游戏中的团队得分、开放世界游戏中已完成的任务，等等。</p>
+<p>Game State 并非追踪玩家特有内容（如夺旗比赛中特定玩家为团队获得的分数）的最佳之处，因为它们由 <strong>Player State</strong> 更清晰地处理。整体而言，GameState 应该追踪游戏进程中变化的属性。这些属性与所有人皆相关，且所有人可见。Game mode 只存在于服务器上，而 Game State 存在于服务器上且会被复制到所有客户端，保持所有已连接机器的游戏进程更新。</p>
+<p><code>AGameStateBase</code> 是基础实现，其部分默认功能包括：</p>
+<table>
+<thead>
+<tr>
+<th>函数或变量</th>
+<th>使用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>GetServerWorldTimeSeconds</code></td>
+<td>这是 <code>UWorld</code> 函数 <code>GetTimeSeconds</code> 的服务器版本，将在客户端和服务器上同步，因此该时间可用于复制，十分可靠。</td>
+</tr>
+<tr>
+<td><code>PlayerArray</code></td>
+<td>这是所有 <code>APlayerState</code> 对象的阵列，对游戏中所有玩家执行操作时十分实用。</td>
+</tr>
+<tr>
+<td><code>HasBegunPlay</code></td>
+<td>如 <code>BeginPlay</code> 函数在游戏中的 actor 上调用，则返回 true。</td>
+</tr>
+</tbody></table>
+<p>下面是部分GameMode基类的函数，更多属性和函数请参考GameMode.h文件</p>
+<p><img src="/UE4-C-%E6%A1%86%E6%9E%B6%E6%A2%B3%E7%90%86%5CGameMode%E9%83%A8%E5%88%86%E6%BA%90%E7%A0%81.png" alt="GameMode部分源码"></p>
+<p>3.各个类的生成数量</p>
+<p>关于游戏模式、玩家控制器、Pawn、角色、游戏实例、游戏状态、玩家状态GameMode&#x2F;PlayerController&#x2F;Pawn&#x2F;Character&#x2F;GameInstance&#x2F;GameState&#x2F;PlayerState 6个类的生成情况和生成个数。</p>
+<p>首先，PlayerController、GameMode、PlayerState、都需要在关卡的WorldSetting中的GameMode栏设置，因为这几个类的生命周期仅存在于关卡中，GameInstance类需要在Edit-&gt;project setting-&gt;Map&amp;Modes中最下面的GameInstance中设定。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>生命周期</th>
+<th>存在于</th>
+<th>是否网络复制</th>
+<th>进程内个数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GameInstance</td>
+<td>进程</td>
+<td>服务器和客户端</td>
+<td>否</td>
+<td>1</td>
+</tr>
+<tr>
+<td>GameMode</td>
+<td>关卡</td>
+<td>服务器</td>
+<td>不适用</td>
+<td>1</td>
+</tr>
+<tr>
+<td>GameState</td>
+<td>关卡</td>
+<td>服务器和客户端</td>
+<td>是</td>
+<td>1</td>
+</tr>
+<tr>
+<td>PlayerController</td>
+<td>关卡</td>
+<td>服务器和客户端</td>
+<td>是</td>
+<td>服务器上为玩家群体的总数量，客户端上只有一个</td>
+</tr>
+<tr>
+<td>PlayerState</td>
+<td>关卡</td>
+<td>服务器和客户端</td>
+<td>是</td>
+<td>同玩家个数</td>
+</tr>
+<tr>
+<td>Pawn&#x2F;Character</td>
+<td>逻辑控制</td>
+<td>服务器和客户端</td>
+<td>是</td>
+<td>同玩家个数</td>
+</tr>
+</tbody></table>
+<p>此处的是否可复制表示服务器端的变化<strong>是否会复制到所有客户端</strong>，生命周期指的是不同生命周期类可以不一样，对于生命周期为关卡的类制定在每个关卡WorldSetting中的GameMode设置。</p>
+<p>举例：</p>
+<p>如果此时房间里有3个玩家，即两个客户端一个服务端，那么对应其生成情况如下：</p>
+<table>
+<thead>
+<tr>
+<th>Player&#x2F;Character</th>
+<th>在服务器上生成3个，两个客户端上各自生成3个</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PlayerState</td>
+<td>在服务器上生成3个，两个客户端上分别生成3个(世界场景中总共9个)</td>
+</tr>
+<tr>
+<td>PlayerController</td>
+<td>服务器上生成3个，两个客户端上分别生成1个(世界场景中总共5个)</td>
+</tr>
+<tr>
+<td>GameMode</td>
+<td>只在服务器上生成1个。客户端上不生产，只允许服务端拥有。</td>
+</tr>
+<tr>
+<td>GameState</td>
+<td>服务器上生成1个，两个客户端上分别生成1个。(世界场景中总共3个)</td>
+</tr>
+<tr>
+<td>GameInstance</td>
+<td>服务器上生成1个，两个客户端上各自生成1个。(整个世界场景中共生成3个)</td>
+</tr>
+<tr>
+<td>关卡蓝图</td>
+<td>服务器上生成1个，两个客户端上各自生成1个。(整个世界场景中共生成3个)</td>
+</tr>
+</tbody></table>
+<p>这里有两张图便于数量和关系的理解</p>
+<p><img src="/UE4-C-%E6%A1%86%E6%9E%B6%E6%A2%B3%E7%90%86%5C%E6%95%B0%E9%87%8F%E7%90%86%E8%A7%A3.png" alt="数量理解"></p>
+<p><strong>Game State</strong> 并非追踪玩家特有内容（如夺旗比赛中特定玩家为团队获得的分数）的最佳之处，因为它们由 <strong>Player State</strong> 更清晰地处理。整体而言，GameState 应该追踪游戏进程中变化的属性。这些属性与所有人皆相关，且所有人可见。<strong>Game mode 只存在于服务器上</strong>，而 Game State 存在于服务器上且<strong>会被复制到所有客户端</strong>，保持所有已连接机器的游戏进程更新。</p>
+<p><img src="/UE4-C-%E6%A1%86%E6%9E%B6%E6%A2%B3%E7%90%86%5C%E7%B1%BB%E5%9C%A8%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%92%8C%E5%AE%A2%E6%88%B7%E7%AB%AF.png" alt="类在服务端和客户端"></p>
+<p>3.参考资料</p>
+<ol>
+<li><p><a target="_blank" rel="noopener" href="https://space.bilibili.com/12825137/channel/seriesdetail?sid=317657">安宁Ken的个人空间_哔哩哔哩_Bilibili</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.unrealengine.com/5.0/zh-CN/game-mode-and-game-state-in-unreal-engine/">虚幻引擎中的 Game Mode 和 Game State | 虚幻引擎5.0文档</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.udemy.com/course/unreal-engine-5-cpp-multiplayer-shooter/UE">https://www.udemy.com/course/unreal-engine-5-cpp-multiplayer-shooter/UE</a> 网络同步和框架</p>
+</li>
+<li><p>转载自我的好兄弟：<a href="mailto:&#50;&#54;&#53;&#55;&#x33;&#52;&#56;&#x36;&#55;&#x39;&#x40;&#x71;&#113;&#x2e;&#99;&#111;&#109;">&#50;&#54;&#53;&#55;&#x33;&#52;&#56;&#x36;&#55;&#x39;&#x40;&#x71;&#113;&#x2e;&#99;&#111;&#109;</a></p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C++</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/10/06/UDP%E7%AE%80%E8%BF%B0/" rel="prev" title="UDP简述">
+                  <i class="fa fa-chevron-left"></i> UDP简述
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/10/08/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E8%A7%92%E8%89%B2%E7%94%9F%E6%88%90/" rel="next" title="UE4-项目-TowerDefence-角色生成">
+                  UE4-项目-TowerDefence-角色生成 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
