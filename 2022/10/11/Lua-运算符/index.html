@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="运算符是一个特殊的符号，用于告诉解释器执行特定的数学或逻辑运算。Lua提供了以下几种运算符类型：  算术运算符 关系运算符 逻辑运算符 其他运算符  算术运算符下表列出了 Lua 语言中的常用算术运算符，设定 A 的值为10，B 的值为 20：    操作符 描述 实例    + 加法 A + B 输出结果 30   - 减法 A - B 输出结果 -10   * 乘法 A * B 输出结果 20">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lua-运算符">
+<meta property="og:url" content="http://example.com/2022/10/11/Lua-%E8%BF%90%E7%AE%97%E7%AC%A6/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="运算符是一个特殊的符号，用于告诉解释器执行特定的数学或逻辑运算。Lua提供了以下几种运算符类型：  算术运算符 关系运算符 逻辑运算符 其他运算符  算术运算符下表列出了 Lua 语言中的常用算术运算符，设定 A 的值为10，B 的值为 20：    操作符 描述 实例    + 加法 A + B 输出结果 30   - 减法 A - B 输出结果 -10   * 乘法 A * B 输出结果 20">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-10-11T07:57:12.000Z">
+<meta property="article:modified_time" content="2022-10-11T08:05:35.906Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="Lua">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/10/11/Lua-%E8%BF%90%E7%AE%97%E7%AC%A6/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/10/11/Lua-%E8%BF%90%E7%AE%97%E7%AC%A6/","path":"2022/10/11/Lua-运算符/","title":"Lua-运算符"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Lua-运算符 | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.</span> <span class="nav-text">算术运算符</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B"><span class="nav-number">1.1.</span> <span class="nav-text">实例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">2.</span> <span class="nav-text">关系运算符</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B-1"><span class="nav-number">2.1.</span> <span class="nav-text">实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">2.2.</span> <span class="nav-text">逻辑运算符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B-2"><span class="nav-number">2.2.1.</span> <span class="nav-text">实例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">3.</span> <span class="nav-text">其他运算符</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B-3"><span class="nav-number">3.1.</span> <span class="nav-text">实例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6%E4%BC%98%E5%85%88%E7%BA%A7"><span class="nav-number">4.</span> <span class="nav-text">运算符优先级</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B-4"><span class="nav-number">4.0.1.</span> <span class="nav-text">实例</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">145</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/11/Lua-%E8%BF%90%E7%AE%97%E7%AC%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Lua-运算符 | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Lua-运算符
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-10-11 15:57:12 / 修改时间：16:05:35" itemprop="dateCreated datePublished" datetime="2022-10-11T15:57:12+08:00">2022-10-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Lua/" itemprop="url" rel="index"><span itemprop="name">Lua</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>运算符是一个特殊的符号，用于告诉解释器执行特定的数学或逻辑运算。Lua提供了以下几种运算符类型：</p>
+<ul>
+<li>算术运算符</li>
+<li>关系运算符</li>
+<li>逻辑运算符</li>
+<li>其他运算符</li>
+</ul>
+<h1 id="算术运算符"><a href="#算术运算符" class="headerlink" title="算术运算符"></a>算术运算符</h1><p>下表列出了 Lua 语言中的常用算术运算符，设定 A 的值为10，B 的值为 20：</p>
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>描述</th>
+<th>实例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>+</td>
+<td>加法</td>
+<td>A + B 输出结果 30</td>
+</tr>
+<tr>
+<td>-</td>
+<td>减法</td>
+<td>A - B 输出结果 -10</td>
+</tr>
+<tr>
+<td>*</td>
+<td>乘法</td>
+<td>A * B 输出结果 200</td>
+</tr>
+<tr>
+<td>&#x2F;</td>
+<td>除法</td>
+<td>B &#x2F; A 输出结果 2</td>
+</tr>
+<tr>
+<td>%</td>
+<td>取余</td>
+<td>B % A 输出结果 0</td>
+</tr>
+<tr>
+<td>^</td>
+<td>乘幂</td>
+<td>A^2 输出结果 100</td>
+</tr>
+<tr>
+<td>-</td>
+<td>负号</td>
+<td>-A 输出结果 -10</td>
+</tr>
+<tr>
+<td>&#x2F;&#x2F;</td>
+<td>整除运算符(&gt;&#x3D;lua5.3)</td>
+<td>5&#x2F;&#x2F;2 输出结果 2</td>
+</tr>
+</tbody></table>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>我们可以通过以下实例来更加透彻的理解算术运算符的应用：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">21</span></span><br><span class="line">b = <span class="number">10</span></span><br><span class="line">c = a + b</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Line 1 - c 的值为 &quot;</span>, c )</span><br><span class="line">c = a - b</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Line 2 - c 的值为 &quot;</span>, c )</span><br><span class="line">c = a * b</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Line 3 - c 的值为 &quot;</span>, c )</span><br><span class="line">c = a / b</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Line 4 - c 的值为 &quot;</span>, c )</span><br><span class="line">c = a % b</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Line 5 - c 的值为 &quot;</span>, c )</span><br><span class="line">c = a^<span class="number">2</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Line 6 - c 的值为 &quot;</span>, c )</span><br><span class="line">c = -a</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Line 7 - c 的值为 &quot;</span>, c )</span><br></pre></td></tr></table></figure>
+
+<p>以上程序执行结果为：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Line <span class="number">1</span> - c 的值为     <span class="number">31</span></span><br><span class="line">Line <span class="number">2</span> - c 的值为     <span class="number">11</span></span><br><span class="line">Line <span class="number">3</span> - c 的值为     <span class="number">210</span></span><br><span class="line">Line <span class="number">4</span> - c 的值为     <span class="number">2.1</span></span><br><span class="line">Line <span class="number">5</span> - c 的值为     <span class="number">1</span></span><br><span class="line">Line <span class="number">6</span> - c 的值为     <span class="number">441</span></span><br><span class="line">Line <span class="number">7</span> - c 的值为     <span class="number">-21</span></span><br></pre></td></tr></table></figure>
+
+<p>在 lua 中，&#x2F; 用作除法运算，计算结果包含小数部分，&#x2F;&#x2F; 用作整除运算，计算结果不包含小数部分：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">5</span></span><br><span class="line">b = <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;除法运算 - a/b 的值为 &quot;</span>, a / b )</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;整除运算 - a//b 的值为 &quot;</span>, a // b )</span><br></pre></td></tr></table></figure>
+
+<p>result</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">除法运算 - a/b 的值为   <span class="number">2.5</span></span><br><span class="line">整除运算 - a//b 的值为  <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="关系运算符"><a href="#关系运算符" class="headerlink" title="关系运算符"></a>关系运算符</h1><p>下表列出了 Lua 语言中的常用关系运算符，设定 A 的值为10，B 的值为 20：</p>
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>描述</th>
+<th>实例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&#x3D;&#x3D;</td>
+<td>等于，检测两个值是否相等，相等返回 true，否则返回 false</td>
+<td>(A &#x3D;&#x3D; B) 为 false。</td>
+</tr>
+<tr>
+<td>~&#x3D;</td>
+<td>不等于，检测两个值是否相等，不相等返回 true，否则返回 false</td>
+<td>(A ~&#x3D; B) 为 true。</td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>大于，如果左边的值大于右边的值，返回 true，否则返回 false</td>
+<td>(A &gt; B) 为 false。</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>小于，如果左边的值大于右边的值，返回 false，否则返回 true</td>
+<td>(A &lt; B) 为 true。</td>
+</tr>
+<tr>
+<td>&gt;&#x3D;</td>
+<td>大于等于，如果左边的值大于等于右边的值，返回 true，否则返回 false</td>
+<td>(A &gt;&#x3D; B) 返回 false。</td>
+</tr>
+<tr>
+<td>&lt;&#x3D;</td>
+<td>小于等于， 如果左边的值小于等于右边的值，返回 true，否则返回 false</td>
+<td>(A &lt;&#x3D; B) 返回 true。</td>
+</tr>
+</tbody></table>
+<h2 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h2><p>我们可以通过以下实例来更加透彻的理解关系运算符的应用：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">21</span></span><br><span class="line">b = <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( a == b )</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;Line 1 - a 等于 b&quot;</span> )</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;Line 1 - a 不等于 b&quot;</span> )</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( a ~= b )</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;Line 2 - a 不等于 b&quot;</span> )</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;Line 2 - a 等于 b&quot;</span> )</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ( a &lt; b )</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;Line 3 - a 小于 b&quot;</span> )</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;Line 3 - a 大于等于 b&quot;</span> )</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ( a &gt; b )</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;Line 4 - a 大于 b&quot;</span> )</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;Line 5 - a 小于等于 b&quot;</span> )</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 修改 a 和 b 的值</span></span><br><span class="line">a = <span class="number">5</span></span><br><span class="line">b = <span class="number">20</span></span><br><span class="line"><span class="keyword">if</span> ( a &lt;= b )</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;Line 5 - a 小于等于  b&quot;</span> )</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ( b &gt;= a )</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;Line 6 - b 大于等于 a&quot;</span> )</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>以上程序执行结果为：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Line <span class="number">1</span> - a 不等于 b</span><br><span class="line">Line <span class="number">2</span> - a 不等于 b</span><br><span class="line">Line <span class="number">3</span> - a 大于等于 b</span><br><span class="line">Line <span class="number">4</span> - a 大于 b</span><br><span class="line">Line <span class="number">5</span> - a 小于等于  b</span><br><span class="line">Line <span class="number">6</span> - b 大于等于 a</span><br></pre></td></tr></table></figure>
+
+<h2 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h2><p>下表列出了 Lua 语言中的常用逻辑运算符，设定 A 的值为 true，B 的值为 false：</p>
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>描述</th>
+<th>实例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>and</td>
+<td>逻辑与操作符。 若 A 为 false，则返回 A，否则返回 B。</td>
+<td>(A and B) 为 false。</td>
+</tr>
+<tr>
+<td>or</td>
+<td>逻辑或操作符。 若 A 为 true，则返回 A，否则返回 B。</td>
+<td>(A or B) 为 true。</td>
+</tr>
+<tr>
+<td>not</td>
+<td>逻辑非操作符。与逻辑运算结果相反，如果条件为 true，逻辑非为 false。</td>
+<td>not(A and B) 为 true。</td>
+</tr>
+</tbody></table>
+<h3 id="实例-2"><a href="#实例-2" class="headerlink" title="实例"></a>实例</h3><p>我们可以通过以下实例来更加透彻的理解逻辑运算符的应用：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="literal">true</span></span><br><span class="line">b = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ( a <span class="keyword">and</span> b )</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;a and b - 条件为 true&quot;</span> )</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ( a <span class="keyword">or</span> b )</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;a or b - 条件为 true&quot;</span> )</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;---------分割线---------&quot;</span> )</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 修改 a 和 b 的值</span></span><br><span class="line">a = <span class="literal">false</span></span><br><span class="line">b = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ( a <span class="keyword">and</span> b )</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;a and b - 条件为 true&quot;</span> )</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;a and b - 条件为 false&quot;</span> )</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ( <span class="keyword">not</span>( a <span class="keyword">and</span> b) )</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;not( a and b) - 条件为 true&quot;</span> )</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;not( a and b) - 条件为 false&quot;</span> )</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>以上程序执行结果为：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a <span class="keyword">and</span> b - 条件为 <span class="literal">true</span></span><br><span class="line">a <span class="keyword">or</span> b - 条件为 <span class="literal">true</span></span><br><span class="line"><span class="comment">---------分割线---------</span></span><br><span class="line">a <span class="keyword">and</span> b - 条件为 <span class="literal">false</span></span><br><span class="line"><span class="keyword">not</span>( a <span class="keyword">and</span> b) - 条件为 <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="其他运算符"><a href="#其他运算符" class="headerlink" title="其他运算符"></a>其他运算符</h1><p>下表列出了 Lua 语言中的连接运算符与计算表或字符串长度的运算符：</p>
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>描述</th>
+<th>实例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>..</td>
+<td>连接两个字符串</td>
+<td>a..b ，其中 a 为 “Hello “ ， b 为 “World”, 输出结果为 “Hello World”。</td>
+</tr>
+<tr>
+<td>#</td>
+<td>一元运算符，返回字符串或表的长度。</td>
+<td>#”Hello” 返回 5</td>
+</tr>
+</tbody></table>
+<h2 id="实例-3"><a href="#实例-3" class="headerlink" title="实例"></a>实例</h2><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="string">&quot;Hello &quot;</span></span><br><span class="line">b = <span class="string">&quot;World&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;连接字符串 a 和 b &quot;</span>, a..b )</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;b 字符串长度 &quot;</span>,#b )</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;字符串 Test 长度 &quot;</span>,#<span class="string">&quot;Test&quot;</span> )</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;菜鸟教程网址长度 &quot;</span>,#<span class="string">&quot;www.runoob.com&quot;</span> )</span><br></pre></td></tr></table></figure>
+
+<p>以上程序执行结果为：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">连接字符串 a 和 b     Hello World</span><br><span class="line">b 字符串长度     <span class="number">5</span></span><br><span class="line">字符串 Test 长度     <span class="number">4</span></span><br><span class="line">菜鸟教程网址长度     <span class="number">14</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="运算符优先级"><a href="#运算符优先级" class="headerlink" title="运算符优先级"></a>运算符优先级</h1><p>从高到低的顺序：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">^</span><br><span class="line"><span class="keyword">not</span>    - (unary)</span><br><span class="line">*      /       %</span><br><span class="line">+      -</span><br><span class="line">..</span><br><span class="line">&lt;      &gt;      &lt;=     &gt;=     ~=     ==</span><br><span class="line"><span class="keyword">and</span></span><br><span class="line"><span class="keyword">or</span></span><br></pre></td></tr></table></figure>
+
+<p>除了 ^ 和 .. 外所有的二元运算符都是左连接的。</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a+i &lt; b/<span class="number">2</span>+<span class="number">1</span>          &lt;<span class="comment">--&gt;       (a+i) &lt; ((b/2)+1)</span></span><br><span class="line"><span class="number">5</span>+x^<span class="number">2</span>*<span class="number">8</span>              &lt;<span class="comment">--&gt;       5+((x^2)*8)</span></span><br><span class="line">a &lt; y <span class="keyword">and</span> y &lt;= z     &lt;<span class="comment">--&gt;       (a &lt; y) and (y &lt;= z)</span></span><br><span class="line">-x^<span class="number">2</span>                 &lt;<span class="comment">--&gt;       -(x^2)</span></span><br><span class="line">x^y^z                &lt;<span class="comment">--&gt;       x^(y^z)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="实例-4"><a href="#实例-4" class="headerlink" title="实例"></a>实例</h3><p>我们可以通过以下实例来更加透彻的了解 Lua 语言运算符的优先级：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">20</span></span><br><span class="line">b = <span class="number">10</span></span><br><span class="line">c = <span class="number">15</span></span><br><span class="line">d = <span class="number">5</span></span><br><span class="line"></span><br><span class="line">e = (a + b) * c / d;<span class="comment">-- ( 30 * 15 ) / 5</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;(a + b) * c / d 运算值为  :&quot;</span>,e )</span><br><span class="line"></span><br><span class="line">e = ((a + b) * c) / d; <span class="comment">-- (30 * 15 ) / 5</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;((a + b) * c) / d 运算值为 :&quot;</span>,e )</span><br><span class="line"></span><br><span class="line">e = (a + b) * (c / d);<span class="comment">-- (30) * (15/5)</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;(a + b) * (c / d) 运算值为 :&quot;</span>,e )</span><br><span class="line"></span><br><span class="line">e = a + (b * c) / d;  <span class="comment">-- 20 + (150/5)</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;a + (b * c) / d 运算值为   :&quot;</span>,e )</span><br></pre></td></tr></table></figure>
+
+<p>以上程序执行结果为：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(a + b) * c / d 运算值为  :    <span class="number">90.0</span></span><br><span class="line">((a + b) * c) / d 运算值为 :    <span class="number">90.0</span></span><br><span class="line">(a + b) * (c / d) 运算值为 :    <span class="number">90.0</span></span><br><span class="line">a + (b * c) / d 运算值为   :    <span class="number">50.0</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Lua/" rel="tag"># Lua</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/10/11/Lua-%E5%87%BD%E6%95%B0/" rel="prev" title="Lua-函数">
+                  <i class="fa fa-chevron-left"></i> Lua-函数
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/10/11/Lua-%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="next" title="Lua-字符串">
+                  Lua-字符串 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
