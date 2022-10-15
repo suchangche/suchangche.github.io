@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">145</span>
+          <span class="site-state-item-count">151</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,1189 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/13/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9C%8D%E8%A3%85UI%E7%95%8C%E9%9D%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/13/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9C%8D%E8%A3%85UI%E7%95%8C%E9%9D%A2/" class="post-title-link" itemprop="url">UE4-项目-死寂-自定义服装UI界面</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-07-13 16:24:43" itemprop="dateCreated datePublished" datetime="2022-07-13T16:24:43+08:00">2022-07-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-07-14 16:14:32" itemprop="dateModified" datetime="2022-07-14T16:14:32+08:00">2022-07-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="自定义服装UI界面"><a href="#自定义服装UI界面" class="headerlink" title="自定义服装UI界面"></a>自定义服装UI界面</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="滚动框"><a href="#滚动框" class="headerlink" title="滚动框"></a>滚动框</h3><p>控件蓝图中的组件，一个框里面，物品过多的时候即可滚动物品选择</p>
+<h3 id="统一网格面板"><a href="#统一网格面板" class="headerlink" title="统一网格面板"></a>统一网格面板</h3><p>空间蓝图中的组件，放在滚动框中</p>
+<h3 id="设置骨骼网格体"><a href="#设置骨骼网格体" class="headerlink" title="设置骨骼网格体"></a>设置骨骼网格体</h3><p>可以设置骨骼网格体模型，也可以更新模型的时候重置其动画（Reinit Pose为true）</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>在世界场景设置中的“游戏模式”，”默认Pawn类“中修改为Pawn</p>
+</li>
+<li><p>复制“按钮交互”空间蓝图为“自定义服装按钮”</p>
+</li>
+<li><p>删除其中的按钮和文本框，图表中除了播放动画逻辑之外全部删掉，变量“Name”也删掉</p>
+</li>
+<li><p>拖入“边界”，将其尺寸xy均修改为150，右上角的“自定义”修改为“所需”，将默认的“渲染不透明度”修改为0</p>
+</li>
+<li><p>拖入“按钮”，将其锚点修改为居中，位置均为0，尺寸均为140，对其均为0.5</p>
+</li>
+<li><p>添加一个“图像”到“按钮”下面，将水平和竖直对其均修改为填充，将填充的值修改为0</p>
+</li>
+<li><p>添加服饰的图像，并将其亮度修改为0.4（在选中的时候才为1）</p>
+</li>
+<li><p>将图像的“渲染变换”中的“缩放”均修改为1.1，将按钮的裁切修改为“裁切到边界-固定（高级）”</p>
+</li>
+<li><p>将“交互”动画中原本的删掉，添加“图像”的轨道，缩放从1.1到1.2，“颜色和不透明度”的RGBA均从0.4到1</p>
+</li>
+<li><p>添加“边界”的轨道，将“渲染不透明度”从0修改为1</p>
+</li>
+<li><p>设置按钮的音效</p>
+</li>
+<li><p>给按钮添加“悬停时”和“未悬停时”的事件，分别正反向播放“交互”动画</p>
+</li>
+<li><p>创建一个“纹理2D”类型的变量“服装图片”，在设计器中的图像组件和“服装图片”进行绑定</p>
+</li>
+<li><p>添加“骨骼网格体”类型的变量“服装模型”，勾选其“可编辑实例”和“生成时公开”</p>
+</li>
+<li><p>创建新的空间蓝图“自定义服装”</p>
+<ul>
+<li><p>将“游戏声明”控件蓝图中的文本控件和返回按钮复制到“自定义服装中”</p>
+</li>
+<li><p>添加图像组件，全屏，放置服装选择图片，将一个“滚动框”组件放入图片“服装”栏的下面</p>
+</li>
+<li><p>在滚动框下面放入一个“统一网格面板”</p>
+</li>
+<li><p>将“自定义服装按钮”拖入统一网格面板，设置其行列，输入其“服装图片”和“服装模型”</p>
+</li>
+</ul>
+</li>
+<li><p>将“自定义服装”拖入到主界面控件蓝图中</p>
+<ul>
+<li><p>修改其锚点，偏移，渲染不透明度</p>
+</li>
+<li><p>复制原本的动画，替换为“自定义服装界面”，命名为“点击自定义服装”</p>
+</li>
+<li><p>将主界面的图表中的“关闭所有UI交互”函数中添加“自定义服装界面”</p>
+</li>
+</ul>
+</li>
+<li><p>在关卡蓝图中添加自定义事件“切换到自定义服装”，使用“获取玩家控制器”，“使用混合设置视图目标”，以及选择一个摄像机的实例实现切换摄像机的效果</p>
+</li>
+<li><p>在“主界面”的图表中使用“播放动画”，“控制台命令”，“关闭所有UI交互”，“设置可视性”实现主界面切换到自定义服装界面，同理，也设置自定义界面返回到主界面</p>
+</li>
+<li><p>创建一个角色蓝图类“BP_MainMenu”用于选择服装之后展示服装模型</p>
+<ul>
+<li><p>给角色添加一个模型</p>
+</li>
+<li><p>设置其动画模式为“使用动画资产”，设置一个合适的“要播放的动画”</p>
+</li>
+</ul>
+</li>
+<li><p>将“BP_MainMenu”放入场景中，放在第三个摄像机能看到的位置（自定义服装位置）</p>
+</li>
+<li><p>在主界面选择了不同服装之后，角色模型的服装也需要发生相应变化</p>
+<ul>
+<li><p>在“BP_MainMenu”创建一个自定义事件“切换服装”，添加一个骨骼网格体类型的输入“选择的模型”，并提升为变量</p>
+</li>
+<li><p>使用“设置骨骼网格体”来重置“BP_MainMenu”的模型，并且将“Reinit Pose”为false</p>
+</li>
+<li><p>在自定义服装按钮控件蓝图中，给button添加一个点击时的事件，通过“获取类的所有actor”调用“BP_MainMenu”中的“切换服装”事件</p>
+</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/07/Socket%E7%BC%96%E7%A8%8B-Windows%E4%B8%8B%E7%9A%84%E6%BC%94%E7%A4%BA%E7%A8%8B%E5%BA%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/07/Socket%E7%BC%96%E7%A8%8B-Windows%E4%B8%8B%E7%9A%84%E6%BC%94%E7%A4%BA%E7%A8%8B%E5%BA%8F/" class="post-title-link" itemprop="url">Socket编程-Windows下的演示程序</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-07 11:11:56 / 修改时间：11:27:11" itemprop="dateCreated datePublished" datetime="2022-07-07T11:11:56+08:00">2022-07-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Socket/" itemprop="url" rel="index"><span itemprop="name">Socket</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>server.cpp 为服务器端代码，client 为客户端代码。 </p>
+<h1 id="服务器端代码-server-cpp："><a href="#服务器端代码-server-cpp：" class="headerlink" title="服务器端代码 server.cpp："></a>服务器端代码 server.cpp：</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;winsock2.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> comment (lib, <span class="string">&quot;ws2_32.lib&quot;</span>)  <span class="comment">//加载 ws2_32.dll</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//初始化 DLL</span></span><br><span class="line">    WSADATA wsaData;</span><br><span class="line">    <span class="built_in">WSAStartup</span>( <span class="built_in">MAKEWORD</span>(<span class="number">2</span>, <span class="number">2</span>), &amp;wsaData);</span><br><span class="line">    <span class="comment">//创建套接字</span></span><br><span class="line">    SOCKET servSock = <span class="built_in">socket</span>(PF_INET, SOCK_STREAM, IPPROTO_TCP);</span><br><span class="line">    <span class="comment">//绑定套接字</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> sockAddr;</span><br><span class="line">    <span class="built_in">memset</span>(&amp;sockAddr, <span class="number">0</span>, <span class="built_in">sizeof</span>(sockAddr));  <span class="comment">//每个字节都用0填充</span></span><br><span class="line">    sockAddr.sin_family = PF_INET;  <span class="comment">//使用IPv4地址</span></span><br><span class="line">    sockAddr.sin_addr.s_addr = <span class="built_in">inet_addr</span>(<span class="string">&quot;127.0.0.1&quot;</span>);  <span class="comment">//具体的IP地址</span></span><br><span class="line">    sockAddr.sin_port = <span class="built_in">htons</span>(<span class="number">1234</span>);  <span class="comment">//端口</span></span><br><span class="line">    <span class="built_in">bind</span>(servSock, (SOCKADDR*)&amp;sockAddr, <span class="built_in">sizeof</span>(SOCKADDR));</span><br><span class="line">    <span class="comment">//进入监听状态</span></span><br><span class="line">    <span class="built_in">listen</span>(servSock, <span class="number">20</span>);</span><br><span class="line">    <span class="comment">//接收客户端请求</span></span><br><span class="line">    SOCKADDR clntAddr;</span><br><span class="line">    <span class="type">int</span> nSize = <span class="built_in">sizeof</span>(SOCKADDR);</span><br><span class="line">    SOCKET clntSock = <span class="built_in">accept</span>(servSock, (SOCKADDR*)&amp;clntAddr, &amp;nSize);</span><br><span class="line">    <span class="comment">//向客户端发送数据</span></span><br><span class="line">    <span class="type">char</span> *str = <span class="string">&quot;Hello World!&quot;</span>;</span><br><span class="line">    <span class="built_in">send</span>(clntSock, str, <span class="built_in">strlen</span>(str)+<span class="built_in">sizeof</span>(<span class="type">char</span>), <span class="literal">NULL</span>);</span><br><span class="line">    <span class="comment">//关闭套接字</span></span><br><span class="line">    <span class="built_in">closesocket</span>(clntSock);</span><br><span class="line">    <span class="built_in">closesocket</span>(servSock);</span><br><span class="line">    <span class="comment">//终止 DLL 的使用</span></span><br><span class="line">    <span class="built_in">WSACleanup</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>初始化DLL</p>
+</li>
+<li><p>创建套接字</p>
+</li>
+<li><p>绑定套接字</p>
+</li>
+<li><p>进入监听状态</p>
+</li>
+<li><p>接收客户端请求</p>
+</li>
+<li><p>向客户端发送数据</p>
+</li>
+<li><p>关闭套接字</p>
+</li>
+<li><p>终止DLL</p>
+</li>
+</ol>
+<h1 id="客户端代码-client-cpp："><a href="#客户端代码-client-cpp：" class="headerlink" title="客户端代码 client.cpp："></a>客户端代码 client.cpp：</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;WinSock2.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> comment(lib, <span class="string">&quot;ws2_32.lib&quot;</span>)  <span class="comment">//加载 ws2_32.dll</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//初始化DLL</span></span><br><span class="line">    WSADATA wsaData;</span><br><span class="line">    <span class="built_in">WSAStartup</span>(<span class="built_in">MAKEWORD</span>(<span class="number">2</span>, <span class="number">2</span>), &amp;wsaData);</span><br><span class="line">    <span class="comment">//创建套接字</span></span><br><span class="line">    SOCKET sock = <span class="built_in">socket</span>(PF_INET, SOCK_STREAM, IPPROTO_TCP);</span><br><span class="line">    <span class="comment">//向服务器发起请求</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> sockAddr;</span><br><span class="line">    <span class="built_in">memset</span>(&amp;sockAddr, <span class="number">0</span>, <span class="built_in">sizeof</span>(sockAddr));  <span class="comment">//每个字节都用0填充</span></span><br><span class="line">    sockAddr.sin_family = PF_INET;</span><br><span class="line">    sockAddr.sin_addr.s_addr = <span class="built_in">inet_addr</span>(<span class="string">&quot;127.0.0.1&quot;</span>);</span><br><span class="line">    sockAddr.sin_port = <span class="built_in">htons</span>(<span class="number">1234</span>);</span><br><span class="line">    <span class="built_in">connect</span>(sock, (SOCKADDR*)&amp;sockAddr, <span class="built_in">sizeof</span>(SOCKADDR));</span><br><span class="line">    <span class="comment">//接收服务器传回的数据</span></span><br><span class="line">    <span class="type">char</span> szBuffer[MAXBYTE] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="built_in">recv</span>(sock, szBuffer, MAXBYTE, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="comment">//输出接收到的数据</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Message form server: %s\n&quot;</span>, szBuffer);</span><br><span class="line">    <span class="comment">//关闭套接字</span></span><br><span class="line">    <span class="built_in">closesocket</span>(sock);</span><br><span class="line">    <span class="comment">//终止使用 DLL</span></span><br><span class="line">    <span class="built_in">WSACleanup</span>();</span><br><span class="line">    <span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>初始化DLL</p>
+</li>
+<li><p>创建套接字</p>
+</li>
+<li><p>向服务器发送请求</p>
+</li>
+<li><p>接收服务器穿回的数据</p>
+</li>
+<li><p>输出接收到的数据</p>
+</li>
+<li><p>关闭套接字</p>
+</li>
+<li><p>终止DLL使用</p>
+</li>
+</ol>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>将 server.cpp 和 client.cpp 分别编译为 server.exe 和 client.exe，先运行 server.exe，再运行 client.exe，输出结果为：<br>Message form server: Hello World!  </p>
+<p>Windows 下的 socket 程序和 Linux 思路相同，但细节有所差别：  </p>
+<ol>
+<li><p>Windows 下的 socket 程序依赖 Winsock.dll 或 ws2_32.dll，必须提前加载。DLL 有两种加载方式，请查看：<a target="_blank" rel="noopener" href="http://c.biancheng.net/cpp/html/2754.html">动态链接库DLL的加载</a>  </p>
+</li>
+<li><p>Linux 使用“文件描述符”的概念，而 Windows 使用“文件句柄”的概念；Linux 不区分 socket 文件和普通文件，而 Windows 区分；Linux 下 socket() 函数的返回值为 int 类型，而 Windows 下为 SOCKET 类型，也就是句柄。  </p>
+</li>
+<li><p>Linux 下使用 read() &#x2F; write() 函数读写，而 Windows 下使用 recv() &#x2F; send() 函数发送和接收。  </p>
+</li>
+<li><p>关闭 socket 时，Linux 使用 close() 函数，而 Windows 使用 closesocket() 函数。</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/07/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/07/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87/" class="post-title-link" itemprop="url">计算机网络-性能指标</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-07 09:18:11 / 修改时间：10:02:38" itemprop="dateCreated datePublished" datetime="2022-07-07T09:18:11+08:00">2022-07-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="常用性能指标"><a href="#常用性能指标" class="headerlink" title="常用性能指标"></a>常用性能指标</h1><ol>
+<li><p>速率</p>
+</li>
+<li><p>带宽</p>
+</li>
+<li><p>吞吐量</p>
+</li>
+<li><p>时延</p>
+</li>
+<li><p>时延带宽积</p>
+</li>
+<li><p>往返时间</p>
+</li>
+<li><p>利用率</p>
+</li>
+<li><p>丢包率</p>
+</li>
+</ol>
+<h1 id="比特"><a href="#比特" class="headerlink" title="比特"></a>比特</h1><p>计算机中数据量单位，也是信息论中信息量的单位，一个比特就是二进制数字的1或者0</p>
+<p><code>8bit=1Byte</code></p>
+<p>固态硬盘厂家和系统的大小不符合是因为厂家的计量单位与系统的不同</p>
+<h1 id="速率"><a href="#速率" class="headerlink" title="速率"></a>速率</h1><p>连接在计算机网络上的主机在数字信道上传送比特的速率，也成为比特率或数据率</p>
+<p><code>b/s</code>或<code>kb/s</code></p>
+<img src="file:///D:/R_program/Blog/source/_posts/计算机网络-性能指标/1.png" title="" alt="" width="735">
+
+<h1 id="带宽"><a href="#带宽" class="headerlink" title="带宽"></a>带宽</h1><h2 id="模拟信号系统中的意义"><a href="#模拟信号系统中的意义" class="headerlink" title="模拟信号系统中的意义"></a>模拟信号系统中的意义</h2><p>信号所包含的各自不同频率成分所占据的频率范围</p>
+<p>单位：<code>HZ</code></p>
+<h2 id="在计算机网络中的意义"><a href="#在计算机网络中的意义" class="headerlink" title="在计算机网络中的意义"></a>在计算机网络中的意义</h2><p>用来表示网络的通信线路所能传送数据的能力，因此网络带宽表示在单位时间内从网络中的某一点到另一点所能通过的“最高数据率”</p>
+<p>单位：<code>b/s(kb/s,Mb/s,Gb/s,Tb/s)</code></p>
+<p>一条通信线路的“频带宽度”越宽，其所传输数据的“最高数据率”也越高</p>
+<h1 id="吞吐量"><a href="#吞吐量" class="headerlink" title="吞吐量"></a>吞吐量</h1><ul>
+<li><p>表示在单位时间内通过某个网络（或信道，接口）的数据量</p>
+</li>
+<li><p>吞吐量经常用于对现实世界中网络的一种测量，以便知道实际上到底右多少数据量能通过网络</p>
+</li>
+<li><p>吞吐量受网络的带宽或额定速率的限制</p>
+</li>
+</ul>
+<h1 id="时延"><a href="#时延" class="headerlink" title="时延"></a>时延</h1><p>由四部分构成</p>
+<ol>
+<li><p>发送时延&#x3D;<code>分组长度（b）/发送速率（b/s）</code></p>
+</li>
+<li><p>传播时延&#x3D;<code>信道长度（m）/电磁波传播速率（m/s）</code></p>
+</li>
+<li><p>处理时延（不方便计算）</p>
+</li>
+<li><p>排队时延</p>
+</li>
+</ol>
+<h2 id="电磁波传播速率"><a href="#电磁波传播速率" class="headerlink" title="电磁波传播速率"></a>电磁波传播速率</h2><ol>
+<li><p>自由空间：3*10的8次方m&#x2F;s</p>
+</li>
+<li><p>铜线：2.3*10的8次方m&#x2F;s</p>
+</li>
+<li><p>光纤：2*10的8次方m&#x2F;s</p>
+</li>
+</ol>
+<p><img src="D:\R_program\Blog\source_posts\计算机网络-性能指标\2.png"></p>
+<h1 id="时延带宽积"><a href="#时延带宽积" class="headerlink" title="时延带宽积"></a>时延带宽积</h1><p>传播时延和带宽的乘积</p>
+<h1 id="往返时间（RTT）"><a href="#往返时间（RTT）" class="headerlink" title="往返时间（RTT）"></a>往返时间（RTT）</h1><ul>
+<li>因特网上的信息不仅是单项传输，而是双向交互</li>
+</ul>
+<h1 id="利用率"><a href="#利用率" class="headerlink" title="利用率"></a>利用率</h1><h2 id="信道利用率"><a href="#信道利用率" class="headerlink" title="信道利用率"></a>信道利用率</h2><ul>
+<li><p>用来表示信道有百分之几的时间是被利用的（有数据通过）</p>
+</li>
+<li><p>根据排队论，当某信道的利用率增大时，该信道引起的时延也会迅速增加(车速太快，遇到红绿灯的时候堵车)</p>
+</li>
+<li><p>所以，<code>信道利用率不是越大越好</code></p>
+</li>
+</ul>
+<h2 id="网络利用率"><a href="#网络利用率" class="headerlink" title="网络利用率"></a>网络利用率</h2><p>全网络的信道利用率的加权平均</p>
+<h1 id="丢包率"><a href="#丢包率" class="headerlink" title="丢包率"></a>丢包率</h1><p>分组丢失率，在一定时间范围内，传输过程中丢失的分组数量与总分组数量的比率</p>
+<h2 id="分组丢失的两种情况"><a href="#分组丢失的两种情况" class="headerlink" title="分组丢失的两种情况"></a>分组丢失的两种情况</h2><ol>
+<li><p>分组在传输中出现误码，被节点丢弃</p>
+</li>
+<li><p>分组到达一台队列已满的分组交换机时被丢弃；在通信量较大时就可能造成<code>网络拥塞</code></p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/06/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E4%B8%BB%E7%95%8C%E9%9D%A2%E5%88%B6%E4%BD%9C%E5%92%8C%E6%8C%89%E9%92%AE%E5%8A%A8%E6%80%81%E6%95%88%E6%9E%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/06/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E4%B8%BB%E7%95%8C%E9%9D%A2%E5%88%B6%E4%BD%9C%E5%92%8C%E6%8C%89%E9%92%AE%E5%8A%A8%E6%80%81%E6%95%88%E6%9E%9C/" class="post-title-link" itemprop="url">UE4-项目-死寂-主界面制作和按钮动态效果</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-07-06 22:18:38" itemprop="dateCreated datePublished" datetime="2022-07-06T22:18:38+08:00">2022-07-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-07-13 16:22:08" itemprop="dateModified" datetime="2022-07-13T16:22:08+08:00">2022-07-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="依托UMG创建UI界面"><a href="#依托UMG创建UI界面" class="headerlink" title="依托UMG创建UI界面"></a>依托UMG创建UI界面</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="控件蓝图"><a href="#控件蓝图" class="headerlink" title="控件蓝图"></a>控件蓝图</h3><p>分为设计器和图表</p>
+<ol>
+<li><p>设计器专门用于UI的布局和排版</p>
+</li>
+<li><p>图表用于UI的蓝图通信和互动逻辑</p>
+</li>
+</ol>
+<h3 id="控件蓝图中的锚点"><a href="#控件蓝图中的锚点" class="headerlink" title="控件蓝图中的锚点"></a>控件蓝图中的锚点</h3><p>设置了在屏幕缩小或者放大的时候组件靠拢的位置（就是放大缩小游戏界面的时候）</p>
+<h3 id="绑定按钮"><a href="#绑定按钮" class="headerlink" title="绑定按钮"></a>绑定按钮</h3><p>在主界面设置了一个按钮之后，在图表中拖出，还需要”获取 Button“到其父类</p>
+<h3 id="绑定事件到点击时"><a href="#绑定事件到点击时" class="headerlink" title="绑定事件到点击时"></a>绑定事件到点击时</h3><p>字面意思</p>
+<h3 id="退出游戏"><a href="#退出游戏" class="headerlink" title="退出游戏"></a>退出游戏</h3><p>顾名思义</p>
+<h3 id="创建控件"><a href="#创建控件" class="headerlink" title="创建控件"></a>创建控件</h3><p>在关卡蓝图中使用，可以在该节点中选择具体的控件蓝图</p>
+<h3 id="添加到视口"><a href="#添加到视口" class="headerlink" title="添加到视口"></a>添加到视口</h3><p>将控件蓝图添加到视口</p>
+<h3 id="使用混合设置视图目标"><a href="#使用混合设置视图目标" class="headerlink" title="使用混合设置视图目标"></a>使用混合设置视图目标</h3><p>将画面从目标引脚切换到new View Target引脚</p>
+<h3 id="设置输入模式游戏和UI"><a href="#设置输入模式游戏和UI" class="headerlink" title="设置输入模式游戏和UI"></a>设置输入模式游戏和UI</h3><p>玩家控制器引出节点：玩家直接可以与UI进行交互，否则需要点击屏幕之后才能交互</p>
+<h3 id="覆层组件"><a href="#覆层组件" class="headerlink" title="覆层组件"></a>覆层组件</h3><p>控件蓝图中的组件，两个覆层组件可以叠加显示</p>
+<h3 id="设置可视性"><a href="#设置可视性" class="headerlink" title="设置可视性"></a>设置可视性</h3><p>字面意思</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>创建一个用户界面-&gt;控件蓝图取名为“主界面”</p>
+</li>
+<li><p>拖入UI纹理，修改其锚点，图像大小，大小到内容true</p>
+</li>
+<li><p>将其行为-&gt;可视性修改为“非命中测试(仅自身)”</p>
+</li>
+<li><p>创建控件蓝图“按钮交互”</p>
+<ul>
+<li><p>将右上角的填充屏幕修改为自定义（X：170，Y：100）</p>
+</li>
+<li><p>添加按钮和文本</p>
+</li>
+<li><p>修改按钮的插槽为填充到屏幕，将偏移全部修改为0</p>
+</li>
+<li><p>将按钮的外观-&gt;普通-&gt;着色-&gt;A（透明度）修改为0</p>
+</li>
+<li><p>按钮设置纹理到外观栏的<strong>普通状态</strong>和<strong>已悬停</strong>状态图像</p>
+</li>
+<li><p>设置按钮的悬停和按压音效</p>
+</li>
+<li><p>给文本设置字体和字体大小，并且在界面左下角为其添加动画“交互”</p>
+</li>
+<li><p>选择文本，在时间轴上添加轨道，并且给轨道添加一个变换</p>
+</li>
+<li><p>选择“缩放”，在时间轴运行到0.3秒的时候将缩放xy修改为1.1</p>
+</li>
+<li><p>接下来将这个动画在鼠标悬停在按钮上时调用，所以选择按钮组件，添加内置事件“悬停时”和“未悬停时”</p>
+</li>
+<li><p>脱出变量中Animation分类中的动画“交互”，然后使用“播放动画”节点，悬停和未悬停分别将其引脚设置为”快进“和”翻转“</p>
+</li>
+<li><p>接下来是文本悬停时变色，选择文本，勾选细节面板中的<code>is Variable</code>为true，使其公开到图表中</p>
+</li>
+<li><p>在图表中调用文本并且拖出节点”设置影音颜色和不透明度“</p>
+</li>
+<li><p>创建文本类型的变量”Name“将”可编辑实例“和”生成时公开“设置为true</p>
+</li>
+<li><p>在设计器的文本组件细节面板-&gt;内容-&gt;绑定中选择Name（这样做是为了在设计器中修改了文本内容之后可以直接传入到图表中）</p>
+</li>
+</ul>
+</li>
+<li><p>在”主界面“控件蓝图中的面板添加”垂直框“，设置其锚点为居中，设置好其相对位置</p>
+<ul>
+<li><p>在垂直框中添加4个用户创建-&gt;按钮交互，分别为”开始游戏“，”游戏声明“，”制作者“，”退出游戏“（注意同时要给其Name变量赋值为相应值）</p>
+</li>
+<li><p>将最后一个”退出游戏“的”填充“的顶部修改为50，使其与其他按钮有所区分</p>
+</li>
+<li><p>在图表中拖出”退出游戏“按钮，获取button（与button绑定），”绑定事件到点击时“，为其添加一个自定义事件”立刻退出“，调用内置节点”退出游戏“</p>
+</li>
+</ul>
+</li>
+<li><p>打开关卡蓝图</p>
+<ul>
+<li><p>“时间开始运行”-&gt;”创建控件“，将其返回值提升为变量“主界面”</p>
+</li>
+<li><p>“添加到视口”，再获取玩家控制器-&gt;“使用混合设置视图目标”，new View Target引脚选择一个关卡中的摄像机</p>
+</li>
+<li><p>由玩家控制器引出“设置输入模式游戏和UI”，将in Widget to Focus引脚连接上“主界面”</p>
+</li>
+</ul>
+</li>
+<li><p>在世界场景设置中新增游戏模式，新增玩家控制器，并且将玩家控制器的细节面板中的“显示鼠标光标”设置为true</p>
+</li>
+</ol>
+<h1 id="多个UI界面的动态切换"><a href="#多个UI界面的动态切换" class="headerlink" title="多个UI界面的动态切换"></a>多个UI界面的动态切换</h1><h2 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h2><h3 id="执行控制台命令"><a href="#执行控制台命令" class="headerlink" title="执行控制台命令"></a>执行控制台命令</h3><p>调用当前关卡蓝图中的事件</p>
+<p>Command引脚中可填入”ce 事件名称“</p>
+<h3 id="设置可视性-1"><a href="#设置可视性-1" class="headerlink" title="设置可视性"></a>设置可视性</h3><p>字面意思，关闭UI交互可用</p>
+<h3 id="启动URL"><a href="#启动URL" class="headerlink" title="启动URL"></a>启动URL</h3><p>相当于一个超链接，在点击按钮的时候调用此函数，可以直接超链接跳转到网址</p>
+<h3 id="设置颜色和不透明度"><a href="#设置颜色和不透明度" class="headerlink" title="设置颜色和不透明度"></a>设置颜色和不透明度</h3><p>字面意思，可以设置控件的颜色和不透明度</p>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>创建新的控件蓝图“制作者”</p>
+</li>
+<li><p>填写好制作者中的信息（大概就是用图片和文字表示了！）</p>
+</li>
+<li><p>创建一个控件蓝图“返回按钮”，专门用来制作各个二级菜单返回一级菜单的按钮</p>
+<ul>
+<li><p>自定义其大小“宽度“为135，”高度“为45</p>
+</li>
+<li><p>添加一个按钮组件，将锚点设置为填充整个屏幕，偏移全部修改为0</p>
+</li>
+<li><p>设置其普通状态&#x2F;已悬停&#x2F;按压下的样式，边缘设置为0</p>
+</li>
+<li><p>在按钮组件下添加”水平框“组件和”文本“组件</p>
+</li>
+<li><p>在水平框组件下添加”覆层“组件</p>
+</li>
+<li><p>在覆层组件下添加两个图像组件</p>
+</li>
+<li><p>分别设置几个组件</p>
+</li>
+<li><p>给返回按钮添加动画”交互“，添加轨道之后给文本添加缩放效果</p>
+</li>
+<li><p>给Button添加”悬停时“和”未悬停时“事件，分别正向播放”交互“动画和反向播放，并且设置其颜色和不透明度，并且给按钮组件添加音效</p>
+</li>
+<li><p>返回按钮的背景图片公开到图表之后，悬停时”设置可视性“为折叠，未悬停时为可视</p>
+</li>
+</ul>
+</li>
+<li><p>将返回按钮添加到”制作者“界面中</p>
+</li>
+<li><p>在世界大纲中选择一个摄像机，在关卡蓝图中创建自定义事件”切换到制作者“，创建该摄像机实例，使用”使用混合设置视图目标“节点进行相机切换</p>
+</li>
+<li><p>将”制作者“界面添加到主界面，修改其锚点和偏移，注意：将渲染不透明度改为0</p>
+</li>
+<li><p>添加一个新的画布面板”主界面“，将主界面相关的控件全部挪进去</p>
+</li>
+<li><p>添加新的动画”点击制作者“，并给”主界面“画布，”制作者“控件添加轨道</p>
+<ul>
+<li><p>给制作者轨道添加”变换“和”渲染不透明度“</p>
+</li>
+<li><p>缩放效果：0秒的时候xy均为0，0.5秒的时候均为1</p>
+</li>
+<li><p>渲染不透明度：0秒为0，0.5秒为1</p>
+</li>
+<li><p>主界面类似，只不过反过来而已</p>
+</li>
+</ul>
+</li>
+<li><p>在图表中添加切换到”制作者界面“的蓝图逻辑</p>
+<ul>
+<li><p>将”制作者按钮“拖入其中，绑定按钮之后”绑定事件到点击时“</p>
+</li>
+<li><p>自定义事件”切换到制作者界面“，播放之前做好的动画”点击制作者“</p>
+</li>
+<li><p>”执行控制台命令“调用关卡蓝图中的”切换到制作者“（ce 切换到制作者）</p>
+</li>
+</ul>
+</li>
+<li><p>添加”从制作者界面切换到主界面“蓝图逻辑</p>
+<ul>
+<li><p>获取制作做控件，获取其中的返回按钮，绑定button，绑定事件到点击时</p>
+</li>
+<li><p>自定义事件”制作者返回主界面“，反向播放动画”点击制作者“</p>
+</li>
+<li><p>将不需要交互的组件的可视性全部修改为”非可命中测试（仅自身）“</p>
+</li>
+</ul>
+</li>
+<li><p>在主界面控件蓝图中新建函数”关闭所有UI交互“</p>
+<ul>
+<li>使用”设置可视性“节点，目标为”制作者界面“和”主界面“</li>
+</ul>
+</li>
+<li><p>调用”关闭所有UI交互“</p>
+</li>
+<li><p>创建新的控件蓝图“游戏声明”</p>
+<ul>
+<li><p>添加游戏声明（注意锚点不要设置为全屏，大部分的锚点居中即可）</p>
+</li>
+<li><p>创建一个按钮，上面附加一个文本框，可以点击按钮跳转个人博客</p>
+</li>
+<li><p>按钮默认透明度修改为0（这样一开始就看不到了）</p>
+</li>
+<li><p>注意设置悬停时候的音效和图像</p>
+</li>
+<li><p>添加返回按钮，选择一个场景中的摄像机作为目标摄像机，在关卡蓝图中创建该摄像机的引用，创建一个自定义事件“切换到游戏声明”，使用“使用混合设置视图目标”节点和“获取玩家控制器”达到切换视角的效果</p>
+</li>
+<li><p>将“游戏声明”控件蓝图添加到主界面中，锚点填充整个屏幕，渲染不透明度改为0</p>
+</li>
+<li><p>在“主界面”控件蓝图中，将“声明按钮”拖入，获取button，然后绑定事件到点击时，创建自定义事件“游戏声明”作为其“事件引脚”，接下来要在设计器中创建一个切换动画“点击游戏声明”，在轨道中添加游戏声明界面和主界面的轨道，设置其渲染不透明度和缩放</p>
+</li>
+<li><p>在主界面的图表中的“游戏声明”事件中播放其动画，调用“执行控制台命令”节点输入“ce 切换到游戏声明”（也就是关卡蓝图中的自定义事件）</p>
+</li>
+<li><p>在“关闭所有UI界面”函数中添加“游戏声明界面”</p>
+</li>
+<li><p>在事件中调用“关闭所有UI界面”，然后拖入“游戏声明界面”使用“设置可视性”为可视</p>
+</li>
+<li><p>同样的方法实现从游戏声明界面返回主界面：调用“游戏声明界面”获取“返回按钮”，获取button，“绑定事件到点击时”，自定义事件“从游戏界面返回主界面”，反向播放“点击游戏声明”动画，调用“执行控制台命令”（ce 切换到主界面），关闭所有UI交互之后打开主界面的UI交互</p>
+</li>
+<li><p>在“游戏声明”控件蓝图中的按钮添加“点击时”事件，添加节点“启动URL”</p>
+</li>
+<li><p>在“游戏声明”控件蓝图中的按钮添加“悬停时”和“未悬停时”事件，分别拖出文本控件，并且“设置颜色和不透明度”</p>
+</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/06/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E6%B7%BB%E5%8A%A0%E5%B1%8F%E5%B9%95%E5%88%B0%E8%A7%86%E5%8F%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/06/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E6%B7%BB%E5%8A%A0%E5%B1%8F%E5%B9%95%E5%88%B0%E8%A7%86%E5%8F%A3/" class="post-title-link" itemprop="url">UE4-项目-TowerDefence-添加屏幕到视口</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-07-06 16:28:15" itemprop="dateCreated datePublished" datetime="2022-07-06T16:28:15+08:00">2022-07-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-08-11 15:10:29" itemprop="dateModified" datetime="2022-08-11T15:10:29+08:00">2022-08-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="添加屏幕视口"><a href="#添加屏幕视口" class="headerlink" title="添加屏幕视口"></a>添加屏幕视口</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="使用C-绑定GameMode参数"><a href="#使用C-绑定GameMode参数" class="headerlink" title="使用C++绑定GameMode参数"></a>使用C++绑定GameMode参数</h3><ol>
+<li><p>在GameMode文件中引入需要绑定的参数头文件的相对路径</p>
+</li>
+<li><p>创建GameMode的构造函数，在构造函数中绑定参数</p>
+</li>
+<li><p>绑定方式</p>
+<ul>
+<li><p>确定默认参数类（<code>GameStateClass</code>,<code>PlayerControllerCalss</code>等）</p>
+</li>
+<li><p>以静态类的方式调用自己写好的参数类</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowerDefenceGameModeBase.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefenceGameState.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefencePlayerController.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefenceGameCamera.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefenceGameInstance.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefencePlayerState.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/GameUI/Core/RuleOfTheHUD.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ATowerDefenceGameModeBase::<span class="built_in">ATowerDefenceGameModeBase</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//加载GameState</span></span><br><span class="line">    GameStateClass = ATowerDefenceGameState::<span class="built_in">StaticClass</span>();</span><br><span class="line">    <span class="comment">//加载Controller</span></span><br><span class="line">    PlayerControllerClass = ATowerDefencePlayerController::<span class="built_in">StaticClass</span>();</span><br><span class="line">    <span class="comment">//加载ControllerPawn</span></span><br><span class="line">    DefaultPawnClass = ATowerDefenceGameCamera::<span class="built_in">StaticClass</span>();</span><br><span class="line">    <span class="comment">//加载PlayerState</span></span><br><span class="line">    PlayerStateClass = APlayerState::<span class="built_in">StaticClass</span>();</span><br><span class="line">    <span class="comment">//加载HUD</span></span><br><span class="line">    HUDClass = ARuleofTheHUD::<span class="built_in">StaticClass</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="将组件绑定到根组件上的方式"><a href="#将组件绑定到根组件上的方式" class="headerlink" title="将组件绑定到根组件上的方式"></a>将组件绑定到根组件上的方式</h3><p><code>AttachToComponent(目标组件，FAttachmentTransformRules::绑定规则)</code></p>
+<h4 id="绑定规则"><a href="#绑定规则" class="headerlink" title="绑定规则"></a>绑定规则</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FAttachmentTransformRules::KeepRelativeTransform<span class="comment">//相对位置不变</span></span><br><span class="line">FAttachmentTransformRules::KeepWorldTransform<span class="comment">//保持世界位置不变</span></span><br><span class="line">FAttachmentTransformRules::SnapToTargetNotIncludingScale<span class="comment">//保持物体大小，并且吸附到绑定点上（VR使用）</span></span><br><span class="line">FAttachmentTransformRules::snapToTargetIncludeScale<span class="comment">//不保持自己的大小，大小随着要附加到物体的比例变化</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><h3 id="绑定GameMode"><a href="#绑定GameMode" class="headerlink" title="绑定GameMode"></a>绑定GameMode</h3><ol>
+<li><p>将默认游戏模式设置为<code>TowerDefenceGameModeBase</code></p>
+</li>
+<li><p>打开<code>TowerDefenceGameModeBase.h</code>为其在.cpp中创建一个构造函数</p>
+</li>
+<li><p>在构造函数中绑定GameMode的默认参数</p>
+</li>
+</ol>
+<h4 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h4><h5 id="TowerDefenceGameModeBase-h"><a href="#TowerDefenceGameModeBase-h" class="headerlink" title="TowerDefenceGameModeBase.h"></a>TowerDefenceGameModeBase.h</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Copyright Epic Games, Inc. All Rights Reserved.</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/GameModeBase.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowerDefenceGameModeBase.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> ATowerDefenceGameModeBase : <span class="keyword">public</span> AGameModeBase</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ATowerDefenceGameModeBase</span>();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h5 id="TowerDefenceGameModeBase-cpp"><a href="#TowerDefenceGameModeBase-cpp" class="headerlink" title="TowerDefenceGameModeBase.cpp"></a>TowerDefenceGameModeBase.cpp</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Copyright Epic Games, Inc. All Rights Reserved.</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowerDefenceGameModeBase.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefenceGameState.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefencePlayerController.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefenceGameCamera.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefenceGameInstance.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefencePlayerState.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/GameUI/Core/RuleOfTheHUD.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ATowerDefenceGameModeBase::<span class="built_in">ATowerDefenceGameModeBase</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//加载GameState</span></span><br><span class="line">    GameStateClass = ATowerDefenceGameState::<span class="built_in">StaticClass</span>();</span><br><span class="line">    <span class="comment">//加载Controller</span></span><br><span class="line">    PlayerControllerClass = ATowerDefencePlayerController::<span class="built_in">StaticClass</span>();</span><br><span class="line">    <span class="comment">//加载ControllerPawn</span></span><br><span class="line">    DefaultPawnClass = ATowerDefenceGameCamera::<span class="built_in">StaticClass</span>();</span><br><span class="line">    <span class="comment">//加载PlayerState</span></span><br><span class="line">    PlayerStateClass = APlayerState::<span class="built_in">StaticClass</span>();</span><br><span class="line">    <span class="comment">//加载HUD</span></span><br><span class="line">    HUDClass = ARuleofTheHUD::<span class="built_in">StaticClass</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="完善PlayerController"><a href="#完善PlayerController" class="headerlink" title="完善PlayerController"></a>完善PlayerController</h3><ol>
+<li><p>在<code>TowerDefencePlayerController.h</code>中创建构造函数</p>
+</li>
+<li><p>重载Tick()函数【注意，Tick()为虚函数】</p>
+</li>
+<li><p>重载BeginPlay()函数【BeginPlay也是虚函数】</p>
+</li>
+<li><p>在.cpp文件中添加<code>super::</code>来调用父类中的函数</p>
+</li>
+</ol>
+<h4 id="TowerDefencePlayerController-h"><a href="#TowerDefencePlayerController-h" class="headerlink" title="TowerDefencePlayerController.h"></a>TowerDefencePlayerController.h</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/PlayerController.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowerDefencePlayerController.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> ATowerDefencePlayerController : <span class="keyword">public</span> APlayerController</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//构造函数</span></span><br><span class="line">    <span class="built_in">ATowerDefencePlayerController</span>();</span><br><span class="line">    <span class="comment">//重载Tick()</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">(<span class="type">float</span> DeltaSeconds)</span><span class="keyword">override</span></span>;</span><br><span class="line">    <span class="comment">//重载BeginPlay()</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span><span class="keyword">override</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="TowerDefencePlayerController-cpp"><a href="#TowerDefencePlayerController-cpp" class="headerlink" title="TowerDefencePlayerController.cpp"></a>TowerDefencePlayerController.cpp</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefencePlayerController.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">ATowerDefencePlayerController::<span class="built_in">ATowerDefencePlayerController</span>()</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ATowerDefencePlayerController::Tick</span><span class="params">(<span class="type">float</span> DeltaSeconds)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">Tick</span>(DeltaSeconds);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ATowerDefencePlayerController::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="初步设置游戏摄像机组件"><a href="#初步设置游戏摄像机组件" class="headerlink" title="初步设置游戏摄像机组件"></a>初步设置游戏摄像机组件</h3><ol>
+<li><p>在<code>TowerDefenceGameCamera.h</code>文件中声明<code>摄像机组件MianCamera</code>，<code>弹簧臂组件CameraBoom</code>，<code>摄像机碰撞标识组件MarkBox</code></p>
+</li>
+<li><p>在<code>TowerDefenceGameCamera.cpp</code>文件中添加三个组件的头文件</p>
+</li>
+<li><p>在<code>TowerDefenceGameCamera.cpp</code>文件中创建三个组件的实例</p>
+</li>
+<li><p>在<code>TowerDefenceGameCamera.cpp</code>文件中将<code>CameraBoom</code>和<code>MarkBox</code>附加到跟组件上，将<code>MianCamera</code>附加到<code>CameraBoom</code>上</p>
+</li>
+<li><p>设置弹簧臂长度<code>TargetArmLength</code></p>
+</li>
+<li><p>设置弹簧臂相对角度<code>SetRelativeRotation(FRotator(-60.f,0.f,0.f))</code></p>
+</li>
+<li><p>创建一个新关卡“TestMap”存放在Maps文件夹，并且修改项目设置，默认打开Testmap</p>
+</li>
+</ol>
+<h4 id="TowerDefenceGameCamera-h"><a href="#TowerDefenceGameCamera-h" class="headerlink" title="TowerDefenceGameCamera.h"></a>TowerDefenceGameCamera.h</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/Pawn.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowerDefenceGameCamera.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> ATowerDefenceGameCamera : <span class="keyword">public</span> APawn</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">        <span class="comment">//创建弹簧臂并且任何位置可读，蓝图只读</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(VisibleAnywhere, BluePrintReadOnly, Category = Camera, meta=(AllowPrivateAccess=<span class="string">&quot;true&quot;</span>))</span><br><span class="line">        <span class="keyword">class</span> <span class="title class_">USpringArmComponent</span>* CameraBoom;</span><br><span class="line">        <span class="comment">//创建摄像机并且任何位置可读，蓝图内只读</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(VisibleAnywhere, BluePrintReadOnly, Category = Camera, meta = (AllowPrivateAccess = <span class="string">&quot;true&quot;</span>))</span><br><span class="line">        <span class="keyword">class</span> <span class="title class_">UCameraComponent</span>* MianCamera;</span><br><span class="line">        <span class="comment">//摄像机碰撞标识</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(VisibleAnywhere, BluePrintReadOnly, Category = Camera, meta = (AllowPrivateAccess = <span class="string">&quot;true&quot;</span>))</span><br><span class="line">        <span class="keyword">class</span> <span class="title class_">UBoxComponent</span>* MarkBox;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// Sets default values for this pawn&#x27;s properties</span></span><br><span class="line">    <span class="built_in">ATowerDefenceGameCamera</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="comment">// Called when the game starts or when spawned</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:    </span><br><span class="line"></span><br><span class="line">    <span class="comment">// Called to bind functionality to input</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">SetupPlayerInputComponent</span><span class="params">(<span class="keyword">class</span> UInputComponent* PlayerInputComponent)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="TowerDefenceGameCamera-cpp"><a href="#TowerDefenceGameCamera-cpp" class="headerlink" title="TowerDefenceGameCamera.cpp"></a>TowerDefenceGameCamera.cpp</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefenceGameCamera.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/SpringArmComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Camera/CameraComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/BoxComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Tool\ScreenMove.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Sets default values</span></span><br><span class="line">ATowerDefenceGameCamera::<span class="built_in">ATowerDefenceGameCamera</span>()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">// 关闭帧刷新</span></span><br><span class="line">	PrimaryActorTick.bCanEverTick = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//创建三个组件的实例</span></span><br><span class="line">	CameraBoom = <span class="built_in">CreateDefaultSubobject</span>&lt;USpringArmComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;Boom&quot;</span>));</span><br><span class="line">	MianCamera = <span class="built_in">CreateDefaultSubobject</span>&lt;UCameraComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;Mian_Camera&quot;</span>));</span><br><span class="line">	MarkBox = <span class="built_in">CreateDefaultSubobject</span>&lt;UBoxComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;Sign&quot;</span>));</span><br><span class="line"></span><br><span class="line">	<span class="comment">//将三个组件绑定到根组件上</span></span><br><span class="line">	CameraBoom-&gt;<span class="built_in">AttachToComponent</span>(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);<span class="comment">//保持绑定的组件和被绑定的根组件相对位置不变</span></span><br><span class="line">	MianCamera-&gt;<span class="built_in">AttachToComponent</span>(CameraBoom, FAttachmentTransformRules::KeepRelativeTransform);</span><br><span class="line">	MarkBox-&gt;<span class="built_in">AttachToComponent</span>(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//设置弹簧臂长度</span></span><br><span class="line">	CameraBoom-&gt;TargetArmLength = <span class="number">800.f</span>;</span><br><span class="line">	CameraBoom-&gt;<span class="built_in">SetRelativeRotation</span>(<span class="built_in">FRotator</span>(<span class="number">-60.f</span>, <span class="number">0.f</span>, <span class="number">0.f</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Called when the game starts or when spawned</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ATowerDefenceGameCamera::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// Called to bind functionality to input</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ATowerDefenceGameCamera::SetupPlayerInputComponent</span><span class="params">(UInputComponent* PlayerInputComponent)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">SetupPlayerInputComponent</span>(PlayerInputComponent);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ATowerDefenceGameCamera::Zoom</span><span class="params">(<span class="type">bool</span> bDirection, <span class="type">float</span>&amp; ZoomSpeed)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (bDirection) &#123;</span><br><span class="line">		<span class="keyword">if</span> (CameraBoom-&gt;TargetArmLength &gt; <span class="number">400</span>) &#123;</span><br><span class="line">			CameraBoom-&gt;TargetArmLength -= ZoomSpeed * <span class="number">2</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> (CameraBoom-&gt;TargetArmLength &lt; <span class="number">800</span>) &#123;</span><br><span class="line">			CameraBoom-&gt;TargetArmLength += ZoomSpeed * <span class="number">2</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/06/%E7%AE%97%E6%B3%95-%E6%95%B0%E7%BB%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/06/%E7%AE%97%E6%B3%95-%E6%95%B0%E7%BB%84/" class="post-title-link" itemprop="url">算法-数组</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-07-06 11:13:40" itemprop="dateCreated datePublished" datetime="2022-07-06T11:13:40+08:00">2022-07-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-08-31 11:20:26" itemprop="dateModified" datetime="2022-08-31T11:20:26+08:00">2022-08-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>算法二刷来啦！！！</p>
+<p>依旧是跟着代码随想录学习，之前学的不少都忘得差不多了，现在巩固一下！虽然可能博文内容会重复，但这一次刷题尽量自己多写总结！</p>
+<p>这一次也会把之前跳过的拓展题目重新思考！</p>
+<h1 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/binary-search/">二分查找</a></h1><p>给定一个 n 个元素有序的（升序）整型数组 nums 和一个目标值 target  ，写一个函数搜索 nums 中的 target，如果目标值存在返回下标，否则返回 -1。</p>
+<p>示例 1:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: nums = [<span class="number">-1</span>,<span class="number">0</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">9</span>,<span class="number">12</span>], target = <span class="number">9</span>     </span><br><span class="line">输出: <span class="number">4</span>       </span><br><span class="line">解释: <span class="number">9</span> 出现在 nums 中并且下标为 <span class="number">4</span>     </span><br></pre></td></tr></table></figure>
+
+<p>示例 2:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: nums = [<span class="number">-1</span>,<span class="number">0</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">9</span>,<span class="number">12</span>], target = <span class="number">2</span>     </span><br><span class="line">输出: <span class="number">-1</span>        </span><br><span class="line">解释: <span class="number">2</span> 不存在 nums 中因此返回 <span class="number">-1</span>        </span><br></pre></td></tr></table></figure>
+
+<p>提示：</p>
+<ul>
+<li>你可以假设 nums 中的所有元素是不重复的。</li>
+<li>n 将在 [1, 10000]之间。</li>
+<li>nums 的每个元素都将在 [-9999, 9999]之间。</li>
+</ul>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><h3 id="二分查找的运用条件"><a href="#二分查找的运用条件" class="headerlink" title="二分查找的运用条件"></a>二分查找的运用条件</h3><ol>
+<li><p>数组必须为有序数组（如果无序，自己排列一下也不是不行）</p>
+</li>
+<li><p>数组中元素无重复</p>
+<ul>
+<li>因为一旦有重复元素，使用二分查找法返回的元素下标可能不是唯一的</li>
+</ul>
+</li>
+</ol>
+<h3 id="二分查找的逻辑思维"><a href="#二分查找的逻辑思维" class="headerlink" title="二分查找的逻辑思维"></a>二分查找的逻辑思维</h3><ol>
+<li><p>获取两个下标，一个代表最左边left，一个代表最右边right</p>
+</li>
+<li><p>通过两个下表获取一个中间值middle</p>
+</li>
+<li><p><code>arr[midlle]</code>和目标值target进行比较，因为数组有序，所以如果middle小于target，则将left更新到middle的位置，反之将right更新到middle</p>
+</li>
+<li><p>最后<code>arr[middle]</code>一定会等于target</p>
+</li>
+<li><p>middle就是值为target的数组元素的下标了！</p>
+</li>
+</ol>
+<p><img src="https://img-blog.csdnimg.cn/20210311153055723.jpg" alt="704.二分查找"></p>
+<h3 id="二分查找的边界条件"><a href="#二分查找的边界条件" class="headerlink" title="二分查找的边界条件"></a>二分查找的边界条件</h3><p>也就是区间问题，一般分为两种</p>
+<ol>
+<li><p>左闭右闭即[left, right]</p>
+<ul>
+<li><p><code>while(left&lt;=right)</code>，使用<code>&lt;=</code>是因为<code>left==right</code>有意义</p>
+</li>
+<li><p><code>if(nums[middle]&gt;target)</code>时right要赋值为<code>middle-1</code>，因为当前的<code>nums[middle]!=target</code>，所以接下来查找的左区间就为middle-1</p>
+</li>
+</ul>
+</li>
+<li><p>左闭右开即[left, right)</p>
+<ul>
+<li><p><code>while (left &lt; right)</code>，使用<code>&lt;</code>是因为<code>left==right</code>无意义</p>
+</li>
+<li><p><code>if(nums[middle]&gt;target)</code>时right要赋值为<code>middle</code>，因为当前<code>nums[middle]</code>不等于target，去左区间继续寻找，而寻找区间是左闭右开区间，所以right更新为middle，即：下一个查询区间不会去比较nums[middle]</p>
+</li>
+<li><p>注意：left依旧要赋值为middle+1，因为左边是闭区间！</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>确定是否符合运用条件（有序且无重复数组）</p>
+</li>
+<li><p>确定边界条件</p>
+</li>
+<li><p>定义left和right进行比较</p>
+</li>
+</ol>
+<h3 id="左闭右闭即-left-right"><a href="#左闭右闭即-left-right" class="headerlink" title="左闭右闭即[left, right]"></a>左闭右闭即[left, right]</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">search</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> left = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> right = nums.<span class="built_in">size</span>() - <span class="number">1</span>; <span class="comment">// 定义target在左闭右闭的区间里，[left, right]</span></span><br><span class="line">        <span class="keyword">while</span> (left &lt;= right) &#123; <span class="comment">// 当left==right，区间[left, right]依然有效，所以用 &lt;=</span></span><br><span class="line">            <span class="type">int</span> middle = left + ((right - left) / <span class="number">2</span>);<span class="comment">// 防止溢出 等同于(left + right)/2</span></span><br><span class="line">            <span class="keyword">if</span> (nums[middle] &gt; target) &#123;</span><br><span class="line">                right = middle - <span class="number">1</span>; <span class="comment">// target 在左区间，所以[left, middle - 1]</span></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[middle] &lt; target) &#123;</span><br><span class="line">                left = middle + <span class="number">1</span>; <span class="comment">// target 在右区间，所以[middle + 1, right]</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123; <span class="comment">// nums[middle] == target</span></span><br><span class="line">                <span class="keyword">return</span> middle; <span class="comment">// 数组中找到目标值，直接返回下标</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 未找到目标值</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="左闭右开即-left-right"><a href="#左闭右开即-left-right" class="headerlink" title="左闭右开即[left, right)"></a>左闭右开即[left, right)</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">search</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> left = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> right = nums.<span class="built_in">size</span>(); <span class="comment">// 定义target在左闭右开的区间里，即：[left, right)</span></span><br><span class="line">        <span class="keyword">while</span> (left &lt; right) &#123; <span class="comment">// 因为left == right的时候，在[left, right)是无效的空间，所以使用 &lt;</span></span><br><span class="line">            <span class="type">int</span> middle = left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">            <span class="keyword">if</span> (nums[middle] &gt; target) &#123;</span><br><span class="line">                right = middle; <span class="comment">// target 在左区间，在[left, middle)中</span></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[middle] &lt; target) &#123;</span><br><span class="line">                left = middle + <span class="number">1</span>; <span class="comment">// target 在右区间，在[middle + 1, right)中</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123; <span class="comment">// nums[middle] == target</span></span><br><span class="line">                <span class="keyword">return</span> middle; <span class="comment">// 数组中找到目标值，直接返回下标</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 未找到目标值</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="搜索插入位置"><a href="#搜索插入位置" class="headerlink" title="搜索插入位置"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/search-insert-position/">搜索插入位置</a></h1><p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。</p>
+<p>你可以假设数组中无重复元素。</p>
+<p>示例 1:</p>
+<ul>
+<li>输入: [1,3,5,6], 5</li>
+<li>输出: 2</li>
+</ul>
+<p>示例 2:</p>
+<ul>
+<li>输入: [1,3,5,6], 2</li>
+<li>输出: 1</li>
+</ul>
+<p>示例 3:</p>
+<ul>
+<li>输入: [1,3,5,6], 7</li>
+<li>输出: 4</li>
+</ul>
+<p>示例 4:</p>
+<ul>
+<li>输入: [1,3,5,6], 0</li>
+<li>输出: 0</li>
+</ul>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><p>直接上二分查找！</p>
+<ol>
+<li><p>确定数组有序且无重复元素</p>
+</li>
+<li><p>确定解法左闭右闭</p>
+</li>
+<li><p>最后想下“返回将会被插入位置的下标”</p>
+<ul>
+<li><p>二分查找最后的查找位置在整个数组中是按序的</p>
+</li>
+<li><p>要考虑的是最后插入位置和left，middle，right中的哪一个相关</p>
+<ul>
+<li><p>若在[left,right]范围内找不到，那意味着被反复二分查找的地方不存在此数</p>
+</li>
+<li><p>意味着该数字大于被反复二分查找的那些数</p>
+</li>
+<li><p>所以应该大于right</p>
+</li>
+</ul>
+</li>
+<li><p>最后插入位置应该是right+1</p>
+</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">searchInsert</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="type">int</span> left = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> right = n - <span class="number">1</span>; <span class="comment">// 定义target在左闭右闭的区间里，[left, right]</span></span><br><span class="line">        <span class="keyword">while</span> (left &lt;= right) &#123; <span class="comment">// 当left==right，区间[left, right]依然有效</span></span><br><span class="line">            <span class="type">int</span> middle = left + ((right - left) / <span class="number">2</span>);<span class="comment">// 防止溢出 等同于(left + right)/2</span></span><br><span class="line">            <span class="keyword">if</span> (nums[middle] &gt; target) &#123;</span><br><span class="line">                right = middle - <span class="number">1</span>; <span class="comment">// target 在左区间，所以[left, middle - 1]</span></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[middle] &lt; target) &#123;</span><br><span class="line">                left = middle + <span class="number">1</span>; <span class="comment">// target 在右区间，所以[middle + 1, right]</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123; <span class="comment">// nums[middle] == target</span></span><br><span class="line">                <span class="keyword">return</span> middle;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 分别处理如下四种情况</span></span><br><span class="line">        <span class="comment">// 目标值在数组所有元素之前  [0, -1]</span></span><br><span class="line">        <span class="comment">// 目标值等于数组中某一个元素  return middle;</span></span><br><span class="line">        <span class="comment">// 目标值插入数组中的位置 [left, right]，return  right + 1</span></span><br><span class="line">        <span class="comment">// 目标值在数组所有元素之后的情况 [left, right]， 因为是右闭区间，所以 return right + 1</span></span><br><span class="line">        <span class="keyword">return</span> right + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">searchInsert</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> left=<span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> right=nums.<span class="built_in">size</span>()<span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">while</span>(left&lt;=right)&#123;</span><br><span class="line">            <span class="type">int</span> middle=(left+right)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(nums[middle]&lt;target)&#123;</span><br><span class="line">                left=middle+<span class="number">1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(nums[middle]&gt;target)&#123;</span><br><span class="line">                right=middle<span class="number">-1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">return</span> middle;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> right+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="移除元素"><a href="#移除元素" class="headerlink" title="移除元素"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/remove-element/">移除元素</a></h1><p>给你一个数组 nums 和一个值 val，你需要 <code>原地</code> 移除所有数值等于 val 的元素，并返回移除后数组的新长度。</p>
+<p>不要使用额外的数组空间，你必须仅使用 O(1) 额外空间并<strong>原地</strong>修改输入数组。</p>
+<p>元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。</p>
+<p>示例 1: 给定 nums &#x3D; [3,2,2,3], val &#x3D; 3</p>
+<p>函数应该返回新的长度 2, 并且 nums 中的前两个元素均为 2。 </p>
+<p>你不需要考虑数组中超出新长度后面的元素</p>
+<p>示例 2: 给定 nums &#x3D; [0,1,2,2,3,0,4,2], val &#x3D; 2</p>
+<p>函数应该返回新的长度 5, 并且 nums 中的前五个元素为 0, 1, 3, 0, 4</p>
+<p>你不需要考虑数组中超出新长度后面的元素</p>
+<h2 id="双指针法"><a href="#双指针法" class="headerlink" title="双指针法"></a>双指针法</h2><p><strong>双指针法（快慢指针法）在数组和链表的操作中是非常常见的，很多考察数组、链表、字符串等操作的面试题，都使用双指针法。</strong></p>
+<p>在这里使用快慢指针法！</p>
+<h3 id="快慢指针法"><a href="#快慢指针法" class="headerlink" title="快慢指针法"></a>快慢指针法</h3><p><strong>通过一个快指针和慢指针在一个for循环下完成两个for循环的工作。</strong></p>
+<p>定义快慢指针</p>
+<ul>
+<li>快指针：寻找新数组的元素 ，新数组就是不含有目标元素的数组</li>
+<li>慢指针：指向更新 新数组下标的位置</li>
+</ul>
+<p><img src="D:\R_program\Blog\source_posts\算法-数组\1.gif"></p>
+<ol>
+<li><p>定义快慢两个指针，在一个for循环内</p>
+</li>
+<li><p>快指针每循环一次就会更新一次位置，并且每次更新都会将当前指向的值赋值给满指针</p>
+</li>
+<li><p>慢指针只有在目标值不等于快指针所指位置的值的时候才会更新</p>
+</li>
+<li><p>当快慢指针指向同一个位置的时候自然啥也不会发生，但如果快指针更新一次，慢指针不动，快指针则会将慢指针下一个位置的值赋值给慢指针，达到覆盖了目标值的效果</p>
+</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 时间复杂度：O(n)</span></span><br><span class="line"><span class="comment">// 空间复杂度：O(1)</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">removeElement</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> slowIndex = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> fastIndex = <span class="number">0</span>; fastIndex &lt; nums.<span class="built_in">size</span>(); fastIndex++) &#123;</span><br><span class="line">           <span class="comment">//当目标值不等于快指针时候，更新慢指针位置，并将快指针的值赋值给慢指针</span></span><br><span class="line">           <span class="comment">//当目标值等于快指针，则只有快指针移动，慢指针原地不动</span></span><br><span class="line">           <span class="comment">//下次快慢指针一同移动的时候，快指针的值会覆盖慢指针当前指向的目标值，达到删除的效果</span></span><br><span class="line">           <span class="keyword">if</span> (val != nums[fastIndex]) &#123;</span><br><span class="line">                nums[slowIndex++] = nums[fastIndex];<span class="comment">//更新慢指针并将快指针的值赋予</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> slowIndex;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 相向双指针方法，基于元素顺序可以改变的题目描述改变了元素相对位置，确保了移动最少元素</span></span><br><span class="line"><span class="comment">* 时间复杂度：O(n)</span></span><br><span class="line"><span class="comment">* 空间复杂度：O(1)</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">removeElement</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> leftIndex = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> rightIndex = nums.<span class="built_in">size</span>() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (leftIndex &lt;= rightIndex) &#123;</span><br><span class="line">            <span class="comment">// 找左边等于val的元素</span></span><br><span class="line">            <span class="keyword">while</span> (leftIndex &lt;= rightIndex &amp;&amp; nums[leftIndex] != val)&#123;</span><br><span class="line">                ++leftIndex;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 找右边不等于val的元素</span></span><br><span class="line">            <span class="keyword">while</span> (leftIndex &lt;= rightIndex &amp;&amp; nums[rightIndex] == val) &#123;</span><br><span class="line">                -- rightIndex;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 将右边不等于val的元素覆盖左边等于val的元素</span></span><br><span class="line">            <span class="keyword">if</span> (leftIndex &lt; rightIndex) &#123;</span><br><span class="line">                nums[leftIndex++] = nums[rightIndex--];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> leftIndex;   <span class="comment">// leftIndex一定指向了最终数组末尾的下一个元素</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="有序数组的平方"><a href="#有序数组的平方" class="headerlink" title="有序数组的平方"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/squares-of-a-sorted-array/">有序数组的平方</a></h1><p>给你一个按 非递减顺序 排序的整数数组 nums，返回 每个数字的平方 组成的新数组，要求也按 非递减顺序 排序。</p>
+<p>示例 1： </p>
+<p>输入：nums &#x3D; [-4,-1,0,3,10] </p>
+<p>输出：[0,1,9,16,100] </p>
+<p>解释：平方后，数组变为 [16,1,0,9,100]，排序后，数组变为 [0,1,9,16,100]</p>
+<p>示例 2： </p>
+<p>输入：nums &#x3D; [-7,-3,2,3,11] </p>
+<p>输出：[4,9,9,49,121]</p>
+<h2 id="双指针法-1"><a href="#双指针法-1" class="headerlink" title="双指针法"></a>双指针法</h2><p>数组其实是有序的， 只不过负数平方之后可能成为最大数了。</p>
+<p>那么数组平方的最大值就在数组的两端，不是最左边就是最右边，不可能是中间。</p>
+<p>此时可以考虑双指针法了，i指向起始位置，j指向终止位置。</p>
+<p>定义一个新数组result，和A数组一样的大小，让k指向result数组终止位置。</p>
+<p>如果<code>A[i] * A[i] &lt; A[j] * A[j]</code> 那么<code>result[k--] = A[j] * A[j];</code> 。</p>
+<p>如果<code>A[i] * A[i] &gt;= A[j] * A[j]</code> 那么<code>result[k--] = A[i] * A[i];</code> 。</p>
+<p><img src="D:\R_program\Blog\source_posts\算法-数组\2.gif"></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">sortedSquares</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; A)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> k = A.<span class="built_in">size</span>() - <span class="number">1</span>;</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">result</span><span class="params">(A.size(), <span class="number">0</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>, j = A.<span class="built_in">size</span>() - <span class="number">1</span>; i &lt;= j;) &#123; <span class="comment">// 注意这里要i &lt;= j，因为最后要处理两个元素</span></span><br><span class="line">            <span class="keyword">if</span> (A[i] * A[i] &lt; A[j] * A[j])  &#123;</span><br><span class="line">                result[k--] = A[j] * A[j];</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                result[k--] = A[i] * A[i];</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="长度最小的子数组"><a href="#长度最小的子数组" class="headerlink" title="长度最小的子数组"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/minimum-size-subarray-sum/">长度最小的子数组</a></h1><p>给定一个含有 n 个正整数的数组和一个正整数 s ，找出该数组中满足其和 ≥ s 的长度最小的 连续 子数组，并返回其长度。如果不存在符合条件的子数组，返回 0。</p>
+<p>示例：</p>
+<p>输入：s &#x3D; 7, nums &#x3D; [2,3,1,2,4,3] 输出：2 解释：子数组 [4,3] 是该条件下的长度最小的子数组。</p>
+<h2 id="滑动窗口算法"><a href="#滑动窗口算法" class="headerlink" title="滑动窗口算法"></a>滑动窗口算法</h2><p>所谓滑动窗口，<strong>就是不断的调节子序列的起始位置和终止位置，从而得出我们要想的结果</strong>。</p>
+<p>在暴力解法中，是一个for循环滑动窗口的起始位置，一个for循环为滑动窗口的终止位置，用两个for循环 完成了一个不断搜索区间的过程。</p>
+<p>那么滑动窗口如何用一个for循环来完成这个操作呢。</p>
+<p>首先要思考 如果用一个for循环，那么应该表示 滑动窗口的起始位置，还是终止位置。</p>
+<p>如果只用一个for循环来表示 滑动窗口的起始位置，那么如何遍历剩下的终止位置？</p>
+<p>此时难免再次陷入 暴力解法的怪圈。</p>
+<p>所以 只用一个for循环，那么这个循环的索引，一定是表示 滑动窗口的终止位置。</p>
+<p>那么问题来了， 滑动窗口的起始位置如何移动呢？</p>
+<p>这里还是以题目中的示例来举例，s&#x3D;7， 数组是 2，3，1，2，4，3，来看一下查找的过程：</p>
+<p><img src="https://code-thinking.cdn.bcebos.com/gifs/209.%E9%95%BF%E5%BA%A6%E6%9C%80%E5%B0%8F%E7%9A%84%E5%AD%90%E6%95%B0%E7%BB%84.gif" alt="209.长度最小的子数组"></p>
+<p>最后找到 4，3 是最短距离。</p>
+<p>其实从动画中可以发现滑动窗口也可以理解为双指针法的一种！只不过这种解法更像是一个窗口的移动，所以叫做滑动窗口更适合一些。</p>
+<p>在本题中实现滑动窗口，主要确定如下三点：</p>
+<ul>
+<li>窗口内是什么？</li>
+<li>如何移动窗口的起始位置？</li>
+<li>如何移动窗口的结束位置？</li>
+</ul>
+<p>窗口就是 满足其和 ≥ s 的长度最小的 连续 子数组。</p>
+<p>窗口的<strong>起始位置</strong>如何移动：如果当前窗口的值大于s了，窗口就要向前移动了（也就是该缩小了）。</p>
+<p>窗口的<strong>结束位置</strong>如何移动：窗口的结束位置就是遍历数组的指针，也就是for循环里的索引。</p>
+<p>解题的关键在于 窗口的起始位置如何移动，如图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210312160441942.png" alt="leetcode_209"></p>
+<p>可以发现<strong>滑动窗口的精妙之处在于根据当前子序列和大小的情况，不断调节子序列的起始位置。从而将O(n^2)暴力解法降为O(n)。</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">minSubArrayLen</span><span class="params">(<span class="type">int</span> s, vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> result = INT32_MAX;</span><br><span class="line">        <span class="type">int</span> sum = <span class="number">0</span>; <span class="comment">// 滑动窗口数值之和</span></span><br><span class="line">        <span class="type">int</span> i = <span class="number">0</span>; <span class="comment">// 滑动窗口起始位置</span></span><br><span class="line">        <span class="type">int</span> subLength = <span class="number">0</span>; <span class="comment">// 滑动窗口的长度</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; nums.<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">            sum += nums[j];</span><br><span class="line">            <span class="comment">// 注意这里使用while，每次更新 i（起始位置），并不断比较子序列是否符合条件</span></span><br><span class="line">            <span class="keyword">while</span> (sum &gt;= s) &#123;</span><br><span class="line">                subLength = (j - i + <span class="number">1</span>); <span class="comment">// 取子序列的长度</span></span><br><span class="line">                result = result &lt; subLength ? result : subLength;</span><br><span class="line">                sum -= nums[i++]; <span class="comment">// 这里体现出滑动窗口的精髓之处，不断变更i（子序列的起始位置）</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 如果result没有被赋值的话，就返回0，说明没有符合条件的子序列</span></span><br><span class="line">        <span class="keyword">return</span> result == INT32_MAX ? <span class="number">0</span> : result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="螺旋矩阵II"><a href="#螺旋矩阵II" class="headerlink" title="螺旋矩阵II"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/spiral-matrix-ii/">螺旋矩阵II</a></h1><p>给定一个正整数 n，生成一个包含 1 到 n^2 所有元素，且元素按顺时针顺序螺旋排列的正方形矩阵。</p>
+<p>示例:</p>
+<p>输入: 3 输出: [ [ 1, 2, 3 ], [ 8, 9, 4 ], [ 7, 6, 5 ] ]</p>
+<p><img src="https://assets.leetcode.com/uploads/2020/11/13/spiraln.jpg"></p>
+<h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><p>如果要写出正确的二分法一定要坚持<strong>循环不变量原则</strong>。</p>
+<p>而求解本题依然是要坚持循环不变量原则。</p>
+<p>模拟顺时针画矩阵的过程:</p>
+<ul>
+<li>填充上行从左到右</li>
+<li>填充右列从上到下</li>
+<li>填充下行从右到左</li>
+<li>填充左列从下到上</li>
+</ul>
+<p>由外向内一圈一圈这么画下去。</p>
+<p>可以发现这里的边界条件非常多，在一个循环中，如此多的边界条件，如果不按照固定规则来遍历，那就是<strong>一进循环深似海，从此offer是路人</strong>。</p>
+<p>这里一圈下来，我们要画每四条边，这四条边怎么画，每画一条边都要坚持一致的左闭右开，或者左开右闭的原则，这样这一圈才能按照统一的规则画下来。</p>
+<p>那么我按照左闭右开的原则，来画一圈，大家看一下：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020121623550681.png" alt="螺旋矩阵"></p>
+<p>这里每一种颜色，代表一条边，我们遍历的长度，可以看出每一个拐角处的处理规则，拐角处让给新的一条边来继续画。</p>
+<p>这也是坚持了每条边左闭右开的原则。</p>
+<p>一些同学做这道题目之所以一直写不好，代码越写越乱。</p>
+<p>就是因为在画每一条边的时候，一会左开右闭，一会左闭右闭，一会又来左闭右开，岂能不乱。</p>
+<p>代码如下，已经详细注释了每一步的目的，可以看出while循环里判断的情况是很多的，代码里处理的原则也是统一的左闭右开。</p>
+<p>整体C++代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">generateMatrix</span>(<span class="type">int</span> n) &#123;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">res</span>(n, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(n, <span class="number">0</span>)); <span class="comment">// 使用vector定义一个二维数组</span></span><br><span class="line">        <span class="type">int</span> startx = <span class="number">0</span>, starty = <span class="number">0</span>; <span class="comment">// 定义每循环一个圈的起始位置</span></span><br><span class="line">        <span class="type">int</span> loop = n / <span class="number">2</span>; <span class="comment">// 每个圈循环几次，例如n为奇数3，那么loop = 1 只是循环一圈，矩阵中间的值需要单独处理</span></span><br><span class="line">        <span class="type">int</span> mid = n / <span class="number">2</span>; <span class="comment">// 矩阵中间的位置，例如：n为3， 中间的位置就是(1，1)，n为5，中间位置为(2, 2)</span></span><br><span class="line">        <span class="type">int</span> count = <span class="number">1</span>; <span class="comment">// 用来给矩阵中每一个空格赋值</span></span><br><span class="line">        <span class="type">int</span> offset = <span class="number">1</span>; <span class="comment">// 需要控制每一条边遍历的长度，每次循环右边界收缩一位</span></span><br><span class="line">        <span class="type">int</span> i,j;</span><br><span class="line">        <span class="keyword">while</span> (loop --) &#123;</span><br><span class="line">            i = startx;</span><br><span class="line">            j = starty;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 下面开始的四个for就是模拟转了一圈</span></span><br><span class="line">            <span class="comment">// 模拟填充上行从左到右(左闭右开)</span></span><br><span class="line">            <span class="keyword">for</span> (j = starty; j &lt; n - offset; j++) &#123;</span><br><span class="line">                res[startx][j] = count++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 模拟填充右列从上到下(左闭右开)</span></span><br><span class="line">            <span class="keyword">for</span> (i = startx; i &lt; n - offset; i++) &#123;</span><br><span class="line">                res[i][j] = count++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 模拟填充下行从右到左(左闭右开)</span></span><br><span class="line">            <span class="keyword">for</span> (; j &gt; starty; j--) &#123;</span><br><span class="line">                res[i][j] = count++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 模拟填充左列从下到上(左闭右开)</span></span><br><span class="line">            <span class="keyword">for</span> (; i &gt; startx; i--) &#123;</span><br><span class="line">                res[i][j] = count++;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 第二圈开始的时候，起始位置要各自加1， 例如：第一圈起始位置是(0, 0)，第二圈起始位置是(1, 1)</span></span><br><span class="line">            startx++;</span><br><span class="line">            starty++;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// offset 控制每一圈里每一条边遍历的长度</span></span><br><span class="line">            offset += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 如果n为奇数的话，需要单独给矩阵最中间的位置赋值</span></span><br><span class="line">        <span class="keyword">if</span> (n % <span class="number">2</span>) &#123;</span><br><span class="line">            res[mid][mid] = count;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -752,878 +1935,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/05/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%9C%BA%E6%99%AF%E4%B8%8EUI%E4%BB%A5%E5%8F%8A%E5%AD%98%E6%A1%A3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/05/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%9C%BA%E6%99%AF%E4%B8%8EUI%E4%BB%A5%E5%8F%8A%E5%AD%98%E6%A1%A3/" class="post-title-link" itemprop="url">UE4-项目-死寂-场景与UI以及存档</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-07-05 20:30:59 / 修改时间：22:42:05" itemprop="dateCreated datePublished" datetime="2022-07-05T20:30:59+08:00">2022-07-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="场景导入"><a href="#场景导入" class="headerlink" title="场景导入"></a>场景导入</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="RecastNavMesh"><a href="#RecastNavMesh" class="headerlink" title="RecastNavMesh"></a>RecastNavMesh</h3><p>导航网格体的具体参数</p>
-<p>可修改其中的生成-&gt;代理半径为5，使得导航精度更高（值越小精度越高）</p>
-<p>可修改其中的生成-&gt;代理最大斜面，使得AI能上到不同倾斜角度的斜面上</p>
-<h3 id="角色移动：物理交互-gt-推动力因子"><a href="#角色移动：物理交互-gt-推动力因子" class="headerlink" title="角色移动：物理交互-&gt;推动力因子"></a>角色移动：物理交互-&gt;推动力因子</h3><p>角色移动碰撞到其他物体之后给该物体施加的力的大小</p>
-<h3 id="碰撞-gt-是否能影响导航"><a href="#碰撞-gt-是否能影响导航" class="headerlink" title="碰撞-&gt;是否能影响导航"></a>碰撞-&gt;是否能影响导航</h3><p>位于静态网格体组件中的设置，字面意思</p>
-<h3 id="碰撞预设与射线检测"><a href="#碰撞预设与射线检测" class="headerlink" title="碰撞预设与射线检测"></a><mark>碰撞预设与射线检测</mark></h3><p>丧尸的感知组件是通过visibility来进行感知的，但有时候某些物体（枪械，碰撞盒子）的碰撞预设将visibility阻挡了，导致角色受这些影响（手持枪械，进入一个阻挡visibility的碰撞盒子）的时候会出现丧尸看不到玩家的情况</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>导入新场景，打开之后要添加一个后期盒子，让我们拾取物品的时候有描边效果（和之前在测试地图的操作相同）</p>
-</li>
-<li><p>导入导航网格体边界体积，并且设置其大小，修改RecastNavMesh-&gt;生成-&gt;代理半径为5，修改代理最大斜面为89</p>
-</li>
-<li><p>找到场景中门的父类蓝图，删掉其中破坏门的逻辑，并将其质量设置为800</p>
-</li>
-<li><p>编辑丧尸蓝图类和角色蓝图类中的移动组件中的“角色移动：物理交互-&gt;推动力因子”均为75000</p>
-</li>
-<li><p>将门父类的模型中的碰撞-&gt;是否能影响导航为false（使得丧尸可以撞开门向前移动）</p>
-</li>
-<li><p>将场景中的所有材质设置正确（工程浩大啊可恶！）</p>
-</li>
-<li><p>将建筑父类中的盒体碰撞的“碰撞已启用”关闭，并且删掉玩家在建筑内的检测逻辑</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/05/Socket%E7%BC%96%E7%A8%8B-Socket%E7%B1%BB%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/05/Socket%E7%BC%96%E7%A8%8B-Socket%E7%B1%BB%E5%9E%8B/" class="post-title-link" itemprop="url">Socket编程-Socket类型</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-07-05 11:45:34 / 修改时间：11:57:11" itemprop="dateCreated datePublished" datetime="2022-07-05T11:45:34+08:00">2022-07-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Socket/" itemprop="url" rel="index"><span itemprop="name">Socket</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>这个世界上有很多种套接字（<a target="_blank" rel="noopener" href="http://c.biancheng.net/socket/">socket</a>），比如 DARPA Internet 地址（Internet 套接字）、本地节点的路径名（Unix套接字）、CCITT X.25地址（X.25 套接字）等。但本教程只讲第一种套接字——Internet 套接字，它是最具代表性的，也是最经典最常用的。以后我们提及套接字，指的都是 Internet 套接字。  </p>
-<p>根据数据的传输方式，可以将 Internet 套接字分成两种类型。</p>
-<p>通过 socket() 函数创建连接时，必须告诉它使用哪种数据传输方式。</p>
-<h1 id="流格式套接字（SOCK-STREAM）"><a href="#流格式套接字（SOCK-STREAM）" class="headerlink" title="流格式套接字（SOCK_STREAM）"></a>流格式套接字（SOCK_STREAM）</h1><p>流格式套接字（Stream Sockets）也叫“面向连接的套接字”，在代码中使用 SOCK_STREAM 表示。  </p>
-<p>SOCK_STREAM 是一种可靠的、双向的通信数据流，数据可以准确无误地到达另一台计算机，<strong>如果损坏或丢失，可以重新发送</strong>。</p>
-<h2 id="SOCK-STREAM-有以下几个特征："><a href="#SOCK-STREAM-有以下几个特征：" class="headerlink" title="SOCK_STREAM 有以下几个特征："></a>SOCK_STREAM 有以下几个特征：</h2><ul>
-<li>数据在传输过程中不会消失；</li>
-<li>数据是按照顺序传输的；</li>
-<li>数据的发送和接收不是同步的（有的教程也称“不存在数据边界”）。</li>
-</ul>
-<p>可以将 SOCK_STREAM 比喻成一条<strong>传送带</strong>，只要传送带本身没有问题（不会断网），就能保证数据不丢失；同时，较晚传送的数据不会先到达，较早传送的数据不会晚到达，这就保证了数据是按照顺序传递的。</p>
-<h2 id="实现高质量传输的原理"><a href="#实现高质量传输的原理" class="headerlink" title="实现高质量传输的原理"></a>实现高质量传输的原理</h2><p>为什么流格式套接字可以达到高质量的数据传输呢？这是因为它使用了 TCP 协议（The Transmission Control Protocol，传输控制协议），TCP 协议会控制你的数据按照顺序到达并且没有错误。  </p>
-<p>你也许见过 TCP，是因为你经常听说“TCP&#x2F;IP”。</p>
-<p>TCP 用来确保数据的正确性，IP（Internet Protocol，网络协议）用来控制数据如何从源头到达目的地，也就是常说的“路由”。  </p>
-<h2 id="“数据的发送和接收不同步”该如何理解呢？"><a href="#“数据的发送和接收不同步”该如何理解呢？" class="headerlink" title="“数据的发送和接收不同步”该如何理解呢？"></a>“数据的发送和接收不同步”该如何理解呢？</h2><p>假设传送带传送的是水果，接收者需要凑齐 100 个后才能装袋，但是传送带可能把这 100 个水果分批传送，比如第一批传送 20 个，第二批传送 50 个，第三批传送 30 个。接收者不需要和传送带保持同步，只要根据自己的节奏来装袋即可，不用管传送带传送了几批，也不用每到一批就装袋一次，可以等到凑够了 100 个水果再装袋。  </p>
-<p>流格式套接字的内部有一个缓冲区（也就是字符数组），通过 socket 传输的数据将保存到这个缓冲区。接收端在收到数据后并不一定立即读取，只要数据不超过缓冲区的容量，接收端有可能在缓冲区被填满以后一次性地读取，也可能分成好几次读取。  </p>
-<p>也就是说，不管数据分几次传送过来，<strong>接收端只需要根据自己的要求读取，不用非得在数据到达时立即读取</strong>。传送端有自己的节奏，接收端也有自己的节奏，它们是不一致的。 </p>
-<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>流格式套接字有什么实际的应用场景吗？浏览器所使用的 http 协议就基于面向连接的套接字，因为必须要确保数据准确无误，否则加载的 HTML 将无法解析。</p>
-<h1 id="数据报格式套接字（SOCK-DGRAM）"><a href="#数据报格式套接字（SOCK-DGRAM）" class="headerlink" title="数据报格式套接字（SOCK_DGRAM）"></a>数据报格式套接字（SOCK_DGRAM）</h1><p>数据报格式套接字（Datagram Sockets）也叫“无连接的套接字”，在代码中使用 SOCK_DGRAM 表示。  </p>
-<p>计算机只管传输数据，不作数据校验，如果数据在传输中损坏，或者没有到达另一台计算机，是没有办法补救的。也就是说，数据错了就错了，无法重传。  </p>
-<p>因为数据报套接字所做的校验工作少，所以在传输效率方面比流格式套接字要高。  </p>
-<h2 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h2><p>可以将 SOCK_DGRAM 比喻成高速移动的摩托车快递，它有以下特征：</p>
-<ul>
-<li>强调快速传输而非传输顺序；</li>
-<li>传输的数据可能丢失也可能损毁；</li>
-<li>限制每次传输的数据大小；</li>
-<li>数据的发送和接收是同步的（有的教程也称“存在数据边界”）。</li>
-</ul>
-<p>众所周知，速度是快递行业的生命。用摩托车发往同一地点的两件包裹无需保证顺序，只要以最快的速度交给客户就行。这种方式存在损坏或丢失的风险，而且包裹大小有一定限制。因此，想要传递大量包裹，就得分配发送。</p>
-<p>另外，用两辆摩托车分别发送两件包裹，那么接收者也需要分两次接收，所以“数据的发送和接收是同步的”；换句话说，接收次数应该和发送次数相同。  </p>
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>总之，数据报套接字是一种不可靠的、不按顺序传递的、以追求速度为目的的套接字。  </p>
-<h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h2><p>数据报套接字也使用 IP 协议作路由，但是它不使用 TCP 协议，而是使用 UDP 协议（User Datagram Protocol，用户数据报协议）。  </p>
-<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p>QQ 视频聊天和语音聊天就使用 SOCK_DGRAM 来传输数据，因为首先要保证通信的效率，尽量减小延迟，而数据的正确性是次要的，即使丢失很小的一部分数据，视频和音频也可以正常解析，最多出现噪点或杂音，不会对通信质量有实质的影响。</p>
-<blockquote>
-<p>注意：SOCK_DGRAM 没有想象中的糟糕，不会频繁的丢失数据，数据错误只是小概率事件。</p>
-</blockquote>
-<h1 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h1><p>Socket系列博文主要参考C语言中文网的<a target="_blank" rel="noopener" href="http://c.biancheng.net/socket/">socket编程入门：1天玩转socket通信技术（非常详细）</a>免费部分整理，付费部分不会引用原文内容，仅在原文内容的基础上进行总结，如果想要查看原文，请前往原网站付费！</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/05/Socket%E7%BC%96%E7%A8%8B-%E6%A6%82%E8%BF%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/05/Socket%E7%BC%96%E7%A8%8B-%E6%A6%82%E8%BF%B0/" class="post-title-link" itemprop="url">Socket编程-概述</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-07-05 11:31:59 / 修改时间：11:57:06" itemprop="dateCreated datePublished" datetime="2022-07-05T11:31:59+08:00">2022-07-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Socket/" itemprop="url" rel="index"><span itemprop="name">Socket</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>网络编程就是编写程序使两台联网的计算机相互交换数据。</p>
-<p>那么，这两台计算机之间用什么传输数据呢？</p>
-<p>首先需要物理连接。如今大部分计算机都已经连接到互联网，因此不用担心这一点。  </p>
-<p>在此基础上，只需要考虑如何编写数据传输程序。但实际上这点也不用愁，因为操作系统已经提供了 <a target="_blank" rel="noopener" href="http://c.biancheng.net/socket/">socket</a>。即使对网络数据传输的原理不太熟悉，我们也能通过 socket 来编程。</p>
-<h1 id="什么是-socket？"><a href="#什么是-socket？" class="headerlink" title="什么是 socket？"></a>什么是 socket？</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>在计算机通信领域，socket 被翻译为“套接字”，它是<strong>计算机之间进行通信的一种约定或一种方式</strong></p>
-<h2 id="Socket可以做到什么"><a href="#Socket可以做到什么" class="headerlink" title="Socket可以做到什么"></a>Socket可以做到什么</h2><p>通过 socket 这种约定，一台计算机可以接收其他计算机的数据，也可以向其他计算机发送数据</p>
-<p>我们把插头插到插座上就能从电网获得电力供应，同样，为了与远程计算机进行数据传输，需要连接到因特网，而 <strong>socket 就是用来连接到因特网的工具</strong>。</p>
-<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p>socket 的典型应用就是 Web 服务器和浏览器：浏览器获取用户输入的 URL，向服务器发起请求，服务器分析接收到的 URL，将对应的网页内容返回给浏览器，浏览器再经过解析和渲染，就将文字、图片、视频等元素呈现给用户。  </p>
-<p>学习 socket，也就是<strong>学习计算机之间如何通信，并编写出实用的程序</strong>。</p>
-<h1 id="UNIX-x2F-Linux-中的-socket-是什么？"><a href="#UNIX-x2F-Linux-中的-socket-是什么？" class="headerlink" title="UNIX&#x2F;Linux 中的 socket 是什么？"></a>UNIX&#x2F;Linux 中的 socket 是什么？</h1><p>在 UNIX&#x2F;Linux 系统中，为了统一对各种硬件的操作，简化接口，不同的硬件设备也都被看成一个文件。对这些文件的操作，等同于对磁盘上普通文件的操作。  </p>
-<p>你也许听很多高手说过，UNIX&#x2F;Linux 中的一切都是文件！那个家伙说的没错。  </p>
-<p>为了表示和区分已经打开的文件，UNIX&#x2F;Linux 会给每个文件分配一个 ID，这个 ID 就是一个整数，被称为文件描述符（File Descriptor）。例如：</p>
-<ul>
-<li>通常用 0 来表示标准输入文件（stdin），它对应的硬件设备就是键盘；</li>
-<li>通常用 1 来表示标准输出文件（stdout），它对应的硬件设备就是显示器。</li>
-</ul>
-<p>UNIX&#x2F;Linux 程序在执行任何形式的 I&#x2F;O 操作时，都是在读取或者写入一个文件描述符。一个文件描述符只是一个和打开的文件相关联的整数，它的背后可能是一个硬盘上的普通文件、FIFO、管道、终端、键盘、显示器，甚至是一个网络连接。  </p>
-<p>请注意，<strong>网络连接也是一个文件，它也有文件描述符！</strong></p>
-<p>我们可以通过 socket() 函数来创建一个网络连接，或者说打开一个网络文件，socket() 的返回值就是文件描述符。有了文件描述符，我们就可以使用普通的文件操作函数来传输数据了，例如：</p>
-<ul>
-<li>用 read() 读取从远程计算机传来的数据；</li>
-<li>用 write() 向远程计算机写入数据。</li>
-</ul>
-<p>你看，只要用 socket() 创建了连接，剩下的就是文件操作了，网络编程原来就是如此简单！</p>
-<h1 id="Window-系统中的-socket-是什么？"><a href="#Window-系统中的-socket-是什么？" class="headerlink" title="Window 系统中的 socket 是什么？"></a>Window 系统中的 socket 是什么？</h1><p>Windows 也有类似“文件描述符”的概念，但通常被称为“文件句柄”。因此，本教程如果涉及 Windows 平台将使用“句柄”，如果涉及 Linux 平台则使用“描述符”。  </p>
-<p>与 UNIX&#x2F;Linux 不同的是，Windows 会区分 socket 和文件，Windows 就把 socket 当做一个网络连接来对待，因此需要调用专门针对 socket 而设计的数据传输函数，针对普通文件的输入输出函数就无效了。</p>
-<h1 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h1><p>Socket系列博文主要参考C语言中文网的<a target="_blank" rel="noopener" href="http://c.biancheng.net/socket/">socket编程入门：1天玩转socket通信技术（非常详细）</a>免费部分整理，付费部分不会引用原文内容，仅在原文内容的基础上进行总结，如果想要查看原文，请前往原网站付费！</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E5%9B%A0%E7%89%B9%E7%BD%91%E6%A6%82%E8%BF%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E5%9B%A0%E7%89%B9%E7%BD%91%E6%A6%82%E8%BF%B0/" class="post-title-link" itemprop="url">计算机网络-因特网概述</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-07-05 10:46:51 / 修改时间：11:19:25" itemprop="dateCreated datePublished" datetime="2022-07-05T10:46:51+08:00">2022-07-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="网络，互联网和因特网"><a href="#网络，互联网和因特网" class="headerlink" title="网络，互联网和因特网"></a>网络，互联网和因特网</h1><h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><ol>
-<li><p>网络由若干节点和链接这些节点的链路组成</p>
-</li>
-<li><p>多个网络还可以通过路由器互联起来，构成一个覆盖范围更大的网络，即互联网</p>
-</li>
-<li><p>因特网是世界上最大的互联网</p>
-<ul>
-<li><p>internet（互联网）是通用名词，泛指多个计算机网络互相链接成的网络，网络之间的通信协议是任意的</p>
-</li>
-<li><p>Internet（因特网）是专有名词，特指当前全球最大，最开放，由众多网络互相链接而成的特定计算机网络，采用TCP&#x2F;IP协议族作为通信规则</p>
-</li>
-</ul>
-</li>
-</ol>
-<p>网络图示</p>
-<img title="" src="file:///D:/R_program/Blog/source/_posts/计算机网络-因特网概述/1.png" alt="" width="327" data-align="inline">
-
-<p>互联网图示</p>
-<img title="" src="file:///D:/R_program/Blog/source/_posts/计算机网络-因特网概述/2.png" alt="2.png" width="334">
-
-<h1 id="因特网发展的三个阶段"><a href="#因特网发展的三个阶段" class="headerlink" title="因特网发展的三个阶段"></a>因特网发展的三个阶段</h1><ol>
-<li><p>单个网络ARPANET向互联网发展</p>
-</li>
-<li><p>逐步建成三级结构的因特网</p>
-</li>
-<li><p>逐步形成了多层次ISP结构的因特网</p>
-</li>
-</ol>
-<h1 id="因特网服务提供者ISP"><a href="#因特网服务提供者ISP" class="headerlink" title="因特网服务提供者ISP"></a>因特网服务提供者ISP</h1><p>普通用户就是通过ISP接入因特网的</p>
-<p>ISP可以从因特网管理机构申请到成块的IP地址，同时拥有通信线路以及路由器等联网设备</p>
-<p>也就是移动，电信，联通这些</p>
-<h2 id="基于ISP的三层结构的因特网"><a href="#基于ISP的三层结构的因特网" class="headerlink" title="基于ISP的三层结构的因特网"></a>基于ISP的三层结构的因特网</h2><p><img src="D:\R_program\Blog\source_posts\计算机网络-因特网概述\3.png"></p>
-<h1 id="因特网的标准化工作"><a href="#因特网的标准化工作" class="headerlink" title="因特网的标准化工作"></a>因特网的标准化工作</h1><ol>
-<li><p>因特网制定标准上的一个很大特点是<strong>面向公众</strong></p>
-<ul>
-<li><p>所有RFC技术文档都可以从因特网上免费下载</p>
-</li>
-<li><p>任何人都可以随时用电子右键发表对某个文档的意见或建议</p>
-</li>
-</ul>
-</li>
-<li><p><strong>因特网协会ISOC</strong>负责对因特网的全面管理，以及在世界范围内促进去发展和使用</p>
-<ul>
-<li><p>下属部门因特网体系结构委员会IAB负责管理因特网有关协议的开发</p>
-</li>
-<li><p>再下属部门因特网工程部IETF负责研究中短期工程问题，主要针对协议的开发和标准化</p>
-</li>
-<li><p>因特网研究部IRTF从事理论方面研究和开发一些需要长期考虑的问题</p>
-</li>
-</ul>
-</li>
-<li><p>制定因特网正式标准的四个阶段</p>
-<ul>
-<li><p>因特网草案（还不是RFC文档）</p>
-</li>
-<li><p>建议标准（开始成为RFC文档）</p>
-</li>
-<li><p>草案标准</p>
-</li>
-<li><p>因特网标准</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="因特网的组成"><a href="#因特网的组成" class="headerlink" title="因特网的组成"></a>因特网的组成</h1><h2 id="边缘部分"><a href="#边缘部分" class="headerlink" title="边缘部分"></a>边缘部分</h2><p>由所有连接在因特网上的主机组成。这部分使用户直接使用的，用来进行通信（传送数据，音频或者视频）和资源共享</p>
-<p>接入的设备可以是手机，PC主机，移动笔记本电脑，智能穿戴设备等等</p>
-<h2 id="核心部分"><a href="#核心部分" class="headerlink" title="核心部分"></a>核心部分</h2><p>由大量<strong>网络</strong>和链接这些网络的<strong>路由器</strong>组成。这部分是<strong>为边缘部分提供服务</strong>的（连通性和交换）</p>
-<img src="file:///D:/R_program/Blog/source/_posts/计算机网络-因特网概述/4.png" title="" alt="" width="732">
-
-<p>声明：</p>
-<p>此系列博客参考自<a target="_blank" rel="noopener" href="https://space.bilibili.com/360996402">湖科大教书匠</a>的<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1c4411d7jb?p=3&spm_id_from=pageDriver&vd_source=9137865ff053fdf351bafa394853bb8d">计算机网络微课堂</a>，后面单独博文便不再赘述，如果还有其他参考文章，会在该博文中单独列出</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/30/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E6%B8%B8%E6%88%8F%E6%9E%B6%E6%9E%84%E6%90%AD%E5%BB%BA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/06/30/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E6%B8%B8%E6%88%8F%E6%9E%B6%E6%9E%84%E6%90%AD%E5%BB%BA/" class="post-title-link" itemprop="url">UE4-项目-TowerDefence-游戏架构搭建</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-06-30 21:58:07" itemprop="dateCreated datePublished" datetime="2022-06-30T21:58:07+08:00">2022-06-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-07-05 17:07:45" itemprop="dateModified" datetime="2022-07-05T17:07:45+08:00">2022-07-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>今天可算是开了这个项目了！学习了这么久的C++理论，这下终于要实操了！</p>
-<p>这是一个塔防类型的项目，全程使用C++进行开发！</p>
-<p>这个系列的博客用来总结其中知识点和大致逻辑！算作是笔记。</p>
-<p>本项目是根据<a target="_blank" rel="noopener" href="https://www.aboutcg.org/">AboutCG</a>站内的<a target="_blank" rel="noopener" href="https://www.aboutcg.org/courseDetails/354/introduce">独立游戏全流程</a>教程作为记录的！感兴趣的好兄弟记得去该网站支持原创！</p>
-<h1 id="核心架构"><a href="#核心架构" class="headerlink" title="核心架构"></a>核心架构</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="GameInstance"><a href="#GameInstance" class="headerlink" title="GameInstance"></a>GameInstance</h3><p>GameInstance是基于GameEngine创建的</p>
-<p>一场游戏，<strong>GameInstance只有一个</strong></p>
-<p>多人在线游戏中，每一个玩家（Player）都是一个进程，所有玩家都在一个Game下运作，玩家间的通信就是进程间的通信</p>
-<p>GameInstance也会被上层的Engine实例化多个出来，比如说PIE实例化一个出来，Play也会实例化….等等</p>
-<h4 id="GameInstance应该放哪些逻辑？"><a href="#GameInstance应该放哪些逻辑？" class="headerlink" title="GameInstance应该放哪些逻辑？"></a>GameInstance应该放哪些逻辑？</h4><p>1、GameInstance代理World的切换</p>
-<p>2、GameInstance实现了许多接口可以让你动态的添加删除Player</p>
-<p>3、UI，控制UI的各种逻辑</p>
-<p>4、全局的配置（全局变量，在Level之外，持续存在的对象）</p>
-<p>5、游戏的额外的第三方逻辑：比如自己写的网络通信、自定义的配置文件或者自己的一些程序算法。</p>
-<p>6、GameInstace最好只存临时的数据</p>
-<h3 id="Gamestate"><a href="#Gamestate" class="headerlink" title="Gamestate"></a>Gamestate</h3><p>Gamestate在服务器存在，并且会复制到每个客户端，与整场比赛相关的数据放在Gamestate中并复制，客户端可以很方便的获取到整场比赛的数据。</p>
-<h3 id="playerstate"><a href="#playerstate" class="headerlink" title="playerstate"></a>playerstate</h3><p>玩家状态，方便获取玩家数据</p>
-<h3 id="playerController"><a href="#playerController" class="headerlink" title="playerController"></a>playerController</h3><p>玩家控制器，链接着HUD系统和PlayerState</p>
-<h3 id="GameUserSettings"><a href="#GameUserSettings" class="headerlink" title="GameUserSettings"></a>GameUserSettings</h3><p>内含游戏音量，画面等设置</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>将GameCore，HallCore，SelectLevelCore三个文件夹放在Core文件夹下</p>
-</li>
-<li><p>将Settings文件夹与Core并列</p>
-</li>
-<li><p>GameCore框架</p>
-<ul>
-<li><p>创建Pawn类型的C++类TowerDefenceGameCamera</p>
-</li>
-<li><p>创建GameInstance类型的C++类TowerDefenceGameInstance</p>
-</li>
-<li><p>创建Gamestate类型的C++类TowerDefenceGamestate</p>
-</li>
-<li><p>创建Playerstate类型的C++类TowerDefencePlayerState</p>
-</li>
-<li><p>创建PlayerController类型的C++类TowerDefencePlayerController</p>
-</li>
-</ul>
-</li>
-<li><p>HallCore框架</p>
-<ul>
-<li><p>创建GameMode类型的C++类TowerDefenceHallGameMode</p>
-</li>
-<li><p>创建GameState类型的C++类TowerDefenceHallGameState</p>
-</li>
-<li><p>创建Pawn类型的C++类TowerDefenceHallPawn</p>
-</li>
-<li><p>创建PlayerController类型的C++类TowerDefenceHallPlayerController</p>
-</li>
-</ul>
-</li>
-<li><p>SelectLevelCore框架</p>
-<ul>
-<li>创建GameMode类型的C++类TowersDefenceSelectLevelGamemode</li>
-</ul>
-</li>
-<li><p>Settings框架</p>
-<ul>
-<li><p>创建WorldSettings类型的C++类TowerDefenceWorldSettings</p>
-</li>
-<li><p>创建GameUserSettings类型的C++类TowerDefencePlayerController</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="UI架构"><a href="#UI架构" class="headerlink" title="UI架构"></a>UI架构</h1><h2 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h2><h3 id="UMG"><a href="#UMG" class="headerlink" title="UMG"></a>UMG</h3><p>优先级处于最高，属于基类</p>
-<p>UMG的核心是控件，这些控件是一系列预先制作的函数，可用于构建界面（如按钮、复选框、滑块、进度条等）。布局方面和写网页差不多，但主要的还是解决通信问题。</p>
-<p>可以以某个UserWeigt类为基类创建其他子类，实现脱离引擎达到自定义界面的效果</p>
-<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>UI文件夹下创建Core，GameUI，HallUI，SelectLevelUI文件夹</p>
-</li>
-<li><p>UI&#x2F;Core框架</p>
-<ul>
-<li>创建UserWeight类型的C++类UI_RuleOfTheWidget</li>
-</ul>
-</li>
-<li><p>UI&#x2F;GameUI&#x2F;Core框架</p>
-<ul>
-<li>创建HUD类型的C++类RuleOfTheHUD</li>
-</ul>
-</li>
-<li><p>UI&#x2F;HallUI&#x2F;Core框架</p>
-<ul>
-<li>创建HUD类型的C++类TowerDefenceHallHUD</li>
-</ul>
-</li>
-<li><p>UI&#x2F;SelectLevelUI&#x2F;Core框架</p>
-<ul>
-<li>创建HUD类型的C++类TwoersDefenceSelectLevelHUD</li>
-</ul>
-</li>
-<li><p>UI&#x2F;GameUI&#x2F;UMG框架</p>
-<ul>
-<li>创建以UI_RuleOfTheWidget为父类的C++类UI_MainScreen</li>
-<li>创建以UI_RuleOfTheWidget为父类的C++类UI_RucksackSystem</li>
-<li>创建以UI_RuleOfTheWidget为父类的C++类UI_PlayerSkillSystem</li>
-<li>创建以UI_RuleOfTheWidget为父类的C++类UI_GameInfoPrintSystem</li>
-<li>创建以UI_RuleOfTheWidget为父类的C++类UI_GameMenuSystem</li>
-<li>创建以UI_RuleOfTheWidget为父类的C++类UI_MiniMapSystem</li>
-<li>创建以UI_RuleOfTheWidget为父类的C++类UI_MissionSystem</li>
-<li>创建以UI_RuleOfTheWidget为父类的C++类UI_ToolBarSystem</li>
-</ul>
-</li>
-<li><p>UI&#x2F;HallUI&#x2F;UMG框架</p>
-<ul>
-<li>创建以UI_RuleOfTheWidget为父类的C++类UI_MainHall</li>
-</ul>
-</li>
-<li><p>UI&#x2F;SelectLevelUI&#x2F;UMG框架</p>
-<ul>
-<li>创建以UI_RuleOfTheWidget为父类的C++类UI_SelectLevelMain</li>
-</ul>
-</li>
-<li><p>UI&#x2F;GameUI&#x2F;UMG&#x2F;Skill框架</p>
-<ul>
-<li>创建以UI_RuleOfTheWidget为父类的C++类UI_SkillSlot</li>
-</ul>
-</li>
-<li><p>UI&#x2F;GameUI&#x2F;UMG&#x2F;Inventory框架</p>
-<ul>
-<li><p>创建以UI_RuleOfTheWidget为父类的C++类UI_Inventory</p>
-</li>
-<li><p>创建以UI_RuleOfTheWidget为父类的C++类UI_InventorySlot</p>
-</li>
-</ul>
-</li>
-<li><p>UI&#x2F;Common&#x2F;UMG框架</p>
-<ul>
-<li><p>创建以UI_RuleOfTheWidget为父类的C++类UI_GameSettingsSystem</p>
-</li>
-<li><p>创建以UI_RuleOfTheWidget为父类的C++类UI_SaveAndLoadingGameSystem</p>
-</li>
-</ul>
-</li>
-<li><p>UI&#x2F;Common&#x2F;UMG&#x2F;GameSettings框架</p>
-<ul>
-<li><p>创建以UI_RuleOfTheWidget为父类的C++类UI_GameSettingsAudio</p>
-</li>
-<li><p>创建以UI_RuleOfTheWidget为父类的C++类UI_GameSettingsGame</p>
-</li>
-<li><p>创建以UI_RuleOfTheWidget为父类的C++类UI_GameSettingsOtherSettings</p>
-</li>
-<li><p>创建以UI_RuleOfTheWidget为父类的C++类UI_GameSettingsVideo</p>
-</li>
-</ul>
-</li>
-<li><p>UI&#x2F;Common&#x2F;UMG&#x2F;SaveLoad框架</p>
-<ul>
-<li>创建以UI_RuleOfTheWidget为父类的C++类UI_SaveAndLoadBar</li>
-</ul>
-</li>
-<li><p>UI&#x2F;SelectLevelUI&#x2F;UMG&#x2F;Button框架</p>
-<ul>
-<li>创建以UI_RuleOfTheWidget为父类的C++类UI_LevelButton</li>
-</ul>
-</li>
-</ol>
-<h1 id="角色架构"><a href="#角色架构" class="headerlink" title="角色架构"></a>角色架构</h1><h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>Character&#x2F;Core架构</p>
-<ul>
-<li>创建Character类型的C++类RuleOfTheCharacter</li>
-</ul>
-</li>
-<li><p>Character&#x2F;CharacterCore架构</p>
-<ul>
-<li><p>创建以RuleOfTheCharacter为父类的C++类Towers</p>
-</li>
-<li><p>创建以RuleOfTheCharacter为父类的C++类Monsters</p>
-</li>
-</ul>
-</li>
-<li><p>Character&#x2F;AIController</p>
-<ul>
-<li><p>创建以AIController为父类的C++类MonsterAIContrall</p>
-</li>
-<li><p>创建以AIController为父类的C++类TowersAIController</p>
-</li>
-</ul>
-</li>
-<li><p>Character&#x2F;Bullet</p>
-<ul>
-<li>创建以Actor为父类的C++类RuleOfTheBullet</li>
-</ul>
-</li>
-<li><p>创建一个空白的插件StoneToolClass</p>
-<ul>
-<li><p>在TowerDefence&#x2F;Plugins&#x2F;StoneToolClass&#x2F;Source&#x2F;StoneToolClass&#x2F;Public&#x2F;Core文件夹下创建一个以Actor为父类的C++类ToolBase</p>
-</li>
-<li><p>在TowerDefence&#x2F;Plugins&#x2F;StoneToolClass&#x2F;Source&#x2F;StoneToolClass&#x2F;Public&#x2F;Tool文件夹下创建一个以ToolBase为父类的C++类DisplayCameraTigger</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="数据架构"><a href="#数据架构" class="headerlink" title="数据架构"></a>数据架构</h1><p>决定了以后是否可扩展，一定要解耦合！</p>
-<p>将显示，控制，渲染分开放！</p>
-<h2 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>TowerDefence&#x2F;Public&#x2F;Data&#x2F;Core</p>
-<ul>
-<li><p>创建以UObject为父类的C++类CharacterData</p>
-</li>
-<li><p>创建以UObject为父类的C++类PlayerData</p>
-</li>
-<li><p>创建以UObject为父类的C++类GlobalData</p>
-</li>
-</ul>
-</li>
-<li><p>TowerDefence\Source\TowerDefence\Public\Resources\Core</p>
-<ul>
-<li>创建以UObject为父类的C++类TDGameResources（资源类，用于加载资源）</li>
-</ul>
-</li>
-</ol>
-<h1 id="调试类"><a href="#调试类" class="headerlink" title="调试类"></a>调试类</h1><p>记得巫师三的控制台吗？就是这玩意，可以用来调试，也可以实现作弊功能</p>
-<ol>
-<li><p>TowerDefence&#x2F;Source&#x2F;TowerDefence&#x2F;Public&#x2F;Debug</p>
-<ul>
-<li>创建以CheatManager为父类的C++类CommandLineManager</li>
-</ul>
-</li>
-</ol>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>最后的架构如下</p>
-<p><img src="D:\R_program\Blog\source_posts\UE4-项目-TowerDefence-游戏架构搭建\1.png"></p>
-<p><img src="D:\R_program\Blog\source_posts\UE4-项目-TowerDefence-游戏架构搭建\2.png"></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/30/UE4-C-%E6%96%AD%E8%A8%80/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/06/30/UE4-C-%E6%96%AD%E8%A8%80/" class="post-title-link" itemprop="url">UE4-C++-断言</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-06-30 16:31:32 / 修改时间：17:01:48" itemprop="dateCreated datePublished" datetime="2022-06-30T16:31:32+08:00">2022-06-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>断言（assertion）是编程中的一种常用手段，在通常情况下，断言就是将一个返回值总是真（或者我们需要是真）的判别式放在语句中，用以排除在设计逻辑上不应该出现的情况。</p>
-<p>举个例子：我们都知道除数不能为0，那么就可以对除数使用断言，以使<strong>程序在除数为0的情况下产生异常退出</strong>。</p>
-<h1 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h1><h2 id="简单断言check"><a href="#简单断言check" class="headerlink" title="简单断言check()"></a>简单断言check()</h2><p>在传入值为空指针，0，false时都会触发断点进而崩溃</p>
-<h2 id="额外信息断言"><a href="#额外信息断言" class="headerlink" title="额外信息断言"></a>额外信息断言</h2><h3 id="verifyf"><a href="#verifyf" class="headerlink" title="verifyf()"></a>verifyf()</h3><p><code>verifyf(bool,TEXT(&quot;更多提示信息 verifyf&quot;))</code></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">verifyf</span>(<span class="literal">false</span>,<span class="built_in">TEXT</span>(<span class="string">&quot;ssss %s&quot;</span>),*<span class="keyword">this</span>-&gt;<span class="built_in">GetName</span>());</span><br></pre></td></tr></table></figure>
-
-<p>可将TEXT()中的内容打印在调试内容中，同时后面的this指针也会打印出此函数的类名称</p>
-<h3 id="checkf"><a href="#checkf" class="headerlink" title="checkf()"></a>checkf()</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">checkf</span>(<span class="literal">false</span>,<span class="built_in">TEXT</span>(<span class="string">&quot;ssss %s&quot;</span>),*<span class="keyword">this</span>-&gt;<span class="built_in">GetName</span>());</span><br></pre></td></tr></table></figure>
-
-<p>用法同verifyf</p>
-<h2 id="阻塞流程断言"><a href="#阻塞流程断言" class="headerlink" title="阻塞流程断言"></a>阻塞流程断言</h2><h3 id="checkNoEntry"><a href="#checkNoEntry" class="headerlink" title="checkNoEntry()"></a>checkNoEntry()</h3><p>在某函数内使用，检测程序是否进入到该函数内，如果进入到了则立刻触发断点</p>
-<h3 id="checkNoReentry"><a href="#checkNoReentry" class="headerlink" title="checkNoReentry()"></a>checkNoReentry()</h3><p>在某函数内使用，若该函数被执行两次，则立刻触发断点</p>
-<h3 id="checkNoRecursion"><a href="#checkNoRecursion" class="headerlink" title="checkNoRecursion()"></a>checkNoRecursion()</h3><p>如果某函数内存在递归，则会触发该断言</p>
-<h2 id="断点式断言"><a href="#断点式断言" class="headerlink" title="断点式断言"></a>断点式断言</h2><h3 id="ensure"><a href="#ensure" class="headerlink" title="ensure()"></a>ensure()</h3><p>类似于check()但是不同的是，该断言触发后不会导致程序崩溃，会给出断点信息</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ensure</span>(<span class="type">bool</span> &amp;&amp; <span class="string">&quot;提示信息&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="ensureMsgf（）"><a href="#ensureMsgf（）" class="headerlink" title="ensureMsgf（）"></a>ensureMsgf（）</h3><p>可以获取额外信息</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ensureMsgf</span>(<span class="number">0</span>,<span class="built_in">TEXT</span>(<span class="string">&quot;ssss %S&quot;</span>),*<span class="keyword">this</span>-&gt;<span class="built_in">GetName</span>());</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>
