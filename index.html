@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">159</span>
+          <span class="site-state-item-count">163</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,353 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/20/unLua-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%A0%E8%BD%BD%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/10/20/unLua-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%A0%E8%BD%BD%E5%99%A8/" class="post-title-link" itemprop="url">unLua-自定义加载器</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-10-20 08:37:26 / 修改时间：08:39:24" itemprop="dateCreated datePublished" datetime="2022-10-20T08:37:26+08:00">2022-10-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unLua/" itemprop="url" rel="index"><span itemprop="name">unLua</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="自定义加载器"><a href="#自定义加载器" class="headerlink" title="自定义加载器"></a>自定义加载器</h1><p>通过绑定 FUnLuaDelegates::CustomLoadLuaFile 可以实现自定义Lua加载器</p>
+<p>演示两种常见的实现供参考：</p>
+<ol>
+<li><p>查找路径固定，性能更好</p>
+</li>
+<li><p>通过package.path查找，更加灵活</p>
+</li>
+</ol>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--本示例C++源码：</span></span><br><span class="line">Source\TPSProject\TutorialBlueprintFunctionLibrary.cpp</span><br></pre></td></tr></table></figure>
+
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> Screen = <span class="built_in">require</span> <span class="string">&quot;Tutorials.Screen&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> M = UnLua.Class()</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">print_intro</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> msg =</span><br><span class="line">        <span class="string">[[</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">—— 本示例来自 &quot;Content/Script/Tutorials.12_CustomLoader.lua&quot;</span></span><br><span class="line"><span class="string">]]</span></span><br><span class="line">    Screen.Print(msg)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:ReceiveBeginPlay</span><span class="params">()</span></span></span><br><span class="line">    print_intro()</span><br><span class="line"></span><br><span class="line">    UE.UTutorialBlueprintFunctionLibrary.SetupCustomLoader(<span class="number">1</span>)</span><br><span class="line">    Screen.Print(<span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;FromCustomLoader1:%s&quot;</span>, <span class="built_in">require</span>(<span class="string">&quot;Tutorials&quot;</span>)))</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">package</span>.<span class="built_in">loaded</span>[<span class="string">&quot;Tutorials&quot;</span>] = <span class="literal">nil</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">package</span>.<span class="built_in">path</span> = <span class="built_in">package</span>.<span class="built_in">path</span> .. <span class="string">&quot;;./?/Index.lua&quot;</span></span><br><span class="line">    UE.UTutorialBlueprintFunctionLibrary.SetupCustomLoader(<span class="number">2</span>)</span><br><span class="line">    Screen.Print(<span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;FromCustomLoader2:%s&quot;</span>, <span class="built_in">require</span>(<span class="string">&quot;Tutorials&quot;</span>)))</span><br><span class="line"></span><br><span class="line">    UE.UTutorialBlueprintFunctionLibrary.SetupCustomLoader(<span class="number">0</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> M</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/20/unLua-%E9%87%8A%E6%94%BEUMG%E7%9B%B8%E5%85%B3%E5%AF%B9%E8%B1%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/10/20/unLua-%E9%87%8A%E6%94%BEUMG%E7%9B%B8%E5%85%B3%E5%AF%B9%E8%B1%A1/" class="post-title-link" itemprop="url">unLua-释放UMG相关对象</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-10-20 08:34:46 / 修改时间：08:36:59" itemprop="dateCreated datePublished" datetime="2022-10-20T08:34:46+08:00">2022-10-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unLua/" itemprop="url" rel="index"><span itemprop="name">unLua</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="UMG对象的释放流程"><a href="#UMG对象的释放流程" class="headerlink" title="UMG对象的释放流程"></a>UMG对象的释放流程</h1><ol>
+<li><p>调用self:Release()，解除LuaTable在C++侧的引用</p>
+</li>
+<li><p>确保LuaTable在Lua侧没有其他引用，触发LuaGC</p>
+</li>
+<li><p>C++侧收到UObject_Delete回调，解除UMG在C++侧的引用</p>
+</li>
+<li><p>确保UMG在C++侧没有其他引用，触发UEGC</p>
+</li>
+</ol>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>使用控制台命令查看对象和类的引用情况：</p>
+<p>查看指定类的引用列表：Obj List Class&#x3D;ReleaseUMG_Root_C</p>
+<p>查看指定对象的引用链：Obj Refs Name&#x3D;ReleaseUMG_Root_C_0</p>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> Screen = <span class="built_in">require</span> <span class="string">&quot;Tutorials.Screen&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> M = UnLua.Class()</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">print_intro</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> msg =</span><br><span class="line">        <span class="string">[[</span></span><br><span class="line"><span class="string">使用以下按键进行一次强制垃圾回收：</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">C：强制 C++ GC</span></span><br><span class="line"><span class="string">L：强制 Lua GC</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">—— 本示例来自 &quot;Content/Script/Tutorials.11_ReleaseUMG.lua&quot;</span></span><br><span class="line"><span class="string">]]</span></span><br><span class="line">    Screen.Print(msg)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:ReceiveBeginPlay</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> widget_class = UE.UClass.Load(<span class="string">&quot;/Game/Tutorials/11_ReleaseUMG/ReleaseUMG_Root.ReleaseUMG_Root_C&quot;</span>)</span><br><span class="line">    <span class="keyword">local</span> widget_root = NewObject(widget_class, <span class="built_in">self</span>)</span><br><span class="line">    widget_root:AddToViewport()</span><br><span class="line"></span><br><span class="line">    print_intro()</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:L_Pressed</span><span class="params">()</span></span></span><br><span class="line">    <span class="built_in">collectgarbage</span>(<span class="string">&quot;collect&quot;</span>)</span><br><span class="line">    Screen.Print(<span class="string">&#x27;collectgarbage(&quot;collect&quot;)&#x27;</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:C_Pressed</span><span class="params">()</span></span></span><br><span class="line">    UE.UKismetSystemLibrary.CollectGarbage()</span><br><span class="line">    Screen.Print(<span class="string">&quot;UKismetSystemLibrary.CollectGarbage()&quot;</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> M</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/20/unLua-%E8%A6%86%E7%9B%96%E7%BD%91%E7%BB%9C%E5%A4%8D%E5%88%B6%E4%BA%8B%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/10/20/unLua-%E8%A6%86%E7%9B%96%E7%BD%91%E7%BB%9C%E5%A4%8D%E5%88%B6%E4%BA%8B%E4%BB%B6/" class="post-title-link" itemprop="url">unLua-覆盖网络复制事件</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-10-20 08:31:33 / 修改时间：08:34:21" itemprop="dateCreated datePublished" datetime="2022-10-20T08:31:33+08:00">2022-10-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unLua/" itemprop="url" rel="index"><span itemprop="name">unLua</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>使用 {函数名}_RPC 可以覆盖蓝图中RPC函数的实现</p>
+<p>使用 OnRep_{变量名} 可以覆盖蓝图中变量同步消息的处理</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--蓝图示例</span></span><br><span class="line">Content/Tutorials/<span class="number">10</span>_Replications/ChatCharacter.uasset</span><br><span class="line"></span><br><span class="line"><span class="comment">--脚本示例：</span></span><br><span class="line">Content/Script/Tutorials/ChatCharacter.lua</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> Screen = <span class="built_in">require</span> <span class="string">&quot;Tutorials.Screen&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> M = UnLua.Class()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:ReceiveBeginPlay</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> <span class="built_in">self</span>:HasAuthority() <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">local</span> msg = <span class="string">[[</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    试试使用多人模式运行示例吧</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    方向键：移动</span></span><br><span class="line"><span class="string">    空格：跳跃</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    —— 本示例来自 &quot;Content/Script/Tutorials.10_Replications.lua&quot;</span></span><br><span class="line"><span class="string">    ]]</span></span><br><span class="line">    Screen.Print(msg)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> M</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/20/unLua-%E9%9D%99%E6%80%81%E5%AF%BC%E5%87%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%9E%8B%E5%88%B0Lua%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/10/20/unLua-%E9%9D%99%E6%80%81%E5%AF%BC%E5%87%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%9E%8B%E5%88%B0Lua%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">unLua-静态导出自定义类型到Lua使用</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-10-20 08:22:33 / 修改时间：08:27:29" itemprop="dateCreated datePublished" datetime="2022-10-20T08:22:33+08:00">2022-10-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unLua/" itemprop="url" rel="index"><span itemprop="name">unLua</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>本示例C++源码：</p>
+<p>\Source\TPSProject\TutorialObject.cpp</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> Screen = <span class="built_in">require</span> <span class="string">&quot;Tutorials.Screen&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> M = UnLua.Class()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:ReceiveBeginPlay</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> msg =</span><br><span class="line">    <span class="string">[[</span></span><br><span class="line"><span class="string">    —— 本示例来自 &quot;Content/Script/Tutorials.09_StaticExport.lua&quot;</span></span><br><span class="line"><span class="string">    ]]</span></span><br><span class="line">    Screen.Print(msg)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">local</span> tutorial = UE.FTutorialObject(<span class="string">&quot;教程&quot;</span>)</span><br><span class="line">    msg = <span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;tutorial -&gt; %s\n\ntutorial:GetTitle() -&gt; %s&quot;</span>, <span class="built_in">tostring</span>(tutorial), tutorial:GetTitle())</span><br><span class="line">    Screen.Print(msg)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> M</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -820,492 +1167,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/15/unLua-%E8%BE%93%E5%85%A5%E4%BA%8B%E4%BB%B6%E7%BB%91%E5%AE%9A/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/10/15/unLua-%E8%BE%93%E5%85%A5%E4%BA%8B%E4%BB%B6%E7%BB%91%E5%AE%9A/" class="post-title-link" itemprop="url">unLua-输入事件绑定</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-10-15 11:32:10 / 修改时间：11:36:24" itemprop="dateCreated datePublished" datetime="2022-10-15T11:32:10+08:00">2022-10-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unLua/" itemprop="url" rel="index"><span itemprop="name">unLua</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="绑定输入事件"><a href="#绑定输入事件" class="headerlink" title="绑定输入事件"></a>绑定输入事件</h1><p>说明：需要监听按键或Action时，只需要在返回的table中</p>
-<p>声明 {KeyName}_Pressed &#x2F; {KeyName}_Released</p>
-<p>例如：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:SpaceBar_Pressed</span><span class="params">()</span></span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-
-<p>{KeyName}可以参考EKeys的文档：</p>
-<p><a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.26/en-US/API/Runtime/InputCore/EKeys/">https://docs.unrealengine.com/4.26/en-US/API/Runtime/InputCore/EKeys/</a></p>
-<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> Screen = <span class="built_in">require</span> <span class="string">&quot;Tutorials.Screen&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> M = UnLua.Class()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:ReceiveBeginPlay</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> msg =</span><br><span class="line">        <span class="string">[[</span></span><br><span class="line"><span class="string">    来试试以下输入吧：</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    字母、数字、小键盘、方向键、鼠标</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    —— 本示例来自 &quot;Content/Script/Tutorials.03_BindInputs.lua&quot;</span></span><br><span class="line"><span class="string">    ]]</span></span><br><span class="line">    Screen.Print(msg)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">SetupKeyBindings</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> key_names = &#123;</span><br><span class="line">        <span class="comment">-- 字母</span></span><br><span class="line">        <span class="string">&quot;A&quot;</span>, <span class="string">&quot;B&quot;</span>, <span class="comment">--[[&quot;C&quot;,]]</span> <span class="string">&quot;D&quot;</span>, <span class="string">&quot;E&quot;</span>,<span class="string">&quot;F&quot;</span>, <span class="string">&quot;G&quot;</span>, <span class="string">&quot;H&quot;</span>, <span class="string">&quot;I&quot;</span>, <span class="string">&quot;J&quot;</span>, <span class="string">&quot;K&quot;</span>, <span class="string">&quot;L&quot;</span>, <span class="string">&quot;M&quot;</span>, <span class="string">&quot;N&quot;</span>, <span class="string">&quot;O&quot;</span>, <span class="string">&quot;P&quot;</span>, <span class="string">&quot;Q&quot;</span>, <span class="string">&quot;R&quot;</span>, <span class="string">&quot;S&quot;</span>, <span class="string">&quot;T&quot;</span>, <span class="string">&quot;U&quot;</span>, <span class="comment">--[[&quot;V&quot;, ]]</span> <span class="string">&quot;W&quot;</span>, <span class="string">&quot;X&quot;</span>, <span class="string">&quot;Y&quot;</span>, <span class="string">&quot;Z&quot;</span>,</span><br><span class="line">        <span class="comment">-- 数字</span></span><br><span class="line">        <span class="string">&quot;One&quot;</span>, <span class="string">&quot;Two&quot;</span>, <span class="string">&quot;Three&quot;</span>, <span class="string">&quot;Four&quot;</span>, <span class="string">&quot;Five&quot;</span>, <span class="string">&quot;Six&quot;</span>, <span class="string">&quot;Seven&quot;</span>, <span class="string">&quot;Eight&quot;</span>, <span class="string">&quot;Nine&quot;</span>,</span><br><span class="line">        <span class="comment">-- 小键盘</span></span><br><span class="line">        <span class="string">&quot;NumPadOne&quot;</span>, <span class="string">&quot;NumPadTwo&quot;</span>, <span class="string">&quot;NumPadThree&quot;</span>, <span class="string">&quot;NumPadFour&quot;</span>, <span class="string">&quot;NumPadFive&quot;</span>, <span class="string">&quot;NumPadSix&quot;</span>, <span class="string">&quot;NumPadSeven&quot;</span>, <span class="string">&quot;NumPadEight&quot;</span>, <span class="string">&quot;NumPadNine&quot;</span>,</span><br><span class="line">        <span class="comment">-- 方向键</span></span><br><span class="line">        <span class="string">&quot;Up&quot;</span>, <span class="string">&quot;Down&quot;</span>, <span class="string">&quot;Left&quot;</span>, <span class="string">&quot;Right&quot;</span>,</span><br><span class="line">        <span class="comment">-- ProjectSettings -&gt; Engine - Input -&gt; Action Mappings</span></span><br><span class="line">        <span class="string">&quot;Fire&quot;</span>, <span class="string">&quot;Aim&quot;</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> _, key_name <span class="keyword">in</span> <span class="built_in">ipairs</span>(key_names) <span class="keyword">do</span></span><br><span class="line">        M[key_name .. <span class="string">&quot;_Pressed&quot;</span>] = <span class="function"><span class="keyword">function</span><span class="params">(self, key)</span></span></span><br><span class="line">            Screen.Print(<span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;按下了%s&quot;</span>, key.KeyName))</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">SetupAxisBindings</span><span class="params">()</span></span></span><br><span class="line">    <span class="comment">-- ProjectSettings -&gt; Engine - Input -&gt; Axis Mappings</span></span><br><span class="line">    <span class="keyword">local</span> axis_names = &#123;</span><br><span class="line">        <span class="string">&quot;MoveForward&quot;</span>, <span class="string">&quot;MoveRight&quot;</span>, <span class="string">&quot;Turn&quot;</span>, <span class="string">&quot;LookUp&quot;</span>, <span class="string">&quot;LookUpRate&quot;</span>, <span class="string">&quot;TurnRate&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> _, axis_name <span class="keyword">in</span> <span class="built_in">ipairs</span>(axis_names) <span class="keyword">do</span></span><br><span class="line">        M[axis_name] = <span class="function"><span class="keyword">function</span><span class="params">(self, value)</span></span></span><br><span class="line">            <span class="keyword">if</span> value ~= <span class="number">0</span> <span class="keyword">then</span></span><br><span class="line">                Screen.Print(<span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;%s(%f)&quot;</span>, axis_name, value))</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">SetupKeyBindings()</span><br><span class="line">SetupAxisBindings()</span><br></pre></td></tr></table></figure>
-
-<p>使用UnLua.Input.BindXXX接口可以实现更细节的输入绑定控制</p>
-<p>更多请参考：UnLua\Plugins\UnLua\Content\Script\UnLua\Input.lua</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> BindKey = UnLua.Input.BindKey</span><br><span class="line"></span><br><span class="line">BindKey(M, <span class="string">&quot;C&quot;</span>, <span class="string">&quot;Pressed&quot;</span>, <span class="function"><span class="keyword">function</span><span class="params">(self, Key)</span></span></span><br><span class="line">    Screen.Print(<span class="string">&quot;按下了C&quot;</span>)</span><br><span class="line"><span class="keyword">end</span>)</span><br><span class="line"></span><br><span class="line">BindKey(M, <span class="string">&quot;C&quot;</span>, <span class="string">&quot;Pressed&quot;</span>, <span class="function"><span class="keyword">function</span><span class="params">(self, Key)</span></span></span><br><span class="line">    Screen.Print(<span class="string">&quot;复制&quot;</span>)</span><br><span class="line"><span class="keyword">end</span>, &#123; Ctrl = <span class="literal">true</span> &#125;)</span><br><span class="line"></span><br><span class="line">BindKey(M, <span class="string">&quot;V&quot;</span>, <span class="string">&quot;Pressed&quot;</span>, <span class="function"><span class="keyword">function</span><span class="params">(self, Key)</span></span></span><br><span class="line">    Screen.Print(<span class="string">&quot;按下了V&quot;</span>)</span><br><span class="line"><span class="keyword">end</span>)</span><br><span class="line"></span><br><span class="line">BindKey(M, <span class="string">&quot;V&quot;</span>, <span class="string">&quot;Pressed&quot;</span>, <span class="function"><span class="keyword">function</span><span class="params">(self, Key)</span></span></span><br><span class="line">    Screen.Print(<span class="string">&quot;粘贴&quot;</span>)</span><br><span class="line"><span class="keyword">end</span>, &#123; Ctrl = <span class="literal">true</span> &#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> M</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/15/unLua-%E8%A6%86%E7%9B%96%E8%93%9D%E5%9B%BE%E4%BA%8B%E4%BB%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/10/15/unLua-%E8%A6%86%E7%9B%96%E8%93%9D%E5%9B%BE%E4%BA%8B%E4%BB%B6/" class="post-title-link" itemprop="url">unLua-覆盖蓝图事件</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-10-15 11:18:53 / 修改时间：11:31:23" itemprop="dateCreated datePublished" datetime="2022-10-15T11:18:53+08:00">2022-10-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unLua/" itemprop="url" rel="index"><span itemprop="name">unLua</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="绑定Lua与蓝图"><a href="#绑定Lua与蓝图" class="headerlink" title="绑定Lua与蓝图"></a>绑定Lua与蓝图</h1><h2 id="新建蓝图"><a href="#新建蓝图" class="headerlink" title="新建蓝图"></a>新建蓝图</h2><p><img src="https://gitee.com/mirrors/UnLua/raw/master/Docs/Images/create_new_actor_bp_1.png" alt="新建蓝图1"> <img src="https://gitee.com/mirrors/UnLua/raw/master/Docs/Images/create_new_actor_bp_2.png" alt="新建蓝图2"></p>
-<h2 id="2-绑定到Lua"><a href="#2-绑定到Lua" class="headerlink" title="2. 绑定到Lua"></a>2. 绑定到Lua</h2><ul>
-<li>双击打开上一步新建好的蓝图，点击UnLua菜单栏中的“绑定”，默认会自动根据蓝图路径填充好Lua的模块路径（如图中①所示）。</li>
-<li>如果下次需要修改绑定的路径，可以找到 <code>GetModuleName</code> 函数并双击进行修改（如图中②所示）。</li>
-<li>完成后记得“编译”并“保存”（如图中③所示）。</li>
-</ul>
-<p><img src="https://gitee.com/mirrors/UnLua/raw/master/Docs/Images/bind_to_lua_1.png" alt="绑定Lua1"> <img src="https://gitee.com/mirrors/UnLua/raw/master/Docs/Images/bind_to_lua_2.png" alt="绑定Lua2"></p>
-<h2 id="3-生成Lua模版代码"><a href="#3-生成Lua模版代码" class="headerlink" title="3. 生成Lua模版代码"></a>3. 生成Lua模版代码</h2><p>点击UnLua菜单栏中的“生成Lua模板文件”，会在工程 <code>Content/Script</code> 目录下生成。</p>
-<p><img src="https://gitee.com/mirrors/UnLua/raw/master/Docs/Images/generate_lua_template.png" alt="生成模板代码"></p>
-<h2 id="4-准备就绪"><a href="#4-准备就绪" class="headerlink" title="4. 准备就绪"></a>4. 准备就绪</h2><p><img src="https://gitee.com/mirrors/UnLua/raw/master/Docs/Images/reveal_in_explorer.png" alt="在文件管理器中显示"></p>
-<p>最后，用你喜欢的编辑器打开生成的文件，开始编写你的代码吧。</p>
-<ol>
-<li><strong>注意</strong>：在引擎的内容浏览器中是无法看到目录下的Lua脚本的，请使用系统的文件浏览器来查看，推荐将<code>Content/Script</code>加入到你的IDE工程中，这样就不需要每次都手动浏览了。</li>
-</ol>
-<h1 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h1><p>在蓝图中实现UnLuaInterface接口，并通过 GetModuleName 指定脚本路径，即可绑定到Lua</p>
-<p>本脚本由 “Content&#x2F;Tutorials&#x2F;01_HelloWorld&#x2F;HelloWorld.map” 的关卡蓝图绑定</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> Screen = <span class="built_in">require</span> <span class="string">&quot;Tutorials.Screen&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> M = UnLua.Class()</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 所有绑定到Lua的对象初始化时都会调用Initialize的实例方法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:Initialize</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> msg = <span class="string">[[</span></span><br><span class="line"><span class="string">    Hello World!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    —— 本示例来自 &quot;Content/Script/Tutorials/01_HelloWorld.lua&quot;</span></span><br><span class="line"><span class="string">    ]]</span></span><br><span class="line">    <span class="built_in">print</span>(msg)</span><br><span class="line">    Screen.Print(msg)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> M</span><br></pre></td></tr></table></figure>
-
-<h1 id="覆盖蓝图事件"><a href="#覆盖蓝图事件" class="headerlink" title="覆盖蓝图事件"></a>覆盖蓝图事件</h1><p>覆盖蓝图事件时，只需要在返回的table中声明 Receive{EventName}</p>
-<p>  例如：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:ReceiveBeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-
-<p>除了蓝图事件可以覆盖，也可以直接声明 {FunctionName} 来覆盖Function。</p>
-<p>如果需要调用被覆盖的蓝图Function，可以通过 self.Overridden.{FunctionName}(self, …) 来访问</p>
-<p>例如：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:SayHi</span><span class="params">(name)</span></span></span><br><span class="line">    <span class="built_in">self</span>.Overridden.SayHi(<span class="built_in">self</span>, name)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-
-<p>注意：这里不可以写成 <code>self.Overridden:SayHi(name)</code></p>
-<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> Screen = <span class="built_in">require</span> <span class="string">&quot;Tutorials.Screen&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> M = UnLua.Class()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:ReceiveBeginPlay</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> msg = <span class="built_in">self</span>:SayHi(<span class="string">&quot;陌生人&quot;</span>)</span><br><span class="line">    Screen.Print(msg)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:SayHi</span><span class="params">(name)</span></span></span><br><span class="line">    <span class="keyword">local</span> origin = <span class="built_in">self</span>.Overridden.SayHi(<span class="built_in">self</span>, name)</span><br><span class="line">    <span class="keyword">return</span> origin .. <span class="string">&quot;\n\n&quot;</span> ..</span><br><span class="line">        <span class="string">[[现在我们已经相互熟悉了，这是来自Lua的问候。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        —— 本示例来自 &quot;Content/Script/Tutorials.02_OverrideBlueprintEvents.lua&quot;</span></span><br><span class="line"><span class="string">    ]]</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> M</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/13/Lua-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/10/13/Lua-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="post-title-link" itemprop="url">Lua-面向对象</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-10-13 17:22:31 / 修改时间：17:34:07" itemprop="dateCreated datePublished" datetime="2022-10-13T17:22:31+08:00">2022-10-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Lua/" itemprop="url" rel="index"><span itemprop="name">Lua</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Lua-面向对象"><a href="#Lua-面向对象" class="headerlink" title="Lua 面向对象"></a>Lua 面向对象</h1><p>面向对象编程（Object Oriented Programming，OOP）是一种非常流行的计算机编程架构。</p>
-<p>以下几种编程语言都支持面向对象编程：</p>
-<ul>
-<li>C++</li>
-<li>Java</li>
-<li>Objective-C</li>
-<li>Smalltalk</li>
-<li>C#</li>
-<li>Ruby</li>
-</ul>
-<h2 id="面向对象特征"><a href="#面向对象特征" class="headerlink" title="面向对象特征"></a>面向对象特征</h2><ul>
-<li>1） 封装：指能够把一个实体的信息、功能、响应都装入一个单独的对象中的特性。</li>
-<li>2） 继承：继承的方法允许在不改动原程序的基础上对其进行扩充，这样使得原功能得以保存，而新功能也得以扩展。这有利于减少重复编码，提高软件的开发效率。</li>
-<li>3） 多态：同一操作作用于不同的对象，可以有不同的解释，产生不同的执行结果。在运行时，可以通过指向基类的指针，来调用实现派生类中的方法。</li>
-<li>4）抽象：抽象(Abstraction)是简化复杂的现实问题的途径，它可以为具体问题找到最恰当的类定义，并且可以在最恰当的继承级别解释问题。</li>
-</ul>
-<h2 id="Lua-中面向对象"><a href="#Lua-中面向对象" class="headerlink" title="Lua 中面向对象"></a>Lua 中面向对象</h2><p>我们知道，对象由属性和方法组成。LUA中最基本的结构是table，所以需要用table来描述对象的属性。</p>
-<p>lua 中的 function 可以用来表示方法。那么LUA中的类可以通过 table + function 模拟出来。</p>
-<p>至于继承，可以通过 metetable 模拟出来（不推荐用，只模拟最基本的对象大部分实现够用了）。</p>
-<p>Lua 中的表不仅在某种意义上是一种对象。像对象一样，表也有状态（成员变量）；</p>
-<p>也有与对象的值独立的本性，特别是拥有两个不同值的对象（table）代表两个不同的对象；</p>
-<p>一个对象在不同的时候也可以有不同的值，但他始终是一个对象；</p>
-<p>与对象类似，表的生命周期与其由什么创建、在哪创建没有关系。</p>
-<p>对象有他们的成员函数，表也有：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Account = &#123;balance = <span class="number">0</span>&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Account.withdraw</span> <span class="params">(v)</span></span></span><br><span class="line">    Account.balance = Account.balance - v</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-
-<p>这个定义创建了一个新的函数，并且保存在Account对象的withdraw域内，下面我们可以这样调用：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Account.withdraw(<span class="number">100.00</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="一个简单实例"><a href="#一个简单实例" class="headerlink" title="一个简单实例"></a>一个简单实例</h3><p>以下简单的类包含了三个属性： area, length 和 breadth，printArea方法用于打印计算结果：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 元类</span></span><br><span class="line">Rectangle = &#123;area = <span class="number">0</span>, length = <span class="number">0</span>, breadth = <span class="number">0</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 派生类的方法 new</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Rectangle:new</span> <span class="params">(o,length,breadth)</span></span></span><br><span class="line">  o = o <span class="keyword">or</span> &#123;&#125;</span><br><span class="line">  <span class="built_in">setmetatable</span>(o, <span class="built_in">self</span>)</span><br><span class="line">  <span class="built_in">self</span>.<span class="built_in">__index</span> = <span class="built_in">self</span></span><br><span class="line">  <span class="built_in">self</span>.length = length <span class="keyword">or</span> <span class="number">0</span></span><br><span class="line">  <span class="built_in">self</span>.breadth = breadth <span class="keyword">or</span> <span class="number">0</span></span><br><span class="line">  <span class="built_in">self</span>.area = length*breadth;</span><br><span class="line">  <span class="keyword">return</span> o</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 派生类的方法 printArea</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Rectangle:printArea</span> <span class="params">()</span></span></span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&quot;矩形面积为 &quot;</span>,<span class="built_in">self</span>.area)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h3><p>创建对象是为类的实例分配内存的过程。每个类都有属于自己的内存并共享公共数据。</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r = Rectangle:new(<span class="literal">nil</span>,<span class="number">10</span>,<span class="number">20</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="访问属性"><a href="#访问属性" class="headerlink" title="访问属性"></a>访问属性</h3><p>我们可以使用点号(.)来访问类的属性：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(r.length)</span><br></pre></td></tr></table></figure>
-
-<h3 id="访问成员函数"><a href="#访问成员函数" class="headerlink" title="访问成员函数"></a>访问成员函数</h3><p>我们可以使用冒号 : 来访问类的成员函数：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r:printArea()</span><br></pre></td></tr></table></figure>
-
-<p>内存在对象初始化时分配。</p>
-<h3 id="完整实例"><a href="#完整实例" class="headerlink" title="完整实例"></a>完整实例</h3><p>以下我们演示了 Lua 面向对象的完整实例：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 元类</span></span><br><span class="line">Shape = &#123;area = <span class="number">0</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 基础类方法 new</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Shape:new</span> <span class="params">(o,side)</span></span></span><br><span class="line">  o = o <span class="keyword">or</span> &#123;&#125;</span><br><span class="line">  <span class="built_in">setmetatable</span>(o, <span class="built_in">self</span>)</span><br><span class="line">  <span class="built_in">self</span>.<span class="built_in">__index</span> = <span class="built_in">self</span></span><br><span class="line">  side = side <span class="keyword">or</span> <span class="number">0</span></span><br><span class="line">  <span class="built_in">self</span>.area = side*side;</span><br><span class="line">  <span class="keyword">return</span> o</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 基础类方法 printArea</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Shape:printArea</span> <span class="params">()</span></span></span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&quot;面积为 &quot;</span>,<span class="built_in">self</span>.area)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 创建对象</span></span><br><span class="line">myshape = Shape:new(<span class="literal">nil</span>,<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">myshape:printArea()</span><br></pre></td></tr></table></figure>
-
-<p>执行以上程序，输出结果为：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">面积为     <span class="number">100</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="Lua-继承"><a href="#Lua-继承" class="headerlink" title="Lua 继承"></a>Lua 继承</h2><p>继承是指一个对象直接使用另一对象的属性和方法。可用于扩展基础类的属性和方法。</p>
-<p>以下演示了一个简单的继承实例：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- Meta class</span></span><br><span class="line">Shape = &#123;area = <span class="number">0</span>&#125;</span><br><span class="line"><span class="comment">-- 基础类方法 new</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Shape:new</span> <span class="params">(o,side)</span></span></span><br><span class="line">  o = o <span class="keyword">or</span> &#123;&#125;</span><br><span class="line">  <span class="built_in">setmetatable</span>(o, <span class="built_in">self</span>)</span><br><span class="line">  <span class="built_in">self</span>.<span class="built_in">__index</span> = <span class="built_in">self</span></span><br><span class="line">  side = side <span class="keyword">or</span> <span class="number">0</span></span><br><span class="line">  <span class="built_in">self</span>.area = side*side;</span><br><span class="line">  <span class="keyword">return</span> o</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">-- 基础类方法 printArea</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Shape:printArea</span> <span class="params">()</span></span></span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&quot;面积为 &quot;</span>,<span class="built_in">self</span>.area)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-
-<p>接下来的实例，Square 对象继承了 Shape 类:</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Square = Shape:new()</span><br><span class="line"><span class="comment">-- Derived class method new</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Square:new</span> <span class="params">(o,side)</span></span></span><br><span class="line">  o = o <span class="keyword">or</span> Shape:new(o,side)</span><br><span class="line">  <span class="built_in">setmetatable</span>(o, <span class="built_in">self</span>)</span><br><span class="line">  <span class="built_in">self</span>.<span class="built_in">__index</span> = <span class="built_in">self</span></span><br><span class="line">  <span class="keyword">return</span> o</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="完整实例-1"><a href="#完整实例-1" class="headerlink" title="完整实例"></a>完整实例</h3><p>以下实例我们继承了一个简单的类，来扩展派生类的方法，派生类中保留了继承类的成员变量和方法：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- Meta class</span></span><br><span class="line">Shape = &#123;area = <span class="number">0</span>&#125;</span><br><span class="line"><span class="comment">-- 基础类方法 new</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Shape:new</span> <span class="params">(o,side)</span></span></span><br><span class="line">  o = o <span class="keyword">or</span> &#123;&#125;</span><br><span class="line">  <span class="built_in">setmetatable</span>(o, <span class="built_in">self</span>)</span><br><span class="line">  <span class="built_in">self</span>.<span class="built_in">__index</span> = <span class="built_in">self</span></span><br><span class="line">  side = side <span class="keyword">or</span> <span class="number">0</span></span><br><span class="line">  <span class="built_in">self</span>.area = side*side;</span><br><span class="line">  <span class="keyword">return</span> o</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">-- 基础类方法 printArea</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Shape:printArea</span> <span class="params">()</span></span></span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&quot;面积为 &quot;</span>,<span class="built_in">self</span>.area)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 创建对象</span></span><br><span class="line">myshape = Shape:new(<span class="literal">nil</span>,<span class="number">10</span>)</span><br><span class="line">myshape:printArea()</span><br><span class="line"></span><br><span class="line">Square = Shape:new()</span><br><span class="line"><span class="comment">-- 派生类方法 new</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Square:new</span> <span class="params">(o,side)</span></span></span><br><span class="line">  o = o <span class="keyword">or</span> Shape:new(o,side)</span><br><span class="line">  <span class="built_in">setmetatable</span>(o, <span class="built_in">self</span>)</span><br><span class="line">  <span class="built_in">self</span>.<span class="built_in">__index</span> = <span class="built_in">self</span></span><br><span class="line">  <span class="keyword">return</span> o</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 派生类方法 printArea</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Square:printArea</span> <span class="params">()</span></span></span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&quot;正方形面积为 &quot;</span>,<span class="built_in">self</span>.area)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 创建对象</span></span><br><span class="line">mysquare = Square:new(<span class="literal">nil</span>,<span class="number">10</span>)</span><br><span class="line">mysquare:printArea()</span><br><span class="line"></span><br><span class="line">Rectangle = Shape:new()</span><br><span class="line"><span class="comment">-- 派生类方法 new</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Rectangle:new</span> <span class="params">(o,length,breadth)</span></span></span><br><span class="line">  o = o <span class="keyword">or</span> Shape:new(o)</span><br><span class="line">  <span class="built_in">setmetatable</span>(o, <span class="built_in">self</span>)</span><br><span class="line">  <span class="built_in">self</span>.<span class="built_in">__index</span> = <span class="built_in">self</span></span><br><span class="line">  <span class="built_in">self</span>.area = length * breadth</span><br><span class="line">  <span class="keyword">return</span> o</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 派生类方法 printArea</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Rectangle:printArea</span> <span class="params">()</span></span></span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&quot;矩形面积为 &quot;</span>,<span class="built_in">self</span>.area)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 创建对象</span></span><br><span class="line">myrectangle = Rectangle:new(<span class="literal">nil</span>,<span class="number">10</span>,<span class="number">20</span>)</span><br><span class="line">myrectangle:printArea()</span><br></pre></td></tr></table></figure>
-
-<p>执行以上代码，输出结果为：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">面积为     <span class="number">100</span></span><br><span class="line">正方形面积为     <span class="number">100</span></span><br><span class="line">矩形面积为     <span class="number">200</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="函数重写"><a href="#函数重写" class="headerlink" title="函数重写"></a>函数重写</h2><p>Lua 中我们可以重写基础类的函数，在派生类中定义自己的实现方式：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 派生类方法 printArea</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Square:printArea</span> <span class="params">()</span></span></span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&quot;正方形面积 &quot;</span>,<span class="built_in">self</span>.area)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/13/Lua-%E5%8D%8F%E5%90%8C%E7%A8%8B%E5%BA%8F-coroutine/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/10/13/Lua-%E5%8D%8F%E5%90%8C%E7%A8%8B%E5%BA%8F-coroutine/" class="post-title-link" itemprop="url">Lua-协同程序(coroutine)</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-10-13 10:46:01 / 修改时间：17:23:16" itemprop="dateCreated datePublished" datetime="2022-10-13T10:46:01+08:00">2022-10-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Lua/" itemprop="url" rel="index"><span itemprop="name">Lua</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Lua-协同程序-coroutine"><a href="#Lua-协同程序-coroutine" class="headerlink" title="Lua 协同程序(coroutine)"></a>Lua 协同程序(coroutine)</h1><h2 id="什么是协同-coroutine-？"><a href="#什么是协同-coroutine-？" class="headerlink" title="什么是协同(coroutine)？"></a>什么是协同(coroutine)？</h2><p>Lua 协同程序(coroutine)与线程比较类似：拥有独立的堆栈，独立的局部变量，独立的指令指针，同时又与其它协同程序共享全局变量和其它大部分东西。</p>
-<p>协同是非常强大的功能，但是用起来也很复杂。</p>
-<h3 id="线程和协同程序区别"><a href="#线程和协同程序区别" class="headerlink" title="线程和协同程序区别"></a>线程和协同程序区别</h3><p>线程与协同程序的主要区别在于，一个具有多个线程的程序可以同时运行几个线程，而协同程序却需要彼此协作的运行。</p>
-<p>在任一指定时刻只有一个协同程序在运行，并且这个正在运行的协同程序只有在明确的被要求挂起的时候才会被挂起。</p>
-<p>协同程序有点类似同步的多线程，在等待同一个线程锁的几个线程有点类似协同。</p>
-<h3 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h3><table>
-<thead>
-<tr>
-<th>方法</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>coroutine.create()</td>
-<td>创建 coroutine，返回 coroutine， 参数是一个函数，当和 resume 配合使用的时候就唤醒函数调用</td>
-</tr>
-<tr>
-<td>coroutine.resume()</td>
-<td>重启 coroutine，和 create 配合使用</td>
-</tr>
-<tr>
-<td>coroutine.yield()</td>
-<td>挂起 coroutine，将 coroutine 设置为挂起状态，这个和 resume 配合使用能有很多有用的效果</td>
-</tr>
-<tr>
-<td>coroutine.status()</td>
-<td>查看 coroutine 的状态<br>注：coroutine 的状态有三种：dead，suspended，running，具体什么时候有这样的状态请参考下面的程序</td>
-</tr>
-<tr>
-<td>coroutine.wrap（）</td>
-<td>创建 coroutine，返回一个函数，一旦你调用这个函数，就进入 coroutine，和 create 功能重复</td>
-</tr>
-<tr>
-<td>coroutine.running()</td>
-<td>返回正在跑的 coroutine，一个 coroutine 就是一个线程，当使用running的时候，就是返回一个 corouting 的线程号</td>
-</tr>
-</tbody></table>
-<h3 id="以下实例演示了以上各个方法的用法："><a href="#以下实例演示了以上各个方法的用法：" class="headerlink" title="以下实例演示了以上各个方法的用法："></a>以下实例演示了以上各个方法的用法：</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- coroutine_test.lua 文件</span></span><br><span class="line">co = <span class="built_in">coroutine</span>.<span class="built_in">create</span>(</span><br><span class="line">    <span class="function"><span class="keyword">function</span><span class="params">(i)</span></span></span><br><span class="line">        <span class="built_in">print</span>(i);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="built_in">coroutine</span>.<span class="built_in">resume</span>(co, <span class="number">1</span>)   <span class="comment">-- 1</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">coroutine</span>.<span class="built_in">status</span>(co))  <span class="comment">-- dead</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;----------&quot;</span>)</span><br><span class="line"></span><br><span class="line">co = <span class="built_in">coroutine</span>.<span class="built_in">wrap</span>(</span><br><span class="line">    <span class="function"><span class="keyword">function</span><span class="params">(i)</span></span></span><br><span class="line">        <span class="built_in">print</span>(i);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">co(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;----------&quot;</span>)</span><br><span class="line"></span><br><span class="line">co2 = <span class="built_in">coroutine</span>.<span class="built_in">create</span>(</span><br><span class="line">    <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">        <span class="keyword">for</span> i=<span class="number">1</span>,<span class="number">10</span> <span class="keyword">do</span></span><br><span class="line">            <span class="built_in">print</span>(i)</span><br><span class="line">            <span class="keyword">if</span> i == <span class="number">3</span> <span class="keyword">then</span></span><br><span class="line">                <span class="built_in">print</span>(<span class="built_in">coroutine</span>.<span class="built_in">status</span>(co2))  <span class="comment">--running</span></span><br><span class="line">                <span class="built_in">print</span>(<span class="built_in">coroutine</span>.<span class="built_in">running</span>()) <span class="comment">--thread:XXXXXX</span></span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">            <span class="built_in">coroutine</span>.<span class="built_in">yield</span>()</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="built_in">coroutine</span>.<span class="built_in">resume</span>(co2) <span class="comment">--1</span></span><br><span class="line"><span class="built_in">coroutine</span>.<span class="built_in">resume</span>(co2) <span class="comment">--2</span></span><br><span class="line"><span class="built_in">coroutine</span>.<span class="built_in">resume</span>(co2) <span class="comment">--3</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">coroutine</span>.<span class="built_in">status</span>(co2))   <span class="comment">-- suspended</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">coroutine</span>.<span class="built_in">running</span>())</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;----------&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>以上实例执行输出结果为：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span></span><br><span class="line">dead</span><br><span class="line"><span class="comment">----------</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="comment">----------</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="built_in">running</span></span><br><span class="line">thread: <span class="number">0x7fb801c05868</span>    <span class="literal">false</span></span><br><span class="line">suspended</span><br><span class="line">thread: <span class="number">0x7fb801c04c88</span>    <span class="literal">true</span></span><br><span class="line"><span class="comment">----------</span></span><br></pre></td></tr></table></figure>
-
-<p>coroutine.running就可以看出来,coroutine在底层实现就是一个线程。</p>
-<p>当create一个coroutine的时候就是在新线程中注册了一个事件。</p>
-<p>当使用resume触发事件的时候，create的coroutine函数就被执行了，当遇到yield的时候就代表挂起当前线程，等候再次resume触发事件。</p>
-<p>接下来我们分析一个更详细的实例：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> <span class="params">(a)</span></span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;foo 函数输出&quot;</span>, a)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">coroutine</span>.<span class="built_in">yield</span>(<span class="number">2</span> * a) <span class="comment">-- 返回  2*a 的值</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">co = <span class="built_in">coroutine</span>.<span class="built_in">create</span>(<span class="function"><span class="keyword">function</span> <span class="params">(a , b)</span></span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;第一次协同程序执行输出&quot;</span>, a, b) <span class="comment">-- co-body 1 10</span></span><br><span class="line">    <span class="keyword">local</span> r = foo(a + <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;第二次协同程序执行输出&quot;</span>, r)</span><br><span class="line">    <span class="keyword">local</span> r, s = <span class="built_in">coroutine</span>.<span class="built_in">yield</span>(a + b, a - b)  <span class="comment">-- a，b的值为第一次调用协同程序时传入</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;第三次协同程序执行输出&quot;</span>, r, s)</span><br><span class="line">    <span class="keyword">return</span> b, <span class="string">&quot;结束协同程序&quot;</span>                   <span class="comment">-- b的值为第二次调用协同程序时传入</span></span><br><span class="line"><span class="keyword">end</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;main&quot;</span>, <span class="built_in">coroutine</span>.<span class="built_in">resume</span>(co, <span class="number">1</span>, <span class="number">10</span>)) <span class="comment">-- true, 4</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;--分割线----&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;main&quot;</span>, <span class="built_in">coroutine</span>.<span class="built_in">resume</span>(co, <span class="string">&quot;r&quot;</span>)) <span class="comment">-- true 11 -9</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;---分割线---&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;main&quot;</span>, <span class="built_in">coroutine</span>.<span class="built_in">resume</span>(co, <span class="string">&quot;x&quot;</span>, <span class="string">&quot;y&quot;</span>)) <span class="comment">-- true 10 end</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;---分割线---&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;main&quot;</span>, <span class="built_in">coroutine</span>.<span class="built_in">resume</span>(co, <span class="string">&quot;x&quot;</span>, <span class="string">&quot;y&quot;</span>)) <span class="comment">-- cannot resume dead coroutine</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;---分割线---&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>以上实例执行输出结果为：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">第一次协同程序执行输出    <span class="number">1</span>    <span class="number">10</span></span><br><span class="line">foo 函数输出    <span class="number">2</span></span><br><span class="line">main    <span class="literal">true</span>    <span class="number">4</span></span><br><span class="line"><span class="comment">--分割线----</span></span><br><span class="line">第二次协同程序执行输出    r</span><br><span class="line">main    <span class="literal">true</span>    <span class="number">11</span>    <span class="number">-9</span></span><br><span class="line"><span class="comment">---分割线---</span></span><br><span class="line">第三次协同程序执行输出    x    y</span><br><span class="line">main    <span class="literal">true</span>    <span class="number">10</span>    结束协同程序</span><br><span class="line"><span class="comment">---分割线---</span></span><br><span class="line">main    <span class="literal">false</span>    cannot <span class="built_in">resume</span> dead <span class="built_in">coroutine</span></span><br><span class="line"><span class="comment">---分割线---</span></span><br></pre></td></tr></table></figure>
-
-<p>以上实例接下如下：</p>
-<ul>
-<li>调用resume，将协同程序唤醒,resume操作成功返回true，否则返回false；</li>
-<li>协同程序运行；</li>
-<li>运行到yield语句；</li>
-<li>yield挂起协同程序，第一次resume返回；（注意：此处yield返回，参数是resume的参数）</li>
-<li>第二次resume，再次唤醒协同程序；（注意：此处resume的参数中，除了第一个参数，剩下的参数将作为yield的参数）</li>
-<li>yield返回；</li>
-<li>协同程序继续运行；</li>
-<li>如果使用的协同程序继续运行完成后继续调用 resume方法则输出：cannot resume dead coroutine</li>
-</ul>
-<p>resume和yield的配合强大之处在于，resume处于主程中，它将外部状态（数据）传入到协同程序内部；而yield则将内部的状态（数据）返回到主程中。</p>
-<h2 id="生产者-消费者问题"><a href="#生产者-消费者问题" class="headerlink" title="生产者-消费者问题"></a>生产者-消费者问题</h2><p>现在我就使用Lua的协同程序来完成生产者-消费者这一经典问题。</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> newProductor</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">productor</span><span class="params">()</span></span></span><br><span class="line">     <span class="keyword">local</span> i = <span class="number">0</span></span><br><span class="line">     <span class="keyword">while</span> <span class="literal">true</span> <span class="keyword">do</span></span><br><span class="line">          i = i + <span class="number">1</span></span><br><span class="line">          send(i)     <span class="comment">-- 将生产的物品发送给消费者</span></span><br><span class="line">     <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">consumer</span><span class="params">()</span></span></span><br><span class="line">     <span class="keyword">while</span> <span class="literal">true</span> <span class="keyword">do</span></span><br><span class="line">          <span class="keyword">local</span> i = receive()     <span class="comment">-- 从生产者那里得到物品</span></span><br><span class="line">          <span class="built_in">print</span>(i)</span><br><span class="line">     <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">receive</span><span class="params">()</span></span></span><br><span class="line">     <span class="keyword">local</span> <span class="built_in">status</span>, value = <span class="built_in">coroutine</span>.<span class="built_in">resume</span>(newProductor)</span><br><span class="line">     <span class="keyword">return</span> value</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">send</span><span class="params">(x)</span></span></span><br><span class="line">     <span class="built_in">coroutine</span>.<span class="built_in">yield</span>(x)     <span class="comment">-- x表示需要发送的值，值返回以后，就挂起该协同程序</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 启动程序</span></span><br><span class="line">newProductor = <span class="built_in">coroutine</span>.<span class="built_in">create</span>(productor)</span><br><span class="line">consumer()</span><br></pre></td></tr></table></figure>
-
-<p>以上实例执行输出结果为：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="number">7</span></span><br><span class="line"><span class="number">8</span></span><br><span class="line"><span class="number">9</span></span><br><span class="line"><span class="number">10</span></span><br><span class="line"><span class="number">11</span></span><br><span class="line"><span class="number">12</span></span><br><span class="line"><span class="number">13</span></span><br><span class="line">……</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>
