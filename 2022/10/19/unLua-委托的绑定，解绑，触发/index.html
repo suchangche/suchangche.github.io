@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="委托的绑定，解绑，触发可以通过对委托原生接口的调用，完成对UI事件的监听 注意绑定&#x2F;解绑成对出现，是编写代码的良好习惯 实例下面的例子是使用UEC++中FTimeHandle封装之后的绑定 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849local FLine">
+<meta property="og:type" content="article">
+<meta property="og:title" content="unLua-委托的绑定，解绑，触发">
+<meta property="og:url" content="http://example.com/2022/10/19/unLua-%E5%A7%94%E6%89%98%E7%9A%84%E7%BB%91%E5%AE%9A%EF%BC%8C%E8%A7%A3%E7%BB%91%EF%BC%8C%E8%A7%A6%E5%8F%91/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="委托的绑定，解绑，触发可以通过对委托原生接口的调用，完成对UI事件的监听 注意绑定&#x2F;解绑成对出现，是编写代码的良好习惯 实例下面的例子是使用UEC++中FTimeHandle封装之后的绑定 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849local FLine">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-10-19T05:09:55.000Z">
+<meta property="article:modified_time" content="2022-10-19T05:17:34.728Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="unLua">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/10/19/unLua-%E5%A7%94%E6%89%98%E7%9A%84%E7%BB%91%E5%AE%9A%EF%BC%8C%E8%A7%A3%E7%BB%91%EF%BC%8C%E8%A7%A6%E5%8F%91/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/10/19/unLua-%E5%A7%94%E6%89%98%E7%9A%84%E7%BB%91%E5%AE%9A%EF%BC%8C%E8%A7%A3%E7%BB%91%EF%BC%8C%E8%A7%A6%E5%8F%91/","path":"2022/10/19/unLua-委托的绑定，解绑，触发/","title":"unLua-委托的绑定，解绑，触发"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>unLua-委托的绑定，解绑，触发 | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A7%94%E6%89%98%E7%9A%84%E7%BB%91%E5%AE%9A%EF%BC%8C%E8%A7%A3%E7%BB%91%EF%BC%8C%E8%A7%A6%E5%8F%91"><span class="nav-number">1.</span> <span class="nav-text">委托的绑定，解绑，触发</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F"><span class="nav-number">1.1.</span> <span class="nav-text">注意</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B"><span class="nav-number">1.2.</span> <span class="nav-text">实例</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">159</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/19/unLua-%E5%A7%94%E6%89%98%E7%9A%84%E7%BB%91%E5%AE%9A%EF%BC%8C%E8%A7%A3%E7%BB%91%EF%BC%8C%E8%A7%A6%E5%8F%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="unLua-委托的绑定，解绑，触发 | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          unLua-委托的绑定，解绑，触发
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-10-19 13:09:55 / 修改时间：13:17:34" itemprop="dateCreated datePublished" datetime="2022-10-19T13:09:55+08:00">2022-10-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unLua/" itemprop="url" rel="index"><span itemprop="name">unLua</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="委托的绑定，解绑，触发"><a href="#委托的绑定，解绑，触发" class="headerlink" title="委托的绑定，解绑，触发"></a>委托的绑定，解绑，触发</h1><p>可以通过对委托原生接口的调用，完成对UI事件的监听</p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>绑定&#x2F;解绑成对出现，是编写代码的良好习惯</p>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>下面的例子是使用UEC++中<code>FTimeHandle</code>封装之后的绑定</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> FLinearColor = UE.FLinearColor</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> M = UnLua.Class(</span><br><span class="line">    </span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">--构造函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:Construct</span><span class="params">()</span></span></span><br><span class="line">    <span class="built_in">self</span>.ClickMeButton.OnClicked:Add(<span class="built_in">self</span>, <span class="built_in">self</span>.OnButtonClicked)</span><br><span class="line">    <span class="built_in">self</span>.ClickMeCheckBox.OnCheckStateChanged:Add(<span class="built_in">self</span>, <span class="built_in">self</span>.OnCheckBoxToggled)</span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 相当于在蓝图中的 Set Timer by Event</span></span><br><span class="line">    <span class="built_in">self</span>.TimerHandle = UE.UKismetSystemLibrary.K2_SetTimerDelegate(&#123; <span class="built_in">self</span>, <span class="built_in">self</span>.OnTimer &#125;, <span class="number">1</span>, <span class="literal">true</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:OnButtonClicked</span><span class="params">()</span></span></span><br><span class="line">    <span class="comment">--设置随机颜色</span></span><br><span class="line">    <span class="keyword">local</span> r = <span class="built_in">math</span>.<span class="built_in">random</span>()</span><br><span class="line">    <span class="keyword">local</span> g = <span class="built_in">math</span>.<span class="built_in">random</span>()</span><br><span class="line">    <span class="keyword">local</span> b = <span class="built_in">math</span>.<span class="built_in">random</span>()</span><br><span class="line"></span><br><span class="line">    <span class="built_in">self</span>.ClickMeButton:SetBackgroundColor(FLinearColor(r, g, b, <span class="number">1</span>))</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:OnCheckBoxToggled</span><span class="params">(on)</span></span></span><br><span class="line">    <span class="keyword">if</span> on <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">self</span>.CheckBoxText:SetText(<span class="string">&quot;已选中&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">self</span>.CheckBoxText:SetText(<span class="string">&quot;未选中&quot;</span>)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:OnTimer</span><span class="params">()</span></span></span><br><span class="line">    <span class="comment">--math.floor(x)返回小于参数x的最大整数,即对浮点数向下取整</span></span><br><span class="line">    <span class="keyword">local</span> seconds = UE.UKismetSystemLibrary.GetGameTimeInSeconds(<span class="built_in">self</span>)</span><br><span class="line">    <span class="built_in">self</span>.GameTimeTextBlock:SetText(<span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;游戏时长：%d 秒&quot;</span>, <span class="built_in">math</span>.<span class="built_in">floor</span>(seconds)))</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--析构函数销毁绑定的委托，以及FTimeHandle</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:Destruct</span><span class="params">()</span></span></span><br><span class="line">    <span class="comment">-- 在UMG被销毁时尽量清理已绑定的委托，不清理则会在切换Map时自动清理</span></span><br><span class="line">    <span class="built_in">self</span>.ClickMeButton.OnClicked:Remove(<span class="built_in">self</span>, <span class="built_in">self</span>.OnButtonClicked)</span><br><span class="line">    <span class="built_in">self</span>.ClickMeCheckBox.OnCheckStateChanged:Remove(<span class="built_in">self</span>, <span class="built_in">self</span>.OnCheckBoxToggled)</span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 相当于在蓝图中的 Clear and Invalidate Timer by Handle</span></span><br><span class="line">    UE.UKismetSystemLibrary.K2_ClearAndInvalidateTimerHandle(<span class="built_in">self</span>, <span class="built_in">self</span>.TimerHandle)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> M</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/unLua/" rel="tag"># unLua</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/10/15/unLua-%E5%8A%A8%E6%80%81%E7%BB%91%E5%AE%9A/" rel="prev" title="unLua-动态绑定">
+                  <i class="fa fa-chevron-left"></i> unLua-动态绑定
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/10/19/unLua-%E5%BC%95%E6%93%8E%E5%8E%9F%E7%94%9F%E5%B1%82%E5%AE%B9%E5%99%A8%E8%AE%BF%E9%97%AE/" rel="next" title="unLua-引擎原生层容器访问">
+                  unLua-引擎原生层容器访问 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
