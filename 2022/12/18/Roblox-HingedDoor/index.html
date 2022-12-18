@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="通过铰链实现旋转门知识点Anchored这是一些部件的默认属性，此值为true，则此部件就不会移动 就理解为无敌重，重到玩家推不动 位置选择某个部件-&gt;属性管理器-&gt;Data-&gt;Aechivable Attachment部件的组件，可以让这个部件围绕着这个组件进行旋转 注意：想要看到这个Attachment，就必须打开该部件的约束详情 约束详情位置模型-&gt;约束-&gt;约束">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Roblox-HingedDoor">
+<meta property="og:url" content="http://example.com/2022/12/18/Roblox-HingedDoor/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="通过铰链实现旋转门知识点Anchored这是一些部件的默认属性，此值为true，则此部件就不会移动 就理解为无敌重，重到玩家推不动 位置选择某个部件-&gt;属性管理器-&gt;Data-&gt;Aechivable Attachment部件的组件，可以让这个部件围绕着这个组件进行旋转 注意：想要看到这个Attachment，就必须打开该部件的约束详情 约束详情位置模型-&gt;约束-&gt;约束">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-12-18T06:21:17.000Z">
+<meta property="article:modified_time" content="2022-12-18T06:22:13.981Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="Roblox">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/12/18/Roblox-HingedDoor/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/12/18/Roblox-HingedDoor/","path":"2022/12/18/Roblox-HingedDoor/","title":"Roblox-HingedDoor"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Roblox-HingedDoor | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E9%93%B0%E9%93%BE%E5%AE%9E%E7%8E%B0%E6%97%8B%E8%BD%AC%E9%97%A8"><span class="nav-number">1.</span> <span class="nav-text">通过铰链实现旋转门</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-number">1.1.</span> <span class="nav-text">知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Anchored"><span class="nav-number">1.1.1.</span> <span class="nav-text">Anchored</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%8D%E7%BD%AE"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">位置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Attachment"><span class="nav-number">1.1.2.</span> <span class="nav-text">Attachment</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%A6%E6%9D%9F%E8%AF%A6%E6%83%85%E4%BD%8D%E7%BD%AE"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">约束详情位置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Attachment%E7%9A%84%E6%97%8B%E8%BD%AC%E8%BD%B4"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">Attachment的旋转轴</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HingeConstraint"><span class="nav-number">1.1.3.</span> <span class="nav-text">HingeConstraint</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E8%87%B4%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.2.</span> <span class="nav-text">大致步骤</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">172</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/18/Roblox-HingedDoor/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Roblox-HingedDoor | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Roblox-HingedDoor
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-12-18 14:21:17 / 修改时间：14:22:13" itemprop="dateCreated datePublished" datetime="2022-12-18T14:21:17+08:00">2022-12-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Roblox/" itemprop="url" rel="index"><span itemprop="name">Roblox</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="通过铰链实现旋转门"><a href="#通过铰链实现旋转门" class="headerlink" title="通过铰链实现旋转门"></a>通过铰链实现旋转门</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="Anchored"><a href="#Anchored" class="headerlink" title="Anchored"></a>Anchored</h3><p>这是一些<code>部件</code>的默认属性，此值为true，则此<code>部件</code>就不会移动</p>
+<p>就理解为无敌重，重到玩家推不动</p>
+<h4 id="位置"><a href="#位置" class="headerlink" title="位置"></a>位置</h4><p>选择某个部件-&gt;属性管理器-&gt;<code>Data</code>-&gt;<code>Aechivable</code></p>
+<h3 id="Attachment"><a href="#Attachment" class="headerlink" title="Attachment"></a>Attachment</h3><p>部件的组件，可以让这个部件围绕着这个组件进行旋转</p>
+<p>注意：想要看到这个<code>Attachment</code>，就必须打开该部件的<code>约束详情</code></p>
+<h4 id="约束详情位置"><a href="#约束详情位置" class="headerlink" title="约束详情位置"></a>约束详情位置</h4><p>模型-&gt;约束-&gt;约束详情</p>
+<h4 id="Attachment的旋转轴"><a href="#Attachment的旋转轴" class="headerlink" title="Attachment的旋转轴"></a>Attachment的旋转轴</h4><p>打开<code>约束详情</code>之后，凑近看<code>Attachment</code>，则可以看到为一个球形，带俩轴，一个<code>黄色</code>，一个<code>橙色</code></p>
+<p>我们会一直围绕黄色的轴旋转</p>
+<p>橙色的轴，应该是配合后面的<code>HingeConstraint</code>来限制旋转角度的方向</p>
+<ul>
+<li>也就是说，不会出现在墙里旋转的情况</li>
+</ul>
+<h3 id="HingeConstraint"><a href="#HingeConstraint" class="headerlink" title="HingeConstraint"></a>HingeConstraint</h3><p>部件的组件，将两个<code>Attachment</code>添加到<code>Attachments</code>属性栏中进行组合，实现约束旋转角度的效果</p>
+<h2 id="大致步骤"><a href="#大致步骤" class="headerlink" title="大致步骤"></a>大致步骤</h2><ol>
+<li><p>创建两个部件，分别作为<code>Door</code>和<code>DoorFrame</code></p>
+</li>
+<li><p>给<code>DoorFrame</code>的属性<code>Aechivable</code>设置为<code>true</code></p>
+</li>
+<li><p>分别给<code>Door</code>和<code>DoorFrame</code>添加组件<code>Attachment</code>，分别命名为<code>DoorFrameAttachment</code>，<code>DoorAttachment</code></p>
+</li>
+<li><p>调整<code>DoorFrameAttachment</code>，<code>DoorAttachment</code>的黄色的轴向上，橙色的轴同时指向门框方向</p>
+</li>
+<li><p>给<code>DoorFrame</code>部件添加组件<code>HingeConstraint</code>，在其<code>Attachments</code>属性中分别添加<code>DoorFrameAttachment</code>，<code>DoorAttachment</code></p>
+</li>
+<li><p>调整<code>HingeConstraint</code>中的<code>Limits</code>栏中的<code>LowerAngle</code>和<code>UpperAngle</code>分别为-90和90</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Roblox/" rel="tag"># Roblox</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/12/18/Roblox-ConstomPlayer/" rel="prev" title="Roblox-ConstomPlayer">
+                  <i class="fa fa-chevron-left"></i> Roblox-ConstomPlayer
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/12/18/Roblox-Ray/" rel="next" title="Roblox-Ray">
+                  Roblox-Ray <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

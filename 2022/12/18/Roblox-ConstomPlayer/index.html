@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="将自定义模型导入为玩家如果要将自定义模型导入到 Roblox Studio 中，并设置为玩家，需要注意以下几点：  导入模型时，应确保模型的网格模型正确，无错误或缺失。 导入模型后，应给模型添加一个 Humanoid 子对象，用于控制玩家角色的行为。 在模型上添加 Humanoid 后，应给 Humanoid 设置一个适当的高度，使玩家角色能够在游戏中正常移动。 在模型上添加 Humanoid 后">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Roblox-ConstomPlayer">
+<meta property="og:url" content="http://example.com/2022/12/18/Roblox-ConstomPlayer/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="将自定义模型导入为玩家如果要将自定义模型导入到 Roblox Studio 中，并设置为玩家，需要注意以下几点：  导入模型时，应确保模型的网格模型正确，无错误或缺失。 导入模型后，应给模型添加一个 Humanoid 子对象，用于控制玩家角色的行为。 在模型上添加 Humanoid 后，应给 Humanoid 设置一个适当的高度，使玩家角色能够在游戏中正常移动。 在模型上添加 Humanoid 后">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-12-18T06:19:49.000Z">
+<meta property="article:modified_time" content="2022-12-18T06:20:38.599Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="Roblox">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/12/18/Roblox-ConstomPlayer/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/12/18/Roblox-ConstomPlayer/","path":"2022/12/18/Roblox-ConstomPlayer/","title":"Roblox-ConstomPlayer"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Roblox-ConstomPlayer | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%86%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9E%8B%E5%AF%BC%E5%85%A5%E4%B8%BA%E7%8E%A9%E5%AE%B6"><span class="nav-number">1.</span> <span class="nav-text">将自定义模型导入为玩家</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Humanoid%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">Humanoid的使用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E8%84%9A%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%8E%A9%E5%AE%B6%E7%9A%84Humanoid"><span class="nav-number">2.1.</span> <span class="nav-text">通过脚本控制玩家的Humanoid</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9E%8B%E5%AF%BC%E5%85%A5%E5%88%B0%E6%B8%B8%E6%88%8F%E4%B8%AD%EF%BC%8C%E4%BD%9C%E4%B8%BA%E7%8E%A9%E5%AE%B6%E6%A8%A1%E5%9E%8B%E5%B9%B6%E4%B8%94%E5%AE%9E%E7%8E%B0%E4%BB%A5%E4%B8%8B%E6%95%88%E6%9E%9C"><span class="nav-number">2.2.</span> <span class="nav-text">自定义模型导入到游戏中，作为玩家模型并且实现以下效果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94"><span class="nav-number">2.2.1.</span> <span class="nav-text">答</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%92%AD%E6%94%BE%E8%B7%91%E6%AD%A5%E5%8A%A8%E7%94%BB"><span class="nav-number">3.</span> <span class="nav-text">播放跑步动画</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC"><span class="nav-number">3.1.</span> <span class="nav-text">事件监听</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">172</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/18/Roblox-ConstomPlayer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Roblox-ConstomPlayer | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Roblox-ConstomPlayer
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-12-18 14:19:49 / 修改时间：14:20:38" itemprop="dateCreated datePublished" datetime="2022-12-18T14:19:49+08:00">2022-12-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Roblox/" itemprop="url" rel="index"><span itemprop="name">Roblox</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="将自定义模型导入为玩家"><a href="#将自定义模型导入为玩家" class="headerlink" title="将自定义模型导入为玩家"></a>将自定义模型导入为玩家</h1><p>如果要将自定义模型导入到 Roblox Studio 中，并设置为玩家，需要注意以下几点：</p>
+<ol>
+<li>导入模型时，应确保模型的网格模型正确，无错误或缺失。</li>
+<li>导入模型后，应给模型添加一个 Humanoid 子对象，用于控制玩家角色的行为。</li>
+<li>在模型上添加 Humanoid 后，应给 Humanoid 设置一个适当的高度，使玩家角色能够在游戏中正常移动。</li>
+<li>在模型上添加 Humanoid 后，应添加一些动画，例如站立、行走、跑步等，使玩家角色能够在游戏中正常行动。</li>
+<li>在模型上添加 Humanoid 后，应将该模型的 PrimaryPart 设置为 Humanoid 的 RootPart，使 Humanoid 的运动和动画能够正确反映在游戏中。</li>
+<li>在模型上添加 Humanoid 后，应给模型添加一个 Camera 子对象，用于控制玩家视角。</li>
+<li>在模型上添加 Camera 后，应将 Camera 的 FieldOfView 设置为一个适当的值，使玩家能够看到更多的游戏内容。</li>
+<li>在模型上添加 Camera 后，应将 Camera 的 ViewportSize 设置为一个适当的值，使玩家能够清晰地看到游戏内容。</li>
+<li>在模型上添加 Camera 后，应将 Camera 的 CameraType 设置为 Scriptable，以便在脚本中控制 Camera 的位置和方向。</li>
+<li>在模型上添加 Camera 后，应给模型添加一个 PlayerGui 子对象，用于显示玩家界面。</li>
+<li>在模型上添加 PlayerGui 后，应给 PlayerGui 添加一个 ScreenGui 子对象，用于显示文本、图像等 UI 元素。</li>
+<li>在模型上添加 ScreenGui 后，应给 ScreenGui 添加合适的 UI 元素，例如文本、图像、按钮等，以提供给玩家使用。</li>
+<li>最后，应在模型上添加一个绑定脚本，用于实现玩家的控制逻辑。例如，可以使用脚本控制玩家的移动、跳跃、攻击等行为，或处理玩家与游戏世界的交互。</li>
+</ol>
+<p>综上，要将自定义模型导入到 Roblox Studio 中，并设置为玩家主角，需要注意以上所有步骤，才能保证模型能够在游戏中正常工作。</p>
+<h1 id="Humanoid的使用方法"><a href="#Humanoid的使用方法" class="headerlink" title="Humanoid的使用方法"></a>Humanoid的使用方法</h1><p>在 Roblox 中，Humanoid 是一个可以控制模型行为的子对象。例如，可以通过 Humanoid 来控制玩家角色的行走、跑步、跳跃、攻击等动作。</p>
+<p>要在模型上使用 Humanoid，需要先在模型上添加一个 Humanoid 子对象。例如，可以在模型上右键单击，然后选择“插入”-&gt;“Humanoid”，即可在模型上添加一个 Humanoid。</p>
+<p>接下来，可以通过脚本来控制 Humanoid。例如，可以通过 humanoid:MoveTo() 方法来移动玩家角色，通过 humanoid:Jump() 方法来让玩家角色跳跃，通过 humanoid:UnequipTools() 方法来让玩家角色放下手中的工具等。</p>
+<p>还可以通过 Humanoid 的一些属性来控制玩家角色的状态。例如，可以通过 humanoid.Health 属性来获取玩家角色的血量，通过 humanoid.WalkSpeed 属性来获取或设置玩家角色的行走速度，通过 humanoid.CameraOffset 属性来设置玩家角色的镜头偏移量等。</p>
+<p>以下是一个使用 Humanoid 控制玩家角色的示例代码：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> characterModel = script.Parent</span><br><span class="line"><span class="keyword">local</span> humanoid = characterModel.Humanoid</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 设置玩家角色的行走速度</span></span><br><span class="line">humanoid.WalkSpeed = <span class="number">8</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 监听玩家角色移动的输入</span></span><br><span class="line">characterModel.Humanoid.Changed:Connect(<span class="function"><span class="keyword">function</span><span class="params">(property)</span></span></span><br><span class="line">    <span class="keyword">if</span> property == <span class="string">&quot;MoveDirection&quot;</span> <span class="keyword">then</span></span><br><span class="line">        <span class="comment">-- 计算玩家角色移动的方向和速度</span></span><br><span class="line">        <span class="keyword">local</span> moveDirection = characterModel.Humanoid.MoveDirection</span><br><span class="line">        <span class="keyword">local</span> moveSpeed = characterModel.Humanoid.WalkSpeed</span><br><span class="line"></span><br><span class="line">        <span class="comment">-- 根据移动方向和速度，更新玩家角色的位置</span></span><br><span class="line">        characterModel:Move(moveDirection * moveSpeed)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 监听玩家角色跳跃的输入</span></span><br><span class="line">characterModel.Humanoid.JumpRequest:Connect(<span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">    <span class="comment">-- 让玩家角色跳跃</span></span><br><span class="line">    characterModel.Humanoid:Jump()</span><br><span class="line"><span class="keyword">end</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 监听玩家角色攻击的输入</span></span><br><span class="line">characterModel.Humanoid.AttackRequest:Connect(<span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">    <span class="comment">-- 让玩家角色攻击</span></span><br><span class="line">    characterModel.Humanoid:UnequipTools()</span><br><span class="line"><span class="keyword">end</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，我们通过 Humanoid 的 Changed 和 JumpRequest、AttackRequest 等事件，来监听玩家角色的输入，并根据输入执行对应的行为。</p>
+<p>例如，当玩家角色移动时，我们通过监听 Humanoid.Changed 事件，来获取玩家角色的移动方向和速度，然后使用 characterModel:Move() 方法来更新玩家角色的位置。</p>
+<p>当玩家角色按下跳跃键时，我们通过监听 Humanoid.JumpRequest 事件，来调用 humanoid:Jump() 方法，让玩家角色进行跳跃。</p>
+<p>当玩家角色按下攻击键时，我们通过监听 Humanoid.AttackRequest 事件，来调用 humanoid:UnequipTools() 方法，让玩家角色放下手中的工具。</p>
+<p>通过这样的方式，我们就能够使用 Humanoid 来控制玩家角色的行为，并实现玩家与游戏世界的交互。</p>
+<h2 id="通过脚本控制玩家的Humanoid"><a href="#通过脚本控制玩家的Humanoid" class="headerlink" title="通过脚本控制玩家的Humanoid"></a>通过脚本控制玩家的Humanoid</h2><p>通常情况下，想要通过脚本控制玩家的 Humanoid，此脚本应该放在模型上的 LocalScript 中。</p>
+<p>在 Roblox 中，模型上的 LocalScript 是针对每个玩家实例单独执行的脚本。即，每个玩家都会在模型上拥有一份脚本的副本，并在本地执行此脚本。</p>
+<p>因此，如果将脚本放在模型上的 LocalScript 中，每个玩家都会拥有一份脚本的副本，并在本地执行此脚本。这样，我们就能够通过脚本来控制每个玩家的 Humanoid，从而实现游戏中玩家的控制逻辑。</p>
+<p>例如，我们可以通过以下方式来添加一个控制玩家 Humanoid 的脚本：</p>
+<ol>
+<li><p>首先，在模型上右键单击，然后选择“插入”-&gt;“LocalScript”，即可在模型上添加一个 LocalScript。</p>
+</li>
+<li><p>然后，可以在 LocalScript 中编写控制玩家 Humanoid 的代码，例如上面给出的示例代码。</p>
+</li>
+<li><p>最后，可以将 LocalScript 放置在模型上的任何地方，然后点击“播放”按钮，即可运行脚本。在运行过程中，每个玩家都会在本地执行脚本，从而控制自己的 Humanoid。</p>
+</li>
+</ol>
+<p>需要注意的是，在 Roblox 中，每个玩家都会拥有一个叫做 Player 模型的预制物。Player 模型是一个特殊的模型，它与玩家相关联，包含了玩家的头像、名字、角色模型等信息。如果要通过脚本控制玩家的 Humanoid，需要在 Player 模型上添加 LocalScript。</p>
+<p>因此，在实际的开发过程中，我们通常会在 Player 模型上添加 LocalScript，并在 LocalScript 中编写控制玩家 Humanoid 的代码。这样，我们就能够通过脚本来控制每个玩家的 Humanoid，从而实现游戏中玩家的控制逻辑。</p>
+<h2 id="自定义模型导入到游戏中，作为玩家模型并且实现以下效果"><a href="#自定义模型导入到游戏中，作为玩家模型并且实现以下效果" class="headerlink" title="自定义模型导入到游戏中，作为玩家模型并且实现以下效果"></a>自定义模型导入到游戏中，作为玩家模型并且实现以下效果</h2><p>将自定义模型导入到游戏中，作为玩家的模型，我想要通过脚本控制这个自定义模型实现以下效果<br>1.移动并且播放移动动画<br>2.跳跃并且播放跳跃动画<br>3.近战攻击并且播放攻击动画<br>4.近战攻击伤害数值为40点<br>想要达到上述效果，如何通过脚本控制Humanoid以及播放动画，并且如何设置近战伤害的伤害数值？</p>
+<h3 id="答"><a href="#答" class="headerlink" title="答"></a>答</h3><p>为了实现上述效果，我们可以通过以下步骤来通过脚本控制自定义模型的 Humanoid：</p>
+<ol>
+<li><p>首先，将自定义模型导入到 Roblox Studio 中，并将其作为玩家的模型。</p>
+</li>
+<li><p>然后，在自定义模型上添加一个 LocalScript，用于控制自定义模型的 Humanoid。</p>
+</li>
+<li><p>在 LocalScript 中，通过以下代码获取自定义模型的 Humanoid 实例：</p>
+</li>
+</ol>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> characterModel = script.Parent</span><br><span class="line"><span class="keyword">local</span> humanoid = characterModel.Humanoid</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>然后，通过监听 Humanoid.Changed 事件，来控制自定义模型的移动。例如，可以使用以下代码来实现自定义模型的移动：</li>
+</ol>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">humanoid.Changed:Connect(<span class="function"><span class="keyword">function</span><span class="params">(property)</span></span></span><br><span class="line">    <span class="keyword">if</span> property == <span class="string">&quot;MoveDirection&quot;</span> <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">local</span> moveDirection = humanoid.MoveDirection</span><br><span class="line">        <span class="keyword">if</span> moveD</span><br></pre></td></tr></table></figure>
+
+<p>下面是完整的代码示例，可以实现自定义模型的移动、跳跃、近战攻击和伤害数值设置。</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 获取自定义模型的 Humanoid 实例</span></span><br><span class="line"><span class="keyword">local</span> characterModel = script.Parent</span><br><span class="line"><span class="keyword">local</span> humanoid = characterModel.Humanoid</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 设置近战攻击伤害数值</span></span><br><span class="line">humanoid.MeleeDamage = <span class="number">40</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 监听 Humanoid.Changed 事件</span></span><br><span class="line">humanoid.Changed:Connect(<span class="function"><span class="keyword">function</span><span class="params">(property)</span></span></span><br><span class="line">    <span class="keyword">if</span> property == <span class="string">&quot;MoveDirection&quot;</span> <span class="keyword">then</span></span><br><span class="line">        <span class="comment">-- 控制自定义模型的移动</span></span><br><span class="line">        <span class="keyword">local</span> moveDirection = humanoid.MoveDirection</span><br><span class="line">        <span class="keyword">if</span> moveDirection ~= Vector3.new(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>) <span class="keyword">then</span></span><br><span class="line">            <span class="keyword">local</span> moveSpeed = <span class="number">10</span></span><br><span class="line">            <span class="keyword">local</span> newPosition = characterModel.PrimaryPart.Position + moveDirection.Unit * moveSpeed</span><br><span class="line">            humanoid:MoveTo(newPosition)</span><br><span class="line">            characterModel.HumanoidRootPart.CFrame = CFrame.new(newPosition)</span><br><span class="line"></span><br><span class="line">            <span class="comment">-- 播放移动动画</span></span><br><span class="line">            humanoid:ChangeState(<span class="string">&quot;Running&quot;</span>)</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="comment">-- 播放站立动画</span></span><br><span class="line">            humanoid:ChangeState(<span class="string">&quot;Idle&quot;</span>)</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">elseif</span> property == <span class="string">&quot;Jump&quot;</span> <span class="keyword">then</span></span><br><span class="line">        <span class="comment">-- 控制自定义模型的跳跃</span></span><br><span class="line">        <span class="keyword">if</span> humanoid.Jump <span class="keyword">then</span></span><br><span class="line">            humanoid:Jump()</span><br><span class="line"></span><br><span class="line">            <span class="comment">-- 播放跳跃动画</span></span><br><span class="line">            humanoid:ChangeState(<span class="string">&quot;Jumping&quot;</span>)</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">elseif</span> property == <span class="string">&quot;Attack&quot;</span> <span class="keyword">then</span></span><br><span class="line">        <span class="comment">-- 控制自定义模型的近战攻击</span></span><br></pre></td></tr></table></figure>
+
+<p>如果 humanoid.Attack 的值为 true，表示当前需要进行近战攻击。我们可以在这里实现攻击逻辑，并播放攻击动画。</p>
+<p>例如，以下代码可以实现控制自定义模型的近战攻击：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 控制自定义模型的近战攻击</span></span><br><span class="line"><span class="keyword">if</span> humanoid.Attack <span class="keyword">then</span></span><br><span class="line">    <span class="comment">-- 播放近战攻击动画</span></span><br><span class="line">    humanoid:ChangeState(<span class="string">&quot;Attacking&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 在 0.5 秒后进行伤害计算</span></span><br><span class="line">    wait(<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 计算伤害</span></span><br><span class="line">    <span class="keyword">local</span> meleeDamage = humanoid.MeleeDamage</span><br><span class="line">    <span class="keyword">local</span> humanoidRootPart = characterModel.HumanoidRootPart</span><br><span class="line">    <span class="keyword">local</span> hit, hitPos, hitNormal = workspace:FindPartOnRay(Ray.new(humanoidRootPart.Position, humanoidRootPart.CFrame.lookVector * <span class="number">10</span>), characterModel)</span><br><span class="line">    <span class="keyword">if</span> hit <span class="keyword">and</span> hit.Parent:FindFirstChild(<span class="string">&quot;Humanoid&quot;</span>) <span class="keyword">then</span></span><br><span class="line">        hit.Parent.Humanoid:TakeDamage(meleeDamage)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>如果您在实际项目中使用上述代码，您可能需要进行一些修改和调试。例如，您可以通过以下步骤来确保代码正确运行：</p>
+<ol>
+<li><p>首先，确保您的自定义模型已经导入到 Roblox Studio 中，并且可以正常控制。</p>
+</li>
+<li><p>然后，将上述代码复制到您的 LocalScript 中，并进行相应的修改。例如，如果您需要修改自定义模型的移动速度，可以将 <code>moveSpeed</code> 的值改为您想要的数值。</p>
+</li>
+<li><p>接着，确保您的自定义模型中有相应的动画。例如，如果您的脚本中播放了 “Running”、”Jumping” 和 “Attacking” 动画，那么您的自定义模型中就应该包含这三种动画。</p>
+</li>
+</ol>
+<h1 id="播放跑步动画"><a href="#播放跑步动画" class="headerlink" title="播放跑步动画"></a>播放跑步动画</h1><p>在Roblox中有一个跑步动画，想要通过脚本监控玩家键盘输入shift+w的时候播放此动画，如何通过AnimationController实现此功能</p>
+<p>可以使用AnimationController来实现上述功能。在Roblox Studio中，首先创建一个新的脚本，然后添加以下代码：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> player = game.Players.LocalPlayer</span><br><span class="line"><span class="keyword">local</span> character = player.Character</span><br><span class="line"><span class="keyword">local</span> humanoid = character:WaitForChild(<span class="string">&quot;Humanoid&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> animationController = script:WaitForChild(<span class="string">&quot;AnimationController&quot;</span>)</span><br><span class="line"><span class="keyword">local</span> runAnimation = animationController:WaitForChild(<span class="string">&quot;Run&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> isRunning = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">onKeyPressed</span><span class="params">(inputObject, gameProcessedEvent)</span></span></span><br><span class="line">    <span class="keyword">if</span> inputObject.KeyCode == Enum.KeyCode.W <span class="keyword">and</span> gameProcessedEvent <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">if</span> isRunning <span class="keyword">then</span></span><br><span class="line">            humanoid:Stop()</span><br><span class="line">            isRunning = <span class="literal">false</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            humanoid:Play()</span><br><span class="line">            isRunning = <span class="literal">true</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">player.CharacterAdded:Connect(<span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">    player.KeyDown:Connect(onKeyPressed)</span><br><span class="line"><span class="keyword">end</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，我们首先获取到了当前玩家（player）、玩家角色（character）和角色的Humanoid部件（humanoid）。接着，我们获取到了AnimationController和Run动画，然后定义了一个标志变量（isRunning）来表示当前是否在播放动画。</p>
+<p>之后，我们创建了一个函数（onKeyPressed），用来监听玩家的键盘输入。当玩家按下W键时，我们会检查当前是否正在播放动画，如果是，就停止动画；如果不是，就开始播放动画。</p>
+<p>最后，我们还需要监听玩家加入游戏的事件，并在事件发生时连接到onKeyPressed函数，实现玩家键盘输入的监控。</p>
+<p>需要注意的是，在实际使用时，需要将上面的代码</p>
+<p>放置在角色模型的某个脚本中，例如StarterPlayerScripts。在添加完代码后，需要将此脚本放置在角色模型的工作区中。</p>
+<p>当玩家加入游戏后，只需要按下shift+w键，就可以播放动画了。</p>
+<p>当然，上面的代码仅供参考，您可以根据自己的需要进行修改和完善。例如，您可以使用isRunning标志来判断是否处于跑步状态，然后再根据需要播放不同的动画。</p>
+<p>此外，您也可以使用Roblox的事件机制来实现更复杂的动画播放逻辑。例如，当玩家角色持续按下跑步键时，可以触发一个事件，以便进行相应的处理。</p>
+<h2 id="事件监听"><a href="#事件监听" class="headerlink" title="事件监听"></a>事件监听</h2><p>下面是一个示例代码，它实现了玩家通过按shift+w键来控制跑步和攻击的功能，并使用脚本播放对应的动画：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> player = game.Players.LocalPlayer</span><br><span class="line"><span class="keyword">local</span> character = player.Character</span><br><span class="line"><span class="keyword">local</span> humanoid = character:WaitForChild(<span class="string">&quot;Humanoid&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> isRunning = <span class="literal">false</span></span><br><span class="line"><span class="keyword">local</span> isAttacking = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 设置按键监听</span></span><br><span class="line">player.KeyDown:Connect(<span class="function"><span class="keyword">function</span><span class="params">(key)</span></span></span><br><span class="line"><span class="keyword">if</span> key == <span class="string">&quot;W&quot;</span> <span class="keyword">and</span> isRunning == <span class="literal">false</span> <span class="keyword">then</span></span><br><span class="line"><span class="comment">-- 按下shift+w键，开始播放跑步动画</span></span><br><span class="line"><span class="keyword">local</span> runAnim = character:WaitForChild(<span class="string">&quot;RunAnim&quot;</span>)</span><br><span class="line">humanoid:LoadAnimation(runAnim)</span><br><span class="line">humanoid:Play()</span><br><span class="line">isRunning = <span class="literal">true</span></span><br><span class="line"><span class="keyword">elseif</span> key == <span class="string">&quot;W&quot;</span> <span class="keyword">and</span> isAttacking == <span class="literal">false</span> <span class="keyword">then</span></span><br><span class="line"><span class="comment">-- 按下shift+w键，开始播放攻击动画</span></span><br><span class="line"><span class="keyword">local</span> attackAnim = character:WaitForChild(<span class="string">&quot;AttackAnim&quot;</span>)</span><br><span class="line">humanoid:LoadAnimation(attackAnim)</span><br><span class="line">humanoid:Play()</span><br><span class="line">isAttacking = <span class="literal">true</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span>)</span><br><span class="line"></span><br><span class="line">player.KeyUp:Connect(<span class="function"><span class="keyword">function</span><span class="params">(key)</span></span></span><br><span class="line"><span class="keyword">if</span> key == <span class="string">&quot;W&quot;</span> <span class="keyword">then</span></span><br><span class="line"><span class="comment">-- 松开shift+w键，停止播放动画</span></span><br><span class="line">humanoid:Stop()</span><br><span class="line">isRunning = <span class="literal">false</span></span><br><span class="line">isAttacking = <span class="literal">false</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span>)</span><br></pre></td></tr></table></figure>
+
+<p>humanoid:LoadAnimation()接口用于将动画数据加载到Humanoid对象中，这样它就可以播放动画了。如果只是调用humanoid:LoadAnimation()接口，而不调用humanoid:Play()接口，动画是不会播放的。在Roblox中，通常需要使用Humanoid:LoadAnimation()和Humanoid:Play()两个接口配合使用，才能真正播放动画。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Roblox/" rel="tag"># Roblox</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/12/18/Roblox-CFrame/" rel="prev" title="Roblox-CFrame">
+                  <i class="fa fa-chevron-left"></i> Roblox-CFrame
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/12/18/Roblox-HingedDoor/" rel="next" title="Roblox-HingedDoor">
+                  Roblox-HingedDoor <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

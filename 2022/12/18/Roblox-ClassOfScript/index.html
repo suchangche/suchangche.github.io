@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="ScriptClass常见三种类型的Script  Script  LocalScript  ModuleScript   Script定义Script是一种Lua代码容器，它将在服务器上运行其内容。 满足一定条件之后，Script中的代码会在一个新的线程中运行 运行条件只有Script满足以下两个条件的时候，其中的代码才会运行  不被禁用（Disable属性值为false）  在WorkSpac">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Roblox-ClassOfScript">
+<meta property="og:url" content="http://example.com/2022/12/18/Roblox-ClassOfScript/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="ScriptClass常见三种类型的Script  Script  LocalScript  ModuleScript   Script定义Script是一种Lua代码容器，它将在服务器上运行其内容。 满足一定条件之后，Script中的代码会在一个新的线程中运行 运行条件只有Script满足以下两个条件的时候，其中的代码才会运行  不被禁用（Disable属性值为false）  在WorkSpac">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-12-18T06:13:03.000Z">
+<meta property="article:modified_time" content="2022-12-18T06:14:47.662Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="Roblox">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/12/18/Roblox-ClassOfScript/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/12/18/Roblox-ClassOfScript/","path":"2022/12/18/Roblox-ClassOfScript/","title":"Roblox-ClassOfScript"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Roblox-ClassOfScript | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ScriptClass"><span class="nav-number">1.</span> <span class="nav-text">ScriptClass</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Script"><span class="nav-number">2.</span> <span class="nav-text">Script</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E6%9D%A1%E4%BB%B6"><span class="nav-number">2.2.</span> <span class="nav-text">运行条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%88%E6%AD%A2%E6%9D%A1%E4%BB%B6"><span class="nav-number">2.3.</span> <span class="nav-text">终止条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E6%80%A7"><span class="nav-number">2.4.</span> <span class="nav-text">特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7"><span class="nav-number">2.5.</span> <span class="nav-text">属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Source"><span class="nav-number">2.5.1.</span> <span class="nav-text">Source</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Archivable-boolean"><span class="nav-number">2.5.2.</span> <span class="nav-text">Archivable    (boolean)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ClassName-string"><span class="nav-number">2.5.3.</span> <span class="nav-text">ClassName (string)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Name"><span class="nav-number">2.5.4.</span> <span class="nav-text">Name</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Parent"><span class="nav-number">2.5.5.</span> <span class="nav-text">Parent</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF-x2F-%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%A4%8D%E5%88%B6"><span class="nav-number">2.5.5.1.</span> <span class="nav-text">服务端&#x2F;客户端复制</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Disabled"><span class="nav-number">2.5.6.</span> <span class="nav-text">Disabled</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95"><span class="nav-number">2.6.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GetHash-String"><span class="nav-number">2.6.1.</span> <span class="nav-text">GetHash():String</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ClearAllChildren-void"><span class="nav-number">2.6.2.</span> <span class="nav-text">ClearAllChildren():void</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Clone-Instance"><span class="nav-number">2.6.3.</span> <span class="nav-text">Clone():Instance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Destroy-void"><span class="nav-number">2.6.4.</span> <span class="nav-text">Destroy():void</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FindFirstAncestor-name-string-Instance"><span class="nav-number">2.6.5.</span> <span class="nav-text">FindFirstAncestor(name:string):Instance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FindDirstAncestorOfClass-className-string-Instance"><span class="nav-number">2.6.6.</span> <span class="nav-text">FindDirstAncestorOfClass(className:string):Instance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FindFirstAncestorWichIsA-ClassName-string-Instance"><span class="nav-number">2.6.7.</span> <span class="nav-text">FindFirstAncestorWichIsA(ClassName:string):Instance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FindFirstChild-Name-String-recursive-boolean-Instance"><span class="nav-number">2.6.8.</span> <span class="nav-text">FindFirstChild(Name:String,recursive:boolean):Instance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FindFirstChildWichIsA-ClassName-string-Instance"><span class="nav-number">2.6.9.</span> <span class="nav-text">FindFirstChildWichIsA(ClassName:string):Instance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FindFirstDescendant-Name-String-Instance"><span class="nav-number">2.6.10.</span> <span class="nav-text">FindFirstDescendant(Name:String):Instance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GetActor-Actor"><span class="nav-number">2.6.11.</span> <span class="nav-text">GetActor():Actor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GetAttribute-attribute-string-Variant%EF%BC%88%E5%8F%98%E9%87%8F%EF%BC%89"><span class="nav-number">2.6.12.</span> <span class="nav-text">GetAttribute(attribute:string):Variant（变量）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GetAttributeChangedSignal-attribute-string-RBXScriptSignal"><span class="nav-number">2.6.13.</span> <span class="nav-text">GetAttributeChangedSignal(attribute:string):RBXScriptSignal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GetAttributes-table"><span class="nav-number">2.6.14.</span> <span class="nav-text">GetAttributes():table</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GetChildren-Object"><span class="nav-number">2.6.15.</span> <span class="nav-text">GetChildren():Object</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GetDescendants-Array"><span class="nav-number">2.6.16.</span> <span class="nav-text">GetDescendants():Array</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GetFullName-string"><span class="nav-number">2.6.17.</span> <span class="nav-text">GetFullName():string</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GetPropertyChangedSignal-property-string-RBXScriptSignal"><span class="nav-number">2.6.18.</span> <span class="nav-text">GetPropertyChangedSignal(property:string):RBXScriptSignal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IsA-ClassName-string-boolean"><span class="nav-number">2.6.19.</span> <span class="nav-text">IsA(ClassName:string):boolean</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IsAncestorOf-Descendant-Instance-boolean"><span class="nav-number">2.6.20.</span> <span class="nav-text">IsAncestorOf(Descendant:Instance):boolean</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IsAncestorOf-Descendant-Instance-boolean-1"><span class="nav-number">2.6.21.</span> <span class="nav-text">IsAncestorOf(Descendant:Instance):boolean</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SetAttribute-attribute-string-Value-Variant-void"><span class="nav-number">2.6.22.</span> <span class="nav-text">SetAttribute(attribute:string,Value:Variant):void</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WaitForChild-ChildName-string-TimeOut-Number-Instance"><span class="nav-number">2.6.23.</span> <span class="nav-text">WaitForChild(ChildName:string,TimeOut:Number):Instance</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6-AncestryChanged-Child-Instance-Parent-Instance-RBXScriptSignal"><span class="nav-number">2.7.</span> <span class="nav-text">事件 AncestryChanged(Child:Instance,Parent:Instance):RBXScriptSignal</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AttrinuteChange-attribute-string-RBXScriptSignal"><span class="nav-number">2.7.1.</span> <span class="nav-text">AttrinuteChange(attribute:string):RBXScriptSignal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Changed-Property-String-RBXScriptSignal"><span class="nav-number">2.7.2.</span> <span class="nav-text">Changed(Property:String):RBXScriptSignal</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Change-Detector"><span class="nav-number">2.7.2.1.</span> <span class="nav-text">Change Detector</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Change-Event"><span class="nav-number">2.7.2.2.</span> <span class="nav-text">Change Event</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AttributeChanged"><span class="nav-number">2.7.3.</span> <span class="nav-text">AttributeChanged</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ChildAdded-chiled-Instance-RBXScriptSignal"><span class="nav-number">2.7.4.</span> <span class="nav-text">ChildAdded(chiled:Instance):RBXScriptSignal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ChildRemoved-chiled-Instance-RBXScriptSignal"><span class="nav-number">2.7.5.</span> <span class="nav-text">ChildRemoved(chiled:Instance):RBXScriptSignal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DescendantAdd-Descendant-Instance-RBXScriptSignal"><span class="nav-number">2.7.6.</span> <span class="nav-text">DescendantAdd(Descendant:Instance):RBXScriptSignal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DescendantRemoving-Descendant-Instance-RBXScriptSignal"><span class="nav-number">2.7.7.</span> <span class="nav-text">DescendantRemoving(Descendant:Instance):RBXScriptSignal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Destroying-RBXScriptSignal"><span class="nav-number">2.7.8.</span> <span class="nav-text">Destroying():RBXScriptSignal</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LocalScript"><span class="nav-number">3.</span> <span class="nav-text">LocalScript</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ModuleScript"><span class="nav-number">4.</span> <span class="nav-text">ModuleScript</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E6%A1%88%E4%BE%8B"><span class="nav-number">4.1.</span> <span class="nav-text">代码案例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ModuleScript%E5%AE%9A%E4%B9%89%E6%A1%88%E4%BE%8B"><span class="nav-number">4.1.1.</span> <span class="nav-text">ModuleScript定义案例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ModuleScript%E8%B0%83%E7%94%A8%E6%A1%88%E4%BE%8B"><span class="nav-number">4.1.2.</span> <span class="nav-text">ModuleScript调用案例</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">172</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/18/Roblox-ClassOfScript/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Roblox-ClassOfScript | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Roblox-ClassOfScript
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-12-18 14:13:03 / 修改时间：14:14:47" itemprop="dateCreated datePublished" datetime="2022-12-18T14:13:03+08:00">2022-12-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Roblox/" itemprop="url" rel="index"><span itemprop="name">Roblox</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="ScriptClass"><a href="#ScriptClass" class="headerlink" title="ScriptClass"></a>ScriptClass</h1><p>常见三种类型的Script</p>
+<ol>
+<li><p>Script</p>
+</li>
+<li><p>LocalScript</p>
+</li>
+<li><p>ModuleScript</p>
+</li>
+</ol>
+<h1 id="Script"><a href="#Script" class="headerlink" title="Script"></a>Script</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>Script是一种Lua代码容器，它将在服务器上运行其内容。</p>
+<p>满足一定条件之后，Script中的代码会在一个新的<code>线程</code>中运行</p>
+<h2 id="运行条件"><a href="#运行条件" class="headerlink" title="运行条件"></a>运行条件</h2><p>只有Script满足以下两个条件的时候，其中的代码才会运行</p>
+<ol>
+<li><p>不被禁用（<code>Disable</code>属性值为<code>false</code>）</p>
+</li>
+<li><p>在<code>WorkSpace</code>或者<code>ServerScriptService</code>下</p>
+</li>
+<li><p>如果不像其立刻运行，则将其存放在<code>ServerStorage</code>下</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://create.roblox.com/docs/reference/engine/classes/ServerStorage"><code>ServerStorage</code></a>：专门用于存放预先制作好的对象，而此对象只会在调用时运行；只存在于服务端，客户端不可用且<code>LocalScript</code>不可访问；仅能通过<code>DataModel.GetService</code>进行访问</li>
+</ul>
+</li>
+</ol>
+<h2 id="终止条件"><a href="#终止条件" class="headerlink" title="终止条件"></a>终止条件</h2><ol>
+<li><p>不满足<code>运行条件</code></p>
+</li>
+<li><p>终止或者引发错误</p>
+<ul>
+<li>如果该错误是连接到正在激发的某个事件的函数引发的，则此Script不会终止</li>
+</ul>
+</li>
+<li><p>此Script或者其某一个父类被<code>destroy</code>的时候，该线程也会停止</p>
+</li>
+<li><p>在Script的父类没有被<code>destroy</code>的时候，即使其父类为<code>nil</code>，此<code>Script</code>也会继续运行</p>
+</li>
+</ol>
+<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><p>Script可以访问服务器端对象、属性和事件</p>
+<p>例如：</p>
+<p>Script可以使用BadgeService向玩家颁发徽章，而客户端上的LocalScript则不能。</p>
+<p>LocalScripts执行的未复制的操作（由于Workspace.FiltingEnabled）对脚本不可见。</p>
+<h2 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h2><h3 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h3><p>就是我们写的代码</p>
+<h3 id="Archivable-boolean"><a href="#Archivable-boolean" class="headerlink" title="Archivable    (boolean)"></a>Archivable    (boolean)</h3><p>此属性确定在<code>发布</code>&#x2F;<code>保存</code>游戏时，或在对象的某个父类上调用Instance:Clone（）时，是否应包含对象。</p>
+<p>如果被克隆的对象<code>Archivable==false</code>，则Instance:Clone()将会<code>return false</code>。</p>
+<p>在Studio中复制对象（使用“Duplicate”或“Copy”选项）将忽略Archivible属性，并将副本的Archivible设置为true。</p>
+<h3 id="ClassName-string"><a href="#ClassName-string" class="headerlink" title="ClassName (string)"></a>ClassName (string)</h3><ol>
+<li><p>表示此Instance所属类的只读字符串，不能由脚本更改。更改Instance类将会创建一个新的Instance</p>
+</li>
+<li><p>此属性可以与实例的各种其他函数一起使用，这些函数 用于按类型标识对象，例如<code>Instance:IsA()</code>或<code>Instance:FindFirstChildOfClass()</code></p>
+</li>
+<li><p>和<code>Instance:IsA()</code>不同，<code>ClassName</code>可以用于检查对象是否属于忽略类继承的特定类。【used to check if an object belongs to a specific class ignoring class inheritance.】</p>
+</li>
+</ol>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> _, child <span class="keyword">in</span> <span class="built_in">ipairs</span>(game.Workspace:GetChildren()) <span class="keyword">do</span></span><br><span class="line">    <span class="keyword">if</span> child.ClassName == <span class="string">&quot;Part&quot;</span> <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Found a Part&quot;</span>)</span><br><span class="line">        <span class="comment">-- will find Parts in model, but NOT TrussParts, WedgeParts, etc</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Name"><a href="#Name" class="headerlink" title="Name"></a>Name</h3><p>实例的非唯一标识符。<br>此属性是描述对象的标识符。一个对象的多个子对象可以共享相同的名称。名称用于组织对象层次结构，同时允许脚本访问特定对象。</p>
+<p>对象的<code>Name</code>通常用于使用以下方法通过数据模型层次结构访问对象：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> baseplate = workspace.Baseplate</span><br><span class="line"><span class="keyword">local</span> baseplate = workspace[<span class="string">&quot;Baseplate&quot;</span>]</span><br><span class="line"><span class="keyword">local</span> baseplate = workspace:FindFirstChild(<span class="string">&quot;BasePlate&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>注意：对象名称必须以下划线或者字母开头（老生常谈了）</p>
+<h3 id="Parent"><a href="#Parent" class="headerlink" title="Parent"></a>Parent</h3><p>Parent属性确定实例的层次父级</p>
+<p><code>Remove</code>函数将此属性设置为nil。调用<code>Destroy</code>将将实例的父级及其所有子级设置为零，并锁定父级属性。设置已销毁对象的父级时将会引发错误。</p>
+<p>此属性还用于管理游戏中是否存在对象或是否需要删除对象。只要对象A的父对象位于DataModel中、存储在变量中或被另一个对象属性引用，则该对象将保留在游戏中。否则，对象将自动删除。顶级DataModel对象（脚本称之为游戏）没有父对象，但始终有一个由游戏引擎保存的引用，并在会话期间存在。</p>
+<p>可以使用<code>Instance.new()</code>创建一个新的实例（需要指定Parent）</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- Create a part and parent it to the workspace</span></span><br><span class="line"><span class="keyword">local</span> part = Instance.new(<span class="string">&quot;Part&quot;</span>)</span><br><span class="line">part.Parent = workspace</span><br><span class="line"><span class="comment">-- Instance new can also take Parent as a second parameter</span></span><br><span class="line">Instance.new(<span class="string">&quot;NumberValue&quot;</span>, workspace)</span><br></pre></td></tr></table></figure>
+
+<h4 id="服务端-x2F-客户端复制"><a href="#服务端-x2F-客户端复制" class="headerlink" title="服务端&#x2F;客户端复制"></a>服务端&#x2F;客户端复制</h4><p>服务器创建的对象将不会复制到客户端，除非它是某个已复制对象的父对象。当创建一个对象并设置许多属性时，建议最后设置“父级”。这样可以确保对象复制一次，而不是复制许多属性更改。</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> part = Instance.new(<span class="string">&quot;Part&quot;</span>) <span class="comment">-- Avoid using the second parameter here</span></span><br><span class="line">part.Anchored = <span class="literal">true</span></span><br><span class="line">part.BrickColor = BrickColor.new(<span class="string">&quot;Really red&quot;</span>)</span><br><span class="line"><span class="comment">-- Potentially many other property changes could go here here...</span></span><br><span class="line"><span class="comment">-- Always set parent last!</span></span><br><span class="line">part.Parent = workspace</span><br></pre></td></tr></table></figure>
+
+<h3 id="Disabled"><a href="#Disabled" class="headerlink" title="Disabled"></a>Disabled</h3><p>确定<code>BaseScript</code>是否运行。<br>当<code>Disabled==false</code>时，<code>Scripts</code>和<code>LocalScripts</code>将运行。<br>如果在脚本运行时将Disabled设置为true，则当前线程将终止。<br>如果Disabled从false设置为true，脚本将再次运行。</p>
+<p>这意味着<code>可以切换Disabled属性以重新启动脚本</code></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scriptObject.Disabled = <span class="literal">false</span></span><br><span class="line">scriptObject.Disabled = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><h3 id="GetHash-String"><a href="#GetHash-String" class="headerlink" title="GetHash():String"></a>GetHash():String</h3><p>返回脚本源的哈希</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- Script named HelloScript in workspace</span></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">printHello</span><span class="params">()</span></span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello world!&quot;</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">printHello()</span><br><span class="line"></span><br><span class="line"><span class="comment">-- Command line</span></span><br><span class="line"><span class="keyword">local</span> targetScript = game.Workspace.HelloScript</span><br><span class="line"><span class="built_in">print</span>(targetScript:GetHash())</span><br></pre></td></tr></table></figure>
+
+<h3 id="ClearAllChildren-void"><a href="#ClearAllChildren-void" class="headerlink" title="ClearAllChildren():void"></a>ClearAllChildren():void</h3><p>此函数销毁实例的所有子实例</p>
+<h3 id="Clone-Instance"><a href="#Clone-Instance" class="headerlink" title="Clone():Instance"></a>Clone():Instance</h3><p>创建对象及其所有子体的副本，忽略<code>Archivable</code>为false的对象</p>
+<h3 id="Destroy-void"><a href="#Destroy-void" class="headerlink" title="Destroy():void"></a>Destroy():void</h3><p>将<code>Instance.Parent</code>属性设置为nil，并且将<code>Instance.Parent</code>属性锁定，断开所有连接，<code>Destory</code>所有子类</p>
+<h3 id="FindFirstAncestor-name-string-Instance"><a href="#FindFirstAncestor-name-string-Instance" class="headerlink" title="FindFirstAncestor(name:string):Instance"></a>FindFirstAncestor(name:string):Instance</h3><p>返回形参<code>Instance.Name</code>传入<code>Instance</code>的第一个父类</p>
+<h3 id="FindDirstAncestorOfClass-className-string-Instance"><a href="#FindDirstAncestorOfClass-className-string-Instance" class="headerlink" title="FindDirstAncestorOfClass(className:string):Instance"></a>FindDirstAncestorOfClass(className:string):Instance</h3><p>返回形参<code>Instance.ClassName</code>传入<code>Instance</code>的第一个父类</p>
+<h3 id="FindFirstAncestorWichIsA-ClassName-string-Instance"><a href="#FindFirstAncestorWichIsA-ClassName-string-Instance" class="headerlink" title="FindFirstAncestorWichIsA(ClassName:string):Instance"></a>FindFirstAncestorWichIsA(ClassName:string):Instance</h3><p>原文：Returns the first ancestor of the Instance for whom Instance:IsA() returns true for the given className.</p>
+<p>根据传入的<code>ClassName</code>寻找到一个<code>Instance:IsA()</code>返回值为true的<code>Instance</code>，再返回此<code>Instance</code>的第一个父类</p>
+<h3 id="FindFirstChild-Name-String-recursive-boolean-Instance"><a href="#FindFirstChild-Name-String-recursive-boolean-Instance" class="headerlink" title="FindFirstChild(Name:String,recursive:boolean):Instance"></a>FindFirstChild(Name:String,recursive:boolean):Instance</h3><p>根据传入的InstanceName，找到其第一个子类</p>
+<h3 id="FindFirstChildWichIsA-ClassName-string-Instance"><a href="#FindFirstChildWichIsA-ClassName-string-Instance" class="headerlink" title="FindFirstChildWichIsA(ClassName:string):Instance"></a>FindFirstChildWichIsA(ClassName:string):Instance</h3><p>根据传入的<code>ClassName</code>寻找到一个<code>Instance:IsA()</code>返回值为true的<code>Instance</code>，再返回此<code>Instance</code>的第一个子类</p>
+<h3 id="FindFirstDescendant-Name-String-Instance"><a href="#FindFirstDescendant-Name-String-Instance" class="headerlink" title="FindFirstDescendant(Name:String):Instance"></a>FindFirstDescendant(Name:String):Instance</h3><p>Returns the first descendant found with the given  <code>Instance.Name</code>.</p>
+<p>根据给定的<code>Instance.Name</code>返回其第一个后代</p>
+<p>（和前面的Child有啥区别？）</p>
+<p><code>Child</code>仅仅获取直接子类，而<code>Descendant</code>可以获取间接子类</p>
+<h3 id="GetActor-Actor"><a href="#GetActor-Actor" class="headerlink" title="GetActor():Actor"></a>GetActor():Actor</h3><p>返回与<code>Instance</code>关联的Actor（如果存在）</p>
+<h3 id="GetAttribute-attribute-string-Variant（变量）"><a href="#GetAttribute-attribute-string-Variant（变量）" class="headerlink" title="GetAttribute(attribute:string):Variant（变量）"></a>GetAttribute(attribute:string):Variant（变量）</h3><p>根据所给的属性名返回其属性变量</p>
+<h3 id="GetAttributeChangedSignal-attribute-string-RBXScriptSignal"><a href="#GetAttributeChangedSignal-attribute-string-RBXScriptSignal" class="headerlink" title="GetAttributeChangedSignal(attribute:string):RBXScriptSignal"></a>GetAttributeChangedSignal(attribute:string):RBXScriptSignal</h3><p>Returns an event that fires when the given attribute changes.</p>
+<p>当此传入的属性发生更改时，返回此属性更改的事件</p>
+<h3 id="GetAttributes-table"><a href="#GetAttributes-table" class="headerlink" title="GetAttributes():table"></a>GetAttributes():table</h3><p>字面意思</p>
+<h3 id="GetChildren-Object"><a href="#GetChildren-Object" class="headerlink" title="GetChildren():Object"></a>GetChildren():Object</h3><p>返回包含实例的所有子级的数组。</p>
+<h3 id="GetDescendants-Array"><a href="#GetDescendants-Array" class="headerlink" title="GetDescendants():Array"></a>GetDescendants():Array</h3><p>返回由此实例的所有子类组成的数组</p>
+<h3 id="GetFullName-string"><a href="#GetFullName-string" class="headerlink" title="GetFullName():string"></a>GetFullName():string</h3><p>Returns a string describing the Instance’s ancestry.</p>
+<p>返回描述实例祖先的字符串。</p>
+<h3 id="GetPropertyChangedSignal-property-string-RBXScriptSignal"><a href="#GetPropertyChangedSignal-property-string-RBXScriptSignal" class="headerlink" title="GetPropertyChangedSignal(property:string):RBXScriptSignal"></a>GetPropertyChangedSignal(property:string):RBXScriptSignal</h3><p>获取当对象的给定属性更改时激发的事件。</p>
+<h3 id="IsA-ClassName-string-boolean"><a href="#IsA-ClassName-string-boolean" class="headerlink" title="IsA(ClassName:string):boolean"></a>IsA(ClassName:string):boolean</h3><p>如果<code>Instance</code>的类与给定类匹配，或<code>Instance</code>是给定类的子类，则返回true。</p>
+<h3 id="IsAncestorOf-Descendant-Instance-boolean"><a href="#IsAncestorOf-Descendant-Instance-boolean" class="headerlink" title="IsAncestorOf(Descendant:Instance):boolean"></a>IsAncestorOf(Descendant:Instance):boolean</h3><p>如果此<code>Instance</code>的是给定<code>Descendant:Instance</code>的父类，则返回true</p>
+<h3 id="IsAncestorOf-Descendant-Instance-boolean-1"><a href="#IsAncestorOf-Descendant-Instance-boolean-1" class="headerlink" title="IsAncestorOf(Descendant:Instance):boolean"></a>IsAncestorOf(Descendant:Instance):boolean</h3><p>如果此<code>Instance</code>的是给定<code>Descendant:Instance</code>的子类，则返回true</p>
+<h3 id="SetAttribute-attribute-string-Value-Variant-void"><a href="#SetAttribute-attribute-string-Value-Variant-void" class="headerlink" title="SetAttribute(attribute:string,Value:Variant):void"></a>SetAttribute(attribute:string,Value:Variant):void</h3><p>字面意思</p>
+<h3 id="WaitForChild-ChildName-string-TimeOut-Number-Instance"><a href="#WaitForChild-ChildName-string-TimeOut-Number-Instance" class="headerlink" title="WaitForChild(ChildName:string,TimeOut:Number):Instance"></a>WaitForChild(ChildName:string,TimeOut:Number):Instance</h3><p>Returns the child of the Instance with the given name. If the child does not exist, it will yield the current thread until it does.</p>
+<p>返回具有给定名称的实例的子级。如果子线程不存在，它将生成当前线程，直到它存在为止。</p>
+<h2 id="事件-AncestryChanged-Child-Instance-Parent-Instance-RBXScriptSignal"><a href="#事件-AncestryChanged-Child-Instance-Parent-Instance-RBXScriptSignal" class="headerlink" title="事件 AncestryChanged(Child:Instance,Parent:Instance):RBXScriptSignal"></a>事件 AncestryChanged(Child:Instance,Parent:Instance):RBXScriptSignal</h2><p>当此对象的<code>Instance.Parent</code>的属性被更改，或者其父类被更改时触发</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> part = Instance.new(<span class="string">&quot;Part&quot;</span>)</span><br><span class="line">part.Parent = workspace</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">onAncestryChanged</span><span class="params">(child, parent)</span></span></span><br><span class="line">    <span class="built_in">print</span>(child.Name .. <span class="string">&quot; is now a child of &quot;</span> .. parent.Name)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">part.AncestryChanged:Connect(onAncestryChanged)</span><br><span class="line"></span><br><span class="line">part.Parent = workspace.Model</span><br></pre></td></tr></table></figure>
+
+<h3 id="AttrinuteChange-attribute-string-RBXScriptSignal"><a href="#AttrinuteChange-attribute-string-RBXScriptSignal" class="headerlink" title="AttrinuteChange(attribute:string):RBXScriptSignal"></a>AttrinuteChange(attribute:string):RBXScriptSignal</h3><p>当此<code>Instance</code>上的属性发生更改的时候会触发</p>
+<h3 id="Changed-Property-String-RBXScriptSignal"><a href="#Changed-Property-String-RBXScriptSignal" class="headerlink" title="Changed(Property:String):RBXScriptSignal"></a>Changed(Property:String):RBXScriptSignal</h3><p>当对象的属性更改后立即触发。</p>
+<h4 id="Change-Detector"><a href="#Change-Detector" class="headerlink" title="Change Detector"></a>Change Detector</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> object = script.Parent</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">onChanged</span><span class="params">(property)</span></span></span><br><span class="line">    <span class="comment">-- Get the current value of the property</span></span><br><span class="line">    <span class="keyword">local</span> value = object[property]</span><br><span class="line">    <span class="comment">-- Print a message saying what changed</span></span><br><span class="line">    <span class="built_in">print</span>(object:GetFullName() .. <span class="string">&quot;.&quot;</span> .. property .. <span class="string">&quot; (&quot;</span> .. typeof(value) .. <span class="string">&quot;) changed to &quot;</span> .. <span class="built_in">tostring</span>(value))</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">object.Changed:Connect(onChanged)</span><br><span class="line"><span class="comment">-- Trigger a simple change in the object (add an underscore to the name)</span></span><br><span class="line">object.Name = <span class="string">&quot;_&quot;</span> .. object.Name</span><br></pre></td></tr></table></figure>
+
+<h4 id="Change-Event"><a href="#Change-Event" class="headerlink" title="Change Event"></a>Change Event</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- Demonstrate the Changed event by creating a Part</span></span><br><span class="line"><span class="keyword">local</span> part = Instance.new(<span class="string">&quot;Part&quot;</span>)</span><br><span class="line">part.Changed:Connect(<span class="built_in">print</span>)</span><br><span class="line"><span class="comment">-- This fires Changed with &quot;Transparency&quot;</span></span><br><span class="line">part.Transparency = <span class="number">0.5</span></span><br><span class="line"><span class="comment">-- Similarly, this fires Changed with &quot;Number&quot;</span></span><br><span class="line">part.Name = <span class="string">&quot;SomePart&quot;</span></span><br><span class="line"><span class="comment">-- Since changing BrickColor will also change other</span></span><br><span class="line"><span class="comment">-- properties at the same time, this line fires Changed</span></span><br><span class="line"><span class="comment">-- with &quot;BrickColor&quot;, &quot;Color3&quot; and &quot;Color3uint16&quot;.</span></span><br><span class="line">part.BrickColor = BrickColor.Red()</span><br><span class="line"></span><br><span class="line"><span class="comment">-- A NumberValue holds a double-precision floating-point number</span></span><br><span class="line"><span class="keyword">local</span> vNumber = Instance.new(<span class="string">&quot;NumberValue&quot;</span>)</span><br><span class="line">vNumber.Changed:Connect(<span class="built_in">print</span>)</span><br><span class="line"><span class="comment">-- This fires Changed with 123.456 (not &quot;Value&quot;)</span></span><br><span class="line">vNumber.Value = <span class="number">123.456</span></span><br><span class="line"><span class="comment">-- This does not fire Changed</span></span><br><span class="line">vNumber.Name = <span class="string">&quot;SomeNumber&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- A StringValue stores one string</span></span><br><span class="line"><span class="keyword">local</span> vString = Instance.new(<span class="string">&quot;StringValue&quot;</span>)</span><br><span class="line">vString.Changed:Connect(<span class="built_in">print</span>)</span><br><span class="line"><span class="comment">-- This fires Changed with &quot;Hello&quot; (not &quot;Value&quot;)</span></span><br><span class="line">vString.Value = <span class="string">&quot;Hello&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="AttributeChanged"><a href="#AttributeChanged" class="headerlink" title="AttributeChanged"></a>AttributeChanged</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">attributeChanged</span><span class="params">(attributeName)</span></span></span><br><span class="line">    <span class="built_in">print</span>(attributeName, <span class="string">&quot;changed&quot;</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">instance.AttributeChanged:Connect(attributeChanged)</span><br></pre></td></tr></table></figure>
+
+<h3 id="ChildAdded-chiled-Instance-RBXScriptSignal"><a href="#ChildAdded-chiled-Instance-RBXScriptSignal" class="headerlink" title="ChildAdded(chiled:Instance):RBXScriptSignal"></a>ChildAdded(chiled:Instance):RBXScriptSignal</h3><p>在对象成为此<code>Instance</code>的父对象后触发</p>
+<p>注意：当在客户端上使用此函数来检测服务器创建的对象时，在索引这些对象的后代时，必须使用Instance:WaitForChild（）。这是因为不能保证对象及其后代同时从服务器复制到客户端。</p>
+<p>例如：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">workspace.ChildAdded:Connect(<span class="function"><span class="keyword">function</span><span class="params">(child)</span></span></span><br><span class="line">    <span class="comment">-- need to use WaitForChild as descendants may not have replicated yet</span></span><br><span class="line">    <span class="keyword">local</span> head = child:WaitForChild(<span class="string">&quot;Head&quot;</span>)</span><br><span class="line"><span class="keyword">end</span>)</span><br></pre></td></tr></table></figure>
+
+<p>注意，此函数仅适用于实例的直接子级。对于捕获所有子体的函数，请使用Instance.DescendantAdd。</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">onChildAdded</span><span class="params">(instance)</span></span></span><br><span class="line">    <span class="built_in">print</span>(instance.Name .. <span class="string">&quot; added to the workspace&quot;</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">workspace.ChildAdded:Connect(onChildAdded)</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> part = Instance.new(<span class="string">&quot;Part&quot;</span>)</span><br><span class="line">part.Parent = workspace <span class="comment">--&gt; Part added to the Workspace</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="ChildRemoved-chiled-Instance-RBXScriptSignal"><a href="#ChildRemoved-chiled-Instance-RBXScriptSignal" class="headerlink" title="ChildRemoved(chiled:Instance):RBXScriptSignal"></a>ChildRemoved(chiled:Instance):RBXScriptSignal</h3><p>从此实例中删除子项后触发</p>
+<p>注意：由于Destroy函数将对象的父级设置为nil，因此当子级被销毁时（使用Instance:Destroy（）），该事件也会激发。</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">onChildRemoved</span><span class="params">(instance)</span></span></span><br><span class="line">    <span class="built_in">print</span>(instance.Name .. <span class="string">&quot; removed from the workspace&quot;</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">workspace.ChildRemoved:Connect(onChildRemoved)</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> part = Instance.new(<span class="string">&quot;Part&quot;</span>)</span><br><span class="line">part.Parent = workspace</span><br><span class="line"></span><br><span class="line">task.wait(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">part:Destroy()</span><br></pre></td></tr></table></figure>
+
+<h3 id="DescendantAdd-Descendant-Instance-RBXScriptSignal"><a href="#DescendantAdd-Descendant-Instance-RBXScriptSignal" class="headerlink" title="DescendantAdd(Descendant:Instance):RBXScriptSignal"></a>DescendantAdd(Descendant:Instance):RBXScriptSignal</h3><p>将一个子类添加到此<code>Instance</code>之后触发</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">onDescendantAdded</span><span class="params">(descendant)</span></span></span><br><span class="line">    <span class="built_in">print</span>(descendant)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">workspace.DescendantAdded:Connect(onDescendantAdded)</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> part = Instance.new(<span class="string">&quot;Part&quot;</span>)</span><br><span class="line">part.Parent = workspace</span><br></pre></td></tr></table></figure>
+
+<h3 id="DescendantRemoving-Descendant-Instance-RBXScriptSignal"><a href="#DescendantRemoving-Descendant-Instance-RBXScriptSignal" class="headerlink" title="DescendantRemoving(Descendant:Instance):RBXScriptSignal"></a>DescendantRemoving(Descendant:Instance):RBXScriptSignal</h3><p>删除<code>Instance</code>的子类之前触发</p>
+<p>此事件与正在删除的子对象一起激发。尝试将要删除的子体的父级设置为其他值将失败，并且报错 “Something unexpectedly tried to set the parent of X to Y while trying to set the parent of X. Current parent is Z”</p>
+<p>下面的操作是存在问题的：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">workspace.DescendantRemoving:Connect(<span class="function"><span class="keyword">function</span><span class="params">(descendant)</span></span></span><br><span class="line">    <span class="comment">-- 不要在此函数中操纵后代的父级！</span></span><br><span class="line">    <span class="comment">-- 由于子代的父代已被操纵，并且更改尚未发生。</span></span><br><span class="line">    <span class="comment">-- 因此此事件会触发，即此函数会在发生之前触发。</span></span><br><span class="line">    <span class="comment">-- 因此，像这样更改父代是有问题的</span></span><br><span class="line">    descendant.Parent = game</span><br><span class="line"><span class="keyword">end</span>)</span><br><span class="line"><span class="keyword">local</span> part = Instance.new(<span class="string">&quot;Part&quot;</span>)</span><br><span class="line">part.Parent = workspace</span><br><span class="line">part.Parent = <span class="literal">nil</span> <span class="comment">-- 这将触发WorkSpace里的子级删除：</span></span><br><span class="line"><span class="comment">--&gt; Something unexpectedly tried to set the parent of Part to NULL while trying to set the parent of Part. Current parent is Workspace.</span></span><br></pre></td></tr></table></figure>
+
+<p>以下是正确使用方法</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">workspace.DescendantRemoving:Connect(<span class="function"><span class="keyword">function</span><span class="params">(descendant)</span></span></span><br><span class="line">    <span class="built_in">print</span>(descendant.Name .. <span class="string">&quot; is currently parented to &quot;</span> .. <span class="built_in">tostring</span>(descendant.Parent))</span><br><span class="line"><span class="keyword">end</span>)</span><br><span class="line"><span class="keyword">local</span> part = Instance.new(<span class="string">&quot;Part&quot;</span>)</span><br><span class="line">part.Parent = workspace</span><br><span class="line">part.Parent = <span class="literal">nil</span></span><br><span class="line"><span class="comment">--&gt; Part is currently parented to Workspace</span></span><br><span class="line"><span class="built_in">print</span>(part.Parent)</span><br><span class="line"><span class="comment">--&gt; nil</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Destroying-RBXScriptSignal"><a href="#Destroying-RBXScriptSignal" class="headerlink" title="Destroying():RBXScriptSignal"></a>Destroying():RBXScriptSignal</h3><p>通过<code>Instance:Destroy()</code>销毁此实例之前立即触发</p>
+<p>在实例或其祖先之一被销毁之前立即触发。<br>当连接的函数仍在使用实例时，该实例永远不会从内存中删除。（？？？没懂这句是啥意思）</p>
+<p>但是，如果函数在任何一点都会产生结果，则<code>Instance</code>及其后代的父级将为nil。</p>
+<p>【The Instance will never be deleted from memory while a connected function is still using it. However, if the function yields at any point, the Instance and its descendants will be parented to nil.】<br>在Studio中删除实例时，不会触发此事件。要检测此情况，请使用<code>Instance.AncestryChanged</code>。</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> part = Instance.new(<span class="string">&quot;Part&quot;</span>, workspace)</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">onPartDestroying</span><span class="params">()</span></span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Before yielding:&quot;</span>, part:GetFullName(), #part:GetChildren())</span><br><span class="line">        task.wait()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;After yielding:&quot;</span>, part:GetFullName(), #part:GetChildren())</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">part.Destroying:Connect(onPartDestroying)</span><br><span class="line"></span><br><span class="line">part:Destroy()</span><br></pre></td></tr></table></figure>
+
+<h1 id="LocalScript"><a href="#LocalScript" class="headerlink" title="LocalScript"></a><a target="_blank" rel="noopener" href="https://create.roblox.com/docs/reference/engine/classes/LocalScript#summary">LocalScript</a></h1><p>LocalScript是一个Lua源容器，专用于<code>客户端代码</code>，例如玩家的相机，或者<code>各种UI</code></p>
+<p>对于通过LocalScripts运行的代码，玩家服务的LocalPlayer属性将返回其客户端正在运行此脚本的玩家。</p>
+<p>LocalScript仅会作为以下东西的子类时候才会运行</p>
+<ol>
+<li><p>玩家的<code>Backpack</code>，例如<code>Tool</code>的子类</p>
+</li>
+<li><p>玩家的<code>Character</code>模型</p>
+</li>
+<li><p>玩家的<code>PlayerGui</code></p>
+</li>
+<li><p>玩家的<code>PlayerScripts</code></p>
+</li>
+<li><p><code>ReplicatedFirst</code></p>
+</li>
+</ol>
+<p>后面的属性与方法，事件与<code>Script</code>差不多，这里就不再赘述</p>
+<h1 id="ModuleScript"><a href="#ModuleScript" class="headerlink" title="ModuleScript"></a><a target="_blank" rel="noopener" href="https://create.roblox.com/docs/reference/engine/classes/ModuleScript">ModuleScript</a></h1><ol>
+<li><p><code>ModuleScripts</code>在每个Lua环境中仅运行一次；如果后续还要调用此脚本，则会返回完全相同的值。</p>
+</li>
+<li><p><code>ModuleScripts</code>的返回值与<code>LocalScripts</code>和<code>Scripts</code>以及其他环境（如命令栏）无关。</p>
+</li>
+<li><p>如果<code>ModuleScriptA</code>运行没有结束，<code>FunctionA</code>调用<code>ModuleScriptA</code>也不会结束，除非<code>ModuleScriptA</code>运行完</p>
+<ul>
+<li>例如：如果<code>ModuleScriptA</code>尝试调用<code>ModuleScriptB</code>，此时<code>ModuleScriptB</code>又尝试调用<code>ModuleScriptA</code>，则会出现死循环</li>
+</ul>
+</li>
+<li><p>在<code>LocalScript</code>中对<code>ModuleScript</code>使用require将在客户端上运行代码，即使脚本已经在服务器上运行。</p>
+<ul>
+<li>因此，如果同时在客户端和服务器上使用ModuleScript，或者在Studio中调试它，请务必小心。</li>
+</ul>
+</li>
+<li><p>适合在里面写函数，需要的时候进行调用即可</p>
+</li>
+</ol>
+<h2 id="代码案例"><a href="#代码案例" class="headerlink" title="代码案例"></a>代码案例</h2><h3 id="ModuleScript定义案例"><a href="#ModuleScript定义案例" class="headerlink" title="ModuleScript定义案例"></a>ModuleScript定义案例</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- Tables store multiple values in one variable</span></span><br><span class="line"><span class="keyword">local</span> MyFunctions = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- Add a few functions to the table</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyFunctions.foo</span><span class="params">()</span></span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Foo!&quot;</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyFunctions.bar</span><span class="params">()</span></span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Bar!&quot;</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- ModuleScripts must return exactly one value</span></span><br><span class="line"><span class="keyword">return</span> MyFunctions</span><br></pre></td></tr></table></figure>
+
+<h3 id="ModuleScript调用案例"><a href="#ModuleScript调用案例" class="headerlink" title="ModuleScript调用案例"></a>ModuleScript调用案例</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- The require function is provided a ModuleScript, then runs</span></span><br><span class="line"><span class="comment">-- the code, waiting until it returns a singular value.</span></span><br><span class="line"><span class="keyword">local</span> MyFunctions = <span class="built_in">require</span>(script.Parent.MyFunctions)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- These are some dummy functions defined in another code sample</span></span><br><span class="line">MyFunctions.foo()</span><br><span class="line">MyFunctions.bar()</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Roblox/" rel="tag"># Roblox</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/10/20/unLua-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%A0%E8%BD%BD%E5%99%A8/" rel="prev" title="unLua-自定义加载器">
+                  <i class="fa fa-chevron-left"></i> unLua-自定义加载器
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/12/18/Roblox-SpawnLocaction/" rel="next" title="Roblox-SpawnLocaction">
+                  Roblox-SpawnLocaction <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

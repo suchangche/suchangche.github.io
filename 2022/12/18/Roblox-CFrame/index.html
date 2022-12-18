@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="CFrame定义CFrame 为Coordinate Frame（坐标框架）的缩写，是一种用于旋转和定位 3D 对象的数据类型。 人话：CFrame包含一个物体的位置信息以及旋转信息 世界坐标与相对坐标在学习CFrame之前先需要搞明白世界坐标以及相对坐标  世界坐标：以世界作为参照物，生成的一个坐标系  相对坐标：以某个物体为参照物，生成的一个坐标系   直接设置某物体的CFrame是对该物体的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Roblox-CFrame">
+<meta property="og:url" content="http://example.com/2022/12/18/Roblox-CFrame/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="CFrame定义CFrame 为Coordinate Frame（坐标框架）的缩写，是一种用于旋转和定位 3D 对象的数据类型。 人话：CFrame包含一个物体的位置信息以及旋转信息 世界坐标与相对坐标在学习CFrame之前先需要搞明白世界坐标以及相对坐标  世界坐标：以世界作为参照物，生成的一个坐标系  相对坐标：以某个物体为参照物，生成的一个坐标系   直接设置某物体的CFrame是对该物体的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Other-Part-Offset-A.png">
+<meta property="og:image" content="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Other-Part-Offset-B.png">
+<meta property="og:image" content="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Other-Part-Relative-Position-A.png">
+<meta property="og:image" content="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Other-Part-Relative-Position-B.png">
+<meta property="og:image" content="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Self-Rotate-A.png">
+<meta property="og:image" content="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Self-Rotate-B.png">
+<meta property="og:image" content="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Top-Face-Pointing-A.png">
+<meta property="og:image" content="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Top-Face-Pointing-B.png">
+<meta property="article:published_time" content="2022-12-18T06:17:14.000Z">
+<meta property="article:modified_time" content="2022-12-18T06:18:55.104Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="Roblox">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Other-Part-Offset-A.png">
+
+
+<link rel="canonical" href="http://example.com/2022/12/18/Roblox-CFrame/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/12/18/Roblox-CFrame/","path":"2022/12/18/Roblox-CFrame/","title":"Roblox-CFrame"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Roblox-CFrame | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CFrame"><span class="nav-number">1.</span> <span class="nav-text">CFrame</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%96%E7%95%8C%E5%9D%90%E6%A0%87%E4%B8%8E%E7%9B%B8%E5%AF%B9%E5%9D%90%E6%A0%87"><span class="nav-number">1.2.</span> <span class="nav-text">世界坐标与相对坐标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BACFrame"><span class="nav-number">1.3.</span> <span class="nav-text">创建CFrame</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CFrame-new"><span class="nav-number">1.3.1.</span> <span class="nav-text">CFrame.new()</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E7%BB%99CFrame%E4%BC%A0%E5%85%A5%E4%B8%96%E7%95%8C%E5%9D%90%E6%A0%87%E5%80%BC"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">直接给CFrame传入世界坐标值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E8%BF%87Vector3%E7%BB%99CFrame%E4%BC%A0%E5%80%BC"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">通过Vector3给CFrame传值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CFrame-Angles"><span class="nav-number">1.3.2.</span> <span class="nav-text">CFrame.Angles()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E6%9F%90%E7%89%A9%E4%BD%93%E9%9D%A2%E5%90%91%E6%8C%87%E5%AE%9A%E7%82%B9"><span class="nav-number">1.3.3.</span> <span class="nav-text">设置某物体面向指定点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0Actor%E4%BD%8D%E7%BD%AE"><span class="nav-number">1.3.4.</span> <span class="nav-text">更新Actor位置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B8%E5%AF%B9%E8%87%AA%E8%BA%AB%E4%BD%8D%E7%A7%BB"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">相对自身位移</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B8%E5%AF%B9%E5%8F%A6%E4%B8%80%E4%B8%AAActor%E8%BF%9B%E8%A1%8C%E4%BD%8D%E7%A7%BB"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">相对另一个Actor进行位移</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0Actor%E5%8A%A8%E6%80%81%E6%9C%9D%E5%90%91"><span class="nav-number">1.3.5.</span> <span class="nav-text">实现Actor动态朝向</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B8%E5%AF%B9%E4%BD%8D%E7%A7%BB"><span class="nav-number">1.3.5.1.</span> <span class="nav-text">相对位移</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#CFrame-ToWorldSpace"><span class="nav-number">1.3.5.1.1.</span> <span class="nav-text">CFrame:ToWorldSpace()</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B8%E5%AF%B9%E6%97%8B%E8%BD%AC"><span class="nav-number">1.3.5.2.</span> <span class="nav-text">相对旋转</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E5%AE%9A%E8%A1%A8%E9%9D%A2%E6%9C%9D%E5%90%91%E7%89%B9%E5%AE%9A%E7%82%B9"><span class="nav-number">1.3.6.</span> <span class="nav-text">指定表面朝向特定点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%86%E7%89%A9%E4%BD%93%E6%94%BE%E7%BD%AE%E5%9C%A8%E4%B8%A4%E7%82%B9%E4%B9%8B%E9%97%B4%E7%9A%84%E7%89%B9%E5%AE%9A%E7%82%B9"><span class="nav-number">1.3.7.</span> <span class="nav-text">将物体放置在两点之间的特定点</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">172</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/18/Roblox-CFrame/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Roblox-CFrame | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Roblox-CFrame
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-12-18 14:17:14 / 修改时间：14:18:55" itemprop="dateCreated datePublished" datetime="2022-12-18T14:17:14+08:00">2022-12-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Roblox/" itemprop="url" rel="index"><span itemprop="name">Roblox</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="CFrame"><a href="#CFrame" class="headerlink" title="CFrame"></a>CFrame</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><code>CFrame</code> 为Coordinate Frame（坐标框架）的缩写，是一种用于旋转和定位 3D 对象的数据类型。</p>
+<p>人话：<code>CFrame</code>包含一个物体的<code>位置信息</code>以及<code>旋转信息</code></p>
+<h2 id="世界坐标与相对坐标"><a href="#世界坐标与相对坐标" class="headerlink" title="世界坐标与相对坐标"></a>世界坐标与相对坐标</h2><p>在学习<code>CFrame</code>之前先需要搞明白<code>世界坐标</code>以及<code>相对坐标</code></p>
+<ul>
+<li><p><code>世界坐标</code>：以世界作为参照物，生成的一个坐标系</p>
+</li>
+<li><p><code>相对坐标</code>：以某个物体为参照物，生成的一个坐标系</p>
+</li>
+</ul>
+<p>直接设置某物体的<code>CFrame</code>是对该物体的<code>世界坐标</code>进行操作；如果想要对其<code>相对坐标</code>进行操作，则需要额外的逻辑</p>
+<p>比如，如果直接使用<code>CFrame</code>使物体A围绕Y轴旋转90°，在游戏的表现中，不是围绕物体A的Y轴旋转90°，而是围绕世界坐标的Y轴旋转90°</p>
+<h2 id="创建CFrame"><a href="#创建CFrame" class="headerlink" title="创建CFrame"></a>创建CFrame</h2><ol>
+<li><p>创建<code>CFrame</code>的位置信息-&gt;<code>new()</code></p>
+</li>
+<li><p>创建<code>CFrame</code>的旋转信息-&gt;<code>Angles()</code></p>
+</li>
+<li><p>设置某物体面向指定点</p>
+</li>
+<li><p>更新Actor位置</p>
+</li>
+</ol>
+<h3 id="CFrame-new"><a href="#CFrame-new" class="headerlink" title="CFrame.new()"></a>CFrame.new()</h3><p>以下是对物体的位置信息进行操作</p>
+<p>注意：在进行下面的所有操作之前，给需要操作的Actor的<code>锚固</code>属性打开</p>
+<p><code>首页-&gt;编辑-&gt;锚固</code>或者<code>模型-&gt;部件-&gt;锚固</code></p>
+<p>因为引擎所有物体是默认开启重力属性的</p>
+<h4 id="直接给CFrame传入世界坐标值"><a href="#直接给CFrame传入世界坐标值" class="headerlink" title="直接给CFrame传入世界坐标值"></a>直接给CFrame传入世界坐标值</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--获取当前关卡中RedBlock的Actor</span></span><br><span class="line"><span class="comment">--不确定是否存在Actor这个概念，姑且先这样理解</span></span><br><span class="line"><span class="keyword">local</span> redBlock = game.Workspace.RedBlock</span><br><span class="line"><span class="comment">-- 创建新 CFrame</span></span><br><span class="line"><span class="keyword">local</span> newCFrame = CFrame.new(<span class="number">-2</span>, <span class="number">2</span>, <span class="number">4</span>)</span><br><span class="line"><span class="comment">-- 用新的 CFrame 覆盖红色方块的当前 CFrame</span></span><br><span class="line">redBlock.CFrame = newCFrame</span><br></pre></td></tr></table></figure>
+
+<h4 id="通过Vector3给CFrame传值"><a href="#通过Vector3给CFrame传值" class="headerlink" title="通过Vector3给CFrame传值"></a>通过Vector3给CFrame传值</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> redBlock = game.Workspace.RedBlock</span><br><span class="line"><span class="comment">-- 创建新 CFrame</span></span><br><span class="line"><span class="keyword">local</span> newVector3 = Vector3.new(<span class="number">-2</span>, <span class="number">2</span>, <span class="number">4</span>)</span><br><span class="line"><span class="keyword">local</span> newCFrame = CFrame.new(newVector3)</span><br><span class="line"><span class="comment">-- 用新的 CFrame 覆盖红色方块的当前 CFrame</span></span><br><span class="line">redBlock.CFrame = newCFrame</span><br></pre></td></tr></table></figure>
+
+<h3 id="CFrame-Angles"><a href="#CFrame-Angles" class="headerlink" title="CFrame.Angles()"></a>CFrame.Angles()</h3><p>以下是对物体的旋转信息进行操作</p>
+<p><code>CFrame.Angles()</code>的形参要求的类型是弧度，但是我们可以通过<code>math.rad()</code>将弧度转换为角度</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> redBlock = game.Workspace.RedBlock </span><br><span class="line"><span class="comment">-- 创建旋转后的新 CFrame</span></span><br><span class="line"><span class="keyword">local</span> newCFrame = CFrame.Angles(<span class="number">0</span>, <span class="built_in">math</span>.<span class="built_in">rad</span>(<span class="number">45</span>), <span class="number">0</span>)</span><br><span class="line"><span class="comment">-- 用新的 CFrame 覆盖红色方块的当前 CFrame</span></span><br><span class="line">redBlock.CFrame = newCFrame</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置某物体面向指定点"><a href="#设置某物体面向指定点" class="headerlink" title="设置某物体面向指定点"></a>设置某物体面向指定点</h3><p>现在关卡中存在两个Actor，分别是<code>RedBlock</code>，<code>BlueCube</code>，现在我们想让 <code>redBlock</code> 部件定位至 <strong>0</strong>, <strong>3</strong>, <strong>0</strong>，并使其面向 <code>blueCube</code> 部件：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> redBlock = game.Workspace.RedBlock</span><br><span class="line"><span class="keyword">local</span> blueCube = game.Workspace.BlueCube</span><br><span class="line"><span class="comment">-- 为初始位置和目标位置各创建一个 Vector3</span></span><br><span class="line"><span class="keyword">local</span> startPosition = Vector3.new(<span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>)</span><br><span class="line"><span class="keyword">local</span> targetPosition = blueCube.Position</span><br><span class="line"><span class="comment">-- 将红色方块放至 &#x27;startPosition&#x27; 并使其前方面向 &#x27;targetPosition&#x27;</span></span><br><span class="line">redBlock.CFrame = CFrame.new(startPosition, targetPosition)</span><br></pre></td></tr></table></figure>
+
+<h3 id="更新Actor位置"><a href="#更新Actor位置" class="headerlink" title="更新Actor位置"></a>更新Actor位置</h3><h4 id="相对自身位移"><a href="#相对自身位移" class="headerlink" title="相对自身位移"></a>相对自身位移</h4><p>有时候我们需要在代码层更新Actor的位置，这时只需对该Actor的<code>CFrame</code>通过<code>Vector3</code>进行增加或减少即可。</p>
+<p>此处也就是实现了该Actor相对自己进行位移</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> redBlock = game.Workspace.RedBlock</span><br><span class="line">redBlock.CFrame = CFrame.new(redBlock.Position) + Vector3.new(<span class="number">0</span>, <span class="number">1.25</span>, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="相对另一个Actor进行位移"><a href="#相对另一个Actor进行位移" class="headerlink" title="相对另一个Actor进行位移"></a>相对另一个Actor进行位移</h4><p>第一张图是移动前，第二张是移动后</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> redBlock = game.Workspace.RedBlock</span><br><span class="line"><span class="keyword">local</span> blueCube = game.Workspace.BlueCube</span><br><span class="line"></span><br><span class="line">redBlock.CFrame = CFrame.new(blueCube.Position) + Vector3.new(<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>                <img src="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Other-Part-Offset-A.png">                <img src="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Other-Part-Offset-B.png"></p>
+<p>关键点在于将新增的<code>Vector3</code>添加到哪一个Actor上，如果是自身，则相对自己位移，如果是其他Actor，则是相对其他Actor位移</p>
+<h3 id="实现Actor动态朝向"><a href="#实现Actor动态朝向" class="headerlink" title="实现Actor动态朝向"></a>实现Actor动态朝向</h3><p>应用场景举例：</p>
+<ul>
+<li>在世界中任意位置及任意朝向的玩家面前生成漂浮的宝物。</li>
+<li>在玩家的右肩上方生成一个魔法精灵。</li>
+</ul>
+<h4 id="相对位移"><a href="#相对位移" class="headerlink" title="相对位移"></a>相对位移</h4><p>Roblox处理相对位置和相对旋转很奇怪，不像是虚幻那样，专门有变量为<code>RelativeRotation</code>和<code>RelativeLoctation</code>来处理相对位置与旋转信息</p>
+<p>在Roblox里，通过将某Actor的<code>CFrame</code>看作世界坐标，再通过此<code>CFarme</code>进行旋转&#x2F;移动</p>
+<p>例如：我想围绕我自己的X轴旋转，那我先把我自己的X轴看作世界坐标，根据这个世界坐标，给自己加减<code>CFrame</code></p>
+<p>那么实现“将某<code>CFrame</code>看作世界坐标”的函数是？</p>
+<h5 id="CFrame-ToWorldSpace"><a href="#CFrame-ToWorldSpace" class="headerlink" title="CFrame:ToWorldSpace()"></a>CFrame:ToWorldSpace()</h5><p><code>CFrame:ToWorldSpace()</code>：可以将对象的局部朝向 CFrame 转换为新的<strong>全局</strong>朝向。</p>
+<p>说人话：将传入的<code>CFrame</code>看作世界坐标</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> redBlock = game.Workspace.RedBlock</span><br><span class="line"><span class="keyword">local</span> blueCube = game.Workspace.BlueCube</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> offsetCFrame = CFrame.new(<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>)</span><br><span class="line">redBlock.CFrame = blueCube.CFrame:ToWorldSpace(offsetCFrame)</span><br></pre></td></tr></table></figure>
+
+<p>        <img src="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Other-Part-Relative-Position-A.png">        <img src="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Other-Part-Relative-Position-B.png"></p>
+<h4 id="相对旋转"><a href="#相对旋转" class="headerlink" title="相对旋转"></a>相对旋转</h4><p>还是使用<code>CFrame：ToWorldSpace()</code></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> redBlock = game.Workspace.RedBlock</span><br><span class="line"><span class="keyword">local</span> rotatedCFrame = CFrame.Angles(<span class="number">0</span>, <span class="built_in">math</span>.<span class="built_in">rad</span>(<span class="number">70</span>), <span class="built_in">math</span>.<span class="built_in">rad</span>(<span class="number">20</span>))</span><br><span class="line">redBlock.CFrame = redBlock.CFrame:ToWorldSpace(rotatedCFrame)</span><br></pre></td></tr></table></figure>
+
+<p>        <img src="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Self-Rotate-A.png">        <img src="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Self-Rotate-B.png"></p>
+<h3 id="指定表面朝向特定点"><a href="#指定表面朝向特定点" class="headerlink" title="指定表面朝向特定点"></a>指定表面朝向特定点</h3><p>比如，玩家左肩膀上的小精灵的右侧永远朝向玩家的左脸</p>
+<p>实现思路</p>
+<ol>
+<li><p>将小精灵的正前方朝向玩家左脸</p>
+</li>
+<li><p>将小精灵绕自身旋转一下</p>
+</li>
+</ol>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> redBlock = game.Workspace.RedBlock</span><br><span class="line"><span class="keyword">local</span> blueCube = game.Workspace.BlueCube</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 为目标位置创建一个 Vector3</span></span><br><span class="line"><span class="keyword">local</span> targetPosition = blueCube.Position</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 使红色方块的前方面向 &#x27;targetPosition&#x27;</span></span><br><span class="line">redBlock.CFrame = CFrame.new(redBlock.Position, targetPosition)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 以红色方块自身为轴心旋转其 CFrame，使其顶面（而非前面）面向目标</span></span><br><span class="line"><span class="keyword">local</span> rotatedCFrame = CFrame.Angles(<span class="built_in">math</span>.<span class="built_in">rad</span>(<span class="number">-90</span>), <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">redBlock.CFrame = redBlock.CFrame:ToWorldSpace(rotatedCFrame)</span><br></pre></td></tr></table></figure>
+
+<p>        <img src="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Top-Face-Pointing-A.png">        <img src="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Top-Face-Pointing-B.png"></p>
+<h3 id="将物体放置在两点之间的特定点"><a href="#将物体放置在两点之间的特定点" class="headerlink" title="将物体放置在两点之间的特定点"></a>将物体放置在两点之间的特定点</h3><p>可以通过名为 <strong>Linear Interpolation</strong>（也就是线性插值，常被简称为 <strong>Lerp</strong>）的方法将 CFrame 定位至两点之间的特定位置。</p>
+<p>举例来说，以下代码将会使用值 <code>0.7</code> 将 <code>redBlock</code> 放置在 <code>greenCube</code> 与 <code>cyanCube</code> 部件之间，该值将会使其绿色和红色部件之间的距离为总距离的 70%。</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> redBlock = game.Workspace.RedBlock</span><br><span class="line"><span class="keyword">local</span> greenCube = game.Workspace.GreenCube</span><br><span class="line"><span class="keyword">local</span> cyanCube = game.Workspace.CyanCube</span><br><span class="line"></span><br><span class="line">redBlock.CFrame = greenCube.CFrame:Lerp(cyanCube.CFrame, <span class="number">0.7</span>)</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Roblox/" rel="tag"># Roblox</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/12/18/Roblox-SpawnLocaction/" rel="prev" title="Roblox-SpawnLocaction">
+                  <i class="fa fa-chevron-left"></i> Roblox-SpawnLocaction
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/12/18/Roblox-ConstomPlayer/" rel="next" title="Roblox-ConstomPlayer">
+                  Roblox-ConstomPlayer <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
