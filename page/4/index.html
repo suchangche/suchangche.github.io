@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">172</span>
+          <span class="site-state-item-count">174</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,424 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/11/Lua-%E8%BF%90%E7%AE%97%E7%AC%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/10/11/Lua-%E8%BF%90%E7%AE%97%E7%AC%A6/" class="post-title-link" itemprop="url">Lua-运算符</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-10-11 15:57:12 / 修改时间：16:05:35" itemprop="dateCreated datePublished" datetime="2022-10-11T15:57:12+08:00">2022-10-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Lua/" itemprop="url" rel="index"><span itemprop="name">Lua</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>运算符是一个特殊的符号，用于告诉解释器执行特定的数学或逻辑运算。Lua提供了以下几种运算符类型：</p>
+<ul>
+<li>算术运算符</li>
+<li>关系运算符</li>
+<li>逻辑运算符</li>
+<li>其他运算符</li>
+</ul>
+<h1 id="算术运算符"><a href="#算术运算符" class="headerlink" title="算术运算符"></a>算术运算符</h1><p>下表列出了 Lua 语言中的常用算术运算符，设定 A 的值为10，B 的值为 20：</p>
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>描述</th>
+<th>实例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>+</td>
+<td>加法</td>
+<td>A + B 输出结果 30</td>
+</tr>
+<tr>
+<td>-</td>
+<td>减法</td>
+<td>A - B 输出结果 -10</td>
+</tr>
+<tr>
+<td>*</td>
+<td>乘法</td>
+<td>A * B 输出结果 200</td>
+</tr>
+<tr>
+<td>&#x2F;</td>
+<td>除法</td>
+<td>B &#x2F; A 输出结果 2</td>
+</tr>
+<tr>
+<td>%</td>
+<td>取余</td>
+<td>B % A 输出结果 0</td>
+</tr>
+<tr>
+<td>^</td>
+<td>乘幂</td>
+<td>A^2 输出结果 100</td>
+</tr>
+<tr>
+<td>-</td>
+<td>负号</td>
+<td>-A 输出结果 -10</td>
+</tr>
+<tr>
+<td>&#x2F;&#x2F;</td>
+<td>整除运算符(&gt;&#x3D;lua5.3)</td>
+<td>5&#x2F;&#x2F;2 输出结果 2</td>
+</tr>
+</tbody></table>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>我们可以通过以下实例来更加透彻的理解算术运算符的应用：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">21</span></span><br><span class="line">b = <span class="number">10</span></span><br><span class="line">c = a + b</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Line 1 - c 的值为 &quot;</span>, c )</span><br><span class="line">c = a - b</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Line 2 - c 的值为 &quot;</span>, c )</span><br><span class="line">c = a * b</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Line 3 - c 的值为 &quot;</span>, c )</span><br><span class="line">c = a / b</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Line 4 - c 的值为 &quot;</span>, c )</span><br><span class="line">c = a % b</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Line 5 - c 的值为 &quot;</span>, c )</span><br><span class="line">c = a^<span class="number">2</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Line 6 - c 的值为 &quot;</span>, c )</span><br><span class="line">c = -a</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Line 7 - c 的值为 &quot;</span>, c )</span><br></pre></td></tr></table></figure>
+
+<p>以上程序执行结果为：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Line <span class="number">1</span> - c 的值为     <span class="number">31</span></span><br><span class="line">Line <span class="number">2</span> - c 的值为     <span class="number">11</span></span><br><span class="line">Line <span class="number">3</span> - c 的值为     <span class="number">210</span></span><br><span class="line">Line <span class="number">4</span> - c 的值为     <span class="number">2.1</span></span><br><span class="line">Line <span class="number">5</span> - c 的值为     <span class="number">1</span></span><br><span class="line">Line <span class="number">6</span> - c 的值为     <span class="number">441</span></span><br><span class="line">Line <span class="number">7</span> - c 的值为     <span class="number">-21</span></span><br></pre></td></tr></table></figure>
+
+<p>在 lua 中，&#x2F; 用作除法运算，计算结果包含小数部分，&#x2F;&#x2F; 用作整除运算，计算结果不包含小数部分：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">5</span></span><br><span class="line">b = <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;除法运算 - a/b 的值为 &quot;</span>, a / b )</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;整除运算 - a//b 的值为 &quot;</span>, a // b )</span><br></pre></td></tr></table></figure>
+
+<p>result</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">除法运算 - a/b 的值为   <span class="number">2.5</span></span><br><span class="line">整除运算 - a//b 的值为  <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="关系运算符"><a href="#关系运算符" class="headerlink" title="关系运算符"></a>关系运算符</h1><p>下表列出了 Lua 语言中的常用关系运算符，设定 A 的值为10，B 的值为 20：</p>
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>描述</th>
+<th>实例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&#x3D;&#x3D;</td>
+<td>等于，检测两个值是否相等，相等返回 true，否则返回 false</td>
+<td>(A &#x3D;&#x3D; B) 为 false。</td>
+</tr>
+<tr>
+<td>~&#x3D;</td>
+<td>不等于，检测两个值是否相等，不相等返回 true，否则返回 false</td>
+<td>(A ~&#x3D; B) 为 true。</td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>大于，如果左边的值大于右边的值，返回 true，否则返回 false</td>
+<td>(A &gt; B) 为 false。</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>小于，如果左边的值大于右边的值，返回 false，否则返回 true</td>
+<td>(A &lt; B) 为 true。</td>
+</tr>
+<tr>
+<td>&gt;&#x3D;</td>
+<td>大于等于，如果左边的值大于等于右边的值，返回 true，否则返回 false</td>
+<td>(A &gt;&#x3D; B) 返回 false。</td>
+</tr>
+<tr>
+<td>&lt;&#x3D;</td>
+<td>小于等于， 如果左边的值小于等于右边的值，返回 true，否则返回 false</td>
+<td>(A &lt;&#x3D; B) 返回 true。</td>
+</tr>
+</tbody></table>
+<h2 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h2><p>我们可以通过以下实例来更加透彻的理解关系运算符的应用：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">21</span></span><br><span class="line">b = <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( a == b )</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;Line 1 - a 等于 b&quot;</span> )</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;Line 1 - a 不等于 b&quot;</span> )</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( a ~= b )</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;Line 2 - a 不等于 b&quot;</span> )</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;Line 2 - a 等于 b&quot;</span> )</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ( a &lt; b )</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;Line 3 - a 小于 b&quot;</span> )</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;Line 3 - a 大于等于 b&quot;</span> )</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ( a &gt; b )</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;Line 4 - a 大于 b&quot;</span> )</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;Line 5 - a 小于等于 b&quot;</span> )</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 修改 a 和 b 的值</span></span><br><span class="line">a = <span class="number">5</span></span><br><span class="line">b = <span class="number">20</span></span><br><span class="line"><span class="keyword">if</span> ( a &lt;= b )</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;Line 5 - a 小于等于  b&quot;</span> )</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ( b &gt;= a )</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;Line 6 - b 大于等于 a&quot;</span> )</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>以上程序执行结果为：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Line <span class="number">1</span> - a 不等于 b</span><br><span class="line">Line <span class="number">2</span> - a 不等于 b</span><br><span class="line">Line <span class="number">3</span> - a 大于等于 b</span><br><span class="line">Line <span class="number">4</span> - a 大于 b</span><br><span class="line">Line <span class="number">5</span> - a 小于等于  b</span><br><span class="line">Line <span class="number">6</span> - b 大于等于 a</span><br></pre></td></tr></table></figure>
+
+<h2 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h2><p>下表列出了 Lua 语言中的常用逻辑运算符，设定 A 的值为 true，B 的值为 false：</p>
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>描述</th>
+<th>实例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>and</td>
+<td>逻辑与操作符。 若 A 为 false，则返回 A，否则返回 B。</td>
+<td>(A and B) 为 false。</td>
+</tr>
+<tr>
+<td>or</td>
+<td>逻辑或操作符。 若 A 为 true，则返回 A，否则返回 B。</td>
+<td>(A or B) 为 true。</td>
+</tr>
+<tr>
+<td>not</td>
+<td>逻辑非操作符。与逻辑运算结果相反，如果条件为 true，逻辑非为 false。</td>
+<td>not(A and B) 为 true。</td>
+</tr>
+</tbody></table>
+<h3 id="实例-2"><a href="#实例-2" class="headerlink" title="实例"></a>实例</h3><p>我们可以通过以下实例来更加透彻的理解逻辑运算符的应用：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="literal">true</span></span><br><span class="line">b = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ( a <span class="keyword">and</span> b )</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;a and b - 条件为 true&quot;</span> )</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ( a <span class="keyword">or</span> b )</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;a or b - 条件为 true&quot;</span> )</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;---------分割线---------&quot;</span> )</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 修改 a 和 b 的值</span></span><br><span class="line">a = <span class="literal">false</span></span><br><span class="line">b = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ( a <span class="keyword">and</span> b )</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;a and b - 条件为 true&quot;</span> )</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;a and b - 条件为 false&quot;</span> )</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ( <span class="keyword">not</span>( a <span class="keyword">and</span> b) )</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;not( a and b) - 条件为 true&quot;</span> )</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;not( a and b) - 条件为 false&quot;</span> )</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>以上程序执行结果为：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a <span class="keyword">and</span> b - 条件为 <span class="literal">true</span></span><br><span class="line">a <span class="keyword">or</span> b - 条件为 <span class="literal">true</span></span><br><span class="line"><span class="comment">---------分割线---------</span></span><br><span class="line">a <span class="keyword">and</span> b - 条件为 <span class="literal">false</span></span><br><span class="line"><span class="keyword">not</span>( a <span class="keyword">and</span> b) - 条件为 <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="其他运算符"><a href="#其他运算符" class="headerlink" title="其他运算符"></a>其他运算符</h1><p>下表列出了 Lua 语言中的连接运算符与计算表或字符串长度的运算符：</p>
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>描述</th>
+<th>实例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>..</td>
+<td>连接两个字符串</td>
+<td>a..b ，其中 a 为 “Hello “ ， b 为 “World”, 输出结果为 “Hello World”。</td>
+</tr>
+<tr>
+<td>#</td>
+<td>一元运算符，返回字符串或表的长度。</td>
+<td>#”Hello” 返回 5</td>
+</tr>
+</tbody></table>
+<h2 id="实例-3"><a href="#实例-3" class="headerlink" title="实例"></a>实例</h2><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="string">&quot;Hello &quot;</span></span><br><span class="line">b = <span class="string">&quot;World&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;连接字符串 a 和 b &quot;</span>, a..b )</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;b 字符串长度 &quot;</span>,#b )</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;字符串 Test 长度 &quot;</span>,#<span class="string">&quot;Test&quot;</span> )</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;菜鸟教程网址长度 &quot;</span>,#<span class="string">&quot;www.runoob.com&quot;</span> )</span><br></pre></td></tr></table></figure>
+
+<p>以上程序执行结果为：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">连接字符串 a 和 b     Hello World</span><br><span class="line">b 字符串长度     <span class="number">5</span></span><br><span class="line">字符串 Test 长度     <span class="number">4</span></span><br><span class="line">菜鸟教程网址长度     <span class="number">14</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="运算符优先级"><a href="#运算符优先级" class="headerlink" title="运算符优先级"></a>运算符优先级</h1><p>从高到低的顺序：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">^</span><br><span class="line"><span class="keyword">not</span>    - (unary)</span><br><span class="line">*      /       %</span><br><span class="line">+      -</span><br><span class="line">..</span><br><span class="line">&lt;      &gt;      &lt;=     &gt;=     ~=     ==</span><br><span class="line"><span class="keyword">and</span></span><br><span class="line"><span class="keyword">or</span></span><br></pre></td></tr></table></figure>
+
+<p>除了 ^ 和 .. 外所有的二元运算符都是左连接的。</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a+i &lt; b/<span class="number">2</span>+<span class="number">1</span>          &lt;<span class="comment">--&gt;       (a+i) &lt; ((b/2)+1)</span></span><br><span class="line"><span class="number">5</span>+x^<span class="number">2</span>*<span class="number">8</span>              &lt;<span class="comment">--&gt;       5+((x^2)*8)</span></span><br><span class="line">a &lt; y <span class="keyword">and</span> y &lt;= z     &lt;<span class="comment">--&gt;       (a &lt; y) and (y &lt;= z)</span></span><br><span class="line">-x^<span class="number">2</span>                 &lt;<span class="comment">--&gt;       -(x^2)</span></span><br><span class="line">x^y^z                &lt;<span class="comment">--&gt;       x^(y^z)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="实例-4"><a href="#实例-4" class="headerlink" title="实例"></a>实例</h3><p>我们可以通过以下实例来更加透彻的了解 Lua 语言运算符的优先级：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">20</span></span><br><span class="line">b = <span class="number">10</span></span><br><span class="line">c = <span class="number">15</span></span><br><span class="line">d = <span class="number">5</span></span><br><span class="line"></span><br><span class="line">e = (a + b) * c / d;<span class="comment">-- ( 30 * 15 ) / 5</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;(a + b) * c / d 运算值为  :&quot;</span>,e )</span><br><span class="line"></span><br><span class="line">e = ((a + b) * c) / d; <span class="comment">-- (30 * 15 ) / 5</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;((a + b) * c) / d 运算值为 :&quot;</span>,e )</span><br><span class="line"></span><br><span class="line">e = (a + b) * (c / d);<span class="comment">-- (30) * (15/5)</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;(a + b) * (c / d) 运算值为 :&quot;</span>,e )</span><br><span class="line"></span><br><span class="line">e = a + (b * c) / d;  <span class="comment">-- 20 + (150/5)</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;a + (b * c) / d 运算值为   :&quot;</span>,e )</span><br></pre></td></tr></table></figure>
+
+<p>以上程序执行结果为：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(a + b) * c / d 运算值为  :    <span class="number">90.0</span></span><br><span class="line">((a + b) * c) / d 运算值为 :    <span class="number">90.0</span></span><br><span class="line">(a + b) * (c / d) 运算值为 :    <span class="number">90.0</span></span><br><span class="line">a + (b * c) / d 运算值为   :    <span class="number">50.0</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/11/Lua-%E5%87%BD%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/10/11/Lua-%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">Lua-函数</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-10-11 15:08:26 / 修改时间：15:56:09" itemprop="dateCreated datePublished" datetime="2022-10-11T15:08:26+08:00">2022-10-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Lua/" itemprop="url" rel="index"><span itemprop="name">Lua</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>在Lua中，函数是对语句和表达式进行抽象的主要方法。</p>
+<p>既可以用来处理一些特殊的工作，也可以用来计算一些值。</p>
+<p>Lua 提供了许多的内建函数，你可以很方便的在程序中调用它们，如print()函数可以将传入的参数打印在控制台上。</p>
+<p>Lua 函数主要有两种用途：</p>
+<ul>
+<li>1.完成指定的任务，这种情况下函数作为调用语句使用；</li>
+<li>2.计算并返回值，这种情况下函数作为赋值语句的表达式使用。</li>
+</ul>
+<h1 id="函数定义"><a href="#函数定义" class="headerlink" title="函数定义"></a>函数定义</h1><p>Lua 编程语言函数定义格式如下：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">optional_function_scope <span class="function"><span class="keyword">function</span> <span class="title">function_name</span><span class="params">( argument1, argument2, argument3..., argumentn)</span></span></span><br><span class="line">    function_body</span><br><span class="line">    <span class="keyword">return</span> result_params_comma_separated</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>解析：</p>
+<ul>
+<li><p><strong>optional_function_scope:</strong> 该参数是可选的制定函数是全局函数还是局部函数，未设置该参数默认为全局函数，如果你需要设置函数为局部函数需要使用关键字 <strong>local</strong></p>
+</li>
+<li><p><strong>function_name:</strong> 指定函数名称。</p>
+</li>
+<li><p><strong>argument1, argument2, argument3…, argumentn:</strong> 函数参数，多个参数以逗号隔开，函数也可以不带参数。</p>
+</li>
+<li><p><strong>function_body:</strong> 函数体，函数中需要执行的代码语句块。</p>
+</li>
+<li><p><strong>result_params_comma_separated:</strong> 函数返回值，Lua语言函数<strong>可以返回多个值，每个值以逗号隔开。</strong></p>
+</li>
+</ul>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>以下实例定义了函数 **max()**，参数为 num1, num2，用于比较两值的大小，并返回最大值：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--[[ 函数返回两个值的最大值 --]]</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">max</span><span class="params">(num1, num2)</span></span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span> (num1 &gt; num2) <span class="keyword">then</span></span><br><span class="line">      result = num1;</span><br><span class="line">   <span class="keyword">else</span></span><br><span class="line">      result = num2;</span><br><span class="line">   <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> result;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">-- 调用函数</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;两值比较最大值为 &quot;</span>,<span class="built_in">max</span>(<span class="number">10</span>,<span class="number">4</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;两值比较最大值为 &quot;</span>,<span class="built_in">max</span>(<span class="number">5</span>,<span class="number">6</span>))</span><br></pre></td></tr></table></figure>
+
+<p>以上代码执行结果为：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">两值比较最大值为     <span class="number">10</span></span><br><span class="line">两值比较最大值为     <span class="number">6</span></span><br></pre></td></tr></table></figure>
+
+<p>Lua 中我们可以将函数作为参数传递给函数，如下实例：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">myprint = <span class="function"><span class="keyword">function</span><span class="params">(param)</span></span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;这是打印函数 -   ##&quot;</span>,param,<span class="string">&quot;##&quot;</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">(num1,num2,functionPrint)</span></span></span><br><span class="line">   result = num1 + num2</span><br><span class="line">   <span class="comment">-- 调用传递的函数参数</span></span><br><span class="line">   functionPrint(result)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">myprint(<span class="number">10</span>)</span><br><span class="line"><span class="comment">-- myprint 函数作为参数传递</span></span><br><span class="line">add(<span class="number">2</span>,<span class="number">5</span>,myprint)</span><br></pre></td></tr></table></figure>
+
+<p>以上代码执行结果为：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">这是打印函数 -   ##    <span class="number">10</span>    ##</span><br><span class="line">这是打印函数 -   ##    <span class="number">7</span>    ##</span><br></pre></td></tr></table></figure>
+
+<h1 id="多返回值"><a href="#多返回值" class="headerlink" title="多返回值"></a>多返回值</h1><p>Lua函数可以返回多个结果值，比如string.find，其返回匹配串”开始和结束的下标”（如果不存在匹配串返回nil）。</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; s, e = <span class="built_in">string</span>.<span class="built_in">find</span>(<span class="string">&quot;www.runoob.com&quot;</span>, <span class="string">&quot;runoob&quot;</span>) </span><br><span class="line">&gt; <span class="built_in">print</span>(s, e)</span><br><span class="line"><span class="number">5</span>    <span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<p>Lua函数中，在return后列出要返回的值的列表即可返回多值，如：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">maximum</span> <span class="params">(a)</span></span></span><br><span class="line">    <span class="keyword">local</span> mi = <span class="number">1</span>             <span class="comment">-- 最大值索引</span></span><br><span class="line">    <span class="keyword">local</span> m = a[mi]          <span class="comment">-- 最大值</span></span><br><span class="line">    <span class="keyword">for</span> i,val <span class="keyword">in</span> <span class="built_in">ipairs</span>(a) <span class="keyword">do</span></span><br><span class="line">       <span class="keyword">if</span> val &gt; m <span class="keyword">then</span></span><br><span class="line">           mi = i</span><br><span class="line">           m = val</span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">return</span> m, mi</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(maximum(&#123;<span class="number">8</span>,<span class="number">10</span>,<span class="number">23</span>,<span class="number">12</span>,<span class="number">5</span>&#125;))</span><br></pre></td></tr></table></figure>
+
+<p>以上代码执行结果为：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">23</span>    <span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="可变参数"><a href="#可变参数" class="headerlink" title="可变参数"></a>可变参数</h1><p>Lua 函数可以接受可变数目的参数，和 C 语言类似，在函数参数列表中使用三点 … 表示函数有可变的参数。</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">(...)</span></span>  </span><br><span class="line"><span class="keyword">local</span> s = <span class="number">0</span>  </span><br><span class="line">  <span class="keyword">for</span> i, v <span class="keyword">in</span> <span class="built_in">ipairs</span>&#123;...&#125; <span class="keyword">do</span>   <span class="comment">--&gt; &#123;...&#125; 表示一个由所有变长参数构成的数组  </span></span><br><span class="line">    s = s + v  </span><br><span class="line">  <span class="keyword">end</span>  </span><br><span class="line">  <span class="keyword">return</span> s  </span><br><span class="line"><span class="keyword">end</span>  </span><br><span class="line"><span class="built_in">print</span>(add(<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>))  <span class="comment">---&gt;25</span></span><br></pre></td></tr></table></figure>
+
+<p>我们可以将可变参数赋值给一个变量。</p>
+<p>例如，我们计算几个数的平均值：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">average</span><span class="params">(...)</span></span></span><br><span class="line">   result = <span class="number">0</span></span><br><span class="line">   <span class="keyword">local</span> <span class="built_in">arg</span>=&#123;...&#125;    <span class="comment">--&gt; arg 为一个表，局部变量</span></span><br><span class="line">   <span class="keyword">for</span> i,v <span class="keyword">in</span> <span class="built_in">ipairs</span>(<span class="built_in">arg</span>) <span class="keyword">do</span></span><br><span class="line">      result = result + v</span><br><span class="line">   <span class="keyword">end</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;总共传入 &quot;</span> .. #<span class="built_in">arg</span> .. <span class="string">&quot; 个数&quot;</span>)</span><br><span class="line">   <span class="keyword">return</span> result/#<span class="built_in">arg</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;平均值为&quot;</span>,average(<span class="number">10</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>))</span><br></pre></td></tr></table></figure>
+
+<p>以上代码执行结果为：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">总共传入 <span class="number">6</span> 个数</span><br><span class="line">平均值为    <span class="number">5.5</span></span><br></pre></td></tr></table></figure>
+
+<p>我们也可以通过 select(“#”,…) 来获取可变参数的数量:</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">average</span><span class="params">(...)</span></span></span><br><span class="line">   result = <span class="number">0</span></span><br><span class="line">   <span class="keyword">local</span> <span class="built_in">arg</span>=&#123;...&#125;</span><br><span class="line">   <span class="keyword">for</span> i,v <span class="keyword">in</span> <span class="built_in">ipairs</span>(<span class="built_in">arg</span>) <span class="keyword">do</span></span><br><span class="line">      result = result + v</span><br><span class="line">   <span class="keyword">end</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;总共传入 &quot;</span> .. <span class="built_in">select</span>(<span class="string">&quot;#&quot;</span>,...) .. <span class="string">&quot; 个数&quot;</span>)</span><br><span class="line">   <span class="keyword">return</span> result/<span class="built_in">select</span>(<span class="string">&quot;#&quot;</span>,...)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;平均值为&quot;</span>,average(<span class="number">10</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>))</span><br></pre></td></tr></table></figure>
+
+<p>有时候我们可能需要几个固定参数加上可变参数，固定参数必须放在变长参数之前:</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fwrite</span><span class="params">(fmt, ...)</span></span>  <span class="comment">---&gt; 固定的参数fmt</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">io</span>.<span class="built_in">write</span>(<span class="built_in">string</span>.<span class="built_in">format</span>(fmt, ...))    </span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">fwrite(<span class="string">&quot;runoob\n&quot;</span>)       <span class="comment">---&gt;fmt = &quot;runoob&quot;, 没有变长参数。  </span></span><br><span class="line">fwrite(<span class="string">&quot;%d%d\n&quot;</span>, <span class="number">1</span>, <span class="number">2</span>)   <span class="comment">---&gt;fmt = &quot;%d%d&quot;, 变长参数为 1 和 2</span></span><br></pre></td></tr></table></figure>
+
+<p>输出结果为：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">runoob</span><br><span class="line"><span class="number">12</span></span><br></pre></td></tr></table></figure>
+
+<p>通常在遍历变长参数的时候只需要使用 {…}，然而变长参数可能会包含一些 nil，那么就可以用 <strong>select</strong> 函数来访问变长参数了：<strong>select(‘#’, …)</strong> 或者 <strong>select(n, …)</strong></p>
+<ul>
+<li>select(‘#’, …) 返回可变参数的长度。</li>
+<li>select(n, …) 用于返回从起点 <strong>n</strong> 开始到结束位置的所有参数列表。</li>
+</ul>
+<p>调用 select 时，必须传入一个固定实参 selector(选择开关) 和一系列变长参数。如果 selector 为数字 n，那么 select 返回参数列表中从索引 <strong>n</strong> 开始到结束位置的所有参数列表，否则只能为字符串 #，这样 select 返回变长参数的总数。</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span><span class="params">(...)</span></span></span><br><span class="line">    a = <span class="built_in">select</span>(<span class="number">3</span>,...)  <span class="comment">--&gt;从第三个位置开始，变量 a 对应右边变量列表的第一个参数</span></span><br><span class="line">    <span class="built_in">print</span> (a)</span><br><span class="line">    <span class="built_in">print</span> (<span class="built_in">select</span>(<span class="number">3</span>,...)) <span class="comment">--&gt;打印所有列表参数</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">f(<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+
+<p>输出结果为：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">2</span>       <span class="number">3</span>       <span class="number">4</span>       <span class="number">5</span></span><br></pre></td></tr></table></figure>
+
+<p>实例</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span>  </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">(...)</span></span>  </span><br><span class="line">        <span class="keyword">for</span> i = <span class="number">1</span>, <span class="built_in">select</span>(<span class="string">&#x27;#&#x27;</span>, ...) <span class="keyword">do</span>  <span class="comment">--&gt;获取参数总数</span></span><br><span class="line">            <span class="keyword">local</span> <span class="built_in">arg</span> = <span class="built_in">select</span>(i, ...); <span class="comment">--&gt;读取参数，arg 对应的是右边变量列表的第一个参数</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;arg&quot;</span>, <span class="built_in">arg</span>);  </span><br><span class="line">        <span class="keyword">end</span>  </span><br><span class="line">    <span class="keyword">end</span>  </span><br><span class="line"> </span><br><span class="line">    foo(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>);  </span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>输出结果为：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">arg</span>    <span class="number">1</span></span><br><span class="line"><span class="built_in">arg</span>    <span class="number">2</span></span><br><span class="line"><span class="built_in">arg</span>    <span class="number">3</span></span><br><span class="line"><span class="built_in">arg</span>    <span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1719,242 +2137,9 @@
 </li>
 <li><p><a target="_blank" rel="noopener" href="https://www.udemy.com/course/unreal-engine-5-cpp-multiplayer-shooter/UE">https://www.udemy.com/course/unreal-engine-5-cpp-multiplayer-shooter/UE</a> 网络同步和框架</p>
 </li>
-<li><p>转载自我的好兄弟：<a href="mailto:&#50;&#54;&#x35;&#55;&#x33;&#52;&#56;&#54;&#x37;&#x39;&#64;&#113;&#113;&#46;&#x63;&#111;&#x6d;">&#50;&#54;&#x35;&#55;&#x33;&#52;&#56;&#54;&#x37;&#x39;&#64;&#113;&#113;&#46;&#x63;&#111;&#x6d;</a></p>
+<li><p>转载自我的好兄弟：<a href="mailto:&#x32;&#x36;&#x35;&#55;&#x33;&#x34;&#56;&#54;&#55;&#x39;&#x40;&#x71;&#113;&#46;&#x63;&#111;&#109;">&#x32;&#x36;&#x35;&#55;&#x33;&#x34;&#56;&#54;&#55;&#x39;&#x40;&#x71;&#113;&#46;&#x63;&#111;&#109;</a></p>
 </li>
 </ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/06/UDP%E7%AE%80%E8%BF%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/10/06/UDP%E7%AE%80%E8%BF%B0/" class="post-title-link" itemprop="url">UDP简述</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-10-06 09:45:00 / 修改时间：10:48:18" itemprop="dateCreated datePublished" datetime="2022-10-06T09:45:00+08:00">2022-10-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>UDP协议全称是用户数据报协议，在网络中它与TCP协议一样用于处理数据包，是一种无连接的协议。在OSI模型中，在第四层——传输层，处于IP协议的上一层。UDP有不提供数据包分组、组装和不能对数据包进行排序的缺点，也就是说，当报文发送之后，是无法得知其是否安全完整到达的。</p>
-<h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1><h2 id="面向无连接"><a href="#面向无连接" class="headerlink" title="面向无连接"></a>面向无连接</h2><p>首先 UDP 是不需要和 TCP一样在发送数据前进行三次握手建立连接的，想发数据就可以开始发送了。并且也只是数据报文的搬运工，不会对数据报文进行任何拆分和拼接操作。</p>
-<p>具体来说就是：</p>
-<p>在发送端，应用层将数据传递给传输层的 UDP 协议，UDP 只会给数据增加一个 UDP 头标识下是 UDP 协议，然后就传递给网络层了在接收端，网络层将数据传递给传输层，UDP 只去除 IP 报文头就传递给应用层，不会任何拼接操作</p>
-<h2 id="有单播，多播，广播的功能"><a href="#有单播，多播，广播的功能" class="headerlink" title="有单播，多播，广播的功能"></a>有单播，多播，广播的功能</h2><p>UDP 不止支持一对一的传输方式，同样支持一对多，多对多，多对一的方式，也就是说 UDP 提供了单播，多播，广播的功能。</p>
-<h2 id="UDP是面向报文的"><a href="#UDP是面向报文的" class="headerlink" title="UDP是面向报文的"></a>UDP是面向报文的</h2><p>发送方的UDP对应用程序交下来的报文，在添加首部后就向下交付IP层。UDP对应用层交下来的报文，既不合并，也不拆分，而是保留这些报文的边界。因此，应用程序必须选择合适大小的报文</p>
-<h2 id="不可靠性"><a href="#不可靠性" class="headerlink" title="不可靠性"></a>不可靠性</h2><p>首先不可靠性体现在无连接上，通信都不需要建立连接，想发就发，这样的情况肯定不可靠。</p>
-<p>并且收到什么数据就传递什么数据，并且也不会备份数据，发送数据也不会关心对方是否已经正确接收到数据了。</p>
-<p>再者网络环境时好时坏，但是 UDP 因为没有拥塞控制，一直会以恒定的速度发送数据。即使网络条件不好，也不会对发送速率进行调整。这样实现的弊端就是在网络条件不好的情况下可能会导致丢包，但是优点也很明显，在某些实时性要求高的场景（比如电话会议）就需要使用 UDP 而不是 TCP。</p>
-<h2 id="头部开销小，传输数据报文时是很高效的。"><a href="#头部开销小，传输数据报文时是很高效的。" class="headerlink" title="头部开销小，传输数据报文时是很高效的。"></a>头部开销小，传输数据报文时是很高效的。</h2>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/06/TCP-IP%E7%AE%80%E8%BF%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/10/06/TCP-IP%E7%AE%80%E8%BF%B0/" class="post-title-link" itemprop="url">TCP/IP简述</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-10-06 09:32:36 / 修改时间：09:48:35" itemprop="dateCreated datePublished" datetime="2022-10-06T09:32:36+08:00">2022-10-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="TCP-x2F-IP-三次握手"><a href="#TCP-x2F-IP-三次握手" class="headerlink" title="TCP&#x2F;IP 三次握手"></a>TCP&#x2F;IP 三次握手</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>指在发送数据的准备阶段，需要先建立连接，（三次握手来建立连接）</p>
-<h2 id="三次握手举例"><a href="#三次握手举例" class="headerlink" title="三次握手举例"></a>三次握手举例</h2><ol>
-<li><p>就是A给B发送消息1 （A只知道自己刚刚发送了消息，但是发没发送成功，B有没有收到？A是不知道的，万一网络不好消息丢了呢或者B的协议不对，不能收到A的消息呢）</p>
-</li>
-<li><p>B给A发送消息2，告诉A,B刚刚收到了消息1，（此时，A给B发送消息，确认B是可以收到的A的消息，但是A有没有收到B的消息2，我们是不知道的，我们只是发出了消息，不确定收到消息没，万一消息2发丢了呢）</p>
-</li>
-<li><p>所以第三次，就是A再给B发送消息，告诉B,A可以收到B的消息。</p>
-</li>
-</ol>
-<p>三次握手完成，双方确认了都可以收到对方消息，这就建立连接成功了</p>
-<p><img src="https://img-blog.csdnimg.cn/d2415ebccb164e5294abc5b07bebeb22.png"></p>
-<p>同步序号：SYN   确认字段：ACK  随机数据：seq</p>
-<p>规定：</p>
-<p>当SYN&#x3D;1,ACK&#x3D;0表示连接请求</p>
-<p>当SYN&#x3D;1,ACK&#x3D;1表示同意建立连接</p>
-<p>如上图，纵向的轴，是一个时间轴。</p>
-<ol>
-<li><p>第一次握手：时间点1，客户端向服务端发送连接请求报文段。ACK&#x3D;0,SYN&#x3D;1,seq&#x3D;x。将SYN位置为1，Sequence Number为x;然后，客户端进入SYN_SEND状态，等待服务器的确认;</p>
-</li>
-<li><p>第二次握手：服务器收到SYN报文段。服务器收到客户端的SYN报文段，需要对这个SYN报文段进行确认，设置Acknowledgment Number为x+1(Sequence Number+1);同时，自己自己还要发送SYN请求信息，将SYN位置为1，Sequence Number为y;服务器端将上述所有信息放到一个报文段(即SYN+ACK报文段)中，一并发送给客户端，此时服务器进入SYN_RECV状态;</p>
-</li>
-<li><p>第三次握手：客户端收到服务器的SYN+ACK报文段。然后将Acknowledgment Number设置为y+1，向服务器发送ACK报文段，这个报文段发送完毕以后，客户端和服务器端都进入ESTABLISHED状态，完成TCP三次握手。</p>
-</li>
-</ol>
-<p>完成了三次握手，客户端和服务器端就可以开始传送数据。</p>
-<h2 id="为什么是三次握手？而不是两次握手"><a href="#为什么是三次握手？而不是两次握手" class="headerlink" title="为什么是三次握手？而不是两次握手"></a>为什么是三次握手？而不是两次握手</h2><h3 id="原因1：-两次握手只能保证单向连接是畅通的。因为TCP是一个双向传输协议，只有经过第三次握手，才能确保双向都可以接收到对方的发送的数据。"><a href="#原因1：-两次握手只能保证单向连接是畅通的。因为TCP是一个双向传输协议，只有经过第三次握手，才能确保双向都可以接收到对方的发送的数据。" class="headerlink" title="原因1： 两次握手只能保证单向连接是畅通的。因为TCP是一个双向传输协议，只有经过第三次握手，才能确保双向都可以接收到对方的发送的数据。"></a>原因1： 两次握手只能保证单向连接是畅通的。因为TCP是一个双向传输协议，只有经过第三次握手，才能确保双向都可以接收到对方的发送的数据。</h3><p>接着上面的那个打电话的日常场景，如果是2次握手话，场景就是这样的。</p>
-<p>你：你能听到我说话吗？</p>
-<p>你朋友：我能听到你说话，你能听到我说话吗？</p>
-<p>你：我能听到你说话</p>
-<p>只是确认了对方能听到你说话，但是不能确认你能听到你朋友的说话。</p>
-<p>如果两次握手，就正式谈话，如果你听不到你朋友的声音，这些你朋友给你说的话不就丢失了么。</p>
-<p><img src="https://img-blog.csdnimg.cn/3fe9474a4dff416ebc9c7e7f42fd9daa.png"></p>
-<h3 id="原因2：主要是为了防止已经失效的连接请求报文突然又传送到了服务器，从而导致不必要的错误和资源的浪费。"><a href="#原因2：主要是为了防止已经失效的连接请求报文突然又传送到了服务器，从而导致不必要的错误和资源的浪费。" class="headerlink" title="原因2：主要是为了防止已经失效的连接请求报文突然又传送到了服务器，从而导致不必要的错误和资源的浪费。"></a>原因2：主要是为了防止已经失效的连接请求报文突然又传送到了服务器，从而导致不必要的错误和资源的浪费。</h3><p>如果使用的是两次握手建立连接，假设有这样一种场景，客户端发送的第一个请求连接并且没有丢失，只是因为在网络中滞留的时间太长了，由于TCP的客户端迟迟没有收到确认报文，以为服务器没有收到，此时重新向服务器发送这条报文，此后客户端和服务器经过两次握手完成连接，传输数据，然后关闭连接。此时之前滞留的那一次请求连接，因为网络通畅了, 到达了服务器，这个报文本该是失效的，但是，两次握手的机制将会让客户端和服务器再次建立连接，这将导致不必要的错误和资源的浪费。</p>
-<p>如果采用的是三次握手，就算是那一次失效的报文传送过来了，服务端接受到了那条失效报文并且回复了确认报文，但是客户端不会再次发出确认。由于服务器收不到确认，就知道客户端并没有请求连接。<br><img src="https://img-blog.csdnimg.cn/d8d66b8e47e74089b94dfcb034ed9897.png"></p>
-<h2 id="TCP建立连接为什么是三次握手，而不是四次？"><a href="#TCP建立连接为什么是三次握手，而不是四次？" class="headerlink" title="TCP建立连接为什么是三次握手，而不是四次？"></a>TCP建立连接为什么是三次握手，而不是四次？</h2><p>三次握手已经能说明握手时的通信是正常的，四次握手就显得浪费了。</p>
-<h1 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h1><p>TCP 的连接的拆除需要发送四个包，因此称为四次挥手(Four-way handshake)，客户端或服务器均可主动发起挥手动作。</p>
-<p>TCP连接是双向的，在四次挥手中，前两次挥手用于断开一个方向的连接，后两次挥手用于断开另一方向的连接。</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/d33d52354d13a78d5f56e388033372a5.png"></p>
-<p>1、第一次挥手</p>
-<p> 客户端发送一个 FIN 报文（请求连接终止：FIN &#x3D; 1），报文中会指定一个序列号 seq &#x3D; u。并停止再发送数据，主动关闭 TCP 连接。此时客户端进入 FIN_WAIT_1 状态，等待服务端的确认。</p>
-<p> FIN-WAIT-1 ：等待远程TCP的连接中断请求，或先前的连接中断请求的确认</p>
-<p> FIN&#x3D;1表示该报文段是一个连接释放请求</p>
-<p> seq&#x3D;u，u-1是客户端向服务端发送的最后一个字节的序号</p>
-<p>2、第二次挥手</p>
-<p>服务端收到 FIN 之后，会发送 ACK 报文，且把客户端的序号值 +1 作为 ACK 报文的序列号值，表明已经收到客户端的报文了，此时服务端进入 CLOSE_WAIT状态。</p>
-<p> CLOSE_WAIT ：等待从本地用户发来的连接中断请求</p>
-<p> ACK&#x3D;1：除TCP连接请求报文段以外，TCP通信过程中所有数据报的ACK都为1，表示应答</p>
-<p> seq&#x3D;v，v是服务端释放应答报文段第一个字节序号</p>
-<p> ack&#x3D;u+1表示希望收到从第u+1个字节开始的报文段，并且已经成功接收了前u个字节</p>
-<p>第二次挥手完成后，客户端到服务端方向的连接已经释放，服务端不会再接收客户端的数据，客户端也没有数据要发送了。但服务端到客户端方向的连接仍然存在，服务器若发送数据，客户端依然要接受。这个状态还要持续一段时间，也就是整个CLOSE-WAIT状态持续的时间。</p>
-<p>3、第三次挥手</p>
-<p>服务端将最后的数据发送完毕后，就向客户端发送连接释放报文，其报文头包含：FIN&#x3D;1，ack&#x3D;u+1，由于在CLOS-WAIT状态，服务端很可能又发送了一些数据，假定此时的序列号为seq&#x3D;w，此时，服务器进入LAST-ACK状态。</p>
-<p>LAST_ACK : 等待原来发向远程TCP的连接中断请求的确认</p>
-<p>4、第四次挥手</p>
-<p>客户端收到 FIN 之后，一样发送一个 ACK 报文作为应答（ack &#x3D; w+1），且把服务端的序列值 +1 作为自己 ACK 报文的序号值（seq&#x3D;u+1），此时客户端进入TIME_WAIT状态。</p>
-<p> TIME_WAIT：等待足够的时间以确保远程TCP接收到连接中断请求的确认</p>
-<p>该状态会持续2MSL（最长报文段寿命）时间，这个期间TCP连接还未释放，若该时间段内没有服务端的重发请求的话，客户端就进入CLOSED状态，撤销TCB。</p>
-<p>服务端只要收到了客户端发出的确认，立即进入CLOSED状态。同样，撤销TCB后，就结束了这次的TCP连接。可以看到，服务器结束TCP连接的时间要比客户端早一些。</p>
-<h2 id="TCP关闭连接时为什么是四次挥手？"><a href="#TCP关闭连接时为什么是四次挥手？" class="headerlink" title="TCP关闭连接时为什么是四次挥手？"></a>TCP关闭连接时为什么是四次挥手？</h2><p>由于 TCP 的半关闭（half-close）特性，TCP 提供了连接的一端在结束它的发送后还能接收来自另一端数据的能力。</p>
-<p> 任何一方都可以在数据传送结束后发出连接释放的通知，待对方确认后进入半关闭状态。当另一方也没有数据再发送的时候，则发出连接释放通知，对方确认后就完全关闭了TCP连接。</p>
-<h2 id="为什么TIME-WAIT状态需要经过2MSL才能返回到CLOSE状态？"><a href="#为什么TIME-WAIT状态需要经过2MSL才能返回到CLOSE状态？" class="headerlink" title="为什么TIME_WAIT状态需要经过2MSL才能返回到CLOSE状态？"></a>为什么TIME_WAIT状态需要经过2MSL才能返回到CLOSE状态？</h2><h3 id="1-为了保证服务端能收到客户端的确认应答。"><a href="#1-为了保证服务端能收到客户端的确认应答。" class="headerlink" title="1.为了保证服务端能收到客户端的确认应答。"></a>1.为了保证服务端能收到客户端的确认应答。</h3><p>若客户端发完确认应答后直接进入CLOSED状态，那么如果该应答丢失，服务端等待超时后就会重新发送连接释放请求，但此时客户端已经关闭了，不会作出任何响应，因此服务端就无法正常关闭。</p>
-<h3 id="2-防止类似与“三次握手”中提到了的“已经失效的连接请求报文段”出现在本连接中。"><a href="#2-防止类似与“三次握手”中提到了的“已经失效的连接请求报文段”出现在本连接中。" class="headerlink" title="2.防止类似与“三次握手”中提到了的“已经失效的连接请求报文段”出现在本连接中。"></a>2.防止类似与“三次握手”中提到了的“已经失效的连接请求报文段”出现在本连接中。</h3><p> 客户端发送完最后一个确认报文后，在这个2MSL时间中，就可以使本连接持续的时间内所产生的所有报文段都从网络中消失。这样新的连接中不会出现旧连接的请求报文。</p>
-<h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1><h2 id="面向连接"><a href="#面向连接" class="headerlink" title="面向连接"></a>面向连接</h2><p>面向连接，是指发送数据之前必须在两端建立连接。建立连接的方法是“三次握手”，这样能建立可靠的连接。建立连接，是为数据的可靠传输打下了基础。</p>
-<h2 id="仅支持单播传输"><a href="#仅支持单播传输" class="headerlink" title="仅支持单播传输"></a>仅支持单播传输</h2><p>每条TCP传输连接只能有两个端点，只能进行点对点的数据传输，不支持多播和广播传输方式。</p>
-<h2 id="面向字节流"><a href="#面向字节流" class="headerlink" title="面向字节流"></a>面向字节流</h2><p>TCP不像UDP一样那样一个个报文独立地传输，而是在不保留报文边界的情况下以字节流方式进行传输。</p>
-<h2 id="可靠传输"><a href="#可靠传输" class="headerlink" title="可靠传输"></a>可靠传输</h2><p>对于可靠传输，判断丢包，误码靠的是TCP的段编号以及确认号。TCP为了保证报文传输的可靠，就给每个包一个序号，同时序号也保证了传送到接收端实体的包的按序接收。然后接收端实体对已成功收到的字节发回一个相应的确认(ACK)；如果发送端实体在合理的往返时延(RTT)内未收到确认，那么对应的数据（假设丢失了）将会被重传。</p>
-<h2 id="提供拥塞控制"><a href="#提供拥塞控制" class="headerlink" title="提供拥塞控制"></a>提供拥塞控制</h2><p>当网络出现拥塞的时候，TCP能够减小向网络注入数据的速率和数量，缓解拥塞</p>
-<h2 id="TCP提供全双工通信"><a href="#TCP提供全双工通信" class="headerlink" title="TCP提供全双工通信"></a>TCP提供全双工通信</h2><p>TCP允许通信双方的应用程序在任何时候都能发送数据，因为TCP连接的两端都设有缓存，用来临时存放双向通信的数据。当然，TCP可以立即发送一个数据段，也可以缓存一段时间以便一次发送更多的数据段（最大的数据段大小取决于MSS）</p>
 
       
     </div>

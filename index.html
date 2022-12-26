@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">172</span>
+          <span class="site-state-item-count">174</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,239 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/26/Roblox-Tween/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/12/26/Roblox-Tween/" class="post-title-link" itemprop="url">Roblox-Tween</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-12-26 09:53:23 / 修改时间：09:55:09" itemprop="dateCreated datePublished" datetime="2022-12-26T09:53:23+08:00">2022-12-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Roblox/" itemprop="url" rel="index"><span itemprop="name">Roblox</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Roblox 中的 Tween 是一种动画工具，可以让你轻松地在脚本中创建动画。使用 Tween，你可以在指定的时间内将对象的某些属性从一个值平滑地插值到另一个值。</p>
+<p>要在 Roblox 中使用 Tween，你需要使用以下步骤：</p>
+<ol>
+<li>在需要使用 Tween 的脚本中引入 TweenService 模块：</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local TweenService = game:<span class="built_in">GetService</span>(<span class="string">&quot;TweenService&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>创建 TweenInfo 对象，并设置 Tween 的相关参数：</li>
+</ol>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> tweenInfo = TweenInfo.new(</span><br><span class="line">    duration,  <span class="comment">-- 动画时长，单位是秒</span></span><br><span class="line">    easingStyle,  <span class="comment">-- 缓动类型，可以是 Enum.EasingStyle 中的任意值</span></span><br><span class="line">    easingDirection  <span class="comment">-- 缓动方向，可以是 Enum.EasingDirection 中的任意值</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>创建 Tween 对象，并设置 Tween 的目标值：</li>
+</ol>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> tween = TweenService:Create(</span><br><span class="line">    object,  <span class="comment">-- 要操作的对象</span></span><br><span class="line">    tweenInfo,  <span class="comment">-- TweenInfo 对象</span></span><br><span class="line">    &#123;  <span class="comment">-- 目标值表，包含一个或多个属性和对应的值</span></span><br><span class="line">        Property = TargetValue,</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>启动 Tween：</li>
+</ol>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tween:Play()</span><br></pre></td></tr></table></figure>
+
+<p>你也可以使用 Tween&#x2F;Cancel() 方法来取消 Tween：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tween:Cancel()</span><br></pre></td></tr></table></figure>
+
+<p>还可以使用 Tween&#x2F;Completed 属性来获取 Tween 结束时的事件，以及 Tween&#x2F;Cancelled 属性来获取 Tween 被取消时的事件。</p>
+<p>例如，你可以使用以下代码来在 Tween 结束时显示一条消息：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tween.Completed:Connect(<span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Tween completed&quot;</span>)</span><br><span class="line"><span class="keyword">end</span>)</span><br></pre></td></tr></table></figure>
+
+<p>下面是一个示例，用 Tween 在 2 秒内将对象的位置从当前位置平滑移动到 (100, 100, 100)：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> TweenService = game:GetService(<span class="string">&quot;TweenService&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> object = script.Parent  <span class="comment">-- 要操作的对象</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> tweenInfo = TweenInfo.new(<span class="number">2</span>, Enum.EasingStyle.Linear, Enum.EasingD</span><br></pre></td></tr></table></figure>
+
+<p>使用 Tween 来实现 CFrame1 到 CFrame2 的平滑过渡。</p>
+<p>在ReplicatedStorage中声明Tween</p>
+<p>调用</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> Tween = <span class="built_in">require</span>(game.ReplicatedStorage:WaitForChild(<span class="string">&quot;Tween&quot;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 定义 CFrame1 和 CFrame2</span></span><br><span class="line"><span class="keyword">local</span> CFrame1 = CFrame.new(Vector3.new(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line"><span class="keyword">local</span> CFrame2 = CFrame.new(Vector3.new(<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 创建一个 Tween 实例</span></span><br><span class="line"><span class="keyword">local</span> tween = Tween.new(<span class="number">5</span>, Tween.EasingStyle.Linear, Tween.EasingDirection.Out)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 在 Tween 实例上设置 &quot;Value&quot; 属性</span></span><br><span class="line">tween:TweenProperty(<span class="string">&quot;Value&quot;</span>, CFrame1, CFrame2)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 连接 Tween 实例的 &quot;Value&quot; 属性与某个对象的 &quot;CFrame&quot; 属性</span></span><br><span class="line">tween.Value:Connect(object.CFrame)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 开始 Tween 实例</span></span><br><span class="line">tween:Start()</span><br></pre></td></tr></table></figure>
+
+<p>在这个示例中，我们创建了一个 Tween 实例，并使用 <code>TweenProperty</code> 方法将 “Value” 属性设置为 CFrame1 和 CFrame2 之间的过渡。然后，我们将 Tween 实例的 “Value” 属性连接到某个对象的 “CFrame” 属性，这样就可以在 Tween 实例运行期间将对象的 CFrame 从 CFrame1 平滑过渡到 CFrame2。</p>
+<p>请注意，在这个示例中，我们使用的是线性过渡效果，但是 Tween 模块还提供了其他类型的过渡效果，例如弹性过渡、弧形过渡等。您可以使用 <code>Tween.EasingStyle</code> 和 <code>Tween.EasingDirection</code>参数来调整过渡的类型和方向。</p>
+<p>下面是一些例子：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 弹性过渡，由慢到快再到慢</span></span><br><span class="line"><span class="keyword">local</span> tween = Tween.new(<span class="number">5</span>, Tween.EasingStyle.Elastic, Tween.EasingDirection.InOut)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 弧形过渡，由快到慢</span></span><br><span class="line"><span class="keyword">local</span> tween = Tween.new(<span class="number">5</span>, Tween.EasingStyle.Quadratic, Tween.EasingDirection.Out)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 平方过渡，由慢到快</span></span><br><span class="line"><span class="keyword">local</span> tween = Tween.new(<span class="number">5</span>, Tween.EasingStyle.Quadratic, Tween.EasingDirection.In)</span><br></pre></td></tr></table></figure>
+
+<p>此外，还可以使用 <code>Tween.TimeLength</code> 参数来指定过渡的持续时间，使用 <code>Tween.DelayTime</code> 参数来指定过渡开始前的延迟时间，使用 <code>Tween.RepeatCount</code> 参数来指定过渡的重复次数，等等。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/26/Roblox-Input/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/12/26/Roblox-Input/" class="post-title-link" itemprop="url">Roblox-Input</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-12-26 09:52:02 / 修改时间：09:55:12" itemprop="dateCreated datePublished" datetime="2022-12-26T09:52:02+08:00">2022-12-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Roblox/" itemprop="url" rel="index"><span itemprop="name">Roblox</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h1><h2 id="UserInputService"><a href="#UserInputService" class="headerlink" title="UserInputService"></a>UserInputService</h2><p>使用<code>GetService</code>获取<code>UserInputService</code>，然后通过其中的三个事件监听输入</p>
+<h3 id="InputBegan"><a href="#InputBegan" class="headerlink" title="InputBegan"></a>InputBegan</h3><p>此事件仅在Roblox客户端窗口处于焦点时触发</p>
+<p>例如：当窗口最小化时不会监听玩家输入</p>
+<h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><ol>
+<li><p>此事件仅在<code>LocalScript</code>中触发</p>
+</li>
+<li><p>此事件可以与<code>UserInputService.InputChanged</code>以及<code>UserInputService.InputEnded</code>一起用</p>
+</li>
+</ol>
+<h4 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h4><table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>参数描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>input: InputObject</td>
+<td>InputObject实例，包含有关用户输入的信息</td>
+</tr>
+<tr>
+<td>gameProcessedEvent: boolean</td>
+<td>指示游戏引擎是否在内部观察到此输入并对其进行操作。通常，这是指UI处理，因此如果从该输入中触摸或单击按钮，gameProcessedEvent将为true。对于通过ContextActionService连接的输入事件也是如此。</td>
+</tr>
+</tbody></table>
+<h4 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- In order to use the InputBegan event, the UserInputService service must be used</span></span><br><span class="line"><span class="keyword">local</span> UserInputService = game:GetService(<span class="string">&quot;UserInputService&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- A sample function providing multiple usage cases for various types of user input</span></span><br><span class="line">UserInputService.InputBegan:Connect(<span class="function"><span class="keyword">function</span><span class="params">(input, gameProcessed)</span></span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">input</span>.UserInputType == Enum.UserInputType.Keyboard <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;A key is being pushed down! Key:&quot;</span>, <span class="built_in">input</span>.KeyCode)</span><br><span class="line">    <span class="keyword">elseif</span> <span class="built_in">input</span>.UserInputType == Enum.UserInputType.MouseButton1 <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;The left mouse button has been pressed down at&quot;</span>, <span class="built_in">input</span>.Position)</span><br><span class="line">    <span class="keyword">elseif</span> <span class="built_in">input</span>.UserInputType == Enum.UserInputType.MouseButton2 <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;The right mouse button has been pressed down at&quot;</span>, <span class="built_in">input</span>.Position)</span><br><span class="line">    <span class="keyword">elseif</span> <span class="built_in">input</span>.UserInputType == Enum.UserInputType.Touch <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;A touchscreen input has started at&quot;</span>, <span class="built_in">input</span>.Position)</span><br><span class="line">    <span class="keyword">elseif</span> <span class="built_in">input</span>.UserInputType == Enum.UserInputType.Gamepad1 <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;A button is being pressed on a gamepad! Button:&quot;</span>, <span class="built_in">input</span>.KeyCode)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gameProcessed <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;The game engine internally observed this input!&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;The game engine did not internally observe this input!&quot;</span>)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="监听玩家键盘输入"><a href="#监听玩家键盘输入" class="headerlink" title="监听玩家键盘输入"></a>监听玩家键盘输入</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> UserInputService = game:GetService(<span class="string">&quot;UserInputService&quot;</span>)</span><br><span class="line">UserInputService.InputBegan:Connect(<span class="function"><span class="keyword">function</span><span class="params">(inputObject)</span></span></span><br><span class="line">    <span class="keyword">if</span> inputObject.KeyCode == Enum.KeyCode.Q <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Q!&quot;</span>)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="InputChanged"><a href="#InputChanged" class="headerlink" title="InputChanged"></a>InputChanged</h3><p>与<code>InputBegan</code>的参与与注意事项相同</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- In order to use the InputChanged event, the UserInputService service must be used</span></span><br><span class="line"><span class="keyword">local</span> UserInputService = game:GetService(<span class="string">&quot;UserInputService&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- Prints the current input position and the change (delta) in position</span></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">printMovement</span><span class="params">(input)</span></span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Position:&quot;</span>, <span class="built_in">input</span>.Position)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Movement Delta:&quot;</span>, <span class="built_in">input</span>.Delta)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- A sample function providing multiple usage cases for various types of user input</span></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">InputChanged</span><span class="params">(input, _gameProcessed)</span></span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">input</span>.UserInputType == Enum.UserInputType.MouseMovement <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;The mouse has been moved!&quot;</span>)</span><br><span class="line">        printMovement(<span class="built_in">input</span>)</span><br><span class="line">    <span class="keyword">elseif</span> <span class="built_in">input</span>.UserInputType == Enum.UserInputType.MouseWheel <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;The mouse wheel has been scrolled!&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Wheel Movement:&quot;</span>, <span class="built_in">input</span>.Position.Z)</span><br><span class="line">    <span class="keyword">elseif</span> <span class="built_in">input</span>.UserInputType == Enum.UserInputType.Gamepad1 <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">input</span>.KeyCode == Enum.KeyCode.Thumbstick1 <span class="keyword">then</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;The left thumbstick has been moved!&quot;</span>)</span><br><span class="line">            printMovement(<span class="built_in">input</span>)</span><br><span class="line">        <span class="keyword">elseif</span> <span class="built_in">input</span>.KeyCode == Enum.KeyCode.Thumbstick2 <span class="keyword">then</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;The right thumbstick has been moved!&quot;</span>)</span><br><span class="line">            printMovement(<span class="built_in">input</span>)</span><br><span class="line">        <span class="keyword">elseif</span> <span class="built_in">input</span>.KeyCode == Enum.KeyCode.ButtonL2 <span class="keyword">then</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;The pressure being applied to the left trigger has changed!&quot;</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;Pressure:&quot;</span>, <span class="built_in">input</span>.Position.Z)</span><br><span class="line">        <span class="keyword">elseif</span> <span class="built_in">input</span>.KeyCode == Enum.KeyCode.ButtonR2 <span class="keyword">then</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;The pressure being applied to the right trigger has changed!&quot;</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;Pressure:&quot;</span>, <span class="built_in">input</span>.Position.Z)</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">elseif</span> <span class="built_in">input</span>.UserInputType == Enum.UserInputType.Touch <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;The user&#x27;s finger is moving on the screen!&quot;</span>)</span><br><span class="line">        printMovement(<span class="built_in">input</span>)</span><br><span class="line">    <span class="keyword">elseif</span> <span class="built_in">input</span>.UserInputType == Enum.UserInputType.Gyro <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">local</span> _rotInput, rotCFrame = UserInputService:GetDeviceRotation()</span><br><span class="line">        <span class="keyword">local</span> rotX, rotY, rotZ = rotCFrame:toEulerAnglesXYZ()</span><br><span class="line">        <span class="keyword">local</span> rot = Vector3.new(<span class="built_in">math</span>.<span class="built_in">deg</span>(rotX), <span class="built_in">math</span>.<span class="built_in">deg</span>(rotY), <span class="built_in">math</span>.<span class="built_in">deg</span>(rotZ))</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;The rotation of the user&#x27;s mobile device has been changed!&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Position&quot;</span>, rotCFrame.p)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Rotation:&quot;</span>, rot)</span><br><span class="line">    <span class="keyword">elseif</span> <span class="built_in">input</span>.UserInputType == Enum.UserInputType.Accelerometer <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;The acceleration of the user&#x27;s mobile device has been changed!&quot;</span>)</span><br><span class="line">        printMovement(<span class="built_in">input</span>)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">UserInputService.InputChanged:Connect(InputChanged)</span><br></pre></td></tr></table></figure>
+
+<h3 id="InputEnded"><a href="#InputEnded" class="headerlink" title="InputEnded"></a>InputEnded</h3><p>注意事项同上</p>
+<h4 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- In order to use the InputChanged event, the UserInputService service must be used</span></span><br><span class="line"><span class="keyword">local</span> UserInputService = game:GetService(<span class="string">&quot;UserInputService&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- A sample function providing multiple usage cases for various types of user input</span></span><br><span class="line">UserInputService.InputEnded:Connect(<span class="function"><span class="keyword">function</span><span class="params">(input, gameProcessed)</span></span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">input</span>.UserInputType == Enum.UserInputType.Keyboard <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;A key has been released! Key:&quot;</span>, <span class="built_in">input</span>.KeyCode)</span><br><span class="line">    <span class="keyword">elseif</span> <span class="built_in">input</span>.UserInputType == Enum.UserInputType.MouseButton1 <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;The left mouse button has been released at&quot;</span>, <span class="built_in">input</span>.Position)</span><br><span class="line">    <span class="keyword">elseif</span> <span class="built_in">input</span>.UserInputType == Enum.UserInputType.MouseButton2 <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;The right mouse button has been released at&quot;</span>, <span class="built_in">input</span>.Position)</span><br><span class="line">    <span class="keyword">elseif</span> <span class="built_in">input</span>.UserInputType == Enum.UserInputType.Touch <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;A touchscreen input has been released at&quot;</span>, <span class="built_in">input</span>.Position)</span><br><span class="line">    <span class="keyword">elseif</span> <span class="built_in">input</span>.UserInputType == Enum.UserInputType.Gamepad1 <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;A button has been released on a gamepad! Button:&quot;</span>, <span class="built_in">input</span>.KeyCode)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gameProcessed <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;The game engine internally observed this input!&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;The game engine did not internally observe this input!&quot;</span>)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span>)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1176,354 +1409,6 @@
 <li><p>通过脚本中的<code>Player.Team=TeamName</code>给玩家分配队伍</p>
 </li>
 </ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/18/Roblox-ClassOfScript/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/12/18/Roblox-ClassOfScript/" class="post-title-link" itemprop="url">Roblox-ClassOfScript</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-12-18 14:13:03 / 修改时间：14:14:47" itemprop="dateCreated datePublished" datetime="2022-12-18T14:13:03+08:00">2022-12-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Roblox/" itemprop="url" rel="index"><span itemprop="name">Roblox</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="ScriptClass"><a href="#ScriptClass" class="headerlink" title="ScriptClass"></a>ScriptClass</h1><p>常见三种类型的Script</p>
-<ol>
-<li><p>Script</p>
-</li>
-<li><p>LocalScript</p>
-</li>
-<li><p>ModuleScript</p>
-</li>
-</ol>
-<h1 id="Script"><a href="#Script" class="headerlink" title="Script"></a>Script</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>Script是一种Lua代码容器，它将在服务器上运行其内容。</p>
-<p>满足一定条件之后，Script中的代码会在一个新的<code>线程</code>中运行</p>
-<h2 id="运行条件"><a href="#运行条件" class="headerlink" title="运行条件"></a>运行条件</h2><p>只有Script满足以下两个条件的时候，其中的代码才会运行</p>
-<ol>
-<li><p>不被禁用（<code>Disable</code>属性值为<code>false</code>）</p>
-</li>
-<li><p>在<code>WorkSpace</code>或者<code>ServerScriptService</code>下</p>
-</li>
-<li><p>如果不像其立刻运行，则将其存放在<code>ServerStorage</code>下</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://create.roblox.com/docs/reference/engine/classes/ServerStorage"><code>ServerStorage</code></a>：专门用于存放预先制作好的对象，而此对象只会在调用时运行；只存在于服务端，客户端不可用且<code>LocalScript</code>不可访问；仅能通过<code>DataModel.GetService</code>进行访问</li>
-</ul>
-</li>
-</ol>
-<h2 id="终止条件"><a href="#终止条件" class="headerlink" title="终止条件"></a>终止条件</h2><ol>
-<li><p>不满足<code>运行条件</code></p>
-</li>
-<li><p>终止或者引发错误</p>
-<ul>
-<li>如果该错误是连接到正在激发的某个事件的函数引发的，则此Script不会终止</li>
-</ul>
-</li>
-<li><p>此Script或者其某一个父类被<code>destroy</code>的时候，该线程也会停止</p>
-</li>
-<li><p>在Script的父类没有被<code>destroy</code>的时候，即使其父类为<code>nil</code>，此<code>Script</code>也会继续运行</p>
-</li>
-</ol>
-<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><p>Script可以访问服务器端对象、属性和事件</p>
-<p>例如：</p>
-<p>Script可以使用BadgeService向玩家颁发徽章，而客户端上的LocalScript则不能。</p>
-<p>LocalScripts执行的未复制的操作（由于Workspace.FiltingEnabled）对脚本不可见。</p>
-<h2 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h2><h3 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h3><p>就是我们写的代码</p>
-<h3 id="Archivable-boolean"><a href="#Archivable-boolean" class="headerlink" title="Archivable    (boolean)"></a>Archivable    (boolean)</h3><p>此属性确定在<code>发布</code>&#x2F;<code>保存</code>游戏时，或在对象的某个父类上调用Instance:Clone（）时，是否应包含对象。</p>
-<p>如果被克隆的对象<code>Archivable==false</code>，则Instance:Clone()将会<code>return false</code>。</p>
-<p>在Studio中复制对象（使用“Duplicate”或“Copy”选项）将忽略Archivible属性，并将副本的Archivible设置为true。</p>
-<h3 id="ClassName-string"><a href="#ClassName-string" class="headerlink" title="ClassName (string)"></a>ClassName (string)</h3><ol>
-<li><p>表示此Instance所属类的只读字符串，不能由脚本更改。更改Instance类将会创建一个新的Instance</p>
-</li>
-<li><p>此属性可以与实例的各种其他函数一起使用，这些函数 用于按类型标识对象，例如<code>Instance:IsA()</code>或<code>Instance:FindFirstChildOfClass()</code></p>
-</li>
-<li><p>和<code>Instance:IsA()</code>不同，<code>ClassName</code>可以用于检查对象是否属于忽略类继承的特定类。【used to check if an object belongs to a specific class ignoring class inheritance.】</p>
-</li>
-</ol>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> _, child <span class="keyword">in</span> <span class="built_in">ipairs</span>(game.Workspace:GetChildren()) <span class="keyword">do</span></span><br><span class="line">    <span class="keyword">if</span> child.ClassName == <span class="string">&quot;Part&quot;</span> <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Found a Part&quot;</span>)</span><br><span class="line">        <span class="comment">-- will find Parts in model, but NOT TrussParts, WedgeParts, etc</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="Name"><a href="#Name" class="headerlink" title="Name"></a>Name</h3><p>实例的非唯一标识符。<br>此属性是描述对象的标识符。一个对象的多个子对象可以共享相同的名称。名称用于组织对象层次结构，同时允许脚本访问特定对象。</p>
-<p>对象的<code>Name</code>通常用于使用以下方法通过数据模型层次结构访问对象：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> baseplate = workspace.Baseplate</span><br><span class="line"><span class="keyword">local</span> baseplate = workspace[<span class="string">&quot;Baseplate&quot;</span>]</span><br><span class="line"><span class="keyword">local</span> baseplate = workspace:FindFirstChild(<span class="string">&quot;BasePlate&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>注意：对象名称必须以下划线或者字母开头（老生常谈了）</p>
-<h3 id="Parent"><a href="#Parent" class="headerlink" title="Parent"></a>Parent</h3><p>Parent属性确定实例的层次父级</p>
-<p><code>Remove</code>函数将此属性设置为nil。调用<code>Destroy</code>将将实例的父级及其所有子级设置为零，并锁定父级属性。设置已销毁对象的父级时将会引发错误。</p>
-<p>此属性还用于管理游戏中是否存在对象或是否需要删除对象。只要对象A的父对象位于DataModel中、存储在变量中或被另一个对象属性引用，则该对象将保留在游戏中。否则，对象将自动删除。顶级DataModel对象（脚本称之为游戏）没有父对象，但始终有一个由游戏引擎保存的引用，并在会话期间存在。</p>
-<p>可以使用<code>Instance.new()</code>创建一个新的实例（需要指定Parent）</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- Create a part and parent it to the workspace</span></span><br><span class="line"><span class="keyword">local</span> part = Instance.new(<span class="string">&quot;Part&quot;</span>)</span><br><span class="line">part.Parent = workspace</span><br><span class="line"><span class="comment">-- Instance new can also take Parent as a second parameter</span></span><br><span class="line">Instance.new(<span class="string">&quot;NumberValue&quot;</span>, workspace)</span><br></pre></td></tr></table></figure>
-
-<h4 id="服务端-x2F-客户端复制"><a href="#服务端-x2F-客户端复制" class="headerlink" title="服务端&#x2F;客户端复制"></a>服务端&#x2F;客户端复制</h4><p>服务器创建的对象将不会复制到客户端，除非它是某个已复制对象的父对象。当创建一个对象并设置许多属性时，建议最后设置“父级”。这样可以确保对象复制一次，而不是复制许多属性更改。</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> part = Instance.new(<span class="string">&quot;Part&quot;</span>) <span class="comment">-- Avoid using the second parameter here</span></span><br><span class="line">part.Anchored = <span class="literal">true</span></span><br><span class="line">part.BrickColor = BrickColor.new(<span class="string">&quot;Really red&quot;</span>)</span><br><span class="line"><span class="comment">-- Potentially many other property changes could go here here...</span></span><br><span class="line"><span class="comment">-- Always set parent last!</span></span><br><span class="line">part.Parent = workspace</span><br></pre></td></tr></table></figure>
-
-<h3 id="Disabled"><a href="#Disabled" class="headerlink" title="Disabled"></a>Disabled</h3><p>确定<code>BaseScript</code>是否运行。<br>当<code>Disabled==false</code>时，<code>Scripts</code>和<code>LocalScripts</code>将运行。<br>如果在脚本运行时将Disabled设置为true，则当前线程将终止。<br>如果Disabled从false设置为true，脚本将再次运行。</p>
-<p>这意味着<code>可以切换Disabled属性以重新启动脚本</code></p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scriptObject.Disabled = <span class="literal">false</span></span><br><span class="line">scriptObject.Disabled = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><h3 id="GetHash-String"><a href="#GetHash-String" class="headerlink" title="GetHash():String"></a>GetHash():String</h3><p>返回脚本源的哈希</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- Script named HelloScript in workspace</span></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">printHello</span><span class="params">()</span></span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello world!&quot;</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">printHello()</span><br><span class="line"></span><br><span class="line"><span class="comment">-- Command line</span></span><br><span class="line"><span class="keyword">local</span> targetScript = game.Workspace.HelloScript</span><br><span class="line"><span class="built_in">print</span>(targetScript:GetHash())</span><br></pre></td></tr></table></figure>
-
-<h3 id="ClearAllChildren-void"><a href="#ClearAllChildren-void" class="headerlink" title="ClearAllChildren():void"></a>ClearAllChildren():void</h3><p>此函数销毁实例的所有子实例</p>
-<h3 id="Clone-Instance"><a href="#Clone-Instance" class="headerlink" title="Clone():Instance"></a>Clone():Instance</h3><p>创建对象及其所有子体的副本，忽略<code>Archivable</code>为false的对象</p>
-<h3 id="Destroy-void"><a href="#Destroy-void" class="headerlink" title="Destroy():void"></a>Destroy():void</h3><p>将<code>Instance.Parent</code>属性设置为nil，并且将<code>Instance.Parent</code>属性锁定，断开所有连接，<code>Destory</code>所有子类</p>
-<h3 id="FindFirstAncestor-name-string-Instance"><a href="#FindFirstAncestor-name-string-Instance" class="headerlink" title="FindFirstAncestor(name:string):Instance"></a>FindFirstAncestor(name:string):Instance</h3><p>返回形参<code>Instance.Name</code>传入<code>Instance</code>的第一个父类</p>
-<h3 id="FindDirstAncestorOfClass-className-string-Instance"><a href="#FindDirstAncestorOfClass-className-string-Instance" class="headerlink" title="FindDirstAncestorOfClass(className:string):Instance"></a>FindDirstAncestorOfClass(className:string):Instance</h3><p>返回形参<code>Instance.ClassName</code>传入<code>Instance</code>的第一个父类</p>
-<h3 id="FindFirstAncestorWichIsA-ClassName-string-Instance"><a href="#FindFirstAncestorWichIsA-ClassName-string-Instance" class="headerlink" title="FindFirstAncestorWichIsA(ClassName:string):Instance"></a>FindFirstAncestorWichIsA(ClassName:string):Instance</h3><p>原文：Returns the first ancestor of the Instance for whom Instance:IsA() returns true for the given className.</p>
-<p>根据传入的<code>ClassName</code>寻找到一个<code>Instance:IsA()</code>返回值为true的<code>Instance</code>，再返回此<code>Instance</code>的第一个父类</p>
-<h3 id="FindFirstChild-Name-String-recursive-boolean-Instance"><a href="#FindFirstChild-Name-String-recursive-boolean-Instance" class="headerlink" title="FindFirstChild(Name:String,recursive:boolean):Instance"></a>FindFirstChild(Name:String,recursive:boolean):Instance</h3><p>根据传入的InstanceName，找到其第一个子类</p>
-<h3 id="FindFirstChildWichIsA-ClassName-string-Instance"><a href="#FindFirstChildWichIsA-ClassName-string-Instance" class="headerlink" title="FindFirstChildWichIsA(ClassName:string):Instance"></a>FindFirstChildWichIsA(ClassName:string):Instance</h3><p>根据传入的<code>ClassName</code>寻找到一个<code>Instance:IsA()</code>返回值为true的<code>Instance</code>，再返回此<code>Instance</code>的第一个子类</p>
-<h3 id="FindFirstDescendant-Name-String-Instance"><a href="#FindFirstDescendant-Name-String-Instance" class="headerlink" title="FindFirstDescendant(Name:String):Instance"></a>FindFirstDescendant(Name:String):Instance</h3><p>Returns the first descendant found with the given  <code>Instance.Name</code>.</p>
-<p>根据给定的<code>Instance.Name</code>返回其第一个后代</p>
-<p>（和前面的Child有啥区别？）</p>
-<p><code>Child</code>仅仅获取直接子类，而<code>Descendant</code>可以获取间接子类</p>
-<h3 id="GetActor-Actor"><a href="#GetActor-Actor" class="headerlink" title="GetActor():Actor"></a>GetActor():Actor</h3><p>返回与<code>Instance</code>关联的Actor（如果存在）</p>
-<h3 id="GetAttribute-attribute-string-Variant（变量）"><a href="#GetAttribute-attribute-string-Variant（变量）" class="headerlink" title="GetAttribute(attribute:string):Variant（变量）"></a>GetAttribute(attribute:string):Variant（变量）</h3><p>根据所给的属性名返回其属性变量</p>
-<h3 id="GetAttributeChangedSignal-attribute-string-RBXScriptSignal"><a href="#GetAttributeChangedSignal-attribute-string-RBXScriptSignal" class="headerlink" title="GetAttributeChangedSignal(attribute:string):RBXScriptSignal"></a>GetAttributeChangedSignal(attribute:string):RBXScriptSignal</h3><p>Returns an event that fires when the given attribute changes.</p>
-<p>当此传入的属性发生更改时，返回此属性更改的事件</p>
-<h3 id="GetAttributes-table"><a href="#GetAttributes-table" class="headerlink" title="GetAttributes():table"></a>GetAttributes():table</h3><p>字面意思</p>
-<h3 id="GetChildren-Object"><a href="#GetChildren-Object" class="headerlink" title="GetChildren():Object"></a>GetChildren():Object</h3><p>返回包含实例的所有子级的数组。</p>
-<h3 id="GetDescendants-Array"><a href="#GetDescendants-Array" class="headerlink" title="GetDescendants():Array"></a>GetDescendants():Array</h3><p>返回由此实例的所有子类组成的数组</p>
-<h3 id="GetFullName-string"><a href="#GetFullName-string" class="headerlink" title="GetFullName():string"></a>GetFullName():string</h3><p>Returns a string describing the Instance’s ancestry.</p>
-<p>返回描述实例祖先的字符串。</p>
-<h3 id="GetPropertyChangedSignal-property-string-RBXScriptSignal"><a href="#GetPropertyChangedSignal-property-string-RBXScriptSignal" class="headerlink" title="GetPropertyChangedSignal(property:string):RBXScriptSignal"></a>GetPropertyChangedSignal(property:string):RBXScriptSignal</h3><p>获取当对象的给定属性更改时激发的事件。</p>
-<h3 id="IsA-ClassName-string-boolean"><a href="#IsA-ClassName-string-boolean" class="headerlink" title="IsA(ClassName:string):boolean"></a>IsA(ClassName:string):boolean</h3><p>如果<code>Instance</code>的类与给定类匹配，或<code>Instance</code>是给定类的子类，则返回true。</p>
-<h3 id="IsAncestorOf-Descendant-Instance-boolean"><a href="#IsAncestorOf-Descendant-Instance-boolean" class="headerlink" title="IsAncestorOf(Descendant:Instance):boolean"></a>IsAncestorOf(Descendant:Instance):boolean</h3><p>如果此<code>Instance</code>的是给定<code>Descendant:Instance</code>的父类，则返回true</p>
-<h3 id="IsAncestorOf-Descendant-Instance-boolean-1"><a href="#IsAncestorOf-Descendant-Instance-boolean-1" class="headerlink" title="IsAncestorOf(Descendant:Instance):boolean"></a>IsAncestorOf(Descendant:Instance):boolean</h3><p>如果此<code>Instance</code>的是给定<code>Descendant:Instance</code>的子类，则返回true</p>
-<h3 id="SetAttribute-attribute-string-Value-Variant-void"><a href="#SetAttribute-attribute-string-Value-Variant-void" class="headerlink" title="SetAttribute(attribute:string,Value:Variant):void"></a>SetAttribute(attribute:string,Value:Variant):void</h3><p>字面意思</p>
-<h3 id="WaitForChild-ChildName-string-TimeOut-Number-Instance"><a href="#WaitForChild-ChildName-string-TimeOut-Number-Instance" class="headerlink" title="WaitForChild(ChildName:string,TimeOut:Number):Instance"></a>WaitForChild(ChildName:string,TimeOut:Number):Instance</h3><p>Returns the child of the Instance with the given name. If the child does not exist, it will yield the current thread until it does.</p>
-<p>返回具有给定名称的实例的子级。如果子线程不存在，它将生成当前线程，直到它存在为止。</p>
-<h2 id="事件-AncestryChanged-Child-Instance-Parent-Instance-RBXScriptSignal"><a href="#事件-AncestryChanged-Child-Instance-Parent-Instance-RBXScriptSignal" class="headerlink" title="事件 AncestryChanged(Child:Instance,Parent:Instance):RBXScriptSignal"></a>事件 AncestryChanged(Child:Instance,Parent:Instance):RBXScriptSignal</h2><p>当此对象的<code>Instance.Parent</code>的属性被更改，或者其父类被更改时触发</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> part = Instance.new(<span class="string">&quot;Part&quot;</span>)</span><br><span class="line">part.Parent = workspace</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">onAncestryChanged</span><span class="params">(child, parent)</span></span></span><br><span class="line">    <span class="built_in">print</span>(child.Name .. <span class="string">&quot; is now a child of &quot;</span> .. parent.Name)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">part.AncestryChanged:Connect(onAncestryChanged)</span><br><span class="line"></span><br><span class="line">part.Parent = workspace.Model</span><br></pre></td></tr></table></figure>
-
-<h3 id="AttrinuteChange-attribute-string-RBXScriptSignal"><a href="#AttrinuteChange-attribute-string-RBXScriptSignal" class="headerlink" title="AttrinuteChange(attribute:string):RBXScriptSignal"></a>AttrinuteChange(attribute:string):RBXScriptSignal</h3><p>当此<code>Instance</code>上的属性发生更改的时候会触发</p>
-<h3 id="Changed-Property-String-RBXScriptSignal"><a href="#Changed-Property-String-RBXScriptSignal" class="headerlink" title="Changed(Property:String):RBXScriptSignal"></a>Changed(Property:String):RBXScriptSignal</h3><p>当对象的属性更改后立即触发。</p>
-<h4 id="Change-Detector"><a href="#Change-Detector" class="headerlink" title="Change Detector"></a>Change Detector</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> object = script.Parent</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">onChanged</span><span class="params">(property)</span></span></span><br><span class="line">    <span class="comment">-- Get the current value of the property</span></span><br><span class="line">    <span class="keyword">local</span> value = object[property]</span><br><span class="line">    <span class="comment">-- Print a message saying what changed</span></span><br><span class="line">    <span class="built_in">print</span>(object:GetFullName() .. <span class="string">&quot;.&quot;</span> .. property .. <span class="string">&quot; (&quot;</span> .. typeof(value) .. <span class="string">&quot;) changed to &quot;</span> .. <span class="built_in">tostring</span>(value))</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">object.Changed:Connect(onChanged)</span><br><span class="line"><span class="comment">-- Trigger a simple change in the object (add an underscore to the name)</span></span><br><span class="line">object.Name = <span class="string">&quot;_&quot;</span> .. object.Name</span><br></pre></td></tr></table></figure>
-
-<h4 id="Change-Event"><a href="#Change-Event" class="headerlink" title="Change Event"></a>Change Event</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- Demonstrate the Changed event by creating a Part</span></span><br><span class="line"><span class="keyword">local</span> part = Instance.new(<span class="string">&quot;Part&quot;</span>)</span><br><span class="line">part.Changed:Connect(<span class="built_in">print</span>)</span><br><span class="line"><span class="comment">-- This fires Changed with &quot;Transparency&quot;</span></span><br><span class="line">part.Transparency = <span class="number">0.5</span></span><br><span class="line"><span class="comment">-- Similarly, this fires Changed with &quot;Number&quot;</span></span><br><span class="line">part.Name = <span class="string">&quot;SomePart&quot;</span></span><br><span class="line"><span class="comment">-- Since changing BrickColor will also change other</span></span><br><span class="line"><span class="comment">-- properties at the same time, this line fires Changed</span></span><br><span class="line"><span class="comment">-- with &quot;BrickColor&quot;, &quot;Color3&quot; and &quot;Color3uint16&quot;.</span></span><br><span class="line">part.BrickColor = BrickColor.Red()</span><br><span class="line"></span><br><span class="line"><span class="comment">-- A NumberValue holds a double-precision floating-point number</span></span><br><span class="line"><span class="keyword">local</span> vNumber = Instance.new(<span class="string">&quot;NumberValue&quot;</span>)</span><br><span class="line">vNumber.Changed:Connect(<span class="built_in">print</span>)</span><br><span class="line"><span class="comment">-- This fires Changed with 123.456 (not &quot;Value&quot;)</span></span><br><span class="line">vNumber.Value = <span class="number">123.456</span></span><br><span class="line"><span class="comment">-- This does not fire Changed</span></span><br><span class="line">vNumber.Name = <span class="string">&quot;SomeNumber&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- A StringValue stores one string</span></span><br><span class="line"><span class="keyword">local</span> vString = Instance.new(<span class="string">&quot;StringValue&quot;</span>)</span><br><span class="line">vString.Changed:Connect(<span class="built_in">print</span>)</span><br><span class="line"><span class="comment">-- This fires Changed with &quot;Hello&quot; (not &quot;Value&quot;)</span></span><br><span class="line">vString.Value = <span class="string">&quot;Hello&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="AttributeChanged"><a href="#AttributeChanged" class="headerlink" title="AttributeChanged"></a>AttributeChanged</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">attributeChanged</span><span class="params">(attributeName)</span></span></span><br><span class="line">    <span class="built_in">print</span>(attributeName, <span class="string">&quot;changed&quot;</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">instance.AttributeChanged:Connect(attributeChanged)</span><br></pre></td></tr></table></figure>
-
-<h3 id="ChildAdded-chiled-Instance-RBXScriptSignal"><a href="#ChildAdded-chiled-Instance-RBXScriptSignal" class="headerlink" title="ChildAdded(chiled:Instance):RBXScriptSignal"></a>ChildAdded(chiled:Instance):RBXScriptSignal</h3><p>在对象成为此<code>Instance</code>的父对象后触发</p>
-<p>注意：当在客户端上使用此函数来检测服务器创建的对象时，在索引这些对象的后代时，必须使用Instance:WaitForChild（）。这是因为不能保证对象及其后代同时从服务器复制到客户端。</p>
-<p>例如：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">workspace.ChildAdded:Connect(<span class="function"><span class="keyword">function</span><span class="params">(child)</span></span></span><br><span class="line">    <span class="comment">-- need to use WaitForChild as descendants may not have replicated yet</span></span><br><span class="line">    <span class="keyword">local</span> head = child:WaitForChild(<span class="string">&quot;Head&quot;</span>)</span><br><span class="line"><span class="keyword">end</span>)</span><br></pre></td></tr></table></figure>
-
-<p>注意，此函数仅适用于实例的直接子级。对于捕获所有子体的函数，请使用Instance.DescendantAdd。</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">onChildAdded</span><span class="params">(instance)</span></span></span><br><span class="line">    <span class="built_in">print</span>(instance.Name .. <span class="string">&quot; added to the workspace&quot;</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">workspace.ChildAdded:Connect(onChildAdded)</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> part = Instance.new(<span class="string">&quot;Part&quot;</span>)</span><br><span class="line">part.Parent = workspace <span class="comment">--&gt; Part added to the Workspace</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="ChildRemoved-chiled-Instance-RBXScriptSignal"><a href="#ChildRemoved-chiled-Instance-RBXScriptSignal" class="headerlink" title="ChildRemoved(chiled:Instance):RBXScriptSignal"></a>ChildRemoved(chiled:Instance):RBXScriptSignal</h3><p>从此实例中删除子项后触发</p>
-<p>注意：由于Destroy函数将对象的父级设置为nil，因此当子级被销毁时（使用Instance:Destroy（）），该事件也会激发。</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">onChildRemoved</span><span class="params">(instance)</span></span></span><br><span class="line">    <span class="built_in">print</span>(instance.Name .. <span class="string">&quot; removed from the workspace&quot;</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">workspace.ChildRemoved:Connect(onChildRemoved)</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> part = Instance.new(<span class="string">&quot;Part&quot;</span>)</span><br><span class="line">part.Parent = workspace</span><br><span class="line"></span><br><span class="line">task.wait(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">part:Destroy()</span><br></pre></td></tr></table></figure>
-
-<h3 id="DescendantAdd-Descendant-Instance-RBXScriptSignal"><a href="#DescendantAdd-Descendant-Instance-RBXScriptSignal" class="headerlink" title="DescendantAdd(Descendant:Instance):RBXScriptSignal"></a>DescendantAdd(Descendant:Instance):RBXScriptSignal</h3><p>将一个子类添加到此<code>Instance</code>之后触发</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">onDescendantAdded</span><span class="params">(descendant)</span></span></span><br><span class="line">    <span class="built_in">print</span>(descendant)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">workspace.DescendantAdded:Connect(onDescendantAdded)</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> part = Instance.new(<span class="string">&quot;Part&quot;</span>)</span><br><span class="line">part.Parent = workspace</span><br></pre></td></tr></table></figure>
-
-<h3 id="DescendantRemoving-Descendant-Instance-RBXScriptSignal"><a href="#DescendantRemoving-Descendant-Instance-RBXScriptSignal" class="headerlink" title="DescendantRemoving(Descendant:Instance):RBXScriptSignal"></a>DescendantRemoving(Descendant:Instance):RBXScriptSignal</h3><p>删除<code>Instance</code>的子类之前触发</p>
-<p>此事件与正在删除的子对象一起激发。尝试将要删除的子体的父级设置为其他值将失败，并且报错 “Something unexpectedly tried to set the parent of X to Y while trying to set the parent of X. Current parent is Z”</p>
-<p>下面的操作是存在问题的：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">workspace.DescendantRemoving:Connect(<span class="function"><span class="keyword">function</span><span class="params">(descendant)</span></span></span><br><span class="line">    <span class="comment">-- 不要在此函数中操纵后代的父级！</span></span><br><span class="line">    <span class="comment">-- 由于子代的父代已被操纵，并且更改尚未发生。</span></span><br><span class="line">    <span class="comment">-- 因此此事件会触发，即此函数会在发生之前触发。</span></span><br><span class="line">    <span class="comment">-- 因此，像这样更改父代是有问题的</span></span><br><span class="line">    descendant.Parent = game</span><br><span class="line"><span class="keyword">end</span>)</span><br><span class="line"><span class="keyword">local</span> part = Instance.new(<span class="string">&quot;Part&quot;</span>)</span><br><span class="line">part.Parent = workspace</span><br><span class="line">part.Parent = <span class="literal">nil</span> <span class="comment">-- 这将触发WorkSpace里的子级删除：</span></span><br><span class="line"><span class="comment">--&gt; Something unexpectedly tried to set the parent of Part to NULL while trying to set the parent of Part. Current parent is Workspace.</span></span><br></pre></td></tr></table></figure>
-
-<p>以下是正确使用方法</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">workspace.DescendantRemoving:Connect(<span class="function"><span class="keyword">function</span><span class="params">(descendant)</span></span></span><br><span class="line">    <span class="built_in">print</span>(descendant.Name .. <span class="string">&quot; is currently parented to &quot;</span> .. <span class="built_in">tostring</span>(descendant.Parent))</span><br><span class="line"><span class="keyword">end</span>)</span><br><span class="line"><span class="keyword">local</span> part = Instance.new(<span class="string">&quot;Part&quot;</span>)</span><br><span class="line">part.Parent = workspace</span><br><span class="line">part.Parent = <span class="literal">nil</span></span><br><span class="line"><span class="comment">--&gt; Part is currently parented to Workspace</span></span><br><span class="line"><span class="built_in">print</span>(part.Parent)</span><br><span class="line"><span class="comment">--&gt; nil</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="Destroying-RBXScriptSignal"><a href="#Destroying-RBXScriptSignal" class="headerlink" title="Destroying():RBXScriptSignal"></a>Destroying():RBXScriptSignal</h3><p>通过<code>Instance:Destroy()</code>销毁此实例之前立即触发</p>
-<p>在实例或其祖先之一被销毁之前立即触发。<br>当连接的函数仍在使用实例时，该实例永远不会从内存中删除。（？？？没懂这句是啥意思）</p>
-<p>但是，如果函数在任何一点都会产生结果，则<code>Instance</code>及其后代的父级将为nil。</p>
-<p>【The Instance will never be deleted from memory while a connected function is still using it. However, if the function yields at any point, the Instance and its descendants will be parented to nil.】<br>在Studio中删除实例时，不会触发此事件。要检测此情况，请使用<code>Instance.AncestryChanged</code>。</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> part = Instance.new(<span class="string">&quot;Part&quot;</span>, workspace)</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">onPartDestroying</span><span class="params">()</span></span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Before yielding:&quot;</span>, part:GetFullName(), #part:GetChildren())</span><br><span class="line">        task.wait()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;After yielding:&quot;</span>, part:GetFullName(), #part:GetChildren())</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">part.Destroying:Connect(onPartDestroying)</span><br><span class="line"></span><br><span class="line">part:Destroy()</span><br></pre></td></tr></table></figure>
-
-<h1 id="LocalScript"><a href="#LocalScript" class="headerlink" title="LocalScript"></a><a target="_blank" rel="noopener" href="https://create.roblox.com/docs/reference/engine/classes/LocalScript#summary">LocalScript</a></h1><p>LocalScript是一个Lua源容器，专用于<code>客户端代码</code>，例如玩家的相机，或者<code>各种UI</code></p>
-<p>对于通过LocalScripts运行的代码，玩家服务的LocalPlayer属性将返回其客户端正在运行此脚本的玩家。</p>
-<p>LocalScript仅会作为以下东西的子类时候才会运行</p>
-<ol>
-<li><p>玩家的<code>Backpack</code>，例如<code>Tool</code>的子类</p>
-</li>
-<li><p>玩家的<code>Character</code>模型</p>
-</li>
-<li><p>玩家的<code>PlayerGui</code></p>
-</li>
-<li><p>玩家的<code>PlayerScripts</code></p>
-</li>
-<li><p><code>ReplicatedFirst</code></p>
-</li>
-</ol>
-<p>后面的属性与方法，事件与<code>Script</code>差不多，这里就不再赘述</p>
-<h1 id="ModuleScript"><a href="#ModuleScript" class="headerlink" title="ModuleScript"></a><a target="_blank" rel="noopener" href="https://create.roblox.com/docs/reference/engine/classes/ModuleScript">ModuleScript</a></h1><ol>
-<li><p><code>ModuleScripts</code>在每个Lua环境中仅运行一次；如果后续还要调用此脚本，则会返回完全相同的值。</p>
-</li>
-<li><p><code>ModuleScripts</code>的返回值与<code>LocalScripts</code>和<code>Scripts</code>以及其他环境（如命令栏）无关。</p>
-</li>
-<li><p>如果<code>ModuleScriptA</code>运行没有结束，<code>FunctionA</code>调用<code>ModuleScriptA</code>也不会结束，除非<code>ModuleScriptA</code>运行完</p>
-<ul>
-<li>例如：如果<code>ModuleScriptA</code>尝试调用<code>ModuleScriptB</code>，此时<code>ModuleScriptB</code>又尝试调用<code>ModuleScriptA</code>，则会出现死循环</li>
-</ul>
-</li>
-<li><p>在<code>LocalScript</code>中对<code>ModuleScript</code>使用require将在客户端上运行代码，即使脚本已经在服务器上运行。</p>
-<ul>
-<li>因此，如果同时在客户端和服务器上使用ModuleScript，或者在Studio中调试它，请务必小心。</li>
-</ul>
-</li>
-<li><p>适合在里面写函数，需要的时候进行调用即可</p>
-</li>
-</ol>
-<h2 id="代码案例"><a href="#代码案例" class="headerlink" title="代码案例"></a>代码案例</h2><h3 id="ModuleScript定义案例"><a href="#ModuleScript定义案例" class="headerlink" title="ModuleScript定义案例"></a>ModuleScript定义案例</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- Tables store multiple values in one variable</span></span><br><span class="line"><span class="keyword">local</span> MyFunctions = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- Add a few functions to the table</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyFunctions.foo</span><span class="params">()</span></span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Foo!&quot;</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyFunctions.bar</span><span class="params">()</span></span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Bar!&quot;</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- ModuleScripts must return exactly one value</span></span><br><span class="line"><span class="keyword">return</span> MyFunctions</span><br></pre></td></tr></table></figure>
-
-<h3 id="ModuleScript调用案例"><a href="#ModuleScript调用案例" class="headerlink" title="ModuleScript调用案例"></a>ModuleScript调用案例</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- The require function is provided a ModuleScript, then runs</span></span><br><span class="line"><span class="comment">-- the code, waiting until it returns a singular value.</span></span><br><span class="line"><span class="keyword">local</span> MyFunctions = <span class="built_in">require</span>(script.Parent.MyFunctions)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- These are some dummy functions defined in another code sample</span></span><br><span class="line">MyFunctions.foo()</span><br><span class="line">MyFunctions.bar()</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/20/unLua-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%A0%E8%BD%BD%E5%99%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/10/20/unLua-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%A0%E8%BD%BD%E5%99%A8/" class="post-title-link" itemprop="url">unLua-自定义加载器</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-10-20 08:37:26 / 修改时间：08:39:24" itemprop="dateCreated datePublished" datetime="2022-10-20T08:37:26+08:00">2022-10-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unLua/" itemprop="url" rel="index"><span itemprop="name">unLua</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="自定义加载器"><a href="#自定义加载器" class="headerlink" title="自定义加载器"></a>自定义加载器</h1><p>通过绑定 FUnLuaDelegates::CustomLoadLuaFile 可以实现自定义Lua加载器</p>
-<p>演示两种常见的实现供参考：</p>
-<ol>
-<li><p>查找路径固定，性能更好</p>
-</li>
-<li><p>通过package.path查找，更加灵活</p>
-</li>
-</ol>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--本示例C++源码：</span></span><br><span class="line">Source\TPSProject\TutorialBlueprintFunctionLibrary.cpp</span><br></pre></td></tr></table></figure>
-
-<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> Screen = <span class="built_in">require</span> <span class="string">&quot;Tutorials.Screen&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> M = UnLua.Class()</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">print_intro</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> msg =</span><br><span class="line">        <span class="string">[[</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">—— 本示例来自 &quot;Content/Script/Tutorials.12_CustomLoader.lua&quot;</span></span><br><span class="line"><span class="string">]]</span></span><br><span class="line">    Screen.Print(msg)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:ReceiveBeginPlay</span><span class="params">()</span></span></span><br><span class="line">    print_intro()</span><br><span class="line"></span><br><span class="line">    UE.UTutorialBlueprintFunctionLibrary.SetupCustomLoader(<span class="number">1</span>)</span><br><span class="line">    Screen.Print(<span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;FromCustomLoader1:%s&quot;</span>, <span class="built_in">require</span>(<span class="string">&quot;Tutorials&quot;</span>)))</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">package</span>.<span class="built_in">loaded</span>[<span class="string">&quot;Tutorials&quot;</span>] = <span class="literal">nil</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">package</span>.<span class="built_in">path</span> = <span class="built_in">package</span>.<span class="built_in">path</span> .. <span class="string">&quot;;./?/Index.lua&quot;</span></span><br><span class="line">    UE.UTutorialBlueprintFunctionLibrary.SetupCustomLoader(<span class="number">2</span>)</span><br><span class="line">    Screen.Print(<span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;FromCustomLoader2:%s&quot;</span>, <span class="built_in">require</span>(<span class="string">&quot;Tutorials&quot;</span>)))</span><br><span class="line"></span><br><span class="line">    UE.UTutorialBlueprintFunctionLibrary.SetupCustomLoader(<span class="number">0</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> M</span><br></pre></td></tr></table></figure>
 
       
     </div>

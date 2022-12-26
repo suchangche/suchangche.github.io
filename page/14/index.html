@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">172</span>
+          <span class="site-state-item-count">174</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,605 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/27/C-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/27/C-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" class="post-title-link" itemprop="url">C++-智能指针</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-05-27 10:56:26" itemprop="dateCreated datePublished" datetime="2022-05-27T10:56:26+08:00">2022-05-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-07-06 16:15:26" itemprop="dateModified" datetime="2022-07-06T16:15:26+08:00">2022-07-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="智能指针的定义"><a href="#智能指针的定义" class="headerlink" title="智能指针的定义"></a>智能指针的定义</h1><p>在实际的 C++ 开发中，我们经常会遇到诸如程序运行中突然崩溃、程序运行所用内存越来越多最终不得不重启等问题，这些问题往往都是内存资源管理不当造成的。比如：</p>
+<ul>
+<li>有些内存资源已经被释放，但指向它的指针并没有改变指向（成为了野指针），并且后续还在使用；</li>
+<li>有些内存资源已经被释放，后期又试图再释放一次（重复释放同一块内存会导致程序运行崩溃）；</li>
+<li>没有及时释放不再使用的内存资源，造成内存泄漏，程序占用的内存资源越来越多。</li>
+</ul>
+<p>针对以上这些情况，很多程序员认为 C++ 语言应该提供更友好的内存管理机制，这样就可以将精力集中于开发项目的各个功能上。</p>
+<p>C++11 新标准在废弃 auto_ptr 的同时，增添了 unique_ptr、shared_ptr 以及 weak_ptr 这 3 个智能指针来实现堆内存的自动回收</p>
+<p>智能指针可以在适当时机自动释放分配的内存</p>
+<p>也就是说，使用智能指针可以很好地避免“忘记释放内存而导致内存泄漏”问题出现</p>
+<p>C++ 智能指针底层是采用引用计数的方式实现的。</p>
+<p>简单的理解，智能指针在申请堆内存空间的同时，会为其配备一个整形值（初始值为 1），每当有新对象使用此堆内存时，该整形值 +1；反之，每当使用此堆内存的对象被释放时，该整形值减 1。当堆空间对应的整形值为 0 时，即表明不再有对象使用它，该堆空间就会被释放掉。</p>
+<h1 id="shared-ptr（共享指针）"><a href="#shared-ptr（共享指针）" class="headerlink" title="shared_ptr（共享指针）"></a>shared_ptr（共享指针）</h1><p>每种智能指针都是以类模板的方式实现的，shared_ptr 也不例外</p>
+<p>shared_ptr<T>（其中 T 表示指针指向的具体数据类型）的定义位于<code>&lt;memory&gt;</code>头文件，并位于 std 命名空间中，因此在使用该类型指针时，程序中应包含如下 2 行代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br></pre></td></tr></table></figure>
+
+<p>和 unique_ptr、weak_ptr 不同之处在于，多个 shared_ptr 智能指针可以共同使用同一块堆内存。并且，由于该类型智能指针在实现上采用的是引用计数机制，即便有一个 shared_ptr 指针放弃了堆内存的“使用权”（引用计数减 1），也不会影响其他指向同一堆内存的 shared_ptr 指针（只有引用计数为 0 时，堆内存才会被自动释放）。</p>
+<h2 id="shared-ptr智能指针的创建"><a href="#shared-ptr智能指针的创建" class="headerlink" title="shared_ptr智能指针的创建"></a>shared_ptr智能指针的创建</h2><ol>
+<li>通过如下 2 种方式，可以构造出 shared_ptr<T> 类型的空智能指针：</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">std::shared_ptr&lt;<span class="type">int</span>&gt; p1;             <span class="comment">//不传入任何实参</span></span><br><span class="line"><span class="function">std::shared_ptr&lt;<span class="type">int</span>&gt; <span class="title">p2</span><span class="params">(<span class="literal">nullptr</span>)</span></span>;    <span class="comment">//传入空指针 nullptr</span></span><br></pre></td></tr></table></figure>
+
+<p>注意，<strong>空的 shared_ptr 指针，其初始引用计数为 0，而不是 1</strong>。</p>
+<ol start="2">
+<li>在构建 shared_ptr 智能指针，也可以明确其指向。例如：</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">std::shared_ptr&lt;<span class="type">int</span>&gt; <span class="title">p3</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>(<span class="number">10</span>))</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>由此，我们就成功构建了一个 shared_ptr 智能指针，其指向一块存有 10 这个 int 类型数据的堆内存空间。  </p>
+<p>同时，C++11 标准中还提供了 std::make_shared<T> 模板函数，其可以用于初始化 shared_ptr 智能指针，例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">std::shared_ptr&lt;<span class="type">int</span>&gt; p3 = std::<span class="built_in">make_shared</span>&lt;<span class="type">int</span>&gt;(<span class="number">10</span>);</span><br></pre></td></tr></table></figure>
+
+<p>以上 2 种方式创建的 p3 是完全相同。  </p>
+<ol start="3">
+<li>除此之外，shared_ptr<T> 模板还提供有相应的拷贝构造函数和移动构造函数，例如：</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//调用拷贝构造函数</span></span><br><span class="line"><span class="function">std::shared_ptr&lt;<span class="type">int</span>&gt; <span class="title">p4</span><span class="params">(p3)</span></span>;<span class="comment">//或者 std::shared_ptr&lt;int&gt; p4 = p3;</span></span><br><span class="line"><span class="comment">//调用移动构造函数</span></span><br><span class="line"><span class="function">std::shared_ptr&lt;<span class="type">int</span>&gt; <span class="title">p5</span><span class="params">(std::move(p4))</span></span>; <span class="comment">//或者 std::shared_ptr&lt;int&gt; p5 = std::move(p4);</span></span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，如果 p3 为空智能指针，则 p4 也为空智能指针，其引用计数初始值为 0；反之，则表明 p4 和 p3 指向同一块堆内存，同时该堆空间的引用计数会加 1。</p>
+<p>注意，<mark>同一普通指针不能同时为多个 shared_ptr 对象赋值</mark>，否则会导致程序发生异常。例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>* ptr = <span class="keyword">new</span> <span class="type">int</span>;</span><br><span class="line"><span class="function">std::shared_ptr&lt;<span class="type">int</span>&gt; <span class="title">p1</span><span class="params">(ptr)</span></span>;</span><br><span class="line"><span class="function">std::shared_ptr&lt;<span class="type">int</span>&gt; <span class="title">p2</span><span class="params">(ptr)</span></span>;<span class="comment">//错误</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>在初始化 shared_ptr 智能指针时，还可以<strong>自定义所指堆内存的释放规则</strong>，这样当堆内存的引用计数为 0 时，会优先调用我们自定义的释放规则。</li>
+</ol>
+<p>在某些场景中，自定义释放规则是很有必要的。</p>
+<p>比如，对于申请的动态数组来说，shared_ptr 指针默认的释放规则是不支持释放数组的，只能自定义对应的释放规则，才能正确地释放申请的堆内存。  </p>
+<p>对于申请的动态数组，释放规则可以使用 C++11 标准中提供的 default_delete<T> 模板类，我们也可以自定义释放规则：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//指定 default_delete 作为释放规则</span></span><br><span class="line"><span class="function">std::shared_ptr&lt;<span class="type">int</span>&gt; <span class="title">p6</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>[<span class="number">10</span>], std::default_delete&lt;<span class="type">int</span>[]&gt;())</span></span>;</span><br><span class="line"><span class="comment">//自定义释放规则</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">deleteInt</span><span class="params">(<span class="type">int</span>*p)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">delete</span> []p;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//初始化智能指针，并自定义释放规则</span></span><br><span class="line"><span class="function">std::shared_ptr&lt;<span class="type">int</span>&gt; <span class="title">p7</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>[<span class="number">10</span>], deleteInt)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>实际上借助 lambda 表达式，我们还可以像如下这样初始化 p7，它们是完全相同的：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">std::shared_ptr&lt;<span class="type">int</span>&gt; <span class="title">p7</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>[<span class="number">10</span>], [](<span class="type">int</span>* p) &#123;<span class="keyword">delete</span>[]p; &#125;)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="shared-ptr模板类提供的成员方法"><a href="#shared-ptr模板类提供的成员方法" class="headerlink" title="shared_ptr模板类提供的成员方法"></a>shared_ptr<T>模板类提供的成员方法</h2><table>
+<thead>
+<tr>
+<th>成员方法名</th>
+<th>功 能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>operator&#x3D;()</td>
+<td>重载赋值号，使得同一类型的 shared_ptr 智能指针可以相互赋值。</td>
+</tr>
+<tr>
+<td>operator*()</td>
+<td>重载 * 号，获取当前 shared_ptr 智能指针对象指向的数据。</td>
+</tr>
+<tr>
+<td>operator-&gt;()</td>
+<td>重载 -&gt; 号，当智能指针指向的数据类型为自定义的结构体时，通过 -&gt; 运算符可以获取其内部的指定成员。</td>
+</tr>
+<tr>
+<td>swap()</td>
+<td>交换 2 个相同类型 shared_ptr 智能指针的内容。</td>
+</tr>
+<tr>
+<td>reset()</td>
+<td>当函数没有实参时，该函数会使当前 shared_ptr 所指堆内存的引用计数减 1，同时将当前对象重置为一个空指针；<strong>当为函数传递一个新申请的堆内存时，则调用该函数的 shared_ptr 对象会获得该存储空间的所有权，并且引用计数的初始值为 1。</strong></td>
+</tr>
+<tr>
+<td>get()</td>
+<td>获得 shared_ptr 对象内部包含的普通指针。</td>
+</tr>
+<tr>
+<td>use_count()</td>
+<td>返回同当前 shared_ptr 对象（包括它）指向相同的所有 shared_ptr 对象的数量。</td>
+</tr>
+<tr>
+<td>unique()</td>
+<td>判断当前 shared_ptr 对象指向的堆内存，是否不再有其它 shared_ptr 对象再指向它。</td>
+</tr>
+<tr>
+<td>operator bool()</td>
+<td>判断当前 shared_ptr 对象是否为空智能指针，如果是空指针，返回 false；反之，返回 true。</td>
+</tr>
+</tbody></table>
+<h2 id="shared-ptr-基本操作"><a href="#shared-ptr-基本操作" class="headerlink" title="shared_ptr 基本操作"></a>shared_ptr 基本操作</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//构建 2 个智能指针</span></span><br><span class="line">    <span class="function">std::shared_ptr&lt;<span class="type">int</span>&gt; <span class="title">p1</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>(<span class="number">10</span>))</span></span>;</span><br><span class="line">    <span class="function">std::shared_ptr&lt;<span class="type">int</span>&gt; <span class="title">p2</span><span class="params">(p1)</span></span>;</span><br><span class="line">    <span class="comment">//输出 p2 指向的数据</span></span><br><span class="line">    cout &lt;&lt; *p2 &lt;&lt; endl;</span><br><span class="line">    p1.<span class="built_in">reset</span>();<span class="comment">//引用计数减 1,p1为空指针</span></span><br><span class="line">    <span class="keyword">if</span> (p1) &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;p1 不为空&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;p1 为空&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//以上操作，并不会影响 p2</span></span><br><span class="line">    cout &lt;&lt; *p2 &lt;&lt; endl;</span><br><span class="line">    <span class="comment">//判断当前和 p2 同指向的智能指针有多少个</span></span><br><span class="line">    cout &lt;&lt; p2.<span class="built_in">use_count</span>() &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">10</span></span><br><span class="line">p1 为空</span><br><span class="line"><span class="number">10</span></span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="unique-ptr-唯一指针"><a href="#unique-ptr-唯一指针" class="headerlink" title="unique_ptr(唯一指针)"></a>unique_ptr(唯一指针)</h1><p>unique_ptr 指针指向的堆内存无法同其它 unique_ptr 共享</p>
+<p>也就是说，每个 unique_ptr 指针都独自拥有对其所指堆内存空间的所有权-&gt;堆内存空间的引用计数，都只能为 1，一旦该指针放弃对堆内存空间的所有权，将直接释放该内存空间。</p>
+<h2 id="性质总结"><a href="#性质总结" class="headerlink" title="性质总结"></a>性质总结</h2><ul>
+<li><p>内存空间的唯一所有权（指针的唯一性）</p>
+</li>
+<li><p>继承了自动指针auto_ptr，更不易出错</p>
+</li>
+<li><p>抛出异常时可最大限度避免资源泄漏</p>
+</li>
+</ul>
+<h2 id="创建unique-ptr"><a href="#创建unique-ptr" class="headerlink" title="创建unique_ptr"></a>创建unique_ptr</h2><p>注意：unique_ptr没有拷贝构造函数（因为指针的唯一性），只有移动构造函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建空的指针</span></span><br><span class="line"><span class="function">std::unique_ptr&lt;<span class="type">int</span>&gt; <span class="title">p1</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function">std::unique_ptr&lt;<span class="type">int</span>&gt; <span class="title">p2</span><span class="params">(<span class="literal">nullptr</span>)</span></span>;</span><br><span class="line"><span class="comment">//创建有明确指向的指针</span></span><br><span class="line"><span class="function">std::unique_ptr&lt;<span class="type">int</span>&gt; <span class="title">p3</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>)</span></span>;</span><br><span class="line"><span class="comment">//无拷贝构造函数，只有移动构造函数</span></span><br><span class="line"><span class="function">std::unique_ptr&lt;<span class="type">int</span>&gt; <span class="title">p4</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>)</span></span>;</span><br><span class="line"><span class="function">std::unique_ptr&lt;<span class="type">int</span>&gt; <span class="title">p5</span><span class="params">(p4)</span></span>;<span class="comment">//错，堆内存不共享（指针的唯一性）</span></span><br><span class="line"><span class="function">std::unique_ptr&lt;<span class="type">int</span>&gt; <span class="title">p5</span><span class="params">(std::move(p4))</span></span>;<span class="comment">//正确，调用移动构造函数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//自定义的释放规则</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">myDel</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="type">int</span> *p)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">delete</span> p;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function">std::unique_ptr&lt;<span class="type">int</span>, myDel&gt; <span class="title">p6</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>)</span></span>;</span><br><span class="line"><span class="comment">//std::unique_ptr&lt;int, myDel&gt; p6(new int, myDel());</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="unique-ptr模板类提供的成员方法"><a href="#unique-ptr模板类提供的成员方法" class="headerlink" title="unique_ptr模板类提供的成员方法"></a>unique_ptr<T>模板类提供的成员方法</h2><table>
+<thead>
+<tr>
+<th>成员函数名</th>
+<th>功 能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>operator*()</td>
+<td>获取当前 unique_ptr 指针指向的数据。</td>
+</tr>
+<tr>
+<td>operator-&gt;()</td>
+<td>重载 -&gt; 号，当智能指针指向的数据类型为自定义的结构体时，通过 -&gt; 运算符可以获取其内部的指定成员。</td>
+</tr>
+<tr>
+<td>operator &#x3D;()</td>
+<td>重载了 &#x3D; 赋值号，从而可以将 nullptr 或者一个右值 unique_ptr 指针直接赋值给当前同类型的 unique_ptr 指针。</td>
+</tr>
+<tr>
+<td>operator <a href=""></a></td>
+<td>重载了 [] 运算符，当 unique_ptr 指针指向一个数组时，可以<mark>直接通过 [] 获取指定下标位置处的数据</mark>。</td>
+</tr>
+<tr>
+<td>get()</td>
+<td>获取当前 unique_ptr 指针内部包含的普通指针。</td>
+</tr>
+<tr>
+<td>get_deleter()</td>
+<td>获取当前 unique_ptr 指针释放堆内存空间所用的规则。</td>
+</tr>
+<tr>
+<td>operator bool()</td>
+<td>unique_ptr 指针可直接作为 if 语句的判断条件，以判断该指针是否为空，如果为空，则为 false；反之为 true。</td>
+</tr>
+<tr>
+<td>release()</td>
+<td>释放当前 unique_ptr 指针对所指堆内存的所有权，但该存储空间并不会被销毁。</td>
+</tr>
+<tr>
+<td>reset(p)</td>
+<td>其中 p 表示一个普通指针，如果 p 为 nullptr，则当前 unique_ptr 也变成空指针；反之，则该函数会释放当前 unique_ptr 指针指向的堆内存（如果有），然后获取 p 所指堆内存的所有权（p 为 nullptr）。</td>
+</tr>
+<tr>
+<td>swap(x)</td>
+<td>交换当前 unique_ptr 指针和同类型的 x 指针。</td>
+</tr>
+</tbody></table>
+<h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">std::unique_ptr&lt;<span class="type">int</span>&gt; <span class="title">p5</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>)</span></span>;</span><br><span class="line">    *p1 = <span class="number">319</span>;</span><br><span class="line">    <span class="comment">// p 接收 p1 释放的堆内存</span></span><br><span class="line">    <span class="type">int</span> * p = p1.<span class="built_in">release</span>();</span><br><span class="line">    cout &lt;&lt; *p &lt;&lt; endl;</span><br><span class="line">    <span class="comment">//判断 p1 是否为空指针</span></span><br><span class="line">    <span class="keyword">if</span> (p1) &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;p1不是空指针&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;p1是口指针&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    std::unique_ptr&lt;<span class="type">int</span>&gt; p2;</span><br><span class="line">    <span class="comment">//p2 获取 p 的所有权</span></span><br><span class="line">    p2.<span class="built_in">reset</span>(p);</span><br><span class="line">    cout &lt;&lt; *p2 &lt;&lt; endl;;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">319</span></span><br><span class="line">p1是空指针</span><br><span class="line"><span class="number">319</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="weak-ptr（弱指针）"><a href="#weak-ptr（弱指针）" class="headerlink" title="weak_ptr（弱指针）"></a>weak_ptr（弱指针）</h1><ul>
+<li><p>弱指针是共享指针辅助类，其允许共享但不拥有对象，因此不会增加关联对象的引用次数</p>
+</li>
+<li><p>不能使用运算符*和-&gt;直接访问弱指针的引用对象，而是使用lock函数生成关联对象的共享指针（可能为空）——只能访问，不可修改堆内存</p>
+</li>
+<li><p>当拥有该对象的最后一个共享指针失去其所有权时，任何弱指针都会自动变为空</p>
+</li>
+</ul>
+<ul>
+<li><p>借助 weak_ptr 类型指针， 我们可以获取 shared_ptr 指针的一些状态信息，比如有多少指向相同的 shared_ptr 指针、shared_ptr 指针指向的堆内存是否已经被释放等等</p>
+</li>
+<li><p>当 weak_ptr 类型指针的指向和某一 shared_ptr 指针相同时，weak_ptr 指针并不会使所指堆内存的引用计数加 1；同样，当 weak_ptr 指针被释放时，之前所指堆内存的引用计数也不会因此而减 1。也就是说，weak_ptr 类型指针并不会影响所指堆内存空间的引用计数。</p>
+</li>
+</ul>
+<h2 id="指针的创建"><a href="#指针的创建" class="headerlink" title="指针的创建"></a>指针的创建</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">std::weak_ptr&lt;<span class="type">int</span>&gt; wp1;</span><br><span class="line"><span class="function">std::weak_ptr&lt;<span class="type">int</span>&gt; <span class="title">wp2</span> <span class="params">(wp1)</span></span>;</span><br><span class="line"><span class="comment">//直接指向shared_ptr拥有的堆内存</span></span><br><span class="line"><span class="function">std::shared_ptr&lt;<span class="type">int</span>&gt; <span class="title">sp</span> <span class="params">(<span class="keyword">new</span> <span class="type">int</span>)</span></span>;</span><br><span class="line"><span class="function">std::weak_ptr&lt;<span class="type">int</span>&gt; <span class="title">wp3</span> <span class="params">(sp)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="成员方法"><a href="#成员方法" class="headerlink" title="成员方法"></a>成员方法</h2><table>
+<thead>
+<tr>
+<th>成员方法</th>
+<th>功 能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>operator&#x3D;()</td>
+<td>重载 &#x3D; 赋值运算符，是的 weak_ptr 指针可以直接被 weak_ptr 或者 shared_ptr 类型指针赋值。</td>
+</tr>
+<tr>
+<td>swap(x)</td>
+<td>其中 x 表示一个同类型的 weak_ptr 类型指针，该函数可以互换 2 个同类型 weak_ptr 指针的内容。</td>
+</tr>
+<tr>
+<td>reset()</td>
+<td>将当前 weak_ptr 指针置为空指针。</td>
+</tr>
+<tr>
+<td>use_count()</td>
+<td>查看指向和当前 weak_ptr 指针相同的 shared_ptr 指针的数量。</td>
+</tr>
+<tr>
+<td>expired()</td>
+<td>判断当前 weak_ptr 指针为否过期（指针为空，或者指向的堆内存已经被释放）。</td>
+</tr>
+<tr>
+<td><mark>lock()</mark></td>
+<td>如果当前 weak_ptr 已经过期，则该函数会返回一个空的 shared_ptr 指针；反之，该函数返回一个和当前 weak_ptr 指向相同的 shared_ptr 指针。</td>
+</tr>
+</tbody></table>
+<h2 id="使用案例"><a href="#使用案例" class="headerlink" title="使用案例"></a>使用案例</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">std::shared_ptr&lt;<span class="type">int</span>&gt; <span class="title">sp1</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>(<span class="number">319</span>))</span></span>;</span><br><span class="line">    <span class="function">std::shared_ptr&lt;<span class="type">int</span>&gt; <span class="title">sp2</span><span class="params">(sp1)</span></span>;</span><br><span class="line">    <span class="function">std::weak_ptr&lt;<span class="type">int</span>&gt; <span class="title">wp</span><span class="params">(sp2)</span></span>;</span><br><span class="line">    <span class="comment">//输出和 wp 同指向的 shared_ptr 类型指针的数量</span></span><br><span class="line">    cout &lt;&lt; wp.<span class="built_in">use_count</span>() &lt;&lt; endl;</span><br><span class="line">    <span class="comment">//释放 sp2</span></span><br><span class="line">    sp2.<span class="built_in">reset</span>();</span><br><span class="line">    cout &lt;&lt; wp.<span class="built_in">use_count</span>() &lt;&lt; endl;</span><br><span class="line">    <span class="comment">//借助 lock() 函数，返回一个和 wp 同指向的 shared_ptr 类型指针，获取其存储的数据</span></span><br><span class="line">    cout &lt;&lt; *(wp.<span class="built_in">lock</span>()) &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">319</span></span><br></pre></td></tr></table></figure>
+
+<p>声明：本博客整理参考《C语言中文网》，其中唯一指针和弱指针与原文存在一定的差异，其在C语言中文网中为付费内容，本博客仅为对其的个人笔记与小结，读者若有兴趣，请跳转<a target="_blank" rel="noopener" href="http://c.biancheng.net/view/vip_8673.html">C语言中文网</a>，对原创知识进行支持！</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/26/UE4-%E5%8D%95%E6%92%AD%E4%B8%8E%E5%A4%9A%E6%92%AD%E4%BB%A3%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/26/UE4-%E5%8D%95%E6%92%AD%E4%B8%8E%E5%A4%9A%E6%92%AD%E4%BB%A3%E7%90%86/" class="post-title-link" itemprop="url">UE4-单播以及多播代理/委托</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-05-26 16:09:48" itemprop="dateCreated datePublished" datetime="2022-05-26T16:09:48+08:00">2022-05-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-05-27 14:17:49" itemprop="dateModified" datetime="2022-05-27T14:17:49+08:00">2022-05-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="代理-x2F-委托"><a href="#代理-x2F-委托" class="headerlink" title="代理&#x2F;委托"></a>代理&#x2F;委托</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>委托</strong> 在C++对象上引用和执行成员函数的数据类型。</p>
+<p><strong>委托</strong> 是一种泛型但类型安全的方式，可在C++对象上调用成员函数。可使用委托动态绑定到任意对象的成员函数，之后在该对象上调用函数，即使调用程序不知道对象类型也可进行操作。复制委托对象很安全。你也可以利用值传递委托，但这样操作需要在堆上分配内存，因此通常并不推荐。请尽量通过引用传递委托。</p>
+<h2 id="理解"><a href="#理解" class="headerlink" title="理解"></a>理解</h2><p>1.委托是一种数据类型，在委托类型的实例化对象上可引用和执行成员函数；</p>
+<p>2.定义一种委托类型对象，然后使用将函数绑定到这个代理对象上，之后，便可以通过这个代理对象调用成员函数。</p>
+<p><strong>UDELEGATE说明符</strong><br>委托函数支持与UFunctions相同的说明符，但使用 UDELEGATE 宏而不是 UFUNCTION。例如，以下代码将 BlueprintAuthorityOnly 说明符添加到 FInstigatedAnyDamageSignature 委托中</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UDELEGATE</span>(BlueprintAuthorityOnly)</span><br><span class="line"><span class="built_in">DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams</span>(FInstigatedAnyDamageSignature, <span class="type">float</span>, Damage, <span class="type">const</span> UDamageType*, DamageType, AActor*, DamagedActor, AActor*, DamageCauser);</span><br></pre></td></tr></table></figure>
+
+<h1 id="单播代理-x2F-委托"><a href="#单播代理-x2F-委托" class="headerlink" title="单播代理&#x2F;委托"></a>单播代理&#x2F;委托</h1><p>单播代理，顾名思义，一次绑定一个函数并执行该函数的委托。</p>
+<p>可以根据参数的个数来使用代理。最多可以有9个参数。</p>
+<p>使用方式为</p>
+<ol>
+<li><p>声明并定义代理，并定义一个代理对象</p>
+</li>
+<li><p>代理对象的绑定</p>
+</li>
+<li><p>执行代理函数</p>
+</li>
+</ol>
+<h2 id="声明单播代理"><a href="#声明单播代理" class="headerlink" title="声明单播代理"></a>声明单播代理</h2><p>主要依靠有无返回值和参数数量来进行区分</p>
+<p><strong>DECLARE_DELEGATE(代理名称)</strong></p>
+<p>无返回值且无参数的代理</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">DECLARE_DELEGATE</span>(FTestDelegateNoparam)</span><br></pre></td></tr></table></figure>
+
+<p><strong>DECLARE_DELEGATE_TwoParams(代理名称,参数类型1，参数类型2)</strong></p>
+<p>无返回值但是又两个参数的代理</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">DECLARE_DELEGATE_TwoParams</span>(FTestDelegateTwoparam,<span class="type">float</span>,<span class="type">const</span> FString&amp;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>DECLARE_DELEGATE_RetVal_TwoParams(返回值类型,代理名称,参数类型1,参数类型2)</strong></p>
+<p>有返回值且有两个参数的代理</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">DECLARE_DELEGATE_RetVal_TwoParams</span>(<span class="type">int</span> <span class="number">32</span>,FTestDelegateTwoparamRetVal,<span class="type">float</span>,<span class="type">const</span> FString&amp;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="绑定代理-x2F-委托"><a href="#绑定代理-x2F-委托" class="headerlink" title="绑定代理&#x2F;委托"></a>绑定代理&#x2F;委托</h2><p>声明并定义一个委托后，要将代理和要使用代理的函数进行绑定</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Bind</code></td>
+<td>绑定到现有委托对象。</td>
+</tr>
+<tr>
+<td><code>BindStatic</code></td>
+<td>绑定原始C++指针全局函数委托。</td>
+</tr>
+<tr>
+<td><code>BindRaw</code></td>
+<td>绑定原始C++指针委托。由于原始指针不使用任何类型的引用，因此在删除目标对象后调用<code>Execute </code>或<code> ExecuteIfBound</code> 会不安全。</td>
+</tr>
+<tr>
+<td><code>BindLambda</code></td>
+<td>绑定一个函子。这通常用于拉姆达函数。</td>
+</tr>
+<tr>
+<td><code>BindSP</code></td>
+<td>绑定基于指针的共享成员函数委托。共享指针委托会保留对对象的弱引用。可使用 <code>ExecuteIfBound()</code> 进行调用。</td>
+</tr>
+<tr>
+<td><code>BindUObject</code></td>
+<td>绑定 <code>UObject</code> 的成员函数委托。<code>UObject</code> 委托会保留对你的对象 <code>UObject</code> 的弱引用。可使用 <code>ExecuteIfBound()</code> 进行调用。</td>
+</tr>
+<tr>
+<td><code>UnBind</code></td>
+<td>取消绑定此委托。</td>
+</tr>
+</tbody></table>
+<h2 id="执行代理-x2F-委托"><a href="#执行代理-x2F-委托" class="headerlink" title="执行代理&#x2F;委托"></a>执行代理&#x2F;委托</h2><ul>
+<li><p>通过调用委托的 <code>Execute()</code> 函数执行绑定到委托的函数。</p>
+</li>
+<li><p>执行前须检查委托是否已绑定。 此操作是为了使代码更安全，因为有时委托可能含有未初始化且被后续访问的返回值和输出参数。 </p>
+</li>
+<li><p>执行未绑定的委托在某些情况下确实可能导致内存混乱。</p>
+</li>
+<li><p>可调用 <code>IsBound()</code> 检查是否可安全执行委托。 </p>
+</li>
+<li><p>同时，对于无返回值的委托，可调用 <code>ExecuteIfBound()</code>，但需注意输出参数可能未初始化。</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>执行函数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Execute</code></td>
+<td>不检查其绑定情况即执行一个委托</td>
+</tr>
+<tr>
+<td><code>ExecuteIfBound</code></td>
+<td>检查一个委托是否已绑定，如是，则调用Execute</td>
+</tr>
+<tr>
+<td><code>IsBound</code></td>
+<td>检查一个委托是否已绑定，经常出现在包含 <code>Execute</code> 调用的代码前</td>
+</tr>
+</tbody></table>
+<h2 id="单播代理的使用"><a href="#单播代理的使用" class="headerlink" title="单播代理的使用"></a>单播代理的使用</h2><ol>
+<li>声明并定义代理，并定义一个代理对象。</li>
+</ol>
+<p><strong>声明并定义代理</strong></p>
+<p>其代理类型为FTestDelegateTwoParamsRetVal，这种类型的代理返回值为int32类型的，有两个参数，分别为float和FStrings&amp;类型的</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">DECLARE_DELEGATE_RetVal_TwoParams</span>(int32, FTestDelegateTwoParamsRetVal, <span class="type">float</span>, <span class="type">const</span> FStrings&amp;);</span><br><span class="line"><span class="built_in">DECLARE_DELEGATE</span>(FTestDelegateNoparam);</span><br></pre></td></tr></table></figure>
+
+<p><strong>代理对象的定义</strong></p>
+<p>实例化一个代理对象（就像类创建对象一样）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FTestDelegateTwoParamsRetVal DelegateTwoParamsRetVal;</span><br><span class="line">FTestDelegateNoparam         DelegateNoparam;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>代理对象的绑定</li>
+</ol>
+<p>在这个步骤中，只是完将代理对象绑定到函数上，并未执行函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">    <span class="comment">//绑定继承自UObject类的类里面的成员函数</span></span><br><span class="line"><span class="comment">//其中两个参数，第一个参数为想要使用代理的类的指针</span></span><br><span class="line"><span class="comment">//第二个参数为代理的函数名，传入的是函数地址，故须对函数名引用</span></span><br><span class="line">DelegateTwoParamsRetVal.<span class="built_in">BindUObject</span>(<span class="keyword">this</span>, &amp;AMyActor::FunTwoparamRetVal);</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>执行代理函数</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//防止代理未绑定成功而导致程序崩溃，先进行 绑定判断</span></span><br><span class="line">    <span class="keyword">if</span>(DelegateTwoParamsRetVal.<span class="built_in">IsBound</span>())</span><br><span class="line">        <span class="comment">//为代理对象传入参数并执行</span></span><br><span class="line">        DelegateTwoParamsRetVal.<span class="built_in">Execute</span>(<span class="number">32</span>, <span class="string">&quot;Hello Delegate&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>在执行函数部分，若是无参数类型，还可以如下操作</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DelegateNoparam.<span class="built_in">ExecuteIfBound</span>();</span><br></pre></td></tr></table></figure>
+
+<h2 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h2><h3 id="MyActor-h"><a href="#MyActor-h" class="headerlink" title="MyActor.h"></a>MyActor.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&quot;MyActor.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//单播代理，无参数无返回值，代理名为TestDelegateNoparam</span></span><br><span class="line"><span class="built_in">DECLARE_DELEGATE</span>(FTestDelegateNoparam);</span><br><span class="line"><span class="comment">//单播代理，两个参数，无返回值，代理名为TestDelegateTwoParams</span></span><br><span class="line"><span class="comment">//这个代理包含两个参数，分别为float和const FStrings&amp;</span></span><br><span class="line"><span class="built_in">DECLARE_DELEGATE_TwoParams</span>(FTestDelegateTwoParams, <span class="type">float</span>, <span class="type">const</span> FStrings&amp;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//单播代理，两个参数，返回值类型为int32, 代理名为TestDelegateTwoParamsRetVal</span></span><br><span class="line"><span class="comment">////这个代理包含两个参数，分别为float和const FStrings&amp;</span></span><br><span class="line"><span class="built_in">DECLARE_DELEGATE_RetVal_TwoParams</span>(int32, FTestDelegateTwoParamsRetVal, <span class="type">float</span>, <span class="type">const</span> FStrings&amp;);</span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HELLOUE4_API</span> AMyActor : <span class="keyword">public</span> AActor</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"><span class="keyword">public</span>:    </span><br><span class="line">    <span class="built_in">AMyActor</span>();</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">FunNoparam</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">FunTwoparamNoRetVal</span><span class="params">(<span class="type">float</span> a, <span class="type">const</span> FString&amp; s)</span></span>;</span><br><span class="line">    <span class="function">int32 <span class="title">FunTwoparamRetVal</span><span class="params">(<span class="type">float</span> a, <span class="type">const</span> FString&amp; s)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UFUNCTION</span>()</span><br><span class="line">    <span class="function">int32 <span class="title">Fun</span><span class="params">(<span class="type">float</span> a, <span class="type">const</span> FString&amp; s)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//在类中定义两个代理成员对象</span></span><br><span class="line">    FTestDelegateTwoParamsRetVal DelegateTwoParamsRetVal;</span><br><span class="line">    FTestDelegateNoparam         DelegateNoparam;</span><br><span class="line"><span class="keyword">public</span>:    </span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">(<span class="type">float</span> DeltaTime)</span> <span class="keyword">override</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="MyActor-cpp"><a href="#MyActor-cpp" class="headerlink" title="MyActor.cpp"></a>MyActor.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;MyActor.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">AMyActor::<span class="built_in">AMyActor</span>()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    PrimaryActorTick.bCanEverTick = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyActor::FunNoparam</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyActor::FunTwoparamNoRetVal</span><span class="params">(<span class="type">float</span> a, <span class="type">const</span> FString&amp; s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">int32 <span class="title">AMyActor::FunTwoparamRetVal</span><span class="params">(<span class="type">float</span> a, <span class="type">const</span> FString&amp; s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">int32</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyActor::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//有参数有返回值的代理的绑定</span></span><br><span class="line">    DelegateTwoParamsRetVal.<span class="built_in">BindUObject</span>(<span class="keyword">this</span>, &amp;AMyActor::FunTwoparamRetVal);</span><br><span class="line">    <span class="comment">//绑定后验证并执行</span></span><br><span class="line">    <span class="keyword">if</span>(DelegateTwoParamsRetVal.<span class="built_in">IsBound</span>())</span><br><span class="line">        DelegateTwoParamsRetVal.<span class="built_in">Execute</span>(<span class="number">32</span>, <span class="string">&quot;Hello Delegate&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//无参数无返回值的代理绑定</span></span><br><span class="line">    DelegateNoparam.<span class="built_in">ExecuteIfBound</span>();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Called every frame</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyActor::Tick</span><span class="params">(<span class="type">float</span> DeltaTime)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">Tick</span>(DeltaTime);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="代理与lambda表达式的绑定"><a href="#代理与lambda表达式的绑定" class="headerlink" title="代理与lambda表达式的绑定"></a>代理与lambda表达式的绑定</h2><p>在这里，仍然使用前面定义的代理，代理对象的定义，在<code>void AMyActor::BeginPlay()</code>函数中将代理对象绑定至lambda表达式</p>
+<p>其中需要注意的是lambda表达式的定义方法</p>
+<ul>
+<li><p>mutable:表示可修改捕获列表中的变量。<mark>可省略</mark></p>
+</li>
+<li><p>捕获列表：</p>
+<ul>
+<li><p>&#x3D;表示以值传递的方式捕捉本类内所有成员变量</p>
+</li>
+<li><p>%表示以引用传递的方式捕捉本类内所有成员变量</p>
+</li>
+<li><p>this指针为lambda捕捉本类内所有成员变量</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[捕获列表](参数)<span class="keyword">mutable</span>-&gt;返回值类型</span><br><span class="line">&#123;</span><br><span class="line">    函数体</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyActor::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line">    <span class="comment">//绑定lambda表达式</span></span><br><span class="line">    <span class="comment">//[捕获列表]:this指针为lambda捕捉本类内所有成员变量，=表示值传递，&amp;表示引用传递</span></span><br><span class="line">    <span class="comment">//由于lambda表达式返回值为int32类型，为了便于说明，return 0；</span></span><br><span class="line">    DelegateTwoParamsRetVal.<span class="built_in">BindLambda</span>([<span class="keyword">this</span>](<span class="type">float</span> a, <span class="type">const</span> FString&amp; s) -&gt; int32&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//代理执行</span></span><br><span class="line">    <span class="keyword">if</span>(DelegateTwoParamsRetVal.<span class="built_in">IsBound</span>())</span><br><span class="line">        DelegateTwoParamsRetVal.<span class="built_in">Execute</span>(<span class="number">32</span>, <span class="string">&quot;Hello Delegate&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="绑定原生C-类中的方法"><a href="#绑定原生C-类中的方法" class="headerlink" title="绑定原生C++类中的方法"></a>绑定原生C++类中的方法</h2><p>首先定义一个原生的c++类中的方法。  </p>
+<p>首先要知道，c++类中方法只存储一处，只有一份。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">FTestA</span>&#123;</span><br><span class="line">punlic:</span><br><span class="line">    <span class="function">int32 <span class="title">Fun</span><span class="params">(<span class="type">float</span> a, <span class="type">const</span> FString&amp; s)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>仍然使用前面定义的代理，代理对象的定义。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyActor::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//定义一个类对象</span></span><br><span class="line">    FTestA A;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//代理对象的绑定</span></span><br><span class="line">    <span class="comment">//第一个参数为指向要绑定类对象的指针</span></span><br><span class="line">    <span class="comment">//第二个参数为要绑定方法的指针</span></span><br><span class="line">    DelegateTwoParamsRetVal.<span class="built_in">BindRaw</span>(&amp;A，&amp;FTestA::Fun);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//代理执行</span></span><br><span class="line">    <span class="keyword">if</span>(DelegateTwoParamsRetVal.<span class="built_in">IsBound</span>())</span><br><span class="line">        DelegateTwoParamsRetVal.<span class="built_in">Execute</span>(<span class="number">32</span>, <span class="string">&quot;Hello Delegate&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="绑定共享指针和线程安全共享指针"><a href="#绑定共享指针和线程安全共享指针" class="headerlink" title="绑定共享指针和线程安全共享指针"></a>绑定共享指针和线程安全共享指针</h2><p>在定义原生c++类FTestA中方法的基础上继续绑定共享指针</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyActor::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//绑定TSharedPtr指向对象的函数，即纯c++类的函数,</span></span><br><span class="line">    TSharedPtr&lt;FTestA&gt; A1 = <span class="built_in">MakeShareable</span>(<span class="keyword">new</span> FTestA);</span><br><span class="line">    <span class="comment">//绑定代理</span></span><br><span class="line">    DelegateTwoParamsRetVal.<span class="built_in">BindSP</span>(A1.<span class="built_in">ToSharedRef</span>(), &amp;FTestA::Fun);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>线程安全共享指针</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyActor::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//绑定一个线程安全的TSharedPtr包裹着的纯c++类里面的函数,</span></span><br><span class="line">    TSharedPtr&lt;FTestA, ESPMode::ThreadSafe&gt; A2 = <span class="built_in">MakeShareable</span>(<span class="keyword">new</span> FTestA);</span><br><span class="line">    <span class="comment">//绑定代理</span></span><br><span class="line">    DelegateTwoParamsRetVal.<span class="built_in">BindSP</span>(A2.<span class="built_in">ToSharedRef</span>(), &amp;FTestA::Fun);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="绑定静态函数"><a href="#绑定静态函数" class="headerlink" title="绑定静态函数"></a>绑定静态函数</h2><p>定义静态函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">static</span> int32 <span class="title">Fun1</span><span class="params">(<span class="type">float</span> a, <span class="type">const</span> FString&amp; s)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FTestB</span>&#123;</span><br><span class="line">punlic:</span><br><span class="line">    <span class="function"><span class="type">static</span> int32 <span class="title">FunStatic</span><span class="params">(<span class="type">float</span> a, <span class="type">const</span> FString&amp; s)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>void AMyActor::BeginPlay()</code>函数中将代理对象绑定至静态函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyActor::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line">    <span class="comment">//绑定代理</span></span><br><span class="line">    DelegateTwoParamsRetVal.<span class="built_in">BindStatic</span>(&amp;Fun1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>void AMyActor::BeginPlay()</code>函数中将代理对象绑定至类中静态函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyActor::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line">    <span class="comment">//绑定代理</span></span><br><span class="line">    DelegateTwoParamsRetVal.<span class="built_in">BindStatic</span>(&amp;FTestB::FunStatic);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="绑定至UFUNCTION"><a href="#绑定至UFUNCTION" class="headerlink" title="绑定至UFUNCTION"></a>绑定至UFUNCTION</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyActor::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line">    <span class="comment">//绑定代理至UFUNCTION</span></span><br><span class="line">    DelegateTwoParamsRetVal.<span class="built_in">BindUFunction</span>(<span class="keyword">this</span>, <span class="built_in">FName</span>(<span class="string">&quot;fun&quot;</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="清除代理"><a href="#清除代理" class="headerlink" title="清除代理"></a>清除代理</h2><p>代理绑定并执行完成后，要清除绑定。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyActor::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//有参数有返回值的代理的绑定</span></span><br><span class="line">    DelegateTwoParamsRetVal.<span class="built_in">BindUObject</span>(<span class="keyword">this</span>, &amp;AMyActor::FunTwoparamRetVal);</span><br><span class="line">    <span class="comment">//绑定后验证并执行</span></span><br><span class="line">    <span class="keyword">if</span>(DelegateTwoParamsRetVal.<span class="built_in">IsBound</span>())</span><br><span class="line">        DelegateTwoParamsRetVal.<span class="built_in">Execute</span>(<span class="number">32</span>, <span class="string">&quot;Hello Delegate&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//清除代理</span></span><br><span class="line">    DelegateTwoParamsRetVal.<span class="built_in">Unbind</span>();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="多播代理"><a href="#多播代理" class="headerlink" title="多播代理"></a>多播代理</h1><h2 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h2><p>可以绑定到多个函数并一次性同时执行它们的委托。</p>
+<p><strong>理解</strong>：多播委托是也是一种委托类型。一个实例化的多播委托对象可以绑定给多个函数，并且一次性能够同时执行这些函数。</p>
+<p>注意：</p>
+<ol>
+<li><p>多播代理绑定的函数执行顺序是不确定的</p>
+</li>
+<li><p>多播代理没有返回值</p>
+</li>
+</ol>
+<h2 id="代理的使用"><a href="#代理的使用" class="headerlink" title="代理的使用"></a>代理的使用</h2><p>基本上与单播代理的使用方法一致</p>
+<ol>
+<li><p>声明</p>
+</li>
+<li><p>实例化</p>
+</li>
+<li><p>绑定到函数以及执行</p>
+</li>
+</ol>
+<h3 id="多播宏的声明"><a href="#多播宏的声明" class="headerlink" title="多播宏的声明"></a>多播宏的声明</h3><p>相对于单播代理的宏，多播代理的声明宏中多了MULTICAST，其他对于参数个数的描述是相同的，如无参数、一个参数、两个参数等等；</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//声明无参数的多播代理</span></span><br><span class="line"><span class="built_in">DECLARE_MULTICAST_DELEGATE_</span>(FTestMultiDelegateNoparam)</span><br><span class="line"></span><br><span class="line"><span class="comment">//一个参数的多播代理</span></span><br><span class="line"><span class="built_in">DELCARE_MULTICAST_DELEGATE_OneParam</span>(FTestMultiDelegateOneParam， <span class="type">float</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//两个参数的多播代理</span></span><br><span class="line"><span class="built_in">DELCARE_MULTICAST_DELEGATE_TwoParams</span>(FTestMultiDelegateTwoParams, <span class="type">float</span>, <span class="type">const</span> FString&amp;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="实例化"><a href="#实例化" class="headerlink" title="实例化"></a>实例化</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FTestMultiDelegateNoparam MultiDelegateNoparam;</span><br><span class="line">FTestMultiDelegateOneParam MultiDelegateOneParam;</span><br><span class="line">FTestMultiDelegateTwoParams MultiDelegateTwoParams;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="绑定多播到函数以及执行"><a href="#绑定多播到函数以及执行" class="headerlink" title="绑定多播到函数以及执行"></a>绑定多播到函数以及执行</h3><h4 id="绑定"><a href="#绑定" class="headerlink" title="绑定"></a>绑定</h4><p>单播代理只绑定到一个函数上，因此在绑定时直接使用Bind**()方法即可。多播委托可以绑定多个函数，当委托出发时，将会调用所有这些函数。因此，多播代理的绑定函数在语义上与数组更加类似。<br>主要的绑定函数有</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将函数委托添加到该多播委托的调用列表中。</span></span><br><span class="line"><span class="string">&quot;Add()&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//添加原始C++指针全局函数委托。</span></span><br><span class="line"><span class="string">&quot;AddStatic()&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//添加原始C++指针委托。原始指针不使用任何类型的引用，因此如果从委托下面删除了对象，则调用此函数可能不安全。调用Execute()时请小心</span></span><br><span class="line"><span class="built_in">AddRaw</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">//添加基于共享指针的（快速、非线程安全）成员函数委托。共享指针委托保留对对象的弱引用。</span></span><br><span class="line"><span class="string">&quot;AddSP()&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//添加基于UObject的成员函数委托。UObject委托保留对对象的弱引用。</span></span><br><span class="line"><span class="string">&quot;AddUObject()&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//从该多播委托的调用列表中删除函数（性能为O(N)）。请注意，委托的顺序可能不会被保留！</span></span><br><span class="line"><span class="string">&quot;Remove()&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//从该多播委托的调用列表中删除绑定到指定UserObject的所有函数。请注意，委托的顺序可能不会被保留！</span></span><br><span class="line"><span class="string">&quot;RemoveAll()&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HELLOUE4_API</span> AMyActor : <span class="keyword">public</span> AActor</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"><span class="keyword">public</span>:	</span><br><span class="line">	<span class="comment">// Sets default values for this actor&#x27;s properties</span></span><br><span class="line">	<span class="built_in">AMyActor</span>();</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">FunNoparam</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">FunTwoparamNoRetVal</span><span class="params">(<span class="type">float</span> a, <span class="type">const</span> FString&amp; s)</span></span>;</span><br><span class="line">	<span class="function">int32 <span class="title">FunTwoparamRetVal</span><span class="params">(<span class="type">float</span> a, <span class="type">const</span> FString&amp; s)</span></span>;</span><br><span class="line">	</span><br><span class="line">	<span class="built_in">UFUNCTION</span>()</span><br><span class="line">	<span class="function">int32 <span class="title">Fun</span><span class="params">(<span class="type">float</span> a, <span class="type">const</span> FString&amp; s)</span></span>;</span><br><span class="line">	</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="comment">// Called when the game starts or when spawned</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//在类中定义多播代理对象</span></span><br><span class="line">	FTestMultiDelegateNoparam MultiDelegateNoparam;</span><br><span class="line">	FTestMultiDelegateOneParam MultiDelegateOneParam;</span><br><span class="line">	FTestMultiDelegateTwoParams MultiDelegateTwoParams;</span><br><span class="line"><span class="keyword">public</span>:	</span><br><span class="line">	<span class="comment">// Called every frame</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">(<span class="type">float</span> DeltaTime)</span> <span class="keyword">override</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h4><p>多播代理的执行则使用广播，即<mark>Broadcast()</mark>方法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;MyActor.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Sets default values</span></span><br><span class="line">AMyActor::<span class="built_in">AMyActor</span>()</span><br><span class="line">&#123;</span><br><span class="line"> 	<span class="comment">// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don&#x27;t need it.</span></span><br><span class="line">	PrimaryActorTick.bCanEverTick = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyActor::FunNoparam</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyActor::FunTwoparamNoRetVal</span><span class="params">(<span class="type">float</span> a, <span class="type">const</span> FString&amp; s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">int32 <span class="title">AMyActor::FunTwoparamRetVal</span><span class="params">(<span class="type">float</span> a, <span class="type">const</span> FString&amp; s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">int32</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Called when the game starts or when spawned</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyActor::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//绑定</span></span><br><span class="line">	MultiDelegateTwoParams.<span class="built_in">AddUObject</span>(<span class="keyword">this</span>, &amp;AMyActor::FunTwoparamNoRetVal);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//执行</span></span><br><span class="line">	MultiDelegateTwoParams.<span class="built_in">Broadcast</span>(<span class="number">5.2</span>, <span class="string">&quot;Hello Delegate&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Called every frame</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AMyActor::Tick</span><span class="params">(<span class="type">float</span> DeltaTime)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">Tick</span>(DeltaTime);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1890,353 +2489,6 @@
 </ul>
 <p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-20-15-27-26-image.png"></p>
 <p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-20-15-27-41-image.png"></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/20/UE4-%E8%93%9D%E5%9B%BE-%E8%93%9D%E5%9B%BE%E6%8E%A5%E5%8F%A3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/05/20/UE4-%E8%93%9D%E5%9B%BE-%E8%93%9D%E5%9B%BE%E6%8E%A5%E5%8F%A3/" class="post-title-link" itemprop="url">UE4-蓝图-蓝图接口</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-05-20 14:26:02 / 修改时间：14:44:52" itemprop="dateCreated datePublished" datetime="2022-05-20T14:26:02+08:00">2022-05-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="蓝图接口是什么？"><a href="#蓝图接口是什么？" class="headerlink" title="蓝图接口是什么？"></a>蓝图接口是什么？</h1><p>一个蓝图接口是一个或多个Function的集合，可以被添加至别的蓝图中，任何添加了接口的蓝图都可以保证具有这些功能，在每个添加了蓝图接口的蓝图类中，都可以为其添加功能实现。类似编程中的接口概念。允许不同类型的对象通过一个公共接口来访问他。</p>
-<h1 id="为什么要使用蓝图接口？"><a href="#为什么要使用蓝图接口？" class="headerlink" title="为什么要使用蓝图接口？"></a>为什么要使用蓝图接口？</h1><p>在使用中蓝图接口允许一种通用的方法与所有拥有蓝图接口的对象进行交互。</p>
-<p>也就是说，在不同类型的对象，他们可以拥有一个相同的功能。</p>
-<p>比如汽车和树木，都可以被武器射击。所以就可以创建一个蓝图接口，在武器射击汽车或者大树时调用对应的函数。</p>
-<h1 id="蓝图接口的特点"><a href="#蓝图接口的特点" class="headerlink" title="蓝图接口的特点"></a>蓝图接口的特点</h1><ul>
-<li><p>目的：与多个对象中的特定几个对象进行通信</p>
-</li>
-<li><p>方式：对检测到的对象发送消息，只有设置了对应接口的对象才会接收到消息并且相应。其他的对象就跟瞎了一样。</p>
-</li>
-</ul>
-<h1 id="创建蓝图接口"><a href="#创建蓝图接口" class="headerlink" title="创建蓝图接口"></a>创建蓝图接口</h1><ul>
-<li><p>创建一个蓝图接口</p>
-</li>
-<li><p>设置目标蓝图类（接收者）</p>
-</li>
-<li><p>在发信者蓝图类中编写逻辑</p>
-</li>
-<li><p>在接收者蓝图类中调用接口</p>
-</li>
-</ul>
-<h2 id="1-新建一个Blueprint-Interface。"><a href="#1-新建一个Blueprint-Interface。" class="headerlink" title="1.新建一个Blueprint Interface。"></a>1.新建一个Blueprint Interface。</h2><img src="https://img-blog.csdnimg.cn/2021030423122868.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTM2MzE1Ng==,size_16,color_FFFFFF,t_70" title="" alt="" width="349">
-
-<h2 id="2-在新建的BluePrint-Interface中添加一个函数，点击Add-New即可。"><a href="#2-在新建的BluePrint-Interface中添加一个函数，点击Add-New即可。" class="headerlink" title="2.在新建的BluePrint Interface中添加一个函数，点击Add New即可。"></a>2.在新建的BluePrint Interface中添加一个函数，点击Add New即可。</h2><p>其中Voice就是叫的Function，我们在这里通过声明一个Voice的函数，然后在添加过该接口的类中写实现，然后在别的地方调用这个函数。</p>
-<img src="https://img-blog.csdnimg.cn/20210304231337210.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTM2MzE1Ng==,size_16,color_FFFFFF,t_70" title="" alt="" width="572">
-
-<h2 id="3-新建两个Actor，一个是Dog，一个Cow。"><a href="#3-新建两个Actor，一个是Dog，一个Cow。" class="headerlink" title="3.新建两个Actor，一个是Dog，一个Cow。"></a>3.新建两个Actor，一个是Dog，一个Cow。</h2><p><img src="https://img-blog.csdnimg.cn/20210304231852229.png"></p>
-<h2 id="4-打开新建的Dog类，在Class-Setting中添加上面创建的蓝图接口。（设置接收者）"><a href="#4-打开新建的Dog类，在Class-Setting中添加上面创建的蓝图接口。（设置接收者）" class="headerlink" title="4.打开新建的Dog类，在Class Setting中添加上面创建的蓝图接口。（设置接收者）"></a>4.打开新建的Dog类，在Class Setting中添加上面创建的蓝图接口。（设置接收者）</h2><p><img src="https://img-blog.csdnimg.cn/20210304232034505.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTM2MzE1Ng==,size_16,color_FFFFFF,t_70"></p>
-<h2 id="5-完成Voice的实现。"><a href="#5-完成Voice的实现。" class="headerlink" title="5.完成Voice的实现。"></a>5.完成Voice的实现。</h2><p><img src="https://img-blog.csdnimg.cn/20210304232133311.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTM2MzE1Ng==,size_16,color_FFFFFF,t_70"></p>
-<h2 id="6-将Cow类进行同样的操作，在Print-String中输出MOUMOU。"><a href="#6-将Cow类进行同样的操作，在Print-String中输出MOUMOU。" class="headerlink" title="6.将Cow类进行同样的操作，在Print String中输出MOUMOU。"></a>6.将Cow类进行同样的操作，在Print String中输出MOUMOU。</h2><p><img src="https://img-blog.csdnimg.cn/20210304232226225.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTM2MzE1Ng==,size_16,color_FFFFFF,t_70"></p>
-<h2 id="7-我们在关卡蓝图中添加该接口并调用该方法。"><a href="#7-我们在关卡蓝图中添加该接口并调用该方法。" class="headerlink" title="7.我们在关卡蓝图中添加该接口并调用该方法。"></a>7.我们在关卡蓝图中添加该接口并调用该方法。</h2><p><img src="https://img-blog.csdnimg.cn/20210304232333544.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTM2MzE1Ng==,size_16,color_FFFFFF,t_70"></p>
-<h2 id="8-运行，按下2，得到Dog和cow的叫声。"><a href="#8-运行，按下2，得到Dog和cow的叫声。" class="headerlink" title="8.运行，按下2，得到Dog和cow的叫声。"></a>8.运行，按下2，得到Dog和cow的叫声。</h2><p><img src="https://img-blog.csdnimg.cn/20210304232417781.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTM2MzE1Ng==,size_16,color_FFFFFF,t_70"></p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>蓝图接口就是先定义了一个函数接口，告诉别人存在这个函数，可以进行调用，但是每个类中可以有不同的实现</p>
-<p>蓝图接口可以进行一对多甚至多对多的广播，一处调用，多出响应。</p>
-<p>版权声明：本博客参考自<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_41363156/article/details/114356562">「wang161x」</a>与<a target="_blank" rel="noopener" href="https://blog.csdn.net/Motarookie/article/details/121627783">「宗浩多捞」</a>的CSDN文章</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/18/UE4-%E8%93%9D%E5%9B%BE-%E8%A7%92%E8%89%B2%E4%B8%8A%E4%B8%8B%E8%BD%A6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/05/18/UE4-%E8%93%9D%E5%9B%BE-%E8%A7%92%E8%89%B2%E4%B8%8A%E4%B8%8B%E8%BD%A6/" class="post-title-link" itemprop="url">UE4-蓝图-角色上下车</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-05-18 15:21:02" itemprop="dateCreated datePublished" datetime="2022-05-18T15:21:02+08:00">2022-05-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-05-20 10:27:19" itemprop="dateModified" datetime="2022-05-20T10:27:19+08:00">2022-05-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>本博客根据<a target="_blank" rel="noopener" href="https://space.bilibili.com/31898841">谌嘉诚</a>大佬的<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV164411Y732?p=49">虚幻蓝图教程</a>进行整理</p>
-<h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><p>实现角色上车和下车的切换</p>
-<h1 id="节点"><a href="#节点" class="headerlink" title="节点"></a>节点</h1><h2 id="获取场景变换"><a href="#获取场景变换" class="headerlink" title="获取场景变换"></a>获取场景变换</h2><p>获取目标引脚在场景中的位置，旋转，缩放等信息</p>
-<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-18-15-27-40-image.png"></p>
-<h2 id="拆分变换"><a href="#拆分变换" class="headerlink" title="拆分变换"></a>拆分变换</h2><p>将场景变换的位置，旋转，缩放等信息分开</p>
-<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-18-15-27-50-image.png"></p>
-<h2 id="设置Actor变换"><a href="#设置Actor变换" class="headerlink" title="设置Actor变换"></a>设置Actor变换</h2><p>字面意思，设置Actor的位置，旋转，缩放情况</p>
-<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-18-15-28-05-image.png"></p>
-<h2 id="设置Actor启用碰撞"><a href="#设置Actor启用碰撞" class="headerlink" title="设置Actor启用碰撞"></a>设置Actor启用碰撞</h2><p>关闭或开启Actor的碰撞效果</p>
-<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-18-15-29-03-image.png"></p>
-<h2 id="附加Actor到组件"><a href="#附加Actor到组件" class="headerlink" title="附加Actor到组件"></a>附加Actor到组件</h2><p>将Actor附加到组件上，相当于把Actor黏贴到组件上</p>
-<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-18-15-29-16-image.png"></p>
-<h2 id="设置手动输入"><a href="#设置手动输入" class="headerlink" title="设置手动输入"></a>设置手动输入</h2><p>让载具可以或不接收键盘的输入</p>
-<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-20-10-08-08-image.png"></p>
-<h2 id="设置油门输入"><a href="#设置油门输入" class="headerlink" title="设置油门输入"></a>设置油门输入</h2><p>字面意思</p>
-<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-20-10-09-01-image.png"></p>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>大体可分为——上车，下车，下车减速三个模块。</p>
-<h2 id="实现上车"><a href="#实现上车" class="headerlink" title="实现上车"></a>实现上车</h2><p>首先弄清楚，我们需要在ThirdPersonCharacter中按F键来切换到汽车上</p>
-<p>所以，可以在Sedan（汽车蓝图）内添加一个名为“上车”的自定义事件</p>
-<p>然后在ThirdPersonCharacter蓝图中定义按F键调用“上车事件”</p>
-<h3 id="自定义上车事件"><a href="#自定义上车事件" class="headerlink" title="自定义上车事件"></a>自定义上车事件</h3><ol>
-<li><p>在Sedan(汽车蓝图内)中添加自定义事件“上车”</p>
-</li>
-<li><p>在ThirdPersonCharacter蓝图内添加一个Sedan类型的变量“VehicleRef”</p>
-</li>
-<li><p>由VehicleRef引出“上车”事件</p>
-</li>
-<li><p>再用Is Valid节点判断VehicleRef是否有效，如果有效，则链接“上车”事件</p>
-</li>
-<li><p>另外，在Sedan的“上车”事件中将目标提升为变量，并且设置为小白人，类型设置为Pawn</p>
-</li>
-<li><p>在ThirdPersonCharacter蓝图中的上车事件的小白人引脚引出节点“self”（小白人）</p>
-</li>
-</ol>
-<h3 id="转移控制权"><a href="#转移控制权" class="headerlink" title="转移控制权"></a>转移控制权</h3><p>在这里，我们需要将玩家的控制权从小白人身上转换到汽车上！</p>
-<ol>
-<li><p>首先在汽车上面添加一个碰撞盒子，用来检测小白人是否到了可以上下车的位置</p>
-</li>
-<li><p>添加重叠开始和结束事件，并类型转换为ThirdPersonCharacter</p>
-</li>
-<li><p>用Gate判断是否可以开始</p>
-</li>
-<li><p>获取玩家控制器，引出“控制”节点，In Pawn引脚引出“Self”节点（汽车）</p>
-</li>
-<li><p>“上车”和“Gate”的输出都连接到“控制”的输入</p>
-</li>
-</ol>
-<h3 id="将小白人附加到汽车上"><a href="#将小白人附加到汽车上" class="headerlink" title="将小白人附加到汽车上"></a>将小白人附加到汽车上</h3><ol>
-<li><p>“上车”事件的小白人引脚已经在前面提升成变量了，此时由此变量节点的输出引出“设置Actor变换”节点。以此达到变换小白人位置的目标</p>
-</li>
-<li><p>将小白人的位置与汽车重合</p>
-<ol>
-<li><p>添加一个名为“up”的球体碰撞组件，将其放在汽车的合适位置</p>
-</li>
-<li><p>在蓝图中获取“up”节点，引出“获取场景变换”节点</p>
-</li>
-<li><p>再引出“拆分变换节点”</p>
-</li>
-<li><p>将对应的位置，旋转数据连接到“设置Actor变换”节点上，同时“获取小白人变量”将其附加到“设置Actor变换”的目标上</p>
-</li>
-<li><p>此时我们就实现了将小白人的位置与“up”的位置保持一致</p>
-</li>
-</ol>
-</li>
-<li><p>接下来我们需要取消小白人自身的碰撞，否则会与汽车的碰撞产生冲突，最后形成奇怪的bug</p>
-<ol>
-<li>“设置Actor变换”输出引出“设置Actor启用碰撞”节点，目标为“小白人”，取消勾选“New Actor Enable Collision”引脚</li>
-</ol>
-</li>
-<li><p>最后将小白人附加到up上，这样up移动的时候就会带动小白人一起移动</p>
-<ol>
-<li><p>由“设置Actor启用碰撞”节点引出“附加Actor到组件”节点</p>
-</li>
-<li><p>目标设置为“小白人”</p>
-</li>
-<li><p>Parent设置为“Up”</p>
-</li>
-<li><p>位置，旋转，缩放均改为“保持场景一致”</p>
-</li>
-</ol>
-</li>
-</ol>
-<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-19-16-43-48-image.png"></p>
-<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-19-16-44-42-image.png"></p>
-<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-19-16-45-00-image.png"></p>
-<h2 id="实现下车"><a href="#实现下车" class="headerlink" title="实现下车"></a>实现下车</h2><p>我们在车上的时候，控制权在“车”蓝图里，所以我们只需要在“车”蓝图内设置“按键 F”进行下车操作即可，然后就是和上车的步骤反过来——将小白人和车分离，设置小白人位置，启用小白人碰撞，将控制权转换回小白人身上</p>
-<h3 id="分离小白人"><a href="#分离小白人" class="headerlink" title="分离小白人"></a>分离小白人</h3><ol>
-<li><p>获取小白人变量，用Is Valid判断是否有效，并且接入“键盘 F”节点</p>
-</li>
-<li><p>由小白人变量引出“从Actor分离”节点，将各个引脚设置为“保持场景”</p>
-</li>
-</ol>
-<h3 id="设置小白人位置"><a href="#设置小白人位置" class="headerlink" title="设置小白人位置"></a>设置小白人位置</h3><ol>
-<li><p>再添加一个名为“down”的球体碰撞组件，放在车外合适的位置</p>
-</li>
-<li><p>获取“down”，引出“获取场景变换”节点，引出“拆分变换”节点</p>
-</li>
-<li><p>由小白人变量引出“设置Actor变换”节点，并与“从Actor分离”节点链接</p>
-</li>
-<li><p>将“设置Actor变换”节点的位置引脚，旋转引脚中的Z轴与“拆分变换”中相应的引脚链接</p>
-<ol>
-<li>为什么只同步旋转引脚中的Z轴？因为如果在车身是斜着的情况下下车的话，小白人也成了斜着走路的了，所以只需要同步Z轴，也就是“面向”即可</li>
-</ol>
-</li>
-</ol>
-<h3 id="启用碰撞"><a href="#启用碰撞" class="headerlink" title="启用碰撞"></a>启用碰撞</h3><ol>
-<li><p>由“设置Actor变换”节点的输出引出“设置Actor启用碰撞”节点</p>
-</li>
-<li><p>目标为“小白人”变量</p>
-</li>
-<li><p>“New Actor Enable Collision”引脚取消勾选</p>
-</li>
-</ol>
-<h3 id="转移控制权-1"><a href="#转移控制权-1" class="headerlink" title="转移控制权"></a>转移控制权</h3><ol>
-<li><p>获取玩家控制器，引出“控制”节点</p>
-</li>
-<li><p>“In Pawn”引脚为“小白人”</p>
-</li>
-<li><p>但是我们为了有个过渡，所以我们还需要从“获取玩家控制器”节点引出“使用混合设置视图目标”节点</p>
-</li>
-<li><p>New View Target 引脚为小白人，混合时间和混合方式随便啦！</p>
-</li>
-<li><p>记得再引出“延迟”节点，和混合时间相同</p>
-</li>
-<li><p>最后先链接“使用混合设置视图目标”，再链接“控制”节点即可</p>
-</li>
-</ol>
-<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-19-17-02-57-image.png"></p>
-<p><img src="C:\Users\asus\AppData\Roaming\marktext\images\2022-05-19-17-03-10-image.png"></p>
-<h2 id="实现下车减速"><a href="#实现下车减速" class="headerlink" title="实现下车减速"></a>实现下车减速</h2><p>车在告诉行驶的时候我们进行下车操作，如果不进行下车减速的话，车会一直往前跑。根本停不下来。所以我们需要下车减速功能。</p>
-<h3 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h3><p>首先看Sedan中的事件图表中的Throttle Input注释</p>
-<p>这一块实现了加油门的功能，我们要下车，就要把油门关掉</p>
-<p>此模块是帧刷新的，所以我们需要用一个bool值和一个分支节点来关闭“设置油门输入”节点</p>
-<h4 id="关闭油门"><a href="#关闭油门" class="headerlink" title="关闭油门"></a>关闭油门</h4><ol>
-<li><p>添加一个bool变量“下车”，初始值为true（因为一开始我们不再车上）</p>
-</li>
-<li><p>然后在Throttle Input中获取变量，引出分支节点</p>
-</li>
-<li><p>当值为false时输出“设置油门节点”</p>
-</li>
-<li><p>在“上下车”图表中的“上车”注释内的最后“设置下车变量”为false</p>
-</li>
-</ol>
-<h4 id="取消手动输入"><a href="#取消手动输入" class="headerlink" title="取消手动输入"></a>取消手动输入</h4><ol>
-<li><p>将组件“载具移动”获取到“上下车”图表中的“下车”注释内，引出“设置手制动输入”和“设置油门输入”节点</p>
-</li>
-<li><p>由“使用混合设置视图目标”引出“设置下车变量”节点，将其值为true</p>
-</li>
-<li><p>下车变量链接“设置手动输入”再链接“设置油门输入”最后链接“延迟”</p>
-</li>
-</ol>
 
       
     </div>

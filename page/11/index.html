@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">172</span>
+          <span class="site-state-item-count">174</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -208,6 +208,372 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/15/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%8A%A0%E8%BD%BD%E6%B8%B8%E6%88%8FUI%E7%95%8C%E9%9D%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/15/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%8A%A0%E8%BD%BD%E6%B8%B8%E6%88%8FUI%E7%95%8C%E9%9D%A2/" class="post-title-link" itemprop="url">UE4-项目-死寂-加载游戏UI界面</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-15 14:57:41 / 修改时间：16:49:05" itemprop="dateCreated datePublished" datetime="2022-07-15T14:57:41+08:00">2022-07-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="加载游戏UI界面"><a href="#加载游戏UI界面" class="headerlink" title="加载游戏UI界面"></a>加载游戏UI界面</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h3><p>通过Index引脚选择返回值</p>
+<h3 id="随机布尔"><a href="#随机布尔" class="headerlink" title="随机布尔"></a>随机布尔</h3><p>字面意思，用于“选择”节点的index引脚为布尔的时候随机输出返回值</p>
+<h3 id="使用纹理设置笔刷"><a href="#使用纹理设置笔刷" class="headerlink" title="使用纹理设置笔刷"></a>使用纹理设置笔刷</h3><p>可以直接将一个图片当作画刷用，但是通常用于覆盖当前图片</p>
+<h3 id="创建控件"><a href="#创建控件" class="headerlink" title="创建控件"></a>创建控件</h3><p>以一个类（控件蓝图）来创建新的控件界面</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>将玩家点击的地图选择按钮的名称传到“主界面”控件蓝图中</p>
+<ul>
+<li><p>在地图选择按钮控件蓝图中添加命名类型的变量“选择的游戏地图”，勾选其“可编辑实例”以及“生成时公开”</p>
+</li>
+<li><p>在“地图选择”控件蓝图中选择按钮后设置“选择的游戏地图”</p>
+</li>
+<li><p>在“主界面”控件蓝图中创建命名类型的变量“选中的地图”</p>
+</li>
+<li><p>在“地图选择按钮”中获取类的所有控件之后“设置选中的地图”，然后将地图选择按钮中的变量”选择的游戏地图“赋值给它（发生在关闭选中状态之后，开启选中状态之前）</p>
+</li>
+</ul>
+</li>
+<li><p>新建一个控件蓝图“加载界面”</p>
+<ul>
+<li><p>添加一个图像“加载图片组件”作为背景，修改其锚点和偏移</p>
+</li>
+<li><p>添加一个文本“载入关卡中”，修改其锚点和尺寸，字体，位置</p>
+</li>
+<li><p>添加一个图像作为加载时闪烁的logo，放在合适的位置</p>
+</li>
+<li><p>添加一个边界，用于做出游戏黑屏后慢慢显示加载界面的效果</p>
+</li>
+<li><p>添加一个进度条，设置其位置和尺寸大小，设置其样式中的着色和外观中的”填充颜色和不透明度“</p>
+</li>
+<li><p>添加动画“淡入”，给边界添加一个轨道，设置其渲染不透明度由1到0</p>
+</li>
+<li><p>添加动画“闪烁”，给logo添加一个轨道，设置其变换中的缩放从0.1到0.2到0.1；设置其渲染不透明度由0到1到0</p>
+</li>
+<li><p>添加一个命名类型的变量“选中的地图”，勾选可编辑实例和生成时公开；一个纹理2D类型的变量“加载图片”</p>
+</li>
+<li><p>在事件构造中判断“选中的地图”是否&#x3D;&#x3D;“地图名称”</p>
+</li>
+<li><p>分别通过“随机布尔”和“选择”节点来设置“加载图片”</p>
+</li>
+<li><p>使用“加载图片组件”调用“使用纹理设置笔刷”来使得“加载图片”覆盖“加载图片组件”</p>
+</li>
+<li><p>播放“闪烁”动画和“淡入”动画（注意：闪烁动画的循环次数为0：意味着无线循环）</p>
+</li>
+<li><p>实现进度条更新百分比</p>
+<ul>
+<li><p>首先明确一点，进度条的最大值为1！</p>
+</li>
+<li><p>创建一个浮点型变量“进度条加载时间”</p>
+</li>
+<li><p>以事件设置定时器，创建一个自定义事件“Loading”，使用一个分支判断，条件为“进度条加载时间”是否&gt;&#x3D;1</p>
+</li>
+<li><p>true则”Do Once”，按名称打开关卡，将“选中的地图”作为变量传入</p>
+</li>
+<li><p>false则将“进度条加载时间”+0.01后重新赋值给“进度条加载时间”</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>给地图选择界面添加开始游戏按钮及功能</p>
+<ul>
+<li><p>在地图选择控件蓝图中添加“按钮交互”控件蓝图，设置其位置和尺寸以及内容</p>
+</li>
+<li><p>在主界面拖入地图选择界面，获取“按钮交互”，获取button，绑定事件到点击时，创建自定义事件“游戏加载”</p>
+</li>
+<li><p>调用“关闭所有UI交互”函数，“创建控件”（类选择为“加载界面”），“添加到视口”，将“选中的地图”变量传入“创建控件”的“选中的地图”引脚中</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="添加背景音乐"><a href="#添加背景音乐" class="headerlink" title="添加背景音乐"></a>添加背景音乐</h1><ol>
+<li><p>选择一个背景音乐，点开，设置其“正在循环”为true</p>
+</li>
+<li><p>将背景音乐拖入场景中</p>
+</li>
+</ol>
+<h1 id="BUG-不选择地图直接开始游戏"><a href="#BUG-不选择地图直接开始游戏" class="headerlink" title="BUG-不选择地图直接开始游戏"></a>BUG-不选择地图直接开始游戏</h1><h2 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h2><p>在未选择地图的情况下不可以点击开始游戏按钮即可</p>
+<h2 id="解决步骤"><a href="#解决步骤" class="headerlink" title="解决步骤"></a>解决步骤</h2><ol>
+<li><p>在地图选择控件蓝图中选中“开始游戏”按钮交互-&gt;行为-&gt;已启用-&gt;false</p>
+</li>
+<li><p>在地图选择按钮控件蓝图中的“开启选中状态”函数中</p>
+<ul>
+<li><p>通过“获取类的所有控件”节点获取“主界面”，从而获取“地图选择界面”，获取“按钮交互”，“设置已启用”为true</p>
+</li>
+<li><p>关闭选中状态同理设置为false</p>
+</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/15/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%9C%B0%E5%9B%BE%E9%80%89%E6%8B%A9%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/15/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E5%9C%B0%E5%9B%BE%E9%80%89%E6%8B%A9%E5%8A%9F%E8%83%BD/" class="post-title-link" itemprop="url">UE4-项目-死寂-地图选择功能</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-15 10:08:35 / 修改时间：15:15:35" itemprop="dateCreated datePublished" datetime="2022-07-15T10:08:35+08:00">2022-07-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="地图选择功能"><a href="#地图选择功能" class="headerlink" title="地图选择功能"></a>地图选择功能</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="设置笔刷颜色"><a href="#设置笔刷颜色" class="headerlink" title="设置笔刷颜色"></a>设置笔刷颜色</h3><p>可以用来设置控件蓝图中组件的颜色</p>
+<h3 id="设置渲染范围"><a href="#设置渲染范围" class="headerlink" title="设置渲染范围"></a>设置渲染范围</h3><p>用来设置控件蓝图中组件的缩放大小</p>
+<h3 id="设置颜色和不透明度"><a href="#设置颜色和不透明度" class="headerlink" title="设置颜色和不透明度"></a>设置颜色和不透明度</h3><p>字面意思，控件蓝图中使用</p>
+<h3 id="获取类的所有控件"><a href="#获取类的所有控件" class="headerlink" title="获取类的所有控件"></a>获取类的所有控件</h3><p>字面意思，可以获取控件蓝图中的组件</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>创建一个新的控件蓝图“地图选择按钮”</p>
+<ul>
+<li><p>设置为自定义大小：宽度:550，高度：650</p>
+</li>
+<li><p>添加一个边界，将其尺寸修改为550，650；渲染不透明度修改为0</p>
+</li>
+<li><p>添加一个按钮，设置其锚点，尺寸X：530，尺寸Y：630，对其均为0.5；裁切修改为：“剪切到边界-固定（高级）”，添加音效</p>
+</li>
+<li><p>给按钮下面添加一个图像，对其均为填充，间隙修改为0，渲染变换的缩放变为1.1</p>
+</li>
+<li><p>设置图像的texture，设置其颜色和不透明度（未选中的时候灰暗一点）</p>
+</li>
+<li><p>添加一个动画“互动”</p>
+<ul>
+<li><p>给边界添加一个轨道，设置其渲染不透明度从0到1（选中后有边框）</p>
+</li>
+<li><p>给图像添加一个轨道，设置其颜色和不透明度从0.4到1（选中后变量）</p>
+</li>
+<li><p>给图像添加一个轨道，设置其变换中的缩放从1.1到1.2（选中后变大）</p>
+</li>
+</ul>
+</li>
+<li><p>给按钮添加“悬停时”和“未悬停时”的事件，分别正向和反向播放“互动”动画</p>
+</li>
+</ul>
+</li>
+<li><p>在主界面控件蓝图中，从自定义服装界面中获取按钮交互，再获取其button，”绑定事件到点击时“，自定义事件“地图选择”</p>
+</li>
+<li><p>新建一个新的控件蓝图“地图选择”</p>
+<ul>
+<li><p>添加边界和背景模糊，锚点均为填充，添加一个文本“地图选择”，添加返回按钮</p>
+</li>
+<li><p>添加两个已经制作好的地图选择按钮</p>
+</li>
+</ul>
+</li>
+<li><p>在主界面中添加地图选择界面</p>
+<ul>
+<li><p>修改其锚点为填充，设置其偏移，设置其渲染不透明度为0</p>
+</li>
+<li><p>添加动画（自定义服装界面和地图选择界面的切换）</p>
+<ul>
+<li><p>复制“点击制作者”动画为“点击地图选择”</p>
+</li>
+<li><p>将动画中的“制作者界面”替换为“地图选择界面”</p>
+</li>
+<li><p>将动画中的“主界面”替换为“自定义服装界面”</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>切换到地图选择界面之后的摄像机切换</p>
+<ul>
+<li><p>在场景中找一个摄像机作为切换视角的机位</p>
+</li>
+<li><p>在关卡蓝图中为该摄像机添加一个引用，新建自定义事件“切换到地图选择界面”，使用“获取玩家控制器”和“使用混合设置视图目标”实现切换摄像机功能</p>
+</li>
+</ul>
+</li>
+<li><p>在主界面控件蓝图中调用在关卡蓝图中写好的“切换到地图选择界面”</p>
+<ul>
+<li><p>自定义服装界面中获取“按钮交互”，获取button，绑定事件到点击时，新建自定义事件“地图选择”</p>
+</li>
+<li><p>在“关闭所有UI交互”函数中添加“地图选择界面”</p>
+</li>
+<li><p>使用“播放动画”，“执行控制台命令”，“关闭所有UI交互”，“设置可视性”实现自定义服装界面切换到地图选择界面</p>
+</li>
+<li><p>同理设置地图选择界面返回自定义服装界面</p>
+</li>
+</ul>
+</li>
+<li><p>完善地图选择功能，让玩家选择地图之后，地图缩略图有描边效果，并且保持选中</p>
+<ul>
+<li><p>选中“地图选择按钮”控件蓝图将设计器中的边界组件公开到蓝图中</p>
+</li>
+<li><p>在图表中新建函数“开启选中状态”，拖入图表中，“设置渲染不透明度”，“设置笔刷颜色”</p>
+</li>
+<li><p>设置图像，“设置渲染范围”，“设置颜色和不透明度”</p>
+</li>
+<li><p>同理，制作一个“关闭选中状态”函数</p>
+</li>
+<li><p>添加bool类型变量“是否被选中”，在“开启选中状态”函数中将其设置为true，在“关闭选中状态”函数中设置为false</p>
+</li>
+<li><p>在事件图表中，添加一个分支判断“是否被选中”为false的时候才可以播放两个动画</p>
+</li>
+<li><p>在事件图表中给按钮添加一个点击事件</p>
+<ul>
+<li><p>在点击之后先取消其他被选中的按钮，然后开启当前选中的按钮</p>
+</li>
+<li><p>调用“获取类的所有控件”节点，class选择“主界面”，获取主界面中的“地图选择界面”，地图选择界面下面的两个“地图选择按钮”，同时调用“关闭选中状态”函数，最后调用“开启选中状态”函数，目标为self</p>
+</li>
+</ul>
+</li>
+<li><p>添加不同地图略缩图</p>
+<ul>
+<li><p>在地图选择按钮中添加一个纹理2D类型的变量“场景图片”</p>
+</li>
+<li><p>勾选“可编辑实例”和“生成时公开”</p>
+</li>
+<li><p>在图像组件中将“笔刷”和“场景图片”绑定</p>
+</li>
+<li><p>在”地图选择“控件蓝图中即可替换“地图选择按钮”中的“场景图片”了</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="优化-选中地图之后返回"><a href="#优化-选中地图之后返回" class="headerlink" title="优化-选中地图之后返回"></a>优化-选中地图之后返回</h1><p>选中地图之后返回，第二次进入之后无上次选中的痕迹</p>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>在主界面的地图选择界面返回自定义服装界面逻辑块的最后进行清除上一次的缓存</p>
+</li>
+<li><p>拖入“地图选择界面”获取其中的两个地图选择按钮，调用“关闭选中状态”函数</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1602,281 +1968,6 @@
 <p>TCP&#x2F;IP 模型包含了 TCP、IP、UDP、Telnet、FTP、SMTP 等上百个互为关联的协议，其中 TCP 和 IP 是最常用的两种底层协议，所以把它们统称为“TCP&#x2F;IP 协议族”。</p>
 <p> <a target="_blank" rel="noopener" href="http://c.biancheng.net/socket/">socket</a> 编程是基于 TCP 和 UDP 协议的，它们的层级关系如下图所示：  </p>
 <p><img src="D:\R_program\Blog\source_posts\Socket编程-OSI网络七层模型\2.gif"></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/06/Socket%E7%BC%96%E7%A8%8B-%E9%9D%A2%E5%90%91%E8%BF%9E%E6%8E%A5%E5%92%8C%E6%97%A0%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%A5%97%E6%8E%A5%E5%AD%97%E7%9A%84%E5%8C%BA%E5%88%AB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/06/Socket%E7%BC%96%E7%A8%8B-%E9%9D%A2%E5%90%91%E8%BF%9E%E6%8E%A5%E5%92%8C%E6%97%A0%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%A5%97%E6%8E%A5%E5%AD%97%E7%9A%84%E5%8C%BA%E5%88%AB/" class="post-title-link" itemprop="url">Socket编程-面向连接和无连接的套接字的区别</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-07-06 10:30:53 / 修改时间：10:48:20" itemprop="dateCreated datePublished" datetime="2022-07-06T10:30:53+08:00">2022-07-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Socket/" itemprop="url" rel="index"><span itemprop="name">Socket</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="套接字类型"><a href="#套接字类型" class="headerlink" title="套接字类型"></a>套接字类型</h1><ol>
-<li><p>流格式套接字：面向连接的套接字，基于TCP协议</p>
-</li>
-<li><p>数据报格式套接字：无连接的套接字，基于UDP协议</p>
-</li>
-</ol>
-<p>现在有一个互联网模型如下所示</p>
-<p><img src="D:\R_program\Blog\source_posts\Socket编程-面向连接和无连接的套接字的区别\1.gif"></p>
-<p>假设 H1 要发送若干个数据包给 H6，那么有多条路径可以选择，比如：</p>
-<pre><code>路径①：H1 --&gt; A --&gt; C --&gt; E --&gt; H6
-
-路径②：H1 --&gt; A --&gt; B --&gt; E --&gt; H6
-
-路径③：H1 --&gt; A --&gt; B --&gt; D --&gt; E --&gt; H6
-
-路径④：H1 --&gt; A --&gt; B --&gt; C --&gt; E --&gt; H6
-
-路径⑤：H1 --&gt; A --&gt; C --&gt; B --&gt; D --&gt; E --&gt; H6
-</code></pre>
-<h1 id="无连接的套接字"><a href="#无连接的套接字" class="headerlink" title="无连接的套接字"></a>无连接的套接字</h1><ol>
-<li><p>每个数据包可以<strong>选择不同的路径</strong>且<strong>到达的顺序是不确定的</strong></p>
-<ul>
-<li>比如第一个数据包选择路径1，第二个数据包选择路径4…</li>
-</ul>
-</li>
-<li><p>数据包在传输过程中会发生各种不测，也会发生各种奇迹</p>
-<ul>
-<li><p>比如传输的过程中网络波动，断网，断电等情况</p>
-</li>
-<li><p>而且也不管啥时候到达，也不管到达了几个，到达的顺序如何</p>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="面向连接的套接字"><a href="#面向连接的套接字" class="headerlink" title="面向连接的套接字"></a>面向连接的套接字</h1><ol>
-<li><p>面向连接的套接字在正式通信之前先确定一条路径，然后固定地使用这条路径来传递数据包，如果路径故障（某个路由器坏了，断电了）则重新建立路径</p>
-</li>
-<li><p>这条预先建立好的路径被称为“虚电路”，就是一条虚拟的通信电路</p>
-<ul>
-<li>建立虚电路</li>
-<li>数据传输</li>
-<li>虚电路释放</li>
-</ul>
-</li>
-<li><p>同TCP通信相同，在报文抵达目的地址之后，需要接收方发送回一个确认信息，如果长时间没有收到确认信息的话，则会再次发送该报文，并且是依次发送，意味着报文的抵达是按顺抵达的</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E5%AE%9A%E4%B9%89%E5%92%8C%E5%88%86%E7%B1%BB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E5%AE%9A%E4%B9%89%E5%92%8C%E5%88%86%E7%B1%BB/" class="post-title-link" itemprop="url">计算机网络-定义和分类</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-07-06 10:11:14 / 修改时间：10:28:50" itemprop="dateCreated datePublished" datetime="2022-07-06T10:11:14+08:00">2022-07-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="计算机网络的定义"><a href="#计算机网络的定义" class="headerlink" title="计算机网络的定义"></a>计算机网络的定义</h1><h2 id="简单定义"><a href="#简单定义" class="headerlink" title="简单定义"></a>简单定义</h2><p>一些互相连接的，自治的计算机的集合</p>
-<ul>
-<li><p>互连：计算机之间可以通过有线或无线的方式进行数据通信</p>
-</li>
-<li><p>自治：是指独立的计算机，有自己的硬件和软件，可以单独运行和使用</p>
-</li>
-<li><p>集合：至少需要两台计算机</p>
-</li>
-</ul>
-<h2 id="完整定义"><a href="#完整定义" class="headerlink" title="完整定义"></a>完整定义</h2><p>计算机网络主要由一些通用的，可编程的硬件互连而成的，而这些硬件并非专门用来实现某一特定目的的（例如，传送数据或视频信号）。而这些可编程的硬件能用来传送多种不同类型的数据，并能支持广泛的和日益增长的应用。</p>
-<ul>
-<li><p>连接的硬件不只是计算机，而包括了只能手机等智能硬件</p>
-</li>
-<li><p>计算机网络并非专门用于传送数据，而是能支持很多种应用（包括今后可能出现的各自应用）</p>
-</li>
-</ul>
-<h1 id="计算机网络的分类"><a href="#计算机网络的分类" class="headerlink" title="计算机网络的分类"></a>计算机网络的分类</h1><h2 id="按交换技术分类"><a href="#按交换技术分类" class="headerlink" title="按交换技术分类"></a>按交换技术分类</h2><ol>
-<li><p>电路交换网络</p>
-</li>
-<li><p>报文交换网络</p>
-</li>
-<li><p>分组交换网络</p>
-</li>
-</ol>
-<h2 id="按使用者分类"><a href="#按使用者分类" class="headerlink" title="按使用者分类"></a>按使用者分类</h2><ol>
-<li><p>公用网</p>
-</li>
-<li><p>专用网</p>
-</li>
-</ol>
-<h2 id="按传输介质分类"><a href="#按传输介质分类" class="headerlink" title="按传输介质分类"></a>按传输介质分类</h2><ol>
-<li><p>有线网络</p>
-</li>
-<li><p>无线网络</p>
-</li>
-</ol>
-<h2 id="按覆盖范围分类"><a href="#按覆盖范围分类" class="headerlink" title="按覆盖范围分类"></a>按覆盖范围分类</h2><ol>
-<li><p>广域网WAN（国家，地区，洲）</p>
-</li>
-<li><p>城域网MAN（城市）</p>
-</li>
-<li><p>局域网LAN（街区，学校）</p>
-</li>
-<li><p>个域网PAN（个人热点）</p>
-</li>
-</ol>
-<h2 id="按拓扑结构分类"><a href="#按拓扑结构分类" class="headerlink" title="按拓扑结构分类"></a>按拓扑结构分类</h2><ol>
-<li><p>总线型网络</p>
-<ul>
-<li>一条线，一点出故障，全网瘫痪</li>
-</ul>
-</li>
-<li><p>星型网络</p>
-<ul>
-<li>每个计算机以单独的线路与中央设备（集线器&#x2F;交换机&#x2F;路由器）连接</li>
-</ul>
-</li>
-<li><p>环型网络</p>
-<ul>
-<li>连接成一个环，信号单向传输</li>
-</ul>
-</li>
-<li><p>网状型网络</p>
-<ul>
-<li><p>每个节点至少由两条路径与其他节点相连</p>
-</li>
-<li><p>可靠性高，线路复杂，成本高</p>
-</li>
-</ul>
-</li>
-</ol>
-<p><img src="D:\R_program\Blog\source_posts\计算机网络的定义和分类\1.png"></p>
 
       
     </div>
