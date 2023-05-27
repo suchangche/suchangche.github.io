@@ -159,13 +159,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">174</span>
+          <span class="site-state-item-count">172</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -208,6 +208,145 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/27/RPG%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91-%E5%AF%B9%E8%AF%9D%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/05/27/RPG%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91-%E5%AF%B9%E8%AF%9D%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/" class="post-title-link" itemprop="url">RPG游戏开发-对话系统架构</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-05-27 11:41:35 / 修改时间：14:52:29" itemprop="dateCreated datePublished" datetime="2023-05-27T11:41:35+08:00">2023-05-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%B3%BB%E7%BB%9F%E6%A1%86%E6%9E%B6%E8%AE%BE%E8%AE%A1/" itemprop="url" rel="index"><span itemprop="name">系统框架设计</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="系统说明"><a href="#系统说明" class="headerlink" title="系统说明"></a>系统说明</h1><p>在一款复杂RPG游戏中，任务往往伴随着各种复杂的对话，这些对话会跟随着任务的推进给玩家展示不同的文本内容与分支选项。</p>
+<p>对话系统需要给玩家展示的部分包括：</p>
+<ol>
+<li><p>NPC文本内容</p>
+</li>
+<li><p>玩家选项以及选择对应选项会触发的事件</p>
+</li>
+</ol>
+<p>对话是和任务强相关的，对话可以做到发放以及接取任务，而任务可以做到修改对话内容以及分支结构。所以对话系统其实是任务系统的一个附属系统。在设计本系统的时候需要考虑到和任务系统的兼容性。</p>
+<h1 id="系统特性"><a href="#系统特性" class="headerlink" title="系统特性"></a>系统特性</h1><ol>
+<li><p>本系统是一个后端架构，不需要过于关注前端的表现形式，只需要用高效的方式解决数据结构方面的内容即可。</p>
+</li>
+<li><p>本系统需要给框架使用者<code>留下足够的拓展和定制化功能开发空间</code>，在遇到需要用对话系统触发的需求，并且此需求在整个游戏流程中使用次数不多，不值得写入对话系统本体的时候，需要留有接口让框架使用者可以定制化开发。</p>
+</li>
+<li><p>本系统主要<code>运行在客户端</code>，不太需要过于关注反作弊的内容，如果有作弊者操作客户端上对话达到给玩家发放稀有任务。这些反作弊操作应该交给任务系统进行管理。</p>
+</li>
+</ol>
+<h1 id="系统框架设计"><a href="#系统框架设计" class="headerlink" title="系统框架设计"></a>系统框架设计</h1><h2 id="数据结构设计"><a href="#数据结构设计" class="headerlink" title="数据结构设计"></a>数据结构设计</h2><h3 id="简单需求使用栈可以解决问题"><a href="#简单需求使用栈可以解决问题" class="headerlink" title="简单需求使用栈可以解决问题"></a>简单需求使用栈可以解决问题</h3><p>我在开发过程中参考过<a target="_blank" rel="noopener" href="https://blog.csdn.net/float_freedom/article/details/126375090"><code>Unity</code>游戏开发：对话系统的实现_unity对话系统-CSDN博客</a>中对话实现的方式，发现是用弹栈，压栈的方式操作对话。此方法可以一定程度上有较好的表现，维护起来也比较方便。</p>
+<p>但是这个方法存在一些问题：</p>
+<ol>
+<li><p>如果单纯用栈来存储对话，当NPC身上存在多个任务相关的对话的时候一个栈无法解决此问题，只能使用多个栈来进行存储。</p>
+</li>
+<li><p>此方法无法解决NPC的对话，玩家存在多个选择，玩家的选择导向了不同的结果的需求。</p>
+</li>
+<li><p>对话的<code>改</code>部分相当不好维护，假设我想在对话中间插入一句话，则需要一个个弹栈，然后压栈。</p>
+</li>
+</ol>
+<p>综上所述，用栈来存储对话只能解决一些不复杂的系统需求，如果是复杂的环境，栈处理起来还是比较乏力的。</p>
+<h3 id="数组链表"><a href="#数组链表" class="headerlink" title="数组链表"></a>数组链表</h3><p>抛弃栈存储之后，想到《底特律:变人》是以剧情对话为主的游戏，其中的剧情流程图其实就是给玩家打明牌。他们表现出来的结构就是一个横着的多叉树。</p>
+<p>但我最终并没有选择使用多叉树来设计数据结构，而是选择使用数组中模拟链表的形式来解决问题。</p>
+<p>此数据结构分两层，外层是外部数组，内层是链表。</p>
+<h4 id="数据结构详解"><a href="#数据结构详解" class="headerlink" title="数据结构详解"></a>数据结构详解</h4><h5 id="外层数组"><a href="#外层数组" class="headerlink" title="外层数组"></a>外层数组</h5><p>外层的数组决定了这个对话最长的长度。</p>
+<p>用lua的Table模拟出来是以下结构</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> DialogueArray=</span><br><span class="line">&#123;</span><br><span class="line">    [<span class="number">1</span>]=&#123;...&#125;,</span><br><span class="line">    [<span class="number">2</span>]=&#123;...&#125;,</span><br><span class="line">    [<span class="number">3</span>]=&#123;...&#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们暂且不去考虑内层的链表的数据结构，只考虑外层的数组的功能和初始化方式。</p>
+<ol>
+<li><p>对话的长度决定了数组的长度（就是NPC说了几句话）</p>
+</li>
+<li><p>可能会出现一个对话有多个分支选项，其中一个分支选项NPC说了10句话，另一个分支选项NPC只说了5句话。此时数组的长度是10</p>
+</li>
+</ol>
+<h5 id="内层链表"><a href="#内层链表" class="headerlink" title="内层链表"></a>内层链表</h5><ol>
+<li><p>数组元素内存储的是一个个链表的节点。</p>
+</li>
+<li><p>一个数组元素内可以同时存在多个链表节点。</p>
+</li>
+<li><p>数组下标为1的元素内存储的链表节点中存储着与链表节点2的元素中的链表节点之间的关系</p>
+</li>
+</ol>
+<p>第三点说起来有点绕口，但实际上很简单，就是常规的链表数据结构，在当前节点描述下一个节点的信息</p>
+<p>用lua的Table模拟出来就是这样的</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">&quot;节点ID&quot;</span>]=</span><br><span class="line"> &#123;</span><br><span class="line"> Content=<span class="string">&quot;当前节点NPC的文本内容&quot;</span></span><br><span class="line"> Next=<span class="string">&quot;下一个节点的ID&quot;</span></span><br><span class="line"> Pre=<span class="string">&quot;上一个节点的ID&quot;</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是以上的数据结构还比较简陋，并不具备解决多分支选项的能力。</p>
+<p>所以此时需要给这个数据结构加点料！</p>
+<p>其实想要解决多分支选项问题很简单，上文中的数据结构中的<code>Next</code>以及<code>Pre</code>字段是一个<code>string</code>类型的变量。我们将其变为一个Table类型的变量即可解决这个问题。</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">&quot;10003&quot;</span>]=</span><br><span class="line"> &#123;</span><br><span class="line"> Content=<span class="string">&quot;当前节点NPC的文本内容&quot;</span></span><br><span class="line"> Next=</span><br><span class="line">    &#123;</span><br><span class="line">        [<span class="number">1</span>]=<span class="string">&quot;10001&quot;</span>,</span><br><span class="line">        [<span class="number">2</span>]=<span class="string">&quot;10002&quot;</span>,</span><br><span class="line">    &#125;</span><br><span class="line"> Pre=</span><br><span class="line">    &#123;</span><br><span class="line">        [<span class="number">1</span>]=<span class="string">&quot;10004&quot;</span>,</span><br><span class="line">        [<span class="number">2</span>]=<span class="string">&quot;10005&quot;</span>,</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样的链表节点就可以导向多个链表节点了</p>
+<p><img src="/RPG%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91-%E5%AF%B9%E8%AF%9D%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%5C%E5%AF%B9%E8%AF%9D%E9%93%BE%E8%A1%A8%E5%86%85%E9%83%A8%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png"></p>
+<h2 id="增产查改存取"><a href="#增产查改存取" class="headerlink" title="增产查改存取"></a>增产查改存取</h2>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -366,9 +505,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2022-12-26 09:52:02 / 修改时间：09:55:12" itemprop="dateCreated datePublished" datetime="2022-12-26T09:52:02+08:00">2022-12-26</time>
+      <time title="创建时间：2022-12-26 09:52:02" itemprop="dateCreated datePublished" datetime="2022-12-26T09:52:02+08:00">2022-12-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-27 11:43:56" itemprop="dateModified" datetime="2023-05-27T11:43:56+08:00">2023-05-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1318,115 +1463,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/18/Roblox-SpawnLocaction/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/12/18/Roblox-SpawnLocaction/" class="post-title-link" itemprop="url">Roblox-SpawnLocaction</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-12-18 14:15:31 / 修改时间：14:16:49" itemprop="dateCreated datePublished" datetime="2022-12-18T14:15:31+08:00">2022-12-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Roblox/" itemprop="url" rel="index"><span itemprop="name">Roblox</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="SpawnLocation"><a href="#SpawnLocation" class="headerlink" title="SpawnLocation"></a>SpawnLocation</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>这是玩家生成位置（也就是玩家出生点）</p>
-<h2 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h2><h3 id="Transparency"><a href="#Transparency" class="headerlink" title="Transparency"></a>Transparency</h3><p>透明度，取值范围在[0,1]，为0时完全可见，为1时完全透明</p>
-<h3 id="CanCollisde"><a href="#CanCollisde" class="headerlink" title="CanCollisde"></a>CanCollisde</h3><p>是否可以碰撞</p>
-<h3 id="Decal"><a href="#Decal" class="headerlink" title="Decal"></a>Decal</h3><p>这是SpawnLocation的组件，类似于贴图</p>
-<h3 id="Duration"><a href="#Duration" class="headerlink" title="Duration"></a>Duration</h3><p>在SpawnLocation里面生成的玩家会在一定时间内保持无敌状态，但仅限于防范 <code>Explosion（爆炸）</code>和 <code>Humanoid:TakeDamage()</code> 所造成的伤害，<strong>并不能</strong>阻止脚本直接减少玩家的 <code>Humanoid.Health</code></p>
-<p>如果想要完全去除出生无敌机制，则可以将<strong>Forcefield</strong> → <strong>Duration</strong> 属性设为 <strong>0</strong></p>
-<h1 id="Team"><a href="#Team" class="headerlink" title="Team"></a>Team</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="Teams"><a href="#Teams" class="headerlink" title="Teams"></a>Teams</h3><p>在项目管理器中可以找到<code>Teams</code></p>
-<p>这东西就是用来给管理Team的</p>
-<p>在<code>Teams</code>里面添加若干个<code>Team</code>，实现给玩家分配队伍的效果</p>
-<h3 id="Team-1"><a href="#Team-1" class="headerlink" title="Team"></a>Team</h3><p>给<code>Team</code>的<code>TeamColor</code>属性添加颜色，组成不同的队伍，记得要修改<code>Team</code>中的<code>Name</code>属性，给队伍命名，建议是<code>TeamColor</code>和<code>Name</code>属性对应</p>
-<p>例如：</p>
-<p><code>TeamColor</code>：White</p>
-<p><code>Name</code>：WhiteTeam</p>
-<p>在脚本中，使用<code>player.Team = WhiteTeam（TeamName）</code>给玩家设置队伍</p>
-<h1 id="通过玩家的队伍分配出生点"><a href="#通过玩家的队伍分配出生点" class="headerlink" title="通过玩家的队伍分配出生点"></a>通过玩家的队伍分配出生点</h1><h2 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h2><h3 id="SpawnLocation-gt-Neutral"><a href="#SpawnLocation-gt-Neutral" class="headerlink" title="SpawnLocation-&gt;Neutral"></a>SpawnLocation-&gt;Neutral</h3><p>这是玩家出生点的属性设置，如果此选项为True，则代表任意队伍类型的玩家均可以出生在这里，如果为false，则需要配置下面的<code>TeamColor</code>属性，使其与玩家的Team对应</p>
-<h3 id="SpawnLocation-gt-TeamColor"><a href="#SpawnLocation-gt-TeamColor" class="headerlink" title="SpawnLocation-&gt;TeamColor"></a>SpawnLocation-&gt;TeamColor</h3><p>这是玩家出生点的属性设置，这个<code>TeamColor</code>和<code>player.Team = TeamName</code>中Team的<code>TeamColor</code>对应的</p>
-<h2 id="大致步骤"><a href="#大致步骤" class="headerlink" title="大致步骤"></a>大致步骤</h2><ol>
-<li><p>选中<code>SpawnLocation</code></p>
-</li>
-<li><p>将其<code>Neutral</code>设置为false</p>
-</li>
-<li><p>在<code>TeamColor</code>属性中设置合适的<code>Team.TeamColors</code></p>
-</li>
-</ol>
-<h1 id="将玩家分配到指定的队伍中"><a href="#将玩家分配到指定的队伍中" class="headerlink" title="将玩家分配到指定的队伍中"></a>将玩家分配到指定的队伍中</h1><h2 id="知识点-2"><a href="#知识点-2" class="headerlink" title="知识点"></a>知识点</h2><h3 id="Team-gt-AutoAssignable"><a href="#Team-gt-AutoAssignable" class="headerlink" title="Team-&gt;AutoAssignable"></a>Team-&gt;AutoAssignable</h3><p>这个属性为true时，系统会将玩家自动分配到人数最少的队伍中，以达到队伍人数相对平衡的效果</p>
-<h2 id="大致步骤-1"><a href="#大致步骤-1" class="headerlink" title="大致步骤"></a>大致步骤</h2><ol>
-<li><p>在<code>Teams</code>中的所有<code>Team</code>的<code>AutoAssignable</code>设置为<code>false</code></p>
-</li>
-<li><p>通过脚本中的<code>Player.Team=TeamName</code>给玩家分配队伍</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -1440,7 +1476,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

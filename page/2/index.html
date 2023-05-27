@@ -159,13 +159,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">174</span>
+          <span class="site-state-item-count">172</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -208,6 +208,115 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/18/Roblox-SpawnLocaction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/12/18/Roblox-SpawnLocaction/" class="post-title-link" itemprop="url">Roblox-SpawnLocaction</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-12-18 14:15:31 / 修改时间：14:16:49" itemprop="dateCreated datePublished" datetime="2022-12-18T14:15:31+08:00">2022-12-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Roblox/" itemprop="url" rel="index"><span itemprop="name">Roblox</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="SpawnLocation"><a href="#SpawnLocation" class="headerlink" title="SpawnLocation"></a>SpawnLocation</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>这是玩家生成位置（也就是玩家出生点）</p>
+<h2 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h2><h3 id="Transparency"><a href="#Transparency" class="headerlink" title="Transparency"></a>Transparency</h3><p>透明度，取值范围在[0,1]，为0时完全可见，为1时完全透明</p>
+<h3 id="CanCollisde"><a href="#CanCollisde" class="headerlink" title="CanCollisde"></a>CanCollisde</h3><p>是否可以碰撞</p>
+<h3 id="Decal"><a href="#Decal" class="headerlink" title="Decal"></a>Decal</h3><p>这是SpawnLocation的组件，类似于贴图</p>
+<h3 id="Duration"><a href="#Duration" class="headerlink" title="Duration"></a>Duration</h3><p>在SpawnLocation里面生成的玩家会在一定时间内保持无敌状态，但仅限于防范 <code>Explosion（爆炸）</code>和 <code>Humanoid:TakeDamage()</code> 所造成的伤害，<strong>并不能</strong>阻止脚本直接减少玩家的 <code>Humanoid.Health</code></p>
+<p>如果想要完全去除出生无敌机制，则可以将<strong>Forcefield</strong> → <strong>Duration</strong> 属性设为 <strong>0</strong></p>
+<h1 id="Team"><a href="#Team" class="headerlink" title="Team"></a>Team</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="Teams"><a href="#Teams" class="headerlink" title="Teams"></a>Teams</h3><p>在项目管理器中可以找到<code>Teams</code></p>
+<p>这东西就是用来给管理Team的</p>
+<p>在<code>Teams</code>里面添加若干个<code>Team</code>，实现给玩家分配队伍的效果</p>
+<h3 id="Team-1"><a href="#Team-1" class="headerlink" title="Team"></a>Team</h3><p>给<code>Team</code>的<code>TeamColor</code>属性添加颜色，组成不同的队伍，记得要修改<code>Team</code>中的<code>Name</code>属性，给队伍命名，建议是<code>TeamColor</code>和<code>Name</code>属性对应</p>
+<p>例如：</p>
+<p><code>TeamColor</code>：White</p>
+<p><code>Name</code>：WhiteTeam</p>
+<p>在脚本中，使用<code>player.Team = WhiteTeam（TeamName）</code>给玩家设置队伍</p>
+<h1 id="通过玩家的队伍分配出生点"><a href="#通过玩家的队伍分配出生点" class="headerlink" title="通过玩家的队伍分配出生点"></a>通过玩家的队伍分配出生点</h1><h2 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h2><h3 id="SpawnLocation-gt-Neutral"><a href="#SpawnLocation-gt-Neutral" class="headerlink" title="SpawnLocation-&gt;Neutral"></a>SpawnLocation-&gt;Neutral</h3><p>这是玩家出生点的属性设置，如果此选项为True，则代表任意队伍类型的玩家均可以出生在这里，如果为false，则需要配置下面的<code>TeamColor</code>属性，使其与玩家的Team对应</p>
+<h3 id="SpawnLocation-gt-TeamColor"><a href="#SpawnLocation-gt-TeamColor" class="headerlink" title="SpawnLocation-&gt;TeamColor"></a>SpawnLocation-&gt;TeamColor</h3><p>这是玩家出生点的属性设置，这个<code>TeamColor</code>和<code>player.Team = TeamName</code>中Team的<code>TeamColor</code>对应的</p>
+<h2 id="大致步骤"><a href="#大致步骤" class="headerlink" title="大致步骤"></a>大致步骤</h2><ol>
+<li><p>选中<code>SpawnLocation</code></p>
+</li>
+<li><p>将其<code>Neutral</code>设置为false</p>
+</li>
+<li><p>在<code>TeamColor</code>属性中设置合适的<code>Team.TeamColors</code></p>
+</li>
+</ol>
+<h1 id="将玩家分配到指定的队伍中"><a href="#将玩家分配到指定的队伍中" class="headerlink" title="将玩家分配到指定的队伍中"></a>将玩家分配到指定的队伍中</h1><h2 id="知识点-2"><a href="#知识点-2" class="headerlink" title="知识点"></a>知识点</h2><h3 id="Team-gt-AutoAssignable"><a href="#Team-gt-AutoAssignable" class="headerlink" title="Team-&gt;AutoAssignable"></a>Team-&gt;AutoAssignable</h3><p>这个属性为true时，系统会将玩家自动分配到人数最少的队伍中，以达到队伍人数相对平衡的效果</p>
+<h2 id="大致步骤-1"><a href="#大致步骤-1" class="headerlink" title="大致步骤"></a>大致步骤</h2><ol>
+<li><p>在<code>Teams</code>中的所有<code>Team</code>的<code>AutoAssignable</code>设置为<code>false</code></p>
+</li>
+<li><p>通过脚本中的<code>Player.Team=TeamName</code>给玩家分配队伍</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1257,88 +1366,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/19/unLua-%E5%A7%94%E6%89%98%E7%9A%84%E7%BB%91%E5%AE%9A%EF%BC%8C%E8%A7%A3%E7%BB%91%EF%BC%8C%E8%A7%A6%E5%8F%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/10/19/unLua-%E5%A7%94%E6%89%98%E7%9A%84%E7%BB%91%E5%AE%9A%EF%BC%8C%E8%A7%A3%E7%BB%91%EF%BC%8C%E8%A7%A6%E5%8F%91/" class="post-title-link" itemprop="url">unLua-委托的绑定，解绑，触发</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-10-19 13:09:55 / 修改时间：13:17:34" itemprop="dateCreated datePublished" datetime="2022-10-19T13:09:55+08:00">2022-10-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unLua/" itemprop="url" rel="index"><span itemprop="name">unLua</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="委托的绑定，解绑，触发"><a href="#委托的绑定，解绑，触发" class="headerlink" title="委托的绑定，解绑，触发"></a>委托的绑定，解绑，触发</h1><p>可以通过对委托原生接口的调用，完成对UI事件的监听</p>
-<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>绑定&#x2F;解绑成对出现，是编写代码的良好习惯</p>
-<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>下面的例子是使用UEC++中<code>FTimeHandle</code>封装之后的绑定</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> FLinearColor = UE.FLinearColor</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> M = UnLua.Class(</span><br><span class="line">    </span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">--构造函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:Construct</span><span class="params">()</span></span></span><br><span class="line">    <span class="built_in">self</span>.ClickMeButton.OnClicked:Add(<span class="built_in">self</span>, <span class="built_in">self</span>.OnButtonClicked)</span><br><span class="line">    <span class="built_in">self</span>.ClickMeCheckBox.OnCheckStateChanged:Add(<span class="built_in">self</span>, <span class="built_in">self</span>.OnCheckBoxToggled)</span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 相当于在蓝图中的 Set Timer by Event</span></span><br><span class="line">    <span class="built_in">self</span>.TimerHandle = UE.UKismetSystemLibrary.K2_SetTimerDelegate(&#123; <span class="built_in">self</span>, <span class="built_in">self</span>.OnTimer &#125;, <span class="number">1</span>, <span class="literal">true</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:OnButtonClicked</span><span class="params">()</span></span></span><br><span class="line">    <span class="comment">--设置随机颜色</span></span><br><span class="line">    <span class="keyword">local</span> r = <span class="built_in">math</span>.<span class="built_in">random</span>()</span><br><span class="line">    <span class="keyword">local</span> g = <span class="built_in">math</span>.<span class="built_in">random</span>()</span><br><span class="line">    <span class="keyword">local</span> b = <span class="built_in">math</span>.<span class="built_in">random</span>()</span><br><span class="line"></span><br><span class="line">    <span class="built_in">self</span>.ClickMeButton:SetBackgroundColor(FLinearColor(r, g, b, <span class="number">1</span>))</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:OnCheckBoxToggled</span><span class="params">(on)</span></span></span><br><span class="line">    <span class="keyword">if</span> on <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">self</span>.CheckBoxText:SetText(<span class="string">&quot;已选中&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">self</span>.CheckBoxText:SetText(<span class="string">&quot;未选中&quot;</span>)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:OnTimer</span><span class="params">()</span></span></span><br><span class="line">    <span class="comment">--math.floor(x)返回小于参数x的最大整数,即对浮点数向下取整</span></span><br><span class="line">    <span class="keyword">local</span> seconds = UE.UKismetSystemLibrary.GetGameTimeInSeconds(<span class="built_in">self</span>)</span><br><span class="line">    <span class="built_in">self</span>.GameTimeTextBlock:SetText(<span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;游戏时长：%d 秒&quot;</span>, <span class="built_in">math</span>.<span class="built_in">floor</span>(seconds)))</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--析构函数销毁绑定的委托，以及FTimeHandle</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:Destruct</span><span class="params">()</span></span></span><br><span class="line">    <span class="comment">-- 在UMG被销毁时尽量清理已绑定的委托，不清理则会在切换Map时自动清理</span></span><br><span class="line">    <span class="built_in">self</span>.ClickMeButton.OnClicked:Remove(<span class="built_in">self</span>, <span class="built_in">self</span>.OnButtonClicked)</span><br><span class="line">    <span class="built_in">self</span>.ClickMeCheckBox.OnCheckStateChanged:Remove(<span class="built_in">self</span>, <span class="built_in">self</span>.OnCheckBoxToggled)</span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 相当于在蓝图中的 Clear and Invalidate Timer by Handle</span></span><br><span class="line">    UE.UKismetSystemLibrary.K2_ClearAndInvalidateTimerHandle(<span class="built_in">self</span>, <span class="built_in">self</span>.TimerHandle)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> M</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -1352,7 +1379,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

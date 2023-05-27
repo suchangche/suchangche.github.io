@@ -159,13 +159,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">174</span>
+          <span class="site-state-item-count">172</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -208,6 +208,88 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/19/unLua-%E5%A7%94%E6%89%98%E7%9A%84%E7%BB%91%E5%AE%9A%EF%BC%8C%E8%A7%A3%E7%BB%91%EF%BC%8C%E8%A7%A6%E5%8F%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/10/19/unLua-%E5%A7%94%E6%89%98%E7%9A%84%E7%BB%91%E5%AE%9A%EF%BC%8C%E8%A7%A3%E7%BB%91%EF%BC%8C%E8%A7%A6%E5%8F%91/" class="post-title-link" itemprop="url">unLua-委托的绑定，解绑，触发</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-10-19 13:09:55 / 修改时间：13:17:34" itemprop="dateCreated datePublished" datetime="2022-10-19T13:09:55+08:00">2022-10-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unLua/" itemprop="url" rel="index"><span itemprop="name">unLua</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="委托的绑定，解绑，触发"><a href="#委托的绑定，解绑，触发" class="headerlink" title="委托的绑定，解绑，触发"></a>委托的绑定，解绑，触发</h1><p>可以通过对委托原生接口的调用，完成对UI事件的监听</p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>绑定&#x2F;解绑成对出现，是编写代码的良好习惯</p>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>下面的例子是使用UEC++中<code>FTimeHandle</code>封装之后的绑定</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> FLinearColor = UE.FLinearColor</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> M = UnLua.Class(</span><br><span class="line">    </span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">--构造函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:Construct</span><span class="params">()</span></span></span><br><span class="line">    <span class="built_in">self</span>.ClickMeButton.OnClicked:Add(<span class="built_in">self</span>, <span class="built_in">self</span>.OnButtonClicked)</span><br><span class="line">    <span class="built_in">self</span>.ClickMeCheckBox.OnCheckStateChanged:Add(<span class="built_in">self</span>, <span class="built_in">self</span>.OnCheckBoxToggled)</span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 相当于在蓝图中的 Set Timer by Event</span></span><br><span class="line">    <span class="built_in">self</span>.TimerHandle = UE.UKismetSystemLibrary.K2_SetTimerDelegate(&#123; <span class="built_in">self</span>, <span class="built_in">self</span>.OnTimer &#125;, <span class="number">1</span>, <span class="literal">true</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:OnButtonClicked</span><span class="params">()</span></span></span><br><span class="line">    <span class="comment">--设置随机颜色</span></span><br><span class="line">    <span class="keyword">local</span> r = <span class="built_in">math</span>.<span class="built_in">random</span>()</span><br><span class="line">    <span class="keyword">local</span> g = <span class="built_in">math</span>.<span class="built_in">random</span>()</span><br><span class="line">    <span class="keyword">local</span> b = <span class="built_in">math</span>.<span class="built_in">random</span>()</span><br><span class="line"></span><br><span class="line">    <span class="built_in">self</span>.ClickMeButton:SetBackgroundColor(FLinearColor(r, g, b, <span class="number">1</span>))</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:OnCheckBoxToggled</span><span class="params">(on)</span></span></span><br><span class="line">    <span class="keyword">if</span> on <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">self</span>.CheckBoxText:SetText(<span class="string">&quot;已选中&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">self</span>.CheckBoxText:SetText(<span class="string">&quot;未选中&quot;</span>)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:OnTimer</span><span class="params">()</span></span></span><br><span class="line">    <span class="comment">--math.floor(x)返回小于参数x的最大整数,即对浮点数向下取整</span></span><br><span class="line">    <span class="keyword">local</span> seconds = UE.UKismetSystemLibrary.GetGameTimeInSeconds(<span class="built_in">self</span>)</span><br><span class="line">    <span class="built_in">self</span>.GameTimeTextBlock:SetText(<span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;游戏时长：%d 秒&quot;</span>, <span class="built_in">math</span>.<span class="built_in">floor</span>(seconds)))</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--析构函数销毁绑定的委托，以及FTimeHandle</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">M:Destruct</span><span class="params">()</span></span></span><br><span class="line">    <span class="comment">-- 在UMG被销毁时尽量清理已绑定的委托，不清理则会在切换Map时自动清理</span></span><br><span class="line">    <span class="built_in">self</span>.ClickMeButton.OnClicked:Remove(<span class="built_in">self</span>, <span class="built_in">self</span>.OnButtonClicked)</span><br><span class="line">    <span class="built_in">self</span>.ClickMeCheckBox.OnCheckStateChanged:Remove(<span class="built_in">self</span>, <span class="built_in">self</span>.OnCheckBoxToggled)</span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 相当于在蓝图中的 Clear and Invalidate Timer by Handle</span></span><br><span class="line">    UE.UKismetSystemLibrary.K2_ClearAndInvalidateTimerHandle(<span class="built_in">self</span>, <span class="built_in">self</span>.TimerHandle)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> M</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1456,370 +1538,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/11/Lua-%E5%AD%97%E7%AC%A6%E4%B8%B2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/10/11/Lua-%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="post-title-link" itemprop="url">Lua-字符串</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-10-11 16:06:16 / 修改时间：16:34:01" itemprop="dateCreated datePublished" datetime="2022-10-11T16:06:16+08:00">2022-10-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Lua/" itemprop="url" rel="index"><span itemprop="name">Lua</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>字符串或串(String)是由数字、字母、下划线组成的一串字符。</p>
-<p>Lua 语言中字符串可以使用以下三种方式来表示：</p>
-<ul>
-<li>单引号间的一串字符。</li>
-<li>双引号间的一串字符。</li>
-<li>[[与 ]] 间的一串字符。</li>
-</ul>
-<p>以上三种方式的字符串实例如下：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">string1 = <span class="string">&quot;Lua&quot;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\&quot;字符串 1 是\&quot;&quot;</span>,string1)</span><br><span class="line">string2 = <span class="string">&#x27;runoob.com&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;字符串 2 是&quot;</span>,string2)</span><br><span class="line"></span><br><span class="line">string3 = <span class="string">[[&quot;Lua 教程&quot;]]</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;字符串 3 是&quot;</span>,string3)</span><br></pre></td></tr></table></figure>
-
-<p>以上代码执行输出结果为：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;字符串 1 是&quot;</span>    Lua</span><br><span class="line">字符串 <span class="number">2</span> 是    runoob.com</span><br><span class="line">字符串 <span class="number">3</span> 是    <span class="string">&quot;Lua 教程&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>转义字符用于表示不能直接显示的字符，比如后退键，回车键，等。如在字符串转换双引号可以使用 “&quot;“。</p>
-<p>所有的转义字符和所对应的意义：</p>
-<table>
-<thead>
-<tr>
-<th>转义字符</th>
-<th>意义</th>
-<th>ASCII码值（十进制）</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>\a</td>
-<td>响铃(BEL)</td>
-<td>007</td>
-</tr>
-<tr>
-<td>\b</td>
-<td>退格(BS) ，将当前位置移到前一列</td>
-<td>008</td>
-</tr>
-<tr>
-<td>\f</td>
-<td>换页(FF)，将当前位置移到下页开头</td>
-<td>012</td>
-</tr>
-<tr>
-<td>\n</td>
-<td>换行(LF) ，将当前位置移到下一行开头</td>
-<td>010</td>
-</tr>
-<tr>
-<td>\r</td>
-<td>回车(CR) ，将当前位置移到本行开头</td>
-<td>013</td>
-</tr>
-<tr>
-<td>\t</td>
-<td>水平制表(HT) （跳到下一个TAB位置）</td>
-<td>009</td>
-</tr>
-<tr>
-<td>\v</td>
-<td>垂直制表(VT)</td>
-<td>011</td>
-</tr>
-<tr>
-<td>\</td>
-<td>代表一个反斜线字符’’&#39;</td>
-<td>092</td>
-</tr>
-<tr>
-<td>&#39;</td>
-<td>代表一个单引号（撇号）字符</td>
-<td>039</td>
-</tr>
-<tr>
-<td>&quot;</td>
-<td>代表一个双引号字符</td>
-<td>034</td>
-</tr>
-<tr>
-<td>\0</td>
-<td>空字符(NULL)</td>
-<td>000</td>
-</tr>
-<tr>
-<td>\ddd</td>
-<td>1到3位八进制数所代表的任意字符</td>
-<td>三位八进制</td>
-</tr>
-<tr>
-<td>\xhh</td>
-<td>1到2位十六进制所代表的任意字符</td>
-<td>二位十六进制</td>
-</tr>
-</tbody></table>
-<h2 id="字符串操作"><a href="#字符串操作" class="headerlink" title="字符串操作"></a>字符串操作</h2><p>Lua 提供了很多的方法来支持字符串的操作：</p>
-<table>
-<thead>
-<tr>
-<th>序号</th>
-<th>方法 &amp; 用途</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td><strong>string.upper(argument):</strong> 字符串全部转为大写字母。</td>
-</tr>
-<tr>
-<td>2</td>
-<td><strong>string.lower(argument):</strong> 字符串全部转为小写字母。</td>
-</tr>
-<tr>
-<td>3</td>
-<td><strong>string.gsub(mainString,findString,replaceString,num)</strong></td>
-</tr>
-<tr>
-<td><br/>在字符串中替换。</td>
-<td></td>
-</tr>
-<tr>
-<td><br/></td>
-<td></td>
-</tr>
-<tr>
-<td><br/>mainString 为要操作的字符串， findString 为被替换的字符，replaceString 要替换的字符，num 替换次数（可以忽略，则全部替换），如：</td>
-<td></td>
-</tr>
-<tr>
-<td><br/>string.gsub(“aaaa”,”a”,”z”,3);</td>
-<td></td>
-</tr>
-<tr>
-<td><br/>zzza    3</td>
-<td></td>
-</tr>
-<tr>
-<td>4</td>
-<td><strong>string.find (str, substr, [init, [plain]])</strong><br>在一个指定的目标字符串 str 中搜索指定的内容 substr，如果找到了一个匹配的子串，就会返回这个子串的起始索引和结束索引，不存在则返回 nil。init 指定了搜索的起始位置，默认为 1，可以一个负数，表示从后往前数的字符个数。plain 表示是否以正则表达式匹配。以下实例查找字符串 “Lua” 的起始索引和结束索引位置：<br><br>&gt; string.find(“Hello Lua user”, “Lua”, 1) <br>7    9</td>
-</tr>
-<tr>
-<td>5</td>
-<td><strong>string.reverse(arg)</strong><br>字符串反转<br><br>&gt; string.reverse(“Lua”)<br>auL</td>
-</tr>
-<tr>
-<td>6</td>
-<td><strong>string.format(…)</strong><br>返回一个类似printf的格式化字符串<br><br>&gt; string.format(“the value is:%d”,4)<br>the value is:4</td>
-</tr>
-<tr>
-<td>7</td>
-<td><strong>string.char(arg) 和 string.byte(arg[,int])</strong><br>char 将整型数字转成字符并连接， byte 转换字符为整数值(可以指定某个字符，默认第一个字符)。<br><br>&gt; string.char(97,98,99,100)<br>abcd<br>&gt; string.byte(“ABCD”,4)<br>68<br>&gt; string.byte(“ABCD”)<br>65<br>&gt;</td>
-</tr>
-<tr>
-<td>8</td>
-<td><strong>string.len(arg)</strong><br>计算字符串长度。<br><br>string.len(“abc”)<br>3</td>
-</tr>
-<tr>
-<td>9</td>
-<td><strong>string.rep(string, n)</strong><br>返回字符串string的n个拷贝<br><br>&gt; string.rep(“abcd”,2)<br>abcdabcd</td>
-</tr>
-<tr>
-<td>10</td>
-<td><strong>..</strong><br>链接两个字符串<br><br>&gt; print(“<a target="_blank" rel="noopener" href="http://www.runoob.&quot;..&quot;com&quot;/">www.runoob.&quot;..&quot;com&quot;</a>)<br><a target="_blank" rel="noopener" href="http://www.runoob.com/">www.runoob.com</a></td>
-</tr>
-<tr>
-<td>11</td>
-<td><strong>string.gmatch(str, pattern)</strong><br>返回一个迭代器函数，每一次调用这个函数，返回一个在字符串 str 找到的下一个符合 pattern 描述的子串。如果参数 pattern 描述的字符串没有找到，迭代函数返回nil。<br><br>&gt; for word in string.gmatch(“Hello Lua user”, “%a+”) do print(word) end<br>Hello<br>Lua<br>user</td>
-</tr>
-<tr>
-<td>12</td>
-<td><strong>string.match(str, pattern, init)</strong><br>string.match()只寻找源字串str中的第一个配对. 参数init可选, 指定搜寻过程的起点, 默认为1。<br>在成功配对时, 函数将返回配对表达式中的所有捕获结果; 如果没有设置捕获标记, 则返回整个配对字符串. 当没有成功的配对时, 返回nil。<br><br>&gt; &#x3D; string.match(“I have 2 questions for you.”, “%d+ %a+”)<br>2 questions<br><br>&gt; &#x3D; string.format(“%d, %q”, string.match(“I have 2 questions for you.”, “(%d+) (%a+)”))<br>2, “questions”</td>
-</tr>
-</tbody></table>
-<h2 id="字符串截取"><a href="#字符串截取" class="headerlink" title="字符串截取"></a>字符串截取</h2><p>字符串截取使用 sub() 方法。</p>
-<p>string.sub() 用于截取字符串，原型为：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span>.<span class="built_in">sub</span>(s, i [, j])</span><br></pre></td></tr></table></figure>
-
-<p>参数说明：</p>
-<ul>
-<li>s：要截取的字符串。</li>
-<li>i：截取开始位置。</li>
-<li>j：截取结束位置，默认为 -1，最后一个字符。</li>
-</ul>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 字符串</span></span><br><span class="line"><span class="keyword">local</span> sourcestr = <span class="string">&quot;prefix--runoobgoogletaobao--suffix&quot;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n原始字符串&quot;</span>, <span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;%q&quot;</span>, sourcestr))</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 截取部分，第4个到第15个</span></span><br><span class="line"><span class="keyword">local</span> first_sub = <span class="built_in">string</span>.<span class="built_in">sub</span>(sourcestr, <span class="number">4</span>, <span class="number">15</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n第一次截取&quot;</span>, <span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;%q&quot;</span>, first_sub))</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 取字符串前缀，第1个到第8个</span></span><br><span class="line"><span class="keyword">local</span> second_sub = <span class="built_in">string</span>.<span class="built_in">sub</span>(sourcestr, <span class="number">1</span>, <span class="number">8</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n第二次截取&quot;</span>, <span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;%q&quot;</span>, second_sub))</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 截取最后10个</span></span><br><span class="line"><span class="keyword">local</span> third_sub = <span class="built_in">string</span>.<span class="built_in">sub</span>(sourcestr, <span class="number">-10</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n第三次截取&quot;</span>, <span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;%q&quot;</span>, third_sub))</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 索引越界，输出原始字符串</span></span><br><span class="line"><span class="keyword">local</span> fourth_sub = <span class="built_in">string</span>.<span class="built_in">sub</span>(sourcestr, <span class="number">-100</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n第四次截取&quot;</span>, <span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;%q&quot;</span>, fourth_sub))</span><br></pre></td></tr></table></figure>
-
-<p>以上代码执行结果为：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">原始字符串    <span class="string">&quot;prefix--runoobgoogletaobao--suffix&quot;</span></span><br><span class="line"></span><br><span class="line">第一次截取    <span class="string">&quot;fix--runoobg&quot;</span></span><br><span class="line"></span><br><span class="line">第二次截取    <span class="string">&quot;prefix--&quot;</span></span><br><span class="line"></span><br><span class="line">第三次截取    <span class="string">&quot;ao--suffix&quot;</span></span><br><span class="line"></span><br><span class="line">第四次截取    <span class="string">&quot;prefix--runoobgoogletaobao--suffix&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="字符串大小写转换"><a href="#字符串大小写转换" class="headerlink" title="字符串大小写转换"></a>字符串大小写转换</h2><p>以下实例演示了如何对字符串大小写进行转换：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">string1 = <span class="string">&quot;Lua&quot;</span>;</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">string</span>.<span class="built_in">upper</span>(string1))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">string</span>.<span class="built_in">lower</span>(string1))</span><br></pre></td></tr></table></figure>
-
-<p>以上代码执行结果为：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LUA</span><br><span class="line">lua</span><br></pre></td></tr></table></figure>
-
-<h2 id="字符串查找与反转"><a href="#字符串查找与反转" class="headerlink" title="字符串查找与反转"></a>字符串查找与反转</h2><p>以下实例演示了如何对字符串进行查找与反转操作：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> = <span class="string">&quot;Lua Tutorial&quot;</span></span><br><span class="line"><span class="comment">-- 查找字符串</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">string</span>.<span class="built_in">find</span>(<span class="built_in">string</span>,<span class="string">&quot;Tutorial&quot;</span>))</span><br><span class="line">reversedString = <span class="built_in">string</span>.<span class="built_in">reverse</span>(<span class="built_in">string</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;新字符串为&quot;</span>,reversedString)</span><br></pre></td></tr></table></figure>
-
-<p>以上代码执行结果为：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5</span>    <span class="number">12</span></span><br><span class="line">新字符串为    lairotuT auL</span><br></pre></td></tr></table></figure>
-
-<h2 id="字符串格式化"><a href="#字符串格式化" class="headerlink" title="字符串格式化"></a>字符串格式化</h2><p>Lua 提供了 string.format() 函数来生成具有特定格式的字符串, 函数的第一个参数是格式 , 之后是对应格式中每个代号的各种数据。</p>
-<p>由于格式字符串的存在, 使得产生的长字符串可读性大大提高了。这个函数的格式很像 C 语言中的 printf()。</p>
-<p>以下实例演示了如何对字符串进行格式化操作：</p>
-<p>格式字符串可能包含以下的转义码:</p>
-<ul>
-<li>%c - 接受一个数字, 并将其转化为ASCII码表中对应的字符</li>
-<li>%d, %i - 接受一个数字并将其转化为有符号的整数格式</li>
-<li>%o - 接受一个数字并将其转化为八进制数格式</li>
-<li>%u - 接受一个数字并将其转化为无符号整数格式</li>
-<li>%x - 接受一个数字并将其转化为十六进制数格式, 使用小写字母</li>
-<li>%X - 接受一个数字并将其转化为十六进制数格式, 使用大写字母</li>
-<li>%e - 接受一个数字并将其转化为科学记数法格式, 使用小写字母e</li>
-<li>%E - 接受一个数字并将其转化为科学记数法格式, 使用大写字母E</li>
-<li>%f - 接受一个数字并将其转化为浮点数格式</li>
-<li>%g(%G) - 接受一个数字并将其转化为%e(%E, 对应%G)及%f中较短的一种格式</li>
-<li>%q - 接受一个字符串并将其转化为可安全被Lua编译器读入的格式</li>
-<li>%s - 接受一个字符串并按照给定的参数格式化该字符串</li>
-</ul>
-<p>为进一步细化格式, 可以在%号后添加参数. 参数将以如下的顺序读入:</p>
-<ul>
-<li>(1) 符号: 一个+号表示其后的数字转义符将让正数显示正号. 默认情况下只有负数显示符号.</li>
-<li>(2) 占位符: 一个0, 在后面指定了字串宽度时占位用. 不填时的默认占位符是空格.</li>
-<li>(3) 对齐标识: 在指定了字串宽度时, 默认为右对齐, 增加-号可以改为左对齐.</li>
-<li>(4) 宽度数值</li>
-<li>(5) 小数位数&#x2F;字串裁切: 在宽度数值后增加的小数部分n, 若后接f(浮点数转义符, 如%6.3f)则设定该浮点数的小数只保留n位, 若后接s(字符串转义符, 如%5.3s)则设定该字符串只显示前n位.</li>
-</ul>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">string1 = <span class="string">&quot;Lua&quot;</span></span><br><span class="line">string2 = <span class="string">&quot;Tutorial&quot;</span></span><br><span class="line">number1 = <span class="number">10</span></span><br><span class="line">number2 = <span class="number">20</span></span><br><span class="line"><span class="comment">-- 基本字符串格式化</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;基本格式化 %s %s&quot;</span>,string1,string2))</span><br><span class="line"><span class="comment">-- 日期格式化</span></span><br><span class="line"><span class="built_in">date</span> = <span class="number">2</span>; month = <span class="number">1</span>; year = <span class="number">2014</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;日期格式化 %02d/%02d/%03d&quot;</span>, <span class="built_in">date</span>, month, year))</span><br><span class="line"><span class="comment">-- 十进制格式化</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;%.4f&quot;</span>,<span class="number">1</span>/<span class="number">3</span>))</span><br></pre></td></tr></table></figure>
-
-<p>以上代码执行结果为：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">基本格式化 Lua Tutorial</span><br><span class="line">日期格式化 <span class="number">02</span>/<span class="number">01</span>/<span class="number">2014</span></span><br><span class="line"><span class="number">0.3333</span></span><br></pre></td></tr></table></figure>
-
-<p>其他例子：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;%c&quot;</span>, <span class="number">83</span>)                 <span class="comment">-- 输出S</span></span><br><span class="line"><span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;%+d&quot;</span>, <span class="number">17.0</span>)              <span class="comment">-- 输出+17</span></span><br><span class="line"><span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;%05d&quot;</span>, <span class="number">17</span>)               <span class="comment">-- 输出00017</span></span><br><span class="line"><span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;%o&quot;</span>, <span class="number">17</span>)                 <span class="comment">-- 输出21</span></span><br><span class="line"><span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;%u&quot;</span>, <span class="number">3.14</span>)               <span class="comment">-- 输出3</span></span><br><span class="line"><span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;%x&quot;</span>, <span class="number">13</span>)                 <span class="comment">-- 输出d</span></span><br><span class="line"><span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;%X&quot;</span>, <span class="number">13</span>)                 <span class="comment">-- 输出D</span></span><br><span class="line"><span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;%e&quot;</span>, <span class="number">1000</span>)               <span class="comment">-- 输出1.000000e+03</span></span><br><span class="line"><span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;%E&quot;</span>, <span class="number">1000</span>)               <span class="comment">-- 输出1.000000E+03</span></span><br><span class="line"><span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;%6.3f&quot;</span>, <span class="number">13</span>)              <span class="comment">-- 输出13.000</span></span><br><span class="line"><span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;%q&quot;</span>, <span class="string">&quot;One\nTwo&quot;</span>)         <span class="comment">-- 输出&quot;One\</span></span><br><span class="line">                                        <span class="comment">-- 　　Two&quot;</span></span><br><span class="line"><span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;%s&quot;</span>, <span class="string">&quot;monkey&quot;</span>)           <span class="comment">-- 输出monkey</span></span><br><span class="line"><span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;%10s&quot;</span>, <span class="string">&quot;monkey&quot;</span>)         <span class="comment">-- 输出    monkey</span></span><br><span class="line"><span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot;%5.3s&quot;</span>, <span class="string">&quot;monkey&quot;</span>)        <span class="comment">-- 输出  mon</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="字符与整数相互转换"><a href="#字符与整数相互转换" class="headerlink" title="字符与整数相互转换"></a>字符与整数相互转换</h2><p>以下实例演示了字符与整数相互转换：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 字符转换</span></span><br><span class="line"><span class="comment">-- 转换第一个字符</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">string</span>.<span class="built_in">byte</span>(<span class="string">&quot;Lua&quot;</span>))</span><br><span class="line"><span class="comment">-- 转换第三个字符</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">string</span>.<span class="built_in">byte</span>(<span class="string">&quot;Lua&quot;</span>,<span class="number">3</span>))</span><br><span class="line"><span class="comment">-- 转换末尾第一个字符</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">string</span>.<span class="built_in">byte</span>(<span class="string">&quot;Lua&quot;</span>,<span class="number">-1</span>))</span><br><span class="line"><span class="comment">-- 第二个字符</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">string</span>.<span class="built_in">byte</span>(<span class="string">&quot;Lua&quot;</span>,<span class="number">2</span>))</span><br><span class="line"><span class="comment">-- 转换末尾第二个字符</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">string</span>.<span class="built_in">byte</span>(<span class="string">&quot;Lua&quot;</span>,<span class="number">-2</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 整数 ASCII 码转换为字符</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">string</span>.<span class="built_in">char</span>(<span class="number">97</span>))</span><br></pre></td></tr></table></figure>
-
-<p>以上代码执行结果为：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">76</span></span><br><span class="line"><span class="number">97</span></span><br><span class="line"><span class="number">97</span></span><br><span class="line"><span class="number">117</span></span><br><span class="line"><span class="number">117</span></span><br><span class="line">a</span><br></pre></td></tr></table></figure>
-
-<h2 id="其他常用函数"><a href="#其他常用函数" class="headerlink" title="其他常用函数"></a>其他常用函数</h2><p>以下实例演示了其他字符串操作，如计算字符串长度，字符串连接，字符串复制等：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">string1 = <span class="string">&quot;www.&quot;</span></span><br><span class="line">string2 = <span class="string">&quot;runoob&quot;</span></span><br><span class="line">string3 = <span class="string">&quot;.com&quot;</span></span><br><span class="line"><span class="comment">-- 使用 .. 进行字符串连接</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;连接字符串&quot;</span>,string1..string2..string3)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 字符串长度</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;字符串长度 &quot;</span>,<span class="built_in">string</span>.<span class="built_in">len</span>(string2))</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 字符串复制 2 次</span></span><br><span class="line">repeatedString = <span class="built_in">string</span>.<span class="built_in">rep</span>(string2,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(repeatedString)</span><br></pre></td></tr></table></figure>
-
-<p>以上代码执行结果为：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">连接字符串    www.runoob.com</span><br><span class="line">字符串长度     <span class="number">6</span></span><br><span class="line">runoobrunoob</span><br></pre></td></tr></table></figure>
-
-<h2 id="匹配模式"><a href="#匹配模式" class="headerlink" title="匹配模式"></a>匹配模式</h2><p>Lua 中的匹配模式直接用常规的字符串来描述。 它用于模式匹配函数 <strong>string.find, string.gmatch, string.gsub, string.match</strong>。</p>
-<p>你还可以在模式串中使用字符类。</p>
-<p>字符类指可以匹配一个特定字符集合内任何字符的模式项。比如，字符类 <strong>%d</strong> 匹配任意数字。所以你可以使用模式串 %d%d&#x2F;%d%d&#x2F;%d%d%d%d 搜索 <strong>dd&#x2F;mm&#x2F;yyyy</strong> 格式的日期：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">&quot;Deadline is 30/05/1999, firm&quot;</span></span><br><span class="line"><span class="built_in">date</span> = <span class="string">&quot;%d%d/%d%d/%d%d%d%d&quot;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">string</span>.<span class="built_in">sub</span>(s, <span class="built_in">string</span>.<span class="built_in">find</span>(s, <span class="built_in">date</span>)))    <span class="comment">--&gt; 30/05/1999</span></span><br></pre></td></tr></table></figure>
-
-<p>下面的表列出了Lua支持的所有字符类：</p>
-<p>单个字符(除 <strong>^$()%.[]*+-?</strong> 外): 与该字符自身配对</p>
-<ul>
-<li>.(点): 与任何字符配对</li>
-<li>%a: 与任何字母配对</li>
-<li>%c: 与任何控制符配对(例如\n)</li>
-<li>%d: 与任何数字配对</li>
-<li>%l: 与任何小写字母配对</li>
-<li>%p: 与任何标点(punctuation)配对</li>
-<li>%s: 与空白字符配对</li>
-<li>%u: 与任何大写字母配对</li>
-<li>%w: 与任何字母&#x2F;数字配对</li>
-<li>%x: 与任何十六进制数配对</li>
-<li>%z: 与任何代表0的字符配对</li>
-<li>%x(此处x是非字母非数字字符): 与字符x配对. 主要用来处理表达式中有功能的字符(^$()%.[]*+-?)的配对问题, 例如%%与%配对</li>
-<li>[数个字符类]: 与任何[]中包含的字符类配对. 例如[%w_]与任何字母&#x2F;数字, 或下划线符号(_)配对</li>
-<li>[^数个字符类]: 与任何不包含在[]中的字符类配对. 例如[^%s]与任何非空白字符配对</li>
-</ul>
-<p>当上述的字符类用大写书写时, 表示与非此字符类的任何字符配对. 例如, %S表示与任何非空白字符配对.例如，’%A’非字母的字符:</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">print</span>(<span class="built_in">string</span>.<span class="built_in">gsub</span>(<span class="string">&quot;hello, up-down!&quot;</span>, <span class="string">&quot;%A&quot;</span>, <span class="string">&quot;.&quot;</span>))</span><br><span class="line">hello..up.down.    <span class="number">4</span></span><br></pre></td></tr></table></figure>
-
-<p>数字4不是字符串结果的一部分，他是gsub返回的第二个结果，代表发生替换的次数。</p>
-<p>在模式匹配中有一些特殊字符，他们有特殊的意义，Lua中的特殊字符如下：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">( ) . % + - * ? [ ^ $</span><br></pre></td></tr></table></figure>
-
-<p>‘%’ 用作特殊字符的转义字符，因此 ‘%.’ 匹配点；’%%’ 匹配字符 ‘%’。转义字符 ‘%’不仅可以用来转义特殊字符，还可以用于所有的非字母的字符。</p>
-<p><strong>模式条目可以是：</strong></p>
-<ul>
-<li>单个字符类匹配该类别中任意单个字符；</li>
-<li>单个字符类跟一个 ‘<code>*</code>‘， 将匹配零或多个该类的字符。 这个条目总是匹配尽可能长的串；</li>
-<li>单个字符类跟一个 ‘<code>+</code>‘， 将匹配一或更多个该类的字符。 这个条目总是匹配尽可能长的串；</li>
-<li>单个字符类跟一个 ‘<code>-</code>‘， 将匹配零或更多个该类的字符。 和 ‘<code>*</code>‘ 不同， 这个条目总是匹配尽可能短的串；</li>
-<li>单个字符类跟一个 ‘<code>?</code>‘， 将匹配零或一个该类的字符。 只要有可能，它会匹配一个；</li>
-<li><code>%*n*</code>， 这里的 <em>n</em> 可以从 1 到 9； 这个条目匹配一个等于 <em>n</em> 号捕获物（后面有描述）的子串。</li>
-<li><code>%b*xy*</code>， 这里的 <em>x</em> 和 <em>y</em> 是两个明确的字符； 这个条目匹配以 <em>x</em> 开始 <em>y</em> 结束， 且其中 <em>x</em> 和 <em>y</em> 保持 <em>平衡</em> 的字符串。 意思是，如果从左到右读这个字符串，对每次读到一个 <em>x</em> 就 <em>+1</em> ，读到一个 <em>y</em> 就 <em>-1</em>， 最终结束处的那个 <em>y</em> 是第一个记数到 0 的 <em>y</em>。 举个例子，条目 <code>%b()</code> 可以匹配到括号平衡的表达式。</li>
-<li><code>%f[*set*]</code>， 指 <em>边境模式</em>； 这个条目会匹配到一个位于 <em>set</em> 内某个字符之前的一个空串， 且这个位置的前一个字符不属于 <em>set</em> 。 集合 <em>set</em> 的含义如前面所述。 匹配出的那个空串之开始和结束点的计算就看成该处有个字符 ‘<code>\0</code>‘ 一样。</li>
-</ul>
-<p><strong>模式：</strong></p>
-<p><em>模式</em> 指一个模式条目的序列。 在模式最前面加上符号 ‘<code>^</code>‘ 将锚定从字符串的开始处做匹配。 在模式最后面加上符号 ‘<code>$</code>‘ 将使匹配过程锚定到字符串的结尾。 如果 ‘<code>^</code>‘ 和 ‘<code>$</code>‘ 出现在其它位置，它们均没有特殊含义，只表示自身。</p>
-<p><strong>捕获：</strong></p>
-<p>模式可以在内部用小括号括起一个子模式； 这些子模式被称为 <em>捕获物</em>。 当匹配成功时，由 <em>捕获物</em> 匹配到的字符串中的子串被保存起来用于未来的用途。 捕获物以它们左括号的次序来编号。 例如，对于模式 <code>&quot;(a*(.)%w(%s*))&quot;</code> ， 字符串中匹配到 <code>&quot;a*(.)%w(%s*)&quot;</code> 的部分保存在第一个捕获物中 （因此是编号 1 ）； 由 “<code>.</code>“ 匹配到的字符是 2 号捕获物， 匹配到 “<code>%s*</code>“ 的那部分是 3 号。</p>
-<p>作为一个特例，空的捕获 <code>()</code> 将捕获到当前字符串的位置（它是一个数字）。 例如，如果将模式 <code>&quot;()aa()&quot;</code> 作用到字符串 <code>&quot;flaaap&quot;</code> 上，将产生两个捕获物： 3 和 5 。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -1833,7 +1551,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

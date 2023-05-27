@@ -159,13 +159,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">174</span>
+          <span class="site-state-item-count">172</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -208,6 +208,636 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/10/UE4-%E9%A1%B9%E7%9B%AE-TwoerDefence-UI%E6%A1%86%E6%9E%B6%E6%90%AD%E5%BB%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/08/10/UE4-%E9%A1%B9%E7%9B%AE-TwoerDefence-UI%E6%A1%86%E6%9E%B6%E6%90%AD%E5%BB%BA/" class="post-title-link" itemprop="url">UE4-项目-TwoerDefence-UI框架搭建</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-08-10 10:42:41 / 修改时间：16:26:01" itemprop="dateCreated datePublished" datetime="2022-08-10T10:42:41+08:00">2022-08-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="给MainScreen-BP添加C-配置"><a href="#给MainScreen-BP添加C-配置" class="headerlink" title="给MainScreen_BP添加C++配置"></a>给MainScreen_BP添加C++配置</h1><h2 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h2><ol>
+<li><p>物品栏</p>
+<ul>
+<li>对物品栏里的物品进行拖拽，选择，点击等操作</li>
+</ul>
+</li>
+<li><p>技能栏</p>
+<ul>
+<li><p>玩家的四个技能（考虑技能效果和技能CD）</p>
+</li>
+<li><p>释放技能可以通过键盘上的1，2，3，4来释放技能</p>
+</li>
+</ul>
+</li>
+<li><p>菜单按钮</p>
+<ul>
+<li>点击的时候可以跳出菜单</li>
+</ul>
+</li>
+<li><p>游戏顶部菜单</p>
+<ul>
+<li>显示剩余敌人数量等信息和加快游戏速度按钮</li>
+</ul>
+</li>
+<li><p>任务菜单</p>
+</li>
+<li><p>小地图</p>
+</li>
+<li><p>背包系统</p>
+</li>
+</ol>
+<h1 id="UI-MainScreen添加其他UI"><a href="#UI-MainScreen添加其他UI" class="headerlink" title="UI_MainScreen添加其他UI"></a>UI_MainScreen添加其他UI</h1><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>在UI_MainScreen中添加其他UI的cpp文件，具体实现在各自的cpp文件</p>
+</li>
+<li><p>使用<code>UPROPERTY(meta = (BindWidget))</code>宏声明的方式在<code>UI_MainScreen.h</code>文件中分别声明如下指针实例</p>
+<ul>
+<li><p><code>class UUI_GameMenuSystem* GameMenuSystem</code>&#x2F;&#x2F;菜单显示栏</p>
+</li>
+<li><p><code>class UUI_GameInfoPrintSystem* GameInfoPrintSystem</code>&#x2F;&#x2F;将玩家的某些操作打印到屏幕上</p>
+</li>
+<li><p><code>class UUI_MiniMapSystem* MiniMapSystem</code>&#x2F;&#x2F;小地图</p>
+</li>
+<li><p><code>class UUI_MissionSystem* MissionSystem</code>&#x2F;&#x2F;任务系统</p>
+</li>
+<li><p><code>class UUI_PlayerSkillSystem* PlayerSkillSystem</code>&#x2F;&#x2F;玩家技能系统</p>
+</li>
+<li><p><code>class UUI_RucksackSystem* RucksackSystem</code>&#x2F;&#x2F;背包系统</p>
+</li>
+<li><p><code>class UUI_ToolBarSystem* ToolBarSystem</code>&#x2F;&#x2F;上排按钮（加快游戏等操作按钮）</p>
+</li>
+<li><p>public:下声明重载<code>NativeConstruct()</code>函数</p>
+</li>
+</ul>
+</li>
+<li><p>在<code>UI_MainScreen.cpp</code>文件中</p>
+<ul>
+<li><p>添加以上声明实例的头文件</p>
+</li>
+<li><p>定义<code>NativeConstruct()</code>（只继承以下父类即可）</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="部分代码"><a href="#部分代码" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="UI-MainScreen-h"><a href="#UI-MainScreen-h" class="headerlink" title="UI_MainScreen.h"></a>UI_MainScreen.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/Core/UI_RuleOfTheWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_MainScreen.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> UUI_MainScreen : <span class="keyword">public</span> UUI_RuleOfTheWidget</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line">    <span class="comment">//菜单显示栏</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">UUI_GameMenuSystem</span>* GameMenuSystem;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将玩家的某些操作打印到屏幕上</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">UUI_GameInfoPrintSystem</span>* GameInfoPrintSystem;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//小地图</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">UUI_MiniMapSystem</span>* MiniMapSystem;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//任务系统</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">UUI_MissionSystem</span>* MissionSystem;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//玩家技能系统</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">UUI_PlayerSkillSystem</span>* PlayerSkillSystem;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//背包系统</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">UUI_RucksackSystem</span>* RucksackSystem;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//上排按钮（加快游戏等操作按钮）</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">UUI_ToolBarSystem</span>* ToolBarSystem;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">NativeConstruct</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="UI-MainScreen-cpp"><a href="#UI-MainScreen-cpp" class="headerlink" title="UI_MainScreen.cpp"></a>UI_MainScreen.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/GameUI/UMG/UI_MainScreen.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI\GameUI\UMG\UI_GameMenuSystem.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI\GameUI\UMG\UI_GameInfoPrintSystem.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/GameUI/UMG/UI_MiniMapSystem.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/GameUI/UMG/UI_MissionSystem.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI\GameUI\UMG\UI_PlayerSkillSystem.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/GameUI/UMG/UI_RucksackSystem.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/GameUI/UMG/UI_ToolBarSystem.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_MainScreen::NativeConstruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">NativeConstruct</span>();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="UI-GameMenuSystem框架搭建"><a href="#UI-GameMenuSystem框架搭建" class="headerlink" title="UI_GameMenuSystem框架搭建"></a>UI_GameMenuSystem框架搭建</h1><h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>游戏菜单无非是有几个常用的按钮，所以添加按钮即可</p>
+</li>
+<li><p>在<code>UI_GameMenuSystem.h</code>中声明<code>class UButton</code>之后，在宏声明<code>UPROPERTY(meta = (BindWidget))</code>的前提下创建如下指针实例</p>
+<ul>
+<li><p><code>UButton* ReturnGameButton</code>&#x2F;&#x2F;返回游戏按钮</p>
+</li>
+<li><p><code>UButton* SaveGameButton</code>&#x2F;&#x2F;保存游戏按钮</p>
+</li>
+<li><p><code>UButton* GameSettingButton</code>&#x2F;&#x2F;游戏设置按钮</p>
+</li>
+<li><p><code>UButton* GameQuitButton</code>&#x2F;&#x2F;退出游戏按钮</p>
+</li>
+</ul>
+</li>
+<li><p>声明重载<code>NativeConstruct()</code>函数</p>
+</li>
+<li><p>在private:下，<code>UFUNCTION()</code>宏声明下，声明如下函数来实现按钮具体功能</p>
+<ul>
+<li><p><code>void ReturnGame()</code></p>
+</li>
+<li><p><code>void SaveGame()</code></p>
+</li>
+<li><p><code>void GameSetting()</code></p>
+</li>
+<li><p><code>void GameQuit()</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>UI_GameMenuSystem.cpp</code>中</p>
+<ul>
+<li><p><code>NativeConstruct()</code>中</p>
+<ul>
+<li><p>使用<code>Super::</code>继承父类</p>
+</li>
+<li><p>使用动态多播绑定将函数与按钮绑定起来</p>
+<ul>
+<li><code>按钮名-&gt;OnClicked.AddDynamic(this,&amp;UUI_GameMenuSystem::函数名)</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>分别定义几个函数（具体功能以后再写）</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="部分代码-1"><a href="#部分代码-1" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="UI-GameMenuSystem-h"><a href="#UI-GameMenuSystem-h" class="headerlink" title="UI_GameMenuSystem.h"></a>UI_GameMenuSystem.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/Core/UI_RuleOfTheWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_GameMenuSystem.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UButton</span>;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> UUI_GameMenuSystem : <span class="keyword">public</span> UUI_RuleOfTheWidget</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line">    <span class="comment">//返回游戏按钮</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">        UButton* ReturnGameButton;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//保存游戏按钮</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">        UButton* SaveGameButton;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//游戏设置按钮</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">        UButton* GameSettingButton;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//退出游戏按钮</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">        UButton* GameQuitButton;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">NativeConstruct</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">UFUNCTION</span>()</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">ReturnGame</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UFUNCTION</span>()</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">SaveGame</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UFUNCTION</span>()</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">GameSetting</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UFUNCTION</span>()</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">GameQuit</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="UI-GameMenuSystem-cpp"><a href="#UI-GameMenuSystem-cpp" class="headerlink" title="UI_GameMenuSystem.cpp"></a>UI_GameMenuSystem.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/GameUI/UMG/UI_GameMenuSystem.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/Button.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_GameMenuSystem::NativeConstruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">NativeConstruct</span>();</span><br><span class="line">    ReturnGameButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUI_GameMenuSystem::ReturnGame);</span><br><span class="line">    SaveGameButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUI_GameMenuSystem::SaveGame);</span><br><span class="line">    GameSettingButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUI_GameMenuSystem::GameSetting);</span><br><span class="line">    GameQuitButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUI_GameMenuSystem::GameQuit);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_GameMenuSystem::ReturnGame</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_GameMenuSystem::SaveGame</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_GameMenuSystem::GameSetting</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_GameMenuSystem::GameQuit</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="UI-GameInfoPrintSystem框架搭建"><a href="#UI-GameInfoPrintSystem框架搭建" class="headerlink" title="UI_GameInfoPrintSystem框架搭建"></a>UI_GameInfoPrintSystem框架搭建</h1><h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>用来打印玩家操作的UI界面，只需要使用一个<code>UTextBlock</code>即可</p>
+</li>
+<li><p><code>UI_GameInfoPrintSystem.h</code>中在<code>UPROPERTY(meta = (BindWidget))</code>宏声明下声明实例</p>
+<ul>
+<li><code>class UTextBlock* TDGameLog</code></li>
+</ul>
+</li>
+<li><p>在public: 下声明重载函数<code>NativeConstruct()</code></p>
+</li>
+<li><p>在<code>UI_GameInfoPrintSystem.cpp</code>中定义<code>NativeConstruct()</code></p>
+</li>
+</ol>
+<h2 id="部分代码-2"><a href="#部分代码-2" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="UI-GameInfoPrintSystem-h"><a href="#UI-GameInfoPrintSystem-h" class="headerlink" title="UI_GameInfoPrintSystem.h"></a>UI_GameInfoPrintSystem.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/Core/UI_RuleOfTheWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_GameInfoPrintSystem.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> UUI_GameInfoPrintSystem : <span class="keyword">public</span> UUI_RuleOfTheWidget</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line">        <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">        <span class="keyword">class</span> <span class="title class_">UTextBlock</span>* TDGameLog;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">NativeConstruct</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="UI-GameInfoPrintSystem-cpp"><a href="#UI-GameInfoPrintSystem-cpp" class="headerlink" title="UI_GameInfoPrintSystem.cpp"></a>UI_GameInfoPrintSystem.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/GameUI/UMG/UI_GameMenuSystem.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/Button.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_GameMenuSystem::NativeConstruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">NativeConstruct</span>();</span><br><span class="line">    ReturnGameButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUI_GameMenuSystem::ReturnGame);</span><br><span class="line">    SaveGameButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUI_GameMenuSystem::SaveGame);</span><br><span class="line">    GameSettingButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUI_GameMenuSystem::GameSetting);</span><br><span class="line">    GameQuitButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUI_GameMenuSystem::GameQuit);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_GameMenuSystem::ReturnGame</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_GameMenuSystem::SaveGame</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_GameMenuSystem::GameSetting</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_GameMenuSystem::GameQuit</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="UI-MissionSystem框架搭建"><a href="#UI-MissionSystem框架搭建" class="headerlink" title="UI_MissionSystem框架搭建"></a>UI_MissionSystem框架搭建</h1><h2 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>总共三个任务用<code>UTextBolck</code>显示</p>
+</li>
+<li><p>使用一个<code>UButton</code>控制任务面板</p>
+</li>
+<li><p>在<code>UI_MissionSystem.h</code>中</p>
+<ul>
+<li><p>声明类<code>class UTextBlock</code>与<code>class UButton</code></p>
+</li>
+<li><p>在<code>UPROPERTY(meta = (BindWidget))</code>宏声明下声明如下指针实例</p>
+<ul>
+<li><p><code>UTextBlock* ConditionBase</code></p>
+</li>
+<li><p><code>UTextBlock* ConditionA</code></p>
+</li>
+<li><p><code>UTextBlock* ConditionB</code></p>
+</li>
+<li><p><code>UButton* ConditionButton</code></p>
+</li>
+</ul>
+</li>
+<li><p>重载<code>NativeConstruct()</code></p>
+</li>
+<li><p>在<code>UFUNCTION()</code>下声明函数</p>
+<ul>
+<li><code>void Condition()</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在<code>UI_MissionSystem.cpp</code>中</p>
+<ul>
+<li><p><code>NativeConstruct()</code>中</p>
+<ul>
+<li><p><code>Super::</code>继承父类</p>
+</li>
+<li><p>使用动态多播绑定函数</p>
+<ul>
+<li><code>按钮名称-&gt;OnClicked.AddDynamic(this,&amp;类名::函数名)</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>定义函数<code>Condition()</code></p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="部分代码-3"><a href="#部分代码-3" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="UI-MissionSystem-h"><a href="#UI-MissionSystem-h" class="headerlink" title="UI_MissionSystem.h"></a>UI_MissionSystem.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/Core/UI_RuleOfTheWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_MissionSystem.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UTextBlock</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UButton</span>;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> UUI_MissionSystem : <span class="keyword">public</span> UUI_RuleOfTheWidget</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line">    <span class="comment">//基础任务</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">        UTextBlock* ConditionBase;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//额外任务A</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">        UTextBlock* ConditionA;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//额外任务B</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">        UTextBlock* ConditionB;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//任务面板按钮</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">        UButton* ConditionButton;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">NativeConstruct</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UFUNCTION</span>()</span><br><span class="line">        <span class="function"><span class="type">void</span> <span class="title">Condition</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="UI-MissionSystem-cpp"><a href="#UI-MissionSystem-cpp" class="headerlink" title="UI_MissionSystem.cpp"></a>UI_MissionSystem.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/GameUI/UMG/UI_MissionSystem.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/Button.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_MissionSystem::NativeConstruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">NativeConstruct</span>();</span><br><span class="line">    ConditionButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUI_MissionSystem::Condition);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_MissionSystem::Condition</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="UI-SkillSlot框架搭建"><a href="#UI-SkillSlot框架搭建" class="headerlink" title="UI_SkillSlot框架搭建"></a>UI_SkillSlot框架搭建</h1><p>这东西就是技能按钮</p>
+<h2 id="思路-4"><a href="#思路-4" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>由技能图标，技能CD蒙版（CD的时候会变灰色），技能数量，按键数字，技能CD，技能按钮（由以上所有共同组成）</p>
+</li>
+<li><p>在<code>UI_SkillSlot.h</code>中</p>
+<ul>
+<li><p>声明类</p>
+<ul>
+<li><p><code>class UImage</code></p>
+</li>
+<li><p><code>class UTextBlock</code></p>
+</li>
+<li><p><code>class UButton</code></p>
+</li>
+</ul>
+</li>
+<li><p>在宏声明<code>UPROPERTY(meta = (BindWidget))</code>下声明以下指针实例</p>
+<ul>
+<li><p><code>UImage* SkillIcon</code>&#x2F;&#x2F;技能图标</p>
+</li>
+<li><p><code>UImage* SkillIconCD</code>&#x2F;&#x2F;技能CD蒙版</p>
+</li>
+<li><p><code>UTextBlock* SkillNumber</code>&#x2F;&#x2F;技能数量</p>
+</li>
+<li><p><code>UTextBlock* KeyValueBumber</code>&#x2F;&#x2F;按键数字</p>
+</li>
+<li><p><code>UTextBlock* SkillCDValue</code>&#x2F;&#x2F;技能CD</p>
+</li>
+<li><p><code>UButton* ClickButton</code>&#x2F;&#x2F;点击图标激活技能</p>
+</li>
+</ul>
+</li>
+<li><p>声明重载<code>NativeConstruct()</code></p>
+</li>
+<li><p>在<code>UFUNCTION()</code>下声明函数<code>void OnClickedWidget()</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>UI_SkillSlot.cpp</code>中</p>
+<ul>
+<li><p>在<code>NativeConstruct()</code>中</p>
+<ul>
+<li><p>继承父类</p>
+</li>
+<li><p>动态多播绑定按钮点击事件</p>
+</li>
+</ul>
+</li>
+<li><p>定义函数<code>OnClickedWidget()</code></p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="部分代码-4"><a href="#部分代码-4" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="UI-SkillSlot-h"><a href="#UI-SkillSlot-h" class="headerlink" title="UI_SkillSlot.h"></a>UI_SkillSlot.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/Core/UI_RuleOfTheWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_SkillSlot.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UImage</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UTextBlock</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UButton</span>;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> UUI_SkillSlot : <span class="keyword">public</span> UUI_RuleOfTheWidget</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line">    <span class="comment">//技能图标</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">        UImage* SkillIcon;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//技能CD蒙版</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">        UImage* SkillIconCD;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//技能数量</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">        UTextBlock* SkillNumber;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//按键数字</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">        UTextBlock* KeyValueBumber;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//技能CD</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">        UTextBlock* SkillCDValue;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//点击图标激活技能</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">        UButton* ClickButton;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">NativeConstruct</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UFUNCTION</span>()</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">OnClickedWidget</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="UI-SkillSlot-cpp"><a href="#UI-SkillSlot-cpp" class="headerlink" title="UI_SkillSlot.cpp"></a>UI_SkillSlot.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/GameUI/UMG/Skill/UI_SkillSlot.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/Button.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_SkillSlot::NativeConstruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">NativeConstruct</span>();</span><br><span class="line">    ClickButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUI_SkillSlot::OnClickedWidget);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_SkillSlot::OnClickedWidget</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="UI-PlayerSkillSystem框架搭建"><a href="#UI-PlayerSkillSystem框架搭建" class="headerlink" title="UI_PlayerSkillSystem框架搭建"></a>UI_PlayerSkillSystem框架搭建</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="GetDefault"><a href="#GetDefault" class="headerlink" title="GetDefault"></a>GetDefault</h3><p><code>GetDefault&lt;类&gt;()</code></p>
+<p>获取类的默认对象。在大多数情况下，不应修改类默认对象。因此，此方法返回一个不可变指针。如果需要修改默认对象，请改用 GetMutableDefault。</p>
+<h3 id="FindByPredicate-）"><a href="#FindByPredicate-）" class="headerlink" title="FindByPredicate(）"></a>FindByPredicate(）</h3><p>是<code>TArray</code>的一种高级查找方式，通常在<code>()</code>内使用<code>Lambda表达式/匿名函数</code>实现复杂的查找</p>
+<h3 id="Lambda表达式-x2F-匿名函数"><a href="#Lambda表达式-x2F-匿名函数" class="headerlink" title="Lambda表达式&#x2F;匿名函数"></a><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/7818.html">Lambda表达式&#x2F;匿名函数</a></h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[外部变量访问方式说明符] (参数) <span class="keyword">mutable</span> <span class="keyword">noexcept</span>/<span class="keyword">throw</span>() -&gt; 返回值类型</span><br><span class="line">&#123;</span><br><span class="line">   函数体;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>[外部变量方位方式说明符]<br>[ ] 方括号用于向编译器表明当前是一个 lambda 表达式，其不能被省略。在方括号内部，可以注明当前 lambda 函数的函数体中可以使用哪些“外部变量”。</li>
+</ol>
+<blockquote>
+<p>所谓外部变量，指的是和当前 lambda 表达式位于同一作用域内的所有局部变量。</p>
+</blockquote>
+<ol start="2">
+<li>(参数)<br>和普通函数的定义一样，lambda 匿名函数也可以接收外部传递的多个参数。和普通函数不同的是，如果不需要传递参数，可以连同 () 小括号一起省略；</li>
+</ol>
+<p>3) mutable<br>此关键字可以省略，如果使用则之前的 () 小括号将不能省略（参数个数可以为 0）。默认情况下，对于以值传递方式引入的外部变量，不允许在 lambda 表达式内部修改它们的值（可以理解为这部分变量都是 const 常量）。而如果想修改它们，就必须使用 mutable 关键字。  </p>
+<p>注意，对于以值传递方式引入的外部变量，lambda 表达式修改的是拷贝的那一份，并不会修改真正的外部变量；  </p>
+<ol start="4">
+<li>noexcept&#x2F;throw()<br>可以省略，如果使用，在之前的 () 小括号将不能省略（参数个数可以为 0）。默认情况下，lambda 函数的函数体中可以抛出任何类型的异常。而标注 noexcept 关键字，则表示函数体内不会抛出任何异常；使用 throw() 可以指定 lambda 函数内部可以抛出的异常类型。</li>
+</ol>
+<p>值得一提的是，如果 lambda 函数标有 noexcept 而函数体内抛出了异常，又或者使用 throw() 限定了异常类型而函数体内抛出了非指定类型的异常，这些异常无法使用 try-catch 捕获，会导致程序执行失败（本节后续会给出实例）。  </p>
+<ol start="5">
+<li><p>-&gt; 返回值类型<br>指明 lambda 匿名函数的返回值类型。值得一提的是，如果 lambda 函数体内只有一个 return 语句，或者该函数返回 void，则编译器可以自行推断出返回值类型，此情况下可以直接省略<code>-&gt; 返回值类型</code>。  </p>
+</li>
+<li><p>函数体<br>和普通函数一样，lambda 匿名函数包含的内部代码都放置在函数体中。该函数体内除了可以使用指定传递进来的参数之外，还可以使用指定的外部变量以及全局范围内的所有全局变量。</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>外部变量格式</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>[]</td>
+<td>空方括号表示当前 lambda 匿名函数中不导入任何外部变量。</td>
+</tr>
+<tr>
+<td>[&#x3D;]</td>
+<td>只有一个 &#x3D; 等号，表示以值传递的方式导入所有外部变量；</td>
+</tr>
+<tr>
+<td>[&amp;]</td>
+<td>只有一个 &amp; 符号，表示以引用传递的方式导入所有外部变量；</td>
+</tr>
+<tr>
+<td>[val1,val2,…]</td>
+<td>表示以值传递的方式导入 val1、val2 等指定的外部变量，同时多个变量之间没有先后次序；</td>
+</tr>
+<tr>
+<td>[&amp;val1,&amp;val2,…]</td>
+<td>表示以引用传递的方式导入 val1、val2等指定的外部变量，多个变量之间没有前后次序；</td>
+</tr>
+<tr>
+<td>[val,&amp;val2,…]</td>
+<td>以上 2 种方式还可以混合使用，变量之间没有前后次序。</td>
+</tr>
+<tr>
+<td>[&#x3D;,&amp;val1,…]</td>
+<td>表示除 val1 以引用传递的方式导入外，其它外部变量都以值传递的方式导入。</td>
+</tr>
+<tr>
+<td>[this]</td>
+<td>表示以值传递的方式导入当前的 this 指针。</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p> 注意，单个外部变量不允许以相同的传递方式导入多次。例如 [&#x3D;，val1] 中，val1 先后被以值传递的方式导入了 2 次，这是非法的。</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> num[<span class="number">4</span>] = &#123;<span class="number">4</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>&#125;;</span><br><span class="line">    <span class="comment">//对 a 数组中的元素进行排序</span></span><br><span class="line">    <span class="built_in">sort</span>(num, num+<span class="number">4</span>, [=](<span class="type">int</span> x, <span class="type">int</span> y) -&gt; <span class="type">bool</span>&#123; <span class="keyword">return</span> x &lt; y; &#125; );</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> n : num)&#123;</span><br><span class="line">        cout &lt;&lt; n &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>虽然 lambda 匿名函数没有函数名称，但我们仍可以为其手动设置一个名称，比如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//display 即为 lambda 匿名函数的函数名</span></span><br><span class="line">    <span class="keyword">auto</span> display = [](<span class="type">int</span> a,<span class="type">int</span> b) -&gt; <span class="type">void</span>&#123;cout &lt;&lt; a &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; b;&#125;;</span><br><span class="line">    <span class="comment">//调用 lambda 函数</span></span><br><span class="line">    <span class="built_in">display</span>(<span class="number">10</span>,<span class="number">20</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>值传递和引用传递的区别</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="comment">//全局变量</span></span><br><span class="line"><span class="type">int</span> all_num = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//局部变量</span></span><br><span class="line">    <span class="type">int</span> num_1 = <span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> num_2 = <span class="number">2</span>;</span><br><span class="line">    <span class="type">int</span> num_3 = <span class="number">3</span>;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;lambda1:\n&quot;</span>;</span><br><span class="line">    <span class="keyword">auto</span> lambda1 = [=]&#123;</span><br><span class="line">        <span class="comment">//全局变量可以访问甚至修改</span></span><br><span class="line">        all_num = <span class="number">10</span>;</span><br><span class="line">        <span class="comment">//函数体内只能使用外部变量，而无法对它们进行修改</span></span><br><span class="line">        cout &lt;&lt; num_1 &lt;&lt; <span class="string">&quot; &quot;</span></span><br><span class="line">             &lt;&lt; num_2 &lt;&lt; <span class="string">&quot; &quot;</span></span><br><span class="line">             &lt;&lt; num_3 &lt;&lt; endl;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="built_in">lambda1</span>();</span><br><span class="line">    cout &lt;&lt; all_num &lt;&lt;endl;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;lambda2:\n&quot;</span>;</span><br><span class="line">    <span class="keyword">auto</span> lambda2 = [&amp;]&#123;</span><br><span class="line">        all_num = <span class="number">100</span>;</span><br><span class="line">        num_1 = <span class="number">10</span>;</span><br><span class="line">        num_2 = <span class="number">20</span>;</span><br><span class="line">        num_3 = <span class="number">30</span>;</span><br><span class="line">        cout &lt;&lt; num_1 &lt;&lt; <span class="string">&quot; &quot;</span></span><br><span class="line">             &lt;&lt; num_2 &lt;&lt; <span class="string">&quot; &quot;</span></span><br><span class="line">             &lt;&lt; num_3 &lt;&lt; endl;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="built_in">lambda2</span>();</span><br><span class="line">    cout &lt;&lt; all_num &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>程序执行结果为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">lambda1:  </span><br><span class="line"><span class="number">1</span> <span class="number">2</span> <span class="number">3</span>  </span><br><span class="line"><span class="number">10</span>  </span><br><span class="line">lambda2:  </span><br><span class="line"><span class="number">10</span> <span class="number">20</span> <span class="number">30</span>  </span><br><span class="line"><span class="number">100</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="思路-5"><a href="#思路-5" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>一个技能栏，四个技能按钮，这四个技能按钮又是<code>UI_SkillSlot</code>中具体定义的</p>
+</li>
+<li><p>在<code>UI_PlayerSkillSystem.h</code>中</p>
+<ul>
+<li><p>声明<code>class UUI_SkillSlot</code>与<code>struct FKey</code></p>
+</li>
+<li><p>在<code>UPROPERTY(meta = (BindWidget))</code>宏下声明</p>
+<ul>
+<li><p><code>UUI_SkillSlot* FreezeSkill</code>&#x2F;&#x2F;冻结技能</p>
+</li>
+<li><p><code>UUI_SkillSlot* ExplosionSkill</code>&#x2F;&#x2F;爆炸技能</p>
+</li>
+<li><p><code>UUI_SkillSlot* RecoverySkill</code>&#x2F;&#x2F;恢复所有塔生命值技能</p>
+</li>
+<li><p><code>UUI_SkillSlot* RecoveryMainTowersSkill</code>&#x2F;&#x2F;回复主塔生命值技能</p>
+</li>
+</ul>
+</li>
+<li><p>声明重载<code>NativeConstruct()</code></p>
+</li>
+<li><p>在private:下声明</p>
+<ul>
+<li><p><code>FKey FreezeSkillKey</code></p>
+</li>
+<li><p><code>FKey ExplosionSkillKey</code></p>
+</li>
+<li><p><code>FKey RecoverySkillKey</code></p>
+</li>
+<li><p><code>FKey RecoveryMainTowersSkillKey</code></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在<code>UI_PlayerSkillSystem.cpp</code>中</p>
+<ul>
+<li><p><code>NativeConstruct()</code></p>
+<ul>
+<li><p><code>Super::</code>继承父类</p>
+</li>
+<li><p>声明一个<code>auto</code>类型的变量<code>KeyMapping</code></p>
+<ul>
+<li><p>使用<code>GetDefault&lt;&gt;()</code>获取<code>UInputSettings</code>的默认类</p>
+</li>
+<li><p>使用<code>GetActionMappings()</code>访问其所有动作映射</p>
+</li>
+<li><p>通过<code>FindByPredicate(lambda匿名函数)</code>来高级搜索符合条件的动作映射</p>
+</li>
+<li><p>lambda表达式，通过引用传递导入外部变量，参数设置为<code>FInputActionKeyMapping&amp; EntryUI</code></p>
+</li>
+<li><p>函数体则访问<code>EntryUI.ActionName</code>是否<code>==&quot;FreezeSkill&quot;</code></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="部分代码-5"><a href="#部分代码-5" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="UI-PlayerSkillSystem-h"><a href="#UI-PlayerSkillSystem-h" class="headerlink" title="UI_PlayerSkillSystem.h"></a>UI_PlayerSkillSystem.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/Core/UI_RuleOfTheWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_PlayerSkillSystem.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UUI_SkillSlot</span>;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">FKey</span>;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> UUI_PlayerSkillSystem : <span class="keyword">public</span> UUI_RuleOfTheWidget</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		<span class="comment">//冻结技能</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		UUI_SkillSlot* FreezeSkill;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//爆炸技能</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		UUI_SkillSlot* ExplosionSkill;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//恢复所有塔生命值技能</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		UUI_SkillSlot* RecoverySkill;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//回复主塔生命值技能</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		UUI_SkillSlot* RecoveryMainTowersSkill;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">NativeConstruct</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	FKey FreezeSkillKey;</span><br><span class="line">	FKey ExplosionSkillKey;</span><br><span class="line">	FKey RecoverySkillKey;</span><br><span class="line">	FKey RecoveryMainTowersSkillKey;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="UI-PlayerSkillSystem-cpp"><a href="#UI-PlayerSkillSystem-cpp" class="headerlink" title="UI_PlayerSkillSystem.cpp"></a>UI_PlayerSkillSystem.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/GameUI/UMG/UI_PlayerSkillSystem.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/InputSettings.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_PlayerSkillSystem::NativeConstruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">NativeConstruct</span>();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">auto</span> KeyMapping = <span class="built_in">GetDefault</span>&lt;UInputSettings&gt;()-&gt;<span class="built_in">GetActionMappings</span>().<span class="built_in">FindByPredicate</span>(</span><br><span class="line">		<span class="comment">//GetDefault&lt;类&gt;()  获取类的默认对象。在大多数情况下，不应修改类默认对象。因此，此方法返回一个不可变指针。如果需要修改默认对象，请改用 GetMutableDefault。</span></span><br><span class="line">		<span class="comment">//FindByPredicate() 高级查找</span></span><br><span class="line">		[&amp;](FInputActionKeyMapping&amp; EntryUI) </span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">return</span> (EntryUI.ActionName == <span class="string">&quot;FreezeSkill&quot;</span>);</span><br><span class="line">		&#125;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="UI-InventorySlot框架搭建"><a href="#UI-InventorySlot框架搭建" class="headerlink" title="UI_InventorySlot框架搭建"></a>UI_InventorySlot框架搭建</h1><p>背包（塔列表）中的格子</p>
+<h2 id="思路-6"><a href="#思路-6" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>就是玩家手中存放塔的小格子</p>
+</li>
+<li><p>塔的图标，放置塔的CD蒙版，已经完成建造的塔的数量，正在建造的塔的数量，显示CD的文字，小格子按钮</p>
+</li>
+<li><p>在<code>UI_InventorySlot.h</code>中</p>
+<ul>
+<li><p>声明<code>class UImage</code>,<code>class UTextBlock</code>,<code>class UButton</code></p>
+</li>
+<li><p>在宏声明<code>UPROPERTY(meta = (BindWidget))</code>下声明以下指针对象</p>
+<ul>
+<li><p><code>UImage* TowersIcon</code></p>
+</li>
+<li><p><code>UImage* TowersCD</code></p>
+</li>
+<li><p><code>UTextBlock* TPBuildingBumber</code></p>
+</li>
+<li><p><code>UTextBlock* TCOfCNumber</code></p>
+</li>
+<li><p><code>UTextBlock* TowersCDValue</code></p>
+</li>
+<li><p><code>UButton* TISButton</code></p>
+</li>
+</ul>
+</li>
+<li><p>声明重载函数<code>NativeConstruct()</code></p>
+</li>
+<li><p>在<code>UFUNCTION()</code>下声明函数<code>void OnClickedWidget()</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>UI_InventorySlot.cpp</code>中</p>
+<ul>
+<li><p><code>NativeConstruct()</code>内</p>
+<ul>
+<li><p><code>Super::</code>继承父类</p>
+</li>
+<li><p>通过动态多播绑定按钮点击事件和<code>OnClickedWidget()</code>函数</p>
+</li>
+</ul>
+</li>
+<li><p>定义函数<code>OnClickedWidget()</code></p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="部分代码-6"><a href="#部分代码-6" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="UI-InventorySlot-h"><a href="#UI-InventorySlot-h" class="headerlink" title="UI_InventorySlot.h"></a>UI_InventorySlot.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/Core/UI_RuleOfTheWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_InventorySlot.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UImage</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UTextBlock</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UButton</span>;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> UUI_InventorySlot : <span class="keyword">public</span> UUI_RuleOfTheWidget</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//塔图标</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		UImage* TowersIcon;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//放置塔CD</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		UImage* TowersCD;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//TowersPrepareBuildingBumber完成建造的塔的数量</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		UTextBlock* TPBuildingBumber;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//TowersCompletionOfConstructionNumber正在建造的塔的数量</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		UTextBlock* TCOfCNumber;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//CD长度</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		UTextBlock* TowersCDValue;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//TowersInventorySlotButton</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		UButton* TISButton;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">NativeConstruct</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UFUNCTION</span>()</span><br><span class="line">		<span class="function"><span class="type">void</span> <span class="title">OnClickedWidget</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="UI-InventorySlot-cpp"><a href="#UI-InventorySlot-cpp" class="headerlink" title="UI_InventorySlot.cpp"></a>UI_InventorySlot.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/GameUI/UMG/Inventory/UI_InventorySlot.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/Button.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_InventorySlot::NativeConstruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">NativeConstruct</span>();</span><br><span class="line"></span><br><span class="line">	TISButton-&gt;OnClicked.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUI_InventorySlot::OnClickedWidget);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_InventorySlot::OnClickedWidget</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="UI-Inventory框架搭建"><a href="#UI-Inventory框架搭建" class="headerlink" title="UI_Inventory框架搭建"></a>UI_Inventory框架搭建</h1><p>存放塔的列表</p>
+<h2 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h2><h3 id="UniformGridPanel"><a href="#UniformGridPanel" class="headerlink" title="UniformGridPanel"></a>UniformGridPanel</h3><p>虚幻殷勤自带的UI组件，统一大小网格。可以在蓝图界面中直接查看</p>
+<p>该组件的成员变量有</p>
+<ol>
+<li><p>Column（列）</p>
+</li>
+<li><p>Row（行）</p>
+</li>
+<li><p>HorizontalAlignment（水平对齐）</p>
+</li>
+<li><p>VerticalAlignment（垂直对齐）</p>
+</li>
+</ol>
+<h2 id="思路-7"><a href="#思路-7" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>在<code>UI_Inventory.h</code>中</p>
+<ul>
+<li><p>声明<code>class UUniformGridPanel</code>，<code>class UUI_InventorySlot</code></p>
+</li>
+<li><p>在<code>UPROPERTY(meta = (BindWidget))</code>宏声明下</p>
+<ul>
+<li><p><code>UUniformGridPanel* SlotArrayInventroy</code></p>
+</li>
+<li><p><code>TSubclassOf&lt;UUI_InventorySlot&gt;InventorySlotClass</code></p>
+</li>
+</ul>
+</li>
+<li><p>声明重载<code>NativeConstruct()</code></p>
+</li>
+<li><p>在public:下声明函数<code>void LoyoutInventorySlot(int32 ColumnBumber, int32 RowNumber)</code></p>
+</li>
+<li><p>在private:下声明一个数组<code>TArray&lt;UUI_InventorySlot*&gt; InventorySlotArray</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>UI_Inventory.cpp</code>中</p>
+<ul>
+<li><p><code>NativeConstruct()</code>继承父类</p>
+</li>
+<li><p>定义函数<code>LoyoutInventorySlot(int32 ColumnBumber, int32 RowNumber)</code></p>
+</li>
+<li><p><code>if</code>判断<code>InventorySlotClass</code>是否生成成功</p>
+</li>
+<li><p>分别遍历<code>Row</code>和<code>Column</code></p>
+</li>
+<li><p>创建一个<code>UI_InventorySlot</code>类型的指针实例<code>SlotWidget</code>，使用<code>CreateWidget</code>创建一个Widget</p>
+</li>
+<li><p><code>if</code>判断<code>SlotWidget</code>是否创建成功</p>
+</li>
+<li><p>创建一个<code>UUniformGridSlot</code>类型的实例<code>GridSlot</code></p>
+<ul>
+<li><p>将刚刚创建好的<code>SlotWidget</code>使用函数<code>AddChildToUniformGrid()</code>添加到<code>SlotArrayInventroy</code></p>
+</li>
+<li><p>将<code>SlotArrayInventroy</code>赋值给<code>GridSlot</code></p>
+</li>
+</ul>
+</li>
+<li><p><code>if</code>判断<code>GridSlot</code>是否创建成功</p>
+<ul>
+<li><p>分别使用以下成员函数设置其行，列，水平对其和垂直对齐</p>
+<ul>
+<li><p><code>GridSlot-&gt;SetColumn()</code></p>
+</li>
+<li><p><code>GridSlot-&gt;SetRow()</code></p>
+</li>
+<li><p><code>GridSlot-&gt;SetHorizontalAlignment()</code></p>
+</li>
+<li><p><code>GridSlot-&gt;SetVerticalAlignment()</code></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>最后将<code>SlotWidget</code>添加到<code>InventorySlotArray</code>中</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="部分代码-7"><a href="#部分代码-7" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="UI-Inventory-h"><a href="#UI-Inventory-h" class="headerlink" title="UI_Inventory.h"></a>UI_Inventory.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/Core/UI_RuleOfTheWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_Inventory.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UUniformGridPanel</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UUI_InventorySlot</span>;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> UUI_Inventory : <span class="keyword">public</span> UUI_RuleOfTheWidget</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		UUniformGridPanel* SlotArrayInventroy;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		TSubclassOf&lt;UUI_InventorySlot&gt;InventorySlotClass;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">NativeConstruct</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">LoyoutInventorySlot</span><span class="params">(int32 ColumnBumber, int32 RowNumber)</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	TArray&lt;UUI_InventorySlot*&gt; InventorySlotArray;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="UI-Inventory-cpp"><a href="#UI-Inventory-cpp" class="headerlink" title="UI_Inventory.cpp"></a>UI_Inventory.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/GameUI/UMG/Inventory/UI_Inventory.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/GameUI/UMG/Inventory/UI_InventorySlot.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/UniformGridSlot.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/UniformGridPanel.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_Inventory::NativeConstruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">NativeConstruct</span>();</span><br><span class="line">	<span class="comment">//LoyoutInventorySlot(7, 3);</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_Inventory::LoyoutInventorySlot</span><span class="params">(int32 ColumnBumber, int32 RowNumber)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (InventorySlotClass) &#123;</span><br><span class="line">		<span class="comment">//遍历每一个格子，并且创建格子，然后将其添加到UniformGridSlot组件中去</span></span><br><span class="line">		<span class="keyword">for</span> (int32 MyRow = <span class="number">0</span>; MyRow &lt; RowNumber; MyRow++) &#123;</span><br><span class="line">			<span class="keyword">for</span> (int32 MyColumn = <span class="number">0</span>; MyColumn &lt; ColumnBumber; MyColumn++) &#123;</span><br><span class="line">				<span class="comment">//创建格子</span></span><br><span class="line">				UUI_InventorySlot* SlotWidget = <span class="built_in">CreateWidget</span>&lt;UUI_InventorySlot&gt;(<span class="built_in">GetWorld</span>(), InventorySlotClass);</span><br><span class="line">				<span class="keyword">if</span> (SlotWidget) &#123;</span><br><span class="line">					<span class="comment">//将创建好的SlotWidget添加到UniformGridSlot组件中去</span></span><br><span class="line">					UUniformGridSlot* GridSlot = SlotArrayInventroy-&gt;<span class="built_in">AddChildToUniformGrid</span>(SlotWidget);</span><br><span class="line">					<span class="keyword">if</span> (GridSlot) &#123;</span><br><span class="line">						<span class="comment">//设置当前格子的行列和对其方式</span></span><br><span class="line">						GridSlot-&gt;<span class="built_in">SetColumn</span>(MyColumn);</span><br><span class="line">						GridSlot-&gt;<span class="built_in">SetRow</span>(MyRow);</span><br><span class="line">						GridSlot-&gt;<span class="built_in">SetHorizontalAlignment</span>(EHorizontalAlignment::HAlign_Fill);<span class="comment">//垂直和水平均为fill方式对齐</span></span><br><span class="line">						GridSlot-&gt;<span class="built_in">SetVerticalAlignment</span>(EVerticalAlignment::VAlign_Fill);</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="comment">//将生成的格子添加到存储格子的数组中，方便以后调用</span></span><br><span class="line">				InventorySlotArray.<span class="built_in">Add</span>(SlotWidget);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="UI-RucksackSystem框架搭建"><a href="#UI-RucksackSystem框架搭建" class="headerlink" title="UI_RucksackSystem框架搭建"></a>UI_RucksackSystem框架搭建</h1><h2 id="思路-8"><a href="#思路-8" class="headerlink" title="思路"></a>思路</h2><ol>
+<li>直接将<code>UI_Inventory</code>添加进来即可</li>
+</ol>
+<h2 id="部分代码-8"><a href="#部分代码-8" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="UI-RucksackSystem-h"><a href="#UI-RucksackSystem-h" class="headerlink" title="UI_RucksackSystem.h"></a>UI_RucksackSystem.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/Core/UI_RuleOfTheWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_RucksackSystem.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UUI_Inventory</span>;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> UUI_RucksackSystem : <span class="keyword">public</span> UUI_RuleOfTheWidget</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line">		<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		UUI_Inventory* Inventory;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">NativeConStruct</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="UI-RucksackSystem-cpp"><a href="#UI-RucksackSystem-cpp" class="headerlink" title="UI_RucksackSystem.cpp"></a>UI_RucksackSystem.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/GameUI/UMG/UI_RucksackSystem.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI\GameUI\UMG\Inventory\UI_Inventory.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_RucksackSystem::NativeConStruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">NativeConstruct</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="UI-ToolBarSystem框架搭建"><a href="#UI-ToolBarSystem框架搭建" class="headerlink" title="UI_ToolBarSystem框架搭建"></a>UI_ToolBarSystem框架搭建</h1><h2 id="思路-9"><a href="#思路-9" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>显示金币，塔死亡数，游戏计时，杀掉士兵数量，剩余敌人数量，剩余敌人数量进度条即可</p>
+</li>
+<li><p>其中只需要声明一下<code>class UTextBlock</code>以及<code>class UProgressBar</code></p>
+</li>
+<li><p>很简单，和前面的差不多，就直接放代码了</p>
+</li>
+</ol>
+<h2 id="部分代码-9"><a href="#部分代码-9" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="UI-ToolBarSystem-h"><a href="#UI-ToolBarSystem-h" class="headerlink" title="UI_ToolBarSystem.h"></a>UI_ToolBarSystem.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/Core/UI_RuleOfTheWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_ToolBarSystem.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UTextBlock</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UProgressBar</span>;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> UUI_ToolBarSystem : <span class="keyword">public</span> UUI_RuleOfTheWidget</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line">	<span class="comment">//金币</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta=(BindWidget))</span><br><span class="line">	UTextBlock* GameGlob;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//塔死亡数</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">	UTextBlock* TowersDeathNumber;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//游戏计时</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">	UTextBlock* GameCount;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//杀掉士兵数量</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">	UTextBlock* KillSoldier;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//剩余敌人数量</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">	UTextBlock* GameLevelSurplusQuantity;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//剩余敌人数量进度条</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">	UProgressBar* GSQProgressBar;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">NativeConstruct</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="UI-ToolBarSystem-cpp"><a href="#UI-ToolBarSystem-cpp" class="headerlink" title="UI_ToolBarSystem.cpp"></a>UI_ToolBarSystem.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/GameUI/UMG/UI_ToolBarSystem.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_ToolBarSystem::NativeConstruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">NativeConstruct</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1986,175 +2616,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/16/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2UI/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/16/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2UI/" class="post-title-link" itemprop="url">UE4-项目-死寂-角色UI</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-07-16 10:24:27 / 修改时间：11:33:53" itemprop="dateCreated datePublished" datetime="2022-07-16T10:24:27+08:00">2022-07-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="角色属性UI排版"><a href="#角色属性UI排版" class="headerlink" title="角色属性UI排版"></a>角色属性UI排版</h1><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>创建新的控件蓝图“游戏中界面”</p>
-<ul>
-<li><p>添加一个文本作为游戏声明，放在不起眼的位置，颜色调整为灰色</p>
-</li>
-<li><p>添加一个新的画布面板“子弹和生命值”</p>
-<ul>
-<li><p>添加一个图像放在右下角作为主武器还是副武器的背景图</p>
-</li>
-<li><p>添加一个文本放在图像上面用于显示当前弹匣数量</p>
-</li>
-<li><p>添加一个文本显示子弹数量放在图像的左边</p>
-</li>
-<li><p>添加一个图像，拉长成为细线，作为和下面血条的分割线</p>
-</li>
-<li><p>添加一个进度条作为血量条，设置其背景图，填充图</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="角色生命值绑定"><a href="#角色生命值绑定" class="headerlink" title="角色生命值绑定"></a>角色生命值绑定</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="获取玩家角色"><a href="#获取玩家角色" class="headerlink" title="获取玩家角色"></a>获取玩家角色</h3><p>字面意思，通常配合“类型转换为（角色蓝图）”</p>
-<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>给血量条创建绑定</p>
-<ul>
-<li><p>点击血量条，百分比，创建绑定</p>
-</li>
-<li><p>获取玩家角色，类型转换为BP_Player</p>
-</li>
-<li><p>获取“当前血量”，“（浮点）&#x2F;（浮点）”，连接到返回值</p>
-<ul>
-<li>因为百分比最大是1，角色血量最大是100，要达到能和百分比搭配的地步</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>绑定血量条颜色（底血量的情况下颜色变红）</p>
-<ul>
-<li><p>进度条-&gt;外观-&gt;填充颜色和不透明度-&gt;绑定-&gt;创建绑定</p>
-</li>
-<li><p>大体逻辑和血量条数值绑定一样，只有最后的输出不一样</p>
-</li>
-<li><p>返回节点创建颜色，当前血量&#x2F;100之后连接到G,B引脚上,R引脚设置为1</p>
-<ul>
-<li>颜色是由R(红色),G(绿色),B(蓝色),A(透明度)组成的，取值范围是[0,1]，当全为1的时候则为白色，当一个值为1，其他值为0时，则显示为1的那个颜色</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="子弹数量绑定"><a href="#子弹数量绑定" class="headerlink" title="子弹数量绑定"></a>子弹数量绑定</h1><h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>点击“子弹剩余数量”这个文本-&gt;内容-&gt;文本-&gt;绑定-&gt;创建绑定</p>
-<ul>
-<li><p>获取玩家角色，类型转换为BP_Player</p>
-</li>
-<li><p>判断是否装备主武器</p>
-<ul>
-<li><p>true则获取主武器实例，获取子弹数量，输出</p>
-</li>
-<li><p>false则判断是否装备副武器</p>
-</li>
-</ul>
-</li>
-<li><p>是否装备副武器</p>
-<ul>
-<li><p>true则获取副武器实例，获取子弹数量，输出</p>
-</li>
-<li><p>false则输出0</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>绑定弹匣数量</p>
-<ul>
-<li><p>选中“弹匣数量”文本，创建绑定</p>
-</li>
-<li><p>思路和绑定子弹数量一样，只不过将子弹数量换成弹匣数量</p>
-</li>
-</ul>
-</li>
-<li><p>将角色UI添加到视口</p>
-<ul>
-<li><p>因为是有可操纵角色的时候才能有这个UI，所以打开“BP_Player”</p>
-</li>
-<li><p>在事件图表中的“事件开始运行时”最后面“创建控件”，class选择“游戏中界面”，将返回值提升为变量“游戏中界面”，将其“添加到视口”</p>
-</li>
-</ul>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -2168,7 +2629,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

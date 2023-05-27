@@ -159,13 +159,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">174</span>
+          <span class="site-state-item-count">172</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -208,6 +208,189 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/20/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E6%B3%A8%E5%86%8C%E8%A7%92%E8%89%B2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/09/20/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E6%B3%A8%E5%86%8C%E8%A7%92%E8%89%B2/" class="post-title-link" itemprop="url">UE4-项目-TowerDefence-注册角色</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-09-20 14:18:28" itemprop="dateCreated datePublished" datetime="2022-09-20T14:18:28+08:00">2022-09-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-10-08 15:10:57" itemprop="dateModified" datetime="2022-10-08T15:10:57+08:00">2022-10-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="生成角色"><a href="#生成角色" class="headerlink" title="生成角色"></a>生成角色</h1><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>在<code>TowerDefenceGameState.h</code>中声明函数<code>SpawnCharacter()</code></p>
+<ul>
+<li><p>返回值是<code>ARuleOfTheCharacter*</code></p>
+</li>
+<li><p>参数是<code>int32 CharacerID,int32 CharacterLevel,UDataTable* InCharacterData,const FVector&amp; Loction, FRotator&amp; Rotator</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>TowerDefenceGameState.h</code>中给<code>SpawnCharacter()</code>函数写一个模板类</p>
+<ul>
+<li><p>返回值是<code>T*</code></p>
+</li>
+<li><p>参数不变</p>
+</li>
+<li><p>函数体直接<code>return Cast&lt;T&gt;(SpawnCharacter(CharacerID, CharacterLevel, InCharacterData, Loction, Rotator));</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>TowerDefenceGameState.cpp</code>中定义函数<code>SpawnCharacter</code></p>
+<ul>
+<li><p>首先创建一个元素为<code>FCharacterData*</code>的数组<code>Datas</code>，存储数据表形参<code>InCharacterData</code>中的数据</p>
+</li>
+<li><p>将<code>InCharacterData</code>中的数据通过函数<code>GetAllRows(TEXT(&quot;Character Data&quot;), Datas)</code>导入到<code>Datas</code>中</p>
+</li>
+<li><p>写一个lambda函数<code>GetCharacterData</code>用于在数据表中获取单个的Character数据</p>
+<ul>
+<li><p><code>auto GetCharacterData = [&amp;](int32 ID)-&gt;FCharacterData*</code></p>
+</li>
+<li><p>遍历数据表<code>Datas</code>，<code>for (auto&amp; Tmp : Datas)</code></p>
+</li>
+<li><p>如果输入的ID等于数据表中存在的ID，则返回这条数据</p>
+<ul>
+<li><p>&#96;if (Tmp-&gt;ID &#x3D;&#x3D; ID)</p>
+<pre><code>            &#123;
+                return Tmp;
+            &#125;`
+</code></pre>
+</li>
+<li><p>否则返回空指针</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>根据角色ID调用<code>GetCharacterData</code>函数获取角色在数据表中的数据</p>
+</li>
+<li><p>使用函数<code>LoadSynchronous()</code>通过角色数据中的蓝图资产获取此资产指针指向对象</p>
+<ul>
+<li><code>UClass* NewClass = CharacterData-&gt;CharacterBlueprintKey.LoadSynchronous();</code></li>
+</ul>
+</li>
+<li><p>判断是否在关卡内并且NewClass创建成功</p>
+</li>
+<li><p>通过<code>SpawnActor&lt;&gt;()</code>创建新的Character实例</p>
+</li>
+<li><p>给Character添加GUID</p>
+</li>
+<li><p>在数据表中添加该Character的GUID以及其他数据</p>
+</li>
+</ul>
+</li>
+<li><p>在<code>TowerDefenceGameState.h</code>中声明生成塔以及生成怪物的函数</p>
+<ul>
+<li><p><code>ATowers* SpawnTowers(int32 CharacerID, int32 CharacterLevel, const FVector&amp; Loction, FRotator&amp; Rotator);</code></p>
+</li>
+<li><p><code>AMonsters* SpawnMonster(int32 CharacerID, int32 CharacterLevel,  const FVector&amp; Loction, FRotator&amp; Rotator);</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>TowerDefenceGameState.h</code>中声明塔数据表以及怪物数据表</p>
+<ul>
+<li><p>&#96;UPROPERTY()</p>
+<pre><code>    UDataTable* AITowerCharacterData;`
+</code></pre>
+</li>
+<li><p>&#96;UPROPERTY()</p>
+<pre><code>    UDataTable* AIMonsterCharacterData;`
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>在<code>TowerDefenceGameState.cpp</code>中的构造函数中给怪物数据表和塔数据表赋值</p>
+<ul>
+<li><p>通过<code>static ConstructorHelpers::FObjectFinder&lt;类型&gt;名称(TEXT(&quot;路径&quot;))</code>获取<code>UDataTable</code>类型的表<code>MyTable_Towers</code>以及<code>MyTable_Monsters</code>，并且在括号内填写之前在UE4编辑器中创建好两个数据表<code>TowersDataTable</code>以及<code>MonstersDataTable</code>的路径</p>
+</li>
+<li><p>将<code>MyTable_Towers</code>以及<code>MyTable_Monsters</code>调用<code>.Object</code>分别赋值给<code>AITowerCharacterData</code>和<code>AIMonsterCharacterData</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>TowerDefenceGameState.cpp</code>中定义生成怪物和生成塔函数</p>
+<ul>
+<li>分别调用<code>SpawnCharacter</code>的模板函数，注意返回值和T保持一致，参数调用上面定义好的<code>AITowerCharacterData</code>和<code>AIMonsterCharacterData</code></li>
+</ul>
+</li>
+</ol>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><h2 id="TowerDefenceGameState-h"><a href="#TowerDefenceGameState-h" class="headerlink" title="TowerDefenceGameState.h"></a>TowerDefenceGameState.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/GameState.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Data\Core\CharacterData.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Data\Save\GameSaveData.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowerDefenceGameState.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> FCharacterData CharacterDataNULL;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ARuleOfTheCharacter</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UDataTable</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AMonsters</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ATowers</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UGameSaveData</span>;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> ATowerDefenceGameState : <span class="keyword">public</span> AGameState</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line">	<span class="comment">//塔数据表</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">		UDataTable* AITowerCharacterData;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//怪物数据表</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">		UDataTable* AIMonsterCharacterData;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span><span class="keyword">override</span></span>;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">ATowerDefenceGameState</span>();</span><br><span class="line"></span><br><span class="line">	<span class="comment">//生成塔</span></span><br><span class="line">	<span class="built_in">UFUNCTION</span>(BlueprintCallable,Category=Spawn)</span><br><span class="line">	<span class="function">ATowers* <span class="title">SpawnTowers</span><span class="params">(int32 CharacerID, int32 CharacterLevel, <span class="type">const</span> FVector&amp; Loction, <span class="type">const</span> FRotator&amp; Rotator)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//生成怪物</span></span><br><span class="line">	<span class="built_in">UFUNCTION</span>(BlueprintCallable, Category = Spawn)</span><br><span class="line">	<span class="function">AMonsters* <span class="title">SpawnMonster</span><span class="params">(int32 CharacerID, int32 CharacterLevel,  <span class="type">const</span> FVector&amp; Loction, <span class="type">const</span> FRotator&amp; Rotator)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//存储数据</span></span><br><span class="line">	<span class="built_in">UFUNCTION</span>(BlueprintCallable, Category = SaveData)</span><br><span class="line">	<span class="function"><span class="type">bool</span> <span class="title">SaveGameData</span><span class="params">(int32 SaveNumber)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//读取数据</span></span><br><span class="line">	<span class="built_in">UFUNCTION</span>(BlueprintCallable, Category = SaveData)</span><br><span class="line">	<span class="function"><span class="type">bool</span> <span class="title">ReadGameData</span><span class="params">(int32 SaveNumber)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="comment">//生成角色</span></span><br><span class="line">	<span class="function">ARuleOfTheCharacter* <span class="title">SpawnCharacter</span><span class="params">(int32 CharacerID,int32 CharacterLevel,UDataTable* InCharacterData,<span class="type">const</span> FVector&amp; Loction,<span class="type">const</span> FRotator&amp; Rotator)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</span></span><br><span class="line"><span class="function">	T* <span class="title">SpawnCharacter</span><span class="params">(int32 CharacerID, int32 CharacterLevel, UDataTable* InCharacterData, <span class="type">const</span> FVector&amp; Loction, <span class="type">const</span> FRotator&amp; Rotator)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">Cast</span>&lt;T&gt;(<span class="built_in">SpawnCharacter</span>(CharacerID, CharacterLevel, InCharacterData, Loction, Rotator));</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">const</span> FCharacterData&amp; <span class="title">AddCharacterData</span><span class="params">(<span class="type">const</span> int32&amp; ID, <span class="type">const</span> FCharacterData&amp; Data)</span></span>;</span><br><span class="line">	<span class="function"><span class="type">bool</span> <span class="title">RemoveCharacterData</span><span class="params">(<span class="type">const</span> int32&amp; ID)</span></span>;</span><br><span class="line">	<span class="function">FCharacterData&amp; <span class="title">GetCharacterData</span><span class="params">(<span class="type">const</span> int32&amp; ID)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="function">UGameSaveData* <span class="title">GetSaveData</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">		UGameSaveData* SaveData;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="TowerDefenceGameState-cpp"><a href="#TowerDefenceGameState-cpp" class="headerlink" title="TowerDefenceGameState.cpp"></a>TowerDefenceGameState.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefenceGameState.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character\Core\RuleOfTheCharacter.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UObject\ConstructorHelpers.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Engine\DataTable.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UObject\SoftObjectPtr.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Data\Core\CharacterData.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character\CharacterCore\Towers.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character\CharacterCore\Monsters.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowerDefence\StoneDefenceMacro.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Kismet\GameplayStatics.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> PLATFORM_WINDOWS</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> optimize(<span class="string">&quot;&quot;</span>,off) </span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">FCharacterData CharacterDataNULL;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ATowerDefenceGameState::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">ATowerDefenceGameState::<span class="built_in">ATowerDefenceGameState</span>()</span><br><span class="line">&#123;</span><br><span class="line">	PrimaryActorTick.bCanEverTick = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">	<span class="type">static</span> ConstructorHelpers::FObjectFinder&lt;UDataTable&gt;<span class="built_in">MyTable_Towers</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;/Game/GameData/TowersDataTable&quot;</span>));</span><br><span class="line">	<span class="type">static</span> ConstructorHelpers::FObjectFinder&lt;UDataTable&gt;<span class="built_in">MyTable_Monsters</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;/Game/GameData/MonstersDataTable&quot;</span>));</span><br><span class="line">	AITowerCharacterData = MyTable_Towers.Object;</span><br><span class="line">	AIMonsterCharacterData = MyTable_Monsters.Object;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">ATowers* <span class="title">ATowerDefenceGameState::SpawnTowers</span><span class="params">(int32 CharacerID, int32 CharacterLevel, <span class="type">const</span> FVector&amp; Loction, <span class="type">const</span> FRotator&amp; Rotator)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">SpawnCharacter</span>&lt;ATowers&gt;(CharacerID, CharacterLevel, AITowerCharacterData, Loction, Rotator);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">AMonsters* <span class="title">ATowerDefenceGameState::SpawnMonster</span><span class="params">(int32 CharacerID, int32 CharacterLevel, <span class="type">const</span> FVector&amp; Loction, <span class="type">const</span> FRotator&amp; Rotator)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">SpawnCharacter</span>&lt;AMonsters&gt;(CharacerID, CharacterLevel, AIMonsterCharacterData, Loction, Rotator);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">ATowerDefenceGameState::ReadGameData</span><span class="params">(int32 SaveNumber)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	SaveData = <span class="built_in">Cast</span>&lt;UGameSaveData&gt;(UGameplayStatics::<span class="built_in">LoadGameFromSlot</span>(FString::<span class="built_in">Printf</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;SaveSlot_%i&quot;</span>), SaveNumber), <span class="number">0</span>));</span><br><span class="line">	<span class="keyword">return</span> SaveData != <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">ATowerDefenceGameState::SaveGameData</span><span class="params">(int32 SaveNumber)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (SaveData)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> UGameplayStatics::<span class="built_in">SaveGameToSlot</span>(SaveData, FString::<span class="built_in">Printf</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;SaveSlot_%i&quot;</span>), SaveNumber), <span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">const</span> FCharacterData&amp; <span class="title">ATowerDefenceGameState::AddCharacterData</span><span class="params">(<span class="type">const</span> int32&amp; ID, <span class="type">const</span> FCharacterData&amp; Data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">GetSaveData</span>()-&gt;CharacterDatas.<span class="built_in">Add</span>(ID, Data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">ATowerDefenceGameState::RemoveCharacterData</span><span class="params">(<span class="type">const</span> int32&amp; ID)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//return CharacterDatas.Remove(Hash);</span></span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">GetSaveData</span>()-&gt;CharacterDatas.<span class="built_in">Remove</span>(ID) &gt;= <span class="number">0</span>;</span><br><span class="line">	<span class="comment">//return NULL;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">FCharacterData&amp; <span class="title">ATowerDefenceGameState::GetCharacterData</span><span class="params">(<span class="type">const</span> int32&amp; ID)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">GetSaveData</span>()-&gt;CharacterDatas.<span class="built_in">Contains</span>(ID))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">GetSaveData</span>()-&gt;CharacterDatas[ID];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">SD_print_r</span>(Error, <span class="string">&quot;The Current [%i] is invalid&quot;</span>, ID);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> CharacterDataNULL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">UGameSaveData* <span class="title">ATowerDefenceGameState::GetSaveData</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (!SaveData)</span><br><span class="line">	&#123;</span><br><span class="line">		SaveData= <span class="built_in">Cast</span>&lt;UGameSaveData&gt;(UGameplayStatics::<span class="built_in">CreateSaveGameObject</span>(UGameSaveData::<span class="built_in">StaticClass</span>()));</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> SaveData;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">ARuleOfTheCharacter* <span class="title">ATowerDefenceGameState::SpawnCharacter</span><span class="params">(int32 CharacterID, int32 CharacterLevel, UDataTable* InCharacterData,<span class="type">const</span> FVector&amp; Loction, <span class="type">const</span> FRotator&amp; Rotator)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (InCharacterData)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//创建一个元素为FCharacterData*的数组Datas，存储数据表形参InCharacterData中的数据</span></span><br><span class="line">		TArray&lt;FCharacterData*&gt;Datas;</span><br><span class="line">		<span class="comment">//将InCharacterData中的数据导入到Datas中</span></span><br><span class="line">		InCharacterData-&gt;<span class="built_in">GetAllRows</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;Character Data&quot;</span>), Datas);</span><br><span class="line"></span><br><span class="line">		<span class="comment">//在数据表中获取单个的Character数据</span></span><br><span class="line">		<span class="keyword">auto</span> GetCharacterData = [&amp;](int32 ID)-&gt;FCharacterData*</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//遍历数据表</span></span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">auto</span>&amp; Tmp : Datas)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="comment">//如果输入的ID等于数据表中存在的ID，则返回这条数据</span></span><br><span class="line">				<span class="keyword">if</span> (Tmp-&gt;ID == ID)</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="keyword">return</span> Tmp;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">		&#125;;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//根据角色ID获取角色在数据表中的数据</span></span><br><span class="line">		<span class="keyword">if</span> (FCharacterData* CharacterData = <span class="built_in">GetCharacterData</span>(CharacterID))</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//通过角色数据中的蓝图资产获取此资产指针指向的对象</span></span><br><span class="line">			<span class="comment">//LoadSynchronous:同步加载（如果需要）并返回此资产ptr表示的资产对象</span></span><br><span class="line">			UClass* NewClass = CharacterData-&gt;CharacterBlueprintKey.<span class="built_in">LoadSynchronous</span>();</span><br><span class="line"></span><br><span class="line">			<span class="comment">//判断是否在关卡内并且NewClass创建成功</span></span><br><span class="line">			<span class="keyword">if</span> (<span class="built_in">GetWorld</span>() &amp;&amp; NewClass)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="comment">//通过SpawnActor&lt;&gt;()创建新的Character实例</span></span><br><span class="line">				<span class="keyword">if</span> (ARuleOfTheCharacter* RuleOfTheCharacter = <span class="built_in">GetWorld</span>()-&gt;<span class="built_in">SpawnActor</span>&lt;ARuleOfTheCharacter&gt;(NewClass, Loction, Rotator))</span><br><span class="line">				&#123;</span><br><span class="line">					CharacterData-&gt;<span class="built_in">UpdateHealth</span>();</span><br><span class="line">					<span class="comment">//在数据表中添加该Character的GUID以及其他数据</span></span><br><span class="line">					uint32 ID = RuleOfTheCharacter-&gt;<span class="built_in">GetUniqueID</span>();</span><br><span class="line">					<span class="built_in">AddCharacterData</span>(ID, *CharacterData);</span><br><span class="line"></span><br><span class="line">					<span class="comment">//根据ID初始化角色数据</span></span><br><span class="line">					<span class="built_in">GetSaveData</span>()-&gt;CharacterDatas[ID].<span class="built_in">Init</span>();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> PLATFORM_WINDOWS</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> optimize(<span class="string">&quot;&quot;</span>,on) </span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1406,7 +1589,7 @@
 
 <h1 id="复原IP地址"><a href="#复原IP地址" class="headerlink" title="复原IP地址"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/restore-ip-addresses/">复原IP地址</a></h1><p>给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。</p>
 <p>有效的 IP 地址 正好由四个整数（每个整数位于 0 到 255 之间组成，且不能含有前导 0），整数之间用 ‘.’ 分隔。</p>
-<p>例如：”0.1.2.201” 和 “192.168.1.1” 是 有效的 IP 地址，但是 “0.011.255.245”、”192.168.1.312” 和 “<a href="mailto:&#49;&#x39;&#50;&#x2e;&#x31;&#x36;&#56;&#x40;&#49;&#x2e;&#49;">&#49;&#x39;&#50;&#x2e;&#x31;&#x36;&#56;&#x40;&#49;&#x2e;&#49;</a>“ 是 无效的 IP 地址。</p>
+<p>例如：”0.1.2.201” 和 “192.168.1.1” 是 有效的 IP 地址，但是 “0.011.255.245”、”192.168.1.312” 和 “<a href="mailto:&#49;&#57;&#50;&#x2e;&#49;&#x36;&#56;&#x40;&#x31;&#x2e;&#49;">&#49;&#57;&#50;&#x2e;&#49;&#x36;&#56;&#x40;&#x31;&#x2e;&#49;</a>“ 是 无效的 IP 地址。</p>
 <p>示例 1：</p>
 <ul>
 <li>输入：s &#x3D; “25525511135”</li>
@@ -2462,154 +2645,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/14/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E7%89%A9%E7%90%86%E5%AE%9E%E7%8E%B0%E4%B8%A2%E6%89%8B%E9%9B%B7%E6%95%88%E6%9E%9C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/09/14/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E7%89%A9%E7%90%86%E5%AE%9E%E7%8E%B0%E4%B8%A2%E6%89%8B%E9%9B%B7%E6%95%88%E6%9E%9C/" class="post-title-link" itemprop="url">UE4-项目-TowerDefence-物理实现丢手雷效果</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-09-14 16:00:59" itemprop="dateCreated datePublished" datetime="2022-09-14T16:00:59+08:00">2022-09-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-09-17 16:05:45" itemprop="dateModified" datetime="2022-09-17T16:05:45+08:00">2022-09-17</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h1><h2 id="FMath-Sqrt"><a href="#FMath-Sqrt" class="headerlink" title="FMath::Sqrt()"></a>FMath::Sqrt()</h2><p>开根号</p>
-<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">float</span> V = FMath::<span class="built_in">Sqrt</span>(X * X + Y * Y);</span><br></pre></td></tr></table></figure>
-
-<h2 id="FMath-Acos"><a href="#FMath-Acos" class="headerlink" title="FMath::Acos()"></a>FMath::Acos()</h2><p>根据两个夹角求夹角之间的弧度</p>
-<h3 id="例子-1"><a href="#例子-1" class="headerlink" title="例子"></a>例子</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">float</span> CosRadian = FMath::<span class="built_in">Acos</span>(A/B)</span><br></pre></td></tr></table></figure>
-
-<h2 id="弧度转换为角度"><a href="#弧度转换为角度" class="headerlink" title="弧度转换为角度"></a>弧度转换为角度</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CosRadian<span class="comment">/*弧度*/</span> * (<span class="number">180</span> / PI);</span><br></pre></td></tr></table></figure>
-
-<h1 id="大致思路"><a href="#大致思路" class="headerlink" title="大致思路"></a>大致思路</h1><ol>
-<li><p>根据物理来模拟丢手雷效果，则需要开启子弹的重力效果</p>
-</li>
-<li><p>求解量</p>
-<ul>
-<li>子弹发射方向与水平线之间的夹角</li>
-</ul>
-</li>
-<li><p>已知量&#x2F;易得量</p>
-<ul>
-<li><p>施法者与目标之间的距离</p>
-<ul>
-<li><code>FVector TargetFormOwnerVector = TargetCharacter-&gt;GetActorLocation() - GetActorLocation();</code></li>
-</ul>
-</li>
-<li><p>子弹在路上的时间&#x3D;距离&#x2F;子弹初速度</p>
-<ul>
-<li><code>float InTime = (TargetFormOwnerVector.Size() / ProjectileMovement-&gt;InitialSpeed);</code></li>
-</ul>
-</li>
-<li><p>获取抛射物Z轴的垂直距离&#x3D;Z轴重力*时间</p>
-<ul>
-<li><code>float Y = ProjectileMovement-&gt;GetGravityZ() * InTime;</code></li>
-</ul>
-</li>
-<li><p>获取抛射物的水平距离&#x3D;水平初速度速度*时间</p>
-<ul>
-<li><code>float X = ProjectileMovement-&gt;InitialSpeed * InTime;</code></li>
-</ul>
-</li>
-<li><p>勾股定理获取XY的斜边</p>
-<ul>
-<li><code>float V = FMath::Sqrt(X * X + Y * Y);</code></li>
-</ul>
-</li>
-<li><p>求出V与水平速度的夹角cos值，再由Acos()转换为弧度CosRadian，PI为圆周率</p>
-<ul>
-<li><code>float CosRadian = FMath::Acos(TargetFormOwnerVector.Size() / V * (InTime * (PI * 0.1f)/*用于修正子弹初始位置与目标位置之间连线不是水平于地面的*/));</code></li>
-</ul>
-</li>
-<li><p>获取子弹发射方向与水平线之间的夹角</p>
-<ul>
-<li><code>CosRadian * (180 / PI);</code></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>获取子弹的旋转信息，将<code>CosRadian * (180 / PI);</code>传入旋转信息的<code>Pitch</code>值内</p>
-</li>
-<li><p>设置子弹的旋转信息</p>
-</li>
-<li><p>重新设置子弹速度</p>
-</li>
-</ol>
-<h2 id="图解"><a href="#图解" class="headerlink" title="图解"></a>图解</h2><p><img src="https://wx3.sinaimg.cn/mw2000/007W8a3Bgy1h69nx24c7vj31c114g79p.jpg"></p>
-<h1 id="部分代码"><a href="#部分代码" class="headerlink" title="部分代码"></a>部分代码</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> EBulletType::BULLET_RANGE_LINE:</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//先暂时取消初速度，不然直接就直线射击出去了</span></span><br><span class="line">    ProjectileMovement-&gt;<span class="built_in">StopMovementImmediately</span>();</span><br><span class="line">    <span class="comment">//开启子弹重力</span></span><br><span class="line">    ProjectileMovement-&gt;ProjectileGravityScale = <span class="number">1.f</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//目标位置和子弹生成位置之间的距离</span></span><br><span class="line">    FVector TargetFormOwnerVector = TargetCharacter-&gt;<span class="built_in">GetActorLocation</span>() - <span class="built_in">GetActorLocation</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//子弹在路上的时间=距离/子弹速度</span></span><br><span class="line">    <span class="type">float</span> InTime = (TargetFormOwnerVector.<span class="built_in">Size</span>() / ProjectileMovement-&gt;InitialSpeed);</span><br><span class="line">    <span class="comment">//获取抛射物Z轴的垂直距离=Z轴重力*时间</span></span><br><span class="line">    <span class="type">float</span> Y = ProjectileMovement-&gt;<span class="built_in">GetGravityZ</span>() * InTime;</span><br><span class="line">    <span class="comment">//获取抛射物的水平距离=水平初速度速度*时间</span></span><br><span class="line">    <span class="type">float</span> X = ProjectileMovement-&gt;InitialSpeed * InTime;</span><br><span class="line">    <span class="comment">//勾股定理获取XY的斜边</span></span><br><span class="line">    <span class="type">float</span> V = FMath::<span class="built_in">Sqrt</span>(X * X + Y * Y);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//此公式可推导出来，求出V与水平速度的夹角cos值，再由Acos()转换为弧度CosRadian</span></span><br><span class="line">    <span class="comment">//PI为圆周率</span></span><br><span class="line">    <span class="type">float</span> CosRadian = FMath::<span class="built_in">Acos</span>(TargetFormOwnerVector.<span class="built_in">Size</span>() / V * (InTime * (PI * <span class="number">0.1f</span>)<span class="comment">/*用于修正子弹初始位置与目标位置之间连线不是水平于地面的*/</span>));</span><br><span class="line">    FRotator Rot = <span class="built_in">GetActorRotation</span>();</span><br><span class="line">    <span class="comment">//弧度转换为角度</span></span><br><span class="line">    Rot.Pitch = CosRadian * (<span class="number">180</span> / PI);</span><br><span class="line">    <span class="comment">//设置子弹初始抛射角度</span></span><br><span class="line">    <span class="built_in">SetActorRotation</span>(Rot);</span><br><span class="line">    <span class="comment">//重新设置速度，此时抛射角度已经设定好了，所以发射之后就是抛出状态</span></span><br><span class="line">    ProjectileMovement-&gt;<span class="built_in">SetVelocityInLocalSpace</span>(<span class="built_in">FVector</span>(<span class="number">1.0f</span>, <span class="number">0.f</span>, <span class="number">0.f</span>) * ProjectileMovement-&gt;InitialSpeed);</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -2623,7 +2658,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
