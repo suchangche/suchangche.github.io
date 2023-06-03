@@ -159,18 +159,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">172</span>
+          <span class="site-state-item-count">174</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">14</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -208,6 +208,239 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/08/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E6%9B%B4%E6%96%B0%E8%A1%80%E6%9D%A1%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/10/08/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E6%9B%B4%E6%96%B0%E8%A1%80%E6%9D%A1%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">UE4-项目-TowerDefence-更新血条方案</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-10-08 15:31:15 / 修改时间：16:17:40" itemprop="dateCreated datePublished" datetime="2022-10-08T15:31:15+08:00">2022-10-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="创建血条"><a href="#创建血条" class="headerlink" title="创建血条"></a>创建血条</h1><h2 id="大致步骤"><a href="#大致步骤" class="headerlink" title="大致步骤"></a>大致步骤</h2><ol>
+<li><p>创建一个继承自<code>RuleOfTheWidget</code>的C++类，取名为<code>UI_Health</code></p>
+<ul>
+<li><p>声明一个<code>UTextBlock*</code>类型的变量<code>Title</code></p>
+</li>
+<li><p>声明一个<code>UProgressBar*</code>类型的变量<code>Health</code></p>
+</li>
+<li><p>声明两个函数<code>SetTitle(const FString&amp; Msg)</code>以及<code>SetHealth(float HealthValue)</code></p>
+</li>
+<li><p>再cpp文件中定义两个函数</p>
+<ul>
+<li><p><code>Title-&gt;SetText(FText::FromString(Msg));</code></p>
+</li>
+<li><p><code>Health-&gt;SetPercent(HealthValue);</code></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>基于<code>UI_Health</code>创建一个蓝图类<code>Health_BP</code></p>
+<ul>
+<li><p>在蓝图中添加<code>UTextBlock*</code>以及<code>UProgressBar*</code>组件</p>
+</li>
+<li><p>注意名字需要和C++文件中的名字相同</p>
+</li>
+</ul>
+</li>
+<li><p>在角色基类中的<code>Widget</code>组件中的类设置为<code>Health_BP</code>，并且将显示方式设置为添加到屏幕</p>
+<ul>
+<li>注意：<code>Health_BP</code>蓝图中的大小以及位置需要合理，否则在角色基类中无法显示（如果位置不合理，就需要在角色基类中调整其<code>绘制大小</code>属性）</li>
+</ul>
+</li>
+</ol>
+<h2 id="部分代码"><a href="#部分代码" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="UI-Health-h"><a href="#UI-Health-h" class="headerlink" title="UI_Health.h"></a>UI_Health.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/Core/UI_RuleOfTheWidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI_Health.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> UUI_Health : <span class="keyword">public</span> UUI_RuleOfTheWidget</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		<span class="keyword">class</span> <span class="title class_">UTextBlock</span>* Title;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(meta = (BindWidget))</span><br><span class="line">		<span class="keyword">class</span> <span class="title class_">UProgressBar</span>* Health;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">NativeConstruct</span><span class="params">()</span><span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">SetTitle</span><span class="params">(<span class="type">const</span> FString&amp; Msg)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">SetHealth</span><span class="params">(<span class="type">float</span> HealthValue)</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="UI-Health-cpp"><a href="#UI-Health-cpp" class="headerlink" title="UI_Health.cpp"></a>UI_Health.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI/Character/UI_Health.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/TextBlock.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/ProgressBar.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_Health::NativeConstruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">NativeConstruct</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_Health::SetTitle</span><span class="params">(<span class="type">const</span> FString&amp; Msg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Title-&gt;<span class="built_in">SetText</span>(FText::<span class="built_in">FromString</span>(Msg));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UUI_Health::SetHealth</span><span class="params">(<span class="type">float</span> HealthValue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Health-&gt;<span class="built_in">SetPercent</span>(HealthValue);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="血条更新"><a href="#血条更新" class="headerlink" title="血条更新"></a>血条更新</h1><h2 id="大致步骤-1"><a href="#大致步骤-1" class="headerlink" title="大致步骤"></a>大致步骤</h2><ol>
+<li><p>在角色基类<code>RuleOfTheCharacter</code>中声明函数<code>UpDateUI</code></p>
+</li>
+<li><p>在cpp中定义该函数，首先判断角色基类中的Wigeht是否为空</p>
+</li>
+<li><p>如果不为空则以<code>Widget-&gt;GetUserWidgetObject()</code>通过<code>Cast</code>类型转换为<code>UUI_Health*</code>类型的变量<code>HealthUI</code></p>
+</li>
+<li><p>再由<code>HealthUI</code>调用其内部函数<code>SetTitle()</code>以及<code>SetHealth()</code></p>
+</li>
+<li><p>参数分别为<code>GetCharacterData().Name.ToString()</code>，以及<code>GetHeath() / GetMaxHeath()</code></p>
+</li>
+<li><p>最后在帧更新调用函数<code>UpDateUI</code></p>
+</li>
+</ol>
+<h2 id="部分代码-1"><a href="#部分代码-1" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="RuleOfTheCharacter-h"><a href="#RuleOfTheCharacter-h" class="headerlink" title="RuleOfTheCharacter.h"></a>RuleOfTheCharacter.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowerDefence\TowerDefenceType.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/Character.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Interface\Character\RuleCharacter.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefencePlayerController.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefenceGameState.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;RuleOfTheCharacter.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> ARuleOfTheCharacter : <span class="keyword">public</span> ACharacter,<span class="keyword">public</span> IRuleCharacter</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line">		<span class="comment">//用于实现子弹跟踪效果的实现</span></span><br><span class="line">		<span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;BaseAttrbute&quot;</span>, meta = (AllowPrivateAccess=<span class="string">&quot;true&quot;</span>))</span><br><span class="line">		<span class="keyword">class</span> <span class="title class_">USceneComponent</span>* HomingPoint;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//用于显示等级，生命值等信息</span></span><br><span class="line">		<span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;BaseAttrbute&quot;</span>, meta = (AllowPrivateAccess=<span class="string">&quot;true&quot;</span>))</span><br><span class="line">		<span class="keyword">class</span> <span class="title class_">UWidgetComponent</span>* Widget;</span><br><span class="line">	</span><br><span class="line">		<span class="comment">//角色及怪物子弹生成位置</span></span><br><span class="line">		<span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;BaseAttrbute&quot;</span>, meta = (AllowPrivateAccess=<span class="string">&quot;true&quot;</span>))</span><br><span class="line">		<span class="keyword">class</span> <span class="title class_">USceneComponent</span>* OpenFirePoint;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//用于捕捉鼠标射线</span></span><br><span class="line">		<span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;BaseAttrbute&quot;</span>, meta = (AllowPrivateAccess=<span class="string">&quot;true&quot;</span>))</span><br><span class="line">		<span class="keyword">class</span> <span class="title class_">UBoxComponent</span>* TraceShowCharacterInformattion;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="comment">// Sets default values for this character&#x27;s properties</span></span><br><span class="line">	<span class="built_in">ARuleOfTheCharacter</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="comment">// Called when the game starts or when spawned</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">UpDateUI</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//角色属性</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> EGameCharacterType::Type <span class="title">GetType</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//继承自IRuleCharacter中的函数</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">bool</span> <span class="title">IsDeath</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">float</span> <span class="title">GetHeath</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">float</span> <span class="title">GetMaxHeath</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">bool</span> <span class="title">IsTeam</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> FCharacterData&amp; <span class="title">GetCharacterData</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:	</span><br><span class="line">	<span class="comment">// Called every frame</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">(<span class="type">float</span> DeltaTime)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="comment">//Damage为伤害值</span></span><br><span class="line">	<span class="comment">//DamageEvent为伤害类型</span></span><br><span class="line">	<span class="comment">//EventInstigator为伤害当前Controller的Actor（被伤害目标）</span></span><br><span class="line">	<span class="comment">//DamageCauser为施加伤害的Actor</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">float</span> <span class="title">TakeDamage</span><span class="params">(<span class="type">float</span> Damage, <span class="keyword">struct</span> FDamageEvent <span class="type">const</span>&amp; DamageEvent, AController* EventInstigator, AActor* DamageCauser)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">UFUNCTION</span>(Blueprintable,BlueprintPure,Category=<span class="string">&quot;Tower|Attrubute&quot;</span>)</span><br><span class="line">	<span class="function"><span class="type">bool</span> <span class="title">IsActive</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> !<span class="built_in">IsDeath</span>(); &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="comment">//将TowerDefencePlayerController连接进来</span></span><br><span class="line">	<span class="comment">//FORCEINLINE：强制内联函数</span></span><br><span class="line">	<span class="function">FORCEINLINE ATowerDefencePlayerController* <span class="title">GetGameController</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">GetWorld</span>() ? <span class="built_in">GetWorld</span>()-&gt;<span class="built_in">GetFirstPlayerController</span>&lt;ATowerDefencePlayerController&gt;() : <span class="literal">NULL</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//将TowerDefenceGameState连接进来</span></span><br><span class="line">	<span class="function">FORCEINLINE ATowerDefenceGameState* <span class="title">GetGameState</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">GetWorld</span>() ? <span class="built_in">GetWorld</span>()-&gt;<span class="built_in">GetGameState</span>&lt;ATowerDefenceGameState&gt;() : <span class="literal">NULL</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//跟踪点</span></span><br><span class="line">	<span class="function">FORCEINLINE USceneComponent* <span class="title">GetHomingPoint</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> HomingPoint; &#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//开火点</span></span><br><span class="line">	<span class="function">FORCEINLINE USceneComponent* <span class="title">GetFirePoint</span><span class="params">()</span><span class="type">const</span> </span>&#123; <span class="keyword">return</span> OpenFirePoint; &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="comment">//是否攻击</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(VisibleAnyWhere, BlueprintReadOnly, Category = <span class="string">&quot;AnimAttrubute&quot;</span>)</span><br><span class="line">		<span class="type">bool</span> bAttack;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="RuleOfTheCharacter-cpp"><a href="#RuleOfTheCharacter-cpp" class="headerlink" title="RuleOfTheCharacter.cpp"></a>RuleOfTheCharacter.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Character/Core/RuleOfTheCharacter.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components\ArrowComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/BoxComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/WidgetComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UI\Character\UI_Health.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowerDefence\StoneDefenceUtils.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> PLATFORM_WINDOWS</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> optimize(<span class="string">&quot;&quot;</span>,off) </span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="comment">// Sets default values</span></span><br><span class="line">ARuleOfTheCharacter::<span class="built_in">ARuleOfTheCharacter</span>()</span><br><span class="line">	:<span class="built_in">bAttack</span>(<span class="literal">false</span>)</span><br><span class="line">&#123;</span><br><span class="line"> 	<span class="comment">// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don&#x27;t need it.</span></span><br><span class="line">	PrimaryActorTick.bCanEverTick = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">	HomingPoint = <span class="built_in">CreateDefaultSubobject</span>&lt;USceneComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;HomingPoint&quot;</span>));</span><br><span class="line">	Widget = <span class="built_in">CreateDefaultSubobject</span>&lt;UWidgetComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;Widget&quot;</span>));</span><br><span class="line">	OpenFirePoint = <span class="built_in">CreateDefaultSubobject</span>&lt;UArrowComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;SpawnPoint&quot;</span>));</span><br><span class="line">	TraceShowCharacterInformattion = <span class="built_in">CreateDefaultSubobject</span>&lt;UBoxComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;TraceBox&quot;</span>));</span><br><span class="line"></span><br><span class="line">	HomingPoint-&gt;<span class="built_in">AttachToComponent</span>(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);</span><br><span class="line">	Widget-&gt;<span class="built_in">AttachToComponent</span>(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);</span><br><span class="line">	OpenFirePoint-&gt;<span class="built_in">AttachToComponent</span>(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);</span><br><span class="line">	TraceShowCharacterInformattion-&gt;<span class="built_in">AttachToComponent</span>(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//设置预设scanning碰撞通道</span></span><br><span class="line">	TraceShowCharacterInformattion-&gt;<span class="built_in">SetCollisionProfileName</span>(<span class="string">&quot;Scanning&quot;</span>);</span><br><span class="line">	<span class="comment">//设置碰撞检测盒子大小</span></span><br><span class="line">	TraceShowCharacterInformattion-&gt;<span class="built_in">SetBoxExtent</span>(<span class="built_in">FVector</span>(<span class="number">38</span>, <span class="number">38</span>, <span class="number">100</span>));</span><br><span class="line"></span><br><span class="line">	<span class="built_in">GetUniqueID</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Called when the game starts or when spawned</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ARuleOfTheCharacter::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">	<span class="comment">//角色生成默认ontroller</span></span><br><span class="line">	<span class="keyword">if</span> (!<span class="built_in">GetController</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">SpawnDefaultController</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//UpDateUI();</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ARuleOfTheCharacter::UpDateUI</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (Widget)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (UUI_Health* HealthUI = <span class="built_in">Cast</span>&lt;UUI_Health&gt;(Widget-&gt;<span class="built_in">GetUserWidgetObject</span>()))</span><br><span class="line">		&#123;</span><br><span class="line">			HealthUI-&gt;<span class="built_in">SetTitle</span>(<span class="built_in">GetCharacterData</span>().Name.<span class="built_in">ToString</span>());</span><br><span class="line">			HealthUI-&gt;<span class="built_in">SetHealth</span>(<span class="built_in">GetHeath</span>() / <span class="built_in">GetMaxHeath</span>());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Called every frame</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ARuleOfTheCharacter::Tick</span><span class="params">(<span class="type">float</span> DeltaTime)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">Tick</span>(DeltaTime);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UpDateUI</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">EGameCharacterType::Type <span class="title">ARuleOfTheCharacter::GetType</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> EGameCharacterType::Type::MAX;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">float</span> <span class="title">ARuleOfTheCharacter::TakeDamage</span><span class="params">(<span class="type">float</span> Damage, FDamageEvent <span class="type">const</span>&amp; DamageEvent, AController* EventInstigator, AActor* DamageCauser)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">TakeDamage</span>(Damage, DamageEvent, EventInstigator, DamageCauser);</span><br><span class="line"></span><br><span class="line">	<span class="type">float</span> DamageValue = Expression::<span class="built_in">GetDamage</span>(<span class="built_in">Cast</span>&lt;ARuleOfTheCharacter&gt;(DamageCauser), <span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">GetCharacterData</span>().Health-= DamageValue;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!<span class="built_in">IsActive</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">GetCharacterData</span>().Health = <span class="number">0.0f</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> DamageValue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">ARuleOfTheCharacter::IsDeath</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">GetHeath</span>() &lt;= <span class="number">0.f</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">float</span> <span class="title">ARuleOfTheCharacter::GetHeath</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">GetCharacterData</span>().Health;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">float</span> <span class="title">ARuleOfTheCharacter::GetMaxHeath</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//通过GUID获取GameState中的CharacterData</span></span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">GetCharacterData</span>().MaxHealth;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">ARuleOfTheCharacter::IsTeam</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">FCharacterData&amp; <span class="title">ARuleOfTheCharacter::GetCharacterData</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">GetGameState</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">GetGameState</span>()-&gt;<span class="built_in">GetCharacterData</span>(<span class="built_in">GetUniqueID</span>());</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> CharacterDataNULL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> PLATFORM_WINDOWS</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> optimize(<span class="string">&quot;&quot;</span>,on) </span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/08/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E8%A7%92%E8%89%B2%E7%94%9F%E6%88%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/10/08/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E8%A7%92%E8%89%B2%E7%94%9F%E6%88%90/" class="post-title-link" itemprop="url">UE4-项目-TowerDefence-角色生成</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-10-08 14:46:38 / 修改时间：15:30:29" itemprop="dateCreated datePublished" datetime="2022-10-08T14:46:38+08:00">2022-10-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="角色在目标点生成"><a href="#角色在目标点生成" class="headerlink" title="角色在目标点生成"></a>角色在目标点生成</h1><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>在关卡蓝图中弄一个怪物生成点，再调用上一节的<code>GameState</code>中的<code>SpawnMonster</code>以及<code>SpawnTower</code>函数即可</p>
+<h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="TargetPoint"><a href="#TargetPoint" class="headerlink" title="TargetPoint"></a>TargetPoint</h3><p>这是一个C++类型类型，用于设置自动生成怪物的位置（类似于MC里面的刷怪笼）</p>
+<h2 id="大致步骤"><a href="#大致步骤" class="headerlink" title="大致步骤"></a>大致步骤</h2><ol>
+<li><p>创建<code>TargetPoint</code>类型的C++文件<code>SpawnPonit</code></p>
+</li>
+<li><p>重新配置数据表，在<code>Content/GameData/MonstersDataTable</code>中配置生成怪物的各项属性，同路径下的塔数据同理</p>
+</li>
+<li><p>在关卡蓝图中使用蓝图逻辑生成怪物</p>
+<ul>
+<li><p>在关卡蓝图中<code>获取游戏状态</code>，通过<code>Cast To</code>类型转换为我们自己定义的<code>TowerDefenceGameState</code></p>
+</li>
+<li><p>通过<code>TowerDefenceGameState</code>调用上一节中定义的函数<code>SpawnMonster</code>以及<code>SpawnTowers</code></p>
+</li>
+<li><p>在关卡中放置<code>SpawnPonit</code>，然后在关卡蓝图中获取其实例，将其<code>Loction</code>以及<code>Rotation</code>信息传入函数<code>SpawnMonster</code>以及<code>SpawnTowers</code>中</p>
+</li>
+<li><p>注意：将函数参数设置为Const类型，在蓝图中则表现为输入值</p>
+</li>
+</ul>
+</li>
+</ol>
+<p><img src="/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E8%A7%92%E8%89%B2%E7%94%9F%E6%88%90%5C1.png"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -554,7 +787,7 @@
 </li>
 <li><p><a target="_blank" rel="noopener" href="https://www.udemy.com/course/unreal-engine-5-cpp-multiplayer-shooter/UE">https://www.udemy.com/course/unreal-engine-5-cpp-multiplayer-shooter/UE</a> 网络同步和框架</p>
 </li>
-<li><p>转载自我的好兄弟：<a href="mailto:&#50;&#54;&#53;&#55;&#x33;&#x34;&#56;&#x36;&#x37;&#x39;&#64;&#113;&#113;&#46;&#99;&#111;&#109;">&#50;&#54;&#53;&#55;&#x33;&#x34;&#56;&#x36;&#x37;&#x39;&#64;&#113;&#113;&#46;&#99;&#111;&#109;</a></p>
+<li><p>转载自我的好兄弟：<a href="mailto:&#50;&#54;&#x35;&#x37;&#51;&#x34;&#x38;&#54;&#x37;&#57;&#x40;&#113;&#x71;&#46;&#99;&#x6f;&#109;">&#50;&#54;&#x35;&#x37;&#51;&#x34;&#x38;&#54;&#x37;&#57;&#x40;&#113;&#x71;&#46;&#99;&#x6f;&#109;</a></p>
 </li>
 </ol>
 
@@ -1431,312 +1664,6 @@
 <li><p>引用使用时无需解引用（*），指针需要解引用；</p>
 </li>
 </ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/30/C-%E7%BB%A7%E6%89%BF%E4%B8%AD%E7%9A%84%E6%9E%84%E9%80%A0%E4%B8%8E%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/09/30/C-%E7%BB%A7%E6%89%BF%E4%B8%AD%E7%9A%84%E6%9E%84%E9%80%A0%E4%B8%8E%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8/" class="post-title-link" itemprop="url">C++-继承中的构造与析构函数调用</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-09-30 11:17:26 / 修改时间：11:32:25" itemprop="dateCreated datePublished" datetime="2022-09-30T11:17:26+08:00">2022-09-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="继承中的构造函数"><a href="#继承中的构造函数" class="headerlink" title="继承中的构造函数"></a>继承中的构造函数</h1><ol>
-<li><p>基类的成员函数可以被继承，可以通过派生类的对象访问</p>
-</li>
-<li><p>但这仅仅指的是普通的成员函数，类的构造函数不能被继承</p>
-</li>
-<li><p>构造函数不能被继承是有道理的，因为即使继承了，它的名字和派生类的名字也不一样，不能成为派生类的构造函数，当然更不能成为普通的成员函数</p>
-</li>
-</ol>
-<h2 id="问题所在"><a href="#问题所在" class="headerlink" title="问题所在"></a>问题所在</h2><p>设计派生类时，对继承过来的成员变量的初始化工作也要由派生类的构造函数完成，但是大部分基类都有 private 属性的成员变量，它们在派生类中无法访问，更不能使用派生类的构造函数来初始化。</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>在派生类的构造函数中调用基类的构造函数。</p>
-<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="comment">//基类People</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">People</span>&#123;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="type">char</span> *m_name;</span><br><span class="line">    <span class="type">int</span> m_age;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">People</span>(<span class="type">char</span>*, <span class="type">int</span>);</span><br><span class="line">&#125;;</span><br><span class="line">People::<span class="built_in">People</span>(<span class="type">char</span> *name, <span class="type">int</span> age): <span class="built_in">m_name</span>(name), <span class="built_in">m_age</span>(age)&#123;&#125;</span><br><span class="line"><span class="comment">//派生类Student</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>: <span class="keyword">public</span> People&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">float</span> m_score;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Student</span>(<span class="type">char</span> *name, <span class="type">int</span> age, <span class="type">float</span> score);</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//People(name, age)就是调用基类的构造函数</span></span><br><span class="line">Student::<span class="built_in">Student</span>(<span class="type">char</span> *name, <span class="type">int</span> age, <span class="type">float</span> score): <span class="built_in">People</span>(name, age), <span class="built_in">m_score</span>(score)&#123; &#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Student::display</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cout&lt;&lt;m_name&lt;&lt;<span class="string">&quot;的年龄是&quot;</span>&lt;&lt;m_age&lt;&lt;<span class="string">&quot;，成绩是&quot;</span>&lt;&lt;m_score&lt;&lt;<span class="string">&quot;。&quot;</span>&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="function">Student <span class="title">stu</span><span class="params">(<span class="string">&quot;小明&quot;</span>, <span class="number">16</span>, <span class="number">90.5</span>)</span></span>;</span><br><span class="line">    stu.<span class="built_in">display</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>运行结果</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">小明的年龄是<span class="number">16</span>，成绩是<span class="number">90.5</span>。</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="调用顺序（面试常考）"><a href="#调用顺序（面试常考）" class="headerlink" title="调用顺序（面试常考）"></a>调用顺序（面试常考）</h2><p>基类构造函数总是被优先调用，这说明创建派生类对象时，会先调用基类构造函数，再调用派生类构造函数，如果继承关系有好几层的话，例如：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A --&gt; B --&gt; C</span><br></pre></td></tr></table></figure>
-
-<p>那么创建 C 类对象时构造函数的执行顺序为：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A类构造函数 --&gt; B类构造函数 --&gt; C类构造函数</span><br></pre></td></tr></table></figure>
-
-<p>构造函数的调用顺序是按照继承的层次自顶向下、从基类再到派生类的。</p>
-<p><code>如果从下到上，则会出现一个变量被初始化很多次的情况</code></p>
-<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>派生类构造函数中只能调用直接基类的构造函数，<code>不能调用间接基类</code>的。以上面的 A、B、C 类为例，C 是最终的派生类，B 就是 C 的直接基类，A 就是 C 的间接基类。  </p>
-<p>C++ 这样规定是有道理的，因为我们在 C 中调用了 B 的构造函数，B 又调用了 A 的构造函数，相当于 C 间接地（或者说隐式地）调用了 A 的构造函数，如果再在 C 中显式地调用 A 的构造函数，那么 A 的构造函数就被调用了两次，相应地，初始化工作也做了两次，这不仅是多余的，还会浪费CPU时间以及内存，毫无益处，所以 C++ 禁止在 C 中显式地调用 A 的构造函数。</p>
-<h1 id="继承中的构造函数-1"><a href="#继承中的构造函数-1" class="headerlink" title="继承中的构造函数"></a>继承中的构造函数</h1><p>和构造函数类似，析构函数也不能被继承。</p>
-<p>与构造函数不同的是，在派生类的析构函数中不用显式地调用基类的析构函数，因为每个类只有一个析构函数，编译器知道如何选择，无需程序员干涉。</p>
-<h2 id="注意-1"><a href="#注意-1" class="headerlink" title="注意"></a>注意</h2><p>虚函数中需要声明析构函数为虚函数，以免出现基类指针调用子类对象，销毁时只调用基类析构函数，导致子类中部分成员变量没有被销毁。导致内存泄漏。</p>
-<h2 id="析构函数的执行顺序"><a href="#析构函数的执行顺序" class="headerlink" title="析构函数的执行顺序"></a>析构函数的执行顺序</h2><p>析构函数的执行顺序和构造函数的执行顺序也刚好相反：</p>
-<ul>
-<li>创建派生类对象时，构造函数的执行顺序和继承顺序相同，即先执行基类构造函数，再执行派生类构造函数。</li>
-<li>而销毁派生类对象时，析构函数的执行顺序和继承顺序相反，即先执行派生类析构函数，再执行基类析构函数。</li>
-</ul>
-<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">A</span>()&#123;cout&lt;&lt;<span class="string">&quot;A constructor&quot;</span>&lt;&lt;endl;&#125;</span><br><span class="line">    ~<span class="built_in">A</span>()&#123;cout&lt;&lt;<span class="string">&quot;A destructor&quot;</span>&lt;&lt;endl;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span>: <span class="keyword">public</span> A&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">B</span>()&#123;cout&lt;&lt;<span class="string">&quot;B constructor&quot;</span>&lt;&lt;endl;&#125;</span><br><span class="line">    ~<span class="built_in">B</span>()&#123;cout&lt;&lt;<span class="string">&quot;B destructor&quot;</span>&lt;&lt;endl;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">C</span>: <span class="keyword">public</span> B&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">C</span>()&#123;cout&lt;&lt;<span class="string">&quot;C constructor&quot;</span>&lt;&lt;endl;&#125;</span><br><span class="line">    ~<span class="built_in">C</span>()&#123;cout&lt;&lt;<span class="string">&quot;C destructor&quot;</span>&lt;&lt;endl;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    C test;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">A constructor</span><br><span class="line">B constructor</span><br><span class="line">C constructor</span><br><span class="line">C destructor</span><br><span class="line">B destructor</span><br><span class="line">A destructor</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/30/C-%E8%99%9A%E5%87%BD%E6%95%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/09/30/C-%E8%99%9A%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">C++-虚函数</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-09-30 09:39:13" itemprop="dateCreated datePublished" datetime="2022-09-30T09:39:13+08:00">2022-09-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-10-02 10:56:24" itemprop="dateModified" datetime="2022-10-02T10:56:24+08:00">2022-10-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>虚函数的本质是体现了C++的多态性。</p>
-<p>所谓多态性是什么呢？</p>
-<p>用<strong>基类</strong>的指针指向其<strong>派生类</strong>的实例，然后通过<strong>基类</strong>的指针调用实际<strong>派生类</strong>的成员函数</p>
-<p>虚函数就是实现这个效果的一种函数</p>
-<p>如果没有虚函数，那么在基类中的指针只能调用子类中的成员变量而不能调用其成员函数。</p>
-<h1 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h1><h2 id="virtual"><a href="#virtual" class="headerlink" title="virtual"></a>virtual</h2><p>虚函数的使用非常简单，只需要在函数声明前加上<code>virtual</code>关键字即可</p>
-<h3 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h3><ol>
-<li><p>只需要在虚函数的声明处加上 virtual 关键字，函数定义处可以加也可以不加。</p>
-</li>
-<li><p>当在基类中定义了虚函数时，如果派生类没有定义新的函数来遮蔽此函数，那么将使用基类的虚函数。</p>
-</li>
-<li><p>析构函数可以声明为虚函数，而且有时候必须要声明为虚函数</p>
-</li>
-<li><p>通过基类的指针只能访问从基类继承过去的成员，不能访问派生类新增的成员。</p>
-</li>
-<li><p>构造函数不能是虚函数。对于基类的构造函数，它仅仅是在派生类构造函数中被调用，这种机制不同于继承。也就是说，派生类不继承基类的构造函数，将构造函数声明为虚函数没有什么意义。</p>
-</li>
-<li><p>只有派生类的虚函数覆盖基类的虚函数（函数原型相同）才能构成多态（通过基类指针访问派生类函数）。例如基类虚函数的原型为<code>virtual void func();</code>，派生类虚函数的原型为<code>virtual void func(int);</code>，那么当基类指针 p 指向派生类对象时，语句<code>p -&gt; func(100);</code>将会出错，而语句<code>p -&gt; func();</code>将调用基类的函数。</p>
-</li>
-</ol>
-<h3 id="继承关系中虚函数"><a href="#继承关系中虚函数" class="headerlink" title="继承关系中虚函数"></a>继承关系中虚函数</h3><p>此时只需要在父类中的虚函数前面加上<code>virtual</code>即可</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">A</span>()&#123;&#125;;</span><br><span class="line">    ~<span class="built_in">A</span>()&#123;&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">show</span><span class="params">(<span class="type">void</span>)</span></span>&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;I am A!&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span>:<span class="keyword">public</span> A&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">B</span>()&#123;&#125;;</span><br><span class="line">    ~<span class="built_in">B</span>()&#123;&#125;;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">show</span><span class="params">(<span class="type">void</span>)</span></span>&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;I am B!&quot;</span>&lt;&lt;endl;    </span><br><span class="line">    &#125;        </span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;hello world&quot;</span>&lt;&lt;endl;</span><br><span class="line">    A atr, *ptr;</span><br><span class="line">    B btr;</span><br><span class="line">    <span class="comment">//指向基类A</span></span><br><span class="line">    ptr = &amp;atr;</span><br><span class="line">    ptr-&gt;<span class="built_in">show</span>();</span><br><span class="line">    <span class="comment">//指向派生类B</span></span><br><span class="line">    ptr = &amp;btr;</span><br><span class="line">    ptr-&gt;<span class="built_in">show</span>();</span><br><span class="line">    <span class="built_in">system</span>(<span class="string">&quot;pause&gt;nul&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>输出结果</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">I am A！</span><br><span class="line">I am B！</span><br></pre></td></tr></table></figure>
-
-<h3 id="非继承关系中虚函数"><a href="#非继承关系中虚函数" class="headerlink" title="非继承关系中虚函数"></a>非继承关系中虚函数</h3><ul>
-<li><p>如果要不通过继承关系也实现出运行时多态的效果，则需要将两个不同类的同名函数<code>都加上virtual关键字</code></p>
-</li>
-<li><p>同时，需要将定义的指针指向其他对象时，要进行<code>强制类型转换</code>。（因为两个类已经没有继承关系了，不能通过赋值兼容规则进行自动转换，所以要强制转化。）</p>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="comment">//A类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">A</span>()&#123;&#125;;</span><br><span class="line">    ~<span class="built_in">A</span>()&#123;&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">show</span><span class="params">(<span class="type">void</span>)</span></span>&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;I am A!&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//B类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">B</span>()&#123;&#125;;</span><br><span class="line">    ~<span class="built_in">B</span>()&#123;&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">show</span><span class="params">(<span class="type">void</span>)</span></span>&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;I am B!&quot;</span>&lt;&lt;endl;    </span><br><span class="line">    &#125;        </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;hello world&quot;</span>&lt;&lt;endl;</span><br><span class="line">    <span class="comment">//A类对象和A类指针</span></span><br><span class="line">    A atr, *ptr;</span><br><span class="line">    <span class="comment">//B类对象</span></span><br><span class="line">    B btr;</span><br><span class="line">    <span class="comment">//指针指向A类对象</span></span><br><span class="line">    ptr = &amp;atr;</span><br><span class="line">    ptr-&gt;<span class="built_in">show</span>();</span><br><span class="line">    <span class="comment">//指针指向B类对象时需要强制类型转换</span></span><br><span class="line">    ptr = (A*)&amp;btr;</span><br><span class="line">    ptr-&gt;<span class="built_in">show</span>();</span><br><span class="line">    <span class="built_in">system</span>(<span class="string">&quot;pause&gt;nul&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>输出结果</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">I am A！</span><br><span class="line">I am B！</span><br></pre></td></tr></table></figure>
-
-<h2 id="为什么调用普通函数比调用虚函数的效率高？"><a href="#为什么调用普通函数比调用虚函数的效率高？" class="headerlink" title="为什么调用普通函数比调用虚函数的效率高？"></a>为什么调用普通函数比调用虚函数的效率高？</h2><p>因为普通函数是静态联编的，而调用虚函数是动态联编的。</p>
-<ul>
-<li><p>联编的作用：程序调用函数，编译器决定使用哪个可执行代码块。（所谓<code>联编</code>就是将函数名和函数体的程序连接到一起的过程）</p>
-</li>
-<li><p>静态联编 ：<code>在编译的时候就确定了函数的地址</code>，然后call就调用了。</p>
-</li>
-<li><p>（静态联编本质是系统用实参与形参进行匹配，对于重名的重载函数根据参数上的差异进行区分，然后进行联编，从而实现编译时的多态。函数的选择基于指向对象的指针类型或者引用类型。）</p>
-</li>
-<li><p>动态联编 ： <code>首先需要取到对象的首地址，然后再解引用取到虚函数表的首地址后，再加上偏移量才能找到要调的虚函数</code>，然后call调用。</p>
-</li>
-<li><p>（动态联编本质上是运行阶段执行的联编，当程序调用某一个函数时，系统会根据当前的对象类型去寻找和连接其程序的代码。函数的选择基于对象的类型。）</p>
-</li>
-</ul>
-<h1 id="虚函数表"><a href="#虚函数表" class="headerlink" title="虚函数表"></a>虚函数表</h1><p>如果一个类包含了虚函数，那么在创建该类的对象时就会额外地增加一个数组，数组中的每一个元素都是虚函数的入口地址。</p>
-<p>不过数组和对象是分开存储的，为了将对象和数组关联起来，编译器还要在对象中安插一个指针，指向数组的起始位置。这里的数组就是虚函数表（Virtual function table），简写为<code>vtable</code></p>
-<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="comment">//People类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">People</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">People</span>(string name, <span class="type">int</span> age);</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">eating</span><span class="params">()</span></span>;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    string m_name;</span><br><span class="line">    <span class="type">int</span> m_age;</span><br><span class="line">&#125;;</span><br><span class="line">People::<span class="built_in">People</span>(string name, <span class="type">int</span> age): <span class="built_in">m_name</span>(name), <span class="built_in">m_age</span>(age)&#123; &#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">People::display</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;Class People：&quot;</span>&lt;&lt;m_name&lt;&lt;<span class="string">&quot;今年&quot;</span>&lt;&lt;m_age&lt;&lt;<span class="string">&quot;岁了。&quot;</span>&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">People::eating</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;Class People：我正在吃饭，请不要跟我说话...&quot;</span>&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Student类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>: <span class="keyword">public</span> People&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Student</span>(string name, <span class="type">int</span> age, <span class="type">float</span> score);</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">examing</span><span class="params">()</span></span>;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="type">float</span> m_score;</span><br><span class="line">&#125;;</span><br><span class="line">Student::<span class="built_in">Student</span>(string name, <span class="type">int</span> age, <span class="type">float</span> score):</span><br><span class="line">    <span class="built_in">People</span>(name, age), <span class="built_in">m_score</span>(score)&#123; &#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Student::display</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;Class Student：&quot;</span>&lt;&lt;m_name&lt;&lt;<span class="string">&quot;今年&quot;</span>&lt;&lt;m_age&lt;&lt;<span class="string">&quot;岁了，考了&quot;</span>&lt;&lt;m_score&lt;&lt;<span class="string">&quot;分。&quot;</span>&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Student::examing</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;Class Student：&quot;</span>&lt;&lt;m_name&lt;&lt;<span class="string">&quot;正在考试，请不要打扰T啊！&quot;</span>&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Senior类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Senior</span>: <span class="keyword">public</span> Student&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Senior</span>(string name, <span class="type">int</span> age, <span class="type">float</span> score, <span class="type">bool</span> hasJob);</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">partying</span><span class="params">()</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">bool</span> m_hasJob;</span><br><span class="line">&#125;;</span><br><span class="line">Senior::<span class="built_in">Senior</span>(string name, <span class="type">int</span> age, <span class="type">float</span> score, <span class="type">bool</span> hasJob):</span><br><span class="line">    <span class="built_in">Student</span>(name, age, score), <span class="built_in">m_hasJob</span>(hasJob)&#123; &#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Senior::display</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(m_hasJob)&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;Class Senior：&quot;</span>&lt;&lt;m_name&lt;&lt;<span class="string">&quot;以&quot;</span>&lt;&lt;m_score&lt;&lt;<span class="string">&quot;的成绩从大学毕业了，并且顺利找到了工作，Ta今年&quot;</span>&lt;&lt;m_age&lt;&lt;<span class="string">&quot;岁。&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;Class Senior：&quot;</span>&lt;&lt;m_name&lt;&lt;<span class="string">&quot;以&quot;</span>&lt;&lt;m_score&lt;&lt;<span class="string">&quot;的成绩从大学毕业了，不过找工作不顺利，Ta今年&quot;</span>&lt;&lt;m_age&lt;&lt;<span class="string">&quot;岁。&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Senior::partying</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;Class Senior：快毕业了，大家都在吃散伙饭...&quot;</span>&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    People *p = <span class="keyword">new</span> <span class="built_in">People</span>(<span class="string">&quot;赵红&quot;</span>, <span class="number">29</span>);</span><br><span class="line">    p -&gt; <span class="built_in">display</span>();</span><br><span class="line">    p = <span class="keyword">new</span> <span class="built_in">Student</span>(<span class="string">&quot;王刚&quot;</span>, <span class="number">16</span>, <span class="number">84.5</span>);</span><br><span class="line">    p -&gt; <span class="built_in">display</span>();</span><br><span class="line">    p = <span class="keyword">new</span> <span class="built_in">Senior</span>(<span class="string">&quot;李智&quot;</span>, <span class="number">22</span>, <span class="number">92.0</span>, <span class="literal">true</span>);</span><br><span class="line">    p -&gt; <span class="built_in">display</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>运行结果</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Class People：赵红今年<span class="number">29</span>岁了。</span><br><span class="line">Class Student：王刚今年<span class="number">16</span>岁了，考了<span class="number">84.5</span>分。</span><br><span class="line">Class Senior：李智以<span class="number">92</span>的成绩从大学毕业了，并且顺利找到了工作，Ta今年<span class="number">22</span>岁。</span><br></pre></td></tr></table></figure>
-
-<h2 id="各个类的对象内存模型"><a href="#各个类的对象内存模型" class="headerlink" title="各个类的对象内存模型"></a>各个类的对象内存模型</h2><p><img src="http://c.biancheng.net/uploads/allimg/190215/14431Q529-0.jpg"></p>
-<p>图中左半部分是对象占用的内存，右半部分是虚函数表 vtable。在对象的开头位置有一个指针 vfptr，指向虚函数表，并且这个指针始终位于对象的开头位置。</p>
-<h2 id="为什么要用虚函数表（存函数指针的数组）？"><a href="#为什么要用虚函数表（存函数指针的数组）？" class="headerlink" title="为什么要用虚函数表（存函数指针的数组）？"></a>为什么要用虚函数表（存函数指针的数组）？</h2><ul>
-<li><p>同一个类的多个对象的虚函数表是同一个，所以这样就可以节省空间</p>
-</li>
-<li><p>一个类自己的虚函数和继承的虚函数还有重写父类的虚函数都会存在自己的虚函数表</p>
-</li>
-<li><p>虚函数表本质是一个地图导航，可以清楚告诉一个想要操作子类的父类指针到底该使用哪个函数</p>
-</li>
-</ul>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>虚函数表是一个单独存储的数组，数组中的每个元素都是虚函数的入口地址。</p>
-<p>对象表中的第一个元素位置会生成一个指针，指向虚函数表的第一个位置。</p>
-<h1 id="虚析构函数的必要性与虚构造函数"><a href="#虚析构函数的必要性与虚构造函数" class="headerlink" title="虚析构函数的必要性与虚构造函数"></a>虚析构函数的必要性与虚构造函数</h1><h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><ol>
-<li><p>构造函数不能是虚函数</p>
-<ul>
-<li><p>因为派生类不能继承基类的构造函数，将构造函数声明为虚函数没有意义</p>
-</li>
-<li><p>构造函数用于在创建对象时进行初始化工作，在执行构造函数之前对象尚未创建完成，虚函数表尚不存在，也没有指向虚函数表的指针，所以此时无法查询虚函数表，也就不知道要调用哪一个构造函数。</p>
-</li>
-</ul>
-</li>
-<li><p>析构函数用于在销毁对象时进行清理工作，可以声明为虚函数，而且有时候必须要声明为虚函数</p>
-<ul>
-<li><p>基类的指针只会调用基类的析构函数，不会调用子类的析构函数，这样就会导致子类中的内存空间得不到释放</p>
-</li>
-<li><p>在实际开发中，一旦我们自己定义了析构函数，就是希望在对象销毁时用它来进行清理工作，比如释放内存、关闭文件等，如果这个类又是一个基类，那么我们就必须将该析构函数声明为虚函数，否则就有内存泄露的风险。也就是说，大部分情况下都应该将基类的析构函数声明为虚函数。</p>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="comment">//基类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Base</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Base</span>();</span><br><span class="line">    ~<span class="built_in">Base</span>();</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="type">char</span> *str;</span><br><span class="line">&#125;;</span><br><span class="line">Base::<span class="built_in">Base</span>()&#123;</span><br><span class="line">    str = <span class="keyword">new</span> <span class="type">char</span>[<span class="number">100</span>];</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;Base constructor&quot;</span>&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line">Base::~<span class="built_in">Base</span>()&#123;</span><br><span class="line">    <span class="keyword">delete</span>[] str;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;Base destructor&quot;</span>&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//派生类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Derived</span>: <span class="keyword">public</span> Base&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Derived</span>();</span><br><span class="line">    ~<span class="built_in">Derived</span>();</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">char</span> *name;</span><br><span class="line">&#125;;</span><br><span class="line">Derived::<span class="built_in">Derived</span>()&#123;</span><br><span class="line">    name = <span class="keyword">new</span> <span class="type">char</span>[<span class="number">100</span>];</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;Derived constructor&quot;</span>&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line">Derived::~<span class="built_in">Derived</span>()&#123;</span><br><span class="line">    <span class="keyword">delete</span>[] name;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;Derived destructor&quot;</span>&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">   Base *pb = <span class="keyword">new</span> <span class="built_in">Derived</span>();</span><br><span class="line">   <span class="keyword">delete</span> pb;</span><br><span class="line">   cout&lt;&lt;<span class="string">&quot;-------------------&quot;</span>&lt;&lt;endl;</span><br><span class="line">   Derived *pd = <span class="keyword">new</span> <span class="built_in">Derived</span>();</span><br><span class="line">   <span class="keyword">delete</span> pd;</span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>运行结果</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Base constructor</span><br><span class="line">Derived constructor</span><br><span class="line">Base destructor</span><br><span class="line">-------------------</span><br><span class="line">Base constructor</span><br><span class="line">Derived constructor</span><br><span class="line">Derived destructor</span><br><span class="line">Base destructor</span><br></pre></td></tr></table></figure>
-
-<p>语句<code>delete pb;</code>只调用了基类的析构函数，没有调用派生类的析构函数；而语句<code>delete pd;</code>同时调用了派生类和基类的析构函数。</p>
-<p>在本例中，不调用派生类的析构函数会导致 name 指向的 100 个 char 类型的内存空间得不到释放；除非程序运行结束由操作系统回收，否则就再也没有机会释放这些内存。这是典型的内存泄露。</p>
-<h1 id="纯虚函数和抽象类"><a href="#纯虚函数和抽象类" class="headerlink" title="纯虚函数和抽象类"></a>纯虚函数和抽象类</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>可以将虚函数声明为<code>纯虚函数</code>，语法格式为：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">virtual</span> 返回值类型 函数名 (函数参数) = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
-
-<p>纯虚函数没有函数体，只有函数声明，在虚函数声明的结尾加上<code>=0</code>，表明此函数为纯虚函数。</p>
-<p>包含纯虚函数的类称为<code>抽象类（Abstract Class）</code>。之所以说它抽象，是因为它无法实例化，也就是无法创建对象。原因很明显，纯虚函数没有函数体，不是完整的函数，无法调用，也无法为其分配内存空间。</p>
-<p>抽象类通常是作为基类，让派生类去实现纯虚函数。派生类必须实现纯虚函数才能被实例化</p>
-<p>在实际开发中，你可以定义一个抽象基类，只完成部分功能，未完成的功能交给派生类去实现（谁派生谁实现）。这部分未完成的功能，往往是基类不需要的，或者在基类中无法实现的。虽然抽象基类没有完成，但是却强制要求派生类完成，这就是抽象基类的“霸王条款”。</p>
-<h2 id="关于纯虚函数的几点说明"><a href="#关于纯虚函数的几点说明" class="headerlink" title="关于纯虚函数的几点说明"></a>关于纯虚函数的几点说明</h2><ol>
-<li>一个纯虚函数就可以使类成为抽象基类，但是抽象基类中除了包含纯虚函数外，还可以包含其它的成员函数（虚函数或普通函数）和成员变量。  </li>
-<li><code>只有类中的虚函数才能被声明为纯虚函数</code>，普通成员函数和顶层函数均不能声明为纯虚函数。如下例所示：</li>
-</ol>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//顶层函数不能被声明为纯虚函数</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun</span><span class="params">()</span> </span>= <span class="number">0</span>;   <span class="comment">//compile error</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">base</span>&#123;</span><br><span class="line"><span class="keyword">public</span> :</span><br><span class="line">    <span class="comment">//普通成员函数不能被声明为纯虚函数</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">display</span><span class="params">()</span> </span>= <span class="number">0</span>;  <span class="comment">//compile error</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
       
     </div>

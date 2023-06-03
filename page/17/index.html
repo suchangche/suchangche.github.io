@@ -159,18 +159,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">172</span>
+          <span class="site-state-item-count">174</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">14</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -208,6 +208,378 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/25/UE4-HowTo-Components/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/04/25/UE4-HowTo-Components/" class="post-title-link" itemprop="url">UE4-HowTo_Components</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-04-25 17:08:45" itemprop="dateCreated datePublished" datetime="2022-04-25T17:08:45+08:00">2022-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-04-27 09:11:14" itemprop="dateModified" datetime="2022-04-27T09:11:14+08:00">2022-04-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>官方案例——<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.27/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/Components/">解组件和碰撞</a></p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><ol>
+<li><p>明确目标：创建一个有物理性质的球体，能和其他物体碰撞，并且拥有火焰粒子效果</p>
+</li>
+<li><p>创建CollidingPawn</p>
+</li>
+<li><p>创建这个球体本身需要什么头文件</p>
+</li>
+<li><p>修改根组件为对物理反应的球体</p>
+</li>
+<li><p>创建球体并附加到根组件上</p>
+</li>
+<li><p>将粒子系统直接附加到球体上（不是根组件）</p>
+</li>
+<li><p>添加弹簧臂组件，并在其上插槽内添加摄像机组件</p>
+</li>
+<li><p>将此Pawn设为受默认玩家控制</p>
+</li>
+<li><p>配置输入：编辑-&gt;设置项目-&gt;输入-&gt;操作映射（粒子系统）-&gt;轴映射(移动和转动)</p>
+</li>
+<li><p>创建Pawn移动组件类（PawnMovementComponent）CollidingPawnMovementComponent</p>
+</li>
+<li><p>定义TickComonent函数，告知逐帧移动方式</p>
+</li>
+<li><p>将Pawn移动组件添加到Pawn内</p>
+</li>
+<li><p>创建Pawn移动组件并将其与Pawn关联，使其更新根组件</p>
+</li>
+<li><p>声明并定义一些函数处理Pawn会接收的输入</p>
+</li>
+<li><p>将函数绑定到输入事件</p>
+</li>
+</ol>
+<h1 id="CollidingPawn-h"><a href="#CollidingPawn-h" class="headerlink" title="CollidingPawn.h"></a>CollidingPawn.h</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/Pawn.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CollidingPawn.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HOWTO_COMPONENTS_API</span> ACollidingPawn : <span class="keyword">public</span> APawn</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 设置此Pawn属性的默认值</span></span><br><span class="line">    <span class="built_in">ACollidingPawn</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="comment">// 游戏开始或生成时调用</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 逐帧调用</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">( <span class="type">float</span> DeltaSeconds )</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 调用以将功能与输入绑定（也就是将要设定的wasd和空格的输入功能）</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">SetupPlayerInputComponent</span><span class="params">(<span class="keyword">class</span> UInputComponent* InInputComponent)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//声明粒子系统（火焰燃烧效果等）</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>()</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">UParticleSystemComponent</span>* OurParticleSystem;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//声明移动组件，使其可以追踪变量</span></span><br><span class="line">    <span class="built_in">UPROPERTY</span>()</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">UCollidingPawnMovementComponent</span>* OurMovementComponent;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Pawn拥有名为 GetMovementComponent 的函数，用于提供引擎中其他类访问该Pawn当前所用Pawn移动组件的权限。需覆盖该函数，使其返回自定义Pawn移动组件</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> UPawnMovementComponent* <span class="title">GetMovementComponent</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建代码处理pawn接受过来的输入</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">MoveForward</span><span class="params">(<span class="type">float</span> AxisValue)</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">MoveRight</span><span class="params">(<span class="type">float</span> AxisValue)</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Turn</span><span class="params">(<span class="type">float</span> AxisValue)</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">ParticleToggle</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="CollidingPawn-cpp"><a href="#CollidingPawn-cpp" class="headerlink" title="CollidingPawn.cpp"></a>CollidingPawn.cpp</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CollidingPawn.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CollidingPawnMovementComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UObject/ConstructorHelpers.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Particles/ParticleSystemComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Components/SphereComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Camera/CameraComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/SpringArmComponent.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置默认值</span></span><br><span class="line">ACollidingPawn::<span class="built_in">ACollidingPawn</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 设置该Pawn以逐帧调用Tick()。如无需此功能，可关闭以提高性能。</span></span><br><span class="line">    PrimaryActorTick.bCanEverTick = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 根组件将成为对物理反应的球体</span></span><br><span class="line">    USphereComponent* SphereComponent = <span class="built_in">CreateDefaultSubobject</span>&lt;USphereComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;RootComponent&quot;</span>));</span><br><span class="line">    RootComponent = SphereComponent;</span><br><span class="line">    SphereComponent-&gt;<span class="built_in">InitSphereRadius</span>(<span class="number">40.0f</span>);<span class="comment">//初始化球的半径</span></span><br><span class="line">    SphereComponent-&gt;<span class="built_in">SetCollisionProfileName</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;Pawn&quot;</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建并放置网格体组件，以便查看球体位置</span></span><br><span class="line">    UStaticMeshComponent* SphereVisual = <span class="built_in">CreateDefaultSubobject</span>&lt;UStaticMeshComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;VisualRepresentation&quot;</span>));</span><br><span class="line">    SphereVisual-&gt;<span class="built_in">SetupAttachment</span>(RootComponent);</span><br><span class="line">    <span class="function"><span class="type">static</span> ConstructorHelpers::FObjectFinder&lt;UStaticMesh&gt; <span class="title">SphereVisualAsset</span><span class="params">(TEXT(<span class="string">&quot;/Game/StarterContent/Shapes/Shape_Sphere.Shape_Sphere&quot;</span>))</span></span>;</span><br><span class="line">    <span class="keyword">if</span> (SphereVisualAsset.<span class="built_in">Succeeded</span>())<span class="comment">//如果找到了绑定的网格体</span></span><br><span class="line">    &#123;</span><br><span class="line">        SphereVisual-&gt;<span class="built_in">SetStaticMesh</span>(SphereVisualAsset.Object);<span class="comment">//则将找到的网格体附加到SphereVisual上！</span></span><br><span class="line">        SphereVisual-&gt;<span class="built_in">SetRelativeLocation</span>(<span class="built_in">FVector</span>(<span class="number">0.0f</span>, <span class="number">0.0f</span>, <span class="number">-40.0f</span>));<span class="comment">//设置相对位置</span></span><br><span class="line">        SphereVisual-&gt;<span class="built_in">SetWorldScale3D</span>(<span class="built_in">FVector</span>(<span class="number">0.8f</span>));<span class="comment">//缩放为80%</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建可激活或停止的粒子系统</span></span><br><span class="line">    <span class="comment">// 粒子系统组件直接附加到静态网格体组件，而非附加到根。其同时略微偏离网格体底部中心，以便在运行时清晰显示。</span></span><br><span class="line">    OurParticleSystem = <span class="built_in">CreateDefaultSubobject</span>&lt;UParticleSystemComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;MovementParticles&quot;</span>));</span><br><span class="line">    OurParticleSystem-&gt;<span class="built_in">SetupAttachment</span>(SphereVisual);<span class="comment">//将粒子效果组件添加到SphereVisual上！</span></span><br><span class="line">    OurParticleSystem-&gt;bAutoActivate = <span class="literal">false</span>;<span class="comment">//关闭激活粒子效果</span></span><br><span class="line">    OurParticleSystem-&gt;<span class="built_in">SetRelativeLocation</span>(<span class="built_in">FVector</span>(<span class="number">-20.0f</span>, <span class="number">0.0f</span>, <span class="number">20.0f</span>));<span class="comment">//设定粒子效果在网格体上的相对位置</span></span><br><span class="line">    <span class="function"><span class="type">static</span> ConstructorHelpers::FObjectFinder&lt;UParticleSystem&gt; <span class="title">ParticleAsset</span><span class="params">(TEXT(<span class="string">&quot;/Game/StarterContent/Particles/P_Fire.P_Fire&quot;</span>))</span></span>;</span><br><span class="line">    <span class="keyword">if</span> (ParticleAsset.<span class="built_in">Succeeded</span>())<span class="comment">//如果在资源中找到指定的粒子效果</span></span><br><span class="line">    &#123;</span><br><span class="line">        OurParticleSystem-&gt;<span class="built_in">SetTemplate</span>(ParticleAsset.Object);<span class="comment">//将找到的粒子效果附加到PartcleAsset上！</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用弹簧臂给予摄像机平滑自然的运动感。</span></span><br><span class="line">    USpringArmComponent* SpringArm = <span class="built_in">CreateDefaultSubobject</span>&lt;USpringArmComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;CameraAttachmentArm&quot;</span>));</span><br><span class="line">    SpringArm-&gt;<span class="built_in">SetupAttachment</span>(RootComponent);<span class="comment">//将弹簧臂附加到根组件上</span></span><br><span class="line">    SpringArm-&gt;<span class="built_in">SetRelativeRotation</span>(<span class="built_in">FRotator</span>(<span class="number">-45.f</span>, <span class="number">0.f</span>, <span class="number">0.f</span>));<span class="comment">//设定弹簧臂相对于转子的位置</span></span><br><span class="line">    SpringArm-&gt;TargetArmLength = <span class="number">400.0f</span>;<span class="comment">//弹簧臂长度</span></span><br><span class="line">    SpringArm-&gt;bEnableCameraLag = <span class="literal">true</span>;<span class="comment">//打开平滑效果</span></span><br><span class="line">    SpringArm-&gt;CameraLagSpeed = <span class="number">3.0f</span>;<span class="comment">//设置平滑效果时间</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建摄像机并附加到弹簧臂</span></span><br><span class="line">    <span class="comment">// 弹簧臂内置一个特殊的插槽，可供我们添加对象，这样就不必将对象直接添加到组件的根节点上。</span></span><br><span class="line">    UCameraComponent* Camera = <span class="built_in">CreateDefaultSubobject</span>&lt;UCameraComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;ActualCamera&quot;</span>));</span><br><span class="line">    Camera-&gt;<span class="built_in">SetupAttachment</span>(SpringArm, USpringArmComponent::SocketName);<span class="comment">//将摄像机添加到弹簧臂的插槽上！</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 控制默认玩家</span></span><br><span class="line">    AutoPossessPlayer = EAutoReceiveInput::Player0;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建移动组件的实例，并要求其更新根组件。</span></span><br><span class="line">    OurMovementComponent = <span class="built_in">CreateDefaultSubobject</span>&lt;UCollidingPawnMovementComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;CustomMovementComponent&quot;</span>));</span><br><span class="line">    OurMovementComponent-&gt;UpdatedComponent = RootComponent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 游戏开始或生成时调用</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACollidingPawn::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 逐帧调用</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACollidingPawn::Tick</span><span class="params">( <span class="type">float</span> DeltaTime )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">Tick</span>( DeltaTime );</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置键盘输入将会发生的事件，其中前进左右转弯等等函数将在下文定义</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACollidingPawn::SetupPlayerInputComponent</span><span class="params">(<span class="keyword">class</span> UInputComponent* InInputComponent)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">SetupPlayerInputComponent</span>(InInputComponent);</span><br><span class="line"></span><br><span class="line">    InInputComponent-&gt;<span class="built_in">BindAction</span>(<span class="string">&quot;ParticleToggle&quot;</span>, IE_Pressed, <span class="keyword">this</span>, &amp;ACollidingPawn::ParticleToggle);</span><br><span class="line"></span><br><span class="line">    InInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveForward&quot;</span>, <span class="keyword">this</span>, &amp;ACollidingPawn::MoveForward);</span><br><span class="line">    InInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;MoveRight&quot;</span>, <span class="keyword">this</span>, &amp;ACollidingPawn::MoveRight);</span><br><span class="line">    InInputComponent-&gt;<span class="built_in">BindAxis</span>(<span class="string">&quot;Turn&quot;</span>, <span class="keyword">this</span>, &amp;ACollidingPawn::Turn);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//用于提供引擎中其他类访问该Pawn当前所用Pawn移动组件的权限。</span></span><br><span class="line"><span class="function">UPawnMovementComponent* <span class="title">ACollidingPawn::GetMovementComponent</span><span class="params">()</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> OurMovementComponent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义前后移动的函数代码</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACollidingPawn::MoveForward</span><span class="params">(<span class="type">float</span> AxisValue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//保证移动组件存在并且移动组件用来更新根组件</span></span><br><span class="line">    <span class="keyword">if</span> (OurMovementComponent &amp;&amp; (OurMovementComponent-&gt;UpdatedComponent == RootComponent))</span><br><span class="line">    &#123;</span><br><span class="line">        OurMovementComponent-&gt;<span class="built_in">AddInputVector</span>(<span class="built_in">GetActorForwardVector</span>() * AxisValue);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义左右转动的函数代码</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACollidingPawn::MoveRight</span><span class="params">(<span class="type">float</span> AxisValue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (OurMovementComponent &amp;&amp; (OurMovementComponent-&gt;UpdatedComponent == RootComponent))</span><br><span class="line">    &#123;</span><br><span class="line">        OurMovementComponent-&gt;<span class="built_in">AddInputVector</span>(<span class="built_in">GetActorRightVector</span>() * AxisValue);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义转向代码</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACollidingPawn::Turn</span><span class="params">(<span class="type">float</span> AxisValue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    FRotator NewRotation = <span class="built_in">GetActorRotation</span>();<span class="comment">//获取actor当前位置</span></span><br><span class="line">    NewRotation.Yaw += AxisValue;<span class="comment">//围绕Z轴旋转更新actor</span></span><br><span class="line">    <span class="built_in">SetActorRotation</span>(NewRotation);<span class="comment">//更新actor的旋转角度</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义粒子效果开关代码</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACollidingPawn::ParticleToggle</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//保证粒子效果存在且已经设定好了模板</span></span><br><span class="line">    <span class="keyword">if</span> (OurParticleSystem &amp;&amp; OurParticleSystem-&gt;Template)</span><br><span class="line">    &#123;</span><br><span class="line">        OurParticleSystem-&gt;<span class="built_in">ToggleActive</span>();<span class="comment">//ToggleActor的意思是切换状态</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="有关BindAction-与BindAction"><a href="#有关BindAction-与BindAction" class="headerlink" title="有关BindAction()与BindAction()"></a>有关BindAction()与BindAction()</h2><p><code>BindAction(&quot;ZoomIn&quot;, IE_Pressed, this, &amp;APawnWithCamera::ZoomIn);</code></p>
+<ul>
+<li><p>参数一：为 虚幻4-&gt;设置 -&gt;输入-&gt;按键绑定的名称 </p>
+</li>
+<li><p>参数二：事件名称 IE_Pressed 按下 IE_Released松开 IE_DoubleClick双击 </p>
+</li>
+<li><p>参数三：当前对象——this</p>
+</li>
+<li><p>参数四：事件方法的函数指针 例 &amp;类名::方法名的写法</p>
+</li>
+</ul>
+<p><code>BindAxis(&quot;MoveForward&quot;, this, &amp;ACollidingPawn::MoveForward);</code></p>
+<p>参数一：为 虚幻4-&gt;设置 -&gt;输入-&gt;按键绑定的名称 一定要一样 重要！！！<br>参数二 ：当前对象——this<br>参数三 事件方法的函数指针 例 &amp;类名::方法名 的写法</p>
+<h1 id="CollidingPawnMovementComponent-h"><a href="#CollidingPawnMovementComponent-h" class="headerlink" title="CollidingPawnMovementComponent.h"></a>CollidingPawnMovementComponent.h</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/PawnMovementComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CollidingPawnMovementComponent.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* </span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HOWTO_COMPONENTS_API</span> UCollidingPawnMovementComponent : <span class="keyword">public</span> UPawnMovementComponent</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">//TickComponent函数类似于Tick，意思是逐帧刷新</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">TickComponent</span><span class="params">(<span class="type">float</span> DeltaTime, <span class="keyword">enum</span> ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)</span> <span class="keyword">override</span></span>;  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="CollidingPawnMovementComponent-cpp"><a href="#CollidingPawnMovementComponent-cpp" class="headerlink" title="CollidingPawnMovementComponent.cpp"></a>CollidingPawnMovementComponent.cpp</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CollidingPawnMovementComponent.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UCollidingPawnMovementComponent::TickComponent</span><span class="params">(<span class="type">float</span> DeltaTime, <span class="keyword">enum</span> ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">TickComponent</span>(DeltaTime, TickType, ThisTickFunction);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 确保所有事物持续有效，以便进行移动。</span></span><br><span class="line">    <span class="keyword">if</span> (!PawnOwner || !UpdatedComponent || <span class="built_in">ShouldSkipUpdate</span>(DeltaTime))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取（然后清除）ACollidingPawn::Tick中设置的移动向量</span></span><br><span class="line">    <span class="comment">// 设定一个变量来存储移动输入的变量值（ConsumeInputVector()），然后通过运行时间来设置运动速度</span></span><br><span class="line">    FVector DesiredMovementThisFrame = <span class="built_in">ConsumeInputVector</span>().<span class="built_in">GetClampedToMaxSize</span>(<span class="number">1.0f</span>) * DeltaTime * <span class="number">150.0f</span>;</span><br><span class="line">    <span class="keyword">if</span> (!DesiredMovementThisFrame.<span class="built_in">IsNearlyZero</span>())</span><br><span class="line">    &#123;    </span><br><span class="line">        <span class="comment">//Hit变量来记录碰撞结果</span></span><br><span class="line">        FHitResult Hit;</span><br><span class="line">        <span class="comment">//用虚幻引擎物理移动pawn移动组件，同时会考虑到固体障碍物</span></span><br><span class="line">        <span class="built_in">SafeMoveUpdatedComponent</span>(DesiredMovementThisFrame, UpdatedComponent-&gt;<span class="built_in">GetComponentRotation</span>(), <span class="literal">true</span>, Hit);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 若发生碰撞，尝试滑过去</span></span><br><span class="line">        <span class="keyword">if</span> (Hit.<span class="built_in">IsValidBlockingHit</span>())</span><br><span class="line">        &#123;    </span><br><span class="line">            <span class="comment">//移动导致碰撞时， SlideAlongSurface 会处理沿墙壁和斜坡等碰撞表面平滑滑动所涉及的计算和物理，而非直接停留原地，粘在墙壁或斜坡上。</span></span><br><span class="line">            <span class="built_in">SlideAlongSurface</span>(DesiredMovementThisFrame, <span class="number">1.f</span> - Hit.Time, Hit.Normal, Hit);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="GetClampedToMaxSize"><a href="#GetClampedToMaxSize" class="headerlink" title="GetClampedToMaxSize()"></a>GetClampedToMaxSize()</h2><p>用于更新vector的位置</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FVector <span class="title">FVector::GetClampedToMaxSize</span><span class="params">(<span class="type">float</span> MaxSize)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>用于创建一个新的vector，方向与原本的方向一直，距离为MaxSize</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FVector <span class="title">FVector::GetClampedToSize</span><span class="params">(<span class="type">float</span> Min,<span class="type">float</span> Max)</span> </span></span><br></pre></td></tr></table></figure>
+
+<p>创建一个新的Vector，方向与原方向一致</p>
+<p>距离为</p>
+<ol>
+<li><p>若距离&lt;Min，则新的vector距离为Min</p>
+</li>
+<li><p>若距离&gt;Max，则新的vector距离为Max</p>
+</li>
+<li><p>若距离在Min和Max之间，则新的vector等于原本的vector</p>
+</li>
+</ol>
+<h2 id="ConsumeInputVector-1-0f"><a href="#ConsumeInputVector-1-0f" class="headerlink" title="ConsumeInputVector(1.0f)"></a>ConsumeInputVector(1.0f)</h2><p>报告并清空用于存储移动输入的内置变量值。</p>
+<h2 id="SafeMoveUpdatedComponent"><a href="#SafeMoveUpdatedComponent" class="headerlink" title="SafeMoveUpdatedComponent()"></a>SafeMoveUpdatedComponent()</h2><p><code>SafeMoveUpdatedComponent(const FVector&amp; Delta, const FRotator&amp; NewRotation, bool bSweep, FHitResult&amp; OutHit, ETeleportType Teleport)</code></p>
+<p><code>SafeMoveUpdatedComponent(DesiredMovementThisFrame, UpdatedComponent-&gt;GetComponentRotation(), true, Hit);</code></p>
+<p>利用虚幻引擎物理移动Pawn移动组件，同时考虑固体障碍。</p>
+<ul>
+<li><p>第一个参数：要移动的Vector</p>
+</li>
+<li><p>第二个参数：旋转参数</p>
+</li>
+<li><p>第三个参数：是否考虑物理障碍（如果为true，将在移动过程中扫描以阻止碰撞。如果为false，它将简单地传送到下一个位置并忽略碰撞。）</p>
+</li>
+<li><p>第四个参数：碰撞结果</p>
+</li>
+<li><p>第五个参数：可省略，远距离传送类型</p>
+</li>
+</ul>
+<h2 id="SlideAlongSurface"><a href="#SlideAlongSurface" class="headerlink" title="SlideAlongSurface()"></a>SlideAlongSurface()</h2><p><code>SlideAlongSurface(const FVector&amp; Delta, float Time, const FQuat Rotation, const FVector&amp; Normal, FHitResult&amp; Hit, bool bHandleImpact)</code></p>
+<ul>
+<li><p>第一个参数：要移动的vector</p>
+</li>
+<li><p>第二个参数：运动时间</p>
+</li>
+<li><p>第三个参数：旋转情况（可省略）</p>
+</li>
+<li><p>第四个参数：vector类型？（这个不太确定）</p>
+</li>
+<li><p>第五个参数：碰撞结果（必须为bBlockingHit）</p>
+</li>
+<li><p>第六个参数：手柄反馈？（这个扎找不到源文件）</p>
+</li>
+</ul>
+<h1 id="配置项目输入设置"><a href="#配置项目输入设置" class="headerlink" title="配置项目输入设置"></a>配置项目输入设置</h1><p>这里要注意的一点是，在给动作映射和轴映射命名的时候一定要和代码中定义的函数名相同否则无效。</p>
+<ol>
+<li><p>回到 <strong>虚幻编辑器</strong>，开始配置项目输入设置。可在 <strong>编辑</strong> 下拉菜单中的 <strong>项目设置</strong> 下找到相关设置。</p>
+<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/Components/EditProjectSettings.jpg" alt="EditProjectSettings.png"></p>
+<p>进入该菜单后，可在左侧面板中的 <strong>引擎</strong> 部分中选择 <strong>输入</strong>。同时需要设置粒子系统切换的 <strong>操作映射</strong> 、移动 <strong>Pawn</strong> 的两个 <strong>轴映射</strong>，和转动 <strong>Pawn</strong> 的一个 <strong>轴映射</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>操作映射</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ParticleToggle</td>
+<td>空格</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>轴映射</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MoveForward</td>
+<td>W</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td></td>
+<td>S</td>
+<td>-1.0</td>
+</tr>
+<tr>
+<td>MoveRight</td>
+<td>A</td>
+<td>-1.0</td>
+</tr>
+<tr>
+<td></td>
+<td>D</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>Turn</td>
+<td>Mouse X</td>
+<td>1.0</td>
+</tr>
+</tbody></table>
+<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/Components/InputSettings.jpg" alt="InputSettings.png"></p>
+</li>
+</ol>
+<p>将创建 <strong>移动组件</strong> 管理移动，而非直接在Pawn类中处理所有移动。本教程中将扩展 <strong>Pawn移动组件</strong> 类。首先在 <strong>文件</strong> 下拉菜单中选择 <strong>将代码添加到项目（Add Code to Project）</strong> 命令。</p>
+<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/Components/AddCPPCode.jpg" alt="AddCPPCode.png"></p>
+<p>与Pawn类不同的，Pawn移动组件类默认为不可见。要找到该组件，需选中 <strong>显示所有类（Show All Classes）</strong> 选项。</p>
+<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/Components/ShowAllClasses.jpg" alt="ShowAllClasses.png"></p>
+<p>在搜索栏中输入”movement”，以便快速缩小列表范围。</p>
+<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/Components/ChooseParentClass2.jpg" alt="ChooseParentClass2.png"></p>
+<p>Pawn移动组件拥有部分强大内置功能，以便使用常见物理功能，同时便于在大量Pawn类型间共享移动代码。使用组件分隔不同功能是上佳方法，可在项目增大、Pawn越加复杂时减少杂乱。</p>
+<p>这里放一个来自于的<a target="_blank" rel="noopener" href="https://blog.csdn.net/heneyT" title="heneyT">heneyT</a>移动组件的继承树</p>
+<p><img src="https://img-blog.csdn.net/20171130205337919?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjk5OTk4NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/22/UE4-CameraDirector/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/04/22/UE4-CameraDirector/" class="post-title-link" itemprop="url">UE4-CameraDirector</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-04-22 15:20:03" itemprop="dateCreated datePublished" datetime="2022-04-22T15:20:03+08:00">2022-04-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-04-24 10:48:47" itemprop="dateModified" datetime="2022-04-24T10:48:47+08:00">2022-04-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h1><p>分析官方案例<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.27/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/AutoCamera/">CameraDirector</a></p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><ol>
+<li><p>放两个摄像机</p>
+<ul>
+<li><p>所有类中直接拖入</p>
+</li>
+<li><p>先创建一个立方体，然后给他添加一个摄像机组件</p>
+</li>
+</ul>
+</li>
+<li><p>以Actor为父类创建C++类</p>
+</li>
+</ol>
+<h2 id="CameraDirector-h"><a href="#CameraDirector-h" class="headerlink" title="CameraDirector.h"></a>CameraDirector.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UPROPERTY</span>(EditAnywhere)</span><br><span class="line">AActor* CameraOne;</span><br><span class="line"></span><br><span class="line"><span class="built_in">UPROPERTY</span>(EditAnywhere)</span><br><span class="line">AActor* CameraTwo;</span><br><span class="line"></span><br><span class="line"><span class="type">float</span> TimeToNextCameraChange;</span><br></pre></td></tr></table></figure>
+
+<h2 id="CameraDirector-cpp"><a href="#CameraDirector-cpp" class="headerlink" title="CameraDirector.cpp"></a>CameraDirector.cpp</h2><p>添加到引用位置</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Kismet/GameplayStatics.h&quot;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>添加到<strong>ACameraDirector::Tick</strong> 的底部位置</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">float</span> TimeBetweenCameraChanges = <span class="number">2.0f</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">float</span> SmoothBlendTime = <span class="number">0.75f</span>;</span><br><span class="line">TimeToNextCameraChange -= DeltaTime;</span><br><span class="line"><span class="keyword">if</span> (TimeToNextCameraChange &lt;= <span class="number">0.0f</span>)</span><br><span class="line">&#123;</span><br><span class="line">    TimeToNextCameraChange += TimeBetweenCameraChanges;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查找处理本地玩家控制的actor。</span></span><br><span class="line">    APlayerController* OurPlayerController = UGameplayStatics::<span class="built_in">GetPlayerController</span>(<span class="keyword">this</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (OurPlayerController)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> ((OurPlayerController-&gt;<span class="built_in">GetViewTarget</span>() != CameraOne) &amp;&amp; (CameraOne != <span class="literal">nullptr</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 立即切换到摄像机1。</span></span><br><span class="line">            OurPlayerController-&gt;<span class="built_in">SetViewTarget</span>(CameraOne);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> ((OurPlayerController-&gt;<span class="built_in">GetViewTarget</span>() != CameraTwo) &amp;&amp; (CameraTwo != <span class="literal">nullptr</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 平滑地混合到摄像机2。</span></span><br><span class="line">            OurPlayerController-&gt;<span class="built_in">SetViewTargetWithBlend</span>(CameraTwo, SmoothBlendTime);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="添加C-类"><a href="#添加C-类" class="headerlink" title="添加C++类"></a>添加C++类</h2><p>在代码编译完成后，我们可以将 <strong>内容浏览器（Content Browser）</strong> 中的新类的实例拖曳到 <strong>关卡编辑器（Level Editor）</strong> 中。</p>
+<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/AutoCamera/CameraDirectorInContentBrowser.jpg" alt="CameraDirectorInContentBrowser.png"></p>
+<p>接下来，我们需要设置摄像机1（CameraOne）和摄像机2（CameraTwo）变量。在 <strong>World Outliner （世界大纲视图）</strong> 中找到CameraDirector，并在 <strong>详细信息面板（Details Panel）</strong> 中进行编辑。</p>
+<p><img src="https://docs.unrealengine.com/4.27/Images/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/AutoCamera/CameraDirectorDetails.jpg" alt="CameraDirectorDetails.png"></p>
+<p>单击标记为”无（None）”的下拉框，然后将变量设置为 <strong>Cube（立方体）</strong> 和我们之前创建的 <strong>摄像机Actor （CameraActor）</strong>。</p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>ok以上是来自官网的教程，现在我来把它掰开来理解</p>
+<h2 id="CameraDirector-h-1"><a href="#CameraDirector-h-1" class="headerlink" title="CameraDirector.h"></a>CameraDirector.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/Actor.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CameraDirector.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HOWTO_AUTOCAMERA_API</span> ACameraDirector : <span class="keyword">public</span> AActor</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>: </span><br><span class="line">    <span class="comment">// 为此Actor的属性设置默认值</span></span><br><span class="line">    <span class="built_in">ACameraDirector</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="comment">// 当游戏开始或生成时调用</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 每一帧调用</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">( <span class="type">float</span> DeltaSeconds )</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(EditAnywhere)</span><br><span class="line">    AActor* CameraOne;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UPROPERTY</span>(EditAnywhere)</span><br><span class="line">    AActor* CameraTwo;</span><br><span class="line"></span><br><span class="line">    <span class="type">float</span> TimeToNextCameraChange;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这一段代码，其实没啥需要讲解的，在我的前两篇博客中已经讲得很明白了。</p>
+<p>在此就不多做赘述。</p>
+<h2 id="CameraDirector-cpp-1"><a href="#CameraDirector-cpp-1" class="headerlink" title="CameraDirector.cpp"></a>CameraDirector.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;HowTo_AutoCamera.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CameraDirector.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Kismet/GameplayStatics.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置默认值</span></span><br><span class="line">ACameraDirector::<span class="built_in">ACameraDirector</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 将此Actor设置为每一帧调用Tick()。如果不需要，可以关闭此选项来提高性能。</span></span><br><span class="line">    PrimaryActorTick.bCanEverTick = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当游戏开始或生成时调用</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACameraDirector::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 每一帧调用</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ACameraDirector::Tick</span><span class="params">( <span class="type">float</span> DeltaTime )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">Tick</span>( DeltaTime );</span><br><span class="line"></span><br><span class="line">    <span class="type">const</span> <span class="type">float</span> TimeBetweenCameraChanges = <span class="number">2.0f</span>;</span><br><span class="line">    <span class="type">const</span> <span class="type">float</span> SmoothBlendTime = <span class="number">0.75f</span>;</span><br><span class="line">    TimeToNextCameraChange -= DeltaTime;</span><br><span class="line">    <span class="keyword">if</span> (TimeToNextCameraChange &lt;= <span class="number">0.0f</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        TimeToNextCameraChange += TimeBetweenCameraChanges;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//查找处理本地玩家控制的Actor。</span></span><br><span class="line">        APlayerController* OurPlayerController = UGameplayStatics::<span class="built_in">GetPlayerController</span>(<span class="keyword">this</span>, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span> (OurPlayerController)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (CameraTwo &amp;&amp; (OurPlayerController-&gt;<span class="built_in">GetViewTarget</span>() == CameraOne))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//平滑地混合到摄像机2。</span></span><br><span class="line">                OurPlayerController-&gt;<span class="built_in">SetViewTargetWithBlend</span>(CameraTwo, SmoothBlendTime);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (CameraOne)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//立即切换到摄像机1。</span></span><br><span class="line">                OurPlayerController-&gt;<span class="built_in">SetViewTarget</span>(CameraOne);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们首先解决这些代码中API的问题</p>
+<h3 id="GetPlayerController-this-0"><a href="#GetPlayerController-this-0" class="headerlink" title="GetPlayerController(this,0)"></a>GetPlayerController(this,0)</h3><p>这一段可以通过查看其定义明白其含义——获取玩家控制器</p>
+<p>this指当前玩家控制器，0是玩家控制器的标号，代表了本地玩家控制器</p>
+<p>在定义代码中，GetPlayerController返回的返回值是APlayerController，所以在前面定义一个该类型的指针OurPlayerController</p>
+<h3 id="GetViewTarget"><a href="#GetViewTarget" class="headerlink" title="GetViewTarget()"></a>GetViewTarget()</h3><p>获取玩家身上的摄像机Actor</p>
+<h3 id="SetViewTargetWithBlend-CameraTwo-SmoothBlendTime"><a href="#SetViewTargetWithBlend-CameraTwo-SmoothBlendTime" class="headerlink" title="SetViewTargetWithBlend(CameraTwo,SmoothBlendTime);"></a>SetViewTargetWithBlend(CameraTwo,SmoothBlendTime);</h3><p>使摄像机平滑切换到摄像机二，前一个变量使设定切换到哪个摄像机，后一个使设定切换时间</p>
+<p>理解了API的意思之后，代码逻辑我就不再讲解了，代码中的变量和常量完全可以见文知意，结构使非常基础的if判断，如果看不懂的话还是需要先好好学习数据结构与算法。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -4144,240 +4516,6 @@
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">canConstruct</span><span class="params">(string ransomNote, string magazine)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> record[<span class="number">26</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; magazine.<span class="built_in">length</span>(); i++) &#123;</span><br><span class="line">            <span class="comment">// 通过recode数据记录 magazine里各个字符出现次数</span></span><br><span class="line">            record[magazine[i]-<span class="string">&#x27;a&#x27;</span>] ++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; ransomNote.<span class="built_in">length</span>(); j++) &#123;</span><br><span class="line">            <span class="comment">// 遍历ransomNote，在record里对应的字符个数做--操作</span></span><br><span class="line">            record[ransomNote[j]-<span class="string">&#x27;a&#x27;</span>]--;</span><br><span class="line">            <span class="comment">// 如果小于零说明ransomNote里出现的字符，magazine没有</span></span><br><span class="line">            <span class="keyword">if</span>(record[ransomNote[j]-<span class="string">&#x27;a&#x27;</span>] &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>声明：本博客整理思路参考《代码随想录》，题目来源于leetcode</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/31/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E6%95%B0%E7%BB%84/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/31/%E6%9C%89%E5%85%B3%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E6%95%B0%E7%BB%84/" class="post-title-link" itemprop="url">有关算法中的数组</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-03-31 10:16:56" itemprop="dateCreated datePublished" datetime="2022-03-31T10:16:56+08:00">2022-03-31</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-06-09 09:13:31" itemprop="dateModified" datetime="2022-06-09T09:13:31+08:00">2022-06-09</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="数组中的二分查找"><a href="#数组中的二分查找" class="headerlink" title="数组中的二分查找"></a>数组中的二分查找</h1><p>给定一个 n 个元素有序的（升序）整型数组 nums 和一个目标值 target  ，写一个函数搜索 nums 中的 target，如果目标值存在返回下标，否则返回 -1。</p>
-<ul>
-<li>你可以假设 nums 中的所有元素是不重复的。</li>
-<li>n 将在 [1, 10000]之间。</li>
-<li>nums 的每个元素都将在 [-9999, 9999]之间。</li>
-</ul>
-<p>示例：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: nums = [<span class="number">-1</span>,<span class="number">0</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">9</span>,<span class="number">12</span>], target = <span class="number">9</span>     </span><br><span class="line">输出: <span class="number">4</span>       </span><br><span class="line">解释: <span class="number">9</span> 出现在 nums 中并且下标为 <span class="number">4</span>   </span><br></pre></td></tr></table></figure>
-
-<p>思路：当数组为<strong>有序数组</strong>，同时数组中<strong>无重复元素</strong>即可考虑使用<strong>二分法查找</strong></p>
-<p><strong>二分法</strong>：</p>
-<ul>
-<li><p>条件：序列必须为有序，且序列中元素不重复</p>
-</li>
-<li><p>区间：一般定义为<strong>左闭右闭</strong>[left,right]，或者<strong>左闭右开</strong>[left,right)</p>
-</li>
-<li><p>原理：如果序列为空，则返回-1；如果不为空，则将中间元素与要查找的目标元素匹配，若匹配，则返回中间元素的索引；若中间元素大于目标元素，则将序列后半部分舍去；反之亦然。重复比较。</p>
-</li>
-</ul>
-<h2 id="左闭右闭"><a href="#左闭右闭" class="headerlink" title="左闭右闭"></a>左闭右闭</h2><p>定义target在一个左闭右闭的区间内[left,right]</p>
-<ul>
-<li><p>while(left&lt;&#x3D;right)，因为left&#x3D;&#x3D;right是有意义的，所以使用&lt;&#x3D;</p>
-</li>
-<li><p>if(nums[middle]&gt;target)，right要赋值为middle-1，因为当前这个nums[middle]一定不是target，那么接下来要查找的左区间结束下标位置就是middle-1</p>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">search</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> left = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> right = nums.<span class="built_in">size</span>() - <span class="number">1</span>; <span class="comment">// 定义target在左闭右闭的区间里，[left, right]</span></span><br><span class="line">        <span class="keyword">while</span> (left &lt;= right) &#123; <span class="comment">// 当left==right，区间[left, right]依然有效，所以用 &lt;=</span></span><br><span class="line">            <span class="type">int</span> middle = left + ((right - left) / <span class="number">2</span>);<span class="comment">// 防止溢出 等同于(left + right)/2</span></span><br><span class="line">            <span class="keyword">if</span> (nums[middle] &gt; target) &#123;</span><br><span class="line">                right = middle - <span class="number">1</span>; <span class="comment">// target 在左区间，所以[left, middle - 1]</span></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[middle] &lt; target) &#123;</span><br><span class="line">                left = middle + <span class="number">1</span>; <span class="comment">// target 在右区间，所以[middle + 1, right]</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123; <span class="comment">// nums[middle] == target</span></span><br><span class="line">                <span class="keyword">return</span> middle; <span class="comment">// 数组中找到目标值，直接返回下标</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 未找到目标值</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h2 id="左闭右开"><a href="#左闭右开" class="headerlink" title="左闭右开"></a>左闭右开</h2><p>定义target在一个左闭右开的区间内[left,right)</p>
-<ul>
-<li><p>while(left&lt;right)，这里使用&lt;，因为left&#x3D;&#x3D;right在[left,right)无意义</p>
-</li>
-<li><p>if(nums[middle]&gt;target)，right更新为middle，因为当前nums[middle]不等于target，去左区间继续寻找，而寻找区间是左闭右开的，所以right更新为middle。即：下一个查询区间不会去比较nums[middle]</p>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">search</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> left = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> right = nums.<span class="built_in">size</span>(); <span class="comment">// 定义target在左闭右开的区间里，即：[left, right)</span></span><br><span class="line">        <span class="keyword">while</span> (left &lt; right) &#123; <span class="comment">// 因为left == right的时候，在[left, right)是无效的空间，所以使用 &lt;</span></span><br><span class="line">            <span class="type">int</span> middle = left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">            <span class="keyword">if</span> (nums[middle] &gt; target) &#123;</span><br><span class="line">                right = middle; <span class="comment">// target 在左区间，在[left, middle)中</span></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[middle] &lt; target) &#123;</span><br><span class="line">                left = middle + <span class="number">1</span>; <span class="comment">// target 在右区间，在[middle + 1, right)中</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123; <span class="comment">// nums[middle] == target</span></span><br><span class="line">                <span class="keyword">return</span> middle; <span class="comment">// 数组中找到目标值，直接返回下标</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 未找到目标值</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h1 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h1><p>不断地调节子序列的起始位置和终止位置，从而得出我们想要的结果  </p>
-<p>滑动窗口需要明确的三点：</p>
-<ul>
-<li><p>窗口内是什么？</p>
-</li>
-<li><p>如何移动窗口的起始位置？</p>
-</li>
-<li><p>如何移动窗口的结束位置？</p>
-</li>
-</ul>
-<p>解决思路：</p>
-<ul>
-<li><p>窗口就是满足：其和&gt;&#x3D;s的长度最小的连续 子数组</p>
-</li>
-<li><p>窗口起始位置的移动：如果当前窗口的值大于s了，窗口就需要向前移动了（该缩小了）</p>
-</li>
-<li><p>窗口结束位置的移动：窗口结束位置就是遍历数组的指针，窗口的起始位置设置为数组的起始位置就可以了</p>
-</li>
-</ul>
-<p>eg1：给定一个含有 n 个正整数的数组和一个正整数 s ，找出该数组中满足其和 ≥ s 的长度<strong>最小的</strong> 连续 子数组，并返回其长度。如果不存在符合条件的子数组，返回 0。</p>
-<p>思路：解题关键在于窗口起始位置在满足 窗口内的数组之和&gt;&#x3D;s，并且与上一个满足条件的sum的长度对比，取更小的那一个为result；然后通过sum&#x3D;sum-nums[i]，然后i++的方式，使起始位置向前移动一步。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">minSubArrayLen</span><span class="params">(<span class="type">int</span> s, vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> result = INT32_MAX;</span><br><span class="line">        <span class="type">int</span> sum = <span class="number">0</span>; <span class="comment">// 滑动窗口数值之和</span></span><br><span class="line">        <span class="type">int</span> i = <span class="number">0</span>; <span class="comment">// 滑动窗口起始位置</span></span><br><span class="line">        <span class="type">int</span> subLength = <span class="number">0</span>; <span class="comment">// 滑动窗口的长度</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; nums.<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">            sum += nums[j];</span><br><span class="line">            <span class="comment">// 注意这里使用while，每次更新 i（起始位置），并不断比较子序列是否符合条件</span></span><br><span class="line">            <span class="keyword">while</span> (sum &gt;= s) &#123;</span><br><span class="line">                subLength = (j - i + <span class="number">1</span>); <span class="comment">// 取子序列的长度</span></span><br><span class="line">                result = result &lt; subLength ? result : subLength;</span><br><span class="line">                sum -= nums[i++]; <span class="comment">// 这里体现出滑动窗口的精髓之处，不断变更i（子序列的起始位置）</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 如果result没有被赋值的话，就返回0，说明没有符合条件的子序列</span></span><br><span class="line">        <span class="keyword">return</span> result == INT32_MAX ? <span class="number">0</span> : result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h1 id="螺旋矩阵"><a href="#螺旋矩阵" class="headerlink" title="螺旋矩阵"></a>螺旋矩阵</h1><p>给定一个正整数 n，生成一个包含 1 到 n^2 所有元素，且元素按顺时针顺序螺旋排列的正方形矩阵。</p>
-<p>示例:</p>
-<p>输入: 3 输出: [ [ 1, 2, 3 ], [ 8, 9, 4 ], [ 7, 6, 5 ] ]</p>
-<p>思路：坚持循环不变量原则</p>
-<p>模拟顺时针画矩阵的过程:</p>
-<ul>
-<li>填充上行从左到右</li>
-<li>填充右列从上到下</li>
-<li>填充下行从右到左</li>
-<li>填充左列从下到上</li>
-</ul>
-<p>由外向内一圈一圈这么画下去。</p>
-<p>可以发现这里的边界条件非常多，在一个循环中，如此多的边界条件，如果不按照固定规则来遍历，那就是<strong>一进循环深似海，从此offer是路人</strong>。</p>
-<p>这里一圈下来，我们要画每四条边，这四条边怎么画，每画一条边都要坚持一致的左闭右开，或者左开又闭的原则，这样这一圈才能按照统一的规则画下来。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">generateMatrix</span>(<span class="type">int</span> n) &#123;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">res</span>(n, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(n, <span class="number">0</span>)); <span class="comment">// 使用vector定义一个二维数组</span></span><br><span class="line">        <span class="type">int</span> startx = <span class="number">0</span>, starty = <span class="number">0</span>; <span class="comment">// 定义每循环一个圈的起始位置</span></span><br><span class="line">        <span class="type">int</span> loop = n / <span class="number">2</span>; <span class="comment">// 每个圈循环几次，例如n为奇数3，那么loop = 1 只是循环一圈，矩阵中间的值需要单独处理</span></span><br><span class="line">        <span class="type">int</span> mid = n / <span class="number">2</span>; <span class="comment">// 矩阵中间的位置，例如：n为3， 中间的位置就是(1，1)，n为5，中间位置为(2, 2)</span></span><br><span class="line">        <span class="type">int</span> count = <span class="number">1</span>; <span class="comment">// 用来给矩阵中每一个空格赋值</span></span><br><span class="line">        <span class="type">int</span> offset = <span class="number">1</span>; <span class="comment">// 每一圈循环，需要控制每一条边遍历的长度</span></span><br><span class="line">        <span class="type">int</span> i,j;</span><br><span class="line">        <span class="keyword">while</span> (loop --) &#123;</span><br><span class="line">            i = startx;</span><br><span class="line">            j = starty;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 下面开始的四个for就是模拟转了一圈</span></span><br><span class="line">            <span class="comment">// 模拟填充上行从左到右(左闭右开)</span></span><br><span class="line">            <span class="keyword">for</span> (j = starty; j &lt; starty + n - offset; j++) &#123;</span><br><span class="line">                res[startx][j] = count++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 模拟填充右列从上到下(左闭右开)</span></span><br><span class="line">            <span class="keyword">for</span> (i = startx; i &lt; startx + n - offset; i++) &#123;</span><br><span class="line">                res[i][j] = count++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 模拟填充下行从右到左(左闭右开)</span></span><br><span class="line">            <span class="keyword">for</span> (; j &gt; starty; j--) &#123;</span><br><span class="line">                res[i][j] = count++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 模拟填充左列从下到上(左闭右开)</span></span><br><span class="line">            <span class="keyword">for</span> (; i &gt; startx; i--) &#123;</span><br><span class="line">                res[i][j] = count++;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 第二圈开始的时候，起始位置要各自加1， 例如：第一圈起始位置是(0, 0)，第二圈起始位置是(1, 1)</span></span><br><span class="line">            startx++;</span><br><span class="line">            starty++;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// offset 控制每一圈里每一条边遍历的长度</span></span><br><span class="line">            offset += <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 如果n为奇数的话，需要单独给矩阵最中间的位置赋值</span></span><br><span class="line">        <span class="keyword">if</span> (n % <span class="number">2</span>) &#123;</span><br><span class="line">            res[mid][mid] = count;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>声明：本博客整理思路参考《代码随想录》，题目摘自leetcode</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/28/about%20const%20int/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/28/about%20const%20int/" class="post-title-link" itemprop="url">const int* i与const int& i以及int* const i的区别</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-03-28 19:06:21" itemprop="dateCreated datePublished" datetime="2022-03-28T19:06:21+08:00">2022-03-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-06-09 09:13:11" itemprop="dateModified" datetime="2022-06-09T09:13:11+08:00">2022-06-09</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>const int* i(int const* i):指向一个常量的指针，使用时不需要初始化，被指向的常量不可改变，但是可以改变指针指向的地址。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> x=<span class="number">10</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span>* p1=&amp;x;</span><br><span class="line">p1++;        <span class="comment">//ok</span></span><br><span class="line">(*p1)++;     <span class="comment">//error</span></span><br></pre></td></tr></table></figure>
-
-<p>const int&amp; i:指向常量的引用，使用时必须初始化。初始化后引用值不可改变，引用的常量也不可改变。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span>&amp; p2;        <span class="comment">//error</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span>&amp; p2=x;        <span class="comment">//ok</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> y=<span class="number">20</span>;</span><br><span class="line">p2=y;                <span class="comment">//error</span></span><br><span class="line">p2++;                <span class="comment">//error</span></span><br></pre></td></tr></table></figure>
-
-<p>int* const i:指向的内容可以改变，但是指向的地址不能改变</p>
 
       
     </div>

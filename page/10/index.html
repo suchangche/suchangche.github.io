@@ -159,18 +159,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">172</span>
+          <span class="site-state-item-count">174</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">14</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -208,6 +208,536 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/11/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E7%BC%96%E5%86%99ScreenLoading/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/08/11/UE4-%E9%A1%B9%E7%9B%AE-TowerDefence-%E7%BC%96%E5%86%99ScreenLoading/" class="post-title-link" itemprop="url">UE4-项目-TowerDefence-编写ScreenLoading</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-08-11 15:43:54" itemprop="dateCreated datePublished" datetime="2022-08-11T15:43:54+08:00">2022-08-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-08-18 15:43:06" itemprop="dateModified" datetime="2022-08-18T15:43:06+08:00">2022-08-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>这就是登录游戏的时候的加载界面</p>
+<p>为了保证这个Loading可以被反复使用（其他项目也可以用），所以通过写插件的方式实现</p>
+<h1 id="Slate简单讲解"><a href="#Slate简单讲解" class="headerlink" title="Slate简单讲解"></a><a target="_blank" rel="noopener" href="http://students.ceid.upatras.gr/~vpapadatos/UE4cpp_slate_1.html">Slate简单讲解</a></h1><h2 id="Slate是什么？"><a href="#Slate是什么？" class="headerlink" title="Slate是什么？"></a>Slate是什么？</h2><p>Slate是UE4的底层UI框架。我们经常使用的UMG和UE4编辑器的各个界面底层都是Slate。</p>
+<h2 id="SWidget类"><a href="#SWidget类" class="headerlink" title="SWidget类"></a>SWidget类</h2><p>SWidget是所有Slate控件的基类</p>
+<p><img src="D:\R_program\Blog\source_posts\UE4-项目-编写ScreenLoading\1.png"></p>
+<ul>
+<li><strong>SCompoundWidget可以放一个子控件</strong></li>
+<li><strong>SLeafWidget不能放子控件</strong></li>
+<li><strong>SPanel可以放多个子控件</strong></li>
+</ul>
+<h2 id="Slate的组成"><a href="#Slate的组成" class="headerlink" title="Slate的组成"></a>Slate的组成</h2><h3 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h3><p><strong>宏 SLATE_BEGIN_ARGS</strong> 和 <strong>宏 SLATE_END_ARGS</strong> </p>
+<p>在以上两者之间的声明参数，常用的参数类型有 </p>
+<ul>
+<li><p>SLATE_ATTRIBUTE(属性)</p>
+</li>
+<li><p>SLATE_EVENT(事件)</p>
+</li>
+<li><p>SLATE_ARGUMENT(参数)</p>
+</li>
+<li><p>SLATE_NAMED_SLOT(插槽) 和 SLATE_DEFAULT_SLOT</p>
+</li>
+</ul>
+<p>例子：</p>
+<ul>
+<li>例如：SLATE_ATTRIBUTE(属性)   <ul>
+<li>声明格式：SLATE_ATTRIBUTE（变量类型，变量名）</li>
+</ul>
+</li>
+<li>例如：SLATE_EVENT(事件)           <ul>
+<li>声明格式：SLATE_EVENT（变量类型，变量名）</li>
+</ul>
+</li>
+<li>注意：这里的变量类型为 UE4 的委托类型</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">DECLARE_DELEGATE_OneParam</span>(FMyEvent, FString);</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">EXSLATEWIDGET_API</span> SMyCompoundWidget : <span class="keyword">public</span> SCompoundWidget</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">        <span class="built_in">SLATE_BEGIN_ARGS</span>( SSubMenuButton )</span><br><span class="line">            : _ShouldAppearHovered( <span class="literal">false</span> )</span><br><span class="line">            &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="built_in">SLATE_ATTRIBUTE</span>( <span class="type">bool</span>, ShouldAppearHovered )</span><br><span class="line"></span><br><span class="line">            <span class="built_in">SLATE_ATTRIBUTE</span>( FString, Label )</span><br><span class="line"></span><br><span class="line">            <span class="built_in">SLATE_EVENT</span>( FOnClicked, OnClicked )</span><br><span class="line"></span><br><span class="line">            <span class="built_in">SLATE_NAMED_SLOT</span>( FArguments, FSimpleSlot, Content )</span><br><span class="line"></span><br><span class="line">            <span class="built_in">SLATE_EVENT</span>(FMyEvent, MyEvent)       </span><br><span class="line">        <span class="built_in">SLATE_END_ARGS</span>()</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>按上面用相应的宏声明之后，实际上参数名变为 <strong>“_”</strong> + **”宏里面的变量名”**，如上面 “ShouldAppearHovered ” 参数名为“_ShouldAppearHovered ”. 声明参数初始化和C++类成员变量差不多，如同下面：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">SLATE_BEGIN_ARGS</span>(SSubMenuButton )</span><br><span class="line">&#123;</span><br><span class="line">    _ShouldAppearHovered = <span class="literal">false</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>或</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">SLATE_BEGIN_ARGS</span>(SSubMenuButton ):</span><br><span class="line">        _ShouldAppearHovered ( <span class="literal">false</span> )</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>而在 上述的实例中采用了<strong>第二种初始化</strong>的方式。</p>
+<h3 id="构建对象"><a href="#构建对象" class="headerlink" title="构建对象"></a>构建对象</h3><h4 id="通过-宏声明-的参数与-类成员变量-之间的转移（参数-与-变量的区别）"><a href="#通过-宏声明-的参数与-类成员变量-之间的转移（参数-与-变量的区别）" class="headerlink" title="通过  宏声明  的参数与  类成员变量  之间的转移（参数 与 变量的区别）"></a>通过  宏声明  的参数与  类成员变量  之间的转移（参数 与 变量的区别）</h4><p>在构建 Slate 对象的时候，传入的参数，并不是直接通过 上面我们通过宏去定义的那些参数去直接执行的，上面定义的那些参数 仅仅是为了 <strong>方便传递</strong>，所以还需要在 定义类的 <strong>成员变量（或委托变量）</strong> 上面实例中的类，重新定义为：</p>
+<p>以 Label 这个声明参数为例，在类中增加了 这个<strong>声明参数</strong> 对应的 <strong>成员变量</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">DECLARE_DELEGATE_OneParam</span>(FMyEvent, FString);</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">EXSLATEWIDGET_API</span> SMyCompoundWidget : <span class="keyword">public</span> SCompoundWidget</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">        <span class="built_in">SLATE_BEGIN_ARGS</span>( SSubMenuButton )</span><br><span class="line">            : _ShouldAppearHovered( <span class="literal">false</span> )</span><br><span class="line">            &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="built_in">SLATE_ATTRIBUTE</span>( <span class="type">bool</span>, ShouldAppearHovered )</span><br><span class="line"></span><br><span class="line">            <span class="built_in">SLATE_ATTRIBUTE</span>( FString, Label )</span><br><span class="line"></span><br><span class="line">            <span class="built_in">SLATE_EVENT</span>( FOnClicked, OnClicked )</span><br><span class="line"></span><br><span class="line">            <span class="built_in">SLATE_NAMED_SLOT</span>( FArguments, FSimpleSlot, Content )</span><br><span class="line"></span><br><span class="line">            <span class="built_in">SLATE_EVENT</span>(FMyEvent, MyEvent)       </span><br><span class="line">        <span class="built_in">SLATE_END_ARGS</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">        <span class="function"><span class="type">void</span> <span class="title">Construct</span><span class="params">(<span class="type">const</span> FArguments&amp; InArgs)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">        FString Label ;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/////////////////////////////////////////////////////////</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SMyCompoundWidget::Construct</span><span class="params">(<span class="type">const</span> FArguments&amp; InArgs)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">        Label = InArgs._Label ;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        ChildSlot</span></span><br><span class="line"><span class="comment">        [</span></span><br><span class="line"><span class="comment">            // Populate the widget</span></span><br><span class="line"><span class="comment">        ];</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实际构建的代码写法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">ContextualEditingWidget-&gt;<span class="built_in">AddSlot</span>()</span><br><span class="line">.<span class="built_in">Padding</span>( <span class="number">2.0f</span> )</span><br><span class="line">[</span><br><span class="line">    <span class="built_in">SNew</span>( SDetailSection )</span><br><span class="line">    .<span class="built_in">SectionName</span>(<span class="string">&quot;StaticMeshSection&quot;</span>)</span><br><span class="line">    .<span class="built_in">SectionTitle</span>( <span class="built_in">LOCTEXT</span>(<span class="string">&quot;StaticMeshSection&quot;</span>, <span class="string">&quot;Static Mesh&quot;</span>).<span class="built_in">ToString</span>() )</span><br><span class="line">    .<span class="built_in">Content</span>()</span><br><span class="line">    [</span><br><span class="line">        <span class="built_in">SNew</span>( SVerticalBox )</span><br><span class="line">        + SVerticalBox::<span class="built_in">Slot</span>()</span><br><span class="line">        .<span class="built_in">Padding</span>( <span class="number">3.0f</span>, <span class="number">1.0f</span> )</span><br><span class="line">        [</span><br><span class="line">            <span class="built_in">SNew</span>( SHorizontalBox )</span><br><span class="line">            + SHorizontalBox::<span class="built_in">Slot</span>()</span><br><span class="line">            .<span class="built_in">Padding</span>( <span class="number">2.0f</span> )</span><br><span class="line">            [</span><br><span class="line">                <span class="built_in">SNew</span>( SComboButton )</span><br><span class="line">                .<span class="built_in">ButtonContent</span>()</span><br><span class="line">                [</span><br><span class="line">                    <span class="built_in">SNew</span>( STextBlock )</span><br><span class="line">                    .<span class="built_in">Text</span>( <span class="built_in">LOCTEXT</span>(<span class="string">&quot;BlockingVolumeMenu&quot;</span>, <span class="string">&quot;Create Blocking Volume&quot;</span>) ) </span><br><span class="line">                    .<span class="built_in">Font</span>( FontInfo )</span><br><span class="line">                ]</span><br><span class="line">                .<span class="built_in">MenuContent</span>()</span><br><span class="line">                [</span><br><span class="line">                    BlockingVolumeBuilder.<span class="built_in">MakeWidget</span>()</span><br><span class="line">                ]</span><br><span class="line">            ]</span><br><span class="line">        ]</span><br><span class="line"></span><br><span class="line">    ]</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<h2 id="Construct函数"><a href="#Construct函数" class="headerlink" title="Construct函数"></a>Construct函数</h2><p>构造SWidget时会调用的函数。里面只有一个参数FArguments。我们可以这么写来拿到我们刚才用宏定义的值。<strong>加下划线_的原因看一眼SLATE_ARGUMENT的定义就能明白</strong>。</p>
+<h2 id="Slate语法"><a href="#Slate语法" class="headerlink" title="Slate语法"></a>Slate语法</h2><p>Slate的语法比较特殊，不过可读性很强，注意它的特殊缩进格式，如果使用vs的格式化快捷键会破坏掉缩进格式要小心</p>
+<p><strong>SNew(WidgetType)</strong> 作用是创建一个SWidget。<strong>STextBlock、SButton、SVerticalBox</strong>的功能和我们经常使用的UMG里的控件差不多。<strong>Slot</strong>直译为插槽，通过增加插槽我们可以嵌套其他SWidget。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><p>HUD类：以前的UI解决方案，现在很少用了。</p>
+</li>
+<li><p>SWidget类图：三大类，SCompoundWidget能放一个子Widget，SLeafWidget不能放子Widget，SPanelWidget能放很多个。</p>
+</li>
+<li><p>Slate特殊写法：SNew新建，加点设置参数，加Slot设置子Widget。</p>
+</li>
+<li><p>TSharePtr和TShareRef智能指针：TSharefPtr可以为空，可以在头文件定义。</p>
+</li>
+</ul>
+<h1 id="创建插件"><a href="#创建插件" class="headerlink" title="创建插件"></a>创建插件</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="FLoadingScreenAttributes"><a href="#FLoadingScreenAttributes" class="headerlink" title="FLoadingScreenAttributes"></a>FLoadingScreenAttributes</h3><p>一种数据类型，Loading界面的所有属性值都放在这里面了，声明一个此类型的变量，设置其中具体值，再赋值给<code>SetupLoadingScreen()</code>函数即可</p>
+<ol>
+<li><p><code>bAutoCompleteWhenLoadingCompletes</code></p>
+<ul>
+<li>如果为真，则在播放所有电影并完成加载后，加载屏幕将立即消失,此时进入游戏</li>
+</ul>
+</li>
+<li><p><code>bMoviesAreSkippable</code></p>
+<ul>
+<li>如果为true，则只要加载完成，就可以通过单击加载屏幕跳过电影</li>
+</ul>
+</li>
+<li><p><code>bWaitForManualStop</code></p>
+<ul>
+<li>如果为true，播放的动画（幻灯片）会一直循环，直到关卡加载好</li>
+</ul>
+</li>
+<li><p><code>PlaybackType</code></p>
+<ul>
+<li>播放类型，表示我们是否应该循环播放等</li>
+</ul>
+</li>
+<li><p><code>WidgetLoadingScreen</code></p>
+<ul>
+<li><p>要显示在电影顶部的小部件，如果没有电影，则只需单独显示</p>
+</li>
+<li><p>使用<code>SNew</code>传入一个<code>slate</code>并且赋值给<code>WidgetLoadingScreen</code></p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="EMoviePlaybackType"><a href="#EMoviePlaybackType" class="headerlink" title="EMoviePlaybackType"></a>EMoviePlaybackType</h3><p>定义了动画渲染模式，是循环播放，还是仅仅播放一次</p>
+<ol>
+<li><p><code>MT_Normal</code></p>
+<ul>
+<li>正常播放模式。播放播放列表中的每部电影一次</li>
+</ul>
+</li>
+<li><p><code>MT_Looped</code></p>
+<ul>
+<li>循环播放模式。按顺序播放播放列表中的所有电影，然后重新开始，直到手动取消</li>
+</ul>
+</li>
+<li><p><code>MT_LoadingLoop</code></p>
+<ul>
+<li>交替循环模式。播放播放列表中的所有电影，并循环播放最后一部电影，直到加载完成</li>
+</ul>
+</li>
+</ol>
+<h3 id="GetMoviePlayer"><a href="#GetMoviePlayer" class="headerlink" title="GetMoviePlayer()"></a>GetMoviePlayer()</h3><p>获取动画播放器</p>
+<ol>
+<li><p><code>GetMoviePlayer()-&gt;SetupLoadingScreen()</code></p>
+<ul>
+<li>设置加载界面，传入<code>FLoadingScreenAttributes</code>类型的参数</li>
+</ul>
+</li>
+<li><p><code>GetMoviePlayer()-&gt;PlayMovie()</code></p>
+<ul>
+<li>开始播放动画</li>
+</ul>
+</li>
+</ol>
+<h3 id="FCoreUObjectDelegates"><a href="#FCoreUObjectDelegates" class="headerlink" title="FCoreUObjectDelegates"></a>FCoreUObjectDelegates</h3><p>全局CoreUObject委托</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FCoreUObjectDelegates::PreLoadMap.<span class="built_in">AddRaw</span>(<span class="keyword">this</span>, &amp;文件名::函数名);</span><br></pre></td></tr></table></figure>
+
+<h4 id="PreLoadMap"><a href="#PreLoadMap" class="headerlink" title="PreLoadMap"></a>PreLoadMap</h4><p>预加载文件夹</p>
+<h4 id="AddRaw"><a href="#AddRaw" class="headerlink" title="AddRaw"></a>AddRaw</h4><p>添加原始C++指针委托</p>
+<h2 id="大致步骤"><a href="#大致步骤" class="headerlink" title="大致步骤"></a>大致步骤</h2><ol>
+<li><p>编辑-&gt;插件-&gt;新插件-&gt;空插件-&gt;<code>SimpleScreenLoading</code></p>
+</li>
+<li><p><code>TowerDefence\Plugins\SimpleScreenLoading\Source\SimpleScreenLoading\Public</code>路径下创建文件<code>SScreenLoading.h</code>，<code>SScreenLoading.h</code></p>
+</li>
+<li><p><code>TowerDefence\Plugins\SimpleScreenLoading\Source\SimpleScreenLoading\Private</code>路径下创建文件<code>SScreenLoading.cpp</code>，<code>SScreenLoading.CPP</code></p>
+</li>
+<li><p>在<code>SScreenLoading.h</code>中</p>
+<ul>
+<li><p><code>class SScreenLoading</code>继承自<code>SCompoundWidget</code>基类</p>
+</li>
+<li><p>添加slate的标准三件套：<code>SLATE_BEGIN_ARGS()&#123;&#125;</code>，<code>SLATE_END_ARGS()</code>，<code>void Construct()</code></p>
+<ul>
+<li><p><code>SLATE_BEGIN_ARGS(SScreenLoading)</code></p>
+</li>
+<li><p>构造函数传入参数<code>void Construct(const FArguments&amp; InArgs,const FString &amp;InMapName)</code></p>
+</li>
+</ul>
+</li>
+<li><p>创建一个函数<code>GetProgress()</code>用于获取进度条的进度</p>
+<ul>
+<li><p>返回值类型为<code>TOptional&lt;float&gt;</code></p>
+<ul>
+<li><p>当我们有一个可选值时， <a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.27/en-US/API/Runtime/Core/Misc/TOptional/IsSet/index.html">IsSet()</a>返回 true，而<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.27/en-US/API/Runtime/Core/Misc/TOptional/GetValue/2/index.html">GetValue()</a>是有意义的。否则<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.27/en-US/API/Runtime/Core/Misc/TOptional/GetValue/2/index.html">GetValue()</a>没有意义。</p>
+</li>
+<li><p>当返回值是一个有效的float的时候，则返回值有意义，否则无意义</p>
+</li>
+</ul>
+</li>
+<li><p>是一个<code>const</code>函数</p>
+</li>
+</ul>
+</li>
+<li><p>定义一个<code>STring</code>类型的变量<code>MapName</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>SScreenLoading.cpp</code>中</p>
+<ul>
+<li><p><code>Construct()</code>中</p>
+<ul>
+<li><p>将参数<code>InMapName</code>赋值给<code>MapName</code></p>
+</li>
+<li><p>使用<code>ChildSlot[]</code>创建一个子插件</p>
+<ul>
+<li><p>使用<code>SNew</code>创建一个类型为<code>SProgressBar</code>的组件</p>
+</li>
+<li><p>使用<code>.percent()</code>进行代理绑定函数<code>GetProgress</code></p>
+<ul>
+<li><code>SNew(SProgressBar).Percent(this,&amp;SScreenLoading::GetProgress)</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>定义函数<code>GetProgress()</code></p>
+</li>
+<li><p>异步获取加载地图的进度百分比，并且使用一个float类型的变量<code>LoadPrecentage</code>保存起来</p>
+<ul>
+<li><code>float LoadPrecentage = GetAsyncLoadPercentage(*MapName);</code></li>
+</ul>
+</li>
+<li><p>返回<code>LoadPrecentage* 0.01</code></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在<code>SimpleScreenLoading.h</code>中（调用模块，在模块中实现具体功能）</p>
+<ul>
+<li><p>在private:下声明函数</p>
+<ul>
+<li><p><code>void BeginLoadingScreen(const FString&amp; MapName)</code></p>
+</li>
+<li><p><code>void EndLoadingScreen(UWorld* World);</code></p>
+</li>
+</ul>
+</li>
+<li><p>在public:下声明函数</p>
+<ul>
+<li><p><code>SIMPLESCREENLOADING_API void SetupScreenLoading();</code></p>
+<ul>
+<li>前面添加的<code>SIMPLESCREENLOADING_API</code>（文件名_API）是导出宏，生成一个DLL文件，方便在其他位置（工程文件中&#x2F;非插件文件位置）调用该函数</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在<code>SimpleScreenLoading.cpp</code>中</p>
+<ul>
+<li><p>在<code>BeginLoadingScreen(const FString&amp; MapName)</code>函数中</p>
+<ul>
+<li><p>定义一个<code>FLoadingScreenAttributes</code>类型的参数<code>LoadingScreenArg</code></p>
+</li>
+<li><p>设置其<code>bAutoCompleteWhenLoadingCompletes</code>为false</p>
+</li>
+<li><p>设置其<code>bMoviesAreSkippable</code>为true</p>
+</li>
+<li><p>设置其<code>bWaitForManualStop</code>为false</p>
+</li>
+<li><p>设置其<code>PlaybackType</code>为<code>EMoviePlaybackType::MT_LoadingLoop</code></p>
+</li>
+<li><p>设置其<code>WidgetLoadingScreen</code>为<code>SNew(SScreenLoading,MapName)</code></p>
+</li>
+<li><p>调用函数<code>GetMoviePlayer()</code>，以此函数调用函数<code>SetupLoadingScreen()</code>并且将<code>LoadingScreenArg</code>作为参数传入</p>
+</li>
+<li><p>调用函数<code>GetMoviePlayer()</code>，以此函数调用函数<code>PlayMovie()</code></p>
+</li>
+</ul>
+</li>
+<li><p><code>SetupScreenLoading()</code>函数中</p>
+<ul>
+<li><p>设置全局CoreUObject委托，<code>PreLoadMap</code>预加载地图使用<code>AddRaw</code>添加代理，绑定<code>BeginLoadingScreen</code></p>
+</li>
+<li><p>设置全局CoreUObject委托，<code>PostLoadMapWithWorld</code>使用<code>AddRaw</code>添加代理，绑定<code>EndLoadingScreen</code></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在<code>SimpleScreenLoading.Build.cs</code>文件中</p>
+<ul>
+<li>添加模块<code> &quot;MoviePlayer&quot;</code></li>
+</ul>
+</li>
+<li><p>在<code>TowerDefenceGameInstance.h</code>文件中</p>
+<ul>
+<li>重载函数<code>Init()</code></li>
+</ul>
+</li>
+<li><p>在<code>TowerDefenceGameInstance.cpp</code>文件中</p>
+<ul>
+<li><p>定义函数<code>Init()</code></p>
+<ul>
+<li><p><code>Super::</code>继承父类</p>
+</li>
+<li><p>创建一个<code>FSimpleScreenLoadingModule</code>类型的变量<code>SimpleScreenLoadingModule</code></p>
+<ul>
+<li><code>FSimpleScreenLoadingModule</code>类型就是插件模块类型</li>
+</ul>
+</li>
+<li><p>使用<code>FModuleManager</code>，并且使用<code>LoadModuleChecked</code>加载一个<code>FSimpleScreenLoadingModule</code>类型的模块<code>SimpleScreenLoading</code>（也就是刚刚写好的插件）</p>
+</li>
+<li><p>通过<code>SimpleScreenLoadingModule</code>调用函数<code>SetupScreenLoading()</code></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在<code>TowerDefence.Build.cs</code>中</p>
+<ul>
+<li>添加模块<code>&quot;SimpleScreenLoading&quot;</code></li>
+</ul>
+</li>
+</ol>
+<h1 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h1><h2 id="SScreenLoading-h"><a href="#SScreenLoading-h" class="headerlink" title="SScreenLoading.h"></a>SScreenLoading.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Widgets/SCompoundWidget.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SScreenLoading</span> :<span class="keyword">public</span> SCompoundWidget &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="comment">//slate框架，必须携带的两个宏格式，括号内是传入的WidgetType</span></span><br><span class="line">	<span class="built_in">SLATE_BEGIN_ARGS</span>(SScreenLoading)</span><br><span class="line">	&#123;&#125;</span><br><span class="line">	<span class="built_in">SLATE_END_ARGS</span>();</span><br><span class="line"></span><br><span class="line">	<span class="comment">//slate的构造函数，括号内是传入的参数</span></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">Construct</span><span class="params">(<span class="type">const</span> FArguments&amp; InArgs,<span class="type">const</span> FString &amp;InMapName)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="function">TOptional&lt;<span class="type">float</span>&gt; <span class="title">GetProgress</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"></span><br><span class="line">	FString MapName;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="SScreenLoading-cpp"><a href="#SScreenLoading-cpp" class="headerlink" title="SScreenLoading.cpp"></a>SScreenLoading.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;SScreenLoading.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Widgets\Images\SImage.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Widgets\Input\SButton.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Widgets\Notifications\SProgressBar.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SScreenLoading::Construct</span><span class="params">(<span class="type">const</span> FArguments&amp; InArgs, <span class="type">const</span> FString &amp;InMapName)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	MapName = InMapName;</span><br><span class="line">	ChildSlot[</span><br><span class="line">		<span class="built_in">SNew</span>(SProgressBar)</span><br><span class="line">		.<span class="built_in">Percent</span>(<span class="keyword">this</span>,&amp;SScreenLoading::GetProgress)</span><br><span class="line">	];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">TOptional&lt;<span class="type">float</span>&gt; <span class="title">SScreenLoading::GetProgress</span><span class="params">()</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">float</span> LoadPrecentage = <span class="built_in">GetAsyncLoadPercentage</span>(*MapName);<span class="comment">//获取异步加载百分比</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> LoadPrecentage* <span class="number">0.01</span>;</span><br><span class="line">	<span class="comment">//return TOptional&lt;float&gt;();</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="SimpleScreenLoading-h"><a href="#SimpleScreenLoading-h" class="headerlink" title="SimpleScreenLoading.h"></a>SimpleScreenLoading.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Modules/ModuleManager.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FSimpleScreenLoadingModule</span> : <span class="keyword">public</span> IModuleInterface</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** IModuleInterface implementation IModule接口实现*/</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">StartupModule</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">ShutdownModule</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line">	<span class="function">SIMPLESCREENLOADING_API <span class="type">void</span> <span class="title">SetupScreenLoading</span><span class="params">()</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">BeginLoadingScreen</span><span class="params">(<span class="type">const</span> FString&amp; MapName)</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">EndLoadingScreen</span><span class="params">(UWorld* World)</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="SimpleScreenLoading-cpp"><a href="#SimpleScreenLoading-cpp" class="headerlink" title="SimpleScreenLoading.cpp"></a>SimpleScreenLoading.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;SimpleScreenLoading.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;SScreenLoading.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;MoviePlayer\Public\MoviePlayer.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> LOCTEXT_NAMESPACE <span class="string">&quot;FSimpleScreenLoadingModule&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">FSimpleScreenLoadingModule::StartupModule</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module</span></span><br><span class="line">	<span class="comment">//此代码将在模块加载到内存后执行；确切的定时在每个模块的.uplugin文件中指定</span></span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">FSimpleScreenLoadingModule::ShutdownModule</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// This function may be called during shutdown to clean up your module.  For modules that support dynamic reloading,</span></span><br><span class="line">	<span class="comment">// 在关机期间可以调用此函数来清理模块。对于支持动态重新加载的模块，</span></span><br><span class="line">	<span class="comment">// we call this function before unloading the module.</span></span><br><span class="line">	<span class="comment">//我们在卸载模块之前调用此函数。</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">FSimpleScreenLoadingModule::SetupScreenLoading</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//FCoreUObjectDelegates：全局CoreUObject委托</span></span><br><span class="line">	<span class="comment">//PreLoadMap：预加载文件夹</span></span><br><span class="line">	<span class="comment">//AddRaw：添加原始C++指针委托</span></span><br><span class="line">	FCoreUObjectDelegates::PreLoadMap.<span class="built_in">AddRaw</span>(<span class="keyword">this</span>, &amp;FSimpleScreenLoadingModule::BeginLoadingScreen);</span><br><span class="line">	FCoreUObjectDelegates::PostLoadMapWithWorld.<span class="built_in">AddRaw</span>(<span class="keyword">this</span>, &amp;FSimpleScreenLoadingModule::EndLoadingScreen);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">FSimpleScreenLoadingModule::BeginLoadingScreen</span><span class="params">(<span class="type">const</span> FString&amp; MapName)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FLoadingScreenAttributes LoadingScreenArg;</span><br><span class="line">	LoadingScreenArg.bAutoCompleteWhenLoadingCompletes = <span class="literal">false</span>;<span class="comment">//如果为真，则在播放所有电影并完成加载后，加载屏幕将立即消失,此时进入游戏</span></span><br><span class="line">	LoadingScreenArg.bMoviesAreSkippable = <span class="literal">true</span>;<span class="comment">//如果为true，则只要加载完成，就可以通过单击加载屏幕跳过电影</span></span><br><span class="line">	LoadingScreenArg.bWaitForManualStop = <span class="literal">false</span>;<span class="comment">//如果为true，播放的动画（幻灯片）会一直循环，直到关卡加载好</span></span><br><span class="line">	<span class="comment">//PlaybackType:我们是否应该播放、循环等。注意：如果播放类型为MT_LoopLast，则当播放最后一部电影时，将打开bAutoCompleteWhenLoadingCompletes</span></span><br><span class="line">	<span class="comment">//EMoviePlaybackType:为了使平台支持早期电影播放，平台必须支持渲染线程,很早开始，并在启动后立即支持渲染，并且包含平台电影流的模块必须已经加载</span></span><br><span class="line">	<span class="comment">//MT_LoadingLoop:交替循环模式。播放播放列表中的所有电影，并循环播放最后一部电影，直到加载完成</span></span><br><span class="line">	LoadingScreenArg.PlaybackType = EMoviePlaybackType::MT_LoadingLoop;<span class="comment">//</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//WidgetLoadingScreen:要显示在电影顶部的小部件，如果没有电影，则只需单独显示</span></span><br><span class="line">	LoadingScreenArg.WidgetLoadingScreen = <span class="built_in">SNew</span>(SScreenLoading,MapName);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">GetMoviePlayer</span>()-&gt;<span class="built_in">SetupLoadingScreen</span>(LoadingScreenArg);</span><br><span class="line">	<span class="built_in">GetMoviePlayer</span>()-&gt;<span class="built_in">PlayMovie</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">FSimpleScreenLoadingModule::EndLoadingScreen</span><span class="params">(UWorld* World)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">undef</span> LOCTEXT_NAMESPACE</span></span><br><span class="line">	</span><br><span class="line"><span class="built_in">IMPLEMENT_MODULE</span>(FSimpleScreenLoadingModule, SimpleScreenLoading)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="TowerDefenceGameInstance-h"><a href="#TowerDefenceGameInstance-h" class="headerlink" title="TowerDefenceGameInstance.h"></a>TowerDefenceGameInstance.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Engine/GameInstance.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TowerDefenceGameInstance.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TOWERDEFENCE_API</span> UTowerDefenceGameInstance : <span class="keyword">public</span> UGameInstance</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line">	</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Init</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="TowerDefenceGameInstance-cpp"><a href="#TowerDefenceGameInstance-cpp" class="headerlink" title="TowerDefenceGameInstance.cpp"></a>TowerDefenceGameInstance.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Core/GameCore/TowerDefenceGameInstance.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;SimpleScreenLoading.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UTowerDefenceGameInstance::Init</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">Init</span>();</span><br><span class="line"></span><br><span class="line">	<span class="comment">//LoadModuleChecked：加载模块，如果失败，则会产生一个断言提示</span></span><br><span class="line">	<span class="comment">//FModuleManager：用于加载和卸载模块，以及跟踪当前加载的所有模块。您可以使用FModuleManager：：Get（）访问此单例</span></span><br><span class="line">	FSimpleScreenLoadingModule&amp; SimpleScreenLoadingModule=FModuleManager::<span class="built_in">LoadModuleChecked</span>&lt;FSimpleScreenLoadingModule&gt;(<span class="string">&quot;SimpleScreenLoading&quot;</span>);</span><br><span class="line">	SimpleScreenLoadingModule.<span class="built_in">SetupScreenLoading</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="SimpleScreenLoading-Build-cs"><a href="#SimpleScreenLoading-Build-cs" class="headerlink" title="SimpleScreenLoading.Build.cs"></a>SimpleScreenLoading.Build.cs</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> UnrealBuildTool;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SimpleScreenLoading</span> : ModuleRules</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">SimpleScreenLoading</span><span class="params">(ReadOnlyTargetRules Target)</span> : base(Target)</span></span><br><span class="line"><span class="function">	&#123;</span></span><br><span class="line">		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;</span><br><span class="line">		</span><br><span class="line">		PublicIncludePaths.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[] &#123;</span><br><span class="line">				<span class="comment">// ... add public include paths required here ...</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">				</span><br><span class="line">		</span><br><span class="line">		PrivateIncludePaths.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[] &#123;</span><br><span class="line">				<span class="comment">// ... add other private include paths required here ...</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">			</span><br><span class="line">		</span><br><span class="line">		PublicDependencyModuleNames.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[]</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="string">&quot;Core&quot;</span>,</span><br><span class="line">				<span class="comment">// ... add other public dependencies that you statically link with here ...</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">			</span><br><span class="line">		</span><br><span class="line">		PrivateDependencyModuleNames.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[]</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="string">&quot;CoreUObject&quot;</span>,</span><br><span class="line">				<span class="string">&quot;Engine&quot;</span>,</span><br><span class="line">				<span class="string">&quot;Slate&quot;</span>,</span><br><span class="line">				<span class="string">&quot;SlateCore&quot;</span>,</span><br><span class="line">                <span class="string">&quot;MoviePlayer&quot;</span>,</span><br><span class="line">				<span class="comment">// ... add private dependencies that you statically link with here ...	</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		DynamicallyLoadedModuleNames.<span class="built_in">AddRange</span>(</span><br><span class="line">			<span class="keyword">new</span> string[]</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="comment">// ... add any modules that your module loads dynamically here ...</span></span><br><span class="line">			&#125;</span><br><span class="line">			);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="TowerDefence-Build-cs"><a href="#TowerDefence-Build-cs" class="headerlink" title="TowerDefence.Build.cs"></a>TowerDefence.Build.cs</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/11/UE4-%E9%A1%B9%E7%9B%AE-TwoerDefence-%E5%B8%83%E5%B1%80UMG%E6%B8%B8%E6%88%8FUI/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/08/11/UE4-%E9%A1%B9%E7%9B%AE-TwoerDefence-%E5%B8%83%E5%B1%80UMG%E6%B8%B8%E6%88%8FUI/" class="post-title-link" itemprop="url">UE4-项目-TwoerDefence-布局UMG游戏UI</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-08-11 15:11:51 / 修改时间：15:42:37" itemprop="dateCreated datePublished" datetime="2022-08-11T15:11:51+08:00">2022-08-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>上一章节我们把UI的框架再C++中搭建完成了</p>
+<p>这一章节我们再控件蓝图中具体实现它们</p>
+<h1 id="创建对应的控件蓝图"><a href="#创建对应的控件蓝图" class="headerlink" title="创建对应的控件蓝图"></a>创建对应的控件蓝图</h1><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>在上一节，我们在<code>MainScreen.h</code>中声明了很多UI界面，并且各自实现了其部分功能</p>
+</li>
+<li><p>现在，需要我们创建与其一 一对应的控件蓝图，将控件蓝图的父类一 一修改为对应的C++文件，再将C++文件中定义好的组件一 一对应添加到其中，并且合理布局</p>
+</li>
+</ol>
+<h2 id="大致步骤"><a href="#大致步骤" class="headerlink" title="大致步骤"></a>大致步骤</h2><ol>
+<li><p>在<code>Content/UI/Game/System</code>路径下分别创建以下控件蓝图</p>
+<ul>
+<li><p><code>GameInfoPrintSystem_BP</code></p>
+</li>
+<li><p><code>GameMenuSystem_BP</code></p>
+</li>
+<li><p><code>MiniMapSystem_BP</code></p>
+</li>
+<li><p><code>MissionSystem_BP</code></p>
+</li>
+<li><p><code>PlayerSkillSystem_BP</code></p>
+</li>
+<li><p><code>RucksackSystem_BP</code></p>
+</li>
+<li><p><code>ToolBarSystem_BP</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>Content/UI/Game/Inventory</code>路径下分别创建以下控件蓝图以作为<code>System</code>系列蓝图的补充组件</p>
+<ul>
+<li><p><code>Inventory_BP</code></p>
+</li>
+<li><p><code>InventorySlot_BP</code></p>
+</li>
+</ul>
+</li>
+<li><p>在<code>Content/UI/Game/Skill</code>路径下创建以下控件蓝图作为技能列表的小格子</p>
+<ul>
+<li><code>SkillSlot_bp</code></li>
+</ul>
+</li>
+<li><p>分别各控件蓝图的父类为对应的C++文件</p>
+</li>
+<li><p>分别在各蓝图控件中添加相应组件</p>
+</li>
+<li><p>控件蓝图中的布局</p>
+</li>
+<li><p>将创建的7个<code>System</code>系列蓝图添加到<code>MainScreen_BP</code>中，并且合理布局</p>
+</li>
+</ol>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
+<li>善用<code>边界</code>，<code>垂直框</code>，<code>水平框</code>，<code>覆层</code>组件来整合组件</li>
+</ol>
+<h2 id="最终效果"><a href="#最终效果" class="headerlink" title="最终效果"></a>最终效果</h2><p><img src="/UE4-%E9%A1%B9%E7%9B%AE-TwoerDefence-%E5%B8%83%E5%B1%80UMG%E6%B8%B8%E6%88%8FUI%5C1.png"></p>
+<h1 id="BUG"><a href="#BUG" class="headerlink" title="BUG"></a>BUG</h1><p>现在发现运行之后存在背包系统不显示（格子不显示）</p>
+<p>使用<code>checkNoEntry()</code>测试之后发现是在<code>UI_Inventory.cpp</code>中，判断是否生成<code>InventorySlotClass</code>，时为<code>false</code>导致根本没有进入后面的格子生成代码</p>
+<p>但是排查了很就还是找不到为啥没有成功生成<code>InventorySlotClass</code>，今晚继续问问人宅大佬看看能不能救救我</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -2247,355 +2777,6 @@
 <li><p>在设计器中的“丧尸当前数量”文本控件中创建绑定，判断丧尸当前数量是否&lt;&#x3D;0，是则返回节点设置为“丧尸当前数量”</p>
 </li>
 <li><p>在丧尸蓝图类的“伤害检测和死亡系统”中通过“获取类的所有控件”和“游戏中界面”达成通信，在丧尸死亡之后将“丧尸当前数量自减”</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/16/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2%E5%8A%A8%E6%80%81%E5%87%86%E6%98%9F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/16/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2%E5%8A%A8%E6%80%81%E5%87%86%E6%98%9F/" class="post-title-link" itemprop="url">UE4-项目-死寂-角色动态准星</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-07-16 15:52:30" itemprop="dateCreated datePublished" datetime="2022-07-16T15:52:30+08:00">2022-07-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-07-17 10:59:21" itemprop="dateModified" datetime="2022-07-17T10:59:21+08:00">2022-07-17</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="动态准星"><a href="#动态准星" class="headerlink" title="动态准星"></a>动态准星</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><h3 id="事件Tick"><a href="#事件Tick" class="headerlink" title="事件Tick"></a>事件Tick</h3><p>帧更新，它的Delta Seconds引脚则是游戏帧率</p>
-<h3 id="已限制映射范围"><a href="#已限制映射范围" class="headerlink" title="已限制映射范围"></a>已限制映射范围</h3><p>数学知识里面的映射，可以使得一个小一点的数映射成一个大一点的数，然后原本的数变换，映射之后的数随之变换</p>
-<p>In Range A：输入最小值</p>
-<p>In Range B：输入最大值</p>
-<p>Out Range A：输出最小值</p>
-<p>Out Range B：输出最大值</p>
-<h3 id="设置渲染平移"><a href="#设置渲染平移" class="headerlink" title="设置渲染平移"></a>设置渲染平移</h3><p>可以设置控件蓝图中组件的平移</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>在角色开枪&#x2F;跑步的时候准星扩散，在角色不开枪的时候准星减小</p>
-<ol>
-<li><p>添加变量</p>
-<ul>
-<li><p>在角色蓝图中添加float类型变量“准星扩散当前值”，“准星扩散最大值”，“准星扩散最小值”，“准星扩散速度”</p>
-</li>
-<li><p>“准星扩散最大值”为0.2，准星扩散速度为0.3</p>
-</li>
-</ul>
-</li>
-<li><p>添加函数“准星扩散减小”</p>
-<ul>
-<li><p>给其添加一个float类型的输入“准星扩散减小”</p>
-</li>
-<li><p>“扩散准星当前值”-输入的“准星扩散减小”</p>
-</li>
-<li><p>判断值是否&lt;&#x3D;0</p>
-<ul>
-<li><p>true则将准星扩散当前值设置为“准星扩散最小值”</p>
-</li>
-<li><p>false则将“扩散准星当前值”-输入的“准星扩散减小”的结果赋值给“准星扩散当前值”</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>添加函数“准星扩散增加”</p>
-<ul>
-<li><p>给其添加一个float类型的输入“准星扩散增加”</p>
-</li>
-<li><p>“扩散准星当前值”+输入的“准星扩散增加”</p>
-</li>
-<li><p>判断值是否&gt;&#x3D;”准星扩散最大值”</p>
-<ul>
-<li><p>true则将准星扩散当前值设置为“准星扩散最大值”</p>
-</li>
-<li><p>false则将“扩散准星当前值”+输入的“准星扩散增加”的结果赋值给“准星扩散当前值”</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>调用“准星扩散减小”</p>
-<ul>
-<li><p>在角色蓝图中的事件图表中的“事件Tick”后面的序列节点，添加一个引脚</p>
-</li>
-<li><p>判断“准星扩散当前值”是否大于等于“准星扩散最小值”，true则调用“准星扩散减小”</p>
-</li>
-<li><p>拉出事件Tick的Delta Seconds引脚，乘以“准星扩散速度”之后传入“准星扩散减小”函数的引脚</p>
-</li>
-</ul>
-</li>
-<li><p>在“游戏中界面”的设计器中添加动态准星</p>
-<ul>
-<li><p>添加一个画布面板“准星十字”</p>
-</li>
-<li><p>给其添加一个图片“上”（十字当中的最上面那一笔），将其锚点居中，调整到屏幕合适位置，尺寸修改为条形，添加十字准星的条形纹理图片</p>
-</li>
-<li><p>同理，创建出“下，左，右”其他三个横条&#x2F;竖条，合理布局为一个准星的样子</p>
-</li>
-</ul>
-</li>
-<li><p>实现准星动态扩散效果</p>
-<ul>
-<li><p>在游戏中界面的图表中通过“获取类的所有actor”和”BP_Player”通信并将返回值提升为变量“蓝图角色实例”</p>
-</li>
-<li><p>“事件Tick”判断“蓝图角色实例”是否有效，有效则使用序列，分别通过“设置渲染平移”达到使得“上下左右”分别移动的效果</p>
-</li>
-<li><p>获取”角色蓝图实例“的“准星扩散当前值”，使用“已限制映射范围”将“准星扩散最大值”引入“In Range B”</p>
-</li>
-<li><p>设置Out Range B为“准星扩散最大值”乘以-200</p>
-</li>
-<li><p>将计算结果设置给上下左右的“设置渲染平移”</p>
-<ul>
-<li><p>上：直接将结果设置给Y轴平移</p>
-</li>
-<li><p>下：将结果取绝对值之后设置给Y轴平移</p>
-</li>
-<li><p>左：同“上”连接到X轴</p>
-</li>
-<li><p>右：同“下”连接到X轴</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>射击时准星持续扩散</p>
-<ul>
-<li>在武器父类中通过角色蓝图实例调用“准星扩散增加”</li>
-</ul>
-</li>
-<li><p>跑步时准星扩散</p>
-<ul>
-<li><p>在角色蓝图事件Tick后面的序列节点中调用“准星扩散增加”</p>
-</li>
-<li><p>传入值根据角色速度来计算</p>
-<ul>
-<li>“获取速度”，“向量长度”，“已限制映射范围”（400，600；0，0.01）</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="实现准星指哪打哪"><a href="#实现准星指哪打哪" class="headerlink" title="实现准星指哪打哪"></a>实现准星指哪打哪</h1><p>修改子弹生成位置</p>
-<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在武器父类中“获取玩家摄像机管理器”</p>
-</li>
-<li><p>从而“获取actor位置”和“获取摄像机旋转”</p>
-</li>
-<li><p>连接到“生成Actor”（生成子弹的位置）节点上</p>
-</li>
-</ol>
-<h1 id="准星切换（持枪为十字，未持枪为点）"><a href="#准星切换（持枪为十字，未持枪为点）" class="headerlink" title="准星切换（持枪为十字，未持枪为点）"></a>准星切换（持枪为十字，未持枪为点）</h1><h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在“游戏中界面”控件蓝图中添加一个图像组件“点准星”，放到合适位置，设置其纹理图像</p>
-</li>
-<li><p>将“准星十字”这一块图像的初始可视性设置为折叠</p>
-</li>
-<li><p>在图表中新建自定义事件“准星切换”</p>
-</li>
-<li><p>分别设置“准星十字”和“点准星”的可视性，并将其可视性作为事件的输入</p>
-</li>
-<li><p>在角色蓝图的装备武器的合适位置（装备武器宏前面）调用此事件</p>
-</li>
-</ol>
-<h1 id="击中丧尸准星反馈"><a href="#击中丧尸准星反馈" class="headerlink" title="击中丧尸准星反馈"></a>击中丧尸准星反馈</h1><h2 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>添加一个新的图像“击中反馈”，设置其锚点，尺寸，位置，透明度（一开始不可见），图像纹理</p>
-</li>
-<li><p>给其添加一个动画“击中标记”，给它添加缩放效果和不透明度效果</p>
-</li>
-<li><p>复制动画效果“击中头部标记”，给它添加缩放效果和不透明度效果（红色）</p>
-</li>
-<li><p>在图表中创建自定义事件“击中丧尸”和“击中丧尸头部”，分别播放两个动画</p>
-</li>
-<li><p>在子弹父类中通过“获取类的所有控件”达成和“游戏中界面”的蓝图通信（记得返回值提升为变量并且命名为“游戏中界面”）</p>
-</li>
-<li><p>在子弹父类中击中丧尸造成伤害的位置判断后面分别调用“击中丧尸头部”和“击中丧尸”</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/16/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2%E5%8F%97%E4%BC%A4%E5%B1%8F%E5%B9%95%E6%95%88%E6%9E%9C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/16/UE4-%E9%A1%B9%E7%9B%AE-%E6%AD%BB%E5%AF%82-%E8%A7%92%E8%89%B2%E5%8F%97%E4%BC%A4%E5%B1%8F%E5%B9%95%E6%95%88%E6%9E%9C/" class="post-title-link" itemprop="url">UE4-项目-死寂-角色受伤屏幕效果</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-07-16 14:27:12 / 修改时间：15:51:33" itemprop="dateCreated datePublished" datetime="2022-07-16T14:27:12+08:00">2022-07-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/unreal-engine/" itemprop="url" rel="index"><span itemprop="name">unreal engine</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="角色受伤屏幕变红"><a href="#角色受伤屏幕变红" class="headerlink" title="角色受伤屏幕变红"></a>角色受伤屏幕变红</h1><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
-<li><p>在“游戏中界面”控件蓝图中添加一个图像“受伤屏幕效果”，添加合适的图片，修改为合适的透明度</p>
-</li>
-<li><p>修改图像“受伤屏幕效果”的渲染不透明度为0（一开始的时候不可见，被攻击才可见）</p>
-</li>
-<li><p>添加动画“受伤”</p>
-<ul>
-<li><p>给“受伤屏幕效果”添加轨道</p>
-</li>
-<li><p>设置渲染不透明度由0到1</p>
-</li>
-</ul>
-</li>
-<li><p>在图表中添加自定义事件“受伤”</p>
-<ul>
-<li><p>播放动画“受伤”</p>
-</li>
-<li><p>将Play Mode（播放正反方向）作为形参传出去</p>
-</li>
-</ul>
-</li>
-<li><p>在角色蓝图类中的死亡系统事件图表中的“被击中播放音效且摄像机视角晃动”逻辑段后面</p>
-<ul>
-<li><p>使用一个序列节点，引脚1连接原本的逻辑段</p>
-</li>
-<li><p>引脚0使用“Do Once”节点后调用“游戏中界面”中的自定义事件“受伤屏幕动画”</p>
-</li>
-<li><p>添加自定义事件“关闭受伤屏幕效果”，判断玩家是否死亡，未死亡则调用“受伤屏幕动画”，并且反向播放</p>
-</li>
-<li><p>在序列后面添加一个“以函数名清除定时器”，函数名为“关闭受伤屏幕效果”</p>
-</li>
-<li><p>紧接着在“以函数名清除定时器”后面添加一个“以函数名设置定时器”，函数名为“关闭受伤屏幕效果”，时间为5s</p>
-<ul>
-<li><p>“以函数名设置定时器”作用是没有被攻击之后五秒调用“关闭受伤屏幕效果”</p>
-</li>
-<li><p>“以函数名清除定时器”作用是一旦被攻击，则清除后面的定时器，使得五秒之后不会调用“关闭受伤屏幕效果”</p>
-</li>
-</ul>
-</li>
-</ul>
 </li>
 </ol>
 

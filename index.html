@@ -159,18 +159,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">172</span>
+          <span class="site-state-item-count">174</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">14</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -208,6 +208,392 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/03/UE5-%E5%88%9D%E8%A7%81GamePlay%E6%A1%86%E6%9E%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/06/03/UE5-%E5%88%9D%E8%A7%81GamePlay%E6%A1%86%E6%9E%B6/" class="post-title-link" itemprop="url">UE5-初见GamePlay框架</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-06-03 12:31:02 / 修改时间：16:06:27" itemprop="dateCreated datePublished" datetime="2023-06-03T12:31:02+08:00">2023-06-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/UE5/" itemprop="url" rel="index"><span itemprop="name">UE5</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="GameMode"><a href="#GameMode" class="headerlink" title="GameMode"></a>GameMode</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>是整个关卡的控制器，用来编写整个关卡的业务逻辑。</p>
+<p>相当于每个关卡都是一个世界，<code>GameMode</code>则是给这个世界填充世界规则的<code>天道</code>。</p>
+<p>比如说现在有一个赛车游戏，率先抵达终点的玩家赢得此游戏的胜利，那么这一条规则就应该写在<code>GameMode</code>里面</p>
+<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><ol>
+<li><p>在网络游戏环境中<code>GameMode</code>不会复制到加入多人游戏的远程客户端；它只存在于服务器上，因此本地客户端可看到之前使用过的留存 Game Mode 类（或蓝图）；但无法访问实际的实例并检查其变量，确定游戏进程中已发生哪些变化。</p>
+</li>
+<li><p>一个游戏中可以存在多个<code>GameMode</code>，但给定时间上只能使用一个 <code>GameMode</code>。每次关卡进行游戏实例化时 <code>GameModeActor</code> 将通过 <code>UGameEngine::LoadMap()</code> 函数进行实例化。</p>
+<ul>
+<li>人话：一个游戏内可以存在多个关卡和多个<code>GameMode</code>，每个关卡加载的时候都会将指定的<code>GameMode</code>实例化一次</li>
+</ul>
+</li>
+<li><p><code>GameMode</code>可以派生为一个蓝图实例，然后再<code>WorldSetting-&gt;GameMode</code>下面设置具体的<code>GameMode</code></p>
+</li>
+<li><p><code>GameMode</code>派生为一个蓝图之后，可以在其中设置诸多属性</p>
+<ul>
+<li><p>默认Pawn</p>
+</li>
+<li><p>HUD类</p>
+</li>
+<li><p>PlayerController</p>
+</li>
+<li><p>Spectator类</p>
+</li>
+<li><p>GameState</p>
+</li>
+<li><p>PlayerState</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="基类"><a href="#基类" class="headerlink" title="基类"></a>基类</h2><h3 id="AGameModeBase"><a href="#AGameModeBase" class="headerlink" title="AGameModeBase"></a>AGameModeBase</h3><p>所有 Game Mode 均为 <code>AGameModeBase</code> 的子类。而 <code>AGameModeBase</code> 包含大量可覆盖的基础功能。</p>
+<table>
+<thead>
+<tr>
+<th>函数&#x2F;事件</th>
+<th>目的</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>InitGame</code></td>
+<td><code>InitGame</code> 事件在其他脚本之前调用（包括 <code>PreInitializeComponents</code>），由 <code>AGameModeBase``PreInitializeComponents</code></td>
+</tr>
+<tr>
+<td><code>PreLogin</code></td>
+<td>接受或拒绝尝试加入服务器的玩家。如它将 <code>ErrorMessage</code> 设为一个非空字符串，会导致 <code>Login</code> 函数失败。<code>PreLogin</code> 在 <code>Login</code> 前调用，Login 调用前可能需要大量时间，加入的玩家需要下载游戏内容时尤其如此。</td>
+</tr>
+<tr>
+<td><code>PostLogin</code></td>
+<td>成功登录后调用。这是首个在 <code>PlayerController</code> 上安全调用复制函数之处。<code>OnPostLogin</code> 可在蓝图中实现，以添加额外的逻辑。</td>
+</tr>
+<tr>
+<td><code>HandleStartingNewPlayer</code></td>
+<td>在 <code>PostLogin</code> 后或无缝游历后调用，可在蓝图中覆盖，修改新玩家身上发生的事件。它将默认<mark>创建一个玩家 pawn</mark>。</td>
+</tr>
+<tr>
+<td><code>RestartPlayer</code></td>
+<td>调用开始生成一个玩家 pawn。如需要指定 Pawn 生成的地点，还可使用 <code>RestartPlayerAtPlayerStart</code> 和 <code>RestartPlayerAtTransform</code> 函数。<code>OnRestartPlayer</code> 可在蓝图中实现，在此函数完成后添加逻辑。</td>
+</tr>
+<tr>
+<td><code>SpawnDefaultPawnAtTransform</code></td>
+<td>这实际生成玩家 Pawn，可在蓝图中覆盖。</td>
+</tr>
+<tr>
+<td><code>Logout</code></td>
+<td><mark>玩家离开游戏或被摧毁时</mark>调用。可实现 <code>OnLogout</code> 执行蓝图逻辑。</td>
+</tr>
+</tbody></table>
+<h3 id="AGameMode"><a href="#AGameMode" class="headerlink" title="AGameMode"></a>AGameMode</h3><p><code>AGameMode</code> 是 <code>AGameModeBase</code> 的子类，拥有一些额外支持多人游戏的功能和行为。</p>
+<p>所有新建项目默认使用 <code>AGameModeBase</code>。</p>
+<p>如果需要此额外行为，可切换到从 <code>AGameMode</code> 进行继承。</p>
+<p>如从 <code>AGameMode</code> 进行继承，也可从 <code>AGameState</code> 继承游戏状态（其支持比赛状态机）。</p>
+<p><code>AGameMode</code> 包含一个跟踪比赛状态或整体游戏流程的状态机。可使用 <code>GetMatchState</code> 或 <code>HasMatchStarted</code>、<code>IsMatchInProgress</code> 和 <code>HasMatchEnded</code> 之类的封装器查询当前的状态。以下是可能的比赛状态：</p>
+<ul>
+<li><p><code>EnteringMap</code> ：初始状态。Actor 尚未进行 tick，世界场景尚未完整初始化。内容完整加载后将过渡到下个状态。</p>
+</li>
+<li><p><code>WaitingToStart</code> 是下个状态，进入时将调用 <code>HandleMatchIsWaitingToStart</code>。Actor 正在进行 tick，但玩家尚未生成。如 <code>ReadyToStartMatch</code> 返回 <em>true</em> 或 <code>StartMatch</code> 被调用，它将过渡到下个状态。</p>
+</li>
+<li><p><code>InProgress</code> 是游戏主体所发生的状态。进入此状态时将调用 <code>HandleMatchHasStarted</code>，然后在所有 Actor 上调用 <code>BeginPlay</code>。此时，正常游戏进程已在进行中。<code>ReadyToEndMatch</code> 返回 <em>true</em> 或调用 <code>EndMatch</code> 时比赛将过渡到下个状态。</p>
+</li>
+<li><p><code>WaitingPostMatch</code> 是倒数第二个状态，进入时将调用 <code>HandleMatchHasEnded</code>。Actor 仍在 tick，但新玩家无法加入。地图转换开始时它将过渡到下个状态。</p>
+</li>
+<li><p><code>LeavingMap</code> 是正常流程中的最后一个状态，进入时将调用 <code>HandleLeavingMap</code>。转换到新地图时比赛将保持在此状态中，进入新地图时将过渡回到 <code>EnteringMap</code>。</p>
+</li>
+<li><p><code>Aborted</code> 是失败状态，调用 <code>AbortMatch</code> 可开始此状态。出现无法恢复的错误时将进行此设置。</p>
+</li>
+</ul>
+<p>游戏状态将固定为 <code>InProgress</code>，因为这是调用 <code>BeginPlay</code>、actor 开始 tick 的状态。然而，个体游戏可能覆盖这些状态的行为，用更复杂的规则构建一个多人游戏，如在一款多人射击游戏中等待其他玩家加入时允许玩家在关卡中自由飞行。</p>
+<h2 id="设置GameMode"><a href="#设置GameMode" class="headerlink" title="设置GameMode"></a>设置GameMode</h2><p>详情参见<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.27/zh-CN/InteractiveExperiences/Framework/GameMode/">Game Mode 和 Game State | 虚幻引擎文档</a></p>
+<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><p><a target="_blank" rel="noopener" href="https://docs.unrealengine.com/5.2/en-US/API/Runtime/Engine/GameFramework/AGameMode/">AGameMode | Unreal Engine Documentation</a></p>
+<h1 id="GameState"><a href="#GameState" class="headerlink" title="GameState"></a>GameState</h1><h2 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h2><p><strong>Game State</strong> 负责启用客户端监控游戏状态。从概念上而言，Game State 应该管理所有已连接客户端已知的信息（特定于 Game Mode 但不特定于任何个体玩家）。它能够追踪游戏层面的属性，如已连接玩家的列表、夺旗游戏中的团队得分、开放世界游戏中已完成的任务，等等。</p>
+<p>Game State 并非追踪玩家特有内容（如夺旗比赛中特定玩家为团队获得的分数）的最佳之处，因为它们由 <strong>Player State</strong> 更清晰地处理。整体而言，GameState 应该追踪游戏进程中变化的属性。这些属性与所有人皆相关，且所有人可见。Game mode 只存在于服务器上，而 Game State 存在于服务器上且会被复制到所有客户端，保持所有已连接机器的游戏进程更新。</p>
+<h2 id="人话"><a href="#人话" class="headerlink" title="人话"></a>人话</h2><p><code>GameState</code>用于存储和监控当前游戏状态数据，这些状态数据应该是全体玩家共享的，而不是某个玩家独有的。</p>
+<p>例如一个解密关卡中一扇门是否已经被打开，就应该记录在<code>GameState</code>里面。</p>
+<p>并且<code>GameState</code>每个客户端都有一份</p>
+<h2 id="基类-1"><a href="#基类-1" class="headerlink" title="基类"></a>基类</h2><p><code>AGameStateBase</code> 是基础实现，其部分默认功能包括：</p>
+<table>
+<thead>
+<tr>
+<th>函数或变量</th>
+<th>使用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>GetServerWorldTimeSeconds</code></td>
+<td>这是 <code>UWorld</code> 函数 <code>GetTimeSeconds</code> 的服务器版本，将在客户端和服务器上同步，因此该时间可用于复制，十分可靠。</td>
+</tr>
+<tr>
+<td><code>PlayerArray</code></td>
+<td>这是所有 <code>APlayerState</code> 对象的阵列，对游戏中所有玩家执行操作时十分实用。</td>
+</tr>
+<tr>
+<td><code>HasBegunPlay</code></td>
+<td>如 <code>BeginPlay</code> 函数在游戏中的 actor 上调用，则返回 true。</td>
+</tr>
+</tbody></table>
+<p><code>AGameStateBase</code> 通常在 C++ 或蓝图中延展，包含用于使游戏中玩家知晓当前情况的额外变量和函数。进行的特定修改通常基于 Game State 的配对 Game Mode。Game Mode 自身也可将其默认 Game State 类覆盖为派生自 <code>AGameStateBase</code> 的任意 C++ 类或蓝图。</p>
+<h1 id="GameMode和GameState之间的关系"><a href="#GameMode和GameState之间的关系" class="headerlink" title="GameMode和GameState之间的关系"></a>GameMode和GameState之间的关系</h1><p>一言以蔽之</p>
+<p><code>GameMode</code>使用<code>GameState</code>中的数据</p>
+<h1 id="PlayerState"><a href="#PlayerState" class="headerlink" title="PlayerState"></a>PlayerState</h1><p>是玩家的状态，用来存储和玩家相关的状态数据。</p>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p>关卡切换的时候<code>PlayerState</code>会被销毁然后重新生成</p>
+<h2 id="PlayerState-数据如何保存是否保存到下一个关卡？"><a href="#PlayerState-数据如何保存是否保存到下一个关卡？" class="headerlink" title="PlayerState 数据如何保存是否保存到下一个关卡？"></a>PlayerState 数据如何保存是否保存到下一个关卡？</h2><p>通过重写 PlayerState中 Reset()&#x2F;CopyProperties 方法</p>
+<h3 id="CopyProperties"><a href="#CopyProperties" class="headerlink" title="CopyProperties"></a>CopyProperties</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如重写一个M_PlayerState，重写CopyProperties方法进行跨关卡数据存储</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AM_PlayerState::CopyProperties</span><span class="params">(APlayerState* PlayerState)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    Super::<span class="built_in">CopyProperties</span>(PlayerState);</span><br><span class="line"> </span><br><span class="line">    PlayerState-&gt;Hp = Hp;</span><br><span class="line">    PlayerState-&gt;MaxHp = MaxHp;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Reset"><a href="#Reset" class="headerlink" title="Reset()"></a>Reset()</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Reset 方法,可以自定义初始化数据,如部分数据需要初始化则添加至Reset中，</span></span><br><span class="line"><span class="comment">//需要保留数据放在CopyProperties</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">APlayerState::Reset</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">Reset</span>();</span><br><span class="line">    <span class="built_in">SetScore</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">ForceNetUpdate</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Pawn与PlayerController下的PlayerState"><a href="#Pawn与PlayerController下的PlayerState" class="headerlink" title="Pawn与PlayerController下的PlayerState"></a>Pawn与PlayerController下的PlayerState</h2><ol>
+<li><p>pawn中的PlayerState 是 controller中PlayerState的引用</p>
+</li>
+<li><p>controller中的PlayerState对象在initPlayerState()中初始化。当possessed一个pawn的时候 会把自己的PlayerState 设置给pawn中的PlayerState对象。unpossessed的时候会把pawn中的PlayerState对象设置为null。</p>
+</li>
+<li><p>PlayerState是跟着controller走的，controller中的PlayerState是根源。</p>
+</li>
+<li><p>PlayerState 的getowner 就是 controller</p>
+</li>
+<li><p>PlayerState的GetPawn获得当前的pawn 有可能是null</p>
+</li>
+</ol>
+<h2 id="API-1"><a href="#API-1" class="headerlink" title="API"></a>API</h2><p><a target="_blank" rel="noopener" href="https://docs.unrealengine.com/5.2/en-US/API/Runtime/Engine/GameFramework/APlayerState/">APlayerState | Unreal Engine Documentation</a></p>
+<h1 id="PlayerController"><a href="#PlayerController" class="headerlink" title="PlayerController"></a>PlayerController</h1><h2 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h2><p>把人类抽象为肉体和灵魂来看，Character是人类的肉体，PlayerController则是人类的灵魂。</p>
+<p>在虚幻引擎的世界中，人类的灵魂是在一局游戏中一直存在的，但肉体是有可能被销毁死亡的。</p>
+<p>也就是说PlayerController是在整个游戏进程中是一直存在的，玩家的Character是可能随时被销毁掉的。</p>
+<p>PlayerController存在的意义是<code>灵魂操控肉体</code></p>
+<h2 id="特性-1"><a href="#特性-1" class="headerlink" title="特性"></a>特性</h2><ol>
+<li><p>PlayerController在游戏进程中一直存在</p>
+</li>
+<li><p>PlayerController在服务器和客户端上同时存在</p>
+</li>
+<li><p>应该用PlayerController给Character发送指令让其行动</p>
+</li>
+</ol>
+<h2 id="API-2"><a href="#API-2" class="headerlink" title="API"></a>API</h2><p><a target="_blank" rel="noopener" href="https://docs.unrealengine.com/5.2/en-US/API/Runtime/Engine/GameFramework/APlayerController/">APlayerController | Unreal Engine Documentation</a></p>
+<h1 id="Character"><a href="#Character" class="headerlink" title="Character"></a>Character</h1><h2 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h2><p>人类&#x2F;AI的肉体</p>
+<p>玩家就像一个修仙者一样，<code>PlayerController</code>是玩家的灵魂，玩家可以通过夺舍的方式更换自己的<code>Character</code>。</p>
+<p>需要注意的是，<code>PlayerController</code>和<code>Character</code>都是具有输入输出操作的。</p>
+<p>虚幻这样设计的意义是什么呢？</p>
+<p>假设我现在的肉体是人族，人族的天赋技能是<code>勤劳</code>和<code>学习</code>，当我拥有这个人族肉体的时候，我的输入就可以让我施展<code>勤劳</code>和<code>学习</code>两个技能。但当我去夺舍了一个龙族的肉体，龙族的天赋技能是<code>龙息</code>和<code>魔法</code>，那么此时我再使用技能，就只能使用<code>龙息</code>和<code>魔法</code>两个技能了。之前人族的技能，因为不是对应的肉体，我不可以使用。</p>
+<p>那我作为玩家的专属技能<code>天选之人</code>，这个技能是跟着灵魂走的。所以不管我换多少个肉体，都不会丢失这个技能。</p>
+<p>再通俗一点讲，LOL里面召唤师技能写在<code>PlayerController</code>里面，英雄技能写在<code>Character</code>里面。</p>
+<h2 id="API-3"><a href="#API-3" class="headerlink" title="API"></a>API</h2><p><a target="_blank" rel="noopener" href="https://docs.unrealengine.com/5.2/en-US/API/Runtime/Engine/GameFramework/ACharacter/">ACharacter | Unreal Engine Documentation</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/02/UE5-%E5%88%9D%E8%A7%81%E5%BC%95%E6%93%8E%E7%BC%96%E8%AF%91%E8%A7%84%E5%88%99/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/06/02/UE5-%E5%88%9D%E8%A7%81%E5%BC%95%E6%93%8E%E7%BC%96%E8%AF%91%E8%A7%84%E5%88%99/" class="post-title-link" itemprop="url">UE5-初见引擎编译规则</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-06-02 23:06:07" itemprop="dateCreated datePublished" datetime="2023-06-02T23:06:07+08:00">2023-06-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-06-03 12:32:16" itemprop="dateModified" datetime="2023-06-03T12:32:16+08:00">2023-06-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/UE5/" itemprop="url" rel="index"><span itemprop="name">UE5</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Intermediate"><a href="#Intermediate" class="headerlink" title="Intermediate"></a>Intermediate</h1><p>新建一个虚幻项目，会在其路径文件夹下发现名为<code>Intermediate</code>的文件夹</p>
+<ol>
+<li><p>保存构建项目和使用引擎的临时文件</p>
+</li>
+<li><p>此文件夹中存在一些和虚幻引擎反射机制相关的生成内容</p>
+<ul>
+<li><code>反射机制</code>生成的文件存储在路径<code>项目名\Intermediate\Build\Win64\UnrealEditor\Inc\项目名称\UHT</code>路径下</li>
+</ul>
+</li>
+<li><p>可以删除，每次在引擎中打开&#x2F;gengerate项目就会重新创建</p>
+</li>
+</ol>
+<h1 id="UE5如何编译目标"><a href="#UE5如何编译目标" class="headerlink" title="UE5如何编译目标"></a>UE5如何编译目标</h1><h2 id="编译端（客户端，服务端，编译器，单机）"><a href="#编译端（客户端，服务端，编译器，单机）" class="headerlink" title="编译端（客户端，服务端，编译器，单机）"></a>编译端（客户端，服务端，编译器，单机）</h2><p>在虚幻创建的项目中，在<code>Source</code>文件夹下可以找到两个<code>.cs</code>类型的文件，根据它们的命名，可以看到他们的编译目标分别为<code>编辑器，单机</code></p>
+<ol>
+<li><p>项目名Editor：编辑器</p>
+<ul>
+<li><code>&quot;DSource\项目名Editor.Target.cs&quot;</code></li>
+</ul>
+</li>
+<li><p>项目名Game：单机</p>
+<ul>
+<li><code>&quot;DSource\项目名.Target.cs&quot;</code></li>
+</ul>
+</li>
+</ol>
+<p>如果在虚幻引擎源码版中，想要开发网络游戏，可以创建两个新的文件，分别对应服务端以及客户端</p>
+<ol>
+<li><p>项目名Client：客户端</p>
+<ul>
+<li><code>&quot;DSource\项目名Client.Target.cs&quot;</code></li>
+</ul>
+</li>
+<li><p>项目名Server：服务器</p>
+<ul>
+<li><code>&quot;DSource\项目名Server.Target.cs&quot;</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="名为ProjectFirst-cpp的项目"><a href="#名为ProjectFirst-cpp的项目" class="headerlink" title="名为ProjectFirst_cpp的项目"></a>名为ProjectFirst_cpp的项目</h3><p>以下两个默认.cs文件中的源码。</p>
+<p>值得注意的是，虚幻引擎对其<code>TargetType</code>做了很多详细的类型区分，比如以下的两个文件中的<code>TargetType</code>为<code>Game</code>以及<code>Editor</code>，那么如果是创建服务器和客户端编译目标，则为<code>Server</code>以及<code>Client</code></p>
+<h4 id="ProjectFirst-cpp-Target-cs"><a href="#ProjectFirst-cpp-Target-cs" class="headerlink" title="ProjectFirst_cpp.Target.cs"></a>ProjectFirst_cpp.Target.cs</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Copyright Epic Games, Inc. All Rights Reserved.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> UnrealBuildTool;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ProjectFirst_cppTarget</span> : TargetRules</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProjectFirst_cppTarget</span><span class="params">(TargetInfo Target)</span> : base(Target)</span></span><br><span class="line"><span class="function">    &#123;</span></span><br><span class="line">        Type = TargetType.Game;</span><br><span class="line">        DefaultBuildSettings = BuildSettingsVersion.V2;</span><br><span class="line">        IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_1;</span><br><span class="line">        ExtraModuleNames.<span class="built_in">Add</span>(<span class="string">&quot;ProjectFirst_cpp&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="ProjectFirst-cppEditor-Target-cs"><a href="#ProjectFirst-cppEditor-Target-cs" class="headerlink" title="ProjectFirst_cppEditor.Target.cs"></a>ProjectFirst_cppEditor.Target.cs</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Copyright Epic Games, Inc. All Rights Reserved.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> UnrealBuildTool;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ProjectFirst_cppEditorTarget</span> : TargetRules</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProjectFirst_cppEditorTarget</span><span class="params">(TargetInfo Target)</span> : base(Target)</span></span><br><span class="line"><span class="function">    &#123;</span></span><br><span class="line">        Type = TargetType.Editor;</span><br><span class="line">        DefaultBuildSettings = BuildSettingsVersion.V2;</span><br><span class="line">        IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_1;</span><br><span class="line">        ExtraModuleNames.<span class="built_in">Add</span>(<span class="string">&quot;ProjectFirst_cpp&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="模块化编译"><a href="#模块化编译" class="headerlink" title="模块化编译"></a>模块化编译</h1><p>虚幻引擎的源码非常庞大，如果每次启动编译的时候将全部代码都编译一次，就会显得很笨蛋，所以虚幻采用了模块化编译的方式解决这个问题。</p>
+<p>其实我之前再Roblox中的状态机系统和虚幻的模块化加载思路是非常相似的。</p>
+<p>简而言之就是，虚幻将一些功能相关性强的代码写在同一个模块里面，而开发者在使用这些功能的时候，需要让虚幻加载这些指定的模块。指定行的加载功能模块，不用加载用不到的模块，尽可能的减少了编译的开销。</p>
+<p>模块的加载写在<code>项目名.Build.cs</code>文件内</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Copyright Epic Games, Inc. All Rights Reserved.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> UnrealBuildTool;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ProjectFirst_cpp</span> : ModuleRules</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProjectFirst_cpp</span><span class="params">(ReadOnlyTargetRules Target)</span> : base(Target)</span></span><br><span class="line"><span class="function">    &#123;</span></span><br><span class="line">        PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;</span><br><span class="line"></span><br><span class="line">        PublicDependencyMo</span><br><span class="line">duleNames.<span class="built_in">AddRange</span>(<span class="keyword">new</span> string[] </span><br><span class="line">&#123; </span><br><span class="line"><span class="string">&quot;Core&quot;</span>,                 </span><br><span class="line"><span class="string">&quot;CoreUObject&quot;</span>,         </span><br><span class="line"><span class="string">&quot;Engine&quot;</span>, </span><br><span class="line"><span class="string">&quot;InputCore&quot;</span>, </span><br><span class="line"><span class="string">&quot;HeadMountedDisplay&quot;</span>, </span><br><span class="line"><span class="string">&quot;EnhancedInput&quot;</span> </span><br><span class="line">&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这段代码中，我们可以加载虚幻引擎自带的模块，也可以自定义模块并且在这里进行加载。</p>
+<p>假设需要使用虚幻引擎中的Slate功能，则需要在这里添加<code>&quot;Slate&quot;</code>模块，详情参见<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/5.0/zh-CN/using-slate-in-a-project-in-unreal-engine/">在虚幻引擎项目中使用Slate | 虚幻引擎5.0文档</a>以及<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/602251790">【UE5】使用Slate进行UI开发与编辑器拓展（二）：简单Slate独立程序</a></p>
+<h1 id="UProject"><a href="#UProject" class="headerlink" title="UProject"></a>UProject</h1><p>打开虚幻文件下的<code>项目名.UProject</code>文件，可以看到如下代码</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;FileVersion&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;EngineAssociation&quot;</span><span class="punctuation">:</span> <span class="string">&quot;5.2&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;Category&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;Description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;Modules&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;Name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ProjectFirst_cpp&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Runtime&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;LoadingPhase&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Default&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;AdditionalDependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">&quot;Engine&quot;</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;Plugins&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;Name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ModelingToolsEditorMode&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Enabled&quot;</span><span class="punctuation">:</span> <span class="keyword">true</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;TargetAllowList&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">&quot;Editor&quot;</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>这其实是json语法格式，有点像网页前端的编译规则，我们点击UProject的时候可以直接打开虚幻项目，然而UProject内部长这样，很显然并不是一个想象中足以支持打开虚幻源文件的格式。</p>
+<p>其实点击这个UProject发生的事情其实是，Uproject将其中包含的信息传入到虚幻引擎中，虚幻引擎再根据这些信息对引擎进行启动。</p>
+<ul>
+<li><p>Modules描述项目本身</p>
+</li>
+<li><p>Plugins描述这个项目加载的插件</p>
+</li>
+</ul>
+<h1 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h1><p>自定义模块并且加载详情参见<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/5.0/zh-CN/unreal-engine-modules/#:~:text=%E5%AF%B9%E4%BA%8E%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%E5%AE%9E%E7%8E%B0%EF%BC%8C%E4%BD%A0%E5%8F%AF%E4%BB%A5%E5%9C%A8%E6%A8%A1%E5%9D%97%E7%9A%84%E7%A7%81%E6%9C%89%EF%BC%88Private%EF%BC%89%E7%9B%AE%E5%BD%95%E4%B8%AD%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA.cpp%20%E6%96%87%E4%BB%B6%EF%BC%8C%E5%B9%B6%E5%B0%86%E5%85%B6%E5%91%BD%E5%90%8D%E4%B8%BA%20%5BModuleName%5DModule.cpp,%EF%BC%8C%E5%85%B6%E4%B8%AD%20%5BModuleName%5D%20%E6%98%AF%E6%A8%A1%E5%9D%97%E7%9A%84%E5%90%8D%E7%A7%B0%E3%80%82">虚幻引擎模块 | 虚幻引擎5.0文档</a></p>
+<p>模块的加载与卸载，以及与插件之间的关系详情参见<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/121152396">插件与模块</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1203,331 +1589,6 @@
 <li><p>调整<code>HingeConstraint</code>中的<code>Limits</code>栏中的<code>LowerAngle</code>和<code>UpperAngle</code>分别为-90和90</p>
 </li>
 </ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/18/Roblox-ConstomPlayer/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/12/18/Roblox-ConstomPlayer/" class="post-title-link" itemprop="url">Roblox-ConstomPlayer</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-12-18 14:19:49 / 修改时间：14:20:38" itemprop="dateCreated datePublished" datetime="2022-12-18T14:19:49+08:00">2022-12-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Roblox/" itemprop="url" rel="index"><span itemprop="name">Roblox</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="将自定义模型导入为玩家"><a href="#将自定义模型导入为玩家" class="headerlink" title="将自定义模型导入为玩家"></a>将自定义模型导入为玩家</h1><p>如果要将自定义模型导入到 Roblox Studio 中，并设置为玩家，需要注意以下几点：</p>
-<ol>
-<li>导入模型时，应确保模型的网格模型正确，无错误或缺失。</li>
-<li>导入模型后，应给模型添加一个 Humanoid 子对象，用于控制玩家角色的行为。</li>
-<li>在模型上添加 Humanoid 后，应给 Humanoid 设置一个适当的高度，使玩家角色能够在游戏中正常移动。</li>
-<li>在模型上添加 Humanoid 后，应添加一些动画，例如站立、行走、跑步等，使玩家角色能够在游戏中正常行动。</li>
-<li>在模型上添加 Humanoid 后，应将该模型的 PrimaryPart 设置为 Humanoid 的 RootPart，使 Humanoid 的运动和动画能够正确反映在游戏中。</li>
-<li>在模型上添加 Humanoid 后，应给模型添加一个 Camera 子对象，用于控制玩家视角。</li>
-<li>在模型上添加 Camera 后，应将 Camera 的 FieldOfView 设置为一个适当的值，使玩家能够看到更多的游戏内容。</li>
-<li>在模型上添加 Camera 后，应将 Camera 的 ViewportSize 设置为一个适当的值，使玩家能够清晰地看到游戏内容。</li>
-<li>在模型上添加 Camera 后，应将 Camera 的 CameraType 设置为 Scriptable，以便在脚本中控制 Camera 的位置和方向。</li>
-<li>在模型上添加 Camera 后，应给模型添加一个 PlayerGui 子对象，用于显示玩家界面。</li>
-<li>在模型上添加 PlayerGui 后，应给 PlayerGui 添加一个 ScreenGui 子对象，用于显示文本、图像等 UI 元素。</li>
-<li>在模型上添加 ScreenGui 后，应给 ScreenGui 添加合适的 UI 元素，例如文本、图像、按钮等，以提供给玩家使用。</li>
-<li>最后，应在模型上添加一个绑定脚本，用于实现玩家的控制逻辑。例如，可以使用脚本控制玩家的移动、跳跃、攻击等行为，或处理玩家与游戏世界的交互。</li>
-</ol>
-<p>综上，要将自定义模型导入到 Roblox Studio 中，并设置为玩家主角，需要注意以上所有步骤，才能保证模型能够在游戏中正常工作。</p>
-<h1 id="Humanoid的使用方法"><a href="#Humanoid的使用方法" class="headerlink" title="Humanoid的使用方法"></a>Humanoid的使用方法</h1><p>在 Roblox 中，Humanoid 是一个可以控制模型行为的子对象。例如，可以通过 Humanoid 来控制玩家角色的行走、跑步、跳跃、攻击等动作。</p>
-<p>要在模型上使用 Humanoid，需要先在模型上添加一个 Humanoid 子对象。例如，可以在模型上右键单击，然后选择“插入”-&gt;“Humanoid”，即可在模型上添加一个 Humanoid。</p>
-<p>接下来，可以通过脚本来控制 Humanoid。例如，可以通过 humanoid:MoveTo() 方法来移动玩家角色，通过 humanoid:Jump() 方法来让玩家角色跳跃，通过 humanoid:UnequipTools() 方法来让玩家角色放下手中的工具等。</p>
-<p>还可以通过 Humanoid 的一些属性来控制玩家角色的状态。例如，可以通过 humanoid.Health 属性来获取玩家角色的血量，通过 humanoid.WalkSpeed 属性来获取或设置玩家角色的行走速度，通过 humanoid.CameraOffset 属性来设置玩家角色的镜头偏移量等。</p>
-<p>以下是一个使用 Humanoid 控制玩家角色的示例代码：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> characterModel = script.Parent</span><br><span class="line"><span class="keyword">local</span> humanoid = characterModel.Humanoid</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 设置玩家角色的行走速度</span></span><br><span class="line">humanoid.WalkSpeed = <span class="number">8</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 监听玩家角色移动的输入</span></span><br><span class="line">characterModel.Humanoid.Changed:Connect(<span class="function"><span class="keyword">function</span><span class="params">(property)</span></span></span><br><span class="line">    <span class="keyword">if</span> property == <span class="string">&quot;MoveDirection&quot;</span> <span class="keyword">then</span></span><br><span class="line">        <span class="comment">-- 计算玩家角色移动的方向和速度</span></span><br><span class="line">        <span class="keyword">local</span> moveDirection = characterModel.Humanoid.MoveDirection</span><br><span class="line">        <span class="keyword">local</span> moveSpeed = characterModel.Humanoid.WalkSpeed</span><br><span class="line"></span><br><span class="line">        <span class="comment">-- 根据移动方向和速度，更新玩家角色的位置</span></span><br><span class="line">        characterModel:Move(moveDirection * moveSpeed)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 监听玩家角色跳跃的输入</span></span><br><span class="line">characterModel.Humanoid.JumpRequest:Connect(<span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">    <span class="comment">-- 让玩家角色跳跃</span></span><br><span class="line">    characterModel.Humanoid:Jump()</span><br><span class="line"><span class="keyword">end</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 监听玩家角色攻击的输入</span></span><br><span class="line">characterModel.Humanoid.AttackRequest:Connect(<span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">    <span class="comment">-- 让玩家角色攻击</span></span><br><span class="line">    characterModel.Humanoid:UnequipTools()</span><br><span class="line"><span class="keyword">end</span>)</span><br></pre></td></tr></table></figure>
-
-<p>在上面的代码中，我们通过 Humanoid 的 Changed 和 JumpRequest、AttackRequest 等事件，来监听玩家角色的输入，并根据输入执行对应的行为。</p>
-<p>例如，当玩家角色移动时，我们通过监听 Humanoid.Changed 事件，来获取玩家角色的移动方向和速度，然后使用 characterModel:Move() 方法来更新玩家角色的位置。</p>
-<p>当玩家角色按下跳跃键时，我们通过监听 Humanoid.JumpRequest 事件，来调用 humanoid:Jump() 方法，让玩家角色进行跳跃。</p>
-<p>当玩家角色按下攻击键时，我们通过监听 Humanoid.AttackRequest 事件，来调用 humanoid:UnequipTools() 方法，让玩家角色放下手中的工具。</p>
-<p>通过这样的方式，我们就能够使用 Humanoid 来控制玩家角色的行为，并实现玩家与游戏世界的交互。</p>
-<h2 id="通过脚本控制玩家的Humanoid"><a href="#通过脚本控制玩家的Humanoid" class="headerlink" title="通过脚本控制玩家的Humanoid"></a>通过脚本控制玩家的Humanoid</h2><p>通常情况下，想要通过脚本控制玩家的 Humanoid，此脚本应该放在模型上的 LocalScript 中。</p>
-<p>在 Roblox 中，模型上的 LocalScript 是针对每个玩家实例单独执行的脚本。即，每个玩家都会在模型上拥有一份脚本的副本，并在本地执行此脚本。</p>
-<p>因此，如果将脚本放在模型上的 LocalScript 中，每个玩家都会拥有一份脚本的副本，并在本地执行此脚本。这样，我们就能够通过脚本来控制每个玩家的 Humanoid，从而实现游戏中玩家的控制逻辑。</p>
-<p>例如，我们可以通过以下方式来添加一个控制玩家 Humanoid 的脚本：</p>
-<ol>
-<li><p>首先，在模型上右键单击，然后选择“插入”-&gt;“LocalScript”，即可在模型上添加一个 LocalScript。</p>
-</li>
-<li><p>然后，可以在 LocalScript 中编写控制玩家 Humanoid 的代码，例如上面给出的示例代码。</p>
-</li>
-<li><p>最后，可以将 LocalScript 放置在模型上的任何地方，然后点击“播放”按钮，即可运行脚本。在运行过程中，每个玩家都会在本地执行脚本，从而控制自己的 Humanoid。</p>
-</li>
-</ol>
-<p>需要注意的是，在 Roblox 中，每个玩家都会拥有一个叫做 Player 模型的预制物。Player 模型是一个特殊的模型，它与玩家相关联，包含了玩家的头像、名字、角色模型等信息。如果要通过脚本控制玩家的 Humanoid，需要在 Player 模型上添加 LocalScript。</p>
-<p>因此，在实际的开发过程中，我们通常会在 Player 模型上添加 LocalScript，并在 LocalScript 中编写控制玩家 Humanoid 的代码。这样，我们就能够通过脚本来控制每个玩家的 Humanoid，从而实现游戏中玩家的控制逻辑。</p>
-<h2 id="自定义模型导入到游戏中，作为玩家模型并且实现以下效果"><a href="#自定义模型导入到游戏中，作为玩家模型并且实现以下效果" class="headerlink" title="自定义模型导入到游戏中，作为玩家模型并且实现以下效果"></a>自定义模型导入到游戏中，作为玩家模型并且实现以下效果</h2><p>将自定义模型导入到游戏中，作为玩家的模型，我想要通过脚本控制这个自定义模型实现以下效果<br>1.移动并且播放移动动画<br>2.跳跃并且播放跳跃动画<br>3.近战攻击并且播放攻击动画<br>4.近战攻击伤害数值为40点<br>想要达到上述效果，如何通过脚本控制Humanoid以及播放动画，并且如何设置近战伤害的伤害数值？</p>
-<h3 id="答"><a href="#答" class="headerlink" title="答"></a>答</h3><p>为了实现上述效果，我们可以通过以下步骤来通过脚本控制自定义模型的 Humanoid：</p>
-<ol>
-<li><p>首先，将自定义模型导入到 Roblox Studio 中，并将其作为玩家的模型。</p>
-</li>
-<li><p>然后，在自定义模型上添加一个 LocalScript，用于控制自定义模型的 Humanoid。</p>
-</li>
-<li><p>在 LocalScript 中，通过以下代码获取自定义模型的 Humanoid 实例：</p>
-</li>
-</ol>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> characterModel = script.Parent</span><br><span class="line"><span class="keyword">local</span> humanoid = characterModel.Humanoid</span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li>然后，通过监听 Humanoid.Changed 事件，来控制自定义模型的移动。例如，可以使用以下代码来实现自定义模型的移动：</li>
-</ol>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">humanoid.Changed:Connect(<span class="function"><span class="keyword">function</span><span class="params">(property)</span></span></span><br><span class="line">    <span class="keyword">if</span> property == <span class="string">&quot;MoveDirection&quot;</span> <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">local</span> moveDirection = humanoid.MoveDirection</span><br><span class="line">        <span class="keyword">if</span> moveD</span><br></pre></td></tr></table></figure>
-
-<p>下面是完整的代码示例，可以实现自定义模型的移动、跳跃、近战攻击和伤害数值设置。</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 获取自定义模型的 Humanoid 实例</span></span><br><span class="line"><span class="keyword">local</span> characterModel = script.Parent</span><br><span class="line"><span class="keyword">local</span> humanoid = characterModel.Humanoid</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 设置近战攻击伤害数值</span></span><br><span class="line">humanoid.MeleeDamage = <span class="number">40</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 监听 Humanoid.Changed 事件</span></span><br><span class="line">humanoid.Changed:Connect(<span class="function"><span class="keyword">function</span><span class="params">(property)</span></span></span><br><span class="line">    <span class="keyword">if</span> property == <span class="string">&quot;MoveDirection&quot;</span> <span class="keyword">then</span></span><br><span class="line">        <span class="comment">-- 控制自定义模型的移动</span></span><br><span class="line">        <span class="keyword">local</span> moveDirection = humanoid.MoveDirection</span><br><span class="line">        <span class="keyword">if</span> moveDirection ~= Vector3.new(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>) <span class="keyword">then</span></span><br><span class="line">            <span class="keyword">local</span> moveSpeed = <span class="number">10</span></span><br><span class="line">            <span class="keyword">local</span> newPosition = characterModel.PrimaryPart.Position + moveDirection.Unit * moveSpeed</span><br><span class="line">            humanoid:MoveTo(newPosition)</span><br><span class="line">            characterModel.HumanoidRootPart.CFrame = CFrame.new(newPosition)</span><br><span class="line"></span><br><span class="line">            <span class="comment">-- 播放移动动画</span></span><br><span class="line">            humanoid:ChangeState(<span class="string">&quot;Running&quot;</span>)</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="comment">-- 播放站立动画</span></span><br><span class="line">            humanoid:ChangeState(<span class="string">&quot;Idle&quot;</span>)</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">elseif</span> property == <span class="string">&quot;Jump&quot;</span> <span class="keyword">then</span></span><br><span class="line">        <span class="comment">-- 控制自定义模型的跳跃</span></span><br><span class="line">        <span class="keyword">if</span> humanoid.Jump <span class="keyword">then</span></span><br><span class="line">            humanoid:Jump()</span><br><span class="line"></span><br><span class="line">            <span class="comment">-- 播放跳跃动画</span></span><br><span class="line">            humanoid:ChangeState(<span class="string">&quot;Jumping&quot;</span>)</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">elseif</span> property == <span class="string">&quot;Attack&quot;</span> <span class="keyword">then</span></span><br><span class="line">        <span class="comment">-- 控制自定义模型的近战攻击</span></span><br></pre></td></tr></table></figure>
-
-<p>如果 humanoid.Attack 的值为 true，表示当前需要进行近战攻击。我们可以在这里实现攻击逻辑，并播放攻击动画。</p>
-<p>例如，以下代码可以实现控制自定义模型的近战攻击：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 控制自定义模型的近战攻击</span></span><br><span class="line"><span class="keyword">if</span> humanoid.Attack <span class="keyword">then</span></span><br><span class="line">    <span class="comment">-- 播放近战攻击动画</span></span><br><span class="line">    humanoid:ChangeState(<span class="string">&quot;Attacking&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 在 0.5 秒后进行伤害计算</span></span><br><span class="line">    wait(<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 计算伤害</span></span><br><span class="line">    <span class="keyword">local</span> meleeDamage = humanoid.MeleeDamage</span><br><span class="line">    <span class="keyword">local</span> humanoidRootPart = characterModel.HumanoidRootPart</span><br><span class="line">    <span class="keyword">local</span> hit, hitPos, hitNormal = workspace:FindPartOnRay(Ray.new(humanoidRootPart.Position, humanoidRootPart.CFrame.lookVector * <span class="number">10</span>), characterModel)</span><br><span class="line">    <span class="keyword">if</span> hit <span class="keyword">and</span> hit.Parent:FindFirstChild(<span class="string">&quot;Humanoid&quot;</span>) <span class="keyword">then</span></span><br><span class="line">        hit.Parent.Humanoid:TakeDamage(meleeDamage)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-
-<p>如果您在实际项目中使用上述代码，您可能需要进行一些修改和调试。例如，您可以通过以下步骤来确保代码正确运行：</p>
-<ol>
-<li><p>首先，确保您的自定义模型已经导入到 Roblox Studio 中，并且可以正常控制。</p>
-</li>
-<li><p>然后，将上述代码复制到您的 LocalScript 中，并进行相应的修改。例如，如果您需要修改自定义模型的移动速度，可以将 <code>moveSpeed</code> 的值改为您想要的数值。</p>
-</li>
-<li><p>接着，确保您的自定义模型中有相应的动画。例如，如果您的脚本中播放了 “Running”、”Jumping” 和 “Attacking” 动画，那么您的自定义模型中就应该包含这三种动画。</p>
-</li>
-</ol>
-<h1 id="播放跑步动画"><a href="#播放跑步动画" class="headerlink" title="播放跑步动画"></a>播放跑步动画</h1><p>在Roblox中有一个跑步动画，想要通过脚本监控玩家键盘输入shift+w的时候播放此动画，如何通过AnimationController实现此功能</p>
-<p>可以使用AnimationController来实现上述功能。在Roblox Studio中，首先创建一个新的脚本，然后添加以下代码：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> player = game.Players.LocalPlayer</span><br><span class="line"><span class="keyword">local</span> character = player.Character</span><br><span class="line"><span class="keyword">local</span> humanoid = character:WaitForChild(<span class="string">&quot;Humanoid&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> animationController = script:WaitForChild(<span class="string">&quot;AnimationController&quot;</span>)</span><br><span class="line"><span class="keyword">local</span> runAnimation = animationController:WaitForChild(<span class="string">&quot;Run&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> isRunning = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">onKeyPressed</span><span class="params">(inputObject, gameProcessedEvent)</span></span></span><br><span class="line">    <span class="keyword">if</span> inputObject.KeyCode == Enum.KeyCode.W <span class="keyword">and</span> gameProcessedEvent <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">if</span> isRunning <span class="keyword">then</span></span><br><span class="line">            humanoid:Stop()</span><br><span class="line">            isRunning = <span class="literal">false</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            humanoid:Play()</span><br><span class="line">            isRunning = <span class="literal">true</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">player.CharacterAdded:Connect(<span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">    player.KeyDown:Connect(onKeyPressed)</span><br><span class="line"><span class="keyword">end</span>)</span><br></pre></td></tr></table></figure>
-
-<p>在上面的代码中，我们首先获取到了当前玩家（player）、玩家角色（character）和角色的Humanoid部件（humanoid）。接着，我们获取到了AnimationController和Run动画，然后定义了一个标志变量（isRunning）来表示当前是否在播放动画。</p>
-<p>之后，我们创建了一个函数（onKeyPressed），用来监听玩家的键盘输入。当玩家按下W键时，我们会检查当前是否正在播放动画，如果是，就停止动画；如果不是，就开始播放动画。</p>
-<p>最后，我们还需要监听玩家加入游戏的事件，并在事件发生时连接到onKeyPressed函数，实现玩家键盘输入的监控。</p>
-<p>需要注意的是，在实际使用时，需要将上面的代码</p>
-<p>放置在角色模型的某个脚本中，例如StarterPlayerScripts。在添加完代码后，需要将此脚本放置在角色模型的工作区中。</p>
-<p>当玩家加入游戏后，只需要按下shift+w键，就可以播放动画了。</p>
-<p>当然，上面的代码仅供参考，您可以根据自己的需要进行修改和完善。例如，您可以使用isRunning标志来判断是否处于跑步状态，然后再根据需要播放不同的动画。</p>
-<p>此外，您也可以使用Roblox的事件机制来实现更复杂的动画播放逻辑。例如，当玩家角色持续按下跑步键时，可以触发一个事件，以便进行相应的处理。</p>
-<h2 id="事件监听"><a href="#事件监听" class="headerlink" title="事件监听"></a>事件监听</h2><p>下面是一个示例代码，它实现了玩家通过按shift+w键来控制跑步和攻击的功能，并使用脚本播放对应的动画：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> player = game.Players.LocalPlayer</span><br><span class="line"><span class="keyword">local</span> character = player.Character</span><br><span class="line"><span class="keyword">local</span> humanoid = character:WaitForChild(<span class="string">&quot;Humanoid&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> isRunning = <span class="literal">false</span></span><br><span class="line"><span class="keyword">local</span> isAttacking = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 设置按键监听</span></span><br><span class="line">player.KeyDown:Connect(<span class="function"><span class="keyword">function</span><span class="params">(key)</span></span></span><br><span class="line"><span class="keyword">if</span> key == <span class="string">&quot;W&quot;</span> <span class="keyword">and</span> isRunning == <span class="literal">false</span> <span class="keyword">then</span></span><br><span class="line"><span class="comment">-- 按下shift+w键，开始播放跑步动画</span></span><br><span class="line"><span class="keyword">local</span> runAnim = character:WaitForChild(<span class="string">&quot;RunAnim&quot;</span>)</span><br><span class="line">humanoid:LoadAnimation(runAnim)</span><br><span class="line">humanoid:Play()</span><br><span class="line">isRunning = <span class="literal">true</span></span><br><span class="line"><span class="keyword">elseif</span> key == <span class="string">&quot;W&quot;</span> <span class="keyword">and</span> isAttacking == <span class="literal">false</span> <span class="keyword">then</span></span><br><span class="line"><span class="comment">-- 按下shift+w键，开始播放攻击动画</span></span><br><span class="line"><span class="keyword">local</span> attackAnim = character:WaitForChild(<span class="string">&quot;AttackAnim&quot;</span>)</span><br><span class="line">humanoid:LoadAnimation(attackAnim)</span><br><span class="line">humanoid:Play()</span><br><span class="line">isAttacking = <span class="literal">true</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span>)</span><br><span class="line"></span><br><span class="line">player.KeyUp:Connect(<span class="function"><span class="keyword">function</span><span class="params">(key)</span></span></span><br><span class="line"><span class="keyword">if</span> key == <span class="string">&quot;W&quot;</span> <span class="keyword">then</span></span><br><span class="line"><span class="comment">-- 松开shift+w键，停止播放动画</span></span><br><span class="line">humanoid:Stop()</span><br><span class="line">isRunning = <span class="literal">false</span></span><br><span class="line">isAttacking = <span class="literal">false</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span>)</span><br></pre></td></tr></table></figure>
-
-<p>humanoid:LoadAnimation()接口用于将动画数据加载到Humanoid对象中，这样它就可以播放动画了。如果只是调用humanoid:LoadAnimation()接口，而不调用humanoid:Play()接口，动画是不会播放的。在Roblox中，通常需要使用Humanoid:LoadAnimation()和Humanoid:Play()两个接口配合使用，才能真正播放动画。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/18/Roblox-CFrame/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="williny">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Williny'home">
-      <meta itemprop="description" content="孤独是人生的常态">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Williny'home">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/12/18/Roblox-CFrame/" class="post-title-link" itemprop="url">Roblox-CFrame</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-12-18 14:17:14 / 修改时间：14:18:55" itemprop="dateCreated datePublished" datetime="2022-12-18T14:17:14+08:00">2022-12-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Roblox/" itemprop="url" rel="index"><span itemprop="name">Roblox</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="CFrame"><a href="#CFrame" class="headerlink" title="CFrame"></a>CFrame</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><code>CFrame</code> 为Coordinate Frame（坐标框架）的缩写，是一种用于旋转和定位 3D 对象的数据类型。</p>
-<p>人话：<code>CFrame</code>包含一个物体的<code>位置信息</code>以及<code>旋转信息</code></p>
-<h2 id="世界坐标与相对坐标"><a href="#世界坐标与相对坐标" class="headerlink" title="世界坐标与相对坐标"></a>世界坐标与相对坐标</h2><p>在学习<code>CFrame</code>之前先需要搞明白<code>世界坐标</code>以及<code>相对坐标</code></p>
-<ul>
-<li><p><code>世界坐标</code>：以世界作为参照物，生成的一个坐标系</p>
-</li>
-<li><p><code>相对坐标</code>：以某个物体为参照物，生成的一个坐标系</p>
-</li>
-</ul>
-<p>直接设置某物体的<code>CFrame</code>是对该物体的<code>世界坐标</code>进行操作；如果想要对其<code>相对坐标</code>进行操作，则需要额外的逻辑</p>
-<p>比如，如果直接使用<code>CFrame</code>使物体A围绕Y轴旋转90°，在游戏的表现中，不是围绕物体A的Y轴旋转90°，而是围绕世界坐标的Y轴旋转90°</p>
-<h2 id="创建CFrame"><a href="#创建CFrame" class="headerlink" title="创建CFrame"></a>创建CFrame</h2><ol>
-<li><p>创建<code>CFrame</code>的位置信息-&gt;<code>new()</code></p>
-</li>
-<li><p>创建<code>CFrame</code>的旋转信息-&gt;<code>Angles()</code></p>
-</li>
-<li><p>设置某物体面向指定点</p>
-</li>
-<li><p>更新Actor位置</p>
-</li>
-</ol>
-<h3 id="CFrame-new"><a href="#CFrame-new" class="headerlink" title="CFrame.new()"></a>CFrame.new()</h3><p>以下是对物体的位置信息进行操作</p>
-<p>注意：在进行下面的所有操作之前，给需要操作的Actor的<code>锚固</code>属性打开</p>
-<p><code>首页-&gt;编辑-&gt;锚固</code>或者<code>模型-&gt;部件-&gt;锚固</code></p>
-<p>因为引擎所有物体是默认开启重力属性的</p>
-<h4 id="直接给CFrame传入世界坐标值"><a href="#直接给CFrame传入世界坐标值" class="headerlink" title="直接给CFrame传入世界坐标值"></a>直接给CFrame传入世界坐标值</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--获取当前关卡中RedBlock的Actor</span></span><br><span class="line"><span class="comment">--不确定是否存在Actor这个概念，姑且先这样理解</span></span><br><span class="line"><span class="keyword">local</span> redBlock = game.Workspace.RedBlock</span><br><span class="line"><span class="comment">-- 创建新 CFrame</span></span><br><span class="line"><span class="keyword">local</span> newCFrame = CFrame.new(<span class="number">-2</span>, <span class="number">2</span>, <span class="number">4</span>)</span><br><span class="line"><span class="comment">-- 用新的 CFrame 覆盖红色方块的当前 CFrame</span></span><br><span class="line">redBlock.CFrame = newCFrame</span><br></pre></td></tr></table></figure>
-
-<h4 id="通过Vector3给CFrame传值"><a href="#通过Vector3给CFrame传值" class="headerlink" title="通过Vector3给CFrame传值"></a>通过Vector3给CFrame传值</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> redBlock = game.Workspace.RedBlock</span><br><span class="line"><span class="comment">-- 创建新 CFrame</span></span><br><span class="line"><span class="keyword">local</span> newVector3 = Vector3.new(<span class="number">-2</span>, <span class="number">2</span>, <span class="number">4</span>)</span><br><span class="line"><span class="keyword">local</span> newCFrame = CFrame.new(newVector3)</span><br><span class="line"><span class="comment">-- 用新的 CFrame 覆盖红色方块的当前 CFrame</span></span><br><span class="line">redBlock.CFrame = newCFrame</span><br></pre></td></tr></table></figure>
-
-<h3 id="CFrame-Angles"><a href="#CFrame-Angles" class="headerlink" title="CFrame.Angles()"></a>CFrame.Angles()</h3><p>以下是对物体的旋转信息进行操作</p>
-<p><code>CFrame.Angles()</code>的形参要求的类型是弧度，但是我们可以通过<code>math.rad()</code>将弧度转换为角度</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> redBlock = game.Workspace.RedBlock </span><br><span class="line"><span class="comment">-- 创建旋转后的新 CFrame</span></span><br><span class="line"><span class="keyword">local</span> newCFrame = CFrame.Angles(<span class="number">0</span>, <span class="built_in">math</span>.<span class="built_in">rad</span>(<span class="number">45</span>), <span class="number">0</span>)</span><br><span class="line"><span class="comment">-- 用新的 CFrame 覆盖红色方块的当前 CFrame</span></span><br><span class="line">redBlock.CFrame = newCFrame</span><br></pre></td></tr></table></figure>
-
-<h3 id="设置某物体面向指定点"><a href="#设置某物体面向指定点" class="headerlink" title="设置某物体面向指定点"></a>设置某物体面向指定点</h3><p>现在关卡中存在两个Actor，分别是<code>RedBlock</code>，<code>BlueCube</code>，现在我们想让 <code>redBlock</code> 部件定位至 <strong>0</strong>, <strong>3</strong>, <strong>0</strong>，并使其面向 <code>blueCube</code> 部件：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> redBlock = game.Workspace.RedBlock</span><br><span class="line"><span class="keyword">local</span> blueCube = game.Workspace.BlueCube</span><br><span class="line"><span class="comment">-- 为初始位置和目标位置各创建一个 Vector3</span></span><br><span class="line"><span class="keyword">local</span> startPosition = Vector3.new(<span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>)</span><br><span class="line"><span class="keyword">local</span> targetPosition = blueCube.Position</span><br><span class="line"><span class="comment">-- 将红色方块放至 &#x27;startPosition&#x27; 并使其前方面向 &#x27;targetPosition&#x27;</span></span><br><span class="line">redBlock.CFrame = CFrame.new(startPosition, targetPosition)</span><br></pre></td></tr></table></figure>
-
-<h3 id="更新Actor位置"><a href="#更新Actor位置" class="headerlink" title="更新Actor位置"></a>更新Actor位置</h3><h4 id="相对自身位移"><a href="#相对自身位移" class="headerlink" title="相对自身位移"></a>相对自身位移</h4><p>有时候我们需要在代码层更新Actor的位置，这时只需对该Actor的<code>CFrame</code>通过<code>Vector3</code>进行增加或减少即可。</p>
-<p>此处也就是实现了该Actor相对自己进行位移</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> redBlock = game.Workspace.RedBlock</span><br><span class="line">redBlock.CFrame = CFrame.new(redBlock.Position) + Vector3.new(<span class="number">0</span>, <span class="number">1.25</span>, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-
-<h4 id="相对另一个Actor进行位移"><a href="#相对另一个Actor进行位移" class="headerlink" title="相对另一个Actor进行位移"></a>相对另一个Actor进行位移</h4><p>第一张图是移动前，第二张是移动后</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> redBlock = game.Workspace.RedBlock</span><br><span class="line"><span class="keyword">local</span> blueCube = game.Workspace.BlueCube</span><br><span class="line"></span><br><span class="line">redBlock.CFrame = CFrame.new(blueCube.Position) + Vector3.new(<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-
-<p>                <img src="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Other-Part-Offset-A.png">                <img src="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Other-Part-Offset-B.png"></p>
-<p>关键点在于将新增的<code>Vector3</code>添加到哪一个Actor上，如果是自身，则相对自己位移，如果是其他Actor，则是相对其他Actor位移</p>
-<h3 id="实现Actor动态朝向"><a href="#实现Actor动态朝向" class="headerlink" title="实现Actor动态朝向"></a>实现Actor动态朝向</h3><p>应用场景举例：</p>
-<ul>
-<li>在世界中任意位置及任意朝向的玩家面前生成漂浮的宝物。</li>
-<li>在玩家的右肩上方生成一个魔法精灵。</li>
-</ul>
-<h4 id="相对位移"><a href="#相对位移" class="headerlink" title="相对位移"></a>相对位移</h4><p>Roblox处理相对位置和相对旋转很奇怪，不像是虚幻那样，专门有变量为<code>RelativeRotation</code>和<code>RelativeLoctation</code>来处理相对位置与旋转信息</p>
-<p>在Roblox里，通过将某Actor的<code>CFrame</code>看作世界坐标，再通过此<code>CFarme</code>进行旋转&#x2F;移动</p>
-<p>例如：我想围绕我自己的X轴旋转，那我先把我自己的X轴看作世界坐标，根据这个世界坐标，给自己加减<code>CFrame</code></p>
-<p>那么实现“将某<code>CFrame</code>看作世界坐标”的函数是？</p>
-<h5 id="CFrame-ToWorldSpace"><a href="#CFrame-ToWorldSpace" class="headerlink" title="CFrame:ToWorldSpace()"></a>CFrame:ToWorldSpace()</h5><p><code>CFrame:ToWorldSpace()</code>：可以将对象的局部朝向 CFrame 转换为新的<strong>全局</strong>朝向。</p>
-<p>说人话：将传入的<code>CFrame</code>看作世界坐标</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> redBlock = game.Workspace.RedBlock</span><br><span class="line"><span class="keyword">local</span> blueCube = game.Workspace.BlueCube</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> offsetCFrame = CFrame.new(<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>)</span><br><span class="line">redBlock.CFrame = blueCube.CFrame:ToWorldSpace(offsetCFrame)</span><br></pre></td></tr></table></figure>
-
-<p>        <img src="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Other-Part-Relative-Position-A.png">        <img src="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Other-Part-Relative-Position-B.png"></p>
-<h4 id="相对旋转"><a href="#相对旋转" class="headerlink" title="相对旋转"></a>相对旋转</h4><p>还是使用<code>CFrame：ToWorldSpace()</code></p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> redBlock = game.Workspace.RedBlock</span><br><span class="line"><span class="keyword">local</span> rotatedCFrame = CFrame.Angles(<span class="number">0</span>, <span class="built_in">math</span>.<span class="built_in">rad</span>(<span class="number">70</span>), <span class="built_in">math</span>.<span class="built_in">rad</span>(<span class="number">20</span>))</span><br><span class="line">redBlock.CFrame = redBlock.CFrame:ToWorldSpace(rotatedCFrame)</span><br></pre></td></tr></table></figure>
-
-<p>        <img src="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Self-Rotate-A.png">        <img src="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Self-Rotate-B.png"></p>
-<h3 id="指定表面朝向特定点"><a href="#指定表面朝向特定点" class="headerlink" title="指定表面朝向特定点"></a>指定表面朝向特定点</h3><p>比如，玩家左肩膀上的小精灵的右侧永远朝向玩家的左脸</p>
-<p>实现思路</p>
-<ol>
-<li><p>将小精灵的正前方朝向玩家左脸</p>
-</li>
-<li><p>将小精灵绕自身旋转一下</p>
-</li>
-</ol>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> redBlock = game.Workspace.RedBlock</span><br><span class="line"><span class="keyword">local</span> blueCube = game.Workspace.BlueCube</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 为目标位置创建一个 Vector3</span></span><br><span class="line"><span class="keyword">local</span> targetPosition = blueCube.Position</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 使红色方块的前方面向 &#x27;targetPosition&#x27;</span></span><br><span class="line">redBlock.CFrame = CFrame.new(redBlock.Position, targetPosition)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 以红色方块自身为轴心旋转其 CFrame，使其顶面（而非前面）面向目标</span></span><br><span class="line"><span class="keyword">local</span> rotatedCFrame = CFrame.Angles(<span class="built_in">math</span>.<span class="built_in">rad</span>(<span class="number">-90</span>), <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">redBlock.CFrame = redBlock.CFrame:ToWorldSpace(rotatedCFrame)</span><br></pre></td></tr></table></figure>
-
-<p>        <img src="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Top-Face-Pointing-A.png">        <img src="https://prod.docsiteassets.roblox.com/assets/modeling/cframes/CFrame-Top-Face-Pointing-B.png"></p>
-<h3 id="将物体放置在两点之间的特定点"><a href="#将物体放置在两点之间的特定点" class="headerlink" title="将物体放置在两点之间的特定点"></a>将物体放置在两点之间的特定点</h3><p>可以通过名为 <strong>Linear Interpolation</strong>（也就是线性插值，常被简称为 <strong>Lerp</strong>）的方法将 CFrame 定位至两点之间的特定位置。</p>
-<p>举例来说，以下代码将会使用值 <code>0.7</code> 将 <code>redBlock</code> 放置在 <code>greenCube</code> 与 <code>cyanCube</code> 部件之间，该值将会使其绿色和红色部件之间的距离为总距离的 70%。</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> redBlock = game.Workspace.RedBlock</span><br><span class="line"><span class="keyword">local</span> greenCube = game.Workspace.GreenCube</span><br><span class="line"><span class="keyword">local</span> cyanCube = game.Workspace.CyanCube</span><br><span class="line"></span><br><span class="line">redBlock.CFrame = greenCube.CFrame:Lerp(cyanCube.CFrame, <span class="number">0.7</span>)</span><br></pre></td></tr></table></figure>
 
       
     </div>

@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="GameMode定义是整个关卡的控制器，用来编写整个关卡的业务逻辑。 相当于每个关卡都是一个世界，GameMode则是给这个世界填充世界规则的天道。 比如说现在有一个赛车游戏，率先抵达终点的玩家赢得此游戏的胜利，那么这一条规则就应该写在GameMode里面 特性 在网络游戏环境中GameMode不会复制到加入多人游戏的远程客户端；它只存在于服务器上，因此本地客户端可看到之前使用过的留存 Game">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE5-初见GamePlay框架">
+<meta property="og:url" content="http://example.com/2023/06/03/UE5-%E5%88%9D%E8%A7%81GamePlay%E6%A1%86%E6%9E%B6/index.html">
+<meta property="og:site_name" content="Williny&#39;home">
+<meta property="og:description" content="GameMode定义是整个关卡的控制器，用来编写整个关卡的业务逻辑。 相当于每个关卡都是一个世界，GameMode则是给这个世界填充世界规则的天道。 比如说现在有一个赛车游戏，率先抵达终点的玩家赢得此游戏的胜利，那么这一条规则就应该写在GameMode里面 特性 在网络游戏环境中GameMode不会复制到加入多人游戏的远程客户端；它只存在于服务器上，因此本地客户端可看到之前使用过的留存 Game">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-06-03T04:31:02.000Z">
+<meta property="article:modified_time" content="2023-06-03T08:06:27.014Z">
+<meta property="article:author" content="williny">
+<meta property="article:tag" content="UE5">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2023/06/03/UE5-%E5%88%9D%E8%A7%81GamePlay%E6%A1%86%E6%9E%B6/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2023/06/03/UE5-%E5%88%9D%E8%A7%81GamePlay%E6%A1%86%E6%9E%B6/","path":"2023/06/03/UE5-初见GamePlay框架/","title":"UE5-初见GamePlay框架"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>UE5-初见GamePlay框架 | Williny'home</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Williny'home</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#GameMode"><span class="nav-number">1.</span> <span class="nav-text">GameMode</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E6%80%A7"><span class="nav-number">1.2.</span> <span class="nav-text">特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%B1%BB"><span class="nav-number">1.3.</span> <span class="nav-text">基类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AGameModeBase"><span class="nav-number">1.3.1.</span> <span class="nav-text">AGameModeBase</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AGameMode"><span class="nav-number">1.3.2.</span> <span class="nav-text">AGameMode</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AEGameMode"><span class="nav-number">1.4.</span> <span class="nav-text">设置GameMode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API"><span class="nav-number">1.5.</span> <span class="nav-text">API</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GameState"><span class="nav-number">2.</span> <span class="nav-text">GameState</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89-1"><span class="nav-number">2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%BA%E8%AF%9D"><span class="nav-number">2.2.</span> <span class="nav-text">人话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%B1%BB-1"><span class="nav-number">2.3.</span> <span class="nav-text">基类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GameMode%E5%92%8CGameState%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">3.</span> <span class="nav-text">GameMode和GameState之间的关系</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PlayerState"><span class="nav-number">4.</span> <span class="nav-text">PlayerState</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">4.1.</span> <span class="nav-text">生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PlayerState-%E6%95%B0%E6%8D%AE%E5%A6%82%E4%BD%95%E4%BF%9D%E5%AD%98%E6%98%AF%E5%90%A6%E4%BF%9D%E5%AD%98%E5%88%B0%E4%B8%8B%E4%B8%80%E4%B8%AA%E5%85%B3%E5%8D%A1%EF%BC%9F"><span class="nav-number">4.2.</span> <span class="nav-text">PlayerState 数据如何保存是否保存到下一个关卡？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CopyProperties"><span class="nav-number">4.2.1.</span> <span class="nav-text">CopyProperties</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reset"><span class="nav-number">4.2.2.</span> <span class="nav-text">Reset()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pawn%E4%B8%8EPlayerController%E4%B8%8B%E7%9A%84PlayerState"><span class="nav-number">4.3.</span> <span class="nav-text">Pawn与PlayerController下的PlayerState</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API-1"><span class="nav-number">4.4.</span> <span class="nav-text">API</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PlayerController"><span class="nav-number">5.</span> <span class="nav-text">PlayerController</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89-2"><span class="nav-number">5.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E6%80%A7-1"><span class="nav-number">5.2.</span> <span class="nav-text">特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API-2"><span class="nav-number">5.3.</span> <span class="nav-text">API</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Character"><span class="nav-number">6.</span> <span class="nav-text">Character</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89-3"><span class="nav-number">6.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API-3"><span class="nav-number">6.2.</span> <span class="nav-text">API</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="williny"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">williny</p>
+  <div class="site-description" itemprop="description">孤独是人生的常态</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">174</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suchangche" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;suchangche" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:469478061@qq.com" title="E-Mail → mailto:469478061@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/03/UE5-%E5%88%9D%E8%A7%81GamePlay%E6%A1%86%E6%9E%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="williny">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Williny'home">
+      <meta itemprop="description" content="孤独是人生的常态">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="UE5-初见GamePlay框架 | Williny'home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UE5-初见GamePlay框架
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-06-03 12:31:02 / 修改时间：16:06:27" itemprop="dateCreated datePublished" datetime="2023-06-03T12:31:02+08:00">2023-06-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/UE5/" itemprop="url" rel="index"><span itemprop="name">UE5</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="GameMode"><a href="#GameMode" class="headerlink" title="GameMode"></a>GameMode</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>是整个关卡的控制器，用来编写整个关卡的业务逻辑。</p>
+<p>相当于每个关卡都是一个世界，<code>GameMode</code>则是给这个世界填充世界规则的<code>天道</code>。</p>
+<p>比如说现在有一个赛车游戏，率先抵达终点的玩家赢得此游戏的胜利，那么这一条规则就应该写在<code>GameMode</code>里面</p>
+<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><ol>
+<li><p>在网络游戏环境中<code>GameMode</code>不会复制到加入多人游戏的远程客户端；它只存在于服务器上，因此本地客户端可看到之前使用过的留存 Game Mode 类（或蓝图）；但无法访问实际的实例并检查其变量，确定游戏进程中已发生哪些变化。</p>
+</li>
+<li><p>一个游戏中可以存在多个<code>GameMode</code>，但给定时间上只能使用一个 <code>GameMode</code>。每次关卡进行游戏实例化时 <code>GameModeActor</code> 将通过 <code>UGameEngine::LoadMap()</code> 函数进行实例化。</p>
+<ul>
+<li>人话：一个游戏内可以存在多个关卡和多个<code>GameMode</code>，每个关卡加载的时候都会将指定的<code>GameMode</code>实例化一次</li>
+</ul>
+</li>
+<li><p><code>GameMode</code>可以派生为一个蓝图实例，然后再<code>WorldSetting-&gt;GameMode</code>下面设置具体的<code>GameMode</code></p>
+</li>
+<li><p><code>GameMode</code>派生为一个蓝图之后，可以在其中设置诸多属性</p>
+<ul>
+<li><p>默认Pawn</p>
+</li>
+<li><p>HUD类</p>
+</li>
+<li><p>PlayerController</p>
+</li>
+<li><p>Spectator类</p>
+</li>
+<li><p>GameState</p>
+</li>
+<li><p>PlayerState</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="基类"><a href="#基类" class="headerlink" title="基类"></a>基类</h2><h3 id="AGameModeBase"><a href="#AGameModeBase" class="headerlink" title="AGameModeBase"></a>AGameModeBase</h3><p>所有 Game Mode 均为 <code>AGameModeBase</code> 的子类。而 <code>AGameModeBase</code> 包含大量可覆盖的基础功能。</p>
+<table>
+<thead>
+<tr>
+<th>函数&#x2F;事件</th>
+<th>目的</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>InitGame</code></td>
+<td><code>InitGame</code> 事件在其他脚本之前调用（包括 <code>PreInitializeComponents</code>），由 <code>AGameModeBase``PreInitializeComponents</code></td>
+</tr>
+<tr>
+<td><code>PreLogin</code></td>
+<td>接受或拒绝尝试加入服务器的玩家。如它将 <code>ErrorMessage</code> 设为一个非空字符串，会导致 <code>Login</code> 函数失败。<code>PreLogin</code> 在 <code>Login</code> 前调用，Login 调用前可能需要大量时间，加入的玩家需要下载游戏内容时尤其如此。</td>
+</tr>
+<tr>
+<td><code>PostLogin</code></td>
+<td>成功登录后调用。这是首个在 <code>PlayerController</code> 上安全调用复制函数之处。<code>OnPostLogin</code> 可在蓝图中实现，以添加额外的逻辑。</td>
+</tr>
+<tr>
+<td><code>HandleStartingNewPlayer</code></td>
+<td>在 <code>PostLogin</code> 后或无缝游历后调用，可在蓝图中覆盖，修改新玩家身上发生的事件。它将默认<mark>创建一个玩家 pawn</mark>。</td>
+</tr>
+<tr>
+<td><code>RestartPlayer</code></td>
+<td>调用开始生成一个玩家 pawn。如需要指定 Pawn 生成的地点，还可使用 <code>RestartPlayerAtPlayerStart</code> 和 <code>RestartPlayerAtTransform</code> 函数。<code>OnRestartPlayer</code> 可在蓝图中实现，在此函数完成后添加逻辑。</td>
+</tr>
+<tr>
+<td><code>SpawnDefaultPawnAtTransform</code></td>
+<td>这实际生成玩家 Pawn，可在蓝图中覆盖。</td>
+</tr>
+<tr>
+<td><code>Logout</code></td>
+<td><mark>玩家离开游戏或被摧毁时</mark>调用。可实现 <code>OnLogout</code> 执行蓝图逻辑。</td>
+</tr>
+</tbody></table>
+<h3 id="AGameMode"><a href="#AGameMode" class="headerlink" title="AGameMode"></a>AGameMode</h3><p><code>AGameMode</code> 是 <code>AGameModeBase</code> 的子类，拥有一些额外支持多人游戏的功能和行为。</p>
+<p>所有新建项目默认使用 <code>AGameModeBase</code>。</p>
+<p>如果需要此额外行为，可切换到从 <code>AGameMode</code> 进行继承。</p>
+<p>如从 <code>AGameMode</code> 进行继承，也可从 <code>AGameState</code> 继承游戏状态（其支持比赛状态机）。</p>
+<p><code>AGameMode</code> 包含一个跟踪比赛状态或整体游戏流程的状态机。可使用 <code>GetMatchState</code> 或 <code>HasMatchStarted</code>、<code>IsMatchInProgress</code> 和 <code>HasMatchEnded</code> 之类的封装器查询当前的状态。以下是可能的比赛状态：</p>
+<ul>
+<li><p><code>EnteringMap</code> ：初始状态。Actor 尚未进行 tick，世界场景尚未完整初始化。内容完整加载后将过渡到下个状态。</p>
+</li>
+<li><p><code>WaitingToStart</code> 是下个状态，进入时将调用 <code>HandleMatchIsWaitingToStart</code>。Actor 正在进行 tick，但玩家尚未生成。如 <code>ReadyToStartMatch</code> 返回 <em>true</em> 或 <code>StartMatch</code> 被调用，它将过渡到下个状态。</p>
+</li>
+<li><p><code>InProgress</code> 是游戏主体所发生的状态。进入此状态时将调用 <code>HandleMatchHasStarted</code>，然后在所有 Actor 上调用 <code>BeginPlay</code>。此时，正常游戏进程已在进行中。<code>ReadyToEndMatch</code> 返回 <em>true</em> 或调用 <code>EndMatch</code> 时比赛将过渡到下个状态。</p>
+</li>
+<li><p><code>WaitingPostMatch</code> 是倒数第二个状态，进入时将调用 <code>HandleMatchHasEnded</code>。Actor 仍在 tick，但新玩家无法加入。地图转换开始时它将过渡到下个状态。</p>
+</li>
+<li><p><code>LeavingMap</code> 是正常流程中的最后一个状态，进入时将调用 <code>HandleLeavingMap</code>。转换到新地图时比赛将保持在此状态中，进入新地图时将过渡回到 <code>EnteringMap</code>。</p>
+</li>
+<li><p><code>Aborted</code> 是失败状态，调用 <code>AbortMatch</code> 可开始此状态。出现无法恢复的错误时将进行此设置。</p>
+</li>
+</ul>
+<p>游戏状态将固定为 <code>InProgress</code>，因为这是调用 <code>BeginPlay</code>、actor 开始 tick 的状态。然而，个体游戏可能覆盖这些状态的行为，用更复杂的规则构建一个多人游戏，如在一款多人射击游戏中等待其他玩家加入时允许玩家在关卡中自由飞行。</p>
+<h2 id="设置GameMode"><a href="#设置GameMode" class="headerlink" title="设置GameMode"></a>设置GameMode</h2><p>详情参见<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.27/zh-CN/InteractiveExperiences/Framework/GameMode/">Game Mode 和 Game State | 虚幻引擎文档</a></p>
+<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><p><a target="_blank" rel="noopener" href="https://docs.unrealengine.com/5.2/en-US/API/Runtime/Engine/GameFramework/AGameMode/">AGameMode | Unreal Engine Documentation</a></p>
+<h1 id="GameState"><a href="#GameState" class="headerlink" title="GameState"></a>GameState</h1><h2 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h2><p><strong>Game State</strong> 负责启用客户端监控游戏状态。从概念上而言，Game State 应该管理所有已连接客户端已知的信息（特定于 Game Mode 但不特定于任何个体玩家）。它能够追踪游戏层面的属性，如已连接玩家的列表、夺旗游戏中的团队得分、开放世界游戏中已完成的任务，等等。</p>
+<p>Game State 并非追踪玩家特有内容（如夺旗比赛中特定玩家为团队获得的分数）的最佳之处，因为它们由 <strong>Player State</strong> 更清晰地处理。整体而言，GameState 应该追踪游戏进程中变化的属性。这些属性与所有人皆相关，且所有人可见。Game mode 只存在于服务器上，而 Game State 存在于服务器上且会被复制到所有客户端，保持所有已连接机器的游戏进程更新。</p>
+<h2 id="人话"><a href="#人话" class="headerlink" title="人话"></a>人话</h2><p><code>GameState</code>用于存储和监控当前游戏状态数据，这些状态数据应该是全体玩家共享的，而不是某个玩家独有的。</p>
+<p>例如一个解密关卡中一扇门是否已经被打开，就应该记录在<code>GameState</code>里面。</p>
+<p>并且<code>GameState</code>每个客户端都有一份</p>
+<h2 id="基类-1"><a href="#基类-1" class="headerlink" title="基类"></a>基类</h2><p><code>AGameStateBase</code> 是基础实现，其部分默认功能包括：</p>
+<table>
+<thead>
+<tr>
+<th>函数或变量</th>
+<th>使用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>GetServerWorldTimeSeconds</code></td>
+<td>这是 <code>UWorld</code> 函数 <code>GetTimeSeconds</code> 的服务器版本，将在客户端和服务器上同步，因此该时间可用于复制，十分可靠。</td>
+</tr>
+<tr>
+<td><code>PlayerArray</code></td>
+<td>这是所有 <code>APlayerState</code> 对象的阵列，对游戏中所有玩家执行操作时十分实用。</td>
+</tr>
+<tr>
+<td><code>HasBegunPlay</code></td>
+<td>如 <code>BeginPlay</code> 函数在游戏中的 actor 上调用，则返回 true。</td>
+</tr>
+</tbody></table>
+<p><code>AGameStateBase</code> 通常在 C++ 或蓝图中延展，包含用于使游戏中玩家知晓当前情况的额外变量和函数。进行的特定修改通常基于 Game State 的配对 Game Mode。Game Mode 自身也可将其默认 Game State 类覆盖为派生自 <code>AGameStateBase</code> 的任意 C++ 类或蓝图。</p>
+<h1 id="GameMode和GameState之间的关系"><a href="#GameMode和GameState之间的关系" class="headerlink" title="GameMode和GameState之间的关系"></a>GameMode和GameState之间的关系</h1><p>一言以蔽之</p>
+<p><code>GameMode</code>使用<code>GameState</code>中的数据</p>
+<h1 id="PlayerState"><a href="#PlayerState" class="headerlink" title="PlayerState"></a>PlayerState</h1><p>是玩家的状态，用来存储和玩家相关的状态数据。</p>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p>关卡切换的时候<code>PlayerState</code>会被销毁然后重新生成</p>
+<h2 id="PlayerState-数据如何保存是否保存到下一个关卡？"><a href="#PlayerState-数据如何保存是否保存到下一个关卡？" class="headerlink" title="PlayerState 数据如何保存是否保存到下一个关卡？"></a>PlayerState 数据如何保存是否保存到下一个关卡？</h2><p>通过重写 PlayerState中 Reset()&#x2F;CopyProperties 方法</p>
+<h3 id="CopyProperties"><a href="#CopyProperties" class="headerlink" title="CopyProperties"></a>CopyProperties</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如重写一个M_PlayerState，重写CopyProperties方法进行跨关卡数据存储</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AM_PlayerState::CopyProperties</span><span class="params">(APlayerState* PlayerState)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    Super::<span class="built_in">CopyProperties</span>(PlayerState);</span><br><span class="line"> </span><br><span class="line">    PlayerState-&gt;Hp = Hp;</span><br><span class="line">    PlayerState-&gt;MaxHp = MaxHp;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Reset"><a href="#Reset" class="headerlink" title="Reset()"></a>Reset()</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Reset 方法,可以自定义初始化数据,如部分数据需要初始化则添加至Reset中，</span></span><br><span class="line"><span class="comment">//需要保留数据放在CopyProperties</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">APlayerState::Reset</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">Reset</span>();</span><br><span class="line">    <span class="built_in">SetScore</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">ForceNetUpdate</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Pawn与PlayerController下的PlayerState"><a href="#Pawn与PlayerController下的PlayerState" class="headerlink" title="Pawn与PlayerController下的PlayerState"></a>Pawn与PlayerController下的PlayerState</h2><ol>
+<li><p>pawn中的PlayerState 是 controller中PlayerState的引用</p>
+</li>
+<li><p>controller中的PlayerState对象在initPlayerState()中初始化。当possessed一个pawn的时候 会把自己的PlayerState 设置给pawn中的PlayerState对象。unpossessed的时候会把pawn中的PlayerState对象设置为null。</p>
+</li>
+<li><p>PlayerState是跟着controller走的，controller中的PlayerState是根源。</p>
+</li>
+<li><p>PlayerState 的getowner 就是 controller</p>
+</li>
+<li><p>PlayerState的GetPawn获得当前的pawn 有可能是null</p>
+</li>
+</ol>
+<h2 id="API-1"><a href="#API-1" class="headerlink" title="API"></a>API</h2><p><a target="_blank" rel="noopener" href="https://docs.unrealengine.com/5.2/en-US/API/Runtime/Engine/GameFramework/APlayerState/">APlayerState | Unreal Engine Documentation</a></p>
+<h1 id="PlayerController"><a href="#PlayerController" class="headerlink" title="PlayerController"></a>PlayerController</h1><h2 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h2><p>把人类抽象为肉体和灵魂来看，Character是人类的肉体，PlayerController则是人类的灵魂。</p>
+<p>在虚幻引擎的世界中，人类的灵魂是在一局游戏中一直存在的，但肉体是有可能被销毁死亡的。</p>
+<p>也就是说PlayerController是在整个游戏进程中是一直存在的，玩家的Character是可能随时被销毁掉的。</p>
+<p>PlayerController存在的意义是<code>灵魂操控肉体</code></p>
+<h2 id="特性-1"><a href="#特性-1" class="headerlink" title="特性"></a>特性</h2><ol>
+<li><p>PlayerController在游戏进程中一直存在</p>
+</li>
+<li><p>PlayerController在服务器和客户端上同时存在</p>
+</li>
+<li><p>应该用PlayerController给Character发送指令让其行动</p>
+</li>
+</ol>
+<h2 id="API-2"><a href="#API-2" class="headerlink" title="API"></a>API</h2><p><a target="_blank" rel="noopener" href="https://docs.unrealengine.com/5.2/en-US/API/Runtime/Engine/GameFramework/APlayerController/">APlayerController | Unreal Engine Documentation</a></p>
+<h1 id="Character"><a href="#Character" class="headerlink" title="Character"></a>Character</h1><h2 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h2><p>人类&#x2F;AI的肉体</p>
+<p>玩家就像一个修仙者一样，<code>PlayerController</code>是玩家的灵魂，玩家可以通过夺舍的方式更换自己的<code>Character</code>。</p>
+<p>需要注意的是，<code>PlayerController</code>和<code>Character</code>都是具有输入输出操作的。</p>
+<p>虚幻这样设计的意义是什么呢？</p>
+<p>假设我现在的肉体是人族，人族的天赋技能是<code>勤劳</code>和<code>学习</code>，当我拥有这个人族肉体的时候，我的输入就可以让我施展<code>勤劳</code>和<code>学习</code>两个技能。但当我去夺舍了一个龙族的肉体，龙族的天赋技能是<code>龙息</code>和<code>魔法</code>，那么此时我再使用技能，就只能使用<code>龙息</code>和<code>魔法</code>两个技能了。之前人族的技能，因为不是对应的肉体，我不可以使用。</p>
+<p>那我作为玩家的专属技能<code>天选之人</code>，这个技能是跟着灵魂走的。所以不管我换多少个肉体，都不会丢失这个技能。</p>
+<p>再通俗一点讲，LOL里面召唤师技能写在<code>PlayerController</code>里面，英雄技能写在<code>Character</code>里面。</p>
+<h2 id="API-3"><a href="#API-3" class="headerlink" title="API"></a>API</h2><p><a target="_blank" rel="noopener" href="https://docs.unrealengine.com/5.2/en-US/API/Runtime/Engine/GameFramework/ACharacter/">ACharacter | Unreal Engine Documentation</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/UE5/" rel="tag"># UE5</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/06/02/UE5-%E5%88%9D%E8%A7%81%E5%BC%95%E6%93%8E%E7%BC%96%E8%AF%91%E8%A7%84%E5%88%99/" rel="prev" title="UE5-初见引擎编译规则">
+                  <i class="fa fa-chevron-left"></i> UE5-初见引擎编译规则
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">williny</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
